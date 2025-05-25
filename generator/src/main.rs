@@ -69,6 +69,8 @@ fn to_node(
     schema: &Schema,
     inline: &mut Vec<(syn::Ident, syn::Item)>,
 ) -> anyhow::Result<Node> {
+    let derive = quote::quote!(#[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]);
+
     match &schema.type_ {
         Type::AllOf(schemas) => {
             let ident = to_ident_pascal(name);
@@ -86,10 +88,11 @@ fn to_node(
                 .collect::<Result<Vec<_>, _>>()?;
             let description = to_description(schema.description.as_deref());
             let value = syn::parse_quote! {
-                    #description
-                    pub struct #ident {
-                        #(#fields),*
-                    }
+                #description
+                #derive
+                pub struct #ident {
+                    #(#fields),*
+                }
             };
             Ok(Node::Item { value, ident })
         }
@@ -129,6 +132,7 @@ fn to_node(
                 let description = to_description(schema.description.as_deref());
                 let value = syn::parse_quote! {
                     #description
+                    #derive
                     #[allow(clippy::large_enum_variant)]
                     pub enum #ident {
                         #(#variants),*
@@ -203,6 +207,7 @@ fn to_node(
             let description = to_description(schema.description.as_deref());
             let value = syn::parse_quote! {
                 #description
+                #derive
                 pub struct #ident {
                     #(#fields),*
                 }
@@ -226,6 +231,7 @@ fn to_node(
             let description = to_description(schema.description.as_deref());
             let value = syn::parse_quote! {
                 #description
+                #derive
                 #[allow(clippy::large_enum_variant)]
                 pub enum #ident {
                     #(#variants),*
@@ -247,12 +253,14 @@ fn to_node(
             let variants = enum_.iter().map(|enum_| {
                 let ident = to_ident_pascal(enum_);
                 quote::quote! {
+                    #[serde(rename = #enum_)]
                     #ident
                 }
             });
             let description = to_description(schema.description.as_deref());
             let value = syn::parse_quote! {
                 #description
+                #derive
                 pub enum #ident {
                     #(#variants),*
                 }
