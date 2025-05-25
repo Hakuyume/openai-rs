@@ -1,0 +1,12 @@
+[package]
+name = "generator"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow.workspace = true
+heck.workspace = true
+quote.workspace = true
+serde = { workspace = true, features = ["derive"] }
+serde_yaml.workspace = true
+syn = { workspace = true, features = ["full"] }
