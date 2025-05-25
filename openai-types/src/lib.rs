@@ -1075,7 +1075,9 @@ pub struct ChatCompletionMessageListDataInner1 {
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ChatCompletionMessageListDataInner {
+    #[serde(flatten)]
     pub all_of_0: ChatCompletionResponseMessage,
+    #[serde(flatten)]
     pub all_of_1: ChatCompletionMessageListDataInner1,
 }
 #[doc = "The type of this object. It is always set to \"list\".\n"]
@@ -1954,7 +1956,9 @@ pub enum ComputerToolCallOutputType {
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ComputerToolCallOutputResource {
+    #[serde(flatten)]
     pub all_of_0: ComputerToolCallOutput,
+    #[serde(flatten)]
     pub all_of_1: ComputerToolCallOutputResource1,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -2107,7 +2111,9 @@ pub enum CreateAssistantRequestToolsInner {
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CreateChatCompletionRequest {
+    #[serde(flatten)]
     pub all_of_0: CreateModelResponseProperties,
+    #[serde(flatten)]
     pub all_of_1: CreateChatCompletionRequest1,
 }
 #[doc = "Specifies the output audio format. Must be one of `wav`, `mp3`, `flac`,\n`opus`, or `pcm16`.\n"]
@@ -3213,6 +3219,7 @@ pub enum CreateMessageRequestRole {
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CreateModelResponseProperties {
+    #[serde(flatten)]
     pub all_of_0: ModelResponseProperties,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -3487,8 +3494,11 @@ pub struct CreateModerationResponseResultsInner {
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CreateResponse {
+    #[serde(flatten)]
     pub all_of_0: CreateModelResponseProperties,
+    #[serde(flatten)]
     pub all_of_1: ResponseProperties,
+    #[serde(flatten)]
     pub all_of_2: CreateResponse2,
 }
 #[doc = "Text, image, or file inputs to the model, used to generate a response.\n\nLearn more:\n- [Text inputs and outputs](/docs/guides/text)\n- [Image inputs](/docs/guides/images)\n- [File inputs](/docs/guides/pdf-files)\n- [Conversation state](/docs/guides/conversation-state)\n- [Function calling](/docs/guides/function-calling)\n"]
@@ -3551,7 +3561,9 @@ pub enum CreateRunRequestModel {
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CreateRunRequestToolChoice {
+    #[serde(flatten)]
     pub all_of_0: AssistantsApiToolChoiceOption,
+    #[serde(flatten)]
     pub all_of_1: serde_json::Value,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -3563,7 +3575,9 @@ pub enum CreateRunRequestToolsInner {
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CreateRunRequestTruncationStrategy {
+    #[serde(flatten)]
     pub all_of_0: TruncationObject,
+    #[serde(flatten)]
     pub all_of_1: serde_json::Value,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -3718,7 +3732,9 @@ pub enum CreateThreadAndRunRequestModel {
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CreateThreadAndRunRequestToolChoice {
+    #[serde(flatten)]
     pub all_of_0: AssistantsApiToolChoiceOption,
+    #[serde(flatten)]
     pub all_of_1: serde_json::Value,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -3746,7 +3762,9 @@ pub enum CreateThreadAndRunRequestToolsInner {
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CreateThreadAndRunRequestTruncationStrategy {
+    #[serde(flatten)]
     pub all_of_0: TruncationObject,
+    #[serde(flatten)]
     pub all_of_1: serde_json::Value,
 }
 #[doc = "Options to create a new thread. If no thread is provided when running a \nrequest, an empty thread will be created.\n"]
@@ -4865,7 +4883,9 @@ pub enum Filters {
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct FineTuneChatCompletionRequestAssistantMessage {
+    #[serde(flatten)]
     pub all_of_0: FineTuneChatCompletionRequestAssistantMessage0,
+    #[serde(flatten)]
     pub all_of_1: ChatCompletionRequestAssistantMessage,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -5433,7 +5453,9 @@ pub enum FunctionToolCallOutputType {
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct FunctionToolCallOutputResource {
+    #[serde(flatten)]
     pub all_of_0: FunctionToolCallOutput,
+    #[serde(flatten)]
     pub all_of_1: FunctionToolCallOutputResource1,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -5443,7 +5465,9 @@ pub struct FunctionToolCallOutputResource1 {
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct FunctionToolCallResource {
+    #[serde(flatten)]
     pub all_of_0: FunctionToolCall,
+    #[serde(flatten)]
     pub all_of_1: FunctionToolCallResource1,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -5623,7 +5647,9 @@ pub enum InputMessageType {
 pub type InputMessageContentList = Vec<InputContent>;
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct InputMessageResource {
+    #[serde(flatten)]
     pub all_of_0: InputMessage,
+    #[serde(flatten)]
     pub all_of_1: InputMessageResource1,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -9354,8 +9380,11 @@ pub enum RefusalContentType {
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct Response {
+    #[serde(flatten)]
     pub all_of_0: ModelResponseProperties,
+    #[serde(flatten)]
     pub all_of_1: ResponseProperties,
+    #[serde(flatten)]
     pub all_of_2: Response2,
 }
 #[doc = "The reason why the response is incomplete."]
@@ -10417,7 +10446,9 @@ pub enum RunObjectStatus {
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RunObjectToolChoice {
+    #[serde(flatten)]
     pub all_of_0: AssistantsApiToolChoiceOption,
+    #[serde(flatten)]
     pub all_of_1: serde_json::Value,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -10429,7 +10460,9 @@ pub enum RunObjectToolsInner {
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RunObjectTruncationStrategy {
+    #[serde(flatten)]
     pub all_of_0: TruncationObject,
+    #[serde(flatten)]
     pub all_of_1: serde_json::Value,
 }
 #[doc = "Usage statistics related to the run step. This value will be `null` while the run step's status is `in_progress`."]
@@ -11454,7 +11487,9 @@ pub struct UpdateVectorStoreRequest {
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct UpdateVectorStoreRequestExpiresAfter {
+    #[serde(flatten)]
     pub all_of_0: VectorStoreExpirationAfter,
+    #[serde(flatten)]
     pub all_of_1: serde_json::Value,
 }
 #[doc = "The Upload object can accept byte chunks in the form of Parts.\n"]
@@ -11480,7 +11515,9 @@ pub struct Upload {
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct UploadFile {
+    #[serde(flatten)]
     pub all_of_0: OpenAiFile,
+    #[serde(flatten)]
     pub all_of_1: serde_json::Value,
 }
 #[doc = "The object type, which is always \"upload\"."]

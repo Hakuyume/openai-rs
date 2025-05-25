@@ -81,6 +81,7 @@ fn to_node(
                     let ident = to_ident_snake(&format!("allOf[{i}]"));
                     to_type(&format!("{name}[{i}]"), schema, inline).map(|type_| {
                         quote::quote! {
+                            #[serde(flatten)]
                             pub #ident: #type_
                         }
                     })
