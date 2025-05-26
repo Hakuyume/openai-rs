@@ -6,7 +6,9 @@ edition = "2024"
 [dependencies]
 anyhow.workspace = true
 heck.workspace = true
+indexmap = { workspace = true, features = ["serde"] }
 quote.workspace = true
 serde = { workspace = true, features = ["derive"] }
+serde_json.workspace = true
 serde_yaml.workspace = true
 syn = { workspace = true, features = ["full"] }

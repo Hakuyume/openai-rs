@@ -1,30 +1,32 @@
+use indexmap::IndexMap;
 use serde::Deserialize;
-use std::collections::BTreeMap;
 
-#[derive(Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize)]
 pub struct Document {
     pub components: Components,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize)]
 pub struct Components {
-    pub schemas: BTreeMap<String, Schema>,
+    pub schemas: IndexMap<String, Schema>,
 }
 
-#[derive(Clone, Debug, Default, Deserialize)]
+#[derive(Clone, Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Schema {
     pub additional_properties: Option<AdditionalProperties>,
     pub all_of: Option<Vec<Schema>>,
     pub any_of: Option<Vec<Schema>>,
+    pub default: Option<serde_json::Value>,
     pub description: Option<String>,
+    pub discriminator: Option<Discriminator>,
     #[serde(rename = "enum")]
     pub enum_: Option<Vec<String>>,
     pub format: Option<Format>,
     pub items: Option<Box<Schema>>,
     pub nullable: Option<bool>,
     pub one_of: Option<Vec<Schema>>,
-    pub properties: Option<BTreeMap<String, Schema>>,
+    pub properties: Option<IndexMap<String, Schema>>,
     #[serde(rename = "$recursiveRef")]
     pub recursive_ref: Option<String>,
     #[serde(rename = "$ref")]
@@ -32,13 +34,21 @@ pub struct Schema {
     pub required: Option<Vec<String>>,
     #[serde(rename = "type")]
     pub type_: Option<Type>,
+    #[serde(rename = "x-stainless-const")]
+    pub x_stainless_const: Option<bool>,
 }
 
 #[derive(Clone, Debug, Deserialize)]
 #[serde(untagged)]
 pub enum AdditionalProperties {
-    Boolean(bool),
+    Bool(bool),
     Schema(Box<Schema>),
+}
+
+#[derive(Clone, Debug, Default, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Discriminator {
+    pub property_name: String,
 }
 
 #[derive(Clone, Debug, Deserialize)]
