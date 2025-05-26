@@ -402,6 +402,7 @@ fn to_node(
                     .map(|type_| {
                         quote::quote! {
                             #description
+                            #[serde(rename = #property_name)]
                             pub #ident: #type_
                         }
                     })
