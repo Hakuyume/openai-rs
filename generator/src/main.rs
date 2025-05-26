@@ -1,5 +1,5 @@
 mod openapi;
-mod walk;
+mod visit;
 
 use anyhow::Context;
 use heck::{ToPascalCase, ToSnakeCase};
@@ -55,7 +55,7 @@ fn resolve_recursive_ref(name: &str, schema: &mut openapi::Schema) {
         schema.recursive_ref = None;
         schema.ref_ = Some(format!("#/components/schemas/{name}"));
     }
-    for (_, schema) in walk::iter_mut(schema) {
+    for (_, schema) in visit::iter_mut(schema) {
         resolve_recursive_ref(name, schema)
     }
 }
@@ -177,7 +177,7 @@ fn collect_discriminator<'a>(
     if let Some(discriminator) = extract_discriminator(schema, schemas) {
         discriminators.push((schema, discriminator));
     }
-    for (_, schema) in walk::iter(schema) {
+    for (_, schema) in visit::iter(schema) {
         collect_discriminator(schema, schemas, discriminators);
     }
 }
