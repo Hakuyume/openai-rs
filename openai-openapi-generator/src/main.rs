@@ -47,6 +47,40 @@ fn main() -> anyhow::Result<()> {
     for (_, value) in items {
         println!("{}", value.to_token_stream());
     }
+
+    let tests =
+        document
+            .components
+            .schemas
+            .iter()
+            .filter_map(|(name, schema)| -> Option<syn::ItemFn> {
+                if let Some(openapi::XOaiMeta {
+                    example: Some(example),
+                    ..
+                }) = &schema.x_oai_meta
+                {
+                    let ident = to_ident_snake(&format!("test_{name}"));
+                    let type_ = to_ident_pascal(name);
+                    Some(syn::parse_quote! {
+                        #[test]
+                        fn #ident() {
+                            serde_json::from_str::<super::#type_>(#example).unwrap();
+                        }
+                    })
+                } else {
+                    None
+                }
+            });
+    println!(
+        "{}",
+        quote::quote! {
+            #[cfg(test)]
+            mod tests {
+                #(#tests)*
+            }
+        }
+    );
+
     Ok(())
 }
 
@@ -465,10 +499,13 @@ fn to_node(
         | openapi::Schema {
             one_of: Some(of), ..
         } => {
-            if let [of, openapi::Schema {
-                type_: Some(openapi::Type::Null),
-                ..
-            }] = &of[..]
+            if let [
+                of,
+                openapi::Schema {
+                    type_: Some(openapi::Type::Null),
+                    ..
+                },
+            ] = &of[..]
             {
                 let type_ = to_type(&format!("{name}[0]"), of, discriminators, inline)
                     .context("anyOf/oneOf[0]")?;
