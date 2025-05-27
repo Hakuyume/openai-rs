@@ -2320,7 +2320,7 @@ pub struct CostsResultAmount {
 pub struct CreateAssistantRequest {
     #[doc = "ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models) for descriptions of them.\n"]
     #[serde(rename = "model")]
-    pub model: CreateAssistantRequestModel,
+    pub model: String,
     #[doc = "The name of the assistant. The maximum length is 256 characters.\n"]
     #[serde(rename = "name")]
     pub name: String,
@@ -2348,14 +2348,6 @@ pub struct CreateAssistantRequest {
     pub top_p: f64,
     #[serde(rename = "response_format")]
     pub response_format: AssistantsApiResponseFormatOption,
-}
-#[doc = "ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models) for descriptions of them.\n"]
-#[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
-#[serde(untagged)]
-pub enum CreateAssistantRequestModel {
-    _0(String),
-    _1(AssistantSupportedModels),
 }
 #[doc = "A set of resources that are used by the assistant's tools. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -2715,7 +2707,7 @@ pub enum CreateChatCompletionStreamResponseObject {
 pub struct CreateCompletionRequest {
     #[doc = "ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models) for descriptions of them.\n"]
     #[serde(rename = "model")]
-    pub model: CreateCompletionRequestModel,
+    pub model: String,
     #[doc = "The prompt(s) to generate completions for, encoded as a string, array of strings, array of tokens, or array of token arrays.\n\nNote that <|endoftext|> is the document separator that the model sees during training, so if a prompt is not specified the model will generate as if from the beginning of a new document.\n"]
     #[serde(rename = "prompt")]
     pub prompt: CreateCompletionRequestPrompt,
@@ -2765,23 +2757,6 @@ pub struct CreateCompletionRequest {
     #[doc = "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices#end-user-ids).\n"]
     #[serde(rename = "user")]
     pub user: String,
-}
-#[doc = "ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models) for descriptions of them.\n"]
-#[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
-#[serde(untagged)]
-pub enum CreateCompletionRequestModel {
-    _0(String),
-    _1(CreateCompletionRequestModel1),
-}
-#[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
-pub enum CreateCompletionRequestModel1 {
-    #[serde(rename = "gpt-3.5-turbo-instruct")]
-    Gpt35TurboInstruct,
-    #[serde(rename = "davinci-002")]
-    Davinci002,
-    #[serde(rename = "babbage-002")]
-    Babbage002,
 }
 #[doc = "The prompt(s) to generate completions for, encoded as a string, array of strings, array of tokens, or array of token arrays.\n\nNote that <|endoftext|> is the document separator that the model sees during training, so if a prompt is not specified the model will generate as if from the beginning of a new document.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -2863,7 +2838,7 @@ pub struct CreateEmbeddingRequest {
     pub input: CreateEmbeddingRequestInput,
     #[doc = "ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models) for descriptions of them.\n"]
     #[serde(rename = "model")]
-    pub model: CreateEmbeddingRequestModel,
+    pub model: String,
     #[doc = "The format to return the embeddings in. Can be either `float` or [`base64`](https://pypi.org/project/pybase64/)."]
     #[serde(rename = "encoding_format")]
     pub encoding_format: CreateEmbeddingRequestEncodingFormat,
@@ -2891,23 +2866,6 @@ pub enum CreateEmbeddingRequestInput {
     _1(Vec<String>),
     _2(Vec<u64>),
     _3(Vec<Vec<u64>>),
-}
-#[doc = "ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models) for descriptions of them.\n"]
-#[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
-#[serde(untagged)]
-pub enum CreateEmbeddingRequestModel {
-    _0(String),
-    _1(CreateEmbeddingRequestModel1),
-}
-#[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
-pub enum CreateEmbeddingRequestModel1 {
-    #[serde(rename = "text-embedding-ada-002")]
-    TextEmbeddingAda002,
-    #[serde(rename = "text-embedding-3-small")]
-    TextEmbedding3Small,
-    #[serde(rename = "text-embedding-3-large")]
-    TextEmbedding3Large,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CreateEmbeddingResponse {
@@ -3267,7 +3225,7 @@ pub struct CreateFineTuningCheckpointPermissionRequest {
 pub struct CreateFineTuningJobRequest {
     #[doc = "The name of the model to fine-tune. You can select one of the\n[supported models](/docs/guides/fine-tuning#which-models-can-be-fine-tuned).\n"]
     #[serde(rename = "model")]
-    pub model: CreateFineTuningJobRequestModel,
+    pub model: String,
     #[doc = "The ID of an uploaded file that contains training data.\n\nSee [upload file](/docs/api-reference/files/create) for how to upload a file.\n\nYour dataset must be formatted as a JSONL file. Additionally, you must upload your file with the purpose `fine-tune`.\n\nThe contents of the file should differ depending on if the model uses the [chat](/docs/api-reference/fine-tuning/chat-input), [completions](/docs/api-reference/fine-tuning/completions-input) format, or if the fine-tuning method uses the [preference](/docs/api-reference/fine-tuning/preference-input) format.\n\nSee the [fine-tuning guide](/docs/guides/fine-tuning) for more details.\n"]
     #[serde(rename = "training_file")]
     pub training_file: String,
@@ -3380,25 +3338,6 @@ pub struct CreateFineTuningJobRequestIntegrationsItemWandb {
     #[serde(rename = "tags")]
     pub tags: Vec<String>,
 }
-#[doc = "The name of the model to fine-tune. You can select one of the\n[supported models](/docs/guides/fine-tuning#which-models-can-be-fine-tuned).\n"]
-#[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
-#[serde(untagged)]
-pub enum CreateFineTuningJobRequestModel {
-    _0(String),
-    _1(CreateFineTuningJobRequestModel1),
-}
-#[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
-pub enum CreateFineTuningJobRequestModel1 {
-    #[serde(rename = "babbage-002")]
-    Babbage002,
-    #[serde(rename = "davinci-002")]
-    Davinci002,
-    #[serde(rename = "gpt-3.5-turbo")]
-    Gpt35Turbo,
-    #[serde(rename = "gpt-4o-mini")]
-    Gpt4oMini,
-}
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CreateImageEditRequest {
     #[doc = "The image(s) to edit. Must be a supported image file or an array of images.\n\nFor `gpt-image-1`, each image should be a `png`, `webp`, or `jpg` file less \nthan 25MB. You can provide up to 16 images.\n\nFor `dall-e-2`, you can only provide one image, and it should be a square \n`png` file less than 4MB.\n"]
@@ -3412,7 +3351,7 @@ pub struct CreateImageEditRequest {
     pub mask: Vec<u8>,
     #[doc = "The model to use for image generation. Only `dall-e-2` and `gpt-image-1` are supported. Defaults to `dall-e-2` unless a parameter specific to `gpt-image-1` is used."]
     #[serde(rename = "model")]
-    pub model: CreateImageEditRequestModel,
+    pub model: String,
     #[doc = "The number of images to generate. Must be between 1 and 10."]
     #[serde(rename = "n")]
     pub n: u64,
@@ -3436,21 +3375,6 @@ pub struct CreateImageEditRequest {
 pub enum CreateImageEditRequestImage {
     _0(Vec<u8>),
     _1(Vec<Vec<u8>>),
-}
-#[doc = "The model to use for image generation. Only `dall-e-2` and `gpt-image-1` are supported. Defaults to `dall-e-2` unless a parameter specific to `gpt-image-1` is used."]
-#[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
-#[serde(untagged)]
-pub enum CreateImageEditRequestModel {
-    _0(String),
-    _1(CreateImageEditRequestModel1),
-}
-#[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
-pub enum CreateImageEditRequestModel1 {
-    #[serde(rename = "dall-e-2")]
-    DallE2,
-    #[serde(rename = "gpt-image-1")]
-    GptImage1,
 }
 #[doc = "The quality of the image that will be generated. `high`, `medium` and `low` are only supported for `gpt-image-1`. `dall-e-2` only supports `standard` quality. Defaults to `auto`.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -3497,7 +3421,7 @@ pub struct CreateImageRequest {
     pub prompt: String,
     #[doc = "The model to use for image generation. One of `dall-e-2`, `dall-e-3`, or `gpt-image-1`. Defaults to `dall-e-2` unless a parameter specific to `gpt-image-1` is used."]
     #[serde(rename = "model")]
-    pub model: CreateImageRequestModel,
+    pub model: String,
     #[doc = "The number of images to generate. Must be between 1 and 10. For `dall-e-3`, only `n=1` is supported."]
     #[serde(rename = "n")]
     pub n: u64,
@@ -3538,23 +3462,6 @@ pub enum CreateImageRequestBackground {
     Opaque,
     #[serde(rename = "auto")]
     Auto,
-}
-#[doc = "The model to use for image generation. One of `dall-e-2`, `dall-e-3`, or `gpt-image-1`. Defaults to `dall-e-2` unless a parameter specific to `gpt-image-1` is used."]
-#[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
-#[serde(untagged)]
-pub enum CreateImageRequestModel {
-    _0(String),
-    _1(CreateImageRequestModel1),
-}
-#[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
-pub enum CreateImageRequestModel1 {
-    #[serde(rename = "dall-e-2")]
-    DallE2,
-    #[serde(rename = "dall-e-3")]
-    DallE3,
-    #[serde(rename = "gpt-image-1")]
-    GptImage1,
 }
 #[doc = "Control the content-moderation level for images generated by `gpt-image-1`. Must be either `low` for less restrictive filtering or `auto` (default value)."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -3633,7 +3540,7 @@ pub struct CreateImageVariationRequest {
     pub image: Vec<u8>,
     #[doc = "The model to use for image generation. Only `dall-e-2` is supported at this time."]
     #[serde(rename = "model")]
-    pub model: CreateImageVariationRequestModel,
+    pub model: String,
     #[doc = "The number of images to generate. Must be between 1 and 10."]
     #[serde(rename = "n")]
     pub n: u64,
@@ -3646,19 +3553,6 @@ pub struct CreateImageVariationRequest {
     #[doc = "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices#end-user-ids).\n"]
     #[serde(rename = "user")]
     pub user: String,
-}
-#[doc = "The model to use for image generation. Only `dall-e-2` is supported at this time."]
-#[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
-#[serde(untagged)]
-pub enum CreateImageVariationRequestModel {
-    _0(String),
-    _1(CreateImageVariationRequestModel1),
-}
-#[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
-pub enum CreateImageVariationRequestModel1 {
-    #[serde(rename = "dall-e-2")]
-    DallE2,
 }
 #[doc = "The format in which the generated images are returned. Must be one of `url` or `b64_json`. URLs are only valid for 60 minutes after the image has been generated."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -3747,7 +3641,7 @@ pub struct CreateModerationRequest {
     pub input: CreateModerationRequestInput,
     #[doc = "The content moderation model you would like to use. Learn more in\n[the moderation guide](/docs/guides/moderation), and learn about\navailable models [here](/docs/models#moderation).\n"]
     #[serde(rename = "model")]
-    pub model: CreateModerationRequestModel,
+    pub model: String,
 }
 #[doc = "Input (or inputs) to classify. Can be a single string, an array of strings, or\nan array of multi-modal input objects similar to other models.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -3787,25 +3681,6 @@ pub struct CreateModerationRequestInput2Item1 {
     #[doc = "A string of text to classify."]
     #[serde(rename = "text")]
     pub text: String,
-}
-#[doc = "The content moderation model you would like to use. Learn more in\n[the moderation guide](/docs/guides/moderation), and learn about\navailable models [here](/docs/models#moderation).\n"]
-#[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
-#[serde(untagged)]
-pub enum CreateModerationRequestModel {
-    _0(String),
-    _1(CreateModerationRequestModel1),
-}
-#[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
-pub enum CreateModerationRequestModel1 {
-    #[serde(rename = "omni-moderation-latest")]
-    OmniModerationLatest,
-    #[serde(rename = "omni-moderation-2024-09-26")]
-    OmniModeration20240926,
-    #[serde(rename = "text-moderation-latest")]
-    TextModerationLatest,
-    #[serde(rename = "text-moderation-stable")]
-    TextModerationStable,
 }
 #[doc = "Represents if a given text input is potentially harmful."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -4090,7 +3965,7 @@ pub struct CreateRunRequest {
     pub assistant_id: String,
     #[doc = "The ID of the [Model](/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used."]
     #[serde(rename = "model")]
-    pub model: CreateRunRequestModel,
+    pub model: String,
     #[serde(rename = "reasoning_effort")]
     pub reasoning_effort: ReasoningEffort,
     #[doc = "Overrides the [instructions](/docs/api-reference/assistants/createAssistant) of the assistant. This is useful for modifying the behavior on a per-run basis."]
@@ -4131,14 +4006,6 @@ pub struct CreateRunRequest {
     #[serde(rename = "response_format")]
     pub response_format: AssistantsApiResponseFormatOption,
 }
-#[doc = "The ID of the [Model](/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used."]
-#[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
-#[serde(untagged)]
-pub enum CreateRunRequestModel {
-    _0(String),
-    _1(AssistantSupportedModels),
-}
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CreateRunRequestToolChoice {
     #[serde(flatten)]
@@ -4168,7 +4035,7 @@ pub struct CreateRunRequestTruncationStrategy {
 pub struct CreateSpeechRequest {
     #[doc = "One of the available [TTS models](/docs/models#tts): `tts-1`, `tts-1-hd` or `gpt-4o-mini-tts`.\n"]
     #[serde(rename = "model")]
-    pub model: CreateSpeechRequestModel,
+    pub model: String,
     #[doc = "The text to generate audio for. The maximum length is 4096 characters."]
     #[serde(rename = "input")]
     pub input: String,
@@ -4184,23 +4051,6 @@ pub struct CreateSpeechRequest {
     #[doc = "The speed of the generated audio. Select a value from `0.25` to `4.0`. `1.0` is the default."]
     #[serde(rename = "speed")]
     pub speed: f64,
-}
-#[doc = "One of the available [TTS models](/docs/models#tts): `tts-1`, `tts-1-hd` or `gpt-4o-mini-tts`.\n"]
-#[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
-#[serde(untagged)]
-pub enum CreateSpeechRequestModel {
-    _0(String),
-    _1(CreateSpeechRequestModel1),
-}
-#[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
-pub enum CreateSpeechRequestModel1 {
-    #[serde(rename = "tts-1")]
-    Tts1,
-    #[serde(rename = "tts-1-hd")]
-    Tts1Hd,
-    #[serde(rename = "gpt-4o-mini-tts")]
-    Gpt4oMiniTts,
 }
 #[doc = "The format to audio in. Supported formats are `mp3`, `opus`, `aac`, `flac`, `wav`, and `pcm`."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -4227,7 +4077,7 @@ pub struct CreateThreadAndRunRequest {
     pub thread: CreateThreadRequest,
     #[doc = "The ID of the [Model](/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used."]
     #[serde(rename = "model")]
-    pub model: CreateThreadAndRunRequestModel,
+    pub model: String,
     #[doc = "Override the default system message of the assistant. This is useful for modifying the behavior on a per-run basis."]
     #[serde(rename = "instructions")]
     pub instructions: String,
@@ -4262,81 +4112,6 @@ pub struct CreateThreadAndRunRequest {
     pub parallel_tool_calls: ParallelToolCalls,
     #[serde(rename = "response_format")]
     pub response_format: AssistantsApiResponseFormatOption,
-}
-#[doc = "The ID of the [Model](/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used."]
-#[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
-#[serde(untagged)]
-pub enum CreateThreadAndRunRequestModel {
-    _0(String),
-    _1(CreateThreadAndRunRequestModel1),
-}
-#[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
-pub enum CreateThreadAndRunRequestModel1 {
-    #[serde(rename = "gpt-4.1")]
-    Gpt41,
-    #[serde(rename = "gpt-4.1-mini")]
-    Gpt41Mini,
-    #[serde(rename = "gpt-4.1-nano")]
-    Gpt41Nano,
-    #[serde(rename = "gpt-4.1-2025-04-14")]
-    Gpt4120250414,
-    #[serde(rename = "gpt-4.1-mini-2025-04-14")]
-    Gpt41Mini20250414,
-    #[serde(rename = "gpt-4.1-nano-2025-04-14")]
-    Gpt41Nano20250414,
-    #[serde(rename = "gpt-4o")]
-    Gpt4o,
-    #[serde(rename = "gpt-4o-2024-11-20")]
-    Gpt4o20241120,
-    #[serde(rename = "gpt-4o-2024-08-06")]
-    Gpt4o20240806,
-    #[serde(rename = "gpt-4o-2024-05-13")]
-    Gpt4o20240513,
-    #[serde(rename = "gpt-4o-mini")]
-    Gpt4oMini,
-    #[serde(rename = "gpt-4o-mini-2024-07-18")]
-    Gpt4oMini20240718,
-    #[serde(rename = "gpt-4.5-preview")]
-    Gpt45Preview,
-    #[serde(rename = "gpt-4.5-preview-2025-02-27")]
-    Gpt45Preview20250227,
-    #[serde(rename = "gpt-4-turbo")]
-    Gpt4Turbo,
-    #[serde(rename = "gpt-4-turbo-2024-04-09")]
-    Gpt4Turbo20240409,
-    #[serde(rename = "gpt-4-0125-preview")]
-    Gpt40125Preview,
-    #[serde(rename = "gpt-4-turbo-preview")]
-    Gpt4TurboPreview,
-    #[serde(rename = "gpt-4-1106-preview")]
-    Gpt41106Preview,
-    #[serde(rename = "gpt-4-vision-preview")]
-    Gpt4VisionPreview,
-    #[serde(rename = "gpt-4")]
-    Gpt4,
-    #[serde(rename = "gpt-4-0314")]
-    Gpt40314,
-    #[serde(rename = "gpt-4-0613")]
-    Gpt40613,
-    #[serde(rename = "gpt-4-32k")]
-    Gpt432k,
-    #[serde(rename = "gpt-4-32k-0314")]
-    Gpt432k0314,
-    #[serde(rename = "gpt-4-32k-0613")]
-    Gpt432k0613,
-    #[serde(rename = "gpt-3.5-turbo")]
-    Gpt35Turbo,
-    #[serde(rename = "gpt-3.5-turbo-16k")]
-    Gpt35Turbo16k,
-    #[serde(rename = "gpt-3.5-turbo-0613")]
-    Gpt35Turbo0613,
-    #[serde(rename = "gpt-3.5-turbo-1106")]
-    Gpt35Turbo1106,
-    #[serde(rename = "gpt-3.5-turbo-0125")]
-    Gpt35Turbo0125,
-    #[serde(rename = "gpt-3.5-turbo-16k-0613")]
-    Gpt35Turbo16k0613,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CreateThreadAndRunRequestToolChoice {
@@ -4436,7 +4211,7 @@ pub struct CreateTranscriptionRequest {
     pub file: Vec<u8>,
     #[doc = "ID of the model to use. The options are `gpt-4o-transcribe`, `gpt-4o-mini-transcribe`, and `whisper-1` (which is powered by our open source Whisper V2 model).\n"]
     #[serde(rename = "model")]
-    pub model: CreateTranscriptionRequestModel,
+    pub model: String,
     #[doc = "The language of the input audio. Supplying the input language in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) (e.g. `en`) format will improve accuracy and latency.\n"]
     #[serde(rename = "language")]
     pub language: String,
@@ -4457,23 +4232,6 @@ pub struct CreateTranscriptionRequest {
     #[doc = "If set to true, the model response data will be streamed to the client\nas it is generated using [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format). \nSee the [Streaming section of the Speech-to-Text guide](/docs/guides/speech-to-text?lang=curl#streaming-transcriptions)\nfor more information.\n\nNote: Streaming is not supported for the `whisper-1` model and will be ignored.\n"]
     #[serde(rename = "stream")]
     pub stream: bool,
-}
-#[doc = "ID of the model to use. The options are `gpt-4o-transcribe`, `gpt-4o-mini-transcribe`, and `whisper-1` (which is powered by our open source Whisper V2 model).\n"]
-#[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
-#[serde(untagged)]
-pub enum CreateTranscriptionRequestModel {
-    _0(String),
-    _1(CreateTranscriptionRequestModel1),
-}
-#[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
-pub enum CreateTranscriptionRequestModel1 {
-    #[serde(rename = "whisper-1")]
-    Whisper1,
-    #[serde(rename = "gpt-4o-transcribe")]
-    Gpt4oTranscribe,
-    #[serde(rename = "gpt-4o-mini-transcribe")]
-    Gpt4oMiniTranscribe,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateTranscriptionRequestTimestampGranularitiesItem {
@@ -4539,7 +4297,7 @@ pub struct CreateTranslationRequest {
     pub file: Vec<u8>,
     #[doc = "ID of the model to use. Only `whisper-1` (which is powered by our open source Whisper V2 model) is currently available.\n"]
     #[serde(rename = "model")]
-    pub model: CreateTranslationRequestModel,
+    pub model: String,
     #[doc = "An optional text to guide the model's style or continue a previous audio segment. The [prompt](/docs/guides/speech-to-text#prompting) should be in English.\n"]
     #[serde(rename = "prompt")]
     pub prompt: String,
@@ -4549,19 +4307,6 @@ pub struct CreateTranslationRequest {
     #[doc = "The sampling temperature, between 0 and 1. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. If set to 0, the model will use [log probability](https://en.wikipedia.org/wiki/Log_probability) to automatically increase the temperature until certain thresholds are hit.\n"]
     #[serde(rename = "temperature")]
     pub temperature: f64,
-}
-#[doc = "ID of the model to use. Only `whisper-1` (which is powered by our open source Whisper V2 model) is currently available.\n"]
-#[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
-#[serde(untagged)]
-pub enum CreateTranslationRequestModel {
-    _0(String),
-    _1(CreateTranslationRequestModel1),
-}
-#[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
-pub enum CreateTranslationRequestModel1 {
-    #[serde(rename = "whisper-1")]
-    Whisper1,
 }
 #[doc = "The format of the output, in one of these options: `json`, `text`, `srt`, `verbose_json`, or `vtt`.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]

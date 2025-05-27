@@ -238,6 +238,14 @@ fn to_node(
         }
 
         openapi::Schema {
+            x_oai_type_label: Some(openapi::XOaiTypeLabel::String),
+            ..
+        } => {
+            let value = syn::parse_quote!(String);
+            Ok(Node::Type { value })
+        }
+
+        openapi::Schema {
             additional_properties: None,
             all_of: None,
             any_of: None,
@@ -254,6 +262,8 @@ fn to_node(
             ref_: None,
             required: None,
             type_: None,
+            x_oai_meta: _,
+            x_oai_type_label: None,
             x_stainless_const: None,
         } => {
             let value = syn::parse_quote!(serde_json::Value);
@@ -455,13 +465,10 @@ fn to_node(
         | openapi::Schema {
             one_of: Some(of), ..
         } => {
-            if let [
-                of,
-                openapi::Schema {
-                    type_: Some(openapi::Type::Null),
-                    ..
-                },
-            ] = &of[..]
+            if let [of, openapi::Schema {
+                type_: Some(openapi::Type::Null),
+                ..
+            }] = &of[..]
             {
                 let type_ = to_type(&format!("{name}[0]"), of, discriminators, inline)
                     .context("anyOf/oneOf[0]")?;

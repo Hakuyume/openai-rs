@@ -34,6 +34,10 @@ pub struct Schema {
     pub required: Option<Vec<String>>,
     #[serde(rename = "type")]
     pub type_: Option<Type>,
+    #[serde(rename = "x-oaiMeta")]
+    pub x_oai_meta: Option<XOaiMeta>,
+    #[serde(rename = "x-oaiTypeLabel")]
+    pub x_oai_type_label: Option<XOaiTypeLabel>,
     #[serde(rename = "x-stainless-const")]
     pub x_stainless_const: Option<bool>,
 }
@@ -70,4 +74,17 @@ pub enum Type {
     Number,
     Object,
     String,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum XOaiTypeLabel {
+    File,
+    Map,
+    String,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+pub struct XOaiMeta {
+    pub example: Option<String>,
 }
