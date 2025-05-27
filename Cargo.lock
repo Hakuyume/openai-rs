@@ -15,20 +15,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "877a4ace8713b0bcf2a4e7eec82529c029f1d0619886d18145fea96c3ffe5c0f"
 
 [[package]]
-name = "generator"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "heck",
- "indexmap",
- "quote",
- "serde",
- "serde_json",
- "serde_yaml",
- "syn",
-]
-
-[[package]]
 name = "hashbrown"
 version = "0.15.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -64,11 +50,25 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "78ca9ab1a0babb1e7d5695e3530886289c18cf2f87ec19a575a0abdce112e3a3"
 
 [[package]]
-name = "openai-types"
+name = "openai-openapi"
 version = "0.1.0"
 dependencies = [
  "serde",
  "serde_json",
+]
+
+[[package]]
+name = "openai-openapi-generator"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "heck",
+ "indexmap",
+ "quote",
+ "serde",
+ "serde_json",
+ "serde_yaml",
+ "syn",
 ]
 
 [[package]]
