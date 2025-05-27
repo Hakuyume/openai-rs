@@ -61,6 +61,10 @@ fn main() -> anyhow::Result<()> {
                 {
                     let ident = to_ident_snake(&format!("test_{name}"));
                     let type_ = to_ident_pascal(name);
+                    let example = serde_json::to_string(
+                        &serde_json::from_str::<serde_json::Value>(example).ok()?,
+                    )
+                    .ok()?;
                     Some(syn::parse_quote! {
                         #[test]
                         fn #ident() {

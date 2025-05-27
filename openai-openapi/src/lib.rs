@@ -13038,672 +13038,600 @@ pub enum WebSearchToolCallType {
 mod tests {
     #[test]
     fn test_admin_api_key() {
-        serde_json :: from_str :: < super :: AdminApiKey > ("{\n  \"object\": \"organization.admin_api_key\",\n  \"id\": \"key_abc\",\n  \"name\": \"Main Admin Key\",\n  \"redacted_value\": \"sk-admin...xyz\",\n  \"created_at\": 1711471533,\n  \"last_used_at\": 1711471534,\n  \"owner\": {\n    \"type\": \"user\",\n    \"object\": \"organization.user\",\n    \"id\": \"user_123\",\n    \"name\": \"John Doe\",\n    \"created_at\": 1711471533,\n    \"role\": \"owner\"\n  }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: AdminApiKey > ("{\"created_at\":1711471533,\"id\":\"key_abc\",\"last_used_at\":1711471534,\"name\":\"Main Admin Key\",\"object\":\"organization.admin_api_key\",\"owner\":{\"created_at\":1711471533,\"id\":\"user_123\",\"name\":\"John Doe\",\"object\":\"organization.user\",\"role\":\"owner\",\"type\":\"user\"},\"redacted_value\":\"sk-admin...xyz\"}") . unwrap () ;
     }
     #[test]
     fn test_assistant_object() {
-        serde_json :: from_str :: < super :: AssistantObject > ("{\n  \"id\": \"asst_abc123\",\n  \"object\": \"assistant\",\n  \"created_at\": 1698984975,\n  \"name\": \"Math Tutor\",\n  \"description\": null,\n  \"model\": \"gpt-4o\",\n  \"instructions\": \"You are a personal math tutor. When asked a question, write and run Python code to answer the question.\",\n  \"tools\": [\n    {\n      \"type\": \"code_interpreter\"\n    }\n  ],\n  \"metadata\": {},\n  \"top_p\": 1.0,\n  \"temperature\": 1.0,\n  \"response_format\": \"auto\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: AssistantObject > ("{\"created_at\":1698984975,\"description\":null,\"id\":\"asst_abc123\",\"instructions\":\"You are a personal math tutor. When asked a question, write and run Python code to answer the question.\",\"metadata\":{},\"model\":\"gpt-4o\",\"name\":\"Math Tutor\",\"object\":\"assistant\",\"response_format\":\"auto\",\"temperature\":1.0,\"tools\":[{\"type\":\"code_interpreter\"}],\"top_p\":1.0}") . unwrap () ;
     }
     #[test]
     fn test_audit_log() {
-        serde_json :: from_str :: < super :: AuditLog > ("{\n    \"id\": \"req_xxx_20240101\",\n    \"type\": \"api_key.created\",\n    \"effective_at\": 1720804090,\n    \"actor\": {\n        \"type\": \"session\",\n        \"session\": {\n            \"user\": {\n                \"id\": \"user-xxx\",\n                \"email\": \"user@example.com\"\n            },\n            \"ip_address\": \"127.0.0.1\",\n            \"user_agent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36\"\n        }\n    },\n    \"api_key.created\": {\n        \"id\": \"key_xxxx\",\n        \"data\": {\n            \"scopes\": [\"resource.operation\"]\n        }\n    }\n}\n") . unwrap () ;
-    }
-    #[test]
-    fn test_batch() {
-        serde_json :: from_str :: < super :: Batch > ("{\n  \"id\": \"batch_abc123\",\n  \"object\": \"batch\",\n  \"endpoint\": \"/v1/completions\",\n  \"errors\": null,\n  \"input_file_id\": \"file-abc123\",\n  \"completion_window\": \"24h\",\n  \"status\": \"completed\",\n  \"output_file_id\": \"file-cvaTdG\",\n  \"error_file_id\": \"file-HOWS94\",\n  \"created_at\": 1711471533,\n  \"in_progress_at\": 1711471538,\n  \"expires_at\": 1711557933,\n  \"finalizing_at\": 1711493133,\n  \"completed_at\": 1711493163,\n  \"failed_at\": null,\n  \"expired_at\": null,\n  \"cancelling_at\": null,\n  \"cancelled_at\": null,\n  \"request_counts\": {\n    \"total\": 100,\n    \"completed\": 95,\n    \"failed\": 5\n  },\n  \"metadata\": {\n    \"customer_id\": \"user_123456789\",\n    \"batch_description\": \"Nightly eval job\",\n  }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: AuditLog > ("{\"actor\":{\"session\":{\"ip_address\":\"127.0.0.1\",\"user\":{\"email\":\"user@example.com\",\"id\":\"user-xxx\"},\"user_agent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36\"},\"type\":\"session\"},\"api_key.created\":{\"data\":{\"scopes\":[\"resource.operation\"]},\"id\":\"key_xxxx\"},\"effective_at\":1720804090,\"id\":\"req_xxx_20240101\",\"type\":\"api_key.created\"}") . unwrap () ;
     }
     #[test]
     fn test_batch_request_input() {
-        serde_json :: from_str :: < super :: BatchRequestInput > ("{\"custom_id\": \"request-1\", \"method\": \"POST\", \"url\": \"/v1/chat/completions\", \"body\": {\"model\": \"gpt-4o-mini\", \"messages\": [{\"role\": \"system\", \"content\": \"You are a helpful assistant.\"}, {\"role\": \"user\", \"content\": \"What is 2+2?\"}]}}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: BatchRequestInput > ("{\"body\":{\"messages\":[{\"content\":\"You are a helpful assistant.\",\"role\":\"system\"},{\"content\":\"What is 2+2?\",\"role\":\"user\"}],\"model\":\"gpt-4o-mini\"},\"custom_id\":\"request-1\",\"method\":\"POST\",\"url\":\"/v1/chat/completions\"}") . unwrap () ;
     }
     #[test]
     fn test_batch_request_output() {
-        serde_json :: from_str :: < super :: BatchRequestOutput > ("{\"id\": \"batch_req_wnaDys\", \"custom_id\": \"request-2\", \"response\": {\"status_code\": 200, \"request_id\": \"req_c187b3\", \"body\": {\"id\": \"chatcmpl-9758Iw\", \"object\": \"chat.completion\", \"created\": 1711475054, \"model\": \"gpt-4o-mini\", \"choices\": [{\"index\": 0, \"message\": {\"role\": \"assistant\", \"content\": \"2 + 2 equals 4.\"}, \"finish_reason\": \"stop\"}], \"usage\": {\"prompt_tokens\": 24, \"completion_tokens\": 15, \"total_tokens\": 39}, \"system_fingerprint\": null}}, \"error\": null}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: BatchRequestOutput > ("{\"custom_id\":\"request-2\",\"error\":null,\"id\":\"batch_req_wnaDys\",\"response\":{\"body\":{\"choices\":[{\"finish_reason\":\"stop\",\"index\":0,\"message\":{\"content\":\"2 + 2 equals 4.\",\"role\":\"assistant\"}}],\"created\":1711475054,\"id\":\"chatcmpl-9758Iw\",\"model\":\"gpt-4o-mini\",\"object\":\"chat.completion\",\"system_fingerprint\":null,\"usage\":{\"completion_tokens\":15,\"prompt_tokens\":24,\"total_tokens\":39}},\"request_id\":\"req_c187b3\",\"status_code\":200}}") . unwrap () ;
     }
     #[test]
     fn test_certificate() {
-        serde_json :: from_str :: < super :: Certificate > ("{\n  \"object\": \"certificate\",\n  \"id\": \"cert_abc\",\n  \"name\": \"My Certificate\",\n  \"created_at\": 1234567,\n  \"certificate_details\": {\n    \"valid_at\": 1234567,\n    \"expires_at\": 12345678,\n    \"content\": \"-----BEGIN CERTIFICATE----- MIIGAjCCA...6znFlOW+ -----END CERTIFICATE-----\"\n  }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: Certificate > ("{\"certificate_details\":{\"content\":\"-----BEGIN CERTIFICATE----- MIIGAjCCA...6znFlOW+ -----END CERTIFICATE-----\",\"expires_at\":12345678,\"valid_at\":1234567},\"created_at\":1234567,\"id\":\"cert_abc\",\"name\":\"My Certificate\",\"object\":\"certificate\"}") . unwrap () ;
     }
     #[test]
     fn test_chat_completion_list() {
-        serde_json :: from_str :: < super :: ChatCompletionList > ("{\n  \"object\": \"list\",\n  \"data\": [\n    {\n      \"object\": \"chat.completion\",\n      \"id\": \"chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2\",\n      \"model\": \"gpt-4o-2024-08-06\",\n      \"created\": 1738960610,\n      \"request_id\": \"req_ded8ab984ec4bf840f37566c1011c417\",\n      \"tool_choice\": null,\n      \"usage\": {\n        \"total_tokens\": 31,\n        \"completion_tokens\": 18,\n        \"prompt_tokens\": 13\n      },\n      \"seed\": 4944116822809979520,\n      \"top_p\": 1.0,\n      \"temperature\": 1.0,\n      \"presence_penalty\": 0.0,\n      \"frequency_penalty\": 0.0,\n      \"system_fingerprint\": \"fp_50cad350e4\",\n      \"input_user\": null,\n      \"service_tier\": \"default\",\n      \"tools\": null,\n      \"metadata\": {},\n      \"choices\": [\n        {\n          \"index\": 0,\n          \"message\": {\n            \"content\": \"Mind of circuits hum,  \\nLearning patterns in silence—  \\nFuture's quiet spark.\",\n            \"role\": \"assistant\",\n            \"tool_calls\": null,\n            \"function_call\": null\n          },\n          \"finish_reason\": \"stop\",\n          \"logprobs\": null\n        }\n      ],\n      \"response_format\": null\n    }\n  ],\n  \"first_id\": \"chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2\",\n  \"last_id\": \"chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2\",\n  \"has_more\": false\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: ChatCompletionList > ("{\"data\":[{\"choices\":[{\"finish_reason\":\"stop\",\"index\":0,\"logprobs\":null,\"message\":{\"content\":\"Mind of circuits hum,  \\nLearning patterns in silence—  \\nFuture's quiet spark.\",\"function_call\":null,\"role\":\"assistant\",\"tool_calls\":null}}],\"created\":1738960610,\"frequency_penalty\":0.0,\"id\":\"chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2\",\"input_user\":null,\"metadata\":{},\"model\":\"gpt-4o-2024-08-06\",\"object\":\"chat.completion\",\"presence_penalty\":0.0,\"request_id\":\"req_ded8ab984ec4bf840f37566c1011c417\",\"response_format\":null,\"seed\":4944116822809979520,\"service_tier\":\"default\",\"system_fingerprint\":\"fp_50cad350e4\",\"temperature\":1.0,\"tool_choice\":null,\"tools\":null,\"top_p\":1.0,\"usage\":{\"completion_tokens\":18,\"prompt_tokens\":13,\"total_tokens\":31}}],\"first_id\":\"chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2\",\"has_more\":false,\"last_id\":\"chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2\",\"object\":\"list\"}") . unwrap () ;
     }
     #[test]
     fn test_chat_completion_message_list() {
-        serde_json :: from_str :: < super :: ChatCompletionMessageList > ("{\n  \"object\": \"list\",\n  \"data\": [\n    {\n      \"id\": \"chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2-0\",\n      \"role\": \"user\",\n      \"content\": \"write a haiku about ai\",\n      \"name\": null,\n      \"content_parts\": null\n    }\n  ],\n  \"first_id\": \"chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2-0\",\n  \"last_id\": \"chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2-0\",\n  \"has_more\": false\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: ChatCompletionMessageList > ("{\"data\":[{\"content\":\"write a haiku about ai\",\"content_parts\":null,\"id\":\"chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2-0\",\"name\":null,\"role\":\"user\"}],\"first_id\":\"chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2-0\",\"has_more\":false,\"last_id\":\"chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2-0\",\"object\":\"list\"}") . unwrap () ;
     }
     #[test]
     fn test_costs_result() {
-        serde_json :: from_str :: < super :: CostsResult > ("{\n    \"object\": \"organization.costs.result\",\n    \"amount\": {\n      \"value\": 0.06,\n      \"currency\": \"usd\"\n    },\n    \"line_item\": \"Image models\",\n    \"project_id\": \"proj_abc\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: CostsResult > ("{\"amount\":{\"currency\":\"usd\",\"value\":0.06},\"line_item\":\"Image models\",\"object\":\"organization.costs.result\",\"project_id\":\"proj_abc\"}") . unwrap () ;
     }
     #[test]
     fn test_create_chat_completion_response() {
-        serde_json :: from_str :: < super :: CreateChatCompletionResponse > ("{\n  \"id\": \"chatcmpl-B9MHDbslfkBeAs8l4bebGdFOJ6PeG\",\n  \"object\": \"chat.completion\",\n  \"created\": 1741570283,\n  \"model\": \"gpt-4o-2024-08-06\",\n  \"choices\": [\n    {\n      \"index\": 0,\n      \"message\": {\n        \"role\": \"assistant\",\n        \"content\": \"The image shows a wooden boardwalk path running through a lush green field or meadow. The sky is bright blue with some scattered clouds, giving the scene a serene and peaceful atmosphere. Trees and shrubs are visible in the background.\",\n        \"refusal\": null,\n        \"annotations\": []\n      },\n      \"logprobs\": null,\n      \"finish_reason\": \"stop\"\n    }\n  ],\n  \"usage\": {\n    \"prompt_tokens\": 1117,\n    \"completion_tokens\": 46,\n    \"total_tokens\": 1163,\n    \"prompt_tokens_details\": {\n      \"cached_tokens\": 0,\n      \"audio_tokens\": 0\n    },\n    \"completion_tokens_details\": {\n      \"reasoning_tokens\": 0,\n      \"audio_tokens\": 0,\n      \"accepted_prediction_tokens\": 0,\n      \"rejected_prediction_tokens\": 0\n    }\n  },\n  \"service_tier\": \"default\",\n  \"system_fingerprint\": \"fp_fc9f1d7035\"\n}\n") . unwrap () ;
-    }
-    #[test]
-    fn test_create_chat_completion_stream_response() {
-        serde_json :: from_str :: < super :: CreateChatCompletionStreamResponse > ("{\"id\":\"chatcmpl-123\",\"object\":\"chat.completion.chunk\",\"created\":1694268190,\"model\":\"gpt-4o-mini\", \"system_fingerprint\": \"fp_44709d6fcb\", \"choices\":[{\"index\":0,\"delta\":{\"role\":\"assistant\",\"content\":\"\"},\"logprobs\":null,\"finish_reason\":null}]}\n\n{\"id\":\"chatcmpl-123\",\"object\":\"chat.completion.chunk\",\"created\":1694268190,\"model\":\"gpt-4o-mini\", \"system_fingerprint\": \"fp_44709d6fcb\", \"choices\":[{\"index\":0,\"delta\":{\"content\":\"Hello\"},\"logprobs\":null,\"finish_reason\":null}]}\n\n....\n\n{\"id\":\"chatcmpl-123\",\"object\":\"chat.completion.chunk\",\"created\":1694268190,\"model\":\"gpt-4o-mini\", \"system_fingerprint\": \"fp_44709d6fcb\", \"choices\":[{\"index\":0,\"delta\":{},\"logprobs\":null,\"finish_reason\":\"stop\"}]}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: CreateChatCompletionResponse > ("{\"choices\":[{\"finish_reason\":\"stop\",\"index\":0,\"logprobs\":null,\"message\":{\"annotations\":[],\"content\":\"The image shows a wooden boardwalk path running through a lush green field or meadow. The sky is bright blue with some scattered clouds, giving the scene a serene and peaceful atmosphere. Trees and shrubs are visible in the background.\",\"refusal\":null,\"role\":\"assistant\"}}],\"created\":1741570283,\"id\":\"chatcmpl-B9MHDbslfkBeAs8l4bebGdFOJ6PeG\",\"model\":\"gpt-4o-2024-08-06\",\"object\":\"chat.completion\",\"service_tier\":\"default\",\"system_fingerprint\":\"fp_fc9f1d7035\",\"usage\":{\"completion_tokens\":46,\"completion_tokens_details\":{\"accepted_prediction_tokens\":0,\"audio_tokens\":0,\"reasoning_tokens\":0,\"rejected_prediction_tokens\":0},\"prompt_tokens\":1117,\"prompt_tokens_details\":{\"audio_tokens\":0,\"cached_tokens\":0},\"total_tokens\":1163}}") . unwrap () ;
     }
     #[test]
     fn test_create_completion_response() {
-        serde_json :: from_str :: < super :: CreateCompletionResponse > ("{\n  \"id\": \"cmpl-uqkvlQyYK7bGYrRHQ0eXlWi7\",\n  \"object\": \"text_completion\",\n  \"created\": 1589478378,\n  \"model\": \"gpt-4-turbo\",\n  \"choices\": [\n    {\n      \"text\": \"\\n\\nThis is indeed a test\",\n      \"index\": 0,\n      \"logprobs\": null,\n      \"finish_reason\": \"length\"\n    }\n  ],\n  \"usage\": {\n    \"prompt_tokens\": 5,\n    \"completion_tokens\": 7,\n    \"total_tokens\": 12\n  }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: CreateCompletionResponse > ("{\"choices\":[{\"finish_reason\":\"length\",\"index\":0,\"logprobs\":null,\"text\":\"\\n\\nThis is indeed a test\"}],\"created\":1589478378,\"id\":\"cmpl-uqkvlQyYK7bGYrRHQ0eXlWi7\",\"model\":\"gpt-4-turbo\",\"object\":\"text_completion\",\"usage\":{\"completion_tokens\":7,\"prompt_tokens\":5,\"total_tokens\":12}}") . unwrap () ;
     }
     #[test]
     fn test_create_eval_completions_run_data_source() {
-        serde_json :: from_str :: < super :: CreateEvalCompletionsRunDataSource > ("{\n  \"name\": \"gpt-4o-mini-2024-07-18\",\n  \"data_source\": {\n    \"type\": \"completions\",\n    \"input_messages\": {\n      \"type\": \"item_reference\",\n      \"item_reference\": \"item.input\"\n    },\n    \"model\": \"gpt-4o-mini-2024-07-18\",\n    \"source\": {\n      \"type\": \"stored_completions\",\n      \"model\": \"gpt-4o-mini-2024-07-18\"\n    }\n  }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: CreateEvalCompletionsRunDataSource > ("{\"data_source\":{\"input_messages\":{\"item_reference\":\"item.input\",\"type\":\"item_reference\"},\"model\":\"gpt-4o-mini-2024-07-18\",\"source\":{\"model\":\"gpt-4o-mini-2024-07-18\",\"type\":\"stored_completions\"},\"type\":\"completions\"},\"name\":\"gpt-4o-mini-2024-07-18\"}") . unwrap () ;
     }
     #[test]
     fn test_create_eval_custom_data_source_config() {
-        serde_json :: from_str :: < super :: CreateEvalCustomDataSourceConfig > ("{\n  \"type\": \"custom\",\n  \"item_schema\": {\n    \"type\": \"object\",\n    \"properties\": {\n      \"name\": {\"type\": \"string\"},\n      \"age\": {\"type\": \"integer\"}\n    },\n    \"required\": [\"name\", \"age\"]\n  },\n  \"include_sample_schema\": true\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: CreateEvalCustomDataSourceConfig > ("{\"include_sample_schema\":true,\"item_schema\":{\"properties\":{\"age\":{\"type\":\"integer\"},\"name\":{\"type\":\"string\"}},\"required\":[\"name\",\"age\"],\"type\":\"object\"},\"type\":\"custom\"}") . unwrap () ;
     }
     #[test]
     fn test_create_eval_jsonl_run_data_source() {
-        serde_json :: from_str :: < super :: CreateEvalJsonlRunDataSource > ("{\n \"type\": \"jsonl\",\n \"source\": {\n   \"type\": \"file_id\",\n   \"id\": \"file-9GYS6xbkWgWhmE7VoLUWFg\"\n }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: CreateEvalJsonlRunDataSource > ("{\"source\":{\"id\":\"file-9GYS6xbkWgWhmE7VoLUWFg\",\"type\":\"file_id\"},\"type\":\"jsonl\"}") . unwrap () ;
     }
     #[test]
     fn test_create_eval_label_model_grader() {
-        serde_json :: from_str :: < super :: CreateEvalLabelModelGrader > ("{\n  \"type\": \"label_model\",\n  \"model\": \"gpt-4o-2024-08-06\",\n  \"input\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"Classify the sentiment of the following statement as one of 'positive', 'neutral', or 'negative'\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"Statement: {{item.response}}\"\n    }\n  ],\n  \"passing_labels\": [\"positive\"],\n  \"labels\": [\"positive\", \"neutral\", \"negative\"],\n  \"name\": \"Sentiment label grader\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: CreateEvalLabelModelGrader > ("{\"input\":[{\"content\":\"Classify the sentiment of the following statement as one of 'positive', 'neutral', or 'negative'\",\"role\":\"system\"},{\"content\":\"Statement: {{item.response}}\",\"role\":\"user\"}],\"labels\":[\"positive\",\"neutral\",\"negative\"],\"model\":\"gpt-4o-2024-08-06\",\"name\":\"Sentiment label grader\",\"passing_labels\":[\"positive\"],\"type\":\"label_model\"}") . unwrap () ;
     }
     #[test]
     fn test_create_eval_logs_data_source_config() {
-        serde_json :: from_str :: < super :: CreateEvalLogsDataSourceConfig > ("{\n  \"type\": \"logs\",\n  \"metadata\": {\n    \"use_case\": \"customer_support_agent\"\n  }\n}\n") . unwrap () ;
+        serde_json::from_str::<super::CreateEvalLogsDataSourceConfig>(
+            "{\"metadata\":{\"use_case\":\"customer_support_agent\"},\"type\":\"logs\"}",
+        )
+        .unwrap();
     }
     #[test]
     fn test_create_eval_responses_run_data_source() {
-        serde_json :: from_str :: < super :: CreateEvalResponsesRunDataSource > ("{\n  \"name\": \"gpt-4o-mini-2024-07-18\",\n  \"data_source\": {\n    \"type\": \"completions\",\n    \"input_messages\": {\n      \"type\": \"item_reference\",\n      \"item_reference\": \"item.input\"\n    },\n    \"model\": \"gpt-4o-mini-2024-07-18\",\n    \"source\": {\n      \"type\": \"stored_completions\",\n      \"model\": \"gpt-4o-mini-2024-07-18\"\n    }\n  }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: CreateEvalResponsesRunDataSource > ("{\"data_source\":{\"input_messages\":{\"item_reference\":\"item.input\",\"type\":\"item_reference\"},\"model\":\"gpt-4o-mini-2024-07-18\",\"source\":{\"model\":\"gpt-4o-mini-2024-07-18\",\"type\":\"stored_completions\"},\"type\":\"completions\"},\"name\":\"gpt-4o-mini-2024-07-18\"}") . unwrap () ;
     }
     #[test]
     fn test_create_moderation_response() {
-        serde_json :: from_str :: < super :: CreateModerationResponse > ("{\n  \"id\": \"modr-0d9740456c391e43c445bf0f010940c7\",\n  \"model\": \"omni-moderation-latest\",\n  \"results\": [\n    {\n      \"flagged\": true,\n      \"categories\": {\n        \"harassment\": true,\n        \"harassment/threatening\": true,\n        \"sexual\": false,\n        \"hate\": false,\n        \"hate/threatening\": false,\n        \"illicit\": false,\n        \"illicit/violent\": false,\n        \"self-harm/intent\": false,\n        \"self-harm/instructions\": false,\n        \"self-harm\": false,\n        \"sexual/minors\": false,\n        \"violence\": true,\n        \"violence/graphic\": true\n      },\n      \"category_scores\": {\n        \"harassment\": 0.8189693396524255,\n        \"harassment/threatening\": 0.804985420696006,\n        \"sexual\": 1.573112165348997e-6,\n        \"hate\": 0.007562942636942845,\n        \"hate/threatening\": 0.004208854591835476,\n        \"illicit\": 0.030535955153511665,\n        \"illicit/violent\": 0.008925306722380033,\n        \"self-harm/intent\": 0.00023023930975076432,\n        \"self-harm/instructions\": 0.0002293869201073356,\n        \"self-harm\": 0.012598046106750154,\n        \"sexual/minors\": 2.212566909570261e-8,\n        \"violence\": 0.9999992735124786,\n        \"violence/graphic\": 0.843064871157054\n      },\n      \"category_applied_input_types\": {\n        \"harassment\": [\n          \"text\"\n        ],\n        \"harassment/threatening\": [\n          \"text\"\n        ],\n        \"sexual\": [\n          \"text\",\n          \"image\"\n        ],\n        \"hate\": [\n          \"text\"\n        ],\n        \"hate/threatening\": [\n          \"text\"\n        ],\n        \"illicit\": [\n          \"text\"\n        ],\n        \"illicit/violent\": [\n          \"text\"\n        ],\n        \"self-harm/intent\": [\n          \"text\",\n          \"image\"\n        ],\n        \"self-harm/instructions\": [\n          \"text\",\n          \"image\"\n        ],\n        \"self-harm\": [\n          \"text\",\n          \"image\"\n        ],\n        \"sexual/minors\": [\n          \"text\"\n        ],\n        \"violence\": [\n          \"text\",\n          \"image\"\n        ],\n        \"violence/graphic\": [\n          \"text\",\n          \"image\"\n        ]\n      }\n    }\n  ]\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: CreateModerationResponse > ("{\"id\":\"modr-0d9740456c391e43c445bf0f010940c7\",\"model\":\"omni-moderation-latest\",\"results\":[{\"categories\":{\"harassment\":true,\"harassment/threatening\":true,\"hate\":false,\"hate/threatening\":false,\"illicit\":false,\"illicit/violent\":false,\"self-harm\":false,\"self-harm/instructions\":false,\"self-harm/intent\":false,\"sexual\":false,\"sexual/minors\":false,\"violence\":true,\"violence/graphic\":true},\"category_applied_input_types\":{\"harassment\":[\"text\"],\"harassment/threatening\":[\"text\"],\"hate\":[\"text\"],\"hate/threatening\":[\"text\"],\"illicit\":[\"text\"],\"illicit/violent\":[\"text\"],\"self-harm\":[\"text\",\"image\"],\"self-harm/instructions\":[\"text\",\"image\"],\"self-harm/intent\":[\"text\",\"image\"],\"sexual\":[\"text\",\"image\"],\"sexual/minors\":[\"text\"],\"violence\":[\"text\",\"image\"],\"violence/graphic\":[\"text\",\"image\"]},\"category_scores\":{\"harassment\":0.8189693396524255,\"harassment/threatening\":0.804985420696006,\"hate\":0.007562942636942845,\"hate/threatening\":0.004208854591835476,\"illicit\":0.030535955153511665,\"illicit/violent\":0.008925306722380033,\"self-harm\":0.012598046106750154,\"self-harm/instructions\":0.0002293869201073356,\"self-harm/intent\":0.00023023930975076432,\"sexual\":1.573112165348997e-6,\"sexual/minors\":2.2125669095702613e-8,\"violence\":0.9999992735124786,\"violence/graphic\":0.843064871157054},\"flagged\":true}]}") . unwrap () ;
     }
     #[test]
     fn test_create_transcription_response_json() {
-        serde_json :: from_str :: < super :: CreateTranscriptionResponseJson > ("{\n  \"text\": \"Imagine the wildest idea that you've ever had, and you're curious about how it might scale to something that's a 100, a 1,000 times bigger. This is a place where you can get to do that.\"\n}\n") . unwrap () ;
-    }
-    #[test]
-    fn test_create_transcription_response_verbose_json() {
-        serde_json :: from_str :: < super :: CreateTranscriptionResponseVerboseJson > ("{\n  \"task\": \"transcribe\",\n  \"language\": \"english\",\n  \"duration\": 8.470000267028809,\n  \"text\": \"The beach was a popular spot on a hot summer day. People were swimming in the ocean, building sandcastles, and playing beach volleyball.\",\n  \"segments\": [\n    {\n      \"id\": 0,\n      \"seek\": 0,\n      \"start\": 0.0,\n      \"end\": 3.319999933242798,\n      \"text\": \" The beach was a popular spot on a hot summer day.\",\n      \"tokens\": [\n        50364, 440, 7534, 390, 257, 3743, 4008, 322, 257, 2368, 4266, 786, 13, 50530\n      ],\n      \"temperature\": 0.0,\n      \"avg_logprob\": -0.2860786020755768,\n      \"compression_ratio\": 1.2363636493682861,\n      \"no_speech_prob\": 0.00985979475080967\n    },\n    ...\n  ]\n}\n") . unwrap () ;
-    }
-    #[test]
-    fn test_embedding() {
-        serde_json :: from_str :: < super :: Embedding > ("{\n  \"object\": \"embedding\",\n  \"embedding\": [\n    0.0023064255,\n    -0.009327292,\n    .... (1536 floats total for ada-002)\n    -0.0028842222,\n  ],\n  \"index\": 0\n}\n") . unwrap () ;
-    }
-    #[test]
-    fn test_eval() {
-        serde_json :: from_str :: < super :: Eval > ("{\n  \"object\": \"eval\",\n  \"id\": \"eval_67abd54d9b0081909a86353f6fb9317a\",\n  \"data_source_config\": {\n    \"type\": \"custom\",\n    \"item_schema\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"label\": {\"type\": \"string\"},\n      },\n      \"required\": [\"label\"]\n    },\n    \"include_sample_schema\": true\n  },\n  \"testing_criteria\": [\n    {\n      \"name\": \"My string check grader\",\n      \"type\": \"string_check\",\n      \"input\": \"{{sample.output_text}}\",\n      \"reference\": \"{{item.label}}\",\n      \"operation\": \"eq\",\n    }\n  ],\n  \"name\": \"External Data Eval\",\n  \"created_at\": 1739314509,\n  \"metadata\": {\n    \"test\": \"synthetics\",\n  }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: CreateTranscriptionResponseJson > ("{\"text\":\"Imagine the wildest idea that you've ever had, and you're curious about how it might scale to something that's a 100, a 1,000 times bigger. This is a place where you can get to do that.\"}") . unwrap () ;
     }
     #[test]
     fn test_eval_api_error() {
-        serde_json :: from_str :: < super :: EvalApiError > ("{\n  \"code\": \"internal_error\",\n  \"message\": \"The eval run failed due to an internal error.\"\n}\n") . unwrap () ;
-    }
-    #[test]
-    fn test_eval_custom_data_source_config() {
-        serde_json :: from_str :: < super :: EvalCustomDataSourceConfig > ("{\n  \"type\": \"custom\",\n  \"schema\": {\n    \"type\": \"object\",\n    \"properties\": {\n      \"item\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"label\": {\"type\": \"string\"},\n        },\n        \"required\": [\"label\"]\n      }\n    },\n    \"required\": [\"item\"]\n  }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: EvalApiError > ("{\"code\":\"internal_error\",\"message\":\"The eval run failed due to an internal error.\"}") . unwrap () ;
     }
     #[test]
     fn test_eval_label_model_grader() {
-        serde_json :: from_str :: < super :: EvalLabelModelGrader > ("{\n  \"name\": \"First label grader\",\n  \"type\": \"label_model\",\n  \"model\": \"gpt-4o-2024-08-06\",\n  \"input\": [\n    {\n      \"type\": \"message\",\n      \"role\": \"system\",\n      \"content\": {\n        \"type\": \"input_text\",\n        \"text\": \"Classify the sentiment of the following statement as one of positive, neutral, or negative\"\n      }\n    },\n    {\n      \"type\": \"message\",\n      \"role\": \"user\",\n      \"content\": {\n        \"type\": \"input_text\",\n        \"text\": \"Statement: {{item.response}}\"\n      }\n    }\n  ],\n  \"passing_labels\": [\n    \"positive\"\n  ],\n  \"labels\": [\n    \"positive\",\n    \"neutral\",\n    \"negative\"\n  ]\n}\n") . unwrap () ;
-    }
-    #[test]
-    fn test_eval_list() {
-        serde_json :: from_str :: < super :: EvalList > ("{\n  \"object\": \"list\",\n  \"data\": [\n    {\n      \"object\": \"eval\",\n      \"id\": \"eval_67abd54d9b0081909a86353f6fb9317a\",\n      \"data_source_config\": {\n        \"type\": \"custom\",\n        \"schema\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"item\": {\n              \"type\": \"object\",\n              \"properties\": {\n                \"input\": {\n                  \"type\": \"string\"\n                },\n                \"ground_truth\": {\n                  \"type\": \"string\"\n                }\n              },\n              \"required\": [\n                \"input\",\n                \"ground_truth\"\n              ]\n            }\n          },\n          \"required\": [\n            \"item\"\n          ]\n        }\n      },\n      \"testing_criteria\": [\n        {\n          \"name\": \"String check\",\n          \"id\": \"String check-2eaf2d8d-d649-4335-8148-9535a7ca73c2\",\n          \"type\": \"string_check\",\n          \"input\": \"{{item.input}}\",\n          \"reference\": \"{{item.ground_truth}}\",\n          \"operation\": \"eq\"\n        }\n      ],\n      \"name\": \"External Data Eval\",\n      \"created_at\": 1739314509,\n      \"metadata\": {},\n    }\n  ],\n  \"first_id\": \"eval_67abd54d9b0081909a86353f6fb9317a\",\n  \"last_id\": \"eval_67abd54d9b0081909a86353f6fb9317a\",\n  \"has_more\": true\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: EvalLabelModelGrader > ("{\"input\":[{\"content\":{\"text\":\"Classify the sentiment of the following statement as one of positive, neutral, or negative\",\"type\":\"input_text\"},\"role\":\"system\",\"type\":\"message\"},{\"content\":{\"text\":\"Statement: {{item.response}}\",\"type\":\"input_text\"},\"role\":\"user\",\"type\":\"message\"}],\"labels\":[\"positive\",\"neutral\",\"negative\"],\"model\":\"gpt-4o-2024-08-06\",\"name\":\"First label grader\",\"passing_labels\":[\"positive\"],\"type\":\"label_model\"}") . unwrap () ;
     }
     #[test]
     fn test_eval_python_grader() {
-        serde_json :: from_str :: < super :: EvalPythonGrader > ("{\n  \"type\": \"string_check\",\n  \"name\": \"Example string check grader\",\n  \"input\": \"{{sample.output_text}}\",\n  \"reference\": \"{{item.label}}\",\n  \"operation\": \"eq\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: EvalPythonGrader > ("{\"input\":\"{{sample.output_text}}\",\"name\":\"Example string check grader\",\"operation\":\"eq\",\"reference\":\"{{item.label}}\",\"type\":\"string_check\"}") . unwrap () ;
     }
     #[test]
     fn test_eval_responses_source() {
-        serde_json :: from_str :: < super :: EvalResponsesSource > ("{\n  \"type\": \"responses\",\n  \"model\": \"gpt-4o-mini-2024-07-18\",\n  \"temperature\": 0.7,\n  \"top_p\": 1.0,\n  \"users\": [\"user1\", \"user2\"],\n  \"allow_parallel_tool_calls\": true\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: EvalResponsesSource > ("{\"allow_parallel_tool_calls\":true,\"model\":\"gpt-4o-mini-2024-07-18\",\"temperature\":0.7,\"top_p\":1.0,\"type\":\"responses\",\"users\":[\"user1\",\"user2\"]}") . unwrap () ;
     }
     #[test]
     fn test_eval_run() {
-        serde_json :: from_str :: < super :: EvalRun > ("{\n  \"object\": \"eval.run\",\n  \"id\": \"evalrun_67e57965b480819094274e3a32235e4c\",\n  \"eval_id\": \"eval_67e579652b548190aaa83ada4b125f47\",\n  \"report_url\": \"https://platform.openai.com/evaluations/eval_67e579652b548190aaa83ada4b125f47?run_id=evalrun_67e57965b480819094274e3a32235e4c\",\n  \"status\": \"queued\",\n  \"model\": \"gpt-4o-mini\",\n  \"name\": \"gpt-4o-mini\",\n  \"created_at\": 1743092069,\n  \"result_counts\": {\n    \"total\": 0,\n    \"errored\": 0,\n    \"failed\": 0,\n    \"passed\": 0\n  },\n  \"per_model_usage\": null,\n  \"per_testing_criteria_results\": null,\n  \"data_source\": {\n    \"type\": \"completions\",\n    \"source\": {\n      \"type\": \"file_content\",\n      \"content\": [\n        {\n          \"item\": {\n            \"input\": \"Tech Company Launches Advanced Artificial Intelligence Platform\",\n            \"ground_truth\": \"Technology\"\n          }\n        },\n        {\n          \"item\": {\n            \"input\": \"Central Bank Increases Interest Rates Amid Inflation Concerns\",\n            \"ground_truth\": \"Markets\"\n          }\n        },\n        {\n          \"item\": {\n            \"input\": \"International Summit Addresses Climate Change Strategies\",\n            \"ground_truth\": \"World\"\n          }\n        },\n        {\n          \"item\": {\n            \"input\": \"Major Retailer Reports Record-Breaking Holiday Sales\",\n            \"ground_truth\": \"Business\"\n          }\n        },\n        {\n          \"item\": {\n            \"input\": \"National Team Qualifies for World Championship Finals\",\n            \"ground_truth\": \"Sports\"\n          }\n        },\n        {\n          \"item\": {\n            \"input\": \"Stock Markets Rally After Positive Economic Data Released\",\n            \"ground_truth\": \"Markets\"\n          }\n        },\n        {\n          \"item\": {\n            \"input\": \"Global Manufacturer Announces Merger with Competitor\",\n            \"ground_truth\": \"Business\"\n          }\n        },\n        {\n          \"item\": {\n            \"input\": \"Breakthrough in Renewable Energy Technology Unveiled\",\n            \"ground_truth\": \"Technology\"\n          }\n        },\n        {\n          \"item\": {\n            \"input\": \"World Leaders Sign Historic Climate Agreement\",\n            \"ground_truth\": \"World\"\n          }\n        },\n        {\n          \"item\": {\n            \"input\": \"Professional Athlete Sets New Record in Championship Event\",\n            \"ground_truth\": \"Sports\"\n          }\n        },\n        {\n          \"item\": {\n            \"input\": \"Financial Institutions Adapt to New Regulatory Requirements\",\n            \"ground_truth\": \"Business\"\n          }\n        },\n        {\n          \"item\": {\n            \"input\": \"Tech Conference Showcases Advances in Artificial Intelligence\",\n            \"ground_truth\": \"Technology\"\n          }\n        },\n        {\n          \"item\": {\n            \"input\": \"Global Markets Respond to Oil Price Fluctuations\",\n            \"ground_truth\": \"Markets\"\n          }\n        },\n        {\n          \"item\": {\n            \"input\": \"International Cooperation Strengthened Through New Treaty\",\n            \"ground_truth\": \"World\"\n          }\n        },\n        {\n          \"item\": {\n            \"input\": \"Sports League Announces Revised Schedule for Upcoming Season\",\n            \"ground_truth\": \"Sports\"\n          }\n        }\n      ]\n    },\n    \"input_messages\": {\n      \"type\": \"template\",\n      \"template\": [\n        {\n          \"type\": \"message\",\n          \"role\": \"developer\",\n          \"content\": {\n            \"type\": \"input_text\",\n            \"text\": \"Categorize a given news headline into one of the following topics: Technology, Markets, World, Business, or Sports.\\n\\n# Steps\\n\\n1. Analyze the content of the news headline to understand its primary focus.\\n2. Extract the subject matter, identifying any key indicators or keywords.\\n3. Use the identified indicators to determine the most suitable category out of the five options: Technology, Markets, World, Business, or Sports.\\n4. Ensure only one category is selected per headline.\\n\\n# Output Format\\n\\nRespond with the chosen category as a single word. For instance: \\\"Technology\\\", \\\"Markets\\\", \\\"World\\\", \\\"Business\\\", or \\\"Sports\\\".\\n\\n# Examples\\n\\n**Input**: \\\"Apple Unveils New iPhone Model, Featuring Advanced AI Features\\\"  \\n**Output**: \\\"Technology\\\"\\n\\n**Input**: \\\"Global Stocks Mixed as Investors Await Central Bank Decisions\\\"  \\n**Output**: \\\"Markets\\\"\\n\\n**Input**: \\\"War in Ukraine: Latest Updates on Negotiation Status\\\"  \\n**Output**: \\\"World\\\"\\n\\n**Input**: \\\"Microsoft in Talks to Acquire Gaming Company for $2 Billion\\\"  \\n**Output**: \\\"Business\\\"\\n\\n**Input**: \\\"Manchester United Secures Win in Premier League Football Match\\\"  \\n**Output**: \\\"Sports\\\" \\n\\n# Notes\\n\\n- If the headline appears to fit into more than one category, choose the most dominant theme.\\n- Keywords or phrases such as \\\"stocks\\\", \\\"company acquisition\\\", \\\"match\\\", or technological brands can be good indicators for classification.\\n\"\n          }\n        },\n        {\n          \"type\": \"message\",\n          \"role\": \"user\",\n          \"content\": {\n            \"type\": \"input_text\",\n            \"text\": \"{{item.input}}\"\n          }\n        }\n      ]\n    },\n    \"model\": \"gpt-4o-mini\",\n    \"sampling_params\": {\n      \"seed\": 42,\n      \"temperature\": 1.0,\n      \"top_p\": 1.0,\n      \"max_completions_tokens\": 2048\n    }\n  },\n  \"error\": null,\n  \"metadata\": {}\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: EvalRun > ("{\"created_at\":1743092069,\"data_source\":{\"input_messages\":{\"template\":[{\"content\":{\"text\":\"Categorize a given news headline into one of the following topics: Technology, Markets, World, Business, or Sports.\\n\\n# Steps\\n\\n1. Analyze the content of the news headline to understand its primary focus.\\n2. Extract the subject matter, identifying any key indicators or keywords.\\n3. Use the identified indicators to determine the most suitable category out of the five options: Technology, Markets, World, Business, or Sports.\\n4. Ensure only one category is selected per headline.\\n\\n# Output Format\\n\\nRespond with the chosen category as a single word. For instance: \\\"Technology\\\", \\\"Markets\\\", \\\"World\\\", \\\"Business\\\", or \\\"Sports\\\".\\n\\n# Examples\\n\\n**Input**: \\\"Apple Unveils New iPhone Model, Featuring Advanced AI Features\\\"  \\n**Output**: \\\"Technology\\\"\\n\\n**Input**: \\\"Global Stocks Mixed as Investors Await Central Bank Decisions\\\"  \\n**Output**: \\\"Markets\\\"\\n\\n**Input**: \\\"War in Ukraine: Latest Updates on Negotiation Status\\\"  \\n**Output**: \\\"World\\\"\\n\\n**Input**: \\\"Microsoft in Talks to Acquire Gaming Company for $2 Billion\\\"  \\n**Output**: \\\"Business\\\"\\n\\n**Input**: \\\"Manchester United Secures Win in Premier League Football Match\\\"  \\n**Output**: \\\"Sports\\\" \\n\\n# Notes\\n\\n- If the headline appears to fit into more than one category, choose the most dominant theme.\\n- Keywords or phrases such as \\\"stocks\\\", \\\"company acquisition\\\", \\\"match\\\", or technological brands can be good indicators for classification.\\n\",\"type\":\"input_text\"},\"role\":\"developer\",\"type\":\"message\"},{\"content\":{\"text\":\"{{item.input}}\",\"type\":\"input_text\"},\"role\":\"user\",\"type\":\"message\"}],\"type\":\"template\"},\"model\":\"gpt-4o-mini\",\"sampling_params\":{\"max_completions_tokens\":2048,\"seed\":42,\"temperature\":1.0,\"top_p\":1.0},\"source\":{\"content\":[{\"item\":{\"ground_truth\":\"Technology\",\"input\":\"Tech Company Launches Advanced Artificial Intelligence Platform\"}},{\"item\":{\"ground_truth\":\"Markets\",\"input\":\"Central Bank Increases Interest Rates Amid Inflation Concerns\"}},{\"item\":{\"ground_truth\":\"World\",\"input\":\"International Summit Addresses Climate Change Strategies\"}},{\"item\":{\"ground_truth\":\"Business\",\"input\":\"Major Retailer Reports Record-Breaking Holiday Sales\"}},{\"item\":{\"ground_truth\":\"Sports\",\"input\":\"National Team Qualifies for World Championship Finals\"}},{\"item\":{\"ground_truth\":\"Markets\",\"input\":\"Stock Markets Rally After Positive Economic Data Released\"}},{\"item\":{\"ground_truth\":\"Business\",\"input\":\"Global Manufacturer Announces Merger with Competitor\"}},{\"item\":{\"ground_truth\":\"Technology\",\"input\":\"Breakthrough in Renewable Energy Technology Unveiled\"}},{\"item\":{\"ground_truth\":\"World\",\"input\":\"World Leaders Sign Historic Climate Agreement\"}},{\"item\":{\"ground_truth\":\"Sports\",\"input\":\"Professional Athlete Sets New Record in Championship Event\"}},{\"item\":{\"ground_truth\":\"Business\",\"input\":\"Financial Institutions Adapt to New Regulatory Requirements\"}},{\"item\":{\"ground_truth\":\"Technology\",\"input\":\"Tech Conference Showcases Advances in Artificial Intelligence\"}},{\"item\":{\"ground_truth\":\"Markets\",\"input\":\"Global Markets Respond to Oil Price Fluctuations\"}},{\"item\":{\"ground_truth\":\"World\",\"input\":\"International Cooperation Strengthened Through New Treaty\"}},{\"item\":{\"ground_truth\":\"Sports\",\"input\":\"Sports League Announces Revised Schedule for Upcoming Season\"}}],\"type\":\"file_content\"},\"type\":\"completions\"},\"error\":null,\"eval_id\":\"eval_67e579652b548190aaa83ada4b125f47\",\"id\":\"evalrun_67e57965b480819094274e3a32235e4c\",\"metadata\":{},\"model\":\"gpt-4o-mini\",\"name\":\"gpt-4o-mini\",\"object\":\"eval.run\",\"per_model_usage\":null,\"per_testing_criteria_results\":null,\"report_url\":\"https://platform.openai.com/evaluations/eval_67e579652b548190aaa83ada4b125f47?run_id=evalrun_67e57965b480819094274e3a32235e4c\",\"result_counts\":{\"errored\":0,\"failed\":0,\"passed\":0,\"total\":0},\"status\":\"queued\"}") . unwrap () ;
     }
     #[test]
     fn test_eval_run_list() {
-        serde_json :: from_str :: < super :: EvalRunList > ("{\n  \"object\": \"list\",\n  \"data\": [\n    {\n      \"object\": \"eval.run\",\n      \"id\": \"evalrun_67b7fbdad46c819092f6fe7a14189620\",\n      \"eval_id\": \"eval_67b7fa9a81a88190ab4aa417e397ea21\",\n      \"report_url\": \"https://platform.openai.com/evaluations/eval_67b7fa9a81a88190ab4aa417e397ea21?run_id=evalrun_67b7fbdad46c819092f6fe7a14189620\",\n      \"status\": \"completed\",\n      \"model\": \"o3-mini\",\n      \"name\": \"Academic Assistant\",\n      \"created_at\": 1740110812,\n      \"result_counts\": {\n        \"total\": 171,\n        \"errored\": 0,\n        \"failed\": 80,\n        \"passed\": 91\n      },\n      \"per_model_usage\": null,\n      \"per_testing_criteria_results\": [\n        {\n          \"testing_criteria\": \"String check grader\",\n          \"passed\": 91,\n          \"failed\": 80\n        }\n      ],\n      \"run_data_source\": {\n        \"type\": \"completions\",\n        \"template_messages\": [\n          {\n            \"type\": \"message\",\n            \"role\": \"system\",\n            \"content\": {\n              \"type\": \"input_text\",\n              \"text\": \"You are a helpful assistant.\"\n            }\n          },\n          {\n            \"type\": \"message\",\n            \"role\": \"user\",\n            \"content\": {\n              \"type\": \"input_text\",\n              \"text\": \"Hello, can you help me with my homework?\"\n            }\n          }\n        ],\n        \"datasource_reference\": null,\n        \"model\": \"o3-mini\",\n        \"max_completion_tokens\": null,\n        \"seed\": null,\n        \"temperature\": null,\n        \"top_p\": null\n      },\n      \"error\": null,\n      \"metadata\": {\"test\": \"synthetics\"}\n    }\n  ],\n  \"first_id\": \"evalrun_67abd54d60ec8190832b46859da808f7\",\n  \"last_id\": \"evalrun_67abd54d60ec8190832b46859da808f7\",\n  \"has_more\": false\n}\n") . unwrap () ;
-    }
-    #[test]
-    fn test_eval_run_output_item() {
-        serde_json :: from_str :: < super :: EvalRunOutputItem > ("{\n  \"object\": \"eval.run.output_item\",\n  \"id\": \"outputitem_67abd55eb6548190bb580745d5644a33\",\n  \"run_id\": \"evalrun_67abd54d60ec8190832b46859da808f7\",\n  \"eval_id\": \"eval_67abd54d9b0081909a86353f6fb9317a\",\n  \"created_at\": 1739314509,\n  \"status\": \"pass\",\n  \"datasource_item_id\": 137,\n  \"datasource_item\": {\n      \"teacher\": \"To grade essays, I only check for style, content, and grammar.\",\n      \"student\": \"I am a student who is trying to write the best essay.\"\n  },\n  \"results\": [\n    {\n      \"name\": \"String Check Grader\",\n      \"type\": \"string-check-grader\",\n      \"score\": 1.0,\n      \"passed\": true,\n    }\n  ],\n  \"sample\": {\n    \"input\": [\n      {\n        \"role\": \"system\",\n        \"content\": \"You are an evaluator bot...\"\n      },\n      {\n        \"role\": \"user\",\n        \"content\": \"You are assessing...\"\n      }\n    ],\n    \"output\": [\n      {\n        \"role\": \"assistant\",\n        \"content\": \"The rubric is not clear nor concise.\"\n      }\n    ],\n    \"finish_reason\": \"stop\",\n    \"model\": \"gpt-4o-2024-08-06\",\n    \"usage\": {\n      \"total_tokens\": 521,\n      \"completion_tokens\": 2,\n      \"prompt_tokens\": 519,\n      \"cached_tokens\": 0\n    },\n    \"error\": null,\n    \"temperature\": 1.0,\n    \"max_completion_tokens\": 2048,\n    \"top_p\": 1.0,\n    \"seed\": 42\n  }\n}\n") . unwrap () ;
-    }
-    #[test]
-    fn test_eval_run_output_item_list() {
-        serde_json :: from_str :: < super :: EvalRunOutputItemList > ("{\n  \"object\": \"list\",\n  \"data\": [\n    {\n      \"object\": \"eval.run.output_item\",\n      \"id\": \"outputitem_67abd55eb6548190bb580745d5644a33\",\n      \"run_id\": \"evalrun_67abd54d60ec8190832b46859da808f7\",\n      \"eval_id\": \"eval_67abd54d9b0081909a86353f6fb9317a\",\n      \"created_at\": 1739314509,\n      \"status\": \"pass\",\n      \"datasource_item_id\": 137,\n      \"datasource_item\": {\n          \"teacher\": \"To grade essays, I only check for style, content, and grammar.\",\n          \"student\": \"I am a student who is trying to write the best essay.\"\n      },\n      \"results\": [\n        {\n          \"name\": \"String Check Grader\",\n          \"type\": \"string-check-grader\",\n          \"score\": 1.0,\n          \"passed\": true,\n        }\n      ],\n      \"sample\": {\n        \"input\": [\n          {\n            \"role\": \"system\",\n            \"content\": \"You are an evaluator bot...\"\n          },\n          {\n            \"role\": \"user\",\n            \"content\": \"You are assessing...\"\n          }\n        ],\n        \"output\": [\n          {\n            \"role\": \"assistant\",\n            \"content\": \"The rubric is not clear nor concise.\"\n          }\n        ],\n        \"finish_reason\": \"stop\",\n        \"model\": \"gpt-4o-2024-08-06\",\n        \"usage\": {\n          \"total_tokens\": 521,\n          \"completion_tokens\": 2,\n          \"prompt_tokens\": 519,\n          \"cached_tokens\": 0\n        },\n        \"error\": null,\n        \"temperature\": 1.0,\n        \"max_completion_tokens\": 2048,\n        \"top_p\": 1.0,\n        \"seed\": 42\n      }\n    },\n  ],\n  \"first_id\": \"outputitem_67abd55eb6548190bb580745d5644a33\",\n  \"last_id\": \"outputitem_67abd55eb6548190bb580745d5644a33\",\n  \"has_more\": false\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: EvalRunList > ("{\"data\":[{\"created_at\":1740110812,\"error\":null,\"eval_id\":\"eval_67b7fa9a81a88190ab4aa417e397ea21\",\"id\":\"evalrun_67b7fbdad46c819092f6fe7a14189620\",\"metadata\":{\"test\":\"synthetics\"},\"model\":\"o3-mini\",\"name\":\"Academic Assistant\",\"object\":\"eval.run\",\"per_model_usage\":null,\"per_testing_criteria_results\":[{\"failed\":80,\"passed\":91,\"testing_criteria\":\"String check grader\"}],\"report_url\":\"https://platform.openai.com/evaluations/eval_67b7fa9a81a88190ab4aa417e397ea21?run_id=evalrun_67b7fbdad46c819092f6fe7a14189620\",\"result_counts\":{\"errored\":0,\"failed\":80,\"passed\":91,\"total\":171},\"run_data_source\":{\"datasource_reference\":null,\"max_completion_tokens\":null,\"model\":\"o3-mini\",\"seed\":null,\"temperature\":null,\"template_messages\":[{\"content\":{\"text\":\"You are a helpful assistant.\",\"type\":\"input_text\"},\"role\":\"system\",\"type\":\"message\"},{\"content\":{\"text\":\"Hello, can you help me with my homework?\",\"type\":\"input_text\"},\"role\":\"user\",\"type\":\"message\"}],\"top_p\":null,\"type\":\"completions\"},\"status\":\"completed\"}],\"first_id\":\"evalrun_67abd54d60ec8190832b46859da808f7\",\"has_more\":false,\"last_id\":\"evalrun_67abd54d60ec8190832b46859da808f7\",\"object\":\"list\"}") . unwrap () ;
     }
     #[test]
     fn test_eval_score_model_grader() {
-        serde_json :: from_str :: < super :: EvalScoreModelGrader > ("{\n  \"type\": \"score_model\",\n  \"name\": \"Example score model grader\",\n  \"input\": \"{{sample.output_text}}\",\n  \"reference\": \"{{item.label}}\",\n  \"operation\": \"eq\"\n}\n") . unwrap () ;
-    }
-    #[test]
-    fn test_eval_stored_completions_data_source_config() {
-        serde_json :: from_str :: < super :: EvalStoredCompletionsDataSourceConfig > ("{\n  \"type\": \"stored_completions\",\n  \"metadata\": {\n    \"language\": \"english\"\n  },\n  \"schema\": {\n    \"type\": \"object\",\n    \"properties\": {\n      \"item\": {\n        \"type\": \"object\"\n      },\n      \"sample\": {\n        \"type\": \"object\"\n      }\n    },\n    \"required\": [\n      \"item\",\n      \"sample\"\n    }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: EvalScoreModelGrader > ("{\"input\":\"{{sample.output_text}}\",\"name\":\"Example score model grader\",\"operation\":\"eq\",\"reference\":\"{{item.label}}\",\"type\":\"score_model\"}") . unwrap () ;
     }
     #[test]
     fn test_eval_stored_completions_source() {
-        serde_json :: from_str :: < super :: EvalStoredCompletionsSource > ("{\n  \"type\": \"stored_completions\",\n  \"model\": \"gpt-4o\",\n  \"created_after\": 1668124800,\n  \"created_before\": 1668124900,\n  \"limit\": 100,\n  \"metadata\": {}\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: EvalStoredCompletionsSource > ("{\"created_after\":1668124800,\"created_before\":1668124900,\"limit\":100,\"metadata\":{},\"model\":\"gpt-4o\",\"type\":\"stored_completions\"}") . unwrap () ;
     }
     #[test]
     fn test_eval_string_check_grader() {
-        serde_json :: from_str :: < super :: EvalStringCheckGrader > ("{\n  \"type\": \"string_check\",\n  \"name\": \"Example string check grader\",\n  \"input\": \"{{sample.output_text}}\",\n  \"reference\": \"{{item.label}}\",\n  \"operation\": \"eq\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: EvalStringCheckGrader > ("{\"input\":\"{{sample.output_text}}\",\"name\":\"Example string check grader\",\"operation\":\"eq\",\"reference\":\"{{item.label}}\",\"type\":\"string_check\"}") . unwrap () ;
     }
     #[test]
     fn test_eval_text_similarity_grader() {
-        serde_json :: from_str :: < super :: EvalTextSimilarityGrader > ("{\n  \"type\": \"text_similarity\",\n  \"name\": \"example text similarity grader\",\n  \"input\": \"The graded text\",\n  \"reference\": \"The reference text\",\n  \"pass_threshold\": 0.8,\n  \"evaluation_metric\": \"fuzzy_match\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: EvalTextSimilarityGrader > ("{\"evaluation_metric\":\"fuzzy_match\",\"input\":\"The graded text\",\"name\":\"example text similarity grader\",\"pass_threshold\":0.8,\"reference\":\"The reference text\",\"type\":\"text_similarity\"}") . unwrap () ;
     }
     #[test]
     fn test_fine_tune_chat_request_input() {
-        serde_json :: from_str :: < super :: FineTuneChatRequestInput > ("{\n  \"messages\": [\n    { \"role\": \"user\", \"content\": \"What is the weather in San Francisco?\" },\n    {\n      \"role\": \"assistant\",\n      \"tool_calls\": [\n        {\n          \"id\": \"call_id\",\n          \"type\": \"function\",\n          \"function\": {\n            \"name\": \"get_current_weather\",\n            \"arguments\": \"{\\\"location\\\": \\\"San Francisco, USA\\\", \\\"format\\\": \\\"celsius\\\"}\"\n          }\n        }\n      ]\n    }\n  ],\n  \"parallel_tool_calls\": false,\n  \"tools\": [\n    {\n      \"type\": \"function\",\n      \"function\": {\n        \"name\": \"get_current_weather\",\n        \"description\": \"Get the current weather\",\n        \"parameters\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"location\": {\n                \"type\": \"string\",\n                \"description\": \"The city and country, eg. San Francisco, USA\"\n            },\n            \"format\": { \"type\": \"string\", \"enum\": [\"celsius\", \"fahrenheit\"] }\n          },\n          \"required\": [\"location\", \"format\"]\n        }\n      }\n    }\n  ]\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: FineTuneChatRequestInput > ("{\"messages\":[{\"content\":\"What is the weather in San Francisco?\",\"role\":\"user\"},{\"role\":\"assistant\",\"tool_calls\":[{\"function\":{\"arguments\":\"{\\\"location\\\": \\\"San Francisco, USA\\\", \\\"format\\\": \\\"celsius\\\"}\",\"name\":\"get_current_weather\"},\"id\":\"call_id\",\"type\":\"function\"}]}],\"parallel_tool_calls\":false,\"tools\":[{\"function\":{\"description\":\"Get the current weather\",\"name\":\"get_current_weather\",\"parameters\":{\"properties\":{\"format\":{\"enum\":[\"celsius\",\"fahrenheit\"],\"type\":\"string\"},\"location\":{\"description\":\"The city and country, eg. San Francisco, USA\",\"type\":\"string\"}},\"required\":[\"location\",\"format\"],\"type\":\"object\"}},\"type\":\"function\"}]}") . unwrap () ;
     }
     #[test]
     fn test_fine_tune_completion_request_input() {
         serde_json::from_str::<super::FineTuneCompletionRequestInput>(
-            "{\n  \"prompt\": \"What is the answer to 2+2\",\n  \"completion\": \"4\"\n}\n",
+            "{\"completion\":\"4\",\"prompt\":\"What is the answer to 2+2\"}",
         )
         .unwrap();
     }
     #[test]
     fn test_fine_tune_preference_request_input() {
-        serde_json :: from_str :: < super :: FineTunePreferenceRequestInput > ("{\n  \"input\": {\n    \"messages\": [\n      { \"role\": \"user\", \"content\": \"What is the weather in San Francisco?\" }\n    ]\n  },\n  \"preferred_completion\": [\n    {\n      \"role\": \"assistant\",\n      \"content\": \"The weather in San Francisco is 70 degrees Fahrenheit.\"\n    }\n  ],\n  \"non_preferred_completion\": [\n    {\n      \"role\": \"assistant\",\n      \"content\": \"The weather in San Francisco is 21 degrees Celsius.\"\n    }\n  ]\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: FineTunePreferenceRequestInput > ("{\"input\":{\"messages\":[{\"content\":\"What is the weather in San Francisco?\",\"role\":\"user\"}]},\"non_preferred_completion\":[{\"content\":\"The weather in San Francisco is 21 degrees Celsius.\",\"role\":\"assistant\"}],\"preferred_completion\":[{\"content\":\"The weather in San Francisco is 70 degrees Fahrenheit.\",\"role\":\"assistant\"}]}") . unwrap () ;
     }
     #[test]
     fn test_fine_tuning_checkpoint_permission() {
-        serde_json :: from_str :: < super :: FineTuningCheckpointPermission > ("{\n  \"object\": \"checkpoint.permission\",\n  \"id\": \"cp_zc4Q7MP6XxulcVzj4MZdwsAB\",\n  \"created_at\": 1712211699,\n  \"project_id\": \"proj_abGMw1llN8IrBb6SvvY5A1iH\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: FineTuningCheckpointPermission > ("{\"created_at\":1712211699,\"id\":\"cp_zc4Q7MP6XxulcVzj4MZdwsAB\",\"object\":\"checkpoint.permission\",\"project_id\":\"proj_abGMw1llN8IrBb6SvvY5A1iH\"}") . unwrap () ;
     }
     #[test]
     fn test_fine_tuning_job() {
-        serde_json :: from_str :: < super :: FineTuningJob > ("{\n  \"object\": \"fine_tuning.job\",\n  \"id\": \"ftjob-abc123\",\n  \"model\": \"davinci-002\",\n  \"created_at\": 1692661014,\n  \"finished_at\": 1692661190,\n  \"fine_tuned_model\": \"ft:davinci-002:my-org:custom_suffix:7q8mpxmy\",\n  \"organization_id\": \"org-123\",\n  \"result_files\": [\n      \"file-abc123\"\n  ],\n  \"status\": \"succeeded\",\n  \"validation_file\": null,\n  \"training_file\": \"file-abc123\",\n  \"hyperparameters\": {\n      \"n_epochs\": 4,\n      \"batch_size\": 1,\n      \"learning_rate_multiplier\": 1.0\n  },\n  \"trained_tokens\": 5768,\n  \"integrations\": [],\n  \"seed\": 0,\n  \"estimated_finish\": 0,\n  \"method\": {\n    \"type\": \"supervised\",\n    \"supervised\": {\n      \"hyperparameters\": {\n        \"n_epochs\": 4,\n        \"batch_size\": 1,\n        \"learning_rate_multiplier\": 1.0\n      }\n    }\n  },\n  \"metadata\": {\n    \"key\": \"value\"\n  }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: FineTuningJob > ("{\"created_at\":1692661014,\"estimated_finish\":0,\"fine_tuned_model\":\"ft:davinci-002:my-org:custom_suffix:7q8mpxmy\",\"finished_at\":1692661190,\"hyperparameters\":{\"batch_size\":1,\"learning_rate_multiplier\":1.0,\"n_epochs\":4},\"id\":\"ftjob-abc123\",\"integrations\":[],\"metadata\":{\"key\":\"value\"},\"method\":{\"supervised\":{\"hyperparameters\":{\"batch_size\":1,\"learning_rate_multiplier\":1.0,\"n_epochs\":4}},\"type\":\"supervised\"},\"model\":\"davinci-002\",\"object\":\"fine_tuning.job\",\"organization_id\":\"org-123\",\"result_files\":[\"file-abc123\"],\"seed\":0,\"status\":\"succeeded\",\"trained_tokens\":5768,\"training_file\":\"file-abc123\",\"validation_file\":null}") . unwrap () ;
     }
     #[test]
     fn test_fine_tuning_job_checkpoint() {
-        serde_json :: from_str :: < super :: FineTuningJobCheckpoint > ("{\n  \"object\": \"fine_tuning.job.checkpoint\",\n  \"id\": \"ftckpt_qtZ5Gyk4BLq1SfLFWp3RtO3P\",\n  \"created_at\": 1712211699,\n  \"fine_tuned_model_checkpoint\": \"ft:gpt-4o-mini-2024-07-18:my-org:custom_suffix:9ABel2dg:ckpt-step-88\",\n  \"fine_tuning_job_id\": \"ftjob-fpbNQ3H1GrMehXRf8cO97xTN\",\n  \"metrics\": {\n    \"step\": 88,\n    \"train_loss\": 0.478,\n    \"train_mean_token_accuracy\": 0.924,\n    \"valid_loss\": 10.112,\n    \"valid_mean_token_accuracy\": 0.145,\n    \"full_valid_loss\": 0.567,\n    \"full_valid_mean_token_accuracy\": 0.944\n  },\n  \"step_number\": 88\n}\n") . unwrap () ;
-    }
-    #[test]
-    fn test_fine_tuning_job_event() {
-        serde_json :: from_str :: < super :: FineTuningJobEvent > ("{\n  \"object\": \"fine_tuning.job.event\",\n  \"id\": \"ftevent-abc123\"\n  \"created_at\": 1677610602,\n  \"level\": \"info\",\n  \"message\": \"Created fine-tuning job\",\n  \"data\": {},\n  \"type\": \"message\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: FineTuningJobCheckpoint > ("{\"created_at\":1712211699,\"fine_tuned_model_checkpoint\":\"ft:gpt-4o-mini-2024-07-18:my-org:custom_suffix:9ABel2dg:ckpt-step-88\",\"fine_tuning_job_id\":\"ftjob-fpbNQ3H1GrMehXRf8cO97xTN\",\"id\":\"ftckpt_qtZ5Gyk4BLq1SfLFWp3RtO3P\",\"metrics\":{\"full_valid_loss\":0.567,\"full_valid_mean_token_accuracy\":0.944,\"step\":88,\"train_loss\":0.478,\"train_mean_token_accuracy\":0.924,\"valid_loss\":10.112,\"valid_mean_token_accuracy\":0.145},\"object\":\"fine_tuning.job.checkpoint\",\"step_number\":88}") . unwrap () ;
     }
     #[test]
     fn test_images_response() {
-        serde_json :: from_str :: < super :: ImagesResponse > ("{\n  \"created\": 1713833628,\n  \"data\": [\n    {\n      \"b64_json\": \"...\"\n    }\n  ],\n  \"usage\": {\n    \"total_tokens\": 100,\n    \"input_tokens\": 50,\n    \"output_tokens\": 50,\n    \"input_tokens_details\": {\n      \"text_tokens\": 10,\n      \"image_tokens\": 40\n    }\n  }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: ImagesResponse > ("{\"created\":1713833628,\"data\":[{\"b64_json\":\"...\"}],\"usage\":{\"input_tokens\":50,\"input_tokens_details\":{\"image_tokens\":40,\"text_tokens\":10},\"output_tokens\":50,\"total_tokens\":100}}") . unwrap () ;
     }
     #[test]
     fn test_invite() {
-        serde_json :: from_str :: < super :: Invite > ("{\n  \"object\": \"organization.invite\",\n  \"id\": \"invite-abc\",\n  \"email\": \"user@example.com\",\n  \"role\": \"owner\",\n  \"status\": \"accepted\",\n  \"invited_at\": 1711471533,\n  \"expires_at\": 1711471533,\n  \"accepted_at\": 1711471533,\n  \"projects\": [\n    {\n      \"id\": \"project-xyz\",\n      \"role\": \"member\"\n    }\n  ]\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: Invite > ("{\"accepted_at\":1711471533,\"email\":\"user@example.com\",\"expires_at\":1711471533,\"id\":\"invite-abc\",\"invited_at\":1711471533,\"object\":\"organization.invite\",\"projects\":[{\"id\":\"project-xyz\",\"role\":\"member\"}],\"role\":\"owner\",\"status\":\"accepted\"}") . unwrap () ;
     }
     #[test]
     fn test_list_assistants_response() {
-        serde_json :: from_str :: < super :: ListAssistantsResponse > ("{\n  \"object\": \"list\",\n  \"data\": [\n    {\n      \"id\": \"asst_abc123\",\n      \"object\": \"assistant\",\n      \"created_at\": 1698982736,\n      \"name\": \"Coding Tutor\",\n      \"description\": null,\n      \"model\": \"gpt-4o\",\n      \"instructions\": \"You are a helpful assistant designed to make me better at coding!\",\n      \"tools\": [],\n      \"tool_resources\": {},\n      \"metadata\": {},\n      \"top_p\": 1.0,\n      \"temperature\": 1.0,\n      \"response_format\": \"auto\"\n    },\n    {\n      \"id\": \"asst_abc456\",\n      \"object\": \"assistant\",\n      \"created_at\": 1698982718,\n      \"name\": \"My Assistant\",\n      \"description\": null,\n      \"model\": \"gpt-4o\",\n      \"instructions\": \"You are a helpful assistant designed to make me better at coding!\",\n      \"tools\": [],\n      \"tool_resources\": {},\n      \"metadata\": {},\n      \"top_p\": 1.0,\n      \"temperature\": 1.0,\n      \"response_format\": \"auto\"\n    },\n    {\n      \"id\": \"asst_abc789\",\n      \"object\": \"assistant\",\n      \"created_at\": 1698982643,\n      \"name\": null,\n      \"description\": null,\n      \"model\": \"gpt-4o\",\n      \"instructions\": null,\n      \"tools\": [],\n      \"tool_resources\": {},\n      \"metadata\": {},\n      \"top_p\": 1.0,\n      \"temperature\": 1.0,\n      \"response_format\": \"auto\"\n    }\n  ],\n  \"first_id\": \"asst_abc123\",\n  \"last_id\": \"asst_abc789\",\n  \"has_more\": false\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: ListAssistantsResponse > ("{\"data\":[{\"created_at\":1698982736,\"description\":null,\"id\":\"asst_abc123\",\"instructions\":\"You are a helpful assistant designed to make me better at coding!\",\"metadata\":{},\"model\":\"gpt-4o\",\"name\":\"Coding Tutor\",\"object\":\"assistant\",\"response_format\":\"auto\",\"temperature\":1.0,\"tool_resources\":{},\"tools\":[],\"top_p\":1.0},{\"created_at\":1698982718,\"description\":null,\"id\":\"asst_abc456\",\"instructions\":\"You are a helpful assistant designed to make me better at coding!\",\"metadata\":{},\"model\":\"gpt-4o\",\"name\":\"My Assistant\",\"object\":\"assistant\",\"response_format\":\"auto\",\"temperature\":1.0,\"tool_resources\":{},\"tools\":[],\"top_p\":1.0},{\"created_at\":1698982643,\"description\":null,\"id\":\"asst_abc789\",\"instructions\":null,\"metadata\":{},\"model\":\"gpt-4o\",\"name\":null,\"object\":\"assistant\",\"response_format\":\"auto\",\"temperature\":1.0,\"tool_resources\":{},\"tools\":[],\"top_p\":1.0}],\"first_id\":\"asst_abc123\",\"has_more\":false,\"last_id\":\"asst_abc789\",\"object\":\"list\"}") . unwrap () ;
     }
     #[test]
     fn test_message_delta_object() {
-        serde_json :: from_str :: < super :: MessageDeltaObject > ("{\n  \"id\": \"msg_123\",\n  \"object\": \"thread.message.delta\",\n  \"delta\": {\n    \"content\": [\n      {\n        \"index\": 0,\n        \"type\": \"text\",\n        \"text\": { \"value\": \"Hello\", \"annotations\": [] }\n      }\n    ]\n  }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: MessageDeltaObject > ("{\"delta\":{\"content\":[{\"index\":0,\"text\":{\"annotations\":[],\"value\":\"Hello\"},\"type\":\"text\"}]},\"id\":\"msg_123\",\"object\":\"thread.message.delta\"}") . unwrap () ;
     }
     #[test]
     fn test_message_object() {
-        serde_json :: from_str :: < super :: MessageObject > ("{\n  \"id\": \"msg_abc123\",\n  \"object\": \"thread.message\",\n  \"created_at\": 1698983503,\n  \"thread_id\": \"thread_abc123\",\n  \"role\": \"assistant\",\n  \"content\": [\n    {\n      \"type\": \"text\",\n      \"text\": {\n        \"value\": \"Hi! How can I help you today?\",\n        \"annotations\": []\n      }\n    }\n  ],\n  \"assistant_id\": \"asst_abc123\",\n  \"run_id\": \"run_abc123\",\n  \"attachments\": [],\n  \"metadata\": {}\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: MessageObject > ("{\"assistant_id\":\"asst_abc123\",\"attachments\":[],\"content\":[{\"text\":{\"annotations\":[],\"value\":\"Hi! How can I help you today?\"},\"type\":\"text\"}],\"created_at\":1698983503,\"id\":\"msg_abc123\",\"metadata\":{},\"object\":\"thread.message\",\"role\":\"assistant\",\"run_id\":\"run_abc123\",\"thread_id\":\"thread_abc123\"}") . unwrap () ;
     }
     #[test]
     fn test_model() {
-        serde_json :: from_str :: < super :: Model > ("{\n  \"id\": \"VAR_chat_model_id\",\n  \"object\": \"model\",\n  \"created\": 1686935002,\n  \"owned_by\": \"openai\"\n}\n") . unwrap () ;
-    }
-    #[test]
-    fn test_open_ai_file() {
-        serde_json :: from_str :: < super :: OpenAiFile > ("{\n  \"id\": \"file-abc123\",\n  \"object\": \"file\",\n  \"bytes\": 120000,\n  \"created_at\": 1677610602,\n  \"expires_at\": 1680202602,\n  \"filename\": \"salesOverview.pdf\",\n  \"purpose\": \"assistants\",\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: Model > ("{\"created\":1686935002,\"id\":\"VAR_chat_model_id\",\"object\":\"model\",\"owned_by\":\"openai\"}") . unwrap () ;
     }
     #[test]
     fn test_project() {
-        serde_json :: from_str :: < super :: Project > ("{\n    \"id\": \"proj_abc\",\n    \"object\": \"organization.project\",\n    \"name\": \"Project example\",\n    \"created_at\": 1711471533,\n    \"archived_at\": null,\n    \"status\": \"active\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: Project > ("{\"archived_at\":null,\"created_at\":1711471533,\"id\":\"proj_abc\",\"name\":\"Project example\",\"object\":\"organization.project\",\"status\":\"active\"}") . unwrap () ;
     }
     #[test]
     fn test_project_api_key() {
-        serde_json :: from_str :: < super :: ProjectApiKey > ("{\n    \"object\": \"organization.project.api_key\",\n    \"redacted_value\": \"sk-abc...def\",\n    \"name\": \"My API Key\",\n    \"created_at\": 1711471533,\n    \"last_used_at\": 1711471534,\n    \"id\": \"key_abc\",\n    \"owner\": {\n        \"type\": \"user\",\n        \"user\": {\n            \"object\": \"organization.project.user\",\n            \"id\": \"user_abc\",\n            \"name\": \"First Last\",\n            \"email\": \"user@example.com\",\n            \"role\": \"owner\",\n            \"created_at\": 1711471533\n        }\n    }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: ProjectApiKey > ("{\"created_at\":1711471533,\"id\":\"key_abc\",\"last_used_at\":1711471534,\"name\":\"My API Key\",\"object\":\"organization.project.api_key\",\"owner\":{\"type\":\"user\",\"user\":{\"created_at\":1711471533,\"email\":\"user@example.com\",\"id\":\"user_abc\",\"name\":\"First Last\",\"object\":\"organization.project.user\",\"role\":\"owner\"}},\"redacted_value\":\"sk-abc...def\"}") . unwrap () ;
     }
     #[test]
     fn test_project_rate_limit() {
-        serde_json :: from_str :: < super :: ProjectRateLimit > ("{\n    \"object\": \"project.rate_limit\",\n    \"id\": \"rl_ada\",\n    \"model\": \"ada\",\n    \"max_requests_per_1_minute\": 600,\n    \"max_tokens_per_1_minute\": 150000,\n    \"max_images_per_1_minute\": 10\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: ProjectRateLimit > ("{\"id\":\"rl_ada\",\"max_images_per_1_minute\":10,\"max_requests_per_1_minute\":600,\"max_tokens_per_1_minute\":150000,\"model\":\"ada\",\"object\":\"project.rate_limit\"}") . unwrap () ;
     }
     #[test]
     fn test_project_service_account() {
-        serde_json :: from_str :: < super :: ProjectServiceAccount > ("{\n    \"object\": \"organization.project.service_account\",\n    \"id\": \"svc_acct_abc\",\n    \"name\": \"Service Account\",\n    \"role\": \"owner\",\n    \"created_at\": 1711471533\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: ProjectServiceAccount > ("{\"created_at\":1711471533,\"id\":\"svc_acct_abc\",\"name\":\"Service Account\",\"object\":\"organization.project.service_account\",\"role\":\"owner\"}") . unwrap () ;
     }
     #[test]
     fn test_project_user() {
-        serde_json :: from_str :: < super :: ProjectUser > ("{\n    \"object\": \"organization.project.user\",\n    \"id\": \"user_abc\",\n    \"name\": \"First Last\",\n    \"email\": \"user@example.com\",\n    \"role\": \"owner\",\n    \"added_at\": 1711471533\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: ProjectUser > ("{\"added_at\":1711471533,\"email\":\"user@example.com\",\"id\":\"user_abc\",\"name\":\"First Last\",\"object\":\"organization.project.user\",\"role\":\"owner\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_client_event_conversation_item_create() {
-        serde_json :: from_str :: < super :: RealtimeClientEventConversationItemCreate > ("{\n    \"event_id\": \"event_345\",\n    \"type\": \"conversation.item.create\",\n    \"previous_item_id\": null,\n    \"item\": {\n        \"id\": \"msg_001\",\n        \"type\": \"message\",\n        \"role\": \"user\",\n        \"content\": [\n            {\n                \"type\": \"input_text\",\n                \"text\": \"Hello, how are you?\"\n            }\n        ]\n    }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeClientEventConversationItemCreate > ("{\"event_id\":\"event_345\",\"item\":{\"content\":[{\"text\":\"Hello, how are you?\",\"type\":\"input_text\"}],\"id\":\"msg_001\",\"role\":\"user\",\"type\":\"message\"},\"previous_item_id\":null,\"type\":\"conversation.item.create\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_client_event_conversation_item_delete() {
-        serde_json :: from_str :: < super :: RealtimeClientEventConversationItemDelete > ("{\n    \"event_id\": \"event_901\",\n    \"type\": \"conversation.item.delete\",\n    \"item_id\": \"msg_003\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeClientEventConversationItemDelete > ("{\"event_id\":\"event_901\",\"item_id\":\"msg_003\",\"type\":\"conversation.item.delete\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_client_event_conversation_item_retrieve() {
-        serde_json :: from_str :: < super :: RealtimeClientEventConversationItemRetrieve > ("{\n    \"event_id\": \"event_901\",\n    \"type\": \"conversation.item.retrieve\",\n    \"item_id\": \"msg_003\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeClientEventConversationItemRetrieve > ("{\"event_id\":\"event_901\",\"item_id\":\"msg_003\",\"type\":\"conversation.item.retrieve\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_client_event_conversation_item_truncate() {
-        serde_json :: from_str :: < super :: RealtimeClientEventConversationItemTruncate > ("{\n    \"event_id\": \"event_678\",\n    \"type\": \"conversation.item.truncate\",\n    \"item_id\": \"msg_002\",\n    \"content_index\": 0,\n    \"audio_end_ms\": 1500\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeClientEventConversationItemTruncate > ("{\"audio_end_ms\":1500,\"content_index\":0,\"event_id\":\"event_678\",\"item_id\":\"msg_002\",\"type\":\"conversation.item.truncate\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_client_event_input_audio_buffer_append() {
-        serde_json :: from_str :: < super :: RealtimeClientEventInputAudioBufferAppend > ("{\n    \"event_id\": \"event_456\",\n    \"type\": \"input_audio_buffer.append\",\n    \"audio\": \"Base64EncodedAudioData\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeClientEventInputAudioBufferAppend > ("{\"audio\":\"Base64EncodedAudioData\",\"event_id\":\"event_456\",\"type\":\"input_audio_buffer.append\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_client_event_input_audio_buffer_clear() {
         serde_json::from_str::<super::RealtimeClientEventInputAudioBufferClear>(
-            "{\n    \"event_id\": \"event_012\",\n    \"type\": \"input_audio_buffer.clear\"\n}\n",
+            "{\"event_id\":\"event_012\",\"type\":\"input_audio_buffer.clear\"}",
         )
         .unwrap();
     }
     #[test]
     fn test_realtime_client_event_input_audio_buffer_commit() {
         serde_json::from_str::<super::RealtimeClientEventInputAudioBufferCommit>(
-            "{\n    \"event_id\": \"event_789\",\n    \"type\": \"input_audio_buffer.commit\"\n}\n",
+            "{\"event_id\":\"event_789\",\"type\":\"input_audio_buffer.commit\"}",
         )
         .unwrap();
     }
     #[test]
     fn test_realtime_client_event_output_audio_buffer_clear() {
-        serde_json :: from_str :: < super :: RealtimeClientEventOutputAudioBufferClear > ("{\n    \"event_id\": \"optional_client_event_id\",\n    \"type\": \"output_audio_buffer.clear\"\n}\n") . unwrap () ;
+        serde_json::from_str::<super::RealtimeClientEventOutputAudioBufferClear>(
+            "{\"event_id\":\"optional_client_event_id\",\"type\":\"output_audio_buffer.clear\"}",
+        )
+        .unwrap();
     }
     #[test]
     fn test_realtime_client_event_response_cancel() {
         serde_json::from_str::<super::RealtimeClientEventResponseCancel>(
-            "{\n    \"event_id\": \"event_567\",\n    \"type\": \"response.cancel\"\n}\n",
+            "{\"event_id\":\"event_567\",\"type\":\"response.cancel\"}",
         )
         .unwrap();
     }
     #[test]
     fn test_realtime_client_event_response_create() {
-        serde_json :: from_str :: < super :: RealtimeClientEventResponseCreate > ("{\n    \"event_id\": \"event_234\",\n    \"type\": \"response.create\",\n    \"response\": {\n        \"modalities\": [\"text\", \"audio\"],\n        \"instructions\": \"Please assist the user.\",\n        \"voice\": \"sage\",\n        \"output_audio_format\": \"pcm16\",\n        \"tools\": [\n            {\n                \"type\": \"function\",\n                \"name\": \"calculate_sum\",\n                \"description\": \"Calculates the sum of two numbers.\",\n                \"parameters\": {\n                    \"type\": \"object\",\n                    \"properties\": {\n                        \"a\": { \"type\": \"number\" },\n                        \"b\": { \"type\": \"number\" }\n                    },\n                    \"required\": [\"a\", \"b\"]\n                }\n            }\n        ],\n        \"tool_choice\": \"auto\",\n        \"temperature\": 0.8,\n        \"max_output_tokens\": 1024\n    }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeClientEventResponseCreate > ("{\"event_id\":\"event_234\",\"response\":{\"instructions\":\"Please assist the user.\",\"max_output_tokens\":1024,\"modalities\":[\"text\",\"audio\"],\"output_audio_format\":\"pcm16\",\"temperature\":0.8,\"tool_choice\":\"auto\",\"tools\":[{\"description\":\"Calculates the sum of two numbers.\",\"name\":\"calculate_sum\",\"parameters\":{\"properties\":{\"a\":{\"type\":\"number\"},\"b\":{\"type\":\"number\"}},\"required\":[\"a\",\"b\"],\"type\":\"object\"},\"type\":\"function\"}],\"voice\":\"sage\"},\"type\":\"response.create\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_client_event_session_update() {
-        serde_json :: from_str :: < super :: RealtimeClientEventSessionUpdate > ("{\n    \"event_id\": \"event_123\",\n    \"type\": \"session.update\",\n    \"session\": {\n        \"modalities\": [\"text\", \"audio\"],\n        \"instructions\": \"You are a helpful assistant.\",\n        \"voice\": \"sage\",\n        \"input_audio_format\": \"pcm16\",\n        \"output_audio_format\": \"pcm16\",\n        \"input_audio_transcription\": {\n            \"model\": \"whisper-1\"\n        },\n        \"turn_detection\": {\n            \"type\": \"server_vad\",\n            \"threshold\": 0.5,\n            \"prefix_padding_ms\": 300,\n            \"silence_duration_ms\": 500,\n            \"create_response\": true\n        },\n        \"tools\": [\n            {\n                \"type\": \"function\",\n                \"name\": \"get_weather\",\n                \"description\": \"Get the current weather...\",\n                \"parameters\": {\n                    \"type\": \"object\",\n                    \"properties\": {\n                        \"location\": { \"type\": \"string\" }\n                    },\n                    \"required\": [\"location\"]\n                }\n            }\n        ],\n        \"tool_choice\": \"auto\",\n        \"temperature\": 0.8,\n        \"max_response_output_tokens\": \"inf\"\n    }\n}\n") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_client_event_transcription_session_update() {
-        serde_json :: from_str :: < super :: RealtimeClientEventTranscriptionSessionUpdate > ("{\n  \"type\": \"transcription_session.update\",\n  \"session\": {\n    \"input_audio_format\": \"pcm16\",\n    \"input_audio_transcription\": {\n      \"model\": \"gpt-4o-transcribe\",\n      \"prompt\": \"\",\n      \"language\": \"\"\n    },\n    \"turn_detection\": {\n      \"type\": \"server_vad\",\n      \"threshold\": 0.5,\n      \"prefix_padding_ms\": 300,\n      \"silence_duration_ms\": 500,\n      \"create_response\": true,\n    },\n    \"input_audio_noise_reduction\": {\n      \"type\": \"near_field\"\n    },\n    \"include\": [\n      \"item.input_audio_transcription.logprobs\",\n    ]\n  }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeClientEventSessionUpdate > ("{\"event_id\":\"event_123\",\"session\":{\"input_audio_format\":\"pcm16\",\"input_audio_transcription\":{\"model\":\"whisper-1\"},\"instructions\":\"You are a helpful assistant.\",\"max_response_output_tokens\":\"inf\",\"modalities\":[\"text\",\"audio\"],\"output_audio_format\":\"pcm16\",\"temperature\":0.8,\"tool_choice\":\"auto\",\"tools\":[{\"description\":\"Get the current weather...\",\"name\":\"get_weather\",\"parameters\":{\"properties\":{\"location\":{\"type\":\"string\"}},\"required\":[\"location\"],\"type\":\"object\"},\"type\":\"function\"}],\"turn_detection\":{\"create_response\":true,\"prefix_padding_ms\":300,\"silence_duration_ms\":500,\"threshold\":0.5,\"type\":\"server_vad\"},\"voice\":\"sage\"},\"type\":\"session.update\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_server_event_conversation_created() {
-        serde_json :: from_str :: < super :: RealtimeServerEventConversationCreated > ("{\n    \"event_id\": \"event_9101\",\n    \"type\": \"conversation.created\",\n    \"conversation\": {\n        \"id\": \"conv_001\",\n        \"object\": \"realtime.conversation\"\n    }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeServerEventConversationCreated > ("{\"conversation\":{\"id\":\"conv_001\",\"object\":\"realtime.conversation\"},\"event_id\":\"event_9101\",\"type\":\"conversation.created\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_server_event_conversation_item_created() {
-        serde_json :: from_str :: < super :: RealtimeServerEventConversationItemCreated > ("{\n    \"event_id\": \"event_1920\",\n    \"type\": \"conversation.item.created\",\n    \"previous_item_id\": \"msg_002\",\n    \"item\": {\n        \"id\": \"msg_003\",\n        \"object\": \"realtime.item\",\n        \"type\": \"message\",\n        \"status\": \"completed\",\n        \"role\": \"user\",\n        \"content\": []\n    }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeServerEventConversationItemCreated > ("{\"event_id\":\"event_1920\",\"item\":{\"content\":[],\"id\":\"msg_003\",\"object\":\"realtime.item\",\"role\":\"user\",\"status\":\"completed\",\"type\":\"message\"},\"previous_item_id\":\"msg_002\",\"type\":\"conversation.item.created\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_server_event_conversation_item_deleted() {
-        serde_json :: from_str :: < super :: RealtimeServerEventConversationItemDeleted > ("{\n    \"event_id\": \"event_2728\",\n    \"type\": \"conversation.item.deleted\",\n    \"item_id\": \"msg_005\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeServerEventConversationItemDeleted > ("{\"event_id\":\"event_2728\",\"item_id\":\"msg_005\",\"type\":\"conversation.item.deleted\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_server_event_conversation_item_input_audio_transcription_completed() {
-        serde_json :: from_str :: < super :: RealtimeServerEventConversationItemInputAudioTranscriptionCompleted > ("{\n    \"event_id\": \"event_2122\",\n    \"type\": \"conversation.item.input_audio_transcription.completed\",\n    \"item_id\": \"msg_003\",\n    \"content_index\": 0,\n    \"transcript\": \"Hello, how are you?\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeServerEventConversationItemInputAudioTranscriptionCompleted > ("{\"content_index\":0,\"event_id\":\"event_2122\",\"item_id\":\"msg_003\",\"transcript\":\"Hello, how are you?\",\"type\":\"conversation.item.input_audio_transcription.completed\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_server_event_conversation_item_input_audio_transcription_delta() {
-        serde_json :: from_str :: < super :: RealtimeServerEventConversationItemInputAudioTranscriptionDelta > ("{\n  \"type\": \"conversation.item.input_audio_transcription.delta\",\n  \"event_id\": \"event_001\",\n  \"item_id\": \"item_001\",\n  \"content_index\": 0,\n  \"delta\": \"Hello\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeServerEventConversationItemInputAudioTranscriptionDelta > ("{\"content_index\":0,\"delta\":\"Hello\",\"event_id\":\"event_001\",\"item_id\":\"item_001\",\"type\":\"conversation.item.input_audio_transcription.delta\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_server_event_conversation_item_input_audio_transcription_failed() {
-        serde_json :: from_str :: < super :: RealtimeServerEventConversationItemInputAudioTranscriptionFailed > ("{\n    \"event_id\": \"event_2324\",\n    \"type\": \"conversation.item.input_audio_transcription.failed\",\n    \"item_id\": \"msg_003\",\n    \"content_index\": 0,\n    \"error\": {\n        \"type\": \"transcription_error\",\n        \"code\": \"audio_unintelligible\",\n        \"message\": \"The audio could not be transcribed.\",\n        \"param\": null\n    }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeServerEventConversationItemInputAudioTranscriptionFailed > ("{\"content_index\":0,\"error\":{\"code\":\"audio_unintelligible\",\"message\":\"The audio could not be transcribed.\",\"param\":null,\"type\":\"transcription_error\"},\"event_id\":\"event_2324\",\"item_id\":\"msg_003\",\"type\":\"conversation.item.input_audio_transcription.failed\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_server_event_conversation_item_retrieved() {
-        serde_json :: from_str :: < super :: RealtimeServerEventConversationItemRetrieved > ("{\n    \"event_id\": \"event_1920\",\n    \"type\": \"conversation.item.created\",\n    \"previous_item_id\": \"msg_002\",\n    \"item\": {\n        \"id\": \"msg_003\",\n        \"object\": \"realtime.item\",\n        \"type\": \"message\",\n        \"status\": \"completed\",\n        \"role\": \"user\",\n        \"content\": [\n            {\n                \"type\": \"input_audio\",\n                \"transcript\": \"hello how are you\",\n                \"audio\": \"base64encodedaudio==\"\n            }\n        ]\n    }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeServerEventConversationItemRetrieved > ("{\"event_id\":\"event_1920\",\"item\":{\"content\":[{\"audio\":\"base64encodedaudio==\",\"transcript\":\"hello how are you\",\"type\":\"input_audio\"}],\"id\":\"msg_003\",\"object\":\"realtime.item\",\"role\":\"user\",\"status\":\"completed\",\"type\":\"message\"},\"previous_item_id\":\"msg_002\",\"type\":\"conversation.item.created\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_server_event_conversation_item_truncated() {
-        serde_json :: from_str :: < super :: RealtimeServerEventConversationItemTruncated > ("{\n    \"event_id\": \"event_2526\",\n    \"type\": \"conversation.item.truncated\",\n    \"item_id\": \"msg_004\",\n    \"content_index\": 0,\n    \"audio_end_ms\": 1500\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeServerEventConversationItemTruncated > ("{\"audio_end_ms\":1500,\"content_index\":0,\"event_id\":\"event_2526\",\"item_id\":\"msg_004\",\"type\":\"conversation.item.truncated\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_server_event_error() {
-        serde_json :: from_str :: < super :: RealtimeServerEventError > ("{\n    \"event_id\": \"event_890\",\n    \"type\": \"error\",\n    \"error\": {\n        \"type\": \"invalid_request_error\",\n        \"code\": \"invalid_event\",\n        \"message\": \"The 'type' field is missing.\",\n        \"param\": null,\n        \"event_id\": \"event_567\"\n    }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeServerEventError > ("{\"error\":{\"code\":\"invalid_event\",\"event_id\":\"event_567\",\"message\":\"The 'type' field is missing.\",\"param\":null,\"type\":\"invalid_request_error\"},\"event_id\":\"event_890\",\"type\":\"error\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_server_event_input_audio_buffer_cleared() {
-        serde_json :: from_str :: < super :: RealtimeServerEventInputAudioBufferCleared > ("{\n    \"event_id\": \"event_1314\",\n    \"type\": \"input_audio_buffer.cleared\"\n}\n") . unwrap () ;
+        serde_json::from_str::<super::RealtimeServerEventInputAudioBufferCleared>(
+            "{\"event_id\":\"event_1314\",\"type\":\"input_audio_buffer.cleared\"}",
+        )
+        .unwrap();
     }
     #[test]
     fn test_realtime_server_event_input_audio_buffer_committed() {
-        serde_json :: from_str :: < super :: RealtimeServerEventInputAudioBufferCommitted > ("{\n    \"event_id\": \"event_1121\",\n    \"type\": \"input_audio_buffer.committed\",\n    \"previous_item_id\": \"msg_001\",\n    \"item_id\": \"msg_002\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeServerEventInputAudioBufferCommitted > ("{\"event_id\":\"event_1121\",\"item_id\":\"msg_002\",\"previous_item_id\":\"msg_001\",\"type\":\"input_audio_buffer.committed\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_server_event_input_audio_buffer_speech_started() {
-        serde_json :: from_str :: < super :: RealtimeServerEventInputAudioBufferSpeechStarted > ("{\n    \"event_id\": \"event_1516\",\n    \"type\": \"input_audio_buffer.speech_started\",\n    \"audio_start_ms\": 1000,\n    \"item_id\": \"msg_003\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeServerEventInputAudioBufferSpeechStarted > ("{\"audio_start_ms\":1000,\"event_id\":\"event_1516\",\"item_id\":\"msg_003\",\"type\":\"input_audio_buffer.speech_started\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_server_event_input_audio_buffer_speech_stopped() {
-        serde_json :: from_str :: < super :: RealtimeServerEventInputAudioBufferSpeechStopped > ("{\n    \"event_id\": \"event_1718\",\n    \"type\": \"input_audio_buffer.speech_stopped\",\n    \"audio_end_ms\": 2000,\n    \"item_id\": \"msg_003\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeServerEventInputAudioBufferSpeechStopped > ("{\"audio_end_ms\":2000,\"event_id\":\"event_1718\",\"item_id\":\"msg_003\",\"type\":\"input_audio_buffer.speech_stopped\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_server_event_output_audio_buffer_cleared() {
-        serde_json :: from_str :: < super :: RealtimeServerEventOutputAudioBufferCleared > ("{\n    \"event_id\": \"event_abc123\",\n    \"type\": \"output_audio_buffer.cleared\",\n    \"response_id\": \"resp_abc123\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeServerEventOutputAudioBufferCleared > ("{\"event_id\":\"event_abc123\",\"response_id\":\"resp_abc123\",\"type\":\"output_audio_buffer.cleared\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_server_event_output_audio_buffer_started() {
-        serde_json :: from_str :: < super :: RealtimeServerEventOutputAudioBufferStarted > ("{\n    \"event_id\": \"event_abc123\",\n    \"type\": \"output_audio_buffer.started\",\n    \"response_id\": \"resp_abc123\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeServerEventOutputAudioBufferStarted > ("{\"event_id\":\"event_abc123\",\"response_id\":\"resp_abc123\",\"type\":\"output_audio_buffer.started\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_server_event_output_audio_buffer_stopped() {
-        serde_json :: from_str :: < super :: RealtimeServerEventOutputAudioBufferStopped > ("{\n    \"event_id\": \"event_abc123\",\n    \"type\": \"output_audio_buffer.stopped\",\n    \"response_id\": \"resp_abc123\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeServerEventOutputAudioBufferStopped > ("{\"event_id\":\"event_abc123\",\"response_id\":\"resp_abc123\",\"type\":\"output_audio_buffer.stopped\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_server_event_rate_limits_updated() {
-        serde_json :: from_str :: < super :: RealtimeServerEventRateLimitsUpdated > ("{\n    \"event_id\": \"event_5758\",\n    \"type\": \"rate_limits.updated\",\n    \"rate_limits\": [\n        {\n            \"name\": \"requests\",\n            \"limit\": 1000,\n            \"remaining\": 999,\n            \"reset_seconds\": 60\n        },\n        {\n            \"name\": \"tokens\",\n            \"limit\": 50000,\n            \"remaining\": 49950,\n            \"reset_seconds\": 60\n        }\n    ]\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeServerEventRateLimitsUpdated > ("{\"event_id\":\"event_5758\",\"rate_limits\":[{\"limit\":1000,\"name\":\"requests\",\"remaining\":999,\"reset_seconds\":60},{\"limit\":50000,\"name\":\"tokens\",\"remaining\":49950,\"reset_seconds\":60}],\"type\":\"rate_limits.updated\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_server_event_response_audio_delta() {
-        serde_json :: from_str :: < super :: RealtimeServerEventResponseAudioDelta > ("{\n    \"event_id\": \"event_4950\",\n    \"type\": \"response.audio.delta\",\n    \"response_id\": \"resp_001\",\n    \"item_id\": \"msg_008\",\n    \"output_index\": 0,\n    \"content_index\": 0,\n    \"delta\": \"Base64EncodedAudioDelta\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeServerEventResponseAudioDelta > ("{\"content_index\":0,\"delta\":\"Base64EncodedAudioDelta\",\"event_id\":\"event_4950\",\"item_id\":\"msg_008\",\"output_index\":0,\"response_id\":\"resp_001\",\"type\":\"response.audio.delta\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_server_event_response_audio_done() {
-        serde_json :: from_str :: < super :: RealtimeServerEventResponseAudioDone > ("{\n    \"event_id\": \"event_5152\",\n    \"type\": \"response.audio.done\",\n    \"response_id\": \"resp_001\",\n    \"item_id\": \"msg_008\",\n    \"output_index\": 0,\n    \"content_index\": 0\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeServerEventResponseAudioDone > ("{\"content_index\":0,\"event_id\":\"event_5152\",\"item_id\":\"msg_008\",\"output_index\":0,\"response_id\":\"resp_001\",\"type\":\"response.audio.done\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_server_event_response_audio_transcript_delta() {
-        serde_json :: from_str :: < super :: RealtimeServerEventResponseAudioTranscriptDelta > ("{\n    \"event_id\": \"event_4546\",\n    \"type\": \"response.audio_transcript.delta\",\n    \"response_id\": \"resp_001\",\n    \"item_id\": \"msg_008\",\n    \"output_index\": 0,\n    \"content_index\": 0,\n    \"delta\": \"Hello, how can I a\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeServerEventResponseAudioTranscriptDelta > ("{\"content_index\":0,\"delta\":\"Hello, how can I a\",\"event_id\":\"event_4546\",\"item_id\":\"msg_008\",\"output_index\":0,\"response_id\":\"resp_001\",\"type\":\"response.audio_transcript.delta\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_server_event_response_audio_transcript_done() {
-        serde_json :: from_str :: < super :: RealtimeServerEventResponseAudioTranscriptDone > ("{\n    \"event_id\": \"event_4748\",\n    \"type\": \"response.audio_transcript.done\",\n    \"response_id\": \"resp_001\",\n    \"item_id\": \"msg_008\",\n    \"output_index\": 0,\n    \"content_index\": 0,\n    \"transcript\": \"Hello, how can I assist you today?\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeServerEventResponseAudioTranscriptDone > ("{\"content_index\":0,\"event_id\":\"event_4748\",\"item_id\":\"msg_008\",\"output_index\":0,\"response_id\":\"resp_001\",\"transcript\":\"Hello, how can I assist you today?\",\"type\":\"response.audio_transcript.done\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_server_event_response_content_part_added() {
-        serde_json :: from_str :: < super :: RealtimeServerEventResponseContentPartAdded > ("{\n    \"event_id\": \"event_3738\",\n    \"type\": \"response.content_part.added\",\n    \"response_id\": \"resp_001\",\n    \"item_id\": \"msg_007\",\n    \"output_index\": 0,\n    \"content_index\": 0,\n    \"part\": {\n        \"type\": \"text\",\n        \"text\": \"\"\n    }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeServerEventResponseContentPartAdded > ("{\"content_index\":0,\"event_id\":\"event_3738\",\"item_id\":\"msg_007\",\"output_index\":0,\"part\":{\"text\":\"\",\"type\":\"text\"},\"response_id\":\"resp_001\",\"type\":\"response.content_part.added\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_server_event_response_content_part_done() {
-        serde_json :: from_str :: < super :: RealtimeServerEventResponseContentPartDone > ("{\n    \"event_id\": \"event_3940\",\n    \"type\": \"response.content_part.done\",\n    \"response_id\": \"resp_001\",\n    \"item_id\": \"msg_007\",\n    \"output_index\": 0,\n    \"content_index\": 0,\n    \"part\": {\n        \"type\": \"text\",\n        \"text\": \"Sure, I can help with that.\"\n    }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeServerEventResponseContentPartDone > ("{\"content_index\":0,\"event_id\":\"event_3940\",\"item_id\":\"msg_007\",\"output_index\":0,\"part\":{\"text\":\"Sure, I can help with that.\",\"type\":\"text\"},\"response_id\":\"resp_001\",\"type\":\"response.content_part.done\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_server_event_response_created() {
-        serde_json :: from_str :: < super :: RealtimeServerEventResponseCreated > ("{\n    \"event_id\": \"event_2930\",\n    \"type\": \"response.created\",\n    \"response\": {\n        \"id\": \"resp_001\",\n        \"object\": \"realtime.response\",\n        \"status\": \"in_progress\",\n        \"status_details\": null,\n        \"output\": [],\n        \"usage\": null\n    }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeServerEventResponseCreated > ("{\"event_id\":\"event_2930\",\"response\":{\"id\":\"resp_001\",\"object\":\"realtime.response\",\"output\":[],\"status\":\"in_progress\",\"status_details\":null,\"usage\":null},\"type\":\"response.created\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_server_event_response_done() {
-        serde_json :: from_str :: < super :: RealtimeServerEventResponseDone > ("{\n    \"event_id\": \"event_3132\",\n    \"type\": \"response.done\",\n    \"response\": {\n        \"id\": \"resp_001\",\n        \"object\": \"realtime.response\",\n        \"status\": \"completed\",\n        \"status_details\": null,\n        \"output\": [\n            {\n                \"id\": \"msg_006\",\n                \"object\": \"realtime.item\",\n                \"type\": \"message\",\n                \"status\": \"completed\",\n                \"role\": \"assistant\",\n                \"content\": [\n                    {\n                        \"type\": \"text\",\n                        \"text\": \"Sure, how can I assist you today?\"\n                    }\n                ]\n            }\n        ],\n        \"usage\": {\n            \"total_tokens\":275,\n            \"input_tokens\":127,\n            \"output_tokens\":148,\n            \"input_token_details\": {\n                \"cached_tokens\":384,\n                \"text_tokens\":119,\n                \"audio_tokens\":8,\n                \"cached_tokens_details\": {\n                    \"text_tokens\": 128,\n                    \"audio_tokens\": 256\n                }\n            },\n            \"output_token_details\": {\n              \"text_tokens\":36,\n              \"audio_tokens\":112\n            }\n        }\n    }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeServerEventResponseDone > ("{\"event_id\":\"event_3132\",\"response\":{\"id\":\"resp_001\",\"object\":\"realtime.response\",\"output\":[{\"content\":[{\"text\":\"Sure, how can I assist you today?\",\"type\":\"text\"}],\"id\":\"msg_006\",\"object\":\"realtime.item\",\"role\":\"assistant\",\"status\":\"completed\",\"type\":\"message\"}],\"status\":\"completed\",\"status_details\":null,\"usage\":{\"input_token_details\":{\"audio_tokens\":8,\"cached_tokens\":384,\"cached_tokens_details\":{\"audio_tokens\":256,\"text_tokens\":128},\"text_tokens\":119},\"input_tokens\":127,\"output_token_details\":{\"audio_tokens\":112,\"text_tokens\":36},\"output_tokens\":148,\"total_tokens\":275}},\"type\":\"response.done\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_server_event_response_function_call_arguments_delta() {
-        serde_json :: from_str :: < super :: RealtimeServerEventResponseFunctionCallArgumentsDelta > ("{\n    \"event_id\": \"event_5354\",\n    \"type\": \"response.function_call_arguments.delta\",\n    \"response_id\": \"resp_002\",\n    \"item_id\": \"fc_001\",\n    \"output_index\": 0,\n    \"call_id\": \"call_001\",\n    \"delta\": \"{\\\"location\\\": \\\"San\\\"\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeServerEventResponseFunctionCallArgumentsDelta > ("{\"call_id\":\"call_001\",\"delta\":\"{\\\"location\\\": \\\"San\\\"\",\"event_id\":\"event_5354\",\"item_id\":\"fc_001\",\"output_index\":0,\"response_id\":\"resp_002\",\"type\":\"response.function_call_arguments.delta\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_server_event_response_function_call_arguments_done() {
-        serde_json :: from_str :: < super :: RealtimeServerEventResponseFunctionCallArgumentsDone > ("{\n    \"event_id\": \"event_5556\",\n    \"type\": \"response.function_call_arguments.done\",\n    \"response_id\": \"resp_002\",\n    \"item_id\": \"fc_001\",\n    \"output_index\": 0,\n    \"call_id\": \"call_001\",\n    \"arguments\": \"{\\\"location\\\": \\\"San Francisco\\\"}\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeServerEventResponseFunctionCallArgumentsDone > ("{\"arguments\":\"{\\\"location\\\": \\\"San Francisco\\\"}\",\"call_id\":\"call_001\",\"event_id\":\"event_5556\",\"item_id\":\"fc_001\",\"output_index\":0,\"response_id\":\"resp_002\",\"type\":\"response.function_call_arguments.done\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_server_event_response_output_item_added() {
-        serde_json :: from_str :: < super :: RealtimeServerEventResponseOutputItemAdded > ("{\n    \"event_id\": \"event_3334\",\n    \"type\": \"response.output_item.added\",\n    \"response_id\": \"resp_001\",\n    \"output_index\": 0,\n    \"item\": {\n        \"id\": \"msg_007\",\n        \"object\": \"realtime.item\",\n        \"type\": \"message\",\n        \"status\": \"in_progress\",\n        \"role\": \"assistant\",\n        \"content\": []\n    }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeServerEventResponseOutputItemAdded > ("{\"event_id\":\"event_3334\",\"item\":{\"content\":[],\"id\":\"msg_007\",\"object\":\"realtime.item\",\"role\":\"assistant\",\"status\":\"in_progress\",\"type\":\"message\"},\"output_index\":0,\"response_id\":\"resp_001\",\"type\":\"response.output_item.added\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_server_event_response_output_item_done() {
-        serde_json :: from_str :: < super :: RealtimeServerEventResponseOutputItemDone > ("{\n    \"event_id\": \"event_3536\",\n    \"type\": \"response.output_item.done\",\n    \"response_id\": \"resp_001\",\n    \"output_index\": 0,\n    \"item\": {\n        \"id\": \"msg_007\",\n        \"object\": \"realtime.item\",\n        \"type\": \"message\",\n        \"status\": \"completed\",\n        \"role\": \"assistant\",\n        \"content\": [\n            {\n                \"type\": \"text\",\n                \"text\": \"Sure, I can help with that.\"\n            }\n        ]\n    }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeServerEventResponseOutputItemDone > ("{\"event_id\":\"event_3536\",\"item\":{\"content\":[{\"text\":\"Sure, I can help with that.\",\"type\":\"text\"}],\"id\":\"msg_007\",\"object\":\"realtime.item\",\"role\":\"assistant\",\"status\":\"completed\",\"type\":\"message\"},\"output_index\":0,\"response_id\":\"resp_001\",\"type\":\"response.output_item.done\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_server_event_response_text_delta() {
-        serde_json :: from_str :: < super :: RealtimeServerEventResponseTextDelta > ("{\n    \"event_id\": \"event_4142\",\n    \"type\": \"response.text.delta\",\n    \"response_id\": \"resp_001\",\n    \"item_id\": \"msg_007\",\n    \"output_index\": 0,\n    \"content_index\": 0,\n    \"delta\": \"Sure, I can h\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeServerEventResponseTextDelta > ("{\"content_index\":0,\"delta\":\"Sure, I can h\",\"event_id\":\"event_4142\",\"item_id\":\"msg_007\",\"output_index\":0,\"response_id\":\"resp_001\",\"type\":\"response.text.delta\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_server_event_response_text_done() {
-        serde_json :: from_str :: < super :: RealtimeServerEventResponseTextDone > ("{\n    \"event_id\": \"event_4344\",\n    \"type\": \"response.text.done\",\n    \"response_id\": \"resp_001\",\n    \"item_id\": \"msg_007\",\n    \"output_index\": 0,\n    \"content_index\": 0,\n    \"text\": \"Sure, I can help with that.\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeServerEventResponseTextDone > ("{\"content_index\":0,\"event_id\":\"event_4344\",\"item_id\":\"msg_007\",\"output_index\":0,\"response_id\":\"resp_001\",\"text\":\"Sure, I can help with that.\",\"type\":\"response.text.done\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_server_event_session_created() {
-        serde_json :: from_str :: < super :: RealtimeServerEventSessionCreated > ("{\n    \"event_id\": \"event_1234\",\n    \"type\": \"session.created\",\n    \"session\": {\n        \"id\": \"sess_001\",\n        \"object\": \"realtime.session\",\n        \"model\": \"gpt-4o-realtime-preview\",\n        \"modalities\": [\"text\", \"audio\"],\n        \"instructions\": \"...model instructions here...\",\n        \"voice\": \"sage\",\n        \"input_audio_format\": \"pcm16\",\n        \"output_audio_format\": \"pcm16\",\n        \"input_audio_transcription\": null,\n        \"turn_detection\": {\n            \"type\": \"server_vad\",\n            \"threshold\": 0.5,\n            \"prefix_padding_ms\": 300,\n            \"silence_duration_ms\": 200\n        },\n        \"tools\": [],\n        \"tool_choice\": \"auto\",\n        \"temperature\": 0.8,\n        \"max_response_output_tokens\": \"inf\"\n    }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeServerEventSessionCreated > ("{\"event_id\":\"event_1234\",\"session\":{\"id\":\"sess_001\",\"input_audio_format\":\"pcm16\",\"input_audio_transcription\":null,\"instructions\":\"...model instructions here...\",\"max_response_output_tokens\":\"inf\",\"modalities\":[\"text\",\"audio\"],\"model\":\"gpt-4o-realtime-preview\",\"object\":\"realtime.session\",\"output_audio_format\":\"pcm16\",\"temperature\":0.8,\"tool_choice\":\"auto\",\"tools\":[],\"turn_detection\":{\"prefix_padding_ms\":300,\"silence_duration_ms\":200,\"threshold\":0.5,\"type\":\"server_vad\"},\"voice\":\"sage\"},\"type\":\"session.created\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_server_event_session_updated() {
-        serde_json :: from_str :: < super :: RealtimeServerEventSessionUpdated > ("{\n    \"event_id\": \"event_5678\",\n    \"type\": \"session.updated\",\n    \"session\": {\n        \"id\": \"sess_001\",\n        \"object\": \"realtime.session\",\n        \"model\": \"gpt-4o-realtime-preview\",\n        \"modalities\": [\"text\"],\n        \"instructions\": \"New instructions\",\n        \"voice\": \"sage\",\n        \"input_audio_format\": \"pcm16\",\n        \"output_audio_format\": \"pcm16\",\n        \"input_audio_transcription\": {\n            \"model\": \"whisper-1\"\n        },\n        \"turn_detection\": null,\n        \"tools\": [],\n        \"tool_choice\": \"none\",\n        \"temperature\": 0.7,\n        \"max_response_output_tokens\": 200\n    }\n}\n") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_server_event_transcription_session_updated() {
-        serde_json :: from_str :: < super :: RealtimeServerEventTranscriptionSessionUpdated > ("{\n  \"event_id\": \"event_5678\",\n  \"type\": \"transcription_session.updated\",\n  \"session\": {\n    \"id\": \"sess_001\",\n    \"object\": \"realtime.transcription_session\",\n    \"input_audio_format\": \"pcm16\",\n    \"input_audio_transcription\": {\n      \"model\": \"gpt-4o-transcribe\",\n      \"prompt\": \"\",\n      \"language\": \"\"\n    },\n    \"turn_detection\": {\n      \"type\": \"server_vad\",\n      \"threshold\": 0.5,\n      \"prefix_padding_ms\": 300,\n      \"silence_duration_ms\": 500,\n      \"create_response\": true,\n      // \"interrupt_response\": false  -- this will NOT be returned\n    },\n    \"input_audio_noise_reduction\": {\n      \"type\": \"near_field\"\n    },\n    \"include\": [\n      \"item.input_audio_transcription.avg_logprob\",\n    ],\n  }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeServerEventSessionUpdated > ("{\"event_id\":\"event_5678\",\"session\":{\"id\":\"sess_001\",\"input_audio_format\":\"pcm16\",\"input_audio_transcription\":{\"model\":\"whisper-1\"},\"instructions\":\"New instructions\",\"max_response_output_tokens\":200,\"modalities\":[\"text\"],\"model\":\"gpt-4o-realtime-preview\",\"object\":\"realtime.session\",\"output_audio_format\":\"pcm16\",\"temperature\":0.7,\"tool_choice\":\"none\",\"tools\":[],\"turn_detection\":null,\"voice\":\"sage\"},\"type\":\"session.updated\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_session_create_response() {
-        serde_json :: from_str :: < super :: RealtimeSessionCreateResponse > ("{\n  \"id\": \"sess_001\",\n  \"object\": \"realtime.session\",\n  \"model\": \"gpt-4o-realtime-preview\",\n  \"modalities\": [\"audio\", \"text\"],\n  \"instructions\": \"You are a friendly assistant.\",\n  \"voice\": \"alloy\",\n  \"input_audio_format\": \"pcm16\",\n  \"output_audio_format\": \"pcm16\",\n  \"input_audio_transcription\": {\n      \"model\": \"whisper-1\"\n  },\n  \"turn_detection\": null,\n  \"tools\": [],\n  \"tool_choice\": \"none\",\n  \"temperature\": 0.7,\n  \"max_response_output_tokens\": 200,\n  \"client_secret\": {\n    \"value\": \"ek_abc123\", \n    \"expires_at\": 1234567890\n  }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeSessionCreateResponse > ("{\"client_secret\":{\"expires_at\":1234567890,\"value\":\"ek_abc123\"},\"id\":\"sess_001\",\"input_audio_format\":\"pcm16\",\"input_audio_transcription\":{\"model\":\"whisper-1\"},\"instructions\":\"You are a friendly assistant.\",\"max_response_output_tokens\":200,\"modalities\":[\"audio\",\"text\"],\"model\":\"gpt-4o-realtime-preview\",\"object\":\"realtime.session\",\"output_audio_format\":\"pcm16\",\"temperature\":0.7,\"tool_choice\":\"none\",\"tools\":[],\"turn_detection\":null,\"voice\":\"alloy\"}") . unwrap () ;
     }
     #[test]
     fn test_realtime_transcription_session_create_response() {
-        serde_json :: from_str :: < super :: RealtimeTranscriptionSessionCreateResponse > ("{\n  \"id\": \"sess_BBwZc7cFV3XizEyKGDCGL\",\n  \"object\": \"realtime.transcription_session\",\n  \"expires_at\": 1742188264,\n  \"modalities\": [\"audio\", \"text\"],\n  \"turn_detection\": {\n    \"type\": \"server_vad\",\n    \"threshold\": 0.5,\n    \"prefix_padding_ms\": 300,\n    \"silence_duration_ms\": 200\n  },\n  \"input_audio_format\": \"pcm16\",\n  \"input_audio_transcription\": {\n    \"model\": \"gpt-4o-transcribe\",\n    \"language\": null,\n    \"prompt\": \"\"\n  },\n  \"client_secret\": null\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RealtimeTranscriptionSessionCreateResponse > ("{\"client_secret\":null,\"expires_at\":1742188264,\"id\":\"sess_BBwZc7cFV3XizEyKGDCGL\",\"input_audio_format\":\"pcm16\",\"input_audio_transcription\":{\"language\":null,\"model\":\"gpt-4o-transcribe\",\"prompt\":\"\"},\"modalities\":[\"audio\",\"text\"],\"object\":\"realtime.transcription_session\",\"turn_detection\":{\"prefix_padding_ms\":300,\"silence_duration_ms\":200,\"threshold\":0.5,\"type\":\"server_vad\"}}") . unwrap () ;
     }
     #[test]
     fn test_response_audio_delta_event() {
-        serde_json :: from_str :: < super :: ResponseAudioDeltaEvent > ("{\n  \"type\": \"response.audio.delta\",\n  \"response_id\": \"resp_123\",\n  \"delta\": \"base64encoded...\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: ResponseAudioDeltaEvent > ("{\"delta\":\"base64encoded...\",\"response_id\":\"resp_123\",\"type\":\"response.audio.delta\"}") . unwrap () ;
     }
     #[test]
     fn test_response_audio_done_event() {
         serde_json::from_str::<super::ResponseAudioDoneEvent>(
-            "{\n  \"type\": \"response.audio.done\",\n  \"response_id\": \"resp-123\"\n}\n",
+            "{\"response_id\":\"resp-123\",\"type\":\"response.audio.done\"}",
         )
         .unwrap();
     }
     #[test]
     fn test_response_audio_transcript_delta_event() {
-        serde_json :: from_str :: < super :: ResponseAudioTranscriptDeltaEvent > ("{\n  \"type\": \"response.audio.transcript.delta\",\n  \"response_id\": \"resp_123\",\n  \"delta\": \" ... partial transcript ... \"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: ResponseAudioTranscriptDeltaEvent > ("{\"delta\":\" ... partial transcript ... \",\"response_id\":\"resp_123\",\"type\":\"response.audio.transcript.delta\"}") . unwrap () ;
     }
     #[test]
     fn test_response_audio_transcript_done_event() {
-        serde_json :: from_str :: < super :: ResponseAudioTranscriptDoneEvent > ("{\n  \"type\": \"response.audio.transcript.done\",\n  \"response_id\": \"resp_123\"\n}\n") . unwrap () ;
+        serde_json::from_str::<super::ResponseAudioTranscriptDoneEvent>(
+            "{\"response_id\":\"resp_123\",\"type\":\"response.audio.transcript.done\"}",
+        )
+        .unwrap();
     }
     #[test]
     fn test_response_code_interpreter_call_code_delta_event() {
-        serde_json :: from_str :: < super :: ResponseCodeInterpreterCallCodeDeltaEvent > ("{\n  \"type\": \"response.code_interpreter_call.code.delta\",\n  \"response_id\": \"resp-123\",\n  \"output_index\": 0,\n  \"delta\": \"partial code\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: ResponseCodeInterpreterCallCodeDeltaEvent > ("{\"delta\":\"partial code\",\"output_index\":0,\"response_id\":\"resp-123\",\"type\":\"response.code_interpreter_call.code.delta\"}") . unwrap () ;
     }
     #[test]
     fn test_response_code_interpreter_call_code_done_event() {
-        serde_json :: from_str :: < super :: ResponseCodeInterpreterCallCodeDoneEvent > ("{\n  \"type\": \"response.code_interpreter_call.code.done\",\n  \"response_id\": \"resp-123\",\n  \"output_index\": 3,\n  \"code\": \"console.log('done');\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: ResponseCodeInterpreterCallCodeDoneEvent > ("{\"code\":\"console.log('done');\",\"output_index\":3,\"response_id\":\"resp-123\",\"type\":\"response.code_interpreter_call.code.done\"}") . unwrap () ;
     }
     #[test]
     fn test_response_code_interpreter_call_completed_event() {
-        serde_json :: from_str :: < super :: ResponseCodeInterpreterCallCompletedEvent > ("{\n  \"type\": \"response.code_interpreter_call.completed\",\n  \"response_id\": \"resp-123\",\n  \"output_index\": 5,\n  \"code_interpreter_call\": {}\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: ResponseCodeInterpreterCallCompletedEvent > ("{\"code_interpreter_call\":{},\"output_index\":5,\"response_id\":\"resp-123\",\"type\":\"response.code_interpreter_call.completed\"}") . unwrap () ;
     }
     #[test]
     fn test_response_code_interpreter_call_in_progress_event() {
-        serde_json :: from_str :: < super :: ResponseCodeInterpreterCallInProgressEvent > ("{\n  \"type\": \"response.code_interpreter_call.in.progress\",\n  \"response_id\": \"resp-123\",\n  \"output_index\": 0,\n  \"code_interpreter_call\": {}\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: ResponseCodeInterpreterCallInProgressEvent > ("{\"code_interpreter_call\":{},\"output_index\":0,\"response_id\":\"resp-123\",\"type\":\"response.code_interpreter_call.in.progress\"}") . unwrap () ;
     }
     #[test]
     fn test_response_code_interpreter_call_interpreting_event() {
-        serde_json :: from_str :: < super :: ResponseCodeInterpreterCallInterpretingEvent > ("{\n  \"type\": \"response.code_interpreter_call.interpreting\",\n  \"response_id\": \"resp-123\",\n  \"output_index\": 4,\n  \"code_interpreter_call\": {}\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: ResponseCodeInterpreterCallInterpretingEvent > ("{\"code_interpreter_call\":{},\"output_index\":4,\"response_id\":\"resp-123\",\"type\":\"response.code_interpreter_call.interpreting\"}") . unwrap () ;
     }
     #[test]
     fn test_response_completed_event() {
-        serde_json :: from_str :: < super :: ResponseCompletedEvent > ("{\n  \"type\": \"response.completed\",\n  \"response\": {\n    \"id\": \"resp_123\",\n    \"object\": \"response\",\n    \"created_at\": 1740855869,\n    \"status\": \"completed\",\n    \"error\": null,\n    \"incomplete_details\": null,\n    \"input\": [],\n    \"instructions\": null,\n    \"max_output_tokens\": null,\n    \"model\": \"gpt-4o-mini-2024-07-18\",\n    \"output\": [\n      {\n        \"id\": \"msg_123\",\n        \"type\": \"message\",\n        \"role\": \"assistant\",\n        \"content\": [\n          {\n            \"type\": \"output_text\",\n            \"text\": \"In a shimmering forest under a sky full of stars, a lonely unicorn named Lila discovered a hidden pond that glowed with moonlight. Every night, she would leave sparkling, magical flowers by the water's edge, hoping to share her beauty with others. One enchanting evening, she woke to find a group of friendly animals gathered around, eager to be friends and share in her magic.\",\n            \"annotations\": []\n          }\n        ]\n      }\n    ],\n    \"previous_response_id\": null,\n    \"reasoning_effort\": null,\n    \"store\": false,\n    \"temperature\": 1,\n    \"text\": {\n      \"format\": {\n        \"type\": \"text\"\n      }\n    },\n    \"tool_choice\": \"auto\",\n    \"tools\": [],\n    \"top_p\": 1,\n    \"truncation\": \"disabled\",\n    \"usage\": {\n      \"input_tokens\": 0,\n      \"output_tokens\": 0,\n      \"output_tokens_details\": {\n        \"reasoning_tokens\": 0\n      },\n      \"total_tokens\": 0\n    },\n    \"user\": null,\n    \"metadata\": {}\n  }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: ResponseCompletedEvent > ("{\"response\":{\"created_at\":1740855869,\"error\":null,\"id\":\"resp_123\",\"incomplete_details\":null,\"input\":[],\"instructions\":null,\"max_output_tokens\":null,\"metadata\":{},\"model\":\"gpt-4o-mini-2024-07-18\",\"object\":\"response\",\"output\":[{\"content\":[{\"annotations\":[],\"text\":\"In a shimmering forest under a sky full of stars, a lonely unicorn named Lila discovered a hidden pond that glowed with moonlight. Every night, she would leave sparkling, magical flowers by the water's edge, hoping to share her beauty with others. One enchanting evening, she woke to find a group of friendly animals gathered around, eager to be friends and share in her magic.\",\"type\":\"output_text\"}],\"id\":\"msg_123\",\"role\":\"assistant\",\"type\":\"message\"}],\"previous_response_id\":null,\"reasoning_effort\":null,\"status\":\"completed\",\"store\":false,\"temperature\":1,\"text\":{\"format\":{\"type\":\"text\"}},\"tool_choice\":\"auto\",\"tools\":[],\"top_p\":1,\"truncation\":\"disabled\",\"usage\":{\"input_tokens\":0,\"output_tokens\":0,\"output_tokens_details\":{\"reasoning_tokens\":0},\"total_tokens\":0},\"user\":null},\"type\":\"response.completed\"}") . unwrap () ;
     }
     #[test]
     fn test_response_content_part_added_event() {
-        serde_json :: from_str :: < super :: ResponseContentPartAddedEvent > ("{\n  \"type\": \"response.content_part.added\",\n  \"item_id\": \"msg_123\",\n  \"output_index\": 0,\n  \"content_index\": 0,\n  \"part\": {\n    \"type\": \"output_text\",\n    \"text\": \"\",\n    \"annotations\": []\n  }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: ResponseContentPartAddedEvent > ("{\"content_index\":0,\"item_id\":\"msg_123\",\"output_index\":0,\"part\":{\"annotations\":[],\"text\":\"\",\"type\":\"output_text\"},\"type\":\"response.content_part.added\"}") . unwrap () ;
     }
     #[test]
     fn test_response_content_part_done_event() {
-        serde_json :: from_str :: < super :: ResponseContentPartDoneEvent > ("{\n  \"type\": \"response.content_part.done\",\n  \"item_id\": \"msg_123\",\n  \"output_index\": 0,\n  \"content_index\": 0,\n  \"part\": {\n    \"type\": \"output_text\",\n    \"text\": \"In a shimmering forest under a sky full of stars, a lonely unicorn named Lila discovered a hidden pond that glowed with moonlight. Every night, she would leave sparkling, magical flowers by the water's edge, hoping to share her beauty with others. One enchanting evening, she woke to find a group of friendly animals gathered around, eager to be friends and share in her magic.\",\n    \"annotations\": []\n  }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: ResponseContentPartDoneEvent > ("{\"content_index\":0,\"item_id\":\"msg_123\",\"output_index\":0,\"part\":{\"annotations\":[],\"text\":\"In a shimmering forest under a sky full of stars, a lonely unicorn named Lila discovered a hidden pond that glowed with moonlight. Every night, she would leave sparkling, magical flowers by the water's edge, hoping to share her beauty with others. One enchanting evening, she woke to find a group of friendly animals gathered around, eager to be friends and share in her magic.\",\"type\":\"output_text\"},\"type\":\"response.content_part.done\"}") . unwrap () ;
     }
     #[test]
     fn test_response_created_event() {
-        serde_json :: from_str :: < super :: ResponseCreatedEvent > ("{\n  \"type\": \"response.created\",\n  \"response\": {\n    \"id\": \"resp_67ccfcdd16748190a91872c75d38539e09e4d4aac714747c\",\n    \"object\": \"response\",\n    \"created_at\": 1741487325,\n    \"status\": \"in_progress\",\n    \"error\": null,\n    \"incomplete_details\": null,\n    \"instructions\": null,\n    \"max_output_tokens\": null,\n    \"model\": \"gpt-4o-2024-08-06\",\n    \"output\": [],\n    \"parallel_tool_calls\": true,\n    \"previous_response_id\": null,\n    \"reasoning\": {\n      \"effort\": null,\n      \"summary\": null\n    },\n    \"store\": true,\n    \"temperature\": 1,\n    \"text\": {\n      \"format\": {\n        \"type\": \"text\"\n      }\n    },\n    \"tool_choice\": \"auto\",\n    \"tools\": [],\n    \"top_p\": 1,\n    \"truncation\": \"disabled\",\n    \"usage\": null,\n    \"user\": null,\n    \"metadata\": {}\n  }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: ResponseCreatedEvent > ("{\"response\":{\"created_at\":1741487325,\"error\":null,\"id\":\"resp_67ccfcdd16748190a91872c75d38539e09e4d4aac714747c\",\"incomplete_details\":null,\"instructions\":null,\"max_output_tokens\":null,\"metadata\":{},\"model\":\"gpt-4o-2024-08-06\",\"object\":\"response\",\"output\":[],\"parallel_tool_calls\":true,\"previous_response_id\":null,\"reasoning\":{\"effort\":null,\"summary\":null},\"status\":\"in_progress\",\"store\":true,\"temperature\":1,\"text\":{\"format\":{\"type\":\"text\"}},\"tool_choice\":\"auto\",\"tools\":[],\"top_p\":1,\"truncation\":\"disabled\",\"usage\":null,\"user\":null},\"type\":\"response.created\"}") . unwrap () ;
     }
     #[test]
     fn test_response_error_event() {
-        serde_json :: from_str :: < super :: ResponseErrorEvent > ("{\n  \"type\": \"error\",\n  \"code\": \"ERR_SOMETHING\",\n  \"message\": \"Something went wrong\",\n  \"param\": null\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: ResponseErrorEvent > ("{\"code\":\"ERR_SOMETHING\",\"message\":\"Something went wrong\",\"param\":null,\"type\":\"error\"}") . unwrap () ;
     }
     #[test]
     fn test_response_failed_event() {
-        serde_json :: from_str :: < super :: ResponseFailedEvent > ("{\n  \"type\": \"response.failed\",\n  \"response\": {\n    \"id\": \"resp_123\",\n    \"object\": \"response\",\n    \"created_at\": 1740855869,\n    \"status\": \"failed\",\n    \"error\": {\n      \"code\": \"server_error\",\n      \"message\": \"The model failed to generate a response.\"\n    },\n    \"incomplete_details\": null,\n    \"instructions\": null,\n    \"max_output_tokens\": null,\n    \"model\": \"gpt-4o-mini-2024-07-18\",\n    \"output\": [],\n    \"previous_response_id\": null,\n    \"reasoning_effort\": null,\n    \"store\": false,\n    \"temperature\": 1,\n    \"text\": {\n      \"format\": {\n        \"type\": \"text\"\n      }\n    },\n    \"tool_choice\": \"auto\",\n    \"tools\": [],\n    \"top_p\": 1,\n    \"truncation\": \"disabled\",\n    \"usage\": null,\n    \"user\": null,\n    \"metadata\": {}\n  }\n}\n") . unwrap () ;
-    }
-    #[test]
-    fn test_response_file_search_call_completed_event() {
-        serde_json :: from_str :: < super :: ResponseFileSearchCallCompletedEvent > ("{\n  \"type\": \"response.file_search_call.completed\",\n  \"output_index\": 0,\n  \"item_id\": \"fs_123\",\n}\n") . unwrap () ;
-    }
-    #[test]
-    fn test_response_file_search_call_in_progress_event() {
-        serde_json :: from_str :: < super :: ResponseFileSearchCallInProgressEvent > ("{\n  \"type\": \"response.file_search_call.in_progress\",\n  \"output_index\": 0,\n  \"item_id\": \"fs_123\",\n}\n") . unwrap () ;
-    }
-    #[test]
-    fn test_response_file_search_call_searching_event() {
-        serde_json :: from_str :: < super :: ResponseFileSearchCallSearchingEvent > ("{\n  \"type\": \"response.file_search_call.searching\",\n  \"output_index\": 0,\n  \"item_id\": \"fs_123\",\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: ResponseFailedEvent > ("{\"response\":{\"created_at\":1740855869,\"error\":{\"code\":\"server_error\",\"message\":\"The model failed to generate a response.\"},\"id\":\"resp_123\",\"incomplete_details\":null,\"instructions\":null,\"max_output_tokens\":null,\"metadata\":{},\"model\":\"gpt-4o-mini-2024-07-18\",\"object\":\"response\",\"output\":[],\"previous_response_id\":null,\"reasoning_effort\":null,\"status\":\"failed\",\"store\":false,\"temperature\":1,\"text\":{\"format\":{\"type\":\"text\"}},\"tool_choice\":\"auto\",\"tools\":[],\"top_p\":1,\"truncation\":\"disabled\",\"usage\":null,\"user\":null},\"type\":\"response.failed\"}") . unwrap () ;
     }
     #[test]
     fn test_response_function_call_arguments_delta_event() {
-        serde_json :: from_str :: < super :: ResponseFunctionCallArgumentsDeltaEvent > ("{\n  \"type\": \"response.function_call_arguments.delta\",\n  \"item_id\": \"item-abc\",\n  \"output_index\": 0,\n  \"delta\": \"{ \\\"arg\\\":\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: ResponseFunctionCallArgumentsDeltaEvent > ("{\"delta\":\"{ \\\"arg\\\":\",\"item_id\":\"item-abc\",\"output_index\":0,\"type\":\"response.function_call_arguments.delta\"}") . unwrap () ;
     }
     #[test]
     fn test_response_function_call_arguments_done_event() {
-        serde_json :: from_str :: < super :: ResponseFunctionCallArgumentsDoneEvent > ("{\n  \"type\": \"response.function_call_arguments.done\",\n  \"item_id\": \"item-abc\",\n  \"output_index\": 1,\n  \"arguments\": \"{ \\\"arg\\\": 123 }\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: ResponseFunctionCallArgumentsDoneEvent > ("{\"arguments\":\"{ \\\"arg\\\": 123 }\",\"item_id\":\"item-abc\",\"output_index\":1,\"type\":\"response.function_call_arguments.done\"}") . unwrap () ;
     }
     #[test]
     fn test_response_in_progress_event() {
-        serde_json :: from_str :: < super :: ResponseInProgressEvent > ("{\n  \"type\": \"response.in_progress\",\n  \"response\": {\n    \"id\": \"resp_67ccfcdd16748190a91872c75d38539e09e4d4aac714747c\",\n    \"object\": \"response\",\n    \"created_at\": 1741487325,\n    \"status\": \"in_progress\",\n    \"error\": null,\n    \"incomplete_details\": null,\n    \"instructions\": null,\n    \"max_output_tokens\": null,\n    \"model\": \"gpt-4o-2024-08-06\",\n    \"output\": [],\n    \"parallel_tool_calls\": true,\n    \"previous_response_id\": null,\n    \"reasoning\": {\n      \"effort\": null,\n      \"summary\": null\n    },\n    \"store\": true,\n    \"temperature\": 1,\n    \"text\": {\n      \"format\": {\n        \"type\": \"text\"\n      }\n    },\n    \"tool_choice\": \"auto\",\n    \"tools\": [],\n    \"top_p\": 1,\n    \"truncation\": \"disabled\",\n    \"usage\": null,\n    \"user\": null,\n    \"metadata\": {}\n  }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: ResponseInProgressEvent > ("{\"response\":{\"created_at\":1741487325,\"error\":null,\"id\":\"resp_67ccfcdd16748190a91872c75d38539e09e4d4aac714747c\",\"incomplete_details\":null,\"instructions\":null,\"max_output_tokens\":null,\"metadata\":{},\"model\":\"gpt-4o-2024-08-06\",\"object\":\"response\",\"output\":[],\"parallel_tool_calls\":true,\"previous_response_id\":null,\"reasoning\":{\"effort\":null,\"summary\":null},\"status\":\"in_progress\",\"store\":true,\"temperature\":1,\"text\":{\"format\":{\"type\":\"text\"}},\"tool_choice\":\"auto\",\"tools\":[],\"top_p\":1,\"truncation\":\"disabled\",\"usage\":null,\"user\":null},\"type\":\"response.in_progress\"}") . unwrap () ;
     }
     #[test]
     fn test_response_incomplete_event() {
-        serde_json :: from_str :: < super :: ResponseIncompleteEvent > ("{\n  \"type\": \"response.incomplete\",\n  \"response\": {\n    \"id\": \"resp_123\",\n    \"object\": \"response\",\n    \"created_at\": 1740855869,\n    \"status\": \"incomplete\",\n    \"error\": null, \n    \"incomplete_details\": {\n      \"reason\": \"max_tokens\"\n    },\n    \"instructions\": null,\n    \"max_output_tokens\": null,\n    \"model\": \"gpt-4o-mini-2024-07-18\",\n    \"output\": [],\n    \"previous_response_id\": null,\n    \"reasoning_effort\": null,\n    \"store\": false,\n    \"temperature\": 1,\n    \"text\": {\n      \"format\": {\n        \"type\": \"text\"\n      }\n    },\n    \"tool_choice\": \"auto\",\n    \"tools\": [],\n    \"top_p\": 1,\n    \"truncation\": \"disabled\",\n    \"usage\": null,\n    \"user\": null,\n    \"metadata\": {}\n  }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: ResponseIncompleteEvent > ("{\"response\":{\"created_at\":1740855869,\"error\":null,\"id\":\"resp_123\",\"incomplete_details\":{\"reason\":\"max_tokens\"},\"instructions\":null,\"max_output_tokens\":null,\"metadata\":{},\"model\":\"gpt-4o-mini-2024-07-18\",\"object\":\"response\",\"output\":[],\"previous_response_id\":null,\"reasoning_effort\":null,\"status\":\"incomplete\",\"store\":false,\"temperature\":1,\"text\":{\"format\":{\"type\":\"text\"}},\"tool_choice\":\"auto\",\"tools\":[],\"top_p\":1,\"truncation\":\"disabled\",\"usage\":null,\"user\":null},\"type\":\"response.incomplete\"}") . unwrap () ;
     }
     #[test]
     fn test_response_item_list() {
-        serde_json :: from_str :: < super :: ResponseItemList > ("{\n  \"object\": \"list\",\n  \"data\": [\n    {\n      \"id\": \"msg_abc123\",\n      \"type\": \"message\",\n      \"role\": \"user\",\n      \"content\": [\n        {\n          \"type\": \"input_text\",\n          \"text\": \"Tell me a three sentence bedtime story about a unicorn.\"\n        }\n      ]\n    }\n  ],\n  \"first_id\": \"msg_abc123\",\n  \"last_id\": \"msg_abc123\",\n  \"has_more\": false\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: ResponseItemList > ("{\"data\":[{\"content\":[{\"text\":\"Tell me a three sentence bedtime story about a unicorn.\",\"type\":\"input_text\"}],\"id\":\"msg_abc123\",\"role\":\"user\",\"type\":\"message\"}],\"first_id\":\"msg_abc123\",\"has_more\":false,\"last_id\":\"msg_abc123\",\"object\":\"list\"}") . unwrap () ;
     }
     #[test]
     fn test_response_output_item_added_event() {
-        serde_json :: from_str :: < super :: ResponseOutputItemAddedEvent > ("{\n  \"type\": \"response.output_item.added\",\n  \"output_index\": 0,\n  \"item\": {\n    \"id\": \"msg_123\",\n    \"status\": \"in_progress\",\n    \"type\": \"message\",\n    \"role\": \"assistant\",\n    \"content\": []\n  }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: ResponseOutputItemAddedEvent > ("{\"item\":{\"content\":[],\"id\":\"msg_123\",\"role\":\"assistant\",\"status\":\"in_progress\",\"type\":\"message\"},\"output_index\":0,\"type\":\"response.output_item.added\"}") . unwrap () ;
     }
     #[test]
     fn test_response_output_item_done_event() {
-        serde_json :: from_str :: < super :: ResponseOutputItemDoneEvent > ("{\n  \"type\": \"response.output_item.done\",\n  \"output_index\": 0,\n  \"item\": {\n    \"id\": \"msg_123\",\n    \"status\": \"completed\",\n    \"type\": \"message\",\n    \"role\": \"assistant\",\n    \"content\": [\n      {\n        \"type\": \"output_text\",\n        \"text\": \"In a shimmering forest under a sky full of stars, a lonely unicorn named Lila discovered a hidden pond that glowed with moonlight. Every night, she would leave sparkling, magical flowers by the water's edge, hoping to share her beauty with others. One enchanting evening, she woke to find a group of friendly animals gathered around, eager to be friends and share in her magic.\",\n        \"annotations\": []\n      }\n    ]\n  }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: ResponseOutputItemDoneEvent > ("{\"item\":{\"content\":[{\"annotations\":[],\"text\":\"In a shimmering forest under a sky full of stars, a lonely unicorn named Lila discovered a hidden pond that glowed with moonlight. Every night, she would leave sparkling, magical flowers by the water's edge, hoping to share her beauty with others. One enchanting evening, she woke to find a group of friendly animals gathered around, eager to be friends and share in her magic.\",\"type\":\"output_text\"}],\"id\":\"msg_123\",\"role\":\"assistant\",\"status\":\"completed\",\"type\":\"message\"},\"output_index\":0,\"type\":\"response.output_item.done\"}") . unwrap () ;
     }
     #[test]
     fn test_response_reasoning_summary_part_added_event() {
-        serde_json :: from_str :: < super :: ResponseReasoningSummaryPartAddedEvent > ("{\n  \"type\": \"response.reasoning_summary_part.added\",\n  \"item_id\": \"rs_6806bfca0b2481918a5748308061a2600d3ce51bdffd5476\",\n  \"output_index\": 0,\n  \"summary_index\": 0,\n  \"part\": {\n    \"type\": \"summary_text\",\n    \"text\": \"\"\n  }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: ResponseReasoningSummaryPartAddedEvent > ("{\"item_id\":\"rs_6806bfca0b2481918a5748308061a2600d3ce51bdffd5476\",\"output_index\":0,\"part\":{\"text\":\"\",\"type\":\"summary_text\"},\"summary_index\":0,\"type\":\"response.reasoning_summary_part.added\"}") . unwrap () ;
     }
     #[test]
     fn test_response_reasoning_summary_part_done_event() {
-        serde_json :: from_str :: < super :: ResponseReasoningSummaryPartDoneEvent > ("{\n  \"type\": \"response.reasoning_summary_part.done\",\n  \"item_id\": \"rs_6806bfca0b2481918a5748308061a2600d3ce51bdffd5476\",\n  \"output_index\": 0,\n  \"summary_index\": 0,\n  \"part\": {\n    \"type\": \"summary_text\",\n    \"text\": \"**Responding to a greeting**\\n\\nThe user just said, \\\"Hello!\\\" So, it seems I need to engage. I'll greet them back and offer help since they're looking to chat. I could say something like, \\\"Hello! How can I assist you today?\\\" That feels friendly and open. They didn't ask a specific question, so this approach will work well for starting a conversation. Let's see where it goes from there!\"\n  }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: ResponseReasoningSummaryPartDoneEvent > ("{\"item_id\":\"rs_6806bfca0b2481918a5748308061a2600d3ce51bdffd5476\",\"output_index\":0,\"part\":{\"text\":\"**Responding to a greeting**\\n\\nThe user just said, \\\"Hello!\\\" So, it seems I need to engage. I'll greet them back and offer help since they're looking to chat. I could say something like, \\\"Hello! How can I assist you today?\\\" That feels friendly and open. They didn't ask a specific question, so this approach will work well for starting a conversation. Let's see where it goes from there!\",\"type\":\"summary_text\"},\"summary_index\":0,\"type\":\"response.reasoning_summary_part.done\"}") . unwrap () ;
     }
     #[test]
     fn test_response_reasoning_summary_text_delta_event() {
-        serde_json :: from_str :: < super :: ResponseReasoningSummaryTextDeltaEvent > ("{\n  \"type\": \"response.reasoning_summary_text.delta\",\n  \"item_id\": \"rs_6806bfca0b2481918a5748308061a2600d3ce51bdffd5476\",\n  \"output_index\": 0,\n  \"summary_index\": 0,\n  \"delta\": \"**Respond\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: ResponseReasoningSummaryTextDeltaEvent > ("{\"delta\":\"**Respond\",\"item_id\":\"rs_6806bfca0b2481918a5748308061a2600d3ce51bdffd5476\",\"output_index\":0,\"summary_index\":0,\"type\":\"response.reasoning_summary_text.delta\"}") . unwrap () ;
     }
     #[test]
     fn test_response_reasoning_summary_text_done_event() {
-        serde_json :: from_str :: < super :: ResponseReasoningSummaryTextDoneEvent > ("{\n  \"type\": \"response.reasoning_summary_text.done\",\n  \"item_id\": \"rs_6806bfca0b2481918a5748308061a2600d3ce51bdffd5476\",\n  \"output_index\": 0,\n  \"summary_index\": 0,\n  \"text\": \"**Responding to a greeting**\\n\\nThe user just said, \\\"Hello!\\\" So, it seems I need to engage. I'll greet them back and offer help since they're looking to chat. I could say something like, \\\"Hello! How can I assist you today?\\\" That feels friendly and open. They didn't ask a specific question, so this approach will work well for starting a conversation. Let's see where it goes from there!\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: ResponseReasoningSummaryTextDoneEvent > ("{\"item_id\":\"rs_6806bfca0b2481918a5748308061a2600d3ce51bdffd5476\",\"output_index\":0,\"summary_index\":0,\"text\":\"**Responding to a greeting**\\n\\nThe user just said, \\\"Hello!\\\" So, it seems I need to engage. I'll greet them back and offer help since they're looking to chat. I could say something like, \\\"Hello! How can I assist you today?\\\" That feels friendly and open. They didn't ask a specific question, so this approach will work well for starting a conversation. Let's see where it goes from there!\",\"type\":\"response.reasoning_summary_text.done\"}") . unwrap () ;
     }
     #[test]
     fn test_response_refusal_delta_event() {
-        serde_json :: from_str :: < super :: ResponseRefusalDeltaEvent > ("{\n  \"type\": \"response.refusal.delta\",\n  \"item_id\": \"msg_123\",\n  \"output_index\": 0,\n  \"content_index\": 0,\n  \"delta\": \"refusal text so far\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: ResponseRefusalDeltaEvent > ("{\"content_index\":0,\"delta\":\"refusal text so far\",\"item_id\":\"msg_123\",\"output_index\":0,\"type\":\"response.refusal.delta\"}") . unwrap () ;
     }
     #[test]
     fn test_response_refusal_done_event() {
-        serde_json :: from_str :: < super :: ResponseRefusalDoneEvent > ("{\n  \"type\": \"response.refusal.done\",\n  \"item_id\": \"item-abc\",\n  \"output_index\": 1,\n  \"content_index\": 2,\n  \"refusal\": \"final refusal text\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: ResponseRefusalDoneEvent > ("{\"content_index\":2,\"item_id\":\"item-abc\",\"output_index\":1,\"refusal\":\"final refusal text\",\"type\":\"response.refusal.done\"}") . unwrap () ;
     }
     #[test]
     fn test_response_text_annotation_delta_event() {
-        serde_json :: from_str :: < super :: ResponseTextAnnotationDeltaEvent > ("{\n  \"type\": \"response.output_text.annotation.added\",\n  \"item_id\": \"msg_abc123\",\n  \"output_index\": 1,\n  \"content_index\": 0,\n  \"annotation_index\": 0,\n  \"annotation\": {\n    \"type\": \"file_citation\",\n    \"index\": 390,\n    \"file_id\": \"file-4wDz5b167pAf72nx1h9eiN\",\n    \"filename\": \"dragons.pdf\"\n  }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: ResponseTextAnnotationDeltaEvent > ("{\"annotation\":{\"file_id\":\"file-4wDz5b167pAf72nx1h9eiN\",\"filename\":\"dragons.pdf\",\"index\":390,\"type\":\"file_citation\"},\"annotation_index\":0,\"content_index\":0,\"item_id\":\"msg_abc123\",\"output_index\":1,\"type\":\"response.output_text.annotation.added\"}") . unwrap () ;
     }
     #[test]
     fn test_response_text_delta_event() {
-        serde_json :: from_str :: < super :: ResponseTextDeltaEvent > ("{\n  \"type\": \"response.output_text.delta\",\n  \"item_id\": \"msg_123\",\n  \"output_index\": 0,\n  \"content_index\": 0,\n  \"delta\": \"In\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: ResponseTextDeltaEvent > ("{\"content_index\":0,\"delta\":\"In\",\"item_id\":\"msg_123\",\"output_index\":0,\"type\":\"response.output_text.delta\"}") . unwrap () ;
     }
     #[test]
     fn test_response_text_done_event() {
-        serde_json :: from_str :: < super :: ResponseTextDoneEvent > ("{\n  \"type\": \"response.output_text.done\",\n  \"item_id\": \"msg_123\",\n  \"output_index\": 0,\n  \"content_index\": 0,\n  \"text\": \"In a shimmering forest under a sky full of stars, a lonely unicorn named Lila discovered a hidden pond that glowed with moonlight. Every night, she would leave sparkling, magical flowers by the water's edge, hoping to share her beauty with others. One enchanting evening, she woke to find a group of friendly animals gathered around, eager to be friends and share in her magic.\"\n}\n") . unwrap () ;
-    }
-    #[test]
-    fn test_response_web_search_call_completed_event() {
-        serde_json :: from_str :: < super :: ResponseWebSearchCallCompletedEvent > ("{\n  \"type\": \"response.web_search_call.completed\",\n  \"output_index\": 0,\n  \"item_id\": \"ws_123\",\n}\n") . unwrap () ;
-    }
-    #[test]
-    fn test_response_web_search_call_in_progress_event() {
-        serde_json :: from_str :: < super :: ResponseWebSearchCallInProgressEvent > ("{\n  \"type\": \"response.web_search_call.in_progress\",\n  \"output_index\": 0,\n  \"item_id\": \"ws_123\",\n}\n") . unwrap () ;
-    }
-    #[test]
-    fn test_response_web_search_call_searching_event() {
-        serde_json :: from_str :: < super :: ResponseWebSearchCallSearchingEvent > ("{\n  \"type\": \"response.web_search_call.searching\",\n  \"output_index\": 0,\n  \"item_id\": \"ws_123\",\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: ResponseTextDoneEvent > ("{\"content_index\":0,\"item_id\":\"msg_123\",\"output_index\":0,\"text\":\"In a shimmering forest under a sky full of stars, a lonely unicorn named Lila discovered a hidden pond that glowed with moonlight. Every night, she would leave sparkling, magical flowers by the water's edge, hoping to share her beauty with others. One enchanting evening, she woke to find a group of friendly animals gathered around, eager to be friends and share in her magic.\",\"type\":\"response.output_text.done\"}") . unwrap () ;
     }
     #[test]
     fn test_run_object() {
-        serde_json :: from_str :: < super :: RunObject > ("{\n  \"id\": \"run_abc123\",\n  \"object\": \"thread.run\",\n  \"created_at\": 1698107661,\n  \"assistant_id\": \"asst_abc123\",\n  \"thread_id\": \"thread_abc123\",\n  \"status\": \"completed\",\n  \"started_at\": 1699073476,\n  \"expires_at\": null,\n  \"cancelled_at\": null,\n  \"failed_at\": null,\n  \"completed_at\": 1699073498,\n  \"last_error\": null,\n  \"model\": \"gpt-4o\",\n  \"instructions\": null,\n  \"tools\": [{\"type\": \"file_search\"}, {\"type\": \"code_interpreter\"}],\n  \"metadata\": {},\n  \"incomplete_details\": null,\n  \"usage\": {\n    \"prompt_tokens\": 123,\n    \"completion_tokens\": 456,\n    \"total_tokens\": 579\n  },\n  \"temperature\": 1.0,\n  \"top_p\": 1.0,\n  \"max_prompt_tokens\": 1000,\n  \"max_completion_tokens\": 1000,\n  \"truncation_strategy\": {\n    \"type\": \"auto\",\n    \"last_messages\": null\n  },\n  \"response_format\": \"auto\",\n  \"tool_choice\": \"auto\",\n  \"parallel_tool_calls\": true\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RunObject > ("{\"assistant_id\":\"asst_abc123\",\"cancelled_at\":null,\"completed_at\":1699073498,\"created_at\":1698107661,\"expires_at\":null,\"failed_at\":null,\"id\":\"run_abc123\",\"incomplete_details\":null,\"instructions\":null,\"last_error\":null,\"max_completion_tokens\":1000,\"max_prompt_tokens\":1000,\"metadata\":{},\"model\":\"gpt-4o\",\"object\":\"thread.run\",\"parallel_tool_calls\":true,\"response_format\":\"auto\",\"started_at\":1699073476,\"status\":\"completed\",\"temperature\":1.0,\"thread_id\":\"thread_abc123\",\"tool_choice\":\"auto\",\"tools\":[{\"type\":\"file_search\"},{\"type\":\"code_interpreter\"}],\"top_p\":1.0,\"truncation_strategy\":{\"last_messages\":null,\"type\":\"auto\"},\"usage\":{\"completion_tokens\":456,\"prompt_tokens\":123,\"total_tokens\":579}}") . unwrap () ;
     }
     #[test]
     fn test_run_step_delta_object() {
-        serde_json :: from_str :: < super :: RunStepDeltaObject > ("{\n  \"id\": \"step_123\",\n  \"object\": \"thread.run.step.delta\",\n  \"delta\": {\n    \"step_details\": {\n      \"type\": \"tool_calls\",\n      \"tool_calls\": [\n        {\n          \"index\": 0,\n          \"id\": \"call_123\",\n          \"type\": \"code_interpreter\",\n          \"code_interpreter\": { \"input\": \"\", \"outputs\": [] }\n        }\n      ]\n    }\n  }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RunStepDeltaObject > ("{\"delta\":{\"step_details\":{\"tool_calls\":[{\"code_interpreter\":{\"input\":\"\",\"outputs\":[]},\"id\":\"call_123\",\"index\":0,\"type\":\"code_interpreter\"}],\"type\":\"tool_calls\"}},\"id\":\"step_123\",\"object\":\"thread.run.step.delta\"}") . unwrap () ;
     }
     #[test]
     fn test_run_step_object() {
-        serde_json :: from_str :: < super :: RunStepObject > ("{\n  \"id\": \"step_abc123\",\n  \"object\": \"thread.run.step\",\n  \"created_at\": 1699063291,\n  \"run_id\": \"run_abc123\",\n  \"assistant_id\": \"asst_abc123\",\n  \"thread_id\": \"thread_abc123\",\n  \"type\": \"message_creation\",\n  \"status\": \"completed\",\n  \"cancelled_at\": null,\n  \"completed_at\": 1699063291,\n  \"expired_at\": null,\n  \"failed_at\": null,\n  \"last_error\": null,\n  \"step_details\": {\n    \"type\": \"message_creation\",\n    \"message_creation\": {\n      \"message_id\": \"msg_abc123\"\n    }\n  },\n  \"usage\": {\n    \"prompt_tokens\": 123,\n    \"completion_tokens\": 456,\n    \"total_tokens\": 579\n  }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: RunStepObject > ("{\"assistant_id\":\"asst_abc123\",\"cancelled_at\":null,\"completed_at\":1699063291,\"created_at\":1699063291,\"expired_at\":null,\"failed_at\":null,\"id\":\"step_abc123\",\"last_error\":null,\"object\":\"thread.run.step\",\"run_id\":\"run_abc123\",\"status\":\"completed\",\"step_details\":{\"message_creation\":{\"message_id\":\"msg_abc123\"},\"type\":\"message_creation\"},\"thread_id\":\"thread_abc123\",\"type\":\"message_creation\",\"usage\":{\"completion_tokens\":456,\"prompt_tokens\":123,\"total_tokens\":579}}") . unwrap () ;
     }
     #[test]
     fn test_thread_object() {
-        serde_json :: from_str :: < super :: ThreadObject > ("{\n  \"id\": \"thread_abc123\",\n  \"object\": \"thread\",\n  \"created_at\": 1698107661,\n  \"metadata\": {}\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: ThreadObject > ("{\"created_at\":1698107661,\"id\":\"thread_abc123\",\"metadata\":{},\"object\":\"thread\"}") . unwrap () ;
     }
     #[test]
     fn test_transcript_text_delta_event() {
         serde_json::from_str::<super::TranscriptTextDeltaEvent>(
-            "{\n  \"type\": \"transcript.text.delta\",\n  \"delta\": \" wonderful\"\n}\n",
+            "{\"delta\":\" wonderful\",\"type\":\"transcript.text.delta\"}",
         )
         .unwrap();
     }
     #[test]
     fn test_transcript_text_done_event() {
-        serde_json :: from_str :: < super :: TranscriptTextDoneEvent > ("{\n  \"type\": \"transcript.text.done\",\n  \"text\": \"I see skies of blue and clouds of white, the bright blessed days, the dark sacred nights, and I think to myself, what a wonderful world.\"\n}\n") . unwrap () ;
-    }
-    #[test]
-    fn test_upload() {
-        serde_json :: from_str :: < super :: Upload > ("{\n  \"id\": \"upload_abc123\",\n  \"object\": \"upload\",\n  \"bytes\": 2147483648,\n  \"created_at\": 1719184911,\n  \"filename\": \"training_examples.jsonl\",\n  \"purpose\": \"fine-tune\",\n  \"status\": \"completed\",\n  \"expires_at\": 1719127296,\n  \"file\": {\n    \"id\": \"file-xyz321\",\n    \"object\": \"file\",\n    \"bytes\": 2147483648,\n    \"created_at\": 1719186911,\n    \"filename\": \"training_examples.jsonl\",\n    \"purpose\": \"fine-tune\",\n  }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: TranscriptTextDoneEvent > ("{\"text\":\"I see skies of blue and clouds of white, the bright blessed days, the dark sacred nights, and I think to myself, what a wonderful world.\",\"type\":\"transcript.text.done\"}") . unwrap () ;
     }
     #[test]
     fn test_upload_part() {
-        serde_json :: from_str :: < super :: UploadPart > ("{\n    \"id\": \"part_def456\",\n    \"object\": \"upload.part\",\n    \"created_at\": 1719186911,\n    \"upload_id\": \"upload_abc123\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: UploadPart > ("{\"created_at\":1719186911,\"id\":\"part_def456\",\"object\":\"upload.part\",\"upload_id\":\"upload_abc123\"}") . unwrap () ;
     }
     #[test]
     fn test_usage_audio_speeches_result() {
-        serde_json :: from_str :: < super :: UsageAudioSpeechesResult > ("{\n    \"object\": \"organization.usage.audio_speeches.result\",\n    \"characters\": 45,\n    \"num_model_requests\": 1,\n    \"project_id\": \"proj_abc\",\n    \"user_id\": \"user-abc\",\n    \"api_key_id\": \"key_abc\",\n    \"model\": \"tts-1\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: UsageAudioSpeechesResult > ("{\"api_key_id\":\"key_abc\",\"characters\":45,\"model\":\"tts-1\",\"num_model_requests\":1,\"object\":\"organization.usage.audio_speeches.result\",\"project_id\":\"proj_abc\",\"user_id\":\"user-abc\"}") . unwrap () ;
     }
     #[test]
     fn test_usage_audio_transcriptions_result() {
-        serde_json :: from_str :: < super :: UsageAudioTranscriptionsResult > ("{\n    \"object\": \"organization.usage.audio_transcriptions.result\",\n    \"seconds\": 10,\n    \"num_model_requests\": 1,\n    \"project_id\": \"proj_abc\",\n    \"user_id\": \"user-abc\",\n    \"api_key_id\": \"key_abc\",\n    \"model\": \"tts-1\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: UsageAudioTranscriptionsResult > ("{\"api_key_id\":\"key_abc\",\"model\":\"tts-1\",\"num_model_requests\":1,\"object\":\"organization.usage.audio_transcriptions.result\",\"project_id\":\"proj_abc\",\"seconds\":10,\"user_id\":\"user-abc\"}") . unwrap () ;
     }
     #[test]
     fn test_usage_code_interpreter_sessions_result() {
-        serde_json :: from_str :: < super :: UsageCodeInterpreterSessionsResult > ("{\n    \"object\": \"organization.usage.code_interpreter_sessions.result\",\n    \"num_sessions\": 1,\n    \"project_id\": \"proj_abc\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: UsageCodeInterpreterSessionsResult > ("{\"num_sessions\":1,\"object\":\"organization.usage.code_interpreter_sessions.result\",\"project_id\":\"proj_abc\"}") . unwrap () ;
     }
     #[test]
     fn test_usage_completions_result() {
-        serde_json :: from_str :: < super :: UsageCompletionsResult > ("{\n    \"object\": \"organization.usage.completions.result\",\n    \"input_tokens\": 5000,\n    \"output_tokens\": 1000,\n    \"input_cached_tokens\": 4000,\n    \"input_audio_tokens\": 300,\n    \"output_audio_tokens\": 200,\n    \"num_model_requests\": 5,\n    \"project_id\": \"proj_abc\",\n    \"user_id\": \"user-abc\",\n    \"api_key_id\": \"key_abc\",\n    \"model\": \"gpt-4o-mini-2024-07-18\",\n    \"batch\": false\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: UsageCompletionsResult > ("{\"api_key_id\":\"key_abc\",\"batch\":false,\"input_audio_tokens\":300,\"input_cached_tokens\":4000,\"input_tokens\":5000,\"model\":\"gpt-4o-mini-2024-07-18\",\"num_model_requests\":5,\"object\":\"organization.usage.completions.result\",\"output_audio_tokens\":200,\"output_tokens\":1000,\"project_id\":\"proj_abc\",\"user_id\":\"user-abc\"}") . unwrap () ;
     }
     #[test]
     fn test_usage_embeddings_result() {
-        serde_json :: from_str :: < super :: UsageEmbeddingsResult > ("{\n    \"object\": \"organization.usage.embeddings.result\",\n    \"input_tokens\": 20,\n    \"num_model_requests\": 2,\n    \"project_id\": \"proj_abc\",\n    \"user_id\": \"user-abc\",\n    \"api_key_id\": \"key_abc\",\n    \"model\": \"text-embedding-ada-002-v2\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: UsageEmbeddingsResult > ("{\"api_key_id\":\"key_abc\",\"input_tokens\":20,\"model\":\"text-embedding-ada-002-v2\",\"num_model_requests\":2,\"object\":\"organization.usage.embeddings.result\",\"project_id\":\"proj_abc\",\"user_id\":\"user-abc\"}") . unwrap () ;
     }
     #[test]
     fn test_usage_images_result() {
-        serde_json :: from_str :: < super :: UsageImagesResult > ("{\n    \"object\": \"organization.usage.images.result\",\n    \"images\": 2,\n    \"num_model_requests\": 2,\n    \"size\": \"1024x1024\",\n    \"source\": \"image.generation\",\n    \"project_id\": \"proj_abc\",\n    \"user_id\": \"user-abc\",\n    \"api_key_id\": \"key_abc\",\n    \"model\": \"dall-e-3\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: UsageImagesResult > ("{\"api_key_id\":\"key_abc\",\"images\":2,\"model\":\"dall-e-3\",\"num_model_requests\":2,\"object\":\"organization.usage.images.result\",\"project_id\":\"proj_abc\",\"size\":\"1024x1024\",\"source\":\"image.generation\",\"user_id\":\"user-abc\"}") . unwrap () ;
     }
     #[test]
     fn test_usage_moderations_result() {
-        serde_json :: from_str :: < super :: UsageModerationsResult > ("{\n    \"object\": \"organization.usage.moderations.result\",\n    \"input_tokens\": 20,\n    \"num_model_requests\": 2,\n    \"project_id\": \"proj_abc\",\n    \"user_id\": \"user-abc\",\n    \"api_key_id\": \"key_abc\",\n    \"model\": \"text-moderation\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: UsageModerationsResult > ("{\"api_key_id\":\"key_abc\",\"input_tokens\":20,\"model\":\"text-moderation\",\"num_model_requests\":2,\"object\":\"organization.usage.moderations.result\",\"project_id\":\"proj_abc\",\"user_id\":\"user-abc\"}") . unwrap () ;
     }
     #[test]
     fn test_usage_vector_stores_result() {
-        serde_json :: from_str :: < super :: UsageVectorStoresResult > ("{\n    \"object\": \"organization.usage.vector_stores.result\",\n    \"usage_bytes\": 1024,\n    \"project_id\": \"proj_abc\"\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: UsageVectorStoresResult > ("{\"object\":\"organization.usage.vector_stores.result\",\"project_id\":\"proj_abc\",\"usage_bytes\":1024}") . unwrap () ;
     }
     #[test]
     fn test_user() {
-        serde_json :: from_str :: < super :: User > ("{\n    \"object\": \"organization.user\",\n    \"id\": \"user_abc\",\n    \"name\": \"First Last\",\n    \"email\": \"user@example.com\",\n    \"role\": \"owner\",\n    \"added_at\": 1711471533\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: User > ("{\"added_at\":1711471533,\"email\":\"user@example.com\",\"id\":\"user_abc\",\"name\":\"First Last\",\"object\":\"organization.user\",\"role\":\"owner\"}") . unwrap () ;
     }
     #[test]
     fn test_vector_store_file_batch_object() {
-        serde_json :: from_str :: < super :: VectorStoreFileBatchObject > ("{\n  \"id\": \"vsfb_123\",\n  \"object\": \"vector_store.files_batch\",\n  \"created_at\": 1698107661,\n  \"vector_store_id\": \"vs_abc123\",\n  \"status\": \"completed\",\n  \"file_counts\": {\n    \"in_progress\": 0,\n    \"completed\": 100,\n    \"failed\": 0,\n    \"cancelled\": 0,\n    \"total\": 100\n  }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: VectorStoreFileBatchObject > ("{\"created_at\":1698107661,\"file_counts\":{\"cancelled\":0,\"completed\":100,\"failed\":0,\"in_progress\":0,\"total\":100},\"id\":\"vsfb_123\",\"object\":\"vector_store.files_batch\",\"status\":\"completed\",\"vector_store_id\":\"vs_abc123\"}") . unwrap () ;
     }
     #[test]
     fn test_vector_store_file_object() {
-        serde_json :: from_str :: < super :: VectorStoreFileObject > ("{\n  \"id\": \"file-abc123\",\n  \"object\": \"vector_store.file\",\n  \"usage_bytes\": 1234,\n  \"created_at\": 1698107661,\n  \"vector_store_id\": \"vs_abc123\",\n  \"status\": \"completed\",\n  \"last_error\": null,\n  \"chunking_strategy\": {\n    \"type\": \"static\",\n    \"static\": {\n      \"max_chunk_size_tokens\": 800,\n      \"chunk_overlap_tokens\": 400\n    }\n  }\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: VectorStoreFileObject > ("{\"chunking_strategy\":{\"static\":{\"chunk_overlap_tokens\":400,\"max_chunk_size_tokens\":800},\"type\":\"static\"},\"created_at\":1698107661,\"id\":\"file-abc123\",\"last_error\":null,\"object\":\"vector_store.file\",\"status\":\"completed\",\"usage_bytes\":1234,\"vector_store_id\":\"vs_abc123\"}") . unwrap () ;
     }
     #[test]
     fn test_vector_store_object() {
-        serde_json :: from_str :: < super :: VectorStoreObject > ("{\n  \"id\": \"vs_123\",\n  \"object\": \"vector_store\",\n  \"created_at\": 1698107661,\n  \"usage_bytes\": 123456,\n  \"last_active_at\": 1698107661,\n  \"name\": \"my_vector_store\",\n  \"status\": \"completed\",\n  \"file_counts\": {\n    \"in_progress\": 0,\n    \"completed\": 100,\n    \"cancelled\": 0,\n    \"failed\": 0,\n    \"total\": 100\n  },\n  \"last_used_at\": 1698107661\n}\n") . unwrap () ;
+        serde_json :: from_str :: < super :: VectorStoreObject > ("{\"created_at\":1698107661,\"file_counts\":{\"cancelled\":0,\"completed\":100,\"failed\":0,\"in_progress\":0,\"total\":100},\"id\":\"vs_123\",\"last_active_at\":1698107661,\"last_used_at\":1698107661,\"name\":\"my_vector_store\",\"object\":\"vector_store\",\"status\":\"completed\",\"usage_bytes\":123456}") . unwrap () ;
     }
 }
