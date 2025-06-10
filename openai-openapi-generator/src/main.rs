@@ -184,6 +184,7 @@ fn patch(name: &str, schema: &mut openapi::Schema) {
 #[openai_openapi_generator_macros::strict(openapi::Schema)]
 fn extract_const(schema: &openapi::Schema) -> Option<(&String, Vec<&String>)> {
     if let openapi::Schema {
+        description: _,
         default,
         enum_: Some(enum_),
         type_: Some(openapi::Type::String),
