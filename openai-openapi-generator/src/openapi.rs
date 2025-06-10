@@ -55,7 +55,7 @@ pub struct Discriminator {
     pub property_name: String,
 }
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Copy, Debug, Deserialize)]
 #[serde(rename_all = "lowercase")]
 pub enum Format {
     Binary,
@@ -64,7 +64,7 @@ pub enum Format {
     Uri,
 }
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Copy, Debug, Deserialize)]
 #[serde(rename_all = "lowercase")]
 pub enum Type {
     Array,
@@ -76,7 +76,7 @@ pub enum Type {
     String,
 }
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Copy, Debug, Deserialize)]
 #[serde(rename_all = "lowercase")]
 pub enum XOaiTypeLabel {
     File,

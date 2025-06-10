@@ -5,8 +5,7 @@ use anyhow::Context;
 use heck::{ToPascalCase, ToSnakeCase};
 use indexmap::IndexMap;
 use quote::ToTokens;
-use std::collections::HashMap;
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 use std::hash;
 use std::io;
 use std::iter;
@@ -16,7 +15,7 @@ fn main() -> anyhow::Result<()> {
     let mut document = serde_yaml::from_reader::<_, openapi::Document>(io::stdin().lock())?;
 
     for (name, schema) in &mut document.components.schemas {
-        resolve_recursive_ref(name, schema);
+        patch(name, schema);
     }
 
     let mut discriminators = Vec::new();
@@ -88,24 +87,107 @@ fn main() -> anyhow::Result<()> {
     Ok(())
 }
 
-fn resolve_recursive_ref(name: &str, schema: &mut openapi::Schema) {
+#[openai_openapi_generator_macros::strict(openapi::Schema)]
+fn patch(name: &str, schema: &mut openapi::Schema) {
+    for (_, schema) in visit::iter_mut(schema) {
+        patch(name, schema)
+    }
+
+    if let openapi::Schema {
+        all_of: Some(all_of),
+    } = schema
+        && let [
+            openapi::Schema {
+                ref_: ref_ @ Some(_),
+            },
+        ] = &mut all_of[..]
+    {
+        schema.ref_ = ref_.take();
+        schema.all_of = None;
+    }
+
+    if let openapi::Schema {
+        all_of: Some(all_of),
+    } = schema
+        && let [
+            openapi::Schema {
+                ref_: ref_ @ Some(_),
+            },
+            openapi::Schema {
+                description,
+                nullable: nullable @ Some(true),
+            },
+        ] = &mut all_of[..]
+    {
+        schema.ref_ = ref_.take();
+        schema.description = description.take();
+        schema.nullable = nullable.take();
+        schema.all_of = None;
+    }
+
+    if let openapi::Schema {
+        any_of: Some(any_of),
+    } = schema
+        && let [
+            openapi::Schema {
+                additional_properties,
+                default,
+                description,
+                enum_,
+                items,
+                ref_,
+                type_,
+                x_stainless_const,
+            },
+            openapi::Schema {
+                type_: Some(openapi::Type::Null),
+            },
+        ] = &mut any_of[..]
+    {
+        schema.additional_properties = additional_properties.take();
+        schema.default = default.take();
+        schema.description = description.take();
+        schema.enum_ = enum_.take();
+        schema.items = items.take();
+        schema.nullable = Some(true);
+        schema.ref_ = ref_.take();
+        schema.type_ = type_.take();
+        schema.x_stainless_const = x_stainless_const.take();
+        schema.any_of = None;
+    }
+
+    if let Some(items) = &mut schema.items {
+        if let Some(required) = schema.required.take() {
+            items.required = Some(required.clone());
+        }
+    }
+
+    if let Some(one_of) = &mut schema.one_of {
+        if let Some(properties) = schema.properties.take() {
+            for one_of in &mut *one_of {
+                one_of.properties = Some(properties.clone());
+            }
+        }
+        if let Some(type_) = schema.type_.take() {
+            for one_of in &mut *one_of {
+                one_of.type_ = Some(type_);
+            }
+        }
+    }
+
     if schema.recursive_ref.as_deref() == Some("#") {
         schema.recursive_ref = None;
         schema.ref_ = Some(format!("#/components/schemas/{name}"));
     }
-    for (_, schema) in visit::iter_mut(schema) {
-        resolve_recursive_ref(name, schema)
-    }
 }
 
+#[openai_openapi_generator_macros::strict(openapi::Schema)]
 fn extract_const(schema: &openapi::Schema) -> Option<(&String, Vec<&String>)> {
     if let openapi::Schema {
         default,
         enum_: Some(enum_),
-        format: None,
         type_: Some(openapi::Type::String),
         x_stainless_const: Some(true),
-        ..
     } = schema
     {
         if let [enum_] = &enum_[..] {
@@ -254,6 +336,7 @@ enum Node {
     Type { value: syn::Type },
 }
 
+#[openai_openapi_generator_macros::strict(openapi::Schema)]
 fn to_node(
     name: &str,
     schema: &openapi::Schema,
@@ -262,326 +345,499 @@ fn to_node(
 ) -> anyhow::Result<Node> {
     let derive = quote::quote!(#[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]);
 
-    match schema {
-        openapi::Schema {
-            ref_: Some(ref_), ..
-        } => {
-            let ref_ = ref_
-                .strip_prefix("#/components/schemas/")
-                .ok_or_else(|| anyhow::format_err!("invalid: {ref_:?}"))
-                .context("$ref")?;
-            let ref_ = to_ident_pascal(ref_);
-            let value = syn::parse_quote!(#ref_);
-            Ok(Node::Type { value })
-        }
-
-        openapi::Schema {
-            x_oai_type_label: Some(openapi::XOaiTypeLabel::String),
-            ..
-        } => {
-            let value = syn::parse_quote!(String);
-            Ok(Node::Type { value })
-        }
-
-        openapi::Schema {
-            additional_properties: None,
-            all_of: None,
-            any_of: None,
-            default: None,
-            description: _,
-            discriminator: None,
-            enum_: None,
-            format: None,
-            items: None,
-            nullable: _,
-            one_of: None,
-            properties: None,
-            recursive_ref: None,
-            ref_: None,
-            required: None,
-            type_: None,
-            x_oai_meta: _,
-            x_oai_type_label: None,
-            x_stainless_const: None,
-        } => {
-            let value = syn::parse_quote!(serde_json::Value);
-            Ok(Node::Type { value })
-        }
-        openapi::Schema {
-            items: None,
-            type_: Some(openapi::Type::Array),
-            ..
-        } => {
-            let value = syn::parse_quote!(Vec<serde_json::Value>);
-            Ok(Node::Type { value })
-        }
-        openapi::Schema {
-            type_: Some(openapi::Type::Boolean),
-            ..
-        } => {
-            let value = syn::parse_quote!(bool);
-            Ok(Node::Type { value })
-        }
-        openapi::Schema {
-            format: None | Some(openapi::Format::Int64),
-            type_: Some(openapi::Type::Integer),
-            ..
-        } => {
-            let value = syn::parse_quote!(u64);
-            Ok(Node::Type { value })
-        }
-        openapi::Schema {
-            format: None | Some(openapi::Format::Float),
-            type_: Some(openapi::Type::Number),
-            ..
-        } => {
-            let value = syn::parse_quote!(f64);
-            Ok(Node::Type { value })
-        }
-        openapi::Schema {
-            additional_properties: None | Some(openapi::AdditionalProperties::Bool(true)),
-            properties: None,
-            type_: Some(openapi::Type::Object),
-            ..
-        } => {
-            let value = syn::parse_quote!(std::collections::HashMap<String, serde_json::Value>);
-            Ok(Node::Type { value })
-        }
-        openapi::Schema {
-            enum_: None,
-            format: None | Some(openapi::Format::Uri),
-            type_: Some(openapi::Type::String),
-            ..
-        } => {
-            let value = syn::parse_quote!(String);
-            Ok(Node::Type { value })
-        }
-        openapi::Schema {
-            enum_: None,
-            format: Some(openapi::Format::Binary),
-            type_: Some(openapi::Type::String),
-            ..
-        } => {
-            let value = syn::parse_quote!(Vec<u8>);
-            Ok(Node::Type { value })
-        }
-        openapi::Schema {
-            enum_: Some(enum_),
-            format: None | Some(openapi::Format::Uri),
-            type_: Some(openapi::Type::String),
-            ..
-        } => {
+    if let openapi::Schema {
+        additional_properties: None | Some(openapi::AdditionalProperties::Bool(false)),
+        description,
+        nullable: _,
+        properties: Some(properties),
+        required: _,
+        type_: None | Some(openapi::Type::Object),
+        x_oai_meta: _,
+        x_oai_type_label: None | Some(openapi::XOaiTypeLabel::Map),
+    } = schema
+    {
+        let discriminator = discriminators.iter().find_map(|(_, discriminator)| {
+            discriminator
+                .mapping
+                .iter()
+                .any(|(s, _, _)| ptr::eq(*s, schema))
+                .then_some(discriminator)
+        });
+        let ident = to_ident_pascal(name);
+        let fields = properties
+            .iter()
+            .filter(|(property_name, _)| {
+                Some(*property_name)
+                    != discriminator.map(|discriminator| discriminator.property_name)
+            })
+            .map(|(property_name, property)| {
+                let ident = to_ident_snake(property_name);
+                let description = to_description(property.description.as_deref());
+                to_type(
+                    &format!("{name}.{property_name}"),
+                    property,
+                    discriminators,
+                    inline,
+                )
+                .with_context(|| format!("properties[{property_name:?}]"))
+                .map(|type_| {
+                    quote::quote! {
+                        #description
+                        #[serde(rename = #property_name)]
+                        pub #ident: Option<#type_>
+                    }
+                })
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+        let description = to_description(description.as_deref());
+        let value = syn::parse_quote! {
+            #description
+            #derive
+            pub struct #ident {
+                #(#fields),*
+            }
+        };
+        Ok(Node::Item { value, ident })
+    } else if let openapi::Schema {
+        default: _,
+        description: _,
+        enum_: _,
+        format: None | Some(openapi::Format::Int64),
+        nullable: _,
+        type_: Some(openapi::Type::Integer),
+        x_oai_meta: _,
+    } = schema
+    {
+        let value = syn::parse_quote!(u64);
+        Ok(Node::Type { value })
+    } else if let openapi::Schema {
+        default: _,
+        description: _,
+        format: None | Some(openapi::Format::Uri),
+        nullable: _,
+        type_: Some(openapi::Type::String),
+        x_stainless_const: _,
+    } = schema
+    {
+        let value = syn::parse_quote!(String);
+        Ok(Node::Type { value })
+    } else if let openapi::Schema {
+        description: _,
+        format: Some(openapi::Format::Binary),
+        type_: Some(openapi::Type::String),
+        x_oai_type_label: None | Some(openapi::XOaiTypeLabel::File),
+    } = schema
+    {
+        let value = syn::parse_quote!(Vec<u8>);
+        Ok(Node::Type { value })
+    } else if let openapi::Schema {
+        default: _,
+        description: _,
+        items: Some(items),
+        nullable: _,
+        type_: None | Some(openapi::Type::Array),
+    } = schema
+    {
+        let type_ =
+            to_type(&format!("{name}.item"), items, discriminators, inline).context("items")?;
+        let value = syn::parse_quote!(Vec<#type_>);
+        Ok(Node::Type { value })
+    } else if let openapi::Schema {
+        description: _,
+        type_: Some(openapi::Type::Array),
+    } = schema
+    {
+        let value = syn::parse_quote!(Vec<serde_json::Value>);
+        Ok(Node::Type { value })
+    } else if let openapi::Schema {
+        description: _,
+        nullable: _,
+        ref_: Some(ref_),
+        type_: _,
+    } = schema
+        && let Some(ref_) = ref_.strip_prefix("#/components/schemas/")
+    {
+        let ref_ = to_ident_pascal(ref_);
+        let value = syn::parse_quote!(#ref_);
+        Ok(Node::Type { value })
+    } else if let openapi::Schema {
+        default: _,
+        description: _,
+        nullable: _,
+        type_: Some(openapi::Type::Boolean),
+    } = schema
+    {
+        let value = syn::parse_quote!(bool);
+        Ok(Node::Type { value })
+    } else if let openapi::Schema {
+        default: _,
+        description,
+        enum_: Some(enum_),
+        nullable: _,
+        type_: None | Some(openapi::Type::String),
+        x_stainless_const: _,
+    } = schema
+    {
+        let ident = to_ident_pascal(name);
+        let variants = enum_.iter().map(|enum_| {
+            let ident = to_ident_pascal(enum_);
+            quote::quote! {
+                #[serde(rename = #enum_)]
+                #ident
+            }
+        });
+        let description = to_description(description.as_deref());
+        let value = syn::parse_quote! {
+            #description
+            #derive
+            pub enum #ident {
+                #(#variants),*
+            }
+        };
+        Ok(Node::Item { value, ident })
+    } else if let openapi::Schema {
+        default: _,
+        description,
+        discriminator: _,
+        nullable: _,
+        one_of: Some(one_of),
+        x_oai_meta: _,
+    } = schema
+    {
+        if let Some((_, discriminator)) = discriminators.iter().find(|(s, _)| ptr::eq(*s, schema)) {
             let ident = to_ident_pascal(name);
-            let variants = enum_.iter().map(|enum_| {
-                let ident = to_ident_pascal(enum_);
-                quote::quote! {
-                    #[serde(rename = #enum_)]
-                    #ident
-                }
-            });
-            let description = to_description(schema.description.as_deref());
+            let property_name = discriminator.property_name;
+            let variants = one_of
+                .iter()
+                .zip(&discriminator.mapping)
+                .enumerate()
+                .map(|(i, (of, (_, const_, aliases)))| {
+                    let ident = to_ident_pascal(const_);
+                    to_type(&format!("{name}.{i}"), of, discriminators, inline)
+                        .with_context(|| format!("oneOf[{i}]"))
+                        .map(|type_| {
+                            quote::quote! {
+                                #[serde(rename = #const_, #(alias = #aliases),*)]
+                                #ident(#type_)
+                            }
+                        })
+                })
+                .collect::<Result<Vec<_>, _>>()?;
+            let description = to_description(description.as_deref());
             let value = syn::parse_quote! {
                 #description
                 #derive
+                #[allow(clippy::large_enum_variant)]
+                #[serde(tag = #property_name)]
+                pub enum #ident {
+                    #(#variants),*
+                }
+            };
+            Ok(Node::Item { value, ident })
+        } else {
+            let ident = to_ident_pascal(name);
+            let variants = one_of
+                .iter()
+                .enumerate()
+                .map(|(i, of)| {
+                    let ident = to_ident_pascal(&i.to_string());
+                    to_type(&format!("{name}.{i}"), of, discriminators, inline)
+                        .with_context(|| format!("oneOf[{i}]"))
+                        .map(|type_| {
+                            quote::quote! {
+                                #ident(#type_)
+                            }
+                        })
+                })
+                .collect::<Result<Vec<_>, _>>()?;
+            let description = to_description(description.as_deref());
+            let value = syn::parse_quote! {
+                #description
+                #derive
+                #[allow(clippy::large_enum_variant)]
+                #[serde(untagged)]
                 pub enum #ident {
                     #(#variants),*
                 }
             };
             Ok(Node::Item { value, ident })
         }
-
-        openapi::Schema {
-            items: Some(items),
-            type_: None | Some(openapi::Type::Array),
-            ..
-        } => {
-            let type_ =
-                to_type(&format!("{name}.item"), items, discriminators, inline).context("items")?;
-            let value = syn::parse_quote!(Vec<#type_>);
-            Ok(Node::Type { value })
-        }
-
-        openapi::Schema {
-            additional_properties:
-                Some(openapi::AdditionalProperties::Schema(additional_properties)),
-            properties: None,
-            type_: Some(openapi::Type::Object),
-            ..
-        } => {
-            let type_ = to_type(
-                &format!("{name}.additionalProperties"),
-                additional_properties,
-                discriminators,
-                inline,
-            )
-            .context("additionalProperties")?;
-            let value = syn::parse_quote!(std::collections::HashMap<String, #type_>);
-            Ok(Node::Type { value })
-        }
-        openapi::Schema {
-            properties: Some(properties),
-            type_: None | Some(openapi::Type::Object),
-            ..
-        } => {
-            let discriminator = discriminators.iter().find_map(|(_, discriminator)| {
-                discriminator
-                    .mapping
-                    .iter()
-                    .any(|(s, _, _)| ptr::eq(*s, schema))
-                    .then_some(discriminator)
-            });
+    } else if let openapi::Schema {
+        any_of: Some(any_of),
+        description,
+        discriminator: _,
+    } = schema
+    {
+        if let Some((_, discriminator)) = discriminators.iter().find(|(s, _)| ptr::eq(*s, schema)) {
             let ident = to_ident_pascal(name);
-            let fields = properties
+            let property_name = discriminator.property_name;
+            let variants = any_of
                 .iter()
-                .filter(|(property_name, _)| {
-                    Some(*property_name)
-                        != discriminator.map(|discriminator| discriminator.property_name)
-                })
-                .map(|(property_name, property)| {
-                    let ident = to_ident_snake(property_name);
-                    let description = to_description(property.description.as_deref());
-                    to_type(
-                        &format!("{name}.{property_name}"),
-                        property,
-                        discriminators,
-                        inline,
-                    )
-                    .with_context(|| format!("properties[{property_name:?}]"))
-                    .map(|type_| {
-                        quote::quote! {
-                            #description
-                            #[serde(rename = #property_name)]
-                            pub #ident: #type_
-                        }
-                    })
-                })
-                .collect::<Result<Vec<_>, _>>()?;
-            let description = to_description(schema.description.as_deref());
-            let value = syn::parse_quote! {
-                #description
-                #derive
-                pub struct #ident {
-                    #(#fields),*
-                }
-            };
-            Ok(Node::Item { value, ident })
-        }
-
-        openapi::Schema {
-            all_of: Some(all_of),
-            ..
-        } => {
-            let ident = to_ident_pascal(name);
-            let fields = all_of
-                .iter()
+                .zip(&discriminator.mapping)
                 .enumerate()
-                .map(|(i, all_of)| {
-                    let ident = to_ident_snake(&i.to_string());
-                    to_type(&format!("{name}[{i}]"), all_of, discriminators, inline)
-                        .with_context(|| format!("allOf[{i}]"))
+                .map(|(i, (of, (_, const_, aliases)))| {
+                    let ident = to_ident_pascal(const_);
+                    to_type(&format!("{name}.{i}"), of, discriminators, inline)
+                        .with_context(|| format!("anyOf[{i}]"))
                         .map(|type_| {
                             quote::quote! {
-                                #[serde(flatten)]
-                                pub #ident: #type_
+                                #[serde(rename = #const_, #(alias = #aliases),*)]
+                                #ident(#type_)
                             }
                         })
                 })
                 .collect::<Result<Vec<_>, _>>()?;
-            let description = to_description(schema.description.as_deref());
+            let description = to_description(description.as_deref());
             let value = syn::parse_quote! {
                 #description
                 #derive
-                pub struct #ident {
-                    #(#fields),*
+                #[allow(clippy::large_enum_variant)]
+                #[serde(tag = #property_name)]
+                pub enum #ident {
+                    #(#variants),*
+                }
+            };
+            Ok(Node::Item { value, ident })
+        } else {
+            let ident = to_ident_pascal(name);
+            let variants = any_of
+                .iter()
+                .enumerate()
+                .map(|(i, of)| {
+                    let ident = to_ident_pascal(&i.to_string());
+                    to_type(&format!("{name}.{i}"), of, discriminators, inline)
+                        .with_context(|| format!("anyOf[{i}]"))
+                        .map(|type_| {
+                            quote::quote! {
+                                #ident(#type_)
+                            }
+                        })
+                })
+                .collect::<Result<Vec<_>, _>>()?;
+            let description = to_description(description.as_deref());
+            let value = syn::parse_quote! {
+                #description
+                #derive
+                #[allow(clippy::large_enum_variant)]
+                #[serde(untagged)]
+                pub enum #ident {
+                    #(#variants),*
                 }
             };
             Ok(Node::Item { value, ident })
         }
-        openapi::Schema {
-            any_of: Some(of), ..
+    } else if let openapi::Schema {
+        any_of: Some(any_of),
+        description,
+    } = schema
+    {
+        if let Some((_, discriminator)) = discriminators.iter().find(|(s, _)| ptr::eq(*s, schema)) {
+            let ident = to_ident_pascal(name);
+            let property_name = discriminator.property_name;
+            let variants = any_of
+                .iter()
+                .zip(&discriminator.mapping)
+                .enumerate()
+                .map(|(i, (of, (_, const_, aliases)))| {
+                    let ident = to_ident_pascal(const_);
+                    to_type(&format!("{name}.{i}"), of, discriminators, inline)
+                        .with_context(|| format!("anyOf[{i}]"))
+                        .map(|type_| {
+                            quote::quote! {
+                                #[serde(rename = #const_, #(alias = #aliases),*)]
+                                #ident(#type_)
+                            }
+                        })
+                })
+                .collect::<Result<Vec<_>, _>>()?;
+            let description = to_description(description.as_deref());
+            let value = syn::parse_quote! {
+                #description
+                #derive
+                #[allow(clippy::large_enum_variant)]
+                #[serde(tag = #property_name)]
+                pub enum #ident {
+                    #(#variants),*
+                }
+            };
+            Ok(Node::Item { value, ident })
+        } else {
+            let ident = to_ident_pascal(name);
+            let variants = any_of
+                .iter()
+                .enumerate()
+                .map(|(i, of)| {
+                    let ident = to_ident_pascal(&i.to_string());
+                    to_type(&format!("{name}.{i}"), of, discriminators, inline)
+                        .with_context(|| format!("anyOf[{i}]"))
+                        .map(|type_| {
+                            quote::quote! {
+                                #ident(#type_)
+                            }
+                        })
+                })
+                .collect::<Result<Vec<_>, _>>()?;
+            let description = to_description(description.as_deref());
+            let value = syn::parse_quote! {
+                #description
+                #derive
+                #[allow(clippy::large_enum_variant)]
+                #[serde(untagged)]
+                pub enum #ident {
+                    #(#variants),*
+                }
+            };
+            Ok(Node::Item { value, ident })
         }
-        | openapi::Schema {
-            one_of: Some(of), ..
-        } => {
-            if let [
-                of,
-                openapi::Schema {
-                    type_: Some(openapi::Type::Null),
-                    ..
-                },
-            ] = &of[..]
-            {
-                let type_ = to_type(&format!("{name}[0]"), of, discriminators, inline)
-                    .context("anyOf/oneOf[0]")?;
-                let value = if of.nullable.unwrap_or_default() {
-                    syn::parse_quote!(Option<#type_>)
+    } else if let openapi::Schema {
+        default: _,
+        description: _,
+        format: None | Some(openapi::Format::Float),
+        nullable: _,
+        type_: Some(openapi::Type::Number),
+    } = schema
+    {
+        let value = syn::parse_quote!(f64);
+        Ok(Node::Type { value })
+    } else if let openapi::Schema {
+        description: _,
+        type_: Some(openapi::Type::Object),
+        x_oai_type_label: Some(openapi::XOaiTypeLabel::Map),
+    } = schema
+    {
+        let value = syn::parse_quote!(std::collections::HashMap<String, serde_json::Value>);
+        Ok(Node::Type { value })
+    } else if let openapi::Schema {
+        all_of: Some(all_of),
+        description,
+        required: _,
+    } = schema
+        && let Some(all_of) = all_of
+            .iter()
+            .map(|all_of| {
+                if let openapi::Schema {
+                    properties: Some(properties),
+                    required: _,
+                    type_: Some(openapi::Type::Object),
+                    x_oai_meta: _,
+                } = all_of
+                {
+                    Some(either::Left(properties))
+                } else if let openapi::Schema { ref_: Some(ref_) } = all_of
+                    && let Some(ref_) = ref_.strip_prefix("#/components/schemas/")
+                {
+                    Some(either::Right(ref_))
                 } else {
-                    type_
-                };
-                Ok(Node::Type { value })
-            } else if let Some((_, discriminator)) =
-                discriminators.iter().find(|(s, _)| ptr::eq(*s, schema))
-            {
-                let ident = to_ident_pascal(name);
-                let property_name = discriminator.property_name;
-                let variants = of
-                    .iter()
-                    .zip(&discriminator.mapping)
-                    .enumerate()
-                    .map(|(i, (of, (_, const_, aliases)))| {
-                        let ident = to_ident_pascal(const_);
-                        to_type(&format!("{name}[{i}]"), of, discriminators, inline)
-                            .with_context(|| format!("anyOf/oneOf[{i}]"))
-                            .map(|type_| {
-                                quote::quote! {
-                                    #[serde(rename = #const_, #(alias = #aliases),*)]
-                                    #ident(#type_)
-                                }
-                            })
-                    })
-                    .collect::<Result<Vec<_>, _>>()?;
-                let description = to_description(schema.description.as_deref());
-                let value = syn::parse_quote! {
-                    #description
-                    #derive
-                    #[allow(clippy::large_enum_variant)]
-                    #[serde(tag = #property_name)]
-                    pub enum #ident {
-                        #(#variants),*
-                    }
-                };
-                Ok(Node::Item { value, ident })
-            } else {
-                let ident = to_ident_pascal(name);
-                let variants = of
-                    .iter()
-                    .enumerate()
-                    .map(|(i, of)| {
-                        let ident = to_ident_pascal(&i.to_string());
-                        to_type(&format!("{name}[{i}]"), of, discriminators, inline)
-                            .with_context(|| format!("anyOf/oneOf[{i}]"))
-                            .map(|type_| {
-                                quote::quote! {
-                                    #ident(#type_)
-                                }
-                            })
-                    })
-                    .collect::<Result<Vec<_>, _>>()?;
-                let description = to_description(schema.description.as_deref());
-                let value = syn::parse_quote! {
-                    #description
-                    #derive
-                    #[allow(clippy::large_enum_variant)]
-                    #[serde(untagged)]
-                    pub enum #ident {
-                        #(#variants),*
-                    }
-                };
-                Ok(Node::Item { value, ident })
+                    None
+                }
+            })
+            .collect::<Option<Vec<_>>>()
+    {
+        let discriminator = discriminators.iter().find_map(|(_, discriminator)| {
+            discriminator
+                .mapping
+                .iter()
+                .any(|(s, _, _)| ptr::eq(*s, schema))
+                .then_some(discriminator)
+        });
+        let ident = to_ident_pascal(name);
+        let fields = all_of
+            .into_iter()
+            .flat_map(|all_of| {
+                all_of.map_either(
+                    |properties| properties.iter().map(either::Left),
+                    |ref_| iter::once(either::Right(ref_)),
+                )
+            })
+            .map(|all_of| {
+                all_of.either(
+                    |(property_name, property)| {
+                        // .iter()
+                        // .filter(|(property_name, _)| {
+                        //     Some(*property_name)
+                        //         != discriminator
+                        //             .map(|discriminator| discriminator.property_name)
+                        // })
+                        // .map(|| {
+                        let ident = to_ident_snake(property_name);
+                        let description = to_description(property.description.as_deref());
+                        to_type(
+                            &format!("{name}.{property_name}"),
+                            property,
+                            discriminators,
+                            inline,
+                        )
+                        .with_context(|| format!("properties[{property_name:?}]"))
+                        .map(|type_| {
+                            quote::quote! {
+                                #description
+                                #[serde(rename = #property_name)]
+                                pub #ident: Option<#type_>
+                            }
+                        })
+                    },
+                    |ref_| {
+                        let ident = to_ident_snake(ref_);
+                        let type_ = to_ident_pascal(ref_);
+                        Ok(quote::quote! {
+                            #description
+                            #[serde(flatten)]
+                            pub #ident: Option<#type_>
+                        })
+                    },
+                )
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+        let description = to_description(description.as_deref());
+        let value = syn::parse_quote! {
+            #description
+            #derive
+            pub struct #ident {
+                #(#fields),*
             }
-        }
-
-        _ => Err(anyhow::format_err!("unknown: {schema:#?}")),
+        };
+        Ok(Node::Item { value, ident })
+    } else if let openapi::Schema {
+        any_of: Some(_),
+        default: _,
+        description: _,
+        nullable: _,
+        x_oai_type_label: Some(openapi::XOaiTypeLabel::String),
+    } = schema
+    {
+        let value = syn::parse_quote!(String);
+        Ok(Node::Type { value })
+    } else if let openapi::Schema { description: _ } = schema {
+        let value = syn::parse_quote!(serde_json::Value);
+        Ok(Node::Type { value })
+    } else if let openapi::Schema {
+        additional_properties: Some(openapi::AdditionalProperties::Schema(additional_properties)),
+        description: _,
+        nullable: _,
+        type_: Some(openapi::Type::Object),
+        x_oai_type_label: None | Some(openapi::XOaiTypeLabel::Map),
+    } = schema
+    {
+        let type_ = to_type(
+            &format!("{name}.item"),
+            additional_properties,
+            discriminators,
+            inline,
+        )
+        .context("additionalProperties")?;
+        let value = syn::parse_quote!(std::collections::HashMap<String, #type_>);
+        Ok(Node::Type { value })
+    } else if let openapi::Schema {
+        additional_properties: None | Some(openapi::AdditionalProperties::Bool(true)),
+        description: _,
+        nullable: _,
+        type_: Some(openapi::Type::Object),
+    } = schema
+    {
+        let value = syn::parse_quote!(std::collections::HashMap<String, serde_json::Value>);
+        Ok(Node::Type { value })
+    } else {
+        Err(anyhow::format_err!("unknown: {schema:#?}"))
     }
 }
 
