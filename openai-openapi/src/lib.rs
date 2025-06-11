@@ -2,34 +2,34 @@
 pub struct AddUploadPartRequest {
     #[doc = "The chunk of bytes for this Part.\n"]
     #[serde(rename = "data")]
-    pub data: Option<Vec<u8>>,
+    pub data: Vec<u8>,
 }
 #[doc = "Represents an individual Admin API key in an org."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct AdminApiKey {
     #[doc = "The object type, which is always `organization.admin_api_key`"]
     #[serde(rename = "object")]
-    pub object: Option<String>,
+    pub object: String,
     #[doc = "The identifier, which can be referenced in API endpoints"]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The name of the API key"]
     #[serde(rename = "name")]
-    pub name: Option<String>,
+    pub name: String,
     #[doc = "The redacted value of the API key"]
     #[serde(rename = "redacted_value")]
-    pub redacted_value: Option<String>,
+    pub redacted_value: String,
     #[doc = "The value of the API key. Only shown on create."]
     #[serde(rename = "value")]
     pub value: Option<String>,
     #[doc = "The Unix timestamp (in seconds) of when the API key was created"]
     #[serde(rename = "created_at")]
-    pub created_at: Option<u64>,
+    pub created_at: u64,
     #[doc = "The Unix timestamp (in seconds) of when the API key was last used"]
     #[serde(rename = "last_used_at")]
     pub last_used_at: Option<u64>,
     #[serde(rename = "owner")]
-    pub owner: Option<AdminApiKeyOwner>,
+    pub owner: AdminApiKeyOwner,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct AdminApiKeyOwner {
@@ -80,7 +80,7 @@ pub struct ApiKeyList {
 pub struct ApproximateLocation {
     #[doc = "The type of location approximation. Always `approximate`."]
     #[serde(rename = "type")]
-    pub type_: Option<ApproximateLocationType>,
+    pub type_: ApproximateLocationType,
     #[doc = "The two-letter [ISO country code](https://en.wikipedia.org/wiki/ISO_3166-1) of the user, e.g. `US`."]
     #[serde(rename = "country")]
     pub country: Option<String>,
@@ -105,13 +105,13 @@ pub enum ApproximateLocationType {
 pub struct AssistantObject {
     #[doc = "The identifier, which can be referenced in API endpoints."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The object type, which is always `assistant`."]
     #[serde(rename = "object")]
-    pub object: Option<AssistantObjectObject>,
+    pub object: AssistantObjectObject,
     #[doc = "The Unix timestamp (in seconds) for when the assistant was created."]
     #[serde(rename = "created_at")]
-    pub created_at: Option<u64>,
+    pub created_at: u64,
     #[doc = "The name of the assistant. The maximum length is 256 characters.\n"]
     #[serde(rename = "name")]
     pub name: Option<String>,
@@ -120,18 +120,18 @@ pub struct AssistantObject {
     pub description: Option<String>,
     #[doc = "ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models) for descriptions of them.\n"]
     #[serde(rename = "model")]
-    pub model: Option<String>,
+    pub model: String,
     #[doc = "The system instructions that the assistant uses. The maximum length is 256,000 characters.\n"]
     #[serde(rename = "instructions")]
     pub instructions: Option<String>,
     #[doc = "A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `file_search`, or `function`.\n"]
     #[serde(rename = "tools")]
-    pub tools: Option<Vec<AssistantObjectToolsItem>>,
+    pub tools: Vec<AssistantObjectToolsItem>,
     #[doc = "A set of resources that are used by the assistant's tools. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.\n"]
     #[serde(rename = "tool_resources")]
     pub tool_resources: Option<AssistantObjectToolResources>,
     #[serde(rename = "metadata")]
-    pub metadata: Option<Metadata>,
+    pub metadata: Metadata,
     #[doc = "What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.\n"]
     #[serde(rename = "temperature")]
     pub temperature: Option<f64>,
@@ -287,7 +287,7 @@ pub struct AssistantToolsFileSearchTypeOnly {}
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct AssistantToolsFunction {
     #[serde(rename = "function")]
-    pub function: Option<FunctionObject>,
+    pub function: FunctionObject,
 }
 #[doc = "Specifies the format that the model must output. Compatible with [GPT-4o](/docs/models#gpt-4o), [GPT-4 Turbo](/docs/models#gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.\n\nSetting to `{ \"type\": \"json_schema\", \"json_schema\": {...} }` enables Structured Outputs which ensures the model will match your supplied JSON schema. Learn more in the [Structured Outputs guide](/docs/guides/structured-outputs).\n\nSetting to `{ \"type\": \"json_object\" }` enables JSON mode, which ensures the message the model generates is valid JSON.\n\n**Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly \"stuck\" request. Also note that the message content may be partially cut off if `finish_reason=\"length\"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -328,7 +328,7 @@ pub enum AssistantsApiToolChoiceOption0 {
 pub struct AssistantsNamedToolChoice {
     #[doc = "The type of the tool. If type is `function`, the function name must be set"]
     #[serde(rename = "type")]
-    pub type_: Option<AssistantsNamedToolChoiceType>,
+    pub type_: AssistantsNamedToolChoiceType,
     #[serde(rename = "function")]
     pub function: Option<AssistantsNamedToolChoiceFunction>,
 }
@@ -336,7 +336,7 @@ pub struct AssistantsNamedToolChoice {
 pub struct AssistantsNamedToolChoiceFunction {
     #[doc = "The name of the function to call."]
     #[serde(rename = "name")]
-    pub name: Option<String>,
+    pub name: String,
 }
 #[doc = "The type of the tool. If type is `function`, the function name must be set"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -367,17 +367,17 @@ pub enum AudioResponseFormat {
 pub struct AuditLog {
     #[doc = "The ID of this log."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[serde(rename = "type")]
-    pub type_: Option<AuditLogEventType>,
+    pub type_: AuditLogEventType,
     #[doc = "The Unix timestamp (in seconds) of the event."]
     #[serde(rename = "effective_at")]
-    pub effective_at: Option<u64>,
+    pub effective_at: u64,
     #[doc = "The project that the action was scoped to. Absent for actions not scoped to projects."]
     #[serde(rename = "project")]
     pub project: Option<AuditLogProject>,
     #[serde(rename = "actor")]
-    pub actor: Option<AuditLogActor>,
+    pub actor: AuditLogActor,
     #[doc = "The details for events with this `type`."]
     #[serde(rename = "api_key.created")]
     pub api_key_created: Option<AuditLogApiKeyCreated>,
@@ -979,24 +979,24 @@ pub struct AutoChunkingStrategyRequestParam {}
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct Batch {
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The object type, which is always `batch`."]
     #[serde(rename = "object")]
-    pub object: Option<BatchObject>,
+    pub object: BatchObject,
     #[doc = "The OpenAI API endpoint used by the batch."]
     #[serde(rename = "endpoint")]
-    pub endpoint: Option<String>,
+    pub endpoint: String,
     #[serde(rename = "errors")]
     pub errors: Option<BatchErrors>,
     #[doc = "The ID of the input file for the batch."]
     #[serde(rename = "input_file_id")]
-    pub input_file_id: Option<String>,
+    pub input_file_id: String,
     #[doc = "The time frame within which the batch should be processed."]
     #[serde(rename = "completion_window")]
-    pub completion_window: Option<String>,
+    pub completion_window: String,
     #[doc = "The current status of the batch."]
     #[serde(rename = "status")]
-    pub status: Option<BatchStatus>,
+    pub status: BatchStatus,
     #[doc = "The ID of the file containing the outputs of successfully executed requests."]
     #[serde(rename = "output_file_id")]
     pub output_file_id: Option<String>,
@@ -1005,7 +1005,7 @@ pub struct Batch {
     pub error_file_id: Option<String>,
     #[doc = "The Unix timestamp (in seconds) for when the batch was created."]
     #[serde(rename = "created_at")]
-    pub created_at: Option<u64>,
+    pub created_at: u64,
     #[doc = "The Unix timestamp (in seconds) for when the batch started processing."]
     #[serde(rename = "in_progress_at")]
     pub in_progress_at: Option<u64>,
@@ -1070,13 +1070,13 @@ pub enum BatchObject {
 pub struct BatchRequestCounts {
     #[doc = "Total number of requests in the batch."]
     #[serde(rename = "total")]
-    pub total: Option<u64>,
+    pub total: u64,
     #[doc = "Number of requests that have been completed successfully."]
     #[serde(rename = "completed")]
-    pub completed: Option<u64>,
+    pub completed: u64,
     #[doc = "Number of requests that have failed."]
     #[serde(rename = "failed")]
-    pub failed: Option<u64>,
+    pub failed: u64,
 }
 #[doc = "The per-line object of the batch input file"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -1158,18 +1158,18 @@ pub enum BatchStatus {
 pub struct Certificate {
     #[doc = "The object type.\n\n- If creating, updating, or getting a specific certificate, the object type is `certificate`.\n- If listing, activating, or deactivating certificates for the organization, the object type is `organization.certificate`.\n- If listing, activating, or deactivating certificates for a project, the object type is `organization.project.certificate`.\n"]
     #[serde(rename = "object")]
-    pub object: Option<CertificateObject>,
+    pub object: CertificateObject,
     #[doc = "The identifier, which can be referenced in API endpoints"]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The name of the certificate."]
     #[serde(rename = "name")]
-    pub name: Option<String>,
+    pub name: String,
     #[doc = "The Unix timestamp (in seconds) of when the certificate was uploaded."]
     #[serde(rename = "created_at")]
-    pub created_at: Option<u64>,
+    pub created_at: u64,
     #[serde(rename = "certificate_details")]
-    pub certificate_details: Option<CertificateCertificateDetails>,
+    pub certificate_details: CertificateCertificateDetails,
     #[doc = "Whether the certificate is currently active at the specified scope. Not returned when getting details for a specific certificate."]
     #[serde(rename = "active")]
     pub active: Option<bool>,
@@ -1200,13 +1200,13 @@ pub enum CertificateObject {
 pub struct ChatCompletionDeleted {
     #[doc = "The type of object being deleted."]
     #[serde(rename = "object")]
-    pub object: Option<ChatCompletionDeletedObject>,
+    pub object: ChatCompletionDeletedObject,
     #[doc = "The ID of the chat completion that was deleted."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "Whether the chat completion was deleted."]
     #[serde(rename = "deleted")]
-    pub deleted: Option<bool>,
+    pub deleted: bool,
 }
 #[doc = "The type of object being deleted."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -1219,7 +1219,7 @@ pub enum ChatCompletionDeletedObject {
 pub struct ChatCompletionFunctionCallOption {
     #[doc = "The name of the function to call."]
     #[serde(rename = "name")]
-    pub name: Option<String>,
+    pub name: String,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ChatCompletionFunctions {
@@ -1228,7 +1228,7 @@ pub struct ChatCompletionFunctions {
     pub description: Option<String>,
     #[doc = "The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64."]
     #[serde(rename = "name")]
-    pub name: Option<String>,
+    pub name: String,
     #[serde(rename = "parameters")]
     pub parameters: Option<FunctionParameters>,
 }
@@ -1237,19 +1237,19 @@ pub struct ChatCompletionFunctions {
 pub struct ChatCompletionList {
     #[doc = "The type of this object. It is always set to \"list\".\n"]
     #[serde(rename = "object")]
-    pub object: Option<ChatCompletionListObject>,
+    pub object: ChatCompletionListObject,
     #[doc = "An array of chat completion objects.\n"]
     #[serde(rename = "data")]
-    pub data: Option<Vec<CreateChatCompletionResponse>>,
+    pub data: Vec<CreateChatCompletionResponse>,
     #[doc = "The identifier of the first chat completion in the data array."]
     #[serde(rename = "first_id")]
-    pub first_id: Option<String>,
+    pub first_id: String,
     #[doc = "The identifier of the last chat completion in the data array."]
     #[serde(rename = "last_id")]
-    pub last_id: Option<String>,
+    pub last_id: String,
     #[doc = "Indicates whether there are more Chat Completions available."]
     #[serde(rename = "has_more")]
-    pub has_more: Option<bool>,
+    pub has_more: bool,
 }
 #[doc = "The type of this object. It is always set to \"list\".\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -1262,19 +1262,19 @@ pub enum ChatCompletionListObject {
 pub struct ChatCompletionMessageList {
     #[doc = "The type of this object. It is always set to \"list\".\n"]
     #[serde(rename = "object")]
-    pub object: Option<ChatCompletionMessageListObject>,
+    pub object: ChatCompletionMessageListObject,
     #[doc = "An array of chat completion message objects.\n"]
     #[serde(rename = "data")]
-    pub data: Option<Vec<ChatCompletionMessageListDataItem>>,
+    pub data: Vec<ChatCompletionMessageListDataItem>,
     #[doc = "The identifier of the first chat message in the data array."]
     #[serde(rename = "first_id")]
-    pub first_id: Option<String>,
+    pub first_id: String,
     #[doc = "The identifier of the last chat message in the data array."]
     #[serde(rename = "last_id")]
-    pub last_id: Option<String>,
+    pub last_id: String,
     #[doc = "Indicates whether there are more chat messages available."]
     #[serde(rename = "has_more")]
-    pub has_more: Option<bool>,
+    pub has_more: bool,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ChatCompletionMessageListDataItem {
@@ -1282,7 +1282,7 @@ pub struct ChatCompletionMessageListDataItem {
     pub chat_completion_response_message: Option<ChatCompletionResponseMessage>,
     #[doc = "The identifier of the chat message."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
 }
 #[doc = "The type of this object. It is always set to \"list\".\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -1294,18 +1294,18 @@ pub enum ChatCompletionMessageListObject {
 pub struct ChatCompletionMessageToolCall {
     #[doc = "The ID of the tool call."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The type of the tool. Currently, only `function` is supported."]
     #[serde(rename = "type")]
-    pub type_: Option<ChatCompletionMessageToolCallType>,
+    pub type_: ChatCompletionMessageToolCallType,
     #[doc = "The function that the model called."]
     #[serde(rename = "function")]
-    pub function: Option<ChatCompletionMessageToolCallFunction>,
+    pub function: ChatCompletionMessageToolCallFunction,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ChatCompletionMessageToolCallChunk {
     #[serde(rename = "index")]
-    pub index: Option<u64>,
+    pub index: u64,
     #[doc = "The ID of the tool call."]
     #[serde(rename = "id")]
     pub id: Option<String>,
@@ -1335,10 +1335,10 @@ pub enum ChatCompletionMessageToolCallChunkType {
 pub struct ChatCompletionMessageToolCallFunction {
     #[doc = "The name of the function to call."]
     #[serde(rename = "name")]
-    pub name: Option<String>,
+    pub name: String,
     #[doc = "The arguments to call the function with, as generated by the model in JSON format. Note that the model does not always generate valid JSON, and may hallucinate parameters not defined by your function schema. Validate the arguments in your code before calling your function."]
     #[serde(rename = "arguments")]
-    pub arguments: Option<String>,
+    pub arguments: String,
 }
 #[doc = "The type of the tool. Currently, only `function` is supported."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -1362,15 +1362,15 @@ pub enum ChatCompletionModalitiesItem {
 pub struct ChatCompletionNamedToolChoice {
     #[doc = "The type of the tool. Currently, only `function` is supported."]
     #[serde(rename = "type")]
-    pub type_: Option<ChatCompletionNamedToolChoiceType>,
+    pub type_: ChatCompletionNamedToolChoiceType,
     #[serde(rename = "function")]
-    pub function: Option<ChatCompletionNamedToolChoiceFunction>,
+    pub function: ChatCompletionNamedToolChoiceFunction,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ChatCompletionNamedToolChoiceFunction {
     #[doc = "The name of the function to call."]
     #[serde(rename = "name")]
-    pub name: Option<String>,
+    pub name: String,
 }
 #[doc = "The type of the tool. Currently, only `function` is supported."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -1404,7 +1404,7 @@ pub struct ChatCompletionRequestAssistantMessage {
 pub struct ChatCompletionRequestAssistantMessageAudio {
     #[doc = "Unique identifier for a previous audio response from the model.\n"]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
 }
 #[doc = "The contents of the assistant message. Required unless `tool_calls` or `function_call` is specified.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -1428,17 +1428,17 @@ pub enum ChatCompletionRequestAssistantMessageContentPart {
 pub struct ChatCompletionRequestAssistantMessageFunctionCall {
     #[doc = "The arguments to call the function with, as generated by the model in JSON format. Note that the model does not always generate valid JSON, and may hallucinate parameters not defined by your function schema. Validate the arguments in your code before calling your function."]
     #[serde(rename = "arguments")]
-    pub arguments: Option<String>,
+    pub arguments: String,
     #[doc = "The name of the function to call."]
     #[serde(rename = "name")]
-    pub name: Option<String>,
+    pub name: String,
 }
 #[doc = "Developer-provided instructions that the model should follow, regardless of\nmessages sent by the user. With o1 models and newer, `developer` messages\nreplace the previous `system` messages.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ChatCompletionRequestDeveloperMessage {
     #[doc = "The contents of the developer message."]
     #[serde(rename = "content")]
-    pub content: Option<ChatCompletionRequestDeveloperMessageContent>,
+    pub content: ChatCompletionRequestDeveloperMessageContent,
     #[doc = "An optional name for the participant. Provides the model information to differentiate between participants of the same role."]
     #[serde(rename = "name")]
     pub name: Option<String>,
@@ -1458,7 +1458,7 @@ pub struct ChatCompletionRequestFunctionMessage {
     pub content: Option<String>,
     #[doc = "The name of the function to call."]
     #[serde(rename = "name")]
-    pub name: Option<String>,
+    pub name: String,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 #[allow(clippy::large_enum_variant)]
@@ -1481,16 +1481,16 @@ pub enum ChatCompletionRequestMessage {
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ChatCompletionRequestMessageContentPartAudio {
     #[serde(rename = "input_audio")]
-    pub input_audio: Option<ChatCompletionRequestMessageContentPartAudioInputAudio>,
+    pub input_audio: ChatCompletionRequestMessageContentPartAudioInputAudio,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ChatCompletionRequestMessageContentPartAudioInputAudio {
     #[doc = "Base64 encoded audio data."]
     #[serde(rename = "data")]
-    pub data: Option<String>,
+    pub data: String,
     #[doc = "The format of the encoded audio data. Currently supports \"wav\" and \"mp3\".\n"]
     #[serde(rename = "format")]
-    pub format: Option<ChatCompletionRequestMessageContentPartAudioInputAudioFormat>,
+    pub format: ChatCompletionRequestMessageContentPartAudioInputAudioFormat,
 }
 #[doc = "The format of the encoded audio data. Currently supports \"wav\" and \"mp3\".\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -1504,7 +1504,7 @@ pub enum ChatCompletionRequestMessageContentPartAudioInputAudioFormat {
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ChatCompletionRequestMessageContentPartFile {
     #[serde(rename = "file")]
-    pub file: Option<ChatCompletionRequestMessageContentPartFileFile>,
+    pub file: ChatCompletionRequestMessageContentPartFileFile,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ChatCompletionRequestMessageContentPartFileFile {
@@ -1522,13 +1522,13 @@ pub struct ChatCompletionRequestMessageContentPartFileFile {
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ChatCompletionRequestMessageContentPartImage {
     #[serde(rename = "image_url")]
-    pub image_url: Option<ChatCompletionRequestMessageContentPartImageImageUrl>,
+    pub image_url: ChatCompletionRequestMessageContentPartImageImageUrl,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ChatCompletionRequestMessageContentPartImageImageUrl {
     #[doc = "Either a URL of the image or the base64 encoded image data."]
     #[serde(rename = "url")]
-    pub url: Option<String>,
+    pub url: String,
     #[doc = "Specifies the detail level of the image. Learn more in the [Vision guide](/docs/guides/vision#low-or-high-fidelity-image-understanding)."]
     #[serde(rename = "detail")]
     pub detail: Option<ChatCompletionRequestMessageContentPartImageImageUrlDetail>,
@@ -1547,21 +1547,21 @@ pub enum ChatCompletionRequestMessageContentPartImageImageUrlDetail {
 pub struct ChatCompletionRequestMessageContentPartRefusal {
     #[doc = "The refusal message generated by the model."]
     #[serde(rename = "refusal")]
-    pub refusal: Option<String>,
+    pub refusal: String,
 }
 #[doc = "Learn about [text inputs](/docs/guides/text-generation).\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ChatCompletionRequestMessageContentPartText {
     #[doc = "The text content."]
     #[serde(rename = "text")]
-    pub text: Option<String>,
+    pub text: String,
 }
 #[doc = "Developer-provided instructions that the model should follow, regardless of\nmessages sent by the user. With o1 models and newer, use `developer` messages\nfor this purpose instead.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ChatCompletionRequestSystemMessage {
     #[doc = "The contents of the system message."]
     #[serde(rename = "content")]
-    pub content: Option<ChatCompletionRequestSystemMessageContent>,
+    pub content: ChatCompletionRequestSystemMessageContent,
     #[doc = "An optional name for the participant. Provides the model information to differentiate between participants of the same role."]
     #[serde(rename = "name")]
     pub name: Option<String>,
@@ -1585,10 +1585,10 @@ pub enum ChatCompletionRequestSystemMessageContentPart {
 pub struct ChatCompletionRequestToolMessage {
     #[doc = "The contents of the tool message."]
     #[serde(rename = "content")]
-    pub content: Option<ChatCompletionRequestToolMessageContent>,
+    pub content: ChatCompletionRequestToolMessageContent,
     #[doc = "Tool call that this message is responding to."]
     #[serde(rename = "tool_call_id")]
-    pub tool_call_id: Option<String>,
+    pub tool_call_id: String,
 }
 #[doc = "The contents of the tool message."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -1610,7 +1610,7 @@ pub enum ChatCompletionRequestToolMessageContentPart {
 pub struct ChatCompletionRequestUserMessage {
     #[doc = "The contents of the user message.\n"]
     #[serde(rename = "content")]
-    pub content: Option<ChatCompletionRequestUserMessageContent>,
+    pub content: ChatCompletionRequestUserMessageContent,
     #[doc = "An optional name for the participant. Provides the model information to differentiate between participants of the same role."]
     #[serde(rename = "name")]
     pub name: Option<String>,
@@ -1652,7 +1652,7 @@ pub struct ChatCompletionResponseMessage {
     pub annotations: Option<Vec<ChatCompletionResponseMessageAnnotationsItem>>,
     #[doc = "The role of the author of this message."]
     #[serde(rename = "role")]
-    pub role: Option<ChatCompletionResponseMessageRole>,
+    pub role: ChatCompletionResponseMessageRole,
     #[doc = "Deprecated and replaced by `tool_calls`. The name and arguments of a function that should be called, as generated by the model."]
     #[serde(rename = "function_call")]
     pub function_call: Option<ChatCompletionResponseMessageFunctionCall>,
@@ -1665,10 +1665,10 @@ pub struct ChatCompletionResponseMessage {
 pub struct ChatCompletionResponseMessageAnnotationsItem {
     #[doc = "The type of the URL citation. Always `url_citation`."]
     #[serde(rename = "type")]
-    pub type_: Option<ChatCompletionResponseMessageAnnotationsItemType>,
+    pub type_: ChatCompletionResponseMessageAnnotationsItemType,
     #[doc = "A URL citation when using web search."]
     #[serde(rename = "url_citation")]
-    pub url_citation: Option<ChatCompletionResponseMessageAnnotationsItemUrlCitation>,
+    pub url_citation: ChatCompletionResponseMessageAnnotationsItemUrlCitation,
 }
 #[doc = "The type of the URL citation. Always `url_citation`."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -1681,42 +1681,42 @@ pub enum ChatCompletionResponseMessageAnnotationsItemType {
 pub struct ChatCompletionResponseMessageAnnotationsItemUrlCitation {
     #[doc = "The index of the last character of the URL citation in the message."]
     #[serde(rename = "end_index")]
-    pub end_index: Option<u64>,
+    pub end_index: u64,
     #[doc = "The index of the first character of the URL citation in the message."]
     #[serde(rename = "start_index")]
-    pub start_index: Option<u64>,
+    pub start_index: u64,
     #[doc = "The URL of the web resource."]
     #[serde(rename = "url")]
-    pub url: Option<String>,
+    pub url: String,
     #[doc = "The title of the web resource."]
     #[serde(rename = "title")]
-    pub title: Option<String>,
+    pub title: String,
 }
 #[doc = "If the audio output modality is requested, this object contains data\nabout the audio response from the model. [Learn more](/docs/guides/audio).\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ChatCompletionResponseMessageAudio {
     #[doc = "Unique identifier for this audio response."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The Unix timestamp (in seconds) for when this audio response will\nno longer be accessible on the server for use in multi-turn\nconversations.\n"]
     #[serde(rename = "expires_at")]
-    pub expires_at: Option<u64>,
+    pub expires_at: u64,
     #[doc = "Base64 encoded audio bytes generated by the model, in the format\nspecified in the request.\n"]
     #[serde(rename = "data")]
-    pub data: Option<String>,
+    pub data: String,
     #[doc = "Transcript of the audio generated by the model."]
     #[serde(rename = "transcript")]
-    pub transcript: Option<String>,
+    pub transcript: String,
 }
 #[doc = "Deprecated and replaced by `tool_calls`. The name and arguments of a function that should be called, as generated by the model."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ChatCompletionResponseMessageFunctionCall {
     #[doc = "The arguments to call the function with, as generated by the model in JSON format. Note that the model does not always generate valid JSON, and may hallucinate parameters not defined by your function schema. Validate the arguments in your code before calling your function."]
     #[serde(rename = "arguments")]
-    pub arguments: Option<String>,
+    pub arguments: String,
     #[doc = "The name of the function to call."]
     #[serde(rename = "name")]
-    pub name: Option<String>,
+    pub name: String,
 }
 #[doc = "The role of the author of this message."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -1793,25 +1793,25 @@ pub enum ChatCompletionStreamResponseDeltaRole {
 pub struct ChatCompletionTokenLogprob {
     #[doc = "The token."]
     #[serde(rename = "token")]
-    pub token: Option<String>,
+    pub token: String,
     #[doc = "The log probability of this token, if it is within the top 20 most likely tokens. Otherwise, the value `-9999.0` is used to signify that the token is very unlikely."]
     #[serde(rename = "logprob")]
-    pub logprob: Option<f64>,
+    pub logprob: f64,
     #[doc = "A list of integers representing the UTF-8 bytes representation of the token. Useful in instances where characters are represented by multiple tokens and their byte representations must be combined to generate the correct text representation. Can be `null` if there is no bytes representation for the token."]
     #[serde(rename = "bytes")]
     pub bytes: Option<Vec<u64>>,
     #[doc = "List of the most likely tokens and their log probability, at this token position. In rare cases, there may be fewer than the number of requested `top_logprobs` returned."]
     #[serde(rename = "top_logprobs")]
-    pub top_logprobs: Option<Vec<ChatCompletionTokenLogprobTopLogprobsItem>>,
+    pub top_logprobs: Vec<ChatCompletionTokenLogprobTopLogprobsItem>,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ChatCompletionTokenLogprobTopLogprobsItem {
     #[doc = "The token."]
     #[serde(rename = "token")]
-    pub token: Option<String>,
+    pub token: String,
     #[doc = "The log probability of this token, if it is within the top 20 most likely tokens. Otherwise, the value `-9999.0` is used to signify that the token is very unlikely."]
     #[serde(rename = "logprob")]
-    pub logprob: Option<f64>,
+    pub logprob: f64,
     #[doc = "A list of integers representing the UTF-8 bytes representation of the token. Useful in instances where characters are represented by multiple tokens and their byte representations must be combined to generate the correct text representation. Can be `null` if there is no bytes representation for the token."]
     #[serde(rename = "bytes")]
     pub bytes: Option<Vec<u64>>,
@@ -1820,9 +1820,9 @@ pub struct ChatCompletionTokenLogprobTopLogprobsItem {
 pub struct ChatCompletionTool {
     #[doc = "The type of the tool. Currently, only `function` is supported."]
     #[serde(rename = "type")]
-    pub type_: Option<ChatCompletionToolType>,
+    pub type_: ChatCompletionToolType,
     #[serde(rename = "function")]
-    pub function: Option<FunctionObject>,
+    pub function: FunctionObject,
 }
 #[doc = "Controls which (if any) tool is called by the model.\n`none` means the model will not call any tool and instead generates a message.\n`auto` means the model can pick between generating a message or calling one or more tools.\n`required` means the model must call one or more tools.\nSpecifying a particular tool via `{\"type\": \"function\", \"function\": {\"name\": \"my_function\"}}` forces the model to call that tool.\n\n`none` is the default when no tools are present. `auto` is the default if tools are present.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -1863,13 +1863,13 @@ pub enum ChunkingStrategyRequestParam {
 pub struct Click {
     #[doc = "Indicates which mouse button was pressed during the click. One of `left`, `right`, `wheel`, `back`, or `forward`.\n"]
     #[serde(rename = "button")]
-    pub button: Option<ClickButton>,
+    pub button: ClickButton,
     #[doc = "The x-coordinate where the click occurred.\n"]
     #[serde(rename = "x")]
-    pub x: Option<u64>,
+    pub x: u64,
     #[doc = "The y-coordinate where the click occurred.\n"]
     #[serde(rename = "y")]
-    pub y: Option<u64>,
+    pub y: u64,
 }
 #[doc = "Indicates which mouse button was pressed during the click. One of `left`, `right`, `wheel`, `back`, or `forward`.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -1889,42 +1889,42 @@ pub enum ClickButton {
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CodeInterpreterFileOutput {
     #[serde(rename = "files")]
-    pub files: Option<Vec<CodeInterpreterFileOutputFilesItem>>,
+    pub files: Vec<CodeInterpreterFileOutputFilesItem>,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CodeInterpreterFileOutputFilesItem {
     #[doc = "The MIME type of the file.\n"]
     #[serde(rename = "mime_type")]
-    pub mime_type: Option<String>,
+    pub mime_type: String,
     #[doc = "The ID of the file.\n"]
     #[serde(rename = "file_id")]
-    pub file_id: Option<String>,
+    pub file_id: String,
 }
 #[doc = "The output of a code interpreter tool call that is text.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CodeInterpreterTextOutput {
     #[doc = "The logs of the code interpreter tool call.\n"]
     #[serde(rename = "logs")]
-    pub logs: Option<String>,
+    pub logs: String,
 }
 #[doc = "A tool call to run code.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CodeInterpreterToolCall {
     #[doc = "The unique ID of the code interpreter tool call.\n"]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The type of the code interpreter tool call. Always `code_interpreter_call`.\n"]
     #[serde(rename = "type")]
-    pub type_: Option<CodeInterpreterToolCallType>,
+    pub type_: CodeInterpreterToolCallType,
     #[doc = "The code to run.\n"]
     #[serde(rename = "code")]
-    pub code: Option<String>,
+    pub code: String,
     #[doc = "The status of the code interpreter tool call.\n"]
     #[serde(rename = "status")]
-    pub status: Option<CodeInterpreterToolCallStatus>,
+    pub status: CodeInterpreterToolCallStatus,
     #[doc = "The results of the code interpreter tool call.\n"]
     #[serde(rename = "results")]
-    pub results: Option<Vec<CodeInterpreterToolOutput>>,
+    pub results: Vec<CodeInterpreterToolOutput>,
 }
 #[doc = "The status of the code interpreter tool call.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -1956,13 +1956,13 @@ pub enum CodeInterpreterToolOutput {
 pub struct ComparisonFilter {
     #[doc = "Specifies the comparison operator: `eq`, `ne`, `gt`, `gte`, `lt`, `lte`.\n- `eq`: equals\n- `ne`: not equal\n- `gt`: greater than\n- `gte`: greater than or equal\n- `lt`: less than\n- `lte`: less than or equal\n"]
     #[serde(rename = "type")]
-    pub type_: Option<ComparisonFilterType>,
+    pub type_: ComparisonFilterType,
     #[doc = "The key to compare against the value."]
     #[serde(rename = "key")]
-    pub key: Option<String>,
+    pub key: String,
     #[doc = "The value to compare against the attribute key; supports string, number, or boolean types."]
     #[serde(rename = "value")]
-    pub value: Option<ComparisonFilterValue>,
+    pub value: ComparisonFilterValue,
 }
 #[doc = "Specifies the comparison operator: `eq`, `ne`, `gt`, `gte`, `lt`, `lte`.\n- `eq`: equals\n- `ne`: not equal\n- `gt`: greater than\n- `gte`: greater than or equal\n- `lt`: less than\n- `lte`: less than or equal\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -1993,7 +1993,7 @@ pub enum ComparisonFilterValue {
 pub struct CompleteUploadRequest {
     #[doc = "The ordered list of Part IDs.\n"]
     #[serde(rename = "part_ids")]
-    pub part_ids: Option<Vec<String>>,
+    pub part_ids: Vec<String>,
     #[doc = "The optional md5 checksum for the file contents to verify if the bytes uploaded matches what you expect.\n"]
     #[serde(rename = "md5")]
     pub md5: Option<String>,
@@ -2003,13 +2003,13 @@ pub struct CompleteUploadRequest {
 pub struct CompletionUsage {
     #[doc = "Number of tokens in the generated completion."]
     #[serde(rename = "completion_tokens")]
-    pub completion_tokens: Option<u64>,
+    pub completion_tokens: u64,
     #[doc = "Number of tokens in the prompt."]
     #[serde(rename = "prompt_tokens")]
-    pub prompt_tokens: Option<u64>,
+    pub prompt_tokens: u64,
     #[doc = "Total number of tokens used in the request (prompt + completion)."]
     #[serde(rename = "total_tokens")]
-    pub total_tokens: Option<u64>,
+    pub total_tokens: u64,
     #[doc = "Breakdown of tokens used in a completion."]
     #[serde(rename = "completion_tokens_details")]
     pub completion_tokens_details: Option<CompletionUsageCompletionTokensDetails>,
@@ -2048,10 +2048,10 @@ pub struct CompletionUsagePromptTokensDetails {
 pub struct CompoundFilter {
     #[doc = "Type of operation: `and` or `or`."]
     #[serde(rename = "type")]
-    pub type_: Option<CompoundFilterType>,
+    pub type_: CompoundFilterType,
     #[doc = "Array of filters to combine. Items can be `ComparisonFilter` or `CompoundFilter`."]
     #[serde(rename = "filters")]
-    pub filters: Option<Vec<CompoundFilterFiltersItem>>,
+    pub filters: Vec<CompoundFilterFiltersItem>,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 #[allow(clippy::large_enum_variant)]
@@ -2099,12 +2099,12 @@ pub struct ComputerCallOutputItemParam {
     pub id: Option<String>,
     #[doc = "The ID of the computer tool call that produced the output."]
     #[serde(rename = "call_id")]
-    pub call_id: Option<String>,
+    pub call_id: String,
     #[doc = "The type of the computer tool call output. Always `computer_call_output`."]
     #[serde(rename = "type")]
-    pub type_: Option<ComputerCallOutputItemParamType>,
+    pub type_: ComputerCallOutputItemParamType,
     #[serde(rename = "output")]
-    pub output: Option<ComputerScreenshotImage>,
+    pub output: ComputerScreenshotImage,
     #[doc = "The safety checks reported by the API that have been acknowledged by the developer."]
     #[serde(rename = "acknowledged_safety_checks")]
     pub acknowledged_safety_checks: Option<Vec<ComputerCallSafetyCheckParam>>,
@@ -2133,7 +2133,7 @@ pub enum ComputerCallOutputItemParamType {
 pub struct ComputerCallSafetyCheckParam {
     #[doc = "The ID of the pending safety check."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The type of the pending safety check."]
     #[serde(rename = "code")]
     pub code: Option<String>,
@@ -2146,7 +2146,7 @@ pub struct ComputerCallSafetyCheckParam {
 pub struct ComputerScreenshotImage {
     #[doc = "Specifies the event type. For a computer screenshot, this property is \nalways set to `computer_screenshot`.\n"]
     #[serde(rename = "type")]
-    pub type_: Option<ComputerScreenshotImageType>,
+    pub type_: ComputerScreenshotImageType,
     #[doc = "The URL of the screenshot image."]
     #[serde(rename = "image_url")]
     pub image_url: Option<String>,
@@ -2165,39 +2165,39 @@ pub enum ComputerScreenshotImageType {
 pub struct ComputerToolCall {
     #[doc = "The type of the computer call. Always `computer_call`."]
     #[serde(rename = "type")]
-    pub type_: Option<ComputerToolCallType>,
+    pub type_: ComputerToolCallType,
     #[doc = "The unique ID of the computer call."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "An identifier used when responding to the tool call with output.\n"]
     #[serde(rename = "call_id")]
-    pub call_id: Option<String>,
+    pub call_id: String,
     #[serde(rename = "action")]
-    pub action: Option<ComputerAction>,
+    pub action: ComputerAction,
     #[doc = "The pending safety checks for the computer call.\n"]
     #[serde(rename = "pending_safety_checks")]
-    pub pending_safety_checks: Option<Vec<ComputerToolCallSafetyCheck>>,
+    pub pending_safety_checks: Vec<ComputerToolCallSafetyCheck>,
     #[doc = "The status of the item. One of `in_progress`, `completed`, or\n`incomplete`. Populated when items are returned via API.\n"]
     #[serde(rename = "status")]
-    pub status: Option<ComputerToolCallStatus>,
+    pub status: ComputerToolCallStatus,
 }
 #[doc = "The output of a computer tool call.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ComputerToolCallOutput {
     #[doc = "The type of the computer tool call output. Always `computer_call_output`.\n"]
     #[serde(rename = "type")]
-    pub type_: Option<ComputerToolCallOutputType>,
+    pub type_: ComputerToolCallOutputType,
     #[doc = "The ID of the computer tool call output.\n"]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "The ID of the computer tool call that produced the output.\n"]
     #[serde(rename = "call_id")]
-    pub call_id: Option<String>,
+    pub call_id: String,
     #[doc = "The safety checks reported by the API that have been acknowledged by the \ndeveloper.\n"]
     #[serde(rename = "acknowledged_safety_checks")]
     pub acknowledged_safety_checks: Option<Vec<ComputerToolCallSafetyCheck>>,
     #[serde(rename = "output")]
-    pub output: Option<ComputerScreenshotImage>,
+    pub output: ComputerScreenshotImage,
     #[doc = "The status of the message input. One of `in_progress`, `completed`, or\n`incomplete`. Populated when input items are returned via API.\n"]
     #[serde(rename = "status")]
     pub status: Option<ComputerToolCallOutputStatus>,
@@ -2208,7 +2208,7 @@ pub struct ComputerToolCallOutputResource {
     pub computer_tool_call_output: Option<ComputerToolCallOutput>,
     #[doc = "The unique ID of the computer call tool output.\n"]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
 }
 #[doc = "The status of the message input. One of `in_progress`, `completed`, or\n`incomplete`. Populated when input items are returned via API.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -2231,13 +2231,13 @@ pub enum ComputerToolCallOutputType {
 pub struct ComputerToolCallSafetyCheck {
     #[doc = "The ID of the pending safety check."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The type of the pending safety check."]
     #[serde(rename = "code")]
-    pub code: Option<String>,
+    pub code: String,
     #[doc = "Details about the pending safety check."]
     #[serde(rename = "message")]
-    pub message: Option<String>,
+    pub message: String,
 }
 #[doc = "The status of the item. One of `in_progress`, `completed`, or\n`incomplete`. Populated when items are returned via API.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -2260,13 +2260,13 @@ pub enum ComputerToolCallType {
 pub struct ComputerUsePreviewTool {
     #[doc = "The type of computer environment to control."]
     #[serde(rename = "environment")]
-    pub environment: Option<ComputerUsePreviewToolEnvironment>,
+    pub environment: ComputerUsePreviewToolEnvironment,
     #[doc = "The width of the computer display."]
     #[serde(rename = "display_width")]
-    pub display_width: Option<u64>,
+    pub display_width: u64,
     #[doc = "The height of the computer display."]
     #[serde(rename = "display_height")]
-    pub display_height: Option<u64>,
+    pub display_height: u64,
 }
 #[doc = "The type of computer environment to control."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -2295,10 +2295,10 @@ pub enum Content {
 pub struct Coordinate {
     #[doc = "The x-coordinate.\n"]
     #[serde(rename = "x")]
-    pub x: Option<u64>,
+    pub x: u64,
     #[doc = "The y-coordinate.\n"]
     #[serde(rename = "y")]
-    pub y: Option<u64>,
+    pub y: u64,
 }
 #[doc = "The aggregated costs details of the specific time bucket."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -2327,7 +2327,7 @@ pub struct CostsResultAmount {
 pub struct CreateAssistantRequest {
     #[doc = "ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models) for descriptions of them.\n"]
     #[serde(rename = "model")]
-    pub model: Option<String>,
+    pub model: String,
     #[doc = "The name of the assistant. The maximum length is 256 characters.\n"]
     #[serde(rename = "name")]
     pub name: Option<String>,
@@ -2381,7 +2381,7 @@ pub enum CreateAssistantRequestToolResourcesFileSearch {
 pub struct CreateAssistantRequestToolResourcesFileSearch0 {
     #[doc = "The [vector store](/docs/api-reference/vector-stores/object) attached to this assistant. There can be a maximum of 1 vector store attached to the assistant.\n"]
     #[serde(rename = "vector_store_ids")]
-    pub vector_store_ids: Option<Vec<String>>,
+    pub vector_store_ids: Vec<String>,
     #[doc = "A helper to create a [vector store](/docs/api-reference/vector-stores/object) with file_ids and attach it to this assistant. There can be a maximum of 1 vector store attached to the assistant.\n"]
     #[serde(rename = "vector_stores")]
     pub vector_stores: Option<Vec<CreateAssistantRequestToolResourcesFileSearch0VectorStoresItem>>,
@@ -2414,18 +2414,17 @@ pub struct CreateAssistantRequestToolResourcesFileSearch0VectorStoresItemChunkin
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CreateAssistantRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategy1 {
     #[serde(rename = "static")]
-    pub static_: Option<
+    pub static_:
         CreateAssistantRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategy1Static,
-    >,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CreateAssistantRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategy1Static {
     #[doc = "The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the maximum value is `4096`."]
     #[serde(rename = "max_chunk_size_tokens")]
-    pub max_chunk_size_tokens: Option<u64>,
+    pub max_chunk_size_tokens: u64,
     #[doc = "The number of tokens that overlap between chunks. The default value is `400`.\n\nNote that the overlap must not exceed half of `max_chunk_size_tokens`.\n"]
     #[serde(rename = "chunk_overlap_tokens")]
-    pub chunk_overlap_tokens: Option<u64>,
+    pub chunk_overlap_tokens: u64,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CreateAssistantRequestToolResourcesFileSearch1 {
@@ -2434,7 +2433,7 @@ pub struct CreateAssistantRequestToolResourcesFileSearch1 {
     pub vector_store_ids: Option<Vec<String>>,
     #[doc = "A helper to create a [vector store](/docs/api-reference/vector-stores/object) with file_ids and attach it to this assistant. There can be a maximum of 1 vector store attached to the assistant.\n"]
     #[serde(rename = "vector_stores")]
-    pub vector_stores: Option<Vec<CreateAssistantRequestToolResourcesFileSearch1VectorStoresItem>>,
+    pub vector_stores: Vec<CreateAssistantRequestToolResourcesFileSearch1VectorStoresItem>,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CreateAssistantRequestToolResourcesFileSearch1VectorStoresItem {
@@ -2464,18 +2463,17 @@ pub struct CreateAssistantRequestToolResourcesFileSearch1VectorStoresItemChunkin
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CreateAssistantRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategy1 {
     #[serde(rename = "static")]
-    pub static_: Option<
+    pub static_:
         CreateAssistantRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategy1Static,
-    >,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CreateAssistantRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategy1Static {
     #[doc = "The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the maximum value is `4096`."]
     #[serde(rename = "max_chunk_size_tokens")]
-    pub max_chunk_size_tokens: Option<u64>,
+    pub max_chunk_size_tokens: u64,
     #[doc = "The number of tokens that overlap between chunks. The default value is `400`.\n\nNote that the overlap must not exceed half of `max_chunk_size_tokens`.\n"]
     #[serde(rename = "chunk_overlap_tokens")]
-    pub chunk_overlap_tokens: Option<u64>,
+    pub chunk_overlap_tokens: u64,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 #[allow(clippy::large_enum_variant)]
@@ -2494,10 +2492,10 @@ pub struct CreateChatCompletionRequest {
     pub create_model_response_properties: Option<CreateModelResponseProperties>,
     #[doc = "A list of messages comprising the conversation so far. Depending on the\n[model](/docs/models) you use, different message types (modalities) are\nsupported, like [text](/docs/guides/text-generation),\n[images](/docs/guides/vision), and [audio](/docs/guides/audio).\n"]
     #[serde(rename = "messages")]
-    pub messages: Option<Vec<ChatCompletionRequestMessage>>,
+    pub messages: Vec<ChatCompletionRequestMessage>,
     #[doc = "Model ID used to generate the response, like `gpt-4o` or `o3`. OpenAI\noffers a wide range of models with different capabilities, performance\ncharacteristics, and price points. Refer to the [model guide](/docs/models)\nto browse and compare available models.\n"]
     #[serde(rename = "model")]
-    pub model: Option<ModelIdsShared>,
+    pub model: ModelIdsShared,
     #[serde(rename = "modalities")]
     pub modalities: Option<ResponseModalities>,
     #[serde(rename = "reasoning_effort")]
@@ -2570,10 +2568,10 @@ pub struct CreateChatCompletionRequest {
 pub struct CreateChatCompletionRequestAudio {
     #[doc = "The voice the model uses to respond. Supported voices are \n`alloy`, `ash`, `ballad`, `coral`, `echo`, `fable`, `nova`, `onyx`, `sage`, and `shimmer`.\n"]
     #[serde(rename = "voice")]
-    pub voice: Option<VoiceIdsShared>,
+    pub voice: VoiceIdsShared,
     #[doc = "Specifies the output audio format. Must be one of `wav`, `mp3`, `flac`,\n`opus`, or `pcm16`.\n"]
     #[serde(rename = "format")]
-    pub format: Option<CreateChatCompletionRequestAudioFormat>,
+    pub format: CreateChatCompletionRequestAudioFormat,
 }
 #[doc = "Specifies the output audio format. Must be one of `wav`, `mp3`, `flac`,\n`opus`, or `pcm16`.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -2641,9 +2639,9 @@ pub struct CreateChatCompletionRequestWebSearchOptions {
 pub struct CreateChatCompletionRequestWebSearchOptionsUserLocation {
     #[doc = "The type of location approximation. Always `approximate`.\n"]
     #[serde(rename = "type")]
-    pub type_: Option<CreateChatCompletionRequestWebSearchOptionsUserLocationType>,
+    pub type_: CreateChatCompletionRequestWebSearchOptionsUserLocationType,
     #[serde(rename = "approximate")]
-    pub approximate: Option<WebSearchLocation>,
+    pub approximate: WebSearchLocation,
 }
 #[doc = "The type of location approximation. Always `approximate`.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -2656,16 +2654,16 @@ pub enum CreateChatCompletionRequestWebSearchOptionsUserLocationType {
 pub struct CreateChatCompletionResponse {
     #[doc = "A unique identifier for the chat completion."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "A list of chat completion choices. Can be more than one if `n` is greater than 1."]
     #[serde(rename = "choices")]
-    pub choices: Option<Vec<CreateChatCompletionResponseChoicesItem>>,
+    pub choices: Vec<CreateChatCompletionResponseChoicesItem>,
     #[doc = "The Unix timestamp (in seconds) of when the chat completion was created."]
     #[serde(rename = "created")]
-    pub created: Option<u64>,
+    pub created: u64,
     #[doc = "The model used for the chat completion."]
     #[serde(rename = "model")]
-    pub model: Option<String>,
+    pub model: String,
     #[serde(rename = "service_tier")]
     pub service_tier: Option<ServiceTier>,
     #[doc = "This fingerprint represents the backend configuration that the model runs with.\n\nCan be used in conjunction with the `seed` request parameter to understand when backend changes have been made that might impact determinism.\n"]
@@ -2673,7 +2671,7 @@ pub struct CreateChatCompletionResponse {
     pub system_fingerprint: Option<String>,
     #[doc = "The object type, which is always `chat.completion`."]
     #[serde(rename = "object")]
-    pub object: Option<CreateChatCompletionResponseObject>,
+    pub object: CreateChatCompletionResponseObject,
     #[serde(rename = "usage")]
     pub usage: Option<CompletionUsage>,
 }
@@ -2681,12 +2679,12 @@ pub struct CreateChatCompletionResponse {
 pub struct CreateChatCompletionResponseChoicesItem {
     #[doc = "The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,\n`length` if the maximum number of tokens specified in the request was reached,\n`content_filter` if content was omitted due to a flag from our content filters,\n`tool_calls` if the model called a tool, or `function_call` (deprecated) if the model called a function.\n"]
     #[serde(rename = "finish_reason")]
-    pub finish_reason: Option<CreateChatCompletionResponseChoicesItemFinishReason>,
+    pub finish_reason: CreateChatCompletionResponseChoicesItemFinishReason,
     #[doc = "The index of the choice in the list of choices."]
     #[serde(rename = "index")]
-    pub index: Option<u64>,
+    pub index: u64,
     #[serde(rename = "message")]
-    pub message: Option<ChatCompletionResponseMessage>,
+    pub message: ChatCompletionResponseMessage,
     #[doc = "Log probability information for the choice."]
     #[serde(rename = "logprobs")]
     pub logprobs: Option<CreateChatCompletionResponseChoicesItemLogprobs>,
@@ -2726,16 +2724,16 @@ pub enum CreateChatCompletionResponseObject {
 pub struct CreateChatCompletionStreamResponse {
     #[doc = "A unique identifier for the chat completion. Each chunk has the same ID."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "A list of chat completion choices. Can contain more than one elements if `n` is greater than 1. Can also be empty for the\nlast chunk if you set `stream_options: {\"include_usage\": true}`.\n"]
     #[serde(rename = "choices")]
-    pub choices: Option<Vec<CreateChatCompletionStreamResponseChoicesItem>>,
+    pub choices: Vec<CreateChatCompletionStreamResponseChoicesItem>,
     #[doc = "The Unix timestamp (in seconds) of when the chat completion was created. Each chunk has the same timestamp."]
     #[serde(rename = "created")]
-    pub created: Option<u64>,
+    pub created: u64,
     #[doc = "The model to generate the completion."]
     #[serde(rename = "model")]
-    pub model: Option<String>,
+    pub model: String,
     #[serde(rename = "service_tier")]
     pub service_tier: Option<ServiceTier>,
     #[doc = "This fingerprint represents the backend configuration that the model runs with.\nCan be used in conjunction with the `seed` request parameter to understand when backend changes have been made that might impact determinism.\n"]
@@ -2743,7 +2741,7 @@ pub struct CreateChatCompletionStreamResponse {
     pub system_fingerprint: Option<String>,
     #[doc = "The object type, which is always `chat.completion.chunk`."]
     #[serde(rename = "object")]
-    pub object: Option<CreateChatCompletionStreamResponseObject>,
+    pub object: CreateChatCompletionStreamResponseObject,
     #[doc = "An optional field that will only be present when you set\n`stream_options: {\"include_usage\": true}` in your request. When present, it\ncontains a null value **except for the last chunk** which contains the\ntoken usage statistics for the entire request.\n\n**NOTE:** If the stream is interrupted or cancelled, you may not\nreceive the final usage chunk which contains the total token usage for\nthe request.\n"]
     #[serde(rename = "usage")]
     pub usage: Option<CompletionUsage>,
@@ -2751,7 +2749,7 @@ pub struct CreateChatCompletionStreamResponse {
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CreateChatCompletionStreamResponseChoicesItem {
     #[serde(rename = "delta")]
-    pub delta: Option<ChatCompletionStreamResponseDelta>,
+    pub delta: ChatCompletionStreamResponseDelta,
     #[doc = "Log probability information for the choice."]
     #[serde(rename = "logprobs")]
     pub logprobs: Option<CreateChatCompletionStreamResponseChoicesItemLogprobs>,
@@ -2760,7 +2758,7 @@ pub struct CreateChatCompletionStreamResponseChoicesItem {
     pub finish_reason: Option<CreateChatCompletionStreamResponseChoicesItemFinishReason>,
     #[doc = "The index of the choice in the list of choices."]
     #[serde(rename = "index")]
-    pub index: Option<u64>,
+    pub index: u64,
 }
 #[doc = "The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,\n`length` if the maximum number of tokens specified in the request was reached,\n`content_filter` if content was omitted due to a flag from our content filters,\n`tool_calls` if the model called a tool, or `function_call` (deprecated) if the model called a function.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -2796,7 +2794,7 @@ pub enum CreateChatCompletionStreamResponseObject {
 pub struct CreateCompletionRequest {
     #[doc = "ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models) for descriptions of them.\n"]
     #[serde(rename = "model")]
-    pub model: Option<String>,
+    pub model: String,
     #[doc = "The prompt(s) to generate completions for, encoded as a string, array of strings, array of tokens, or array of token arrays.\n\nNote that <|endoftext|> is the document separator that the model sees during training, so if a prompt is not specified the model will generate as if from the beginning of a new document.\n"]
     #[serde(rename = "prompt")]
     pub prompt: Option<CreateCompletionRequestPrompt>,
@@ -2862,22 +2860,22 @@ pub enum CreateCompletionRequestPrompt {
 pub struct CreateCompletionResponse {
     #[doc = "A unique identifier for the completion."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The list of completion choices the model generated for the input prompt."]
     #[serde(rename = "choices")]
-    pub choices: Option<Vec<CreateCompletionResponseChoicesItem>>,
+    pub choices: Vec<CreateCompletionResponseChoicesItem>,
     #[doc = "The Unix timestamp (in seconds) of when the completion was created."]
     #[serde(rename = "created")]
-    pub created: Option<u64>,
+    pub created: u64,
     #[doc = "The model used for completion."]
     #[serde(rename = "model")]
-    pub model: Option<String>,
+    pub model: String,
     #[doc = "This fingerprint represents the backend configuration that the model runs with.\n\nCan be used in conjunction with the `seed` request parameter to understand when backend changes have been made that might impact determinism.\n"]
     #[serde(rename = "system_fingerprint")]
     pub system_fingerprint: Option<String>,
     #[doc = "The object type, which is always \"text_completion\""]
     #[serde(rename = "object")]
-    pub object: Option<CreateCompletionResponseObject>,
+    pub object: CreateCompletionResponseObject,
     #[serde(rename = "usage")]
     pub usage: Option<CompletionUsage>,
 }
@@ -2885,13 +2883,13 @@ pub struct CreateCompletionResponse {
 pub struct CreateCompletionResponseChoicesItem {
     #[doc = "The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,\n`length` if the maximum number of tokens specified in the request was reached,\nor `content_filter` if content was omitted due to a flag from our content filters.\n"]
     #[serde(rename = "finish_reason")]
-    pub finish_reason: Option<CreateCompletionResponseChoicesItemFinishReason>,
+    pub finish_reason: CreateCompletionResponseChoicesItemFinishReason,
     #[serde(rename = "index")]
-    pub index: Option<u64>,
+    pub index: u64,
     #[serde(rename = "logprobs")]
     pub logprobs: Option<CreateCompletionResponseChoicesItemLogprobs>,
     #[serde(rename = "text")]
-    pub text: Option<String>,
+    pub text: String,
 }
 #[doc = "The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,\n`length` if the maximum number of tokens specified in the request was reached,\nor `content_filter` if content was omitted due to a flag from our content filters.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -2924,10 +2922,10 @@ pub enum CreateCompletionResponseObject {
 pub struct CreateEmbeddingRequest {
     #[doc = "Input text to embed, encoded as a string or array of tokens. To embed multiple inputs in a single request, pass an array of strings or array of token arrays. The input must not exceed the max input tokens for the model (8192 tokens for `text-embedding-ada-002`), cannot be an empty string, and any array must be 2048 dimensions or less. [Example Python code](https://cookbook.openai.com/examples/how_to_count_tokens_with_tiktoken) for counting tokens. Some models may also impose a limit on total number of tokens summed across inputs.\n"]
     #[serde(rename = "input")]
-    pub input: Option<CreateEmbeddingRequestInput>,
+    pub input: CreateEmbeddingRequestInput,
     #[doc = "ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models) for descriptions of them.\n"]
     #[serde(rename = "model")]
-    pub model: Option<String>,
+    pub model: String,
     #[doc = "The format to return the embeddings in. Can be either `float` or [`base64`](https://pypi.org/project/pybase64/)."]
     #[serde(rename = "encoding_format")]
     pub encoding_format: Option<CreateEmbeddingRequestEncodingFormat>,
@@ -2960,16 +2958,16 @@ pub enum CreateEmbeddingRequestInput {
 pub struct CreateEmbeddingResponse {
     #[doc = "The list of embeddings generated by the model."]
     #[serde(rename = "data")]
-    pub data: Option<Vec<Embedding>>,
+    pub data: Vec<Embedding>,
     #[doc = "The name of the model used to generate the embedding."]
     #[serde(rename = "model")]
-    pub model: Option<String>,
+    pub model: String,
     #[doc = "The object type, which is always \"list\"."]
     #[serde(rename = "object")]
-    pub object: Option<CreateEmbeddingResponseObject>,
+    pub object: CreateEmbeddingResponseObject,
     #[doc = "The usage information for the request."]
     #[serde(rename = "usage")]
-    pub usage: Option<CreateEmbeddingResponseUsage>,
+    pub usage: CreateEmbeddingResponseUsage,
 }
 #[doc = "The object type, which is always \"list\"."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -2982,17 +2980,17 @@ pub enum CreateEmbeddingResponseObject {
 pub struct CreateEmbeddingResponseUsage {
     #[doc = "The number of tokens used by the prompt."]
     #[serde(rename = "prompt_tokens")]
-    pub prompt_tokens: Option<u64>,
+    pub prompt_tokens: u64,
     #[doc = "The total number of tokens used by the request."]
     #[serde(rename = "total_tokens")]
-    pub total_tokens: Option<u64>,
+    pub total_tokens: u64,
 }
 #[doc = "A CompletionsRunDataSource object describing a model sampling configuration.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CreateEvalCompletionsRunDataSource {
     #[doc = "The type of run data source. Always `completions`."]
     #[serde(rename = "type")]
-    pub type_: Option<CreateEvalCompletionsRunDataSourceType>,
+    pub type_: CreateEvalCompletionsRunDataSourceType,
     #[serde(rename = "input_messages")]
     pub input_messages: Option<CreateEvalCompletionsRunDataSourceInputMessages>,
     #[serde(rename = "sampling_params")]
@@ -3001,7 +2999,7 @@ pub struct CreateEvalCompletionsRunDataSource {
     #[serde(rename = "model")]
     pub model: Option<String>,
     #[serde(rename = "source")]
-    pub source: Option<CreateEvalCompletionsRunDataSourceSource>,
+    pub source: CreateEvalCompletionsRunDataSourceSource,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 #[allow(clippy::large_enum_variant)]
@@ -3014,10 +3012,10 @@ pub enum CreateEvalCompletionsRunDataSourceInputMessages {
 pub struct CreateEvalCompletionsRunDataSourceInputMessages0 {
     #[doc = "The type of input messages. Always `template`."]
     #[serde(rename = "type")]
-    pub type_: Option<CreateEvalCompletionsRunDataSourceInputMessages0Type>,
+    pub type_: CreateEvalCompletionsRunDataSourceInputMessages0Type,
     #[doc = "A list of chat messages forming the prompt or context. May include variable references to the \"item\" namespace, ie {{item.name}}."]
     #[serde(rename = "template")]
-    pub template: Option<Vec<CreateEvalCompletionsRunDataSourceInputMessages0TemplateItem>>,
+    pub template: Vec<CreateEvalCompletionsRunDataSourceInputMessages0TemplateItem>,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 #[allow(clippy::large_enum_variant)]
@@ -3036,10 +3034,10 @@ pub enum CreateEvalCompletionsRunDataSourceInputMessages0Type {
 pub struct CreateEvalCompletionsRunDataSourceInputMessages1 {
     #[doc = "The type of input messages. Always `item_reference`."]
     #[serde(rename = "type")]
-    pub type_: Option<CreateEvalCompletionsRunDataSourceInputMessages1Type>,
+    pub type_: CreateEvalCompletionsRunDataSourceInputMessages1Type,
     #[doc = "A reference to a variable in the \"item\" namespace. Ie, \"item.name\""]
     #[serde(rename = "item_reference")]
-    pub item_reference: Option<String>,
+    pub item_reference: String,
 }
 #[doc = "The type of input messages. Always `item_reference`."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -3084,7 +3082,7 @@ pub enum CreateEvalCompletionsRunDataSourceType {
 pub struct CreateEvalCustomDataSourceConfig {
     #[doc = "The json schema for each row in the data source."]
     #[serde(rename = "item_schema")]
-    pub item_schema: Option<std::collections::HashMap<String, serde_json::Value>>,
+    pub item_schema: std::collections::HashMap<String, serde_json::Value>,
     #[doc = "Whether the eval should expect you to populate the sample namespace (ie, by generating responses off of your data source)"]
     #[serde(rename = "include_sample_schema")]
     pub include_sample_schema: Option<bool>,
@@ -3101,19 +3099,19 @@ pub enum CreateEvalItem {
 pub struct CreateEvalItem0 {
     #[doc = "The role of the message (e.g. \"system\", \"assistant\", \"user\")."]
     #[serde(rename = "role")]
-    pub role: Option<String>,
+    pub role: String,
     #[doc = "The content of the message."]
     #[serde(rename = "content")]
-    pub content: Option<String>,
+    pub content: String,
 }
 #[doc = "A JsonlRunDataSource object with that specifies a JSONL file that matches the eval \n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CreateEvalJsonlRunDataSource {
     #[doc = "The type of data source. Always `jsonl`."]
     #[serde(rename = "type")]
-    pub type_: Option<CreateEvalJsonlRunDataSourceType>,
+    pub type_: CreateEvalJsonlRunDataSourceType,
     #[serde(rename = "source")]
-    pub source: Option<CreateEvalJsonlRunDataSourceSource>,
+    pub source: CreateEvalJsonlRunDataSourceSource,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 #[allow(clippy::large_enum_variant)]
@@ -3135,19 +3133,19 @@ pub enum CreateEvalJsonlRunDataSourceType {
 pub struct CreateEvalLabelModelGrader {
     #[doc = "The name of the grader."]
     #[serde(rename = "name")]
-    pub name: Option<String>,
+    pub name: String,
     #[doc = "The model to use for the evaluation. Must support structured outputs."]
     #[serde(rename = "model")]
-    pub model: Option<String>,
+    pub model: String,
     #[doc = "A list of chat messages forming the prompt or context. May include variable references to the \"item\" namespace, ie {{item.name}}."]
     #[serde(rename = "input")]
-    pub input: Option<Vec<CreateEvalItem>>,
+    pub input: Vec<CreateEvalItem>,
     #[doc = "The labels to classify to each item in the evaluation."]
     #[serde(rename = "labels")]
-    pub labels: Option<Vec<String>>,
+    pub labels: Vec<String>,
     #[doc = "The labels that indicate a passing result. Must be a subset of labels."]
     #[serde(rename = "passing_labels")]
-    pub passing_labels: Option<Vec<String>>,
+    pub passing_labels: Vec<String>,
 }
 #[doc = "A data source config which specifies the metadata property of your stored completions query.\nThis is usually metadata like `usecase=chatbot` or `prompt-version=v2`, etc.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -3165,10 +3163,10 @@ pub struct CreateEvalRequest {
     pub metadata: Option<Metadata>,
     #[doc = "The configuration for the data source used for the evaluation runs."]
     #[serde(rename = "data_source_config")]
-    pub data_source_config: Option<CreateEvalRequestDataSourceConfig>,
+    pub data_source_config: CreateEvalRequestDataSourceConfig,
     #[doc = "A list of graders for all eval runs in this group."]
     #[serde(rename = "testing_criteria")]
-    pub testing_criteria: Option<Vec<CreateEvalRequestTestingCriteriaItem>>,
+    pub testing_criteria: Vec<CreateEvalRequestTestingCriteriaItem>,
 }
 #[doc = "The configuration for the data source used for the evaluation runs."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -3200,7 +3198,7 @@ pub enum CreateEvalRequestTestingCriteriaItem {
 pub struct CreateEvalResponsesRunDataSource {
     #[doc = "The type of run data source. Always `completions`."]
     #[serde(rename = "type")]
-    pub type_: Option<CreateEvalResponsesRunDataSourceType>,
+    pub type_: CreateEvalResponsesRunDataSourceType,
     #[serde(rename = "input_messages")]
     pub input_messages: Option<CreateEvalResponsesRunDataSourceInputMessages>,
     #[serde(rename = "sampling_params")]
@@ -3209,7 +3207,7 @@ pub struct CreateEvalResponsesRunDataSource {
     #[serde(rename = "model")]
     pub model: Option<String>,
     #[serde(rename = "source")]
-    pub source: Option<CreateEvalResponsesRunDataSourceSource>,
+    pub source: CreateEvalResponsesRunDataSourceSource,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 #[allow(clippy::large_enum_variant)]
@@ -3222,10 +3220,10 @@ pub enum CreateEvalResponsesRunDataSourceInputMessages {
 pub struct CreateEvalResponsesRunDataSourceInputMessages0 {
     #[doc = "The type of input messages. Always `template`."]
     #[serde(rename = "type")]
-    pub type_: Option<CreateEvalResponsesRunDataSourceInputMessages0Type>,
+    pub type_: CreateEvalResponsesRunDataSourceInputMessages0Type,
     #[doc = "A list of chat messages forming the prompt or context. May include variable references to the \"item\" namespace, ie {{item.name}}."]
     #[serde(rename = "template")]
-    pub template: Option<Vec<CreateEvalResponsesRunDataSourceInputMessages0TemplateItem>>,
+    pub template: Vec<CreateEvalResponsesRunDataSourceInputMessages0TemplateItem>,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 #[allow(clippy::large_enum_variant)]
@@ -3238,10 +3236,10 @@ pub enum CreateEvalResponsesRunDataSourceInputMessages0TemplateItem {
 pub struct CreateEvalResponsesRunDataSourceInputMessages0TemplateItem0 {
     #[doc = "The role of the message (e.g. \"system\", \"assistant\", \"user\")."]
     #[serde(rename = "role")]
-    pub role: Option<String>,
+    pub role: String,
     #[doc = "The content of the message."]
     #[serde(rename = "content")]
-    pub content: Option<String>,
+    pub content: String,
 }
 #[doc = "The type of input messages. Always `template`."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -3253,10 +3251,10 @@ pub enum CreateEvalResponsesRunDataSourceInputMessages0Type {
 pub struct CreateEvalResponsesRunDataSourceInputMessages1 {
     #[doc = "The type of input messages. Always `item_reference`."]
     #[serde(rename = "type")]
-    pub type_: Option<CreateEvalResponsesRunDataSourceInputMessages1Type>,
+    pub type_: CreateEvalResponsesRunDataSourceInputMessages1Type,
     #[doc = "A reference to a variable in the \"item\" namespace. Ie, \"item.name\""]
     #[serde(rename = "item_reference")]
-    pub item_reference: Option<String>,
+    pub item_reference: String,
 }
 #[doc = "The type of input messages. Always `item_reference`."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -3302,7 +3300,7 @@ pub struct CreateEvalRunRequest {
     pub metadata: Option<Metadata>,
     #[doc = "Details about the run's data source."]
     #[serde(rename = "data_source")]
-    pub data_source: Option<CreateEvalRunRequestDataSource>,
+    pub data_source: CreateEvalRunRequestDataSource,
 }
 #[doc = "Details about the run's data source."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -3317,10 +3315,10 @@ pub enum CreateEvalRunRequestDataSource {
 pub struct CreateFileRequest {
     #[doc = "The File object (not file name) to be uploaded.\n"]
     #[serde(rename = "file")]
-    pub file: Option<Vec<u8>>,
+    pub file: Vec<u8>,
     #[doc = "The intended purpose of the uploaded file. One of: - `assistants`: Used in the Assistants API - `batch`: Used in the Batch API - `fine-tune`: Used for fine-tuning - `vision`: Images used for vision fine-tuning - `user_data`: Flexible file type for any purpose - `evals`: Used for eval data sets\n"]
     #[serde(rename = "purpose")]
-    pub purpose: Option<CreateFileRequestPurpose>,
+    pub purpose: CreateFileRequestPurpose,
 }
 #[doc = "The intended purpose of the uploaded file. One of: - `assistants`: Used in the Assistants API - `batch`: Used in the Batch API - `fine-tune`: Used for fine-tuning - `vision`: Images used for vision fine-tuning - `user_data`: Flexible file type for any purpose - `evals`: Used for eval data sets\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -3342,16 +3340,16 @@ pub enum CreateFileRequestPurpose {
 pub struct CreateFineTuningCheckpointPermissionRequest {
     #[doc = "The project identifiers to grant access to."]
     #[serde(rename = "project_ids")]
-    pub project_ids: Option<Vec<String>>,
+    pub project_ids: Vec<String>,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CreateFineTuningJobRequest {
     #[doc = "The name of the model to fine-tune. You can select one of the\n[supported models](/docs/guides/fine-tuning#which-models-can-be-fine-tuned).\n"]
     #[serde(rename = "model")]
-    pub model: Option<String>,
+    pub model: String,
     #[doc = "The ID of an uploaded file that contains training data.\n\nSee [upload file](/docs/api-reference/files/create) for how to upload a file.\n\nYour dataset must be formatted as a JSONL file. Additionally, you must upload your file with the purpose `fine-tune`.\n\nThe contents of the file should differ depending on if the model uses the [chat](/docs/api-reference/fine-tuning/chat-input), [completions](/docs/api-reference/fine-tuning/completions-input) format, or if the fine-tuning method uses the [preference](/docs/api-reference/fine-tuning/preference-input) format.\n\nSee the [fine-tuning guide](/docs/guides/fine-tuning) for more details.\n"]
     #[serde(rename = "training_file")]
-    pub training_file: Option<String>,
+    pub training_file: String,
     #[doc = "The hyperparameters used for the fine-tuning job.\nThis value is now deprecated in favor of `method`, and should be passed in under the `method` parameter.\n"]
     #[serde(rename = "hyperparameters")]
     pub hyperparameters: Option<CreateFineTuningJobRequestHyperparameters>,
@@ -3429,10 +3427,10 @@ pub enum CreateFineTuningJobRequestHyperparametersNEpochs0 {
 pub struct CreateFineTuningJobRequestIntegrationsItem {
     #[doc = "The type of integration to enable. Currently, only \"wandb\" (Weights and Biases) is supported.\n"]
     #[serde(rename = "type")]
-    pub type_: Option<CreateFineTuningJobRequestIntegrationsItemType>,
+    pub type_: CreateFineTuningJobRequestIntegrationsItemType,
     #[doc = "The settings for your integration with Weights and Biases. This payload specifies the project that\nmetrics will be sent to. Optionally, you can set an explicit display name for your run, add tags\nto your run, and set a default entity (team, username, etc) to be associated with your run.\n"]
     #[serde(rename = "wandb")]
-    pub wandb: Option<CreateFineTuningJobRequestIntegrationsItemWandb>,
+    pub wandb: CreateFineTuningJobRequestIntegrationsItemWandb,
 }
 #[doc = "The type of integration to enable. Currently, only \"wandb\" (Weights and Biases) is supported.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -3451,7 +3449,7 @@ pub enum CreateFineTuningJobRequestIntegrationsItemType0 {
 pub struct CreateFineTuningJobRequestIntegrationsItemWandb {
     #[doc = "The name of the project that the new run will be created under.\n"]
     #[serde(rename = "project")]
-    pub project: Option<String>,
+    pub project: String,
     #[doc = "A display name to set for the run. If not set, we will use the Job ID as the name.\n"]
     #[serde(rename = "name")]
     pub name: Option<String>,
@@ -3466,10 +3464,10 @@ pub struct CreateFineTuningJobRequestIntegrationsItemWandb {
 pub struct CreateImageEditRequest {
     #[doc = "The image(s) to edit. Must be a supported image file or an array of images.\n\nFor `gpt-image-1`, each image should be a `png`, `webp`, or `jpg` file less \nthan 25MB. You can provide up to 16 images.\n\nFor `dall-e-2`, you can only provide one image, and it should be a square \n`png` file less than 4MB.\n"]
     #[serde(rename = "image")]
-    pub image: Option<CreateImageEditRequestImage>,
+    pub image: CreateImageEditRequestImage,
     #[doc = "A text description of the desired image(s). The maximum length is 1000 characters for `dall-e-2`, and 32000 characters for `gpt-image-1`."]
     #[serde(rename = "prompt")]
-    pub prompt: Option<String>,
+    pub prompt: String,
     #[doc = "An additional image whose fully transparent areas (e.g. where alpha is zero) indicate where `image` should be edited. If there are multiple images provided, the mask will be applied on the first image. Must be a valid PNG file, less than 4MB, and have the same dimensions as `image`."]
     #[serde(rename = "mask")]
     pub mask: Option<Vec<u8>>,
@@ -3542,7 +3540,7 @@ pub enum CreateImageEditRequestSize {
 pub struct CreateImageRequest {
     #[doc = "A text description of the desired image(s). The maximum length is 32000 characters for `gpt-image-1`, 1000 characters for `dall-e-2` and 4000 characters for `dall-e-3`."]
     #[serde(rename = "prompt")]
-    pub prompt: Option<String>,
+    pub prompt: String,
     #[doc = "The model to use for image generation. One of `dall-e-2`, `dall-e-3`, or `gpt-image-1`. Defaults to `dall-e-2` unless a parameter specific to `gpt-image-1` is used."]
     #[serde(rename = "model")]
     pub model: Option<String>,
@@ -3661,7 +3659,7 @@ pub enum CreateImageRequestStyle {
 pub struct CreateImageVariationRequest {
     #[doc = "The image to use as the basis for the variation(s). Must be a valid PNG file, less than 4MB, and square."]
     #[serde(rename = "image")]
-    pub image: Option<Vec<u8>>,
+    pub image: Vec<u8>,
     #[doc = "The model to use for image generation. Only `dall-e-2` is supported at this time."]
     #[serde(rename = "model")]
     pub model: Option<String>,
@@ -3700,9 +3698,9 @@ pub enum CreateImageVariationRequestSize {
 pub struct CreateMessageRequest {
     #[doc = "The role of the entity that is creating the message. Allowed values include:\n- `user`: Indicates the message is sent by an actual user and should be used in most cases to represent user-generated messages.\n- `assistant`: Indicates the message is generated by the assistant. Use this value to insert messages from the assistant into the conversation.\n"]
     #[serde(rename = "role")]
-    pub role: Option<CreateMessageRequestRole>,
+    pub role: CreateMessageRequestRole,
     #[serde(rename = "content")]
-    pub content: Option<CreateMessageRequestContent>,
+    pub content: CreateMessageRequestContent,
     #[doc = "A list of files attached to the message, and the tools they should be added to."]
     #[serde(rename = "attachments")]
     pub attachments: Option<Vec<CreateMessageRequestAttachmentsItem>>,
@@ -3713,10 +3711,10 @@ pub struct CreateMessageRequest {
 pub struct CreateMessageRequestAttachmentsItem {
     #[doc = "The ID of the file to attach to the message."]
     #[serde(rename = "file_id")]
-    pub file_id: Option<String>,
+    pub file_id: String,
     #[doc = "The tools to add this file to."]
     #[serde(rename = "tools")]
-    pub tools: Option<Vec<CreateMessageRequestAttachmentsItemToolsItem>>,
+    pub tools: Vec<CreateMessageRequestAttachmentsItemToolsItem>,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 #[allow(clippy::large_enum_variant)]
@@ -3758,7 +3756,7 @@ pub type CreateModelResponseProperties = ModelResponseProperties;
 pub struct CreateModerationRequest {
     #[doc = "Input (or inputs) to classify. Can be a single string, an array of strings, or\nan array of multi-modal input objects similar to other models.\n"]
     #[serde(rename = "input")]
-    pub input: Option<CreateModerationRequestInput>,
+    pub input: CreateModerationRequestInput,
     #[doc = "The content moderation model you would like to use. Learn more in\n[the moderation guide](/docs/guides/moderation), and learn about\navailable models [here](/docs/models#moderation).\n"]
     #[serde(rename = "model")]
     pub model: Option<String>,
@@ -3786,66 +3784,65 @@ pub enum CreateModerationRequestInput2Item {
 pub struct CreateModerationRequestInput2Item0 {
     #[doc = "Contains either an image URL or a data URL for a base64 encoded image."]
     #[serde(rename = "image_url")]
-    pub image_url: Option<CreateModerationRequestInput2Item0ImageUrl>,
+    pub image_url: CreateModerationRequestInput2Item0ImageUrl,
 }
 #[doc = "Contains either an image URL or a data URL for a base64 encoded image."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CreateModerationRequestInput2Item0ImageUrl {
     #[doc = "Either a URL of the image or the base64 encoded image data."]
     #[serde(rename = "url")]
-    pub url: Option<String>,
+    pub url: String,
 }
 #[doc = "An object describing text to classify."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CreateModerationRequestInput2Item1 {
     #[doc = "A string of text to classify."]
     #[serde(rename = "text")]
-    pub text: Option<String>,
+    pub text: String,
 }
 #[doc = "Represents if a given text input is potentially harmful."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CreateModerationResponse {
     #[doc = "The unique identifier for the moderation request."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The model used to generate the moderation results."]
     #[serde(rename = "model")]
-    pub model: Option<String>,
+    pub model: String,
     #[doc = "A list of moderation objects."]
     #[serde(rename = "results")]
-    pub results: Option<Vec<CreateModerationResponseResultsItem>>,
+    pub results: Vec<CreateModerationResponseResultsItem>,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CreateModerationResponseResultsItem {
     #[doc = "Whether any of the below categories are flagged."]
     #[serde(rename = "flagged")]
-    pub flagged: Option<bool>,
+    pub flagged: bool,
     #[doc = "A list of the categories, and whether they are flagged or not."]
     #[serde(rename = "categories")]
-    pub categories: Option<CreateModerationResponseResultsItemCategories>,
+    pub categories: CreateModerationResponseResultsItemCategories,
     #[doc = "A list of the categories along with their scores as predicted by model."]
     #[serde(rename = "category_scores")]
-    pub category_scores: Option<CreateModerationResponseResultsItemCategoryScores>,
+    pub category_scores: CreateModerationResponseResultsItemCategoryScores,
     #[doc = "A list of the categories along with the input type(s) that the score applies to."]
     #[serde(rename = "category_applied_input_types")]
-    pub category_applied_input_types:
-        Option<CreateModerationResponseResultsItemCategoryAppliedInputTypes>,
+    pub category_applied_input_types: CreateModerationResponseResultsItemCategoryAppliedInputTypes,
 }
 #[doc = "A list of the categories, and whether they are flagged or not."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CreateModerationResponseResultsItemCategories {
     #[doc = "Content that expresses, incites, or promotes hate based on race, gender, ethnicity, religion, nationality, sexual orientation, disability status, or caste. Hateful content aimed at non-protected groups (e.g., chess players) is harassment."]
     #[serde(rename = "hate")]
-    pub hate: Option<bool>,
+    pub hate: bool,
     #[doc = "Hateful content that also includes violence or serious harm towards the targeted group based on race, gender, ethnicity, religion, nationality, sexual orientation, disability status, or caste."]
     #[serde(rename = "hate/threatening")]
-    pub hate_threatening: Option<bool>,
+    pub hate_threatening: bool,
     #[doc = "Content that expresses, incites, or promotes harassing language towards any target."]
     #[serde(rename = "harassment")]
-    pub harassment: Option<bool>,
+    pub harassment: bool,
     #[doc = "Harassment content that also includes violence or serious harm towards any target."]
     #[serde(rename = "harassment/threatening")]
-    pub harassment_threatening: Option<bool>,
+    pub harassment_threatening: bool,
     #[doc = "Content that includes instructions or advice that facilitate the planning or execution of wrongdoing, or that gives advice or instruction on how to commit illicit acts. For example, \"how to shoplift\" would fit this category."]
     #[serde(rename = "illicit")]
     pub illicit: Option<bool>,
@@ -3854,83 +3851,75 @@ pub struct CreateModerationResponseResultsItemCategories {
     pub illicit_violent: Option<bool>,
     #[doc = "Content that promotes, encourages, or depicts acts of self-harm, such as suicide, cutting, and eating disorders."]
     #[serde(rename = "self-harm")]
-    pub self_harm: Option<bool>,
+    pub self_harm: bool,
     #[doc = "Content where the speaker expresses that they are engaging or intend to engage in acts of self-harm, such as suicide, cutting, and eating disorders."]
     #[serde(rename = "self-harm/intent")]
-    pub self_harm_intent: Option<bool>,
+    pub self_harm_intent: bool,
     #[doc = "Content that encourages performing acts of self-harm, such as suicide, cutting, and eating disorders, or that gives instructions or advice on how to commit such acts."]
     #[serde(rename = "self-harm/instructions")]
-    pub self_harm_instructions: Option<bool>,
+    pub self_harm_instructions: bool,
     #[doc = "Content meant to arouse sexual excitement, such as the description of sexual activity, or that promotes sexual services (excluding sex education and wellness)."]
     #[serde(rename = "sexual")]
-    pub sexual: Option<bool>,
+    pub sexual: bool,
     #[doc = "Sexual content that includes an individual who is under 18 years old."]
     #[serde(rename = "sexual/minors")]
-    pub sexual_minors: Option<bool>,
+    pub sexual_minors: bool,
     #[doc = "Content that depicts death, violence, or physical injury."]
     #[serde(rename = "violence")]
-    pub violence: Option<bool>,
+    pub violence: bool,
     #[doc = "Content that depicts death, violence, or physical injury in graphic detail."]
     #[serde(rename = "violence/graphic")]
-    pub violence_graphic: Option<bool>,
+    pub violence_graphic: bool,
 }
 #[doc = "A list of the categories along with the input type(s) that the score applies to."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CreateModerationResponseResultsItemCategoryAppliedInputTypes {
     #[doc = "The applied input type(s) for the category 'hate'."]
     #[serde(rename = "hate")]
-    pub hate: Option<Vec<CreateModerationResponseResultsItemCategoryAppliedInputTypesHateItem>>,
+    pub hate: Vec<CreateModerationResponseResultsItemCategoryAppliedInputTypesHateItem>,
     #[doc = "The applied input type(s) for the category 'hate/threatening'."]
     #[serde(rename = "hate/threatening")]
-    pub hate_threatening: Option<
+    pub hate_threatening:
         Vec<CreateModerationResponseResultsItemCategoryAppliedInputTypesHateThreateningItem>,
-    >,
     #[doc = "The applied input type(s) for the category 'harassment'."]
     #[serde(rename = "harassment")]
-    pub harassment:
-        Option<Vec<CreateModerationResponseResultsItemCategoryAppliedInputTypesHarassmentItem>>,
+    pub harassment: Vec<CreateModerationResponseResultsItemCategoryAppliedInputTypesHarassmentItem>,
     #[doc = "The applied input type(s) for the category 'harassment/threatening'."]
     #[serde(rename = "harassment/threatening")]
-    pub harassment_threatening: Option<
+    pub harassment_threatening:
         Vec<CreateModerationResponseResultsItemCategoryAppliedInputTypesHarassmentThreateningItem>,
-    >,
     #[doc = "The applied input type(s) for the category 'illicit'."]
     #[serde(rename = "illicit")]
-    pub illicit:
-        Option<Vec<CreateModerationResponseResultsItemCategoryAppliedInputTypesIllicitItem>>,
+    pub illicit: Vec<CreateModerationResponseResultsItemCategoryAppliedInputTypesIllicitItem>,
     #[doc = "The applied input type(s) for the category 'illicit/violent'."]
     #[serde(rename = "illicit/violent")]
     pub illicit_violent:
-        Option<Vec<CreateModerationResponseResultsItemCategoryAppliedInputTypesIllicitViolentItem>>,
+        Vec<CreateModerationResponseResultsItemCategoryAppliedInputTypesIllicitViolentItem>,
     #[doc = "The applied input type(s) for the category 'self-harm'."]
     #[serde(rename = "self-harm")]
-    pub self_harm:
-        Option<Vec<CreateModerationResponseResultsItemCategoryAppliedInputTypesSelfHarmItem>>,
+    pub self_harm: Vec<CreateModerationResponseResultsItemCategoryAppliedInputTypesSelfHarmItem>,
     #[doc = "The applied input type(s) for the category 'self-harm/intent'."]
     #[serde(rename = "self-harm/intent")]
     pub self_harm_intent:
-        Option<Vec<CreateModerationResponseResultsItemCategoryAppliedInputTypesSelfHarmIntentItem>>,
+        Vec<CreateModerationResponseResultsItemCategoryAppliedInputTypesSelfHarmIntentItem>,
     #[doc = "The applied input type(s) for the category 'self-harm/instructions'."]
     #[serde(rename = "self-harm/instructions")]
-    pub self_harm_instructions: Option<
+    pub self_harm_instructions:
         Vec<CreateModerationResponseResultsItemCategoryAppliedInputTypesSelfHarmInstructionsItem>,
-    >,
     #[doc = "The applied input type(s) for the category 'sexual'."]
     #[serde(rename = "sexual")]
-    pub sexual: Option<Vec<CreateModerationResponseResultsItemCategoryAppliedInputTypesSexualItem>>,
+    pub sexual: Vec<CreateModerationResponseResultsItemCategoryAppliedInputTypesSexualItem>,
     #[doc = "The applied input type(s) for the category 'sexual/minors'."]
     #[serde(rename = "sexual/minors")]
     pub sexual_minors:
-        Option<Vec<CreateModerationResponseResultsItemCategoryAppliedInputTypesSexualMinorsItem>>,
+        Vec<CreateModerationResponseResultsItemCategoryAppliedInputTypesSexualMinorsItem>,
     #[doc = "The applied input type(s) for the category 'violence'."]
     #[serde(rename = "violence")]
-    pub violence:
-        Option<Vec<CreateModerationResponseResultsItemCategoryAppliedInputTypesViolenceItem>>,
+    pub violence: Vec<CreateModerationResponseResultsItemCategoryAppliedInputTypesViolenceItem>,
     #[doc = "The applied input type(s) for the category 'violence/graphic'."]
     #[serde(rename = "violence/graphic")]
-    pub violence_graphic: Option<
+    pub violence_graphic:
         Vec<CreateModerationResponseResultsItemCategoryAppliedInputTypesViolenceGraphicItem>,
-    >,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateModerationResponseResultsItemCategoryAppliedInputTypesHarassmentItem {
@@ -4014,43 +4003,43 @@ pub enum CreateModerationResponseResultsItemCategoryAppliedInputTypesViolenceIte
 pub struct CreateModerationResponseResultsItemCategoryScores {
     #[doc = "The score for the category 'hate'."]
     #[serde(rename = "hate")]
-    pub hate: Option<f64>,
+    pub hate: f64,
     #[doc = "The score for the category 'hate/threatening'."]
     #[serde(rename = "hate/threatening")]
-    pub hate_threatening: Option<f64>,
+    pub hate_threatening: f64,
     #[doc = "The score for the category 'harassment'."]
     #[serde(rename = "harassment")]
-    pub harassment: Option<f64>,
+    pub harassment: f64,
     #[doc = "The score for the category 'harassment/threatening'."]
     #[serde(rename = "harassment/threatening")]
-    pub harassment_threatening: Option<f64>,
+    pub harassment_threatening: f64,
     #[doc = "The score for the category 'illicit'."]
     #[serde(rename = "illicit")]
-    pub illicit: Option<f64>,
+    pub illicit: f64,
     #[doc = "The score for the category 'illicit/violent'."]
     #[serde(rename = "illicit/violent")]
-    pub illicit_violent: Option<f64>,
+    pub illicit_violent: f64,
     #[doc = "The score for the category 'self-harm'."]
     #[serde(rename = "self-harm")]
-    pub self_harm: Option<f64>,
+    pub self_harm: f64,
     #[doc = "The score for the category 'self-harm/intent'."]
     #[serde(rename = "self-harm/intent")]
-    pub self_harm_intent: Option<f64>,
+    pub self_harm_intent: f64,
     #[doc = "The score for the category 'self-harm/instructions'."]
     #[serde(rename = "self-harm/instructions")]
-    pub self_harm_instructions: Option<f64>,
+    pub self_harm_instructions: f64,
     #[doc = "The score for the category 'sexual'."]
     #[serde(rename = "sexual")]
-    pub sexual: Option<f64>,
+    pub sexual: f64,
     #[doc = "The score for the category 'sexual/minors'."]
     #[serde(rename = "sexual/minors")]
-    pub sexual_minors: Option<f64>,
+    pub sexual_minors: f64,
     #[doc = "The score for the category 'violence'."]
     #[serde(rename = "violence")]
-    pub violence: Option<f64>,
+    pub violence: f64,
     #[doc = "The score for the category 'violence/graphic'."]
     #[serde(rename = "violence/graphic")]
-    pub violence_graphic: Option<f64>,
+    pub violence_graphic: f64,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CreateResponse {
@@ -4060,7 +4049,7 @@ pub struct CreateResponse {
     pub response_properties: Option<ResponseProperties>,
     #[doc = "Text, image, or file inputs to the model, used to generate a response.\n\nLearn more:\n- [Text inputs and outputs](/docs/guides/text)\n- [Image inputs](/docs/guides/images)\n- [File inputs](/docs/guides/pdf-files)\n- [Conversation state](/docs/guides/conversation-state)\n- [Function calling](/docs/guides/function-calling)\n"]
     #[serde(rename = "input")]
-    pub input: Option<CreateResponseInput>,
+    pub input: CreateResponseInput,
     #[doc = "Specify additional output data to include in the model response. Currently\nsupported values are:\n- `file_search_call.results`: Include the search results of\n  the file search tool call.\n- `message.input_image.image_url`: Include image urls from the input message.\n- `computer_call_output.output.image_url`: Include image urls from the computer call output.\n"]
     #[serde(rename = "include")]
     pub include: Option<Vec<Includable>>,
@@ -4086,7 +4075,7 @@ pub enum CreateResponseInput {
 pub struct CreateRunRequest {
     #[doc = "The ID of the [assistant](/docs/api-reference/assistants) to use to execute this run."]
     #[serde(rename = "assistant_id")]
-    pub assistant_id: Option<String>,
+    pub assistant_id: String,
     #[doc = "The ID of the [Model](/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used."]
     #[serde(rename = "model")]
     pub model: Option<String>,
@@ -4145,16 +4134,16 @@ pub enum CreateRunRequestToolsItem {
 pub struct CreateSpeechRequest {
     #[doc = "One of the available [TTS models](/docs/models#tts): `tts-1`, `tts-1-hd` or `gpt-4o-mini-tts`.\n"]
     #[serde(rename = "model")]
-    pub model: Option<String>,
+    pub model: String,
     #[doc = "The text to generate audio for. The maximum length is 4096 characters."]
     #[serde(rename = "input")]
-    pub input: Option<String>,
+    pub input: String,
     #[doc = "Control the voice of your generated audio with additional instructions. Does not work with `tts-1` or `tts-1-hd`."]
     #[serde(rename = "instructions")]
     pub instructions: Option<String>,
     #[doc = "The voice to use when generating the audio. Supported voices are `alloy`, `ash`, `ballad`, `coral`, `echo`, `fable`, `onyx`, `nova`, `sage`, `shimmer`, and `verse`. Previews of the voices are available in the [Text to speech guide](/docs/guides/text-to-speech#voice-options)."]
     #[serde(rename = "voice")]
-    pub voice: Option<VoiceIdsShared>,
+    pub voice: VoiceIdsShared,
     #[doc = "The format to audio in. Supported formats are `mp3`, `opus`, `aac`, `flac`, `wav`, and `pcm`."]
     #[serde(rename = "response_format")]
     pub response_format: Option<CreateSpeechRequestResponseFormat>,
@@ -4182,7 +4171,7 @@ pub enum CreateSpeechRequestResponseFormat {
 pub struct CreateThreadAndRunRequest {
     #[doc = "The ID of the [assistant](/docs/api-reference/assistants) to use to execute this run."]
     #[serde(rename = "assistant_id")]
-    pub assistant_id: Option<String>,
+    pub assistant_id: String,
     #[serde(rename = "thread")]
     pub thread: Option<CreateThreadRequest>,
     #[doc = "The ID of the [Model](/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used."]
@@ -4291,7 +4280,7 @@ pub enum CreateThreadRequestToolResourcesFileSearch {
 pub struct CreateThreadRequestToolResourcesFileSearch0 {
     #[doc = "The [vector store](/docs/api-reference/vector-stores/object) attached to this thread. There can be a maximum of 1 vector store attached to the thread.\n"]
     #[serde(rename = "vector_store_ids")]
-    pub vector_store_ids: Option<Vec<String>>,
+    pub vector_store_ids: Vec<String>,
     #[doc = "A helper to create a [vector store](/docs/api-reference/vector-stores/object) with file_ids and attach it to this thread. There can be a maximum of 1 vector store attached to the thread.\n"]
     #[serde(rename = "vector_stores")]
     pub vector_stores: Option<Vec<CreateThreadRequestToolResourcesFileSearch0VectorStoresItem>>,
@@ -4324,17 +4313,16 @@ pub struct CreateThreadRequestToolResourcesFileSearch0VectorStoresItemChunkingSt
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CreateThreadRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategy1 {
     #[serde(rename = "static")]
-    pub static_:
-        Option<CreateThreadRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategy1Static>,
+    pub static_: CreateThreadRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategy1Static,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CreateThreadRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategy1Static {
     #[doc = "The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the maximum value is `4096`."]
     #[serde(rename = "max_chunk_size_tokens")]
-    pub max_chunk_size_tokens: Option<u64>,
+    pub max_chunk_size_tokens: u64,
     #[doc = "The number of tokens that overlap between chunks. The default value is `400`.\n\nNote that the overlap must not exceed half of `max_chunk_size_tokens`.\n"]
     #[serde(rename = "chunk_overlap_tokens")]
-    pub chunk_overlap_tokens: Option<u64>,
+    pub chunk_overlap_tokens: u64,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CreateThreadRequestToolResourcesFileSearch1 {
@@ -4343,7 +4331,7 @@ pub struct CreateThreadRequestToolResourcesFileSearch1 {
     pub vector_store_ids: Option<Vec<String>>,
     #[doc = "A helper to create a [vector store](/docs/api-reference/vector-stores/object) with file_ids and attach it to this thread. There can be a maximum of 1 vector store attached to the thread.\n"]
     #[serde(rename = "vector_stores")]
-    pub vector_stores: Option<Vec<CreateThreadRequestToolResourcesFileSearch1VectorStoresItem>>,
+    pub vector_stores: Vec<CreateThreadRequestToolResourcesFileSearch1VectorStoresItem>,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CreateThreadRequestToolResourcesFileSearch1VectorStoresItem {
@@ -4373,26 +4361,25 @@ pub struct CreateThreadRequestToolResourcesFileSearch1VectorStoresItemChunkingSt
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CreateThreadRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategy1 {
     #[serde(rename = "static")]
-    pub static_:
-        Option<CreateThreadRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategy1Static>,
+    pub static_: CreateThreadRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategy1Static,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CreateThreadRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategy1Static {
     #[doc = "The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the maximum value is `4096`."]
     #[serde(rename = "max_chunk_size_tokens")]
-    pub max_chunk_size_tokens: Option<u64>,
+    pub max_chunk_size_tokens: u64,
     #[doc = "The number of tokens that overlap between chunks. The default value is `400`.\n\nNote that the overlap must not exceed half of `max_chunk_size_tokens`.\n"]
     #[serde(rename = "chunk_overlap_tokens")]
-    pub chunk_overlap_tokens: Option<u64>,
+    pub chunk_overlap_tokens: u64,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CreateTranscriptionRequest {
     #[doc = "The audio file object (not file name) to transcribe, in one of these formats: flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, or webm.\n"]
     #[serde(rename = "file")]
-    pub file: Option<Vec<u8>>,
+    pub file: Vec<u8>,
     #[doc = "ID of the model to use. The options are `gpt-4o-transcribe`, `gpt-4o-mini-transcribe`, and `whisper-1` (which is powered by our open source Whisper V2 model).\n"]
     #[serde(rename = "model")]
-    pub model: Option<String>,
+    pub model: String,
     #[doc = "The language of the input audio. Supplying the input language in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) (e.g. `en`) format will improve accuracy and latency.\n"]
     #[serde(rename = "language")]
     pub language: Option<String>,
@@ -4426,7 +4413,7 @@ pub enum CreateTranscriptionRequestTimestampGranularitiesItem {
 pub struct CreateTranscriptionResponseJson {
     #[doc = "The transcribed text."]
     #[serde(rename = "text")]
-    pub text: Option<String>,
+    pub text: String,
     #[doc = "The log probabilities of the tokens in the transcription. Only returned with the models `gpt-4o-transcribe` and `gpt-4o-mini-transcribe` if `logprobs` is added to the `include` array.\n"]
     #[serde(rename = "logprobs")]
     pub logprobs: Option<Vec<CreateTranscriptionResponseJsonLogprobsItem>>,
@@ -4457,13 +4444,13 @@ pub enum CreateTranscriptionResponseStreamEvent {
 pub struct CreateTranscriptionResponseVerboseJson {
     #[doc = "The language of the input audio."]
     #[serde(rename = "language")]
-    pub language: Option<String>,
+    pub language: String,
     #[doc = "The duration of the input audio."]
     #[serde(rename = "duration")]
-    pub duration: Option<f64>,
+    pub duration: f64,
     #[doc = "The transcribed text."]
     #[serde(rename = "text")]
-    pub text: Option<String>,
+    pub text: String,
     #[doc = "Extracted words and their corresponding timestamps."]
     #[serde(rename = "words")]
     pub words: Option<Vec<TranscriptionWord>>,
@@ -4475,10 +4462,10 @@ pub struct CreateTranscriptionResponseVerboseJson {
 pub struct CreateTranslationRequest {
     #[doc = "The audio file object (not file name) translate, in one of these formats: flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, or webm.\n"]
     #[serde(rename = "file")]
-    pub file: Option<Vec<u8>>,
+    pub file: Vec<u8>,
     #[doc = "ID of the model to use. Only `whisper-1` (which is powered by our open source Whisper V2 model) is currently available.\n"]
     #[serde(rename = "model")]
-    pub model: Option<String>,
+    pub model: String,
     #[doc = "An optional text to guide the model's style or continue a previous audio segment. The [prompt](/docs/guides/speech-to-text#prompting) should be in English.\n"]
     #[serde(rename = "prompt")]
     pub prompt: Option<String>,
@@ -4506,19 +4493,19 @@ pub enum CreateTranslationRequestResponseFormat {
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CreateTranslationResponseJson {
     #[serde(rename = "text")]
-    pub text: Option<String>,
+    pub text: String,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct CreateTranslationResponseVerboseJson {
     #[doc = "The language of the output translation (always `english`)."]
     #[serde(rename = "language")]
-    pub language: Option<String>,
+    pub language: String,
     #[doc = "The duration of the input audio."]
     #[serde(rename = "duration")]
-    pub duration: Option<f64>,
+    pub duration: f64,
     #[doc = "The translated text."]
     #[serde(rename = "text")]
-    pub text: Option<String>,
+    pub text: String,
     #[doc = "Segments of the translated text and their corresponding details."]
     #[serde(rename = "segments")]
     pub segments: Option<Vec<TranscriptionSegment>>,
@@ -4527,16 +4514,16 @@ pub struct CreateTranslationResponseVerboseJson {
 pub struct CreateUploadRequest {
     #[doc = "The name of the file to upload.\n"]
     #[serde(rename = "filename")]
-    pub filename: Option<String>,
+    pub filename: String,
     #[doc = "The intended purpose of the uploaded file.\n\nSee the [documentation on File purposes](/docs/api-reference/files/create#files-create-purpose).\n"]
     #[serde(rename = "purpose")]
-    pub purpose: Option<CreateUploadRequestPurpose>,
+    pub purpose: CreateUploadRequestPurpose,
     #[doc = "The number of bytes in the file you are uploading.\n"]
     #[serde(rename = "bytes")]
-    pub bytes: Option<u64>,
+    pub bytes: u64,
     #[doc = "The MIME type of the file.\n\nThis must fall within the supported MIME types for your file purpose. See the supported MIME types for assistants and vision.\n"]
     #[serde(rename = "mime_type")]
-    pub mime_type: Option<String>,
+    pub mime_type: String,
 }
 #[doc = "The intended purpose of the uploaded file.\n\nSee the [documentation on File purposes](/docs/api-reference/files/create#files-create-purpose).\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -4554,7 +4541,7 @@ pub enum CreateUploadRequestPurpose {
 pub struct CreateVectorStoreFileBatchRequest {
     #[doc = "A list of [File](/docs/api-reference/files) IDs that the vector store should use. Useful for tools like `file_search` that can access files."]
     #[serde(rename = "file_ids")]
-    pub file_ids: Option<Vec<String>>,
+    pub file_ids: Vec<String>,
     #[serde(rename = "chunking_strategy")]
     pub chunking_strategy: Option<ChunkingStrategyRequestParam>,
     #[serde(rename = "attributes")]
@@ -4564,7 +4551,7 @@ pub struct CreateVectorStoreFileBatchRequest {
 pub struct CreateVectorStoreFileRequest {
     #[doc = "A [File](/docs/api-reference/files) ID that the vector store should use. Useful for tools like `file_search` that can access files."]
     #[serde(rename = "file_id")]
-    pub file_id: Option<String>,
+    pub file_id: String,
     #[serde(rename = "chunking_strategy")]
     pub chunking_strategy: Option<ChunkingStrategyRequestParam>,
     #[serde(rename = "attributes")]
@@ -4599,11 +4586,11 @@ pub enum CreateVectorStoreRequestChunkingStrategy {
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct DeleteAssistantResponse {
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[serde(rename = "deleted")]
-    pub deleted: Option<bool>,
+    pub deleted: bool,
     #[serde(rename = "object")]
-    pub object: Option<DeleteAssistantResponseObject>,
+    pub object: DeleteAssistantResponseObject,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub enum DeleteAssistantResponseObject {
@@ -4614,10 +4601,10 @@ pub enum DeleteAssistantResponseObject {
 pub struct DeleteCertificateResponse {
     #[doc = "The object type, must be `certificate.deleted`."]
     #[serde(rename = "object")]
-    pub object: Option<DeleteCertificateResponseObject>,
+    pub object: DeleteCertificateResponseObject,
     #[doc = "The ID of the certificate that was deleted."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
 }
 #[doc = "The object type, must be `certificate.deleted`."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -4628,11 +4615,11 @@ pub enum DeleteCertificateResponseObject {
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct DeleteFileResponse {
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[serde(rename = "object")]
-    pub object: Option<DeleteFileResponseObject>,
+    pub object: DeleteFileResponseObject,
     #[serde(rename = "deleted")]
-    pub deleted: Option<bool>,
+    pub deleted: bool,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub enum DeleteFileResponseObject {
@@ -4643,13 +4630,13 @@ pub enum DeleteFileResponseObject {
 pub struct DeleteFineTuningCheckpointPermissionResponse {
     #[doc = "The ID of the fine-tuned model checkpoint permission that was deleted."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The object type, which is always \"checkpoint.permission\"."]
     #[serde(rename = "object")]
-    pub object: Option<DeleteFineTuningCheckpointPermissionResponseObject>,
+    pub object: DeleteFineTuningCheckpointPermissionResponseObject,
     #[doc = "Whether the fine-tuned model checkpoint permission was successfully deleted."]
     #[serde(rename = "deleted")]
-    pub deleted: Option<bool>,
+    pub deleted: bool,
 }
 #[doc = "The object type, which is always \"checkpoint.permission\"."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -4660,11 +4647,11 @@ pub enum DeleteFineTuningCheckpointPermissionResponseObject {
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct DeleteMessageResponse {
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[serde(rename = "deleted")]
-    pub deleted: Option<bool>,
+    pub deleted: bool,
     #[serde(rename = "object")]
-    pub object: Option<DeleteMessageResponseObject>,
+    pub object: DeleteMessageResponseObject,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub enum DeleteMessageResponseObject {
@@ -4674,20 +4661,20 @@ pub enum DeleteMessageResponseObject {
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct DeleteModelResponse {
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[serde(rename = "deleted")]
-    pub deleted: Option<bool>,
+    pub deleted: bool,
     #[serde(rename = "object")]
-    pub object: Option<String>,
+    pub object: String,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct DeleteThreadResponse {
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[serde(rename = "deleted")]
-    pub deleted: Option<bool>,
+    pub deleted: bool,
     #[serde(rename = "object")]
-    pub object: Option<DeleteThreadResponseObject>,
+    pub object: DeleteThreadResponseObject,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub enum DeleteThreadResponseObject {
@@ -4697,11 +4684,11 @@ pub enum DeleteThreadResponseObject {
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct DeleteVectorStoreFileResponse {
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[serde(rename = "deleted")]
-    pub deleted: Option<bool>,
+    pub deleted: bool,
     #[serde(rename = "object")]
-    pub object: Option<DeleteVectorStoreFileResponseObject>,
+    pub object: DeleteVectorStoreFileResponseObject,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub enum DeleteVectorStoreFileResponseObject {
@@ -4711,11 +4698,11 @@ pub enum DeleteVectorStoreFileResponseObject {
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct DeleteVectorStoreResponse {
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[serde(rename = "deleted")]
-    pub deleted: Option<bool>,
+    pub deleted: bool,
     #[serde(rename = "object")]
-    pub object: Option<DeleteVectorStoreResponseObject>,
+    pub object: DeleteVectorStoreResponseObject,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub enum DeleteVectorStoreResponseObject {
@@ -4726,9 +4713,9 @@ pub enum DeleteVectorStoreResponseObject {
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct DoneEvent {
     #[serde(rename = "event")]
-    pub event: Option<DoneEventEvent>,
+    pub event: DoneEventEvent,
     #[serde(rename = "data")]
-    pub data: Option<DoneEventData>,
+    pub data: DoneEventData,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub enum DoneEventData {
@@ -4745,27 +4732,27 @@ pub enum DoneEventEvent {
 pub struct DoubleClick {
     #[doc = "The x-coordinate where the double click occurred.\n"]
     #[serde(rename = "x")]
-    pub x: Option<u64>,
+    pub x: u64,
     #[doc = "The y-coordinate where the double click occurred.\n"]
     #[serde(rename = "y")]
-    pub y: Option<u64>,
+    pub y: u64,
 }
 #[doc = "A drag action.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct Drag {
     #[doc = "An array of coordinates representing the path of the drag action. Coordinates will appear as an array\nof objects, eg\n```\n[\n  { x: 100, y: 200 },\n  { x: 200, y: 300 }\n]\n```\n"]
     #[serde(rename = "path")]
-    pub path: Option<Vec<Coordinate>>,
+    pub path: Vec<Coordinate>,
 }
 #[doc = "A message input to the model with a role indicating instruction following\nhierarchy. Instructions given with the `developer` or `system` role take\nprecedence over instructions given with the `user` role. Messages with the\n`assistant` role are presumed to have been generated by the model in previous\ninteractions.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct EasyInputMessage {
     #[doc = "The role of the message input. One of `user`, `assistant`, `system`, or\n`developer`.\n"]
     #[serde(rename = "role")]
-    pub role: Option<EasyInputMessageRole>,
+    pub role: EasyInputMessageRole,
     #[doc = "Text, image, or audio input to the model, used to generate a response.\nCan also contain previous assistant responses.\n"]
     #[serde(rename = "content")]
-    pub content: Option<EasyInputMessageContent>,
+    pub content: EasyInputMessageContent,
     #[doc = "The type of the message input. Always `message`.\n"]
     #[serde(rename = "type")]
     pub type_: Option<EasyInputMessageType>,
@@ -4801,13 +4788,13 @@ pub enum EasyInputMessageType {
 pub struct Embedding {
     #[doc = "The index of the embedding in the list of embeddings."]
     #[serde(rename = "index")]
-    pub index: Option<u64>,
+    pub index: u64,
     #[doc = "The embedding vector, which is a list of floats. The length of vector depends on the model as listed in the [embedding guide](/docs/guides/embeddings).\n"]
     #[serde(rename = "embedding")]
-    pub embedding: Option<Vec<f64>>,
+    pub embedding: Vec<f64>,
     #[doc = "The object type, which is always \"embedding\"."]
     #[serde(rename = "object")]
-    pub object: Option<EmbeddingObject>,
+    pub object: EmbeddingObject,
 }
 #[doc = "The object type, which is always \"embedding\"."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -4820,19 +4807,19 @@ pub struct Error {
     #[serde(rename = "code")]
     pub code: Option<String>,
     #[serde(rename = "message")]
-    pub message: Option<String>,
+    pub message: String,
     #[serde(rename = "param")]
     pub param: Option<String>,
     #[serde(rename = "type")]
-    pub type_: Option<String>,
+    pub type_: String,
 }
 #[doc = "Occurs when an [error](/docs/guides/error-codes#api-errors) occurs. This can happen due to an internal server error or a timeout."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ErrorEvent {
     #[serde(rename = "event")]
-    pub event: Option<ErrorEventEvent>,
+    pub event: ErrorEventEvent,
     #[serde(rename = "data")]
-    pub data: Option<Error>,
+    pub data: Error,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub enum ErrorEventEvent {
@@ -4842,48 +4829,48 @@ pub enum ErrorEventEvent {
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ErrorResponse {
     #[serde(rename = "error")]
-    pub error: Option<Error>,
+    pub error: Error,
 }
 #[doc = "An Eval object with a data source config and testing criteria.\nAn Eval represents a task to be done for your LLM integration.\nLike:\n - Improve the quality of my chatbot\n - See how well my chatbot handles customer support\n - Check if o3-mini is better at my usecase than gpt-4o\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct Eval {
     #[doc = "The object type."]
     #[serde(rename = "object")]
-    pub object: Option<EvalObject>,
+    pub object: EvalObject,
     #[doc = "Unique identifier for the evaluation."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The name of the evaluation."]
     #[serde(rename = "name")]
-    pub name: Option<String>,
+    pub name: String,
     #[doc = "Configuration of data sources used in runs of the evaluation."]
     #[serde(rename = "data_source_config")]
-    pub data_source_config: Option<EvalDataSourceConfig>,
+    pub data_source_config: EvalDataSourceConfig,
     #[doc = "A list of testing criteria."]
     #[serde(rename = "testing_criteria")]
-    pub testing_criteria: Option<Vec<EvalTestingCriteriaItem>>,
+    pub testing_criteria: Vec<EvalTestingCriteriaItem>,
     #[doc = "The Unix timestamp (in seconds) for when the eval was created."]
     #[serde(rename = "created_at")]
-    pub created_at: Option<u64>,
+    pub created_at: u64,
     #[serde(rename = "metadata")]
-    pub metadata: Option<Metadata>,
+    pub metadata: Metadata,
 }
 #[doc = "An object representing an error response from the Eval API.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct EvalApiError {
     #[doc = "The error code."]
     #[serde(rename = "code")]
-    pub code: Option<String>,
+    pub code: String,
     #[doc = "The error message."]
     #[serde(rename = "message")]
-    pub message: Option<String>,
+    pub message: String,
 }
 #[doc = "A CustomDataSourceConfig which specifies the schema of your `item` and optionally `sample` namespaces.\nThe response schema defines the shape of the data that will be:\n- Used to define your testing criteria and\n- What data is required when creating a run\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct EvalCustomDataSourceConfig {
     #[doc = "The json schema for the run data source items.\nLearn how to build JSON schemas [here](https://json-schema.org/).\n"]
     #[serde(rename = "schema")]
-    pub schema: Option<std::collections::HashMap<String, serde_json::Value>>,
+    pub schema: std::collections::HashMap<String, serde_json::Value>,
 }
 #[doc = "Configuration of data sources used in runs of the evaluation."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -4900,10 +4887,10 @@ pub enum EvalDataSourceConfig {
 pub struct EvalItem {
     #[doc = "The role of the message input. One of `user`, `assistant`, `system`, or\n`developer`.\n"]
     #[serde(rename = "role")]
-    pub role: Option<EvalItemRole>,
+    pub role: EvalItemRole,
     #[doc = "Text inputs to the model - can contain template strings.\n"]
     #[serde(rename = "content")]
-    pub content: Option<EvalItemContent>,
+    pub content: EvalItemContent,
     #[doc = "The type of the message input. Always `message`.\n"]
     #[serde(rename = "type")]
     pub type_: Option<EvalItemType>,
@@ -4922,10 +4909,10 @@ pub enum EvalItemContent {
 pub struct EvalItemContent2 {
     #[doc = "The type of the output text. Always `output_text`.\n"]
     #[serde(rename = "type")]
-    pub type_: Option<EvalItemContent2Type>,
+    pub type_: EvalItemContent2Type,
     #[doc = "The text output from the model.\n"]
     #[serde(rename = "text")]
-    pub text: Option<String>,
+    pub text: String,
 }
 #[doc = "The type of the output text. Always `output_text`.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -4955,12 +4942,12 @@ pub enum EvalItemType {
 pub struct EvalJsonlFileContentSource {
     #[doc = "The content of the jsonl file."]
     #[serde(rename = "content")]
-    pub content: Option<Vec<EvalJsonlFileContentSourceContentItem>>,
+    pub content: Vec<EvalJsonlFileContentSourceContentItem>,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct EvalJsonlFileContentSourceContentItem {
     #[serde(rename = "item")]
-    pub item: Option<std::collections::HashMap<String, serde_json::Value>>,
+    pub item: std::collections::HashMap<String, serde_json::Value>,
     #[serde(rename = "sample")]
     pub sample: Option<std::collections::HashMap<String, serde_json::Value>>,
 }
@@ -4968,44 +4955,44 @@ pub struct EvalJsonlFileContentSourceContentItem {
 pub struct EvalJsonlFileIdSource {
     #[doc = "The identifier of the file."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
 }
 #[doc = "A LabelModelGrader object which uses a model to assign labels to each item\nin the evaluation.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct EvalLabelModelGrader {
     #[doc = "The name of the grader."]
     #[serde(rename = "name")]
-    pub name: Option<String>,
+    pub name: String,
     #[doc = "The model to use for the evaluation. Must support structured outputs."]
     #[serde(rename = "model")]
-    pub model: Option<String>,
+    pub model: String,
     #[serde(rename = "input")]
-    pub input: Option<Vec<EvalItem>>,
+    pub input: Vec<EvalItem>,
     #[doc = "The labels to assign to each item in the evaluation."]
     #[serde(rename = "labels")]
-    pub labels: Option<Vec<String>>,
+    pub labels: Vec<String>,
     #[doc = "The labels that indicate a passing result. Must be a subset of labels."]
     #[serde(rename = "passing_labels")]
-    pub passing_labels: Option<Vec<String>>,
+    pub passing_labels: Vec<String>,
 }
 #[doc = "An object representing a list of evals.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct EvalList {
     #[doc = "The type of this object. It is always set to \"list\".\n"]
     #[serde(rename = "object")]
-    pub object: Option<EvalListObject>,
+    pub object: EvalListObject,
     #[doc = "An array of eval objects.\n"]
     #[serde(rename = "data")]
-    pub data: Option<Vec<Eval>>,
+    pub data: Vec<Eval>,
     #[doc = "The identifier of the first eval in the data array."]
     #[serde(rename = "first_id")]
-    pub first_id: Option<String>,
+    pub first_id: String,
     #[doc = "The identifier of the last eval in the data array."]
     #[serde(rename = "last_id")]
-    pub last_id: Option<String>,
+    pub last_id: String,
     #[doc = "Indicates whether there are more evals available."]
     #[serde(rename = "has_more")]
-    pub has_more: Option<bool>,
+    pub has_more: bool,
 }
 #[doc = "The type of this object. It is always set to \"list\".\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -5024,10 +5011,10 @@ pub enum EvalObject {
 pub struct EvalPythonGrader {
     #[doc = "The name of the grader."]
     #[serde(rename = "name")]
-    pub name: Option<String>,
+    pub name: String,
     #[doc = "The source code of the python script."]
     #[serde(rename = "source")]
-    pub source: Option<String>,
+    pub source: String,
     #[doc = "The threshold for the score."]
     #[serde(rename = "pass_threshold")]
     pub pass_threshold: Option<f64>,
@@ -5040,7 +5027,7 @@ pub struct EvalPythonGrader {
 pub struct EvalResponsesSource {
     #[doc = "The type of run data source. Always `responses`."]
     #[serde(rename = "type")]
-    pub type_: Option<EvalResponsesSourceType>,
+    pub type_: EvalResponsesSourceType,
     #[doc = "Metadata filter for the responses. This is a query parameter used to select responses."]
     #[serde(rename = "metadata")]
     pub metadata: Option<std::collections::HashMap<String, serde_json::Value>>,
@@ -5086,44 +5073,44 @@ pub enum EvalResponsesSourceType {
 pub struct EvalRun {
     #[doc = "The type of the object. Always \"eval.run\"."]
     #[serde(rename = "object")]
-    pub object: Option<EvalRunObject>,
+    pub object: EvalRunObject,
     #[doc = "Unique identifier for the evaluation run."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The identifier of the associated evaluation."]
     #[serde(rename = "eval_id")]
-    pub eval_id: Option<String>,
+    pub eval_id: String,
     #[doc = "The status of the evaluation run."]
     #[serde(rename = "status")]
-    pub status: Option<String>,
+    pub status: String,
     #[doc = "The model that is evaluated, if applicable."]
     #[serde(rename = "model")]
-    pub model: Option<String>,
+    pub model: String,
     #[doc = "The name of the evaluation run."]
     #[serde(rename = "name")]
-    pub name: Option<String>,
+    pub name: String,
     #[doc = "Unix timestamp (in seconds) when the evaluation run was created."]
     #[serde(rename = "created_at")]
-    pub created_at: Option<u64>,
+    pub created_at: u64,
     #[doc = "The URL to the rendered evaluation run report on the UI dashboard."]
     #[serde(rename = "report_url")]
-    pub report_url: Option<String>,
+    pub report_url: String,
     #[doc = "Counters summarizing the outcomes of the evaluation run."]
     #[serde(rename = "result_counts")]
-    pub result_counts: Option<EvalRunResultCounts>,
+    pub result_counts: EvalRunResultCounts,
     #[doc = "Usage statistics for each model during the evaluation run."]
     #[serde(rename = "per_model_usage")]
-    pub per_model_usage: Option<Vec<EvalRunPerModelUsageItem>>,
+    pub per_model_usage: Vec<EvalRunPerModelUsageItem>,
     #[doc = "Results per testing criteria applied during the evaluation run."]
     #[serde(rename = "per_testing_criteria_results")]
-    pub per_testing_criteria_results: Option<Vec<EvalRunPerTestingCriteriaResultsItem>>,
+    pub per_testing_criteria_results: Vec<EvalRunPerTestingCriteriaResultsItem>,
     #[doc = "Information about the run's data source."]
     #[serde(rename = "data_source")]
-    pub data_source: Option<EvalRunDataSource>,
+    pub data_source: EvalRunDataSource,
     #[serde(rename = "metadata")]
-    pub metadata: Option<Metadata>,
+    pub metadata: Metadata,
     #[serde(rename = "error")]
-    pub error: Option<EvalApiError>,
+    pub error: EvalApiError,
 }
 #[doc = "Information about the run's data source."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -5139,19 +5126,19 @@ pub enum EvalRunDataSource {
 pub struct EvalRunList {
     #[doc = "The type of this object. It is always set to \"list\".\n"]
     #[serde(rename = "object")]
-    pub object: Option<EvalRunListObject>,
+    pub object: EvalRunListObject,
     #[doc = "An array of eval run objects.\n"]
     #[serde(rename = "data")]
-    pub data: Option<Vec<EvalRun>>,
+    pub data: Vec<EvalRun>,
     #[doc = "The identifier of the first eval run in the data array."]
     #[serde(rename = "first_id")]
-    pub first_id: Option<String>,
+    pub first_id: String,
     #[doc = "The identifier of the last eval run in the data array."]
     #[serde(rename = "last_id")]
-    pub last_id: Option<String>,
+    pub last_id: String,
     #[doc = "Indicates whether there are more evals available."]
     #[serde(rename = "has_more")]
-    pub has_more: Option<bool>,
+    pub has_more: bool,
 }
 #[doc = "The type of this object. It is always set to \"list\".\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -5170,53 +5157,53 @@ pub enum EvalRunObject {
 pub struct EvalRunOutputItem {
     #[doc = "The type of the object. Always \"eval.run.output_item\"."]
     #[serde(rename = "object")]
-    pub object: Option<EvalRunOutputItemObject>,
+    pub object: EvalRunOutputItemObject,
     #[doc = "Unique identifier for the evaluation run output item."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The identifier of the evaluation run associated with this output item."]
     #[serde(rename = "run_id")]
-    pub run_id: Option<String>,
+    pub run_id: String,
     #[doc = "The identifier of the evaluation group."]
     #[serde(rename = "eval_id")]
-    pub eval_id: Option<String>,
+    pub eval_id: String,
     #[doc = "Unix timestamp (in seconds) when the evaluation run was created."]
     #[serde(rename = "created_at")]
-    pub created_at: Option<u64>,
+    pub created_at: u64,
     #[doc = "The status of the evaluation run."]
     #[serde(rename = "status")]
-    pub status: Option<String>,
+    pub status: String,
     #[doc = "The identifier for the data source item."]
     #[serde(rename = "datasource_item_id")]
-    pub datasource_item_id: Option<u64>,
+    pub datasource_item_id: u64,
     #[doc = "Details of the input data source item."]
     #[serde(rename = "datasource_item")]
-    pub datasource_item: Option<std::collections::HashMap<String, serde_json::Value>>,
+    pub datasource_item: std::collections::HashMap<String, serde_json::Value>,
     #[doc = "A list of results from the evaluation run."]
     #[serde(rename = "results")]
-    pub results: Option<Vec<std::collections::HashMap<String, serde_json::Value>>>,
+    pub results: Vec<std::collections::HashMap<String, serde_json::Value>>,
     #[doc = "A sample containing the input and output of the evaluation run."]
     #[serde(rename = "sample")]
-    pub sample: Option<EvalRunOutputItemSample>,
+    pub sample: EvalRunOutputItemSample,
 }
 #[doc = "An object representing a list of output items for an evaluation run.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct EvalRunOutputItemList {
     #[doc = "The type of this object. It is always set to \"list\".\n"]
     #[serde(rename = "object")]
-    pub object: Option<EvalRunOutputItemListObject>,
+    pub object: EvalRunOutputItemListObject,
     #[doc = "An array of eval run output item objects.\n"]
     #[serde(rename = "data")]
-    pub data: Option<Vec<EvalRunOutputItem>>,
+    pub data: Vec<EvalRunOutputItem>,
     #[doc = "The identifier of the first eval run output item in the data array."]
     #[serde(rename = "first_id")]
-    pub first_id: Option<String>,
+    pub first_id: String,
     #[doc = "The identifier of the last eval run output item in the data array."]
     #[serde(rename = "last_id")]
-    pub last_id: Option<String>,
+    pub last_id: String,
     #[doc = "Indicates whether there are more eval run output items available."]
     #[serde(rename = "has_more")]
-    pub has_more: Option<bool>,
+    pub has_more: bool,
 }
 #[doc = "The type of this object. It is always set to \"list\".\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -5235,43 +5222,43 @@ pub enum EvalRunOutputItemObject {
 pub struct EvalRunOutputItemSample {
     #[doc = "An array of input messages."]
     #[serde(rename = "input")]
-    pub input: Option<Vec<EvalRunOutputItemSampleInputItem>>,
+    pub input: Vec<EvalRunOutputItemSampleInputItem>,
     #[doc = "An array of output messages."]
     #[serde(rename = "output")]
-    pub output: Option<Vec<EvalRunOutputItemSampleOutputItem>>,
+    pub output: Vec<EvalRunOutputItemSampleOutputItem>,
     #[doc = "The reason why the sample generation was finished."]
     #[serde(rename = "finish_reason")]
-    pub finish_reason: Option<String>,
+    pub finish_reason: String,
     #[doc = "The model used for generating the sample."]
     #[serde(rename = "model")]
-    pub model: Option<String>,
+    pub model: String,
     #[doc = "Token usage details for the sample."]
     #[serde(rename = "usage")]
-    pub usage: Option<EvalRunOutputItemSampleUsage>,
+    pub usage: EvalRunOutputItemSampleUsage,
     #[serde(rename = "error")]
-    pub error: Option<EvalApiError>,
+    pub error: EvalApiError,
     #[doc = "The sampling temperature used."]
     #[serde(rename = "temperature")]
-    pub temperature: Option<f64>,
+    pub temperature: f64,
     #[doc = "The maximum number of tokens allowed for completion."]
     #[serde(rename = "max_completion_tokens")]
-    pub max_completion_tokens: Option<u64>,
+    pub max_completion_tokens: u64,
     #[doc = "The top_p value used for sampling."]
     #[serde(rename = "top_p")]
-    pub top_p: Option<f64>,
+    pub top_p: f64,
     #[doc = "The seed used for generating the sample."]
     #[serde(rename = "seed")]
-    pub seed: Option<u64>,
+    pub seed: u64,
 }
 #[doc = "An input message."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct EvalRunOutputItemSampleInputItem {
     #[doc = "The role of the message sender (e.g., system, user, developer)."]
     #[serde(rename = "role")]
-    pub role: Option<String>,
+    pub role: String,
     #[doc = "The content of the message."]
     #[serde(rename = "content")]
-    pub content: Option<String>,
+    pub content: String,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct EvalRunOutputItemSampleOutputItem {
@@ -5287,81 +5274,81 @@ pub struct EvalRunOutputItemSampleOutputItem {
 pub struct EvalRunOutputItemSampleUsage {
     #[doc = "The total number of tokens used."]
     #[serde(rename = "total_tokens")]
-    pub total_tokens: Option<u64>,
+    pub total_tokens: u64,
     #[doc = "The number of completion tokens generated."]
     #[serde(rename = "completion_tokens")]
-    pub completion_tokens: Option<u64>,
+    pub completion_tokens: u64,
     #[doc = "The number of prompt tokens used."]
     #[serde(rename = "prompt_tokens")]
-    pub prompt_tokens: Option<u64>,
+    pub prompt_tokens: u64,
     #[doc = "The number of tokens retrieved from cache."]
     #[serde(rename = "cached_tokens")]
-    pub cached_tokens: Option<u64>,
+    pub cached_tokens: u64,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct EvalRunPerModelUsageItem {
     #[doc = "The name of the model."]
     #[serde(rename = "model_name")]
-    pub model_name: Option<String>,
+    pub model_name: String,
     #[doc = "The number of invocations."]
     #[serde(rename = "invocation_count")]
-    pub invocation_count: Option<u64>,
+    pub invocation_count: u64,
     #[doc = "The number of prompt tokens used."]
     #[serde(rename = "prompt_tokens")]
-    pub prompt_tokens: Option<u64>,
+    pub prompt_tokens: u64,
     #[doc = "The number of completion tokens generated."]
     #[serde(rename = "completion_tokens")]
-    pub completion_tokens: Option<u64>,
+    pub completion_tokens: u64,
     #[doc = "The total number of tokens used."]
     #[serde(rename = "total_tokens")]
-    pub total_tokens: Option<u64>,
+    pub total_tokens: u64,
     #[doc = "The number of tokens retrieved from cache."]
     #[serde(rename = "cached_tokens")]
-    pub cached_tokens: Option<u64>,
+    pub cached_tokens: u64,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct EvalRunPerTestingCriteriaResultsItem {
     #[doc = "A description of the testing criteria."]
     #[serde(rename = "testing_criteria")]
-    pub testing_criteria: Option<String>,
+    pub testing_criteria: String,
     #[doc = "Number of tests passed for this criteria."]
     #[serde(rename = "passed")]
-    pub passed: Option<u64>,
+    pub passed: u64,
     #[doc = "Number of tests failed for this criteria."]
     #[serde(rename = "failed")]
-    pub failed: Option<u64>,
+    pub failed: u64,
 }
 #[doc = "Counters summarizing the outcomes of the evaluation run."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct EvalRunResultCounts {
     #[doc = "Total number of executed output items."]
     #[serde(rename = "total")]
-    pub total: Option<u64>,
+    pub total: u64,
     #[doc = "Number of output items that resulted in an error."]
     #[serde(rename = "errored")]
-    pub errored: Option<u64>,
+    pub errored: u64,
     #[doc = "Number of output items that failed to pass the evaluation."]
     #[serde(rename = "failed")]
-    pub failed: Option<u64>,
+    pub failed: u64,
     #[doc = "Number of output items that passed the evaluation."]
     #[serde(rename = "passed")]
-    pub passed: Option<u64>,
+    pub passed: u64,
 }
 #[doc = "A ScoreModelGrader object that uses a model to assign a score to the input.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct EvalScoreModelGrader {
     #[doc = "The name of the grader."]
     #[serde(rename = "name")]
-    pub name: Option<String>,
+    pub name: String,
     #[doc = "The model to use for the evaluation."]
     #[serde(rename = "model")]
-    pub model: Option<String>,
+    pub model: String,
     #[doc = "The sampling parameters for the model."]
     #[serde(rename = "sampling_params")]
     pub sampling_params: Option<std::collections::HashMap<String, serde_json::Value>>,
     #[doc = "The input text. This may include template strings."]
     #[serde(rename = "input")]
-    pub input: Option<Vec<EvalItem>>,
+    pub input: Vec<EvalItem>,
     #[doc = "The threshold for the score."]
     #[serde(rename = "pass_threshold")]
     pub pass_threshold: Option<f64>,
@@ -5376,7 +5363,7 @@ pub struct EvalStoredCompletionsDataSourceConfig {
     pub metadata: Option<Metadata>,
     #[doc = "The json schema for the run data source items.\nLearn how to build JSON schemas [here](https://json-schema.org/).\n"]
     #[serde(rename = "schema")]
-    pub schema: Option<std::collections::HashMap<String, serde_json::Value>>,
+    pub schema: std::collections::HashMap<String, serde_json::Value>,
 }
 #[doc = "A StoredCompletionsRunDataSource configuration describing a set of filters\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -5401,16 +5388,16 @@ pub struct EvalStoredCompletionsSource {
 pub struct EvalStringCheckGrader {
     #[doc = "The name of the grader."]
     #[serde(rename = "name")]
-    pub name: Option<String>,
+    pub name: String,
     #[doc = "The input text. This may include template strings."]
     #[serde(rename = "input")]
-    pub input: Option<String>,
+    pub input: String,
     #[doc = "The reference text. This may include template strings."]
     #[serde(rename = "reference")]
-    pub reference: Option<String>,
+    pub reference: String,
     #[doc = "The string check operation to perform. One of `eq`, `ne`, `like`, or `ilike`."]
     #[serde(rename = "operation")]
-    pub operation: Option<EvalStringCheckGraderOperation>,
+    pub operation: EvalStringCheckGraderOperation,
 }
 #[doc = "The string check operation to perform. One of `eq`, `ne`, `like`, or `ilike`."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -5447,16 +5434,16 @@ pub struct EvalTextSimilarityGrader {
     pub name: Option<String>,
     #[doc = "The text being graded."]
     #[serde(rename = "input")]
-    pub input: Option<String>,
+    pub input: String,
     #[doc = "The text being graded against."]
     #[serde(rename = "reference")]
-    pub reference: Option<String>,
+    pub reference: String,
     #[doc = "A float score where a value greater than or equal indicates a passing grade."]
     #[serde(rename = "pass_threshold")]
-    pub pass_threshold: Option<f64>,
+    pub pass_threshold: f64,
     #[doc = "The evaluation metric to use. One of `fuzzy_match`, `bleu`, `gleu`, `meteor`, `rouge_1`, `rouge_2`, `rouge_3`, `rouge_4`, `rouge_5`, or `rouge_l`."]
     #[serde(rename = "evaluation_metric")]
-    pub evaluation_metric: Option<EvalTextSimilarityGraderEvaluationMetric>,
+    pub evaluation_metric: EvalTextSimilarityGraderEvaluationMetric,
 }
 #[doc = "The evaluation metric to use. One of `fuzzy_match`, `bleu`, `gleu`, `meteor`, `rouge_1`, `rouge_2`, `rouge_3`, `rouge_4`, `rouge_5`, or `rouge_l`."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -5487,20 +5474,20 @@ pub enum EvalTextSimilarityGraderEvaluationMetric {
 pub struct FileCitationBody {
     #[doc = "The ID of the file."]
     #[serde(rename = "file_id")]
-    pub file_id: Option<String>,
+    pub file_id: String,
     #[doc = "The index of the file in the list of files."]
     #[serde(rename = "index")]
-    pub index: Option<u64>,
+    pub index: u64,
 }
 #[doc = "A path to a file.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct FilePath {
     #[doc = "The ID of the file.\n"]
     #[serde(rename = "file_id")]
-    pub file_id: Option<String>,
+    pub file_id: String,
     #[doc = "The index of the file in the list of files.\n"]
     #[serde(rename = "index")]
-    pub index: Option<u64>,
+    pub index: u64,
 }
 #[doc = "The ranker to use for the file search. If not specified will use the `auto` ranker."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -5517,14 +5504,14 @@ pub struct FileSearchRankingOptions {
     pub ranker: Option<FileSearchRanker>,
     #[doc = "The score threshold for the file search. All values must be a floating point number between 0 and 1."]
     #[serde(rename = "score_threshold")]
-    pub score_threshold: Option<f64>,
+    pub score_threshold: f64,
 }
 #[doc = "A tool that searches for relevant content from uploaded files. Learn more about the [file search tool](https://platform.openai.com/docs/guides/tools-file-search)."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct FileSearchTool {
     #[doc = "The IDs of the vector stores to search."]
     #[serde(rename = "vector_store_ids")]
-    pub vector_store_ids: Option<Vec<String>>,
+    pub vector_store_ids: Vec<String>,
     #[doc = "The maximum number of results to return. This number should be between 1 and 50 inclusive."]
     #[serde(rename = "max_num_results")]
     pub max_num_results: Option<u64>,
@@ -5540,16 +5527,16 @@ pub struct FileSearchTool {
 pub struct FileSearchToolCall {
     #[doc = "The unique ID of the file search tool call.\n"]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The type of the file search tool call. Always `file_search_call`.\n"]
     #[serde(rename = "type")]
-    pub type_: Option<FileSearchToolCallType>,
+    pub type_: FileSearchToolCallType,
     #[doc = "The status of the file search tool call. One of `in_progress`, \n`searching`, `incomplete` or `failed`,\n"]
     #[serde(rename = "status")]
-    pub status: Option<FileSearchToolCallStatus>,
+    pub status: FileSearchToolCallStatus,
     #[doc = "The queries used to search for files.\n"]
     #[serde(rename = "queries")]
-    pub queries: Option<Vec<String>>,
+    pub queries: Vec<String>,
     #[doc = "The results of the file search tool call.\n"]
     #[serde(rename = "results")]
     pub results: Option<Vec<FileSearchToolCallResultsItem>>,
@@ -5846,16 +5833,16 @@ pub enum FineTuneSupervisedMethodHyperparametersNEpochs0 {
 pub struct FineTuningCheckpointPermission {
     #[doc = "The permission identifier, which can be referenced in the API endpoints."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The Unix timestamp (in seconds) for when the permission was created."]
     #[serde(rename = "created_at")]
-    pub created_at: Option<u64>,
+    pub created_at: u64,
     #[doc = "The project identifier that the permission is for."]
     #[serde(rename = "project_id")]
-    pub project_id: Option<String>,
+    pub project_id: String,
     #[doc = "The object type, which is always \"checkpoint.permission\"."]
     #[serde(rename = "object")]
-    pub object: Option<FineTuningCheckpointPermissionObject>,
+    pub object: FineTuningCheckpointPermissionObject,
 }
 #[doc = "The object type, which is always \"checkpoint.permission\"."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -5867,14 +5854,14 @@ pub enum FineTuningCheckpointPermissionObject {
 pub struct FineTuningIntegration {
     #[doc = "The settings for your integration with Weights and Biases. This payload specifies the project that\nmetrics will be sent to. Optionally, you can set an explicit display name for your run, add tags\nto your run, and set a default entity (team, username, etc) to be associated with your run.\n"]
     #[serde(rename = "wandb")]
-    pub wandb: Option<FineTuningIntegrationWandb>,
+    pub wandb: FineTuningIntegrationWandb,
 }
 #[doc = "The settings for your integration with Weights and Biases. This payload specifies the project that\nmetrics will be sent to. Optionally, you can set an explicit display name for your run, add tags\nto your run, and set a default entity (team, username, etc) to be associated with your run.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct FineTuningIntegrationWandb {
     #[doc = "The name of the project that the new run will be created under.\n"]
     #[serde(rename = "project")]
-    pub project: Option<String>,
+    pub project: String,
     #[doc = "A display name to set for the run. If not set, we will use the Job ID as the name.\n"]
     #[serde(rename = "name")]
     pub name: Option<String>,
@@ -5890,10 +5877,10 @@ pub struct FineTuningIntegrationWandb {
 pub struct FineTuningJob {
     #[doc = "The object identifier, which can be referenced in the API endpoints."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The Unix timestamp (in seconds) for when the fine-tuning job was created."]
     #[serde(rename = "created_at")]
-    pub created_at: Option<u64>,
+    pub created_at: u64,
     #[doc = "For fine-tuning jobs that have `failed`, this will contain more information on the cause of the failure."]
     #[serde(rename = "error")]
     pub error: Option<FineTuningJobError>,
@@ -5905,28 +5892,28 @@ pub struct FineTuningJob {
     pub finished_at: Option<u64>,
     #[doc = "The hyperparameters used for the fine-tuning job. This value will only be returned when running `supervised` jobs."]
     #[serde(rename = "hyperparameters")]
-    pub hyperparameters: Option<FineTuningJobHyperparameters>,
+    pub hyperparameters: FineTuningJobHyperparameters,
     #[doc = "The base model that is being fine-tuned."]
     #[serde(rename = "model")]
-    pub model: Option<String>,
+    pub model: String,
     #[doc = "The object type, which is always \"fine_tuning.job\"."]
     #[serde(rename = "object")]
-    pub object: Option<FineTuningJobObject>,
+    pub object: FineTuningJobObject,
     #[doc = "The organization that owns the fine-tuning job."]
     #[serde(rename = "organization_id")]
-    pub organization_id: Option<String>,
+    pub organization_id: String,
     #[doc = "The compiled results file ID(s) for the fine-tuning job. You can retrieve the results with the [Files API](/docs/api-reference/files/retrieve-contents)."]
     #[serde(rename = "result_files")]
-    pub result_files: Option<Vec<String>>,
+    pub result_files: Vec<String>,
     #[doc = "The current status of the fine-tuning job, which can be either `validating_files`, `queued`, `running`, `succeeded`, `failed`, or `cancelled`."]
     #[serde(rename = "status")]
-    pub status: Option<FineTuningJobStatus>,
+    pub status: FineTuningJobStatus,
     #[doc = "The total number of billable tokens processed by this fine-tuning job. The value will be null if the fine-tuning job is still running."]
     #[serde(rename = "trained_tokens")]
     pub trained_tokens: Option<u64>,
     #[doc = "The file ID used for training. You can retrieve the training data with the [Files API](/docs/api-reference/files/retrieve-contents)."]
     #[serde(rename = "training_file")]
-    pub training_file: Option<String>,
+    pub training_file: String,
     #[doc = "The file ID used for validation. You can retrieve the validation results with the [Files API](/docs/api-reference/files/retrieve-contents)."]
     #[serde(rename = "validation_file")]
     pub validation_file: Option<String>,
@@ -5935,7 +5922,7 @@ pub struct FineTuningJob {
     pub integrations: Option<Vec<FineTuningJobIntegrationsItem>>,
     #[doc = "The seed used for the fine-tuning job."]
     #[serde(rename = "seed")]
-    pub seed: Option<u64>,
+    pub seed: u64,
     #[doc = "The Unix timestamp (in seconds) for when the fine-tuning job is estimated to finish. The value will be null if the fine-tuning job is not running."]
     #[serde(rename = "estimated_finish")]
     pub estimated_finish: Option<u64>,
@@ -5949,25 +5936,25 @@ pub struct FineTuningJob {
 pub struct FineTuningJobCheckpoint {
     #[doc = "The checkpoint identifier, which can be referenced in the API endpoints."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The Unix timestamp (in seconds) for when the checkpoint was created."]
     #[serde(rename = "created_at")]
-    pub created_at: Option<u64>,
+    pub created_at: u64,
     #[doc = "The name of the fine-tuned checkpoint model that is created."]
     #[serde(rename = "fine_tuned_model_checkpoint")]
-    pub fine_tuned_model_checkpoint: Option<String>,
+    pub fine_tuned_model_checkpoint: String,
     #[doc = "The step number that the checkpoint was created at."]
     #[serde(rename = "step_number")]
-    pub step_number: Option<u64>,
+    pub step_number: u64,
     #[doc = "Metrics at the step number during the fine-tuning job."]
     #[serde(rename = "metrics")]
-    pub metrics: Option<FineTuningJobCheckpointMetrics>,
+    pub metrics: FineTuningJobCheckpointMetrics,
     #[doc = "The name of the fine-tuning job that this checkpoint was created from."]
     #[serde(rename = "fine_tuning_job_id")]
-    pub fine_tuning_job_id: Option<String>,
+    pub fine_tuning_job_id: String,
     #[doc = "The object type, which is always \"fine_tuning.job.checkpoint\"."]
     #[serde(rename = "object")]
-    pub object: Option<FineTuningJobCheckpointObject>,
+    pub object: FineTuningJobCheckpointObject,
 }
 #[doc = "Metrics at the step number during the fine-tuning job."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -5998,10 +5985,10 @@ pub enum FineTuningJobCheckpointObject {
 pub struct FineTuningJobError {
     #[doc = "A machine-readable error code."]
     #[serde(rename = "code")]
-    pub code: Option<String>,
+    pub code: String,
     #[doc = "A human-readable error message."]
     #[serde(rename = "message")]
-    pub message: Option<String>,
+    pub message: String,
     #[doc = "The parameter that was invalid, usually `training_file` or `validation_file`. This field will be null if the failure was not parameter-specific."]
     #[serde(rename = "param")]
     pub param: Option<String>,
@@ -6011,19 +5998,19 @@ pub struct FineTuningJobError {
 pub struct FineTuningJobEvent {
     #[doc = "The object type, which is always \"fine_tuning.job.event\"."]
     #[serde(rename = "object")]
-    pub object: Option<FineTuningJobEventObject>,
+    pub object: FineTuningJobEventObject,
     #[doc = "The object identifier."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The Unix timestamp (in seconds) for when the fine-tuning job was created."]
     #[serde(rename = "created_at")]
-    pub created_at: Option<u64>,
+    pub created_at: u64,
     #[doc = "The log level of the event."]
     #[serde(rename = "level")]
-    pub level: Option<FineTuningJobEventLevel>,
+    pub level: FineTuningJobEventLevel,
     #[doc = "The message of the event."]
     #[serde(rename = "message")]
-    pub message: Option<String>,
+    pub message: String,
     #[doc = "The type of event."]
     #[serde(rename = "type")]
     pub type_: Option<FineTuningJobEventType>,
@@ -6144,13 +6131,13 @@ pub struct FunctionCallOutputItemParam {
     pub id: Option<String>,
     #[doc = "The unique ID of the function tool call generated by the model."]
     #[serde(rename = "call_id")]
-    pub call_id: Option<String>,
+    pub call_id: String,
     #[doc = "The type of the function tool call output. Always `function_call_output`."]
     #[serde(rename = "type")]
-    pub type_: Option<FunctionCallOutputItemParamType>,
+    pub type_: FunctionCallOutputItemParamType,
     #[doc = "A JSON string of the output of the function tool call."]
     #[serde(rename = "output")]
-    pub output: Option<String>,
+    pub output: String,
     #[doc = "The status of the item. One of `in_progress`, `completed`, or `incomplete`. Populated when items are returned via API."]
     #[serde(rename = "status")]
     pub status: Option<FunctionCallOutputItemParamStatus>,
@@ -6178,7 +6165,7 @@ pub struct FunctionObject {
     pub description: Option<String>,
     #[doc = "The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64."]
     #[serde(rename = "name")]
-    pub name: Option<String>,
+    pub name: String,
     #[serde(rename = "parameters")]
     pub parameters: Option<FunctionParameters>,
     #[doc = "Whether to enable strict schema adherence when generating the function call. If set to true, the model will follow the exact schema defined in the `parameters` field. Only a subset of JSON Schema is supported when `strict` is `true`. Learn more about Structured Outputs in the [function calling guide](docs/guides/function-calling)."]
@@ -6192,7 +6179,7 @@ pub type FunctionParameters = std::collections::HashMap<String, serde_json::Valu
 pub struct FunctionTool {
     #[doc = "The name of the function to call."]
     #[serde(rename = "name")]
-    pub name: Option<String>,
+    pub name: String,
     #[doc = "A description of the function. Used by the model to determine whether or not to call the function."]
     #[serde(rename = "description")]
     pub description: Option<String>,
@@ -6211,16 +6198,16 @@ pub struct FunctionToolCall {
     pub id: Option<String>,
     #[doc = "The type of the function tool call. Always `function_call`.\n"]
     #[serde(rename = "type")]
-    pub type_: Option<FunctionToolCallType>,
+    pub type_: FunctionToolCallType,
     #[doc = "The unique ID of the function tool call generated by the model.\n"]
     #[serde(rename = "call_id")]
-    pub call_id: Option<String>,
+    pub call_id: String,
     #[doc = "The name of the function to run.\n"]
     #[serde(rename = "name")]
-    pub name: Option<String>,
+    pub name: String,
     #[doc = "A JSON string of the arguments to pass to the function.\n"]
     #[serde(rename = "arguments")]
-    pub arguments: Option<String>,
+    pub arguments: String,
     #[doc = "The status of the item. One of `in_progress`, `completed`, or\n`incomplete`. Populated when items are returned via API.\n"]
     #[serde(rename = "status")]
     pub status: Option<FunctionToolCallStatus>,
@@ -6233,13 +6220,13 @@ pub struct FunctionToolCallOutput {
     pub id: Option<String>,
     #[doc = "The type of the function tool call output. Always `function_call_output`.\n"]
     #[serde(rename = "type")]
-    pub type_: Option<FunctionToolCallOutputType>,
+    pub type_: FunctionToolCallOutputType,
     #[doc = "The unique ID of the function tool call generated by the model.\n"]
     #[serde(rename = "call_id")]
-    pub call_id: Option<String>,
+    pub call_id: String,
     #[doc = "A JSON string of the output of the function tool call.\n"]
     #[serde(rename = "output")]
-    pub output: Option<String>,
+    pub output: String,
     #[doc = "The status of the item. One of `in_progress`, `completed`, or\n`incomplete`. Populated when items are returned via API.\n"]
     #[serde(rename = "status")]
     pub status: Option<FunctionToolCallOutputStatus>,
@@ -6250,7 +6237,7 @@ pub struct FunctionToolCallOutputResource {
     pub function_tool_call_output: Option<FunctionToolCallOutput>,
     #[doc = "The unique ID of the function call tool output.\n"]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
 }
 #[doc = "The status of the item. One of `in_progress`, `completed`, or\n`incomplete`. Populated when items are returned via API.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -6274,7 +6261,7 @@ pub struct FunctionToolCallResource {
     pub function_tool_call: Option<FunctionToolCall>,
     #[doc = "The unique ID of the function tool call.\n"]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
 }
 #[doc = "The status of the item. One of `in_progress`, `completed`, or\n`incomplete`. Populated when items are returned via API.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -6310,7 +6297,7 @@ pub struct Image {
 pub struct ImagesResponse {
     #[doc = "The Unix timestamp (in seconds) of when the image was created."]
     #[serde(rename = "created")]
-    pub created: Option<u64>,
+    pub created: u64,
     #[doc = "The list of generated images."]
     #[serde(rename = "data")]
     pub data: Option<Vec<Image>>,
@@ -6323,26 +6310,26 @@ pub struct ImagesResponse {
 pub struct ImagesResponseUsage {
     #[doc = "The total number of tokens (images and text) used for the image generation."]
     #[serde(rename = "total_tokens")]
-    pub total_tokens: Option<u64>,
+    pub total_tokens: u64,
     #[doc = "The number of tokens (images and text) in the input prompt."]
     #[serde(rename = "input_tokens")]
-    pub input_tokens: Option<u64>,
+    pub input_tokens: u64,
     #[doc = "The number of image tokens in the output image."]
     #[serde(rename = "output_tokens")]
-    pub output_tokens: Option<u64>,
+    pub output_tokens: u64,
     #[doc = "The input tokens detailed information for the image generation."]
     #[serde(rename = "input_tokens_details")]
-    pub input_tokens_details: Option<ImagesResponseUsageInputTokensDetails>,
+    pub input_tokens_details: ImagesResponseUsageInputTokensDetails,
 }
 #[doc = "The input tokens detailed information for the image generation."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ImagesResponseUsageInputTokensDetails {
     #[doc = "The number of text tokens in the input prompt."]
     #[serde(rename = "text_tokens")]
-    pub text_tokens: Option<u64>,
+    pub text_tokens: u64,
     #[doc = "The number of image tokens in the input prompt."]
     #[serde(rename = "image_tokens")]
-    pub image_tokens: Option<u64>,
+    pub image_tokens: u64,
 }
 #[doc = "Specify additional output data to include in the model response. Currently\nsupported values are:\n- `file_search_call.results`: Include the search results of\n  the file search tool call.\n- `message.input_image.image_url`: Include image urls from the input message.\n- `computer_call_output.output.image_url`: Include image urls from the computer call output.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -6359,13 +6346,13 @@ pub enum Includable {
 pub struct InputAudio {
     #[doc = "The type of the input item. Always `input_audio`.\n"]
     #[serde(rename = "type")]
-    pub type_: Option<InputAudioType>,
+    pub type_: InputAudioType,
     #[doc = "Base64-encoded audio data.\n"]
     #[serde(rename = "data")]
-    pub data: Option<String>,
+    pub data: String,
     #[doc = "The format of the audio data. Currently supported formats are `mp3` and\n`wav`.\n"]
     #[serde(rename = "format")]
-    pub format: Option<InputAudioFormat>,
+    pub format: InputAudioFormat,
 }
 #[doc = "The format of the audio data. Currently supported formats are `mp3` and\n`wav`.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -6416,7 +6403,7 @@ pub struct InputImageContent {
     pub file_id: Option<String>,
     #[doc = "The detail level of the image to be sent to the model. One of `high`, `low`, or `auto`. Defaults to `auto`."]
     #[serde(rename = "detail")]
-    pub detail: Option<InputImageContentDetail>,
+    pub detail: InputImageContentDetail,
 }
 #[doc = "The detail level of the image to be sent to the model. One of `high`, `low`, or `auto`. Defaults to `auto`."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -6444,12 +6431,12 @@ pub struct InputMessage {
     pub type_: Option<InputMessageType>,
     #[doc = "The role of the message input. One of `user`, `system`, or `developer`.\n"]
     #[serde(rename = "role")]
-    pub role: Option<InputMessageRole>,
+    pub role: InputMessageRole,
     #[doc = "The status of item. One of `in_progress`, `completed`, or\n`incomplete`. Populated when items are returned via API.\n"]
     #[serde(rename = "status")]
     pub status: Option<InputMessageStatus>,
     #[serde(rename = "content")]
-    pub content: Option<InputMessageContentList>,
+    pub content: InputMessageContentList,
 }
 #[doc = "A list of one or many input items to the model, containing different content \ntypes.\n"]
 pub type InputMessageContentList = Vec<InputContent>;
@@ -6459,7 +6446,7 @@ pub struct InputMessageResource {
     pub input_message: Option<InputMessage>,
     #[doc = "The unique ID of the message input.\n"]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
 }
 #[doc = "The role of the message input. One of `user`, `system`, or `developer`.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -6492,32 +6479,32 @@ pub enum InputMessageType {
 pub struct InputTextContent {
     #[doc = "The text input to the model."]
     #[serde(rename = "text")]
-    pub text: Option<String>,
+    pub text: String,
 }
 #[doc = "Represents an individual `invite` to the organization."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct Invite {
     #[doc = "The object type, which is always `organization.invite`"]
     #[serde(rename = "object")]
-    pub object: Option<InviteObject>,
+    pub object: InviteObject,
     #[doc = "The identifier, which can be referenced in API endpoints"]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The email address of the individual to whom the invite was sent"]
     #[serde(rename = "email")]
-    pub email: Option<String>,
+    pub email: String,
     #[doc = "`owner` or `reader`"]
     #[serde(rename = "role")]
-    pub role: Option<InviteRole>,
+    pub role: InviteRole,
     #[doc = "`accepted`,`expired`, or `pending`"]
     #[serde(rename = "status")]
-    pub status: Option<InviteStatus>,
+    pub status: InviteStatus,
     #[doc = "The Unix timestamp (in seconds) of when the invite was sent."]
     #[serde(rename = "invited_at")]
-    pub invited_at: Option<u64>,
+    pub invited_at: u64,
     #[doc = "The Unix timestamp (in seconds) of when the invite expires."]
     #[serde(rename = "expires_at")]
-    pub expires_at: Option<u64>,
+    pub expires_at: u64,
     #[doc = "The Unix timestamp (in seconds) of when the invite was accepted."]
     #[serde(rename = "accepted_at")]
     pub accepted_at: Option<u64>,
@@ -6529,11 +6516,11 @@ pub struct Invite {
 pub struct InviteDeleteResponse {
     #[doc = "The object type, which is always `organization.invite.deleted`"]
     #[serde(rename = "object")]
-    pub object: Option<InviteDeleteResponseObject>,
+    pub object: InviteDeleteResponseObject,
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[serde(rename = "deleted")]
-    pub deleted: Option<bool>,
+    pub deleted: bool,
 }
 #[doc = "The object type, which is always `organization.invite.deleted`"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -6545,9 +6532,9 @@ pub enum InviteDeleteResponseObject {
 pub struct InviteListResponse {
     #[doc = "The object type, which is always `list`"]
     #[serde(rename = "object")]
-    pub object: Option<InviteListResponseObject>,
+    pub object: InviteListResponseObject,
     #[serde(rename = "data")]
-    pub data: Option<Vec<Invite>>,
+    pub data: Vec<Invite>,
     #[doc = "The first `invite_id` in the retrieved `list`"]
     #[serde(rename = "first_id")]
     pub first_id: Option<String>,
@@ -6591,10 +6578,10 @@ pub enum InviteProjectsItemRole {
 pub struct InviteRequest {
     #[doc = "Send an email to this address"]
     #[serde(rename = "email")]
-    pub email: Option<String>,
+    pub email: String,
     #[doc = "`owner` or `reader`"]
     #[serde(rename = "role")]
-    pub role: Option<InviteRequestRole>,
+    pub role: InviteRequestRole,
     #[doc = "An array of projects to which membership is granted at the same time the org invite is accepted. If omitted, the user will be invited to the default project for compatibility with legacy behavior."]
     #[serde(rename = "projects")]
     pub projects: Option<Vec<InviteRequestProjectsItem>>,
@@ -6603,10 +6590,10 @@ pub struct InviteRequest {
 pub struct InviteRequestProjectsItem {
     #[doc = "Project's public ID"]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "Project membership role"]
     #[serde(rename = "role")]
-    pub role: Option<InviteRequestProjectsItemRole>,
+    pub role: InviteRequestProjectsItemRole,
 }
 #[doc = "Project membership role"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -6665,7 +6652,7 @@ pub struct ItemReferenceParam {
     pub type_: Option<ItemReferenceParamType>,
     #[doc = "The ID of the item to reference."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
 }
 #[doc = "The type of item to reference. Always `item_reference`."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -6692,33 +6679,33 @@ pub enum ItemResource {
 pub struct KeyPress {
     #[doc = "The combination of keys the model is requesting to be pressed. This is an\narray of strings, each representing a key.\n"]
     #[serde(rename = "keys")]
-    pub keys: Option<Vec<String>>,
+    pub keys: Vec<String>,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ListAssistantsResponse {
     #[serde(rename = "object")]
-    pub object: Option<String>,
+    pub object: String,
     #[serde(rename = "data")]
-    pub data: Option<Vec<AssistantObject>>,
+    pub data: Vec<AssistantObject>,
     #[serde(rename = "first_id")]
-    pub first_id: Option<String>,
+    pub first_id: String,
     #[serde(rename = "last_id")]
-    pub last_id: Option<String>,
+    pub last_id: String,
     #[serde(rename = "has_more")]
-    pub has_more: Option<bool>,
+    pub has_more: bool,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ListAuditLogsResponse {
     #[serde(rename = "object")]
-    pub object: Option<ListAuditLogsResponseObject>,
+    pub object: ListAuditLogsResponseObject,
     #[serde(rename = "data")]
-    pub data: Option<Vec<AuditLog>>,
+    pub data: Vec<AuditLog>,
     #[serde(rename = "first_id")]
-    pub first_id: Option<String>,
+    pub first_id: String,
     #[serde(rename = "last_id")]
-    pub last_id: Option<String>,
+    pub last_id: String,
     #[serde(rename = "has_more")]
-    pub has_more: Option<bool>,
+    pub has_more: bool,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub enum ListAuditLogsResponseObject {
@@ -6728,15 +6715,15 @@ pub enum ListAuditLogsResponseObject {
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ListBatchesResponse {
     #[serde(rename = "data")]
-    pub data: Option<Vec<Batch>>,
+    pub data: Vec<Batch>,
     #[serde(rename = "first_id")]
     pub first_id: Option<String>,
     #[serde(rename = "last_id")]
     pub last_id: Option<String>,
     #[serde(rename = "has_more")]
-    pub has_more: Option<bool>,
+    pub has_more: bool,
     #[serde(rename = "object")]
-    pub object: Option<ListBatchesResponseObject>,
+    pub object: ListBatchesResponseObject,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub enum ListBatchesResponseObject {
@@ -6746,15 +6733,15 @@ pub enum ListBatchesResponseObject {
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ListCertificatesResponse {
     #[serde(rename = "data")]
-    pub data: Option<Vec<Certificate>>,
+    pub data: Vec<Certificate>,
     #[serde(rename = "first_id")]
     pub first_id: Option<String>,
     #[serde(rename = "last_id")]
     pub last_id: Option<String>,
     #[serde(rename = "has_more")]
-    pub has_more: Option<bool>,
+    pub has_more: bool,
     #[serde(rename = "object")]
-    pub object: Option<ListCertificatesResponseObject>,
+    pub object: ListCertificatesResponseObject,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub enum ListCertificatesResponseObject {
@@ -6764,28 +6751,28 @@ pub enum ListCertificatesResponseObject {
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ListFilesResponse {
     #[serde(rename = "object")]
-    pub object: Option<String>,
+    pub object: String,
     #[serde(rename = "data")]
-    pub data: Option<Vec<OpenAiFile>>,
+    pub data: Vec<OpenAiFile>,
     #[serde(rename = "first_id")]
-    pub first_id: Option<String>,
+    pub first_id: String,
     #[serde(rename = "last_id")]
-    pub last_id: Option<String>,
+    pub last_id: String,
     #[serde(rename = "has_more")]
-    pub has_more: Option<bool>,
+    pub has_more: bool,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ListFineTuningCheckpointPermissionResponse {
     #[serde(rename = "data")]
-    pub data: Option<Vec<FineTuningCheckpointPermission>>,
+    pub data: Vec<FineTuningCheckpointPermission>,
     #[serde(rename = "object")]
-    pub object: Option<ListFineTuningCheckpointPermissionResponseObject>,
+    pub object: ListFineTuningCheckpointPermissionResponseObject,
     #[serde(rename = "first_id")]
     pub first_id: Option<String>,
     #[serde(rename = "last_id")]
     pub last_id: Option<String>,
     #[serde(rename = "has_more")]
-    pub has_more: Option<bool>,
+    pub has_more: bool,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub enum ListFineTuningCheckpointPermissionResponseObject {
@@ -6795,15 +6782,15 @@ pub enum ListFineTuningCheckpointPermissionResponseObject {
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ListFineTuningJobCheckpointsResponse {
     #[serde(rename = "data")]
-    pub data: Option<Vec<FineTuningJobCheckpoint>>,
+    pub data: Vec<FineTuningJobCheckpoint>,
     #[serde(rename = "object")]
-    pub object: Option<ListFineTuningJobCheckpointsResponseObject>,
+    pub object: ListFineTuningJobCheckpointsResponseObject,
     #[serde(rename = "first_id")]
     pub first_id: Option<String>,
     #[serde(rename = "last_id")]
     pub last_id: Option<String>,
     #[serde(rename = "has_more")]
-    pub has_more: Option<bool>,
+    pub has_more: bool,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub enum ListFineTuningJobCheckpointsResponseObject {
@@ -6813,11 +6800,11 @@ pub enum ListFineTuningJobCheckpointsResponseObject {
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ListFineTuningJobEventsResponse {
     #[serde(rename = "data")]
-    pub data: Option<Vec<FineTuningJobEvent>>,
+    pub data: Vec<FineTuningJobEvent>,
     #[serde(rename = "object")]
-    pub object: Option<ListFineTuningJobEventsResponseObject>,
+    pub object: ListFineTuningJobEventsResponseObject,
     #[serde(rename = "has_more")]
-    pub has_more: Option<bool>,
+    pub has_more: bool,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub enum ListFineTuningJobEventsResponseObject {
@@ -6827,22 +6814,22 @@ pub enum ListFineTuningJobEventsResponseObject {
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ListMessagesResponse {
     #[serde(rename = "object")]
-    pub object: Option<String>,
+    pub object: String,
     #[serde(rename = "data")]
-    pub data: Option<Vec<MessageObject>>,
+    pub data: Vec<MessageObject>,
     #[serde(rename = "first_id")]
-    pub first_id: Option<String>,
+    pub first_id: String,
     #[serde(rename = "last_id")]
-    pub last_id: Option<String>,
+    pub last_id: String,
     #[serde(rename = "has_more")]
-    pub has_more: Option<bool>,
+    pub has_more: bool,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ListModelsResponse {
     #[serde(rename = "object")]
-    pub object: Option<ListModelsResponseObject>,
+    pub object: ListModelsResponseObject,
     #[serde(rename = "data")]
-    pub data: Option<Vec<Model>>,
+    pub data: Vec<Model>,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub enum ListModelsResponseObject {
@@ -6852,11 +6839,11 @@ pub enum ListModelsResponseObject {
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ListPaginatedFineTuningJobsResponse {
     #[serde(rename = "data")]
-    pub data: Option<Vec<FineTuningJob>>,
+    pub data: Vec<FineTuningJob>,
     #[serde(rename = "has_more")]
-    pub has_more: Option<bool>,
+    pub has_more: bool,
     #[serde(rename = "object")]
-    pub object: Option<ListPaginatedFineTuningJobsResponseObject>,
+    pub object: ListPaginatedFineTuningJobsResponseObject,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub enum ListPaginatedFineTuningJobsResponseObject {
@@ -6866,79 +6853,79 @@ pub enum ListPaginatedFineTuningJobsResponseObject {
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ListRunStepsResponse {
     #[serde(rename = "object")]
-    pub object: Option<String>,
+    pub object: String,
     #[serde(rename = "data")]
-    pub data: Option<Vec<RunStepObject>>,
+    pub data: Vec<RunStepObject>,
     #[serde(rename = "first_id")]
-    pub first_id: Option<String>,
+    pub first_id: String,
     #[serde(rename = "last_id")]
-    pub last_id: Option<String>,
+    pub last_id: String,
     #[serde(rename = "has_more")]
-    pub has_more: Option<bool>,
+    pub has_more: bool,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ListRunsResponse {
     #[serde(rename = "object")]
-    pub object: Option<String>,
+    pub object: String,
     #[serde(rename = "data")]
-    pub data: Option<Vec<RunObject>>,
+    pub data: Vec<RunObject>,
     #[serde(rename = "first_id")]
-    pub first_id: Option<String>,
+    pub first_id: String,
     #[serde(rename = "last_id")]
-    pub last_id: Option<String>,
+    pub last_id: String,
     #[serde(rename = "has_more")]
-    pub has_more: Option<bool>,
+    pub has_more: bool,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ListVectorStoreFilesResponse {
     #[serde(rename = "object")]
-    pub object: Option<String>,
+    pub object: String,
     #[serde(rename = "data")]
-    pub data: Option<Vec<VectorStoreFileObject>>,
+    pub data: Vec<VectorStoreFileObject>,
     #[serde(rename = "first_id")]
-    pub first_id: Option<String>,
+    pub first_id: String,
     #[serde(rename = "last_id")]
-    pub last_id: Option<String>,
+    pub last_id: String,
     #[serde(rename = "has_more")]
-    pub has_more: Option<bool>,
+    pub has_more: bool,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ListVectorStoresResponse {
     #[serde(rename = "object")]
-    pub object: Option<String>,
+    pub object: String,
     #[serde(rename = "data")]
-    pub data: Option<Vec<VectorStoreObject>>,
+    pub data: Vec<VectorStoreObject>,
     #[serde(rename = "first_id")]
-    pub first_id: Option<String>,
+    pub first_id: String,
     #[serde(rename = "last_id")]
-    pub last_id: Option<String>,
+    pub last_id: String,
     #[serde(rename = "has_more")]
-    pub has_more: Option<bool>,
+    pub has_more: bool,
 }
 #[doc = "A log probability object.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct LogProbProperties {
     #[doc = "The token that was used to generate the log probability.\n"]
     #[serde(rename = "token")]
-    pub token: Option<String>,
+    pub token: String,
     #[doc = "The log probability of the token.\n"]
     #[serde(rename = "logprob")]
-    pub logprob: Option<f64>,
+    pub logprob: f64,
     #[doc = "The bytes that were used to generate the log probability.\n"]
     #[serde(rename = "bytes")]
-    pub bytes: Option<Vec<u64>>,
+    pub bytes: Vec<u64>,
 }
 #[doc = "References an image [File](/docs/api-reference/files) in the content of a message."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct MessageContentImageFileObject {
     #[serde(rename = "image_file")]
-    pub image_file: Option<MessageContentImageFileObjectImageFile>,
+    pub image_file: MessageContentImageFileObjectImageFile,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct MessageContentImageFileObjectImageFile {
     #[doc = "The [File](/docs/api-reference/files) ID of the image in the message content. Set `purpose=\"vision\"` when uploading the File if you need to later display the file content."]
     #[serde(rename = "file_id")]
-    pub file_id: Option<String>,
+    pub file_id: String,
     #[doc = "Specifies the detail level of the image if specified by the user. `low` uses fewer tokens, you can opt in to high resolution using `high`."]
     #[serde(rename = "detail")]
     pub detail: Option<MessageContentImageFileObjectImageFileDetail>,
@@ -6957,13 +6944,13 @@ pub enum MessageContentImageFileObjectImageFileDetail {
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct MessageContentImageUrlObject {
     #[serde(rename = "image_url")]
-    pub image_url: Option<MessageContentImageUrlObjectImageUrl>,
+    pub image_url: MessageContentImageUrlObjectImageUrl,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct MessageContentImageUrlObjectImageUrl {
     #[doc = "The external URL of the image, must be a supported image types: jpeg, jpg, png, gif, webp."]
     #[serde(rename = "url")]
-    pub url: Option<String>,
+    pub url: String,
     #[doc = "Specifies the detail level of the image. `low` uses fewer tokens, you can opt in to high resolution using `high`. Default value is `auto`"]
     #[serde(rename = "detail")]
     pub detail: Option<MessageContentImageUrlObjectImageUrlDetail>,
@@ -6982,59 +6969,59 @@ pub enum MessageContentImageUrlObjectImageUrlDetail {
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct MessageContentRefusalObject {
     #[serde(rename = "refusal")]
-    pub refusal: Option<String>,
+    pub refusal: String,
 }
 #[doc = "A citation within the message that points to a specific quote from a specific File associated with the assistant or the message. Generated when the assistant uses the \"file_search\" tool to search files."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct MessageContentTextAnnotationsFileCitationObject {
     #[doc = "The text in the message content that needs to be replaced."]
     #[serde(rename = "text")]
-    pub text: Option<String>,
+    pub text: String,
     #[serde(rename = "file_citation")]
-    pub file_citation: Option<MessageContentTextAnnotationsFileCitationObjectFileCitation>,
+    pub file_citation: MessageContentTextAnnotationsFileCitationObjectFileCitation,
     #[serde(rename = "start_index")]
-    pub start_index: Option<u64>,
+    pub start_index: u64,
     #[serde(rename = "end_index")]
-    pub end_index: Option<u64>,
+    pub end_index: u64,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct MessageContentTextAnnotationsFileCitationObjectFileCitation {
     #[doc = "The ID of the specific File the citation is from."]
     #[serde(rename = "file_id")]
-    pub file_id: Option<String>,
+    pub file_id: String,
 }
 #[doc = "A URL for the file that's generated when the assistant used the `code_interpreter` tool to generate a file."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct MessageContentTextAnnotationsFilePathObject {
     #[doc = "The text in the message content that needs to be replaced."]
     #[serde(rename = "text")]
-    pub text: Option<String>,
+    pub text: String,
     #[serde(rename = "file_path")]
-    pub file_path: Option<MessageContentTextAnnotationsFilePathObjectFilePath>,
+    pub file_path: MessageContentTextAnnotationsFilePathObjectFilePath,
     #[serde(rename = "start_index")]
-    pub start_index: Option<u64>,
+    pub start_index: u64,
     #[serde(rename = "end_index")]
-    pub end_index: Option<u64>,
+    pub end_index: u64,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct MessageContentTextAnnotationsFilePathObjectFilePath {
     #[doc = "The ID of the file that was generated."]
     #[serde(rename = "file_id")]
-    pub file_id: Option<String>,
+    pub file_id: String,
 }
 #[doc = "The text content that is part of a message."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct MessageContentTextObject {
     #[serde(rename = "text")]
-    pub text: Option<MessageContentTextObjectText>,
+    pub text: MessageContentTextObjectText,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct MessageContentTextObjectText {
     #[doc = "The data that makes up the text."]
     #[serde(rename = "value")]
-    pub value: Option<String>,
+    pub value: String,
     #[serde(rename = "annotations")]
-    pub annotations: Option<Vec<MessageContentTextObjectTextAnnotationsItem>>,
+    pub annotations: Vec<MessageContentTextObjectTextAnnotationsItem>,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 #[allow(clippy::large_enum_variant)]
@@ -7050,7 +7037,7 @@ pub enum MessageContentTextObjectTextAnnotationsItem {
 pub struct MessageDeltaContentImageFileObject {
     #[doc = "The index of the content part in the message."]
     #[serde(rename = "index")]
-    pub index: Option<u64>,
+    pub index: u64,
     #[serde(rename = "image_file")]
     pub image_file: Option<MessageDeltaContentImageFileObjectImageFile>,
 }
@@ -7078,7 +7065,7 @@ pub enum MessageDeltaContentImageFileObjectImageFileDetail {
 pub struct MessageDeltaContentImageUrlObject {
     #[doc = "The index of the content part in the message."]
     #[serde(rename = "index")]
-    pub index: Option<u64>,
+    pub index: u64,
     #[serde(rename = "image_url")]
     pub image_url: Option<MessageDeltaContentImageUrlObjectImageUrl>,
 }
@@ -7106,7 +7093,7 @@ pub enum MessageDeltaContentImageUrlObjectImageUrlDetail {
 pub struct MessageDeltaContentRefusalObject {
     #[doc = "The index of the refusal part in the message."]
     #[serde(rename = "index")]
-    pub index: Option<u64>,
+    pub index: u64,
     #[serde(rename = "refusal")]
     pub refusal: Option<String>,
 }
@@ -7115,7 +7102,7 @@ pub struct MessageDeltaContentRefusalObject {
 pub struct MessageDeltaContentTextAnnotationsFileCitationObject {
     #[doc = "The index of the annotation in the text content part."]
     #[serde(rename = "index")]
-    pub index: Option<u64>,
+    pub index: u64,
     #[doc = "The text in the message content that needs to be replaced."]
     #[serde(rename = "text")]
     pub text: Option<String>,
@@ -7140,7 +7127,7 @@ pub struct MessageDeltaContentTextAnnotationsFileCitationObjectFileCitation {
 pub struct MessageDeltaContentTextAnnotationsFilePathObject {
     #[doc = "The index of the annotation in the text content part."]
     #[serde(rename = "index")]
-    pub index: Option<u64>,
+    pub index: u64,
     #[doc = "The text in the message content that needs to be replaced."]
     #[serde(rename = "text")]
     pub text: Option<String>,
@@ -7162,7 +7149,7 @@ pub struct MessageDeltaContentTextAnnotationsFilePathObjectFilePath {
 pub struct MessageDeltaContentTextObject {
     #[doc = "The index of the content part in the message."]
     #[serde(rename = "index")]
-    pub index: Option<u64>,
+    pub index: u64,
     #[serde(rename = "text")]
     pub text: Option<MessageDeltaContentTextObjectText>,
 }
@@ -7188,13 +7175,13 @@ pub enum MessageDeltaContentTextObjectTextAnnotationsItem {
 pub struct MessageDeltaObject {
     #[doc = "The identifier of the message, which can be referenced in API endpoints."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The object type, which is always `thread.message.delta`."]
     #[serde(rename = "object")]
-    pub object: Option<MessageDeltaObjectObject>,
+    pub object: MessageDeltaObjectObject,
     #[doc = "The delta containing the fields that have changed on the Message."]
     #[serde(rename = "delta")]
-    pub delta: Option<MessageDeltaObjectDelta>,
+    pub delta: MessageDeltaObjectDelta,
 }
 #[doc = "The delta containing the fields that have changed on the Message."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -7238,19 +7225,19 @@ pub enum MessageDeltaObjectObject {
 pub struct MessageObject {
     #[doc = "The identifier, which can be referenced in API endpoints."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The object type, which is always `thread.message`."]
     #[serde(rename = "object")]
-    pub object: Option<MessageObjectObject>,
+    pub object: MessageObjectObject,
     #[doc = "The Unix timestamp (in seconds) for when the message was created."]
     #[serde(rename = "created_at")]
-    pub created_at: Option<u64>,
+    pub created_at: u64,
     #[doc = "The [thread](/docs/api-reference/threads) ID that this message belongs to."]
     #[serde(rename = "thread_id")]
-    pub thread_id: Option<String>,
+    pub thread_id: String,
     #[doc = "The status of the message, which can be either `in_progress`, `incomplete`, or `completed`."]
     #[serde(rename = "status")]
-    pub status: Option<MessageObjectStatus>,
+    pub status: MessageObjectStatus,
     #[doc = "On an incomplete message, details about why the message is incomplete."]
     #[serde(rename = "incomplete_details")]
     pub incomplete_details: Option<MessageObjectIncompleteDetails>,
@@ -7262,10 +7249,10 @@ pub struct MessageObject {
     pub incomplete_at: Option<u64>,
     #[doc = "The entity that produced the message. One of `user` or `assistant`."]
     #[serde(rename = "role")]
-    pub role: Option<MessageObjectRole>,
+    pub role: MessageObjectRole,
     #[doc = "The content of the message in array of text and/or images."]
     #[serde(rename = "content")]
-    pub content: Option<Vec<MessageObjectContentItem>>,
+    pub content: Vec<MessageObjectContentItem>,
     #[doc = "If applicable, the ID of the [assistant](/docs/api-reference/assistants) that authored this message."]
     #[serde(rename = "assistant_id")]
     pub assistant_id: Option<String>,
@@ -7276,7 +7263,7 @@ pub struct MessageObject {
     #[serde(rename = "attachments")]
     pub attachments: Option<Vec<MessageObjectAttachmentsItem>>,
     #[serde(rename = "metadata")]
-    pub metadata: Option<Metadata>,
+    pub metadata: Metadata,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct MessageObjectAttachmentsItem {
@@ -7314,7 +7301,7 @@ pub enum MessageObjectContentItem {
 pub struct MessageObjectIncompleteDetails {
     #[doc = "The reason the message is incomplete."]
     #[serde(rename = "reason")]
-    pub reason: Option<MessageObjectIncompleteDetailsReason>,
+    pub reason: MessageObjectIncompleteDetailsReason,
 }
 #[doc = "The reason the message is incomplete."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -7359,7 +7346,7 @@ pub enum MessageObjectStatus {
 pub struct MessageRequestContentTextObject {
     #[doc = "Text content to be sent to the model"]
     #[serde(rename = "text")]
-    pub text: Option<String>,
+    pub text: String,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 #[allow(clippy::large_enum_variant)]
@@ -7380,31 +7367,31 @@ pub enum MessageStreamEvent {
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct MessageStreamEvent0 {
     #[serde(rename = "data")]
-    pub data: Option<MessageObject>,
+    pub data: MessageObject,
 }
 #[doc = "Occurs when a [message](/docs/api-reference/messages/object) moves to an `in_progress` state."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct MessageStreamEvent1 {
     #[serde(rename = "data")]
-    pub data: Option<MessageObject>,
+    pub data: MessageObject,
 }
 #[doc = "Occurs when parts of a [Message](/docs/api-reference/messages/object) are being streamed."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct MessageStreamEvent2 {
     #[serde(rename = "data")]
-    pub data: Option<MessageDeltaObject>,
+    pub data: MessageDeltaObject,
 }
 #[doc = "Occurs when a [message](/docs/api-reference/messages/object) is completed."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct MessageStreamEvent3 {
     #[serde(rename = "data")]
-    pub data: Option<MessageObject>,
+    pub data: MessageObject,
 }
 #[doc = "Occurs when a [message](/docs/api-reference/messages/object) ends before it is completed."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct MessageStreamEvent4 {
     #[serde(rename = "data")]
-    pub data: Option<MessageObject>,
+    pub data: MessageObject,
 }
 #[doc = "Set of 16 key-value pairs that can be attached to an object. This can be\nuseful for storing additional information about the object in a structured\nformat, and querying for objects via API or the dashboard. \n\nKeys are strings with a maximum length of 64 characters. Values are strings\nwith a maximum length of 512 characters.\n"]
 pub type Metadata = std::collections::HashMap<String, String>;
@@ -7413,16 +7400,16 @@ pub type Metadata = std::collections::HashMap<String, String>;
 pub struct Model {
     #[doc = "The model identifier, which can be referenced in the API endpoints."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The Unix timestamp (in seconds) when the model was created."]
     #[serde(rename = "created")]
-    pub created: Option<u64>,
+    pub created: u64,
     #[doc = "The object type, which is always \"model\"."]
     #[serde(rename = "object")]
-    pub object: Option<ModelObject>,
+    pub object: ModelObject,
     #[doc = "The organization that owns the model."]
     #[serde(rename = "owned_by")]
-    pub owned_by: Option<String>,
+    pub owned_by: String,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 #[allow(clippy::large_enum_variant)]
@@ -7663,7 +7650,7 @@ pub enum ModifyAssistantRequestToolsItem {
 pub struct ModifyCertificateRequest {
     #[doc = "The updated name for the certificate"]
     #[serde(rename = "name")]
-    pub name: Option<String>,
+    pub name: String,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ModifyMessageRequest {
@@ -7708,38 +7695,38 @@ pub struct ModifyThreadRequestToolResourcesFileSearch {
 pub struct Move {
     #[doc = "The x-coordinate to move to.\n"]
     #[serde(rename = "x")]
-    pub x: Option<u64>,
+    pub x: u64,
     #[doc = "The y-coordinate to move to.\n"]
     #[serde(rename = "y")]
-    pub y: Option<u64>,
+    pub y: u64,
 }
 #[doc = "The `File` object represents a document that has been uploaded to OpenAI."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct OpenAiFile {
     #[doc = "The file identifier, which can be referenced in the API endpoints."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The size of the file, in bytes."]
     #[serde(rename = "bytes")]
-    pub bytes: Option<u64>,
+    pub bytes: u64,
     #[doc = "The Unix timestamp (in seconds) for when the file was created."]
     #[serde(rename = "created_at")]
-    pub created_at: Option<u64>,
+    pub created_at: u64,
     #[doc = "The Unix timestamp (in seconds) for when the file will expire."]
     #[serde(rename = "expires_at")]
     pub expires_at: Option<u64>,
     #[doc = "The name of the file."]
     #[serde(rename = "filename")]
-    pub filename: Option<String>,
+    pub filename: String,
     #[doc = "The object type, which is always `file`."]
     #[serde(rename = "object")]
-    pub object: Option<OpenAiFileObject>,
+    pub object: OpenAiFileObject,
     #[doc = "The intended purpose of the file. Supported values are `assistants`, `assistants_output`, `batch`, `batch_output`, `fine-tune`, `fine-tune-results` and `vision`."]
     #[serde(rename = "purpose")]
-    pub purpose: Option<OpenAiFilePurpose>,
+    pub purpose: OpenAiFilePurpose,
     #[doc = "Deprecated. The current status of the file, which can be either `uploaded`, `processed`, or `error`."]
     #[serde(rename = "status")]
-    pub status: Option<OpenAiFileStatus>,
+    pub status: OpenAiFileStatus,
     #[doc = "Deprecated. For details on why a fine-tuning training file failed validation, see the `error` field on `fine_tuning.job`."]
     #[serde(rename = "status_details")]
     pub status_details: Option<String>,
@@ -7786,13 +7773,13 @@ pub struct OtherChunkingStrategyResponseParam {}
 pub struct OutputAudio {
     #[doc = "The type of the output audio. Always `output_audio`.\n"]
     #[serde(rename = "type")]
-    pub type_: Option<OutputAudioType>,
+    pub type_: OutputAudioType,
     #[doc = "Base64-encoded audio data from the model.\n"]
     #[serde(rename = "data")]
-    pub data: Option<String>,
+    pub data: String,
     #[doc = "The transcript of the audio data from the model.\n"]
     #[serde(rename = "transcript")]
-    pub transcript: Option<String>,
+    pub transcript: String,
 }
 #[doc = "The type of the output audio. Always `output_audio`.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -7825,19 +7812,19 @@ pub enum OutputItem {
 pub struct OutputMessage {
     #[doc = "The unique ID of the output message.\n"]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The type of the output message. Always `message`.\n"]
     #[serde(rename = "type")]
-    pub type_: Option<OutputMessageType>,
+    pub type_: OutputMessageType,
     #[doc = "The role of the output message. Always `assistant`.\n"]
     #[serde(rename = "role")]
-    pub role: Option<OutputMessageRole>,
+    pub role: OutputMessageRole,
     #[doc = "The content of the output message.\n"]
     #[serde(rename = "content")]
-    pub content: Option<Vec<OutputContent>>,
+    pub content: Vec<OutputContent>,
     #[doc = "The status of the message input. One of `in_progress`, `completed`, or\n`incomplete`. Populated when input items are returned via API.\n"]
     #[serde(rename = "status")]
-    pub status: Option<OutputMessageStatus>,
+    pub status: OutputMessageStatus,
 }
 #[doc = "The role of the output message. Always `assistant`.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -7866,10 +7853,10 @@ pub enum OutputMessageType {
 pub struct OutputTextContent {
     #[doc = "The text output from the model."]
     #[serde(rename = "text")]
-    pub text: Option<String>,
+    pub text: String,
     #[doc = "The annotations of the text output."]
     #[serde(rename = "annotations")]
-    pub annotations: Option<Vec<Annotation>>,
+    pub annotations: Vec<Annotation>,
 }
 #[doc = "Whether to enable [parallel function calling](/docs/guides/function-calling#configuring-parallel-function-calling) during tool use."]
 pub type ParallelToolCalls = bool;
@@ -7878,7 +7865,7 @@ pub type ParallelToolCalls = bool;
 pub struct PredictionContent {
     #[doc = "The content that should be matched when generating a model response.\nIf generated tokens would match this content, the entire model response\ncan be returned much more quickly.\n"]
     #[serde(rename = "content")]
-    pub content: Option<PredictionContentContent>,
+    pub content: PredictionContentContent,
 }
 #[doc = "The content that should be matched when generating a model response.\nIf generated tokens would match this content, the entire model response\ncan be returned much more quickly.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -7893,55 +7880,55 @@ pub enum PredictionContentContent {
 pub struct Project {
     #[doc = "The identifier, which can be referenced in API endpoints"]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The object type, which is always `organization.project`"]
     #[serde(rename = "object")]
-    pub object: Option<ProjectObject>,
+    pub object: ProjectObject,
     #[doc = "The name of the project. This appears in reporting."]
     #[serde(rename = "name")]
-    pub name: Option<String>,
+    pub name: String,
     #[doc = "The Unix timestamp (in seconds) of when the project was created."]
     #[serde(rename = "created_at")]
-    pub created_at: Option<u64>,
+    pub created_at: u64,
     #[doc = "The Unix timestamp (in seconds) of when the project was archived or `null`."]
     #[serde(rename = "archived_at")]
     pub archived_at: Option<u64>,
     #[doc = "`active` or `archived`"]
     #[serde(rename = "status")]
-    pub status: Option<ProjectStatus>,
+    pub status: ProjectStatus,
 }
 #[doc = "Represents an individual API key in a project."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ProjectApiKey {
     #[doc = "The object type, which is always `organization.project.api_key`"]
     #[serde(rename = "object")]
-    pub object: Option<ProjectApiKeyObject>,
+    pub object: ProjectApiKeyObject,
     #[doc = "The redacted value of the API key"]
     #[serde(rename = "redacted_value")]
-    pub redacted_value: Option<String>,
+    pub redacted_value: String,
     #[doc = "The name of the API key"]
     #[serde(rename = "name")]
-    pub name: Option<String>,
+    pub name: String,
     #[doc = "The Unix timestamp (in seconds) of when the API key was created"]
     #[serde(rename = "created_at")]
-    pub created_at: Option<u64>,
+    pub created_at: u64,
     #[doc = "The Unix timestamp (in seconds) of when the API key was last used."]
     #[serde(rename = "last_used_at")]
-    pub last_used_at: Option<u64>,
+    pub last_used_at: u64,
     #[doc = "The identifier, which can be referenced in API endpoints"]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[serde(rename = "owner")]
-    pub owner: Option<ProjectApiKeyOwner>,
+    pub owner: ProjectApiKeyOwner,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ProjectApiKeyDeleteResponse {
     #[serde(rename = "object")]
-    pub object: Option<ProjectApiKeyDeleteResponseObject>,
+    pub object: ProjectApiKeyDeleteResponseObject,
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[serde(rename = "deleted")]
-    pub deleted: Option<bool>,
+    pub deleted: bool,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub enum ProjectApiKeyDeleteResponseObject {
@@ -7951,15 +7938,15 @@ pub enum ProjectApiKeyDeleteResponseObject {
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ProjectApiKeyListResponse {
     #[serde(rename = "object")]
-    pub object: Option<ProjectApiKeyListResponseObject>,
+    pub object: ProjectApiKeyListResponseObject,
     #[serde(rename = "data")]
-    pub data: Option<Vec<ProjectApiKey>>,
+    pub data: Vec<ProjectApiKey>,
     #[serde(rename = "first_id")]
-    pub first_id: Option<String>,
+    pub first_id: String,
     #[serde(rename = "last_id")]
-    pub last_id: Option<String>,
+    pub last_id: String,
     #[serde(rename = "has_more")]
-    pub has_more: Option<bool>,
+    pub has_more: bool,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub enum ProjectApiKeyListResponseObject {
@@ -7994,20 +7981,20 @@ pub enum ProjectApiKeyOwnerType {
 pub struct ProjectCreateRequest {
     #[doc = "The friendly name of the project, this name appears in reports."]
     #[serde(rename = "name")]
-    pub name: Option<String>,
+    pub name: String,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ProjectListResponse {
     #[serde(rename = "object")]
-    pub object: Option<ProjectListResponseObject>,
+    pub object: ProjectListResponseObject,
     #[serde(rename = "data")]
-    pub data: Option<Vec<Project>>,
+    pub data: Vec<Project>,
     #[serde(rename = "first_id")]
-    pub first_id: Option<String>,
+    pub first_id: String,
     #[serde(rename = "last_id")]
-    pub last_id: Option<String>,
+    pub last_id: String,
     #[serde(rename = "has_more")]
-    pub has_more: Option<bool>,
+    pub has_more: bool,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub enum ProjectListResponseObject {
@@ -8025,19 +8012,19 @@ pub enum ProjectObject {
 pub struct ProjectRateLimit {
     #[doc = "The object type, which is always `project.rate_limit`"]
     #[serde(rename = "object")]
-    pub object: Option<ProjectRateLimitObject>,
+    pub object: ProjectRateLimitObject,
     #[doc = "The identifier, which can be referenced in API endpoints."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The model this rate limit applies to."]
     #[serde(rename = "model")]
-    pub model: Option<String>,
+    pub model: String,
     #[doc = "The maximum requests per minute."]
     #[serde(rename = "max_requests_per_1_minute")]
-    pub max_requests_per_1_minute: Option<u64>,
+    pub max_requests_per_1_minute: u64,
     #[doc = "The maximum tokens per minute."]
     #[serde(rename = "max_tokens_per_1_minute")]
-    pub max_tokens_per_1_minute: Option<u64>,
+    pub max_tokens_per_1_minute: u64,
     #[doc = "The maximum images per minute. Only present for relevant models."]
     #[serde(rename = "max_images_per_1_minute")]
     pub max_images_per_1_minute: Option<u64>,
@@ -8054,15 +8041,15 @@ pub struct ProjectRateLimit {
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ProjectRateLimitListResponse {
     #[serde(rename = "object")]
-    pub object: Option<ProjectRateLimitListResponseObject>,
+    pub object: ProjectRateLimitListResponseObject,
     #[serde(rename = "data")]
-    pub data: Option<Vec<ProjectRateLimit>>,
+    pub data: Vec<ProjectRateLimit>,
     #[serde(rename = "first_id")]
-    pub first_id: Option<String>,
+    pub first_id: String,
     #[serde(rename = "last_id")]
-    pub last_id: Option<String>,
+    pub last_id: String,
     #[serde(rename = "has_more")]
-    pub has_more: Option<bool>,
+    pub has_more: bool,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub enum ProjectRateLimitListResponseObject {
@@ -8101,33 +8088,33 @@ pub struct ProjectRateLimitUpdateRequest {
 pub struct ProjectServiceAccount {
     #[doc = "The object type, which is always `organization.project.service_account`"]
     #[serde(rename = "object")]
-    pub object: Option<ProjectServiceAccountObject>,
+    pub object: ProjectServiceAccountObject,
     #[doc = "The identifier, which can be referenced in API endpoints"]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The name of the service account"]
     #[serde(rename = "name")]
-    pub name: Option<String>,
+    pub name: String,
     #[doc = "`owner` or `member`"]
     #[serde(rename = "role")]
-    pub role: Option<ProjectServiceAccountRole>,
+    pub role: ProjectServiceAccountRole,
     #[doc = "The Unix timestamp (in seconds) of when the service account was created"]
     #[serde(rename = "created_at")]
-    pub created_at: Option<u64>,
+    pub created_at: u64,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ProjectServiceAccountApiKey {
     #[doc = "The object type, which is always `organization.project.service_account.api_key`"]
     #[serde(rename = "object")]
-    pub object: Option<ProjectServiceAccountApiKeyObject>,
+    pub object: ProjectServiceAccountApiKeyObject,
     #[serde(rename = "value")]
-    pub value: Option<String>,
+    pub value: String,
     #[serde(rename = "name")]
-    pub name: Option<String>,
+    pub name: String,
     #[serde(rename = "created_at")]
-    pub created_at: Option<u64>,
+    pub created_at: u64,
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
 }
 #[doc = "The object type, which is always `organization.project.service_account.api_key`"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -8139,23 +8126,23 @@ pub enum ProjectServiceAccountApiKeyObject {
 pub struct ProjectServiceAccountCreateRequest {
     #[doc = "The name of the service account being created."]
     #[serde(rename = "name")]
-    pub name: Option<String>,
+    pub name: String,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ProjectServiceAccountCreateResponse {
     #[serde(rename = "object")]
-    pub object: Option<ProjectServiceAccountCreateResponseObject>,
+    pub object: ProjectServiceAccountCreateResponseObject,
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[serde(rename = "name")]
-    pub name: Option<String>,
+    pub name: String,
     #[doc = "Service accounts can only have one role of type `member`"]
     #[serde(rename = "role")]
-    pub role: Option<ProjectServiceAccountCreateResponseRole>,
+    pub role: ProjectServiceAccountCreateResponseRole,
     #[serde(rename = "created_at")]
-    pub created_at: Option<u64>,
+    pub created_at: u64,
     #[serde(rename = "api_key")]
-    pub api_key: Option<ProjectServiceAccountApiKey>,
+    pub api_key: ProjectServiceAccountApiKey,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub enum ProjectServiceAccountCreateResponseObject {
@@ -8171,11 +8158,11 @@ pub enum ProjectServiceAccountCreateResponseRole {
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ProjectServiceAccountDeleteResponse {
     #[serde(rename = "object")]
-    pub object: Option<ProjectServiceAccountDeleteResponseObject>,
+    pub object: ProjectServiceAccountDeleteResponseObject,
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[serde(rename = "deleted")]
-    pub deleted: Option<bool>,
+    pub deleted: bool,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub enum ProjectServiceAccountDeleteResponseObject {
@@ -8185,15 +8172,15 @@ pub enum ProjectServiceAccountDeleteResponseObject {
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ProjectServiceAccountListResponse {
     #[serde(rename = "object")]
-    pub object: Option<ProjectServiceAccountListResponseObject>,
+    pub object: ProjectServiceAccountListResponseObject,
     #[serde(rename = "data")]
-    pub data: Option<Vec<ProjectServiceAccount>>,
+    pub data: Vec<ProjectServiceAccount>,
     #[serde(rename = "first_id")]
-    pub first_id: Option<String>,
+    pub first_id: String,
     #[serde(rename = "last_id")]
-    pub last_id: Option<String>,
+    pub last_id: String,
     #[serde(rename = "has_more")]
-    pub has_more: Option<bool>,
+    pub has_more: bool,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub enum ProjectServiceAccountListResponseObject {
@@ -8226,38 +8213,38 @@ pub enum ProjectStatus {
 pub struct ProjectUpdateRequest {
     #[doc = "The updated name of the project, this name appears in reports."]
     #[serde(rename = "name")]
-    pub name: Option<String>,
+    pub name: String,
 }
 #[doc = "Represents an individual user in a project."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ProjectUser {
     #[doc = "The object type, which is always `organization.project.user`"]
     #[serde(rename = "object")]
-    pub object: Option<ProjectUserObject>,
+    pub object: ProjectUserObject,
     #[doc = "The identifier, which can be referenced in API endpoints"]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The name of the user"]
     #[serde(rename = "name")]
-    pub name: Option<String>,
+    pub name: String,
     #[doc = "The email address of the user"]
     #[serde(rename = "email")]
-    pub email: Option<String>,
+    pub email: String,
     #[doc = "`owner` or `member`"]
     #[serde(rename = "role")]
-    pub role: Option<ProjectUserRole>,
+    pub role: ProjectUserRole,
     #[doc = "The Unix timestamp (in seconds) of when the project was added."]
     #[serde(rename = "added_at")]
-    pub added_at: Option<u64>,
+    pub added_at: u64,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ProjectUserCreateRequest {
     #[doc = "The ID of the user."]
     #[serde(rename = "user_id")]
-    pub user_id: Option<String>,
+    pub user_id: String,
     #[doc = "`owner` or `member`"]
     #[serde(rename = "role")]
-    pub role: Option<ProjectUserCreateRequestRole>,
+    pub role: ProjectUserCreateRequestRole,
 }
 #[doc = "`owner` or `member`"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -8270,11 +8257,11 @@ pub enum ProjectUserCreateRequestRole {
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ProjectUserDeleteResponse {
     #[serde(rename = "object")]
-    pub object: Option<ProjectUserDeleteResponseObject>,
+    pub object: ProjectUserDeleteResponseObject,
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[serde(rename = "deleted")]
-    pub deleted: Option<bool>,
+    pub deleted: bool,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub enum ProjectUserDeleteResponseObject {
@@ -8284,15 +8271,15 @@ pub enum ProjectUserDeleteResponseObject {
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ProjectUserListResponse {
     #[serde(rename = "object")]
-    pub object: Option<String>,
+    pub object: String,
     #[serde(rename = "data")]
-    pub data: Option<Vec<ProjectUser>>,
+    pub data: Vec<ProjectUser>,
     #[serde(rename = "first_id")]
-    pub first_id: Option<String>,
+    pub first_id: String,
     #[serde(rename = "last_id")]
-    pub last_id: Option<String>,
+    pub last_id: String,
     #[serde(rename = "has_more")]
-    pub has_more: Option<bool>,
+    pub has_more: bool,
 }
 #[doc = "The object type, which is always `organization.project.user`"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -8312,7 +8299,7 @@ pub enum ProjectUserRole {
 pub struct ProjectUserUpdateRequest {
     #[doc = "`owner` or `member`"]
     #[serde(rename = "role")]
-    pub role: Option<ProjectUserUpdateRequestRole>,
+    pub role: ProjectUserUpdateRequestRole,
 }
 #[doc = "`owner` or `member`"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -8379,7 +8366,7 @@ pub struct RealtimeClientEventConversationItemCreate {
     #[serde(rename = "previous_item_id")]
     pub previous_item_id: Option<String>,
     #[serde(rename = "item")]
-    pub item: Option<RealtimeConversationItem>,
+    pub item: RealtimeConversationItem,
 }
 #[doc = "Send this event when you want to remove any item from the conversation \nhistory. The server will respond with a `conversation.item.deleted` event, \nunless the item does not exist in the conversation history, in which case the \nserver will respond with an error.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -8389,7 +8376,7 @@ pub struct RealtimeClientEventConversationItemDelete {
     pub event_id: Option<String>,
     #[doc = "The ID of the item to delete."]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
 }
 #[doc = "Send this event when you want to retrieve the server's representation of a specific item in the conversation history. This is useful, for example, to inspect user audio after noise cancellation and VAD.\nThe server will respond with a `conversation.item.retrieved` event, \nunless the item does not exist in the conversation history, in which case the \nserver will respond with an error.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -8399,7 +8386,7 @@ pub struct RealtimeClientEventConversationItemRetrieve {
     pub event_id: Option<String>,
     #[doc = "The ID of the item to retrieve."]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
 }
 #[doc = "Send this event to truncate a previous assistant message’s audio. The server \nwill produce audio faster than realtime, so this event is useful when the user \ninterrupts to truncate audio that has already been sent to the client but not \nyet played. This will synchronize the server's understanding of the audio with \nthe client's playback.\n\nTruncating audio will delete the server-side text transcript to ensure there \nis not text in the context that hasn't been heard by the user.\n\nIf successful, the server will respond with a `conversation.item.truncated` \nevent. \n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -8409,13 +8396,13 @@ pub struct RealtimeClientEventConversationItemTruncate {
     pub event_id: Option<String>,
     #[doc = "The ID of the assistant message item to truncate. Only assistant message \nitems can be truncated.\n"]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
     #[doc = "The index of the content part to truncate. Set this to 0."]
     #[serde(rename = "content_index")]
-    pub content_index: Option<u64>,
+    pub content_index: u64,
     #[doc = "Inclusive duration up to which audio is truncated, in milliseconds. If \nthe audio_end_ms is greater than the actual audio duration, the server \nwill respond with an error.\n"]
     #[serde(rename = "audio_end_ms")]
-    pub audio_end_ms: Option<u64>,
+    pub audio_end_ms: u64,
 }
 #[doc = "Send this event to append audio bytes to the input audio buffer. The audio \nbuffer is temporary storage you can write to and later commit. In Server VAD \nmode, the audio buffer is used to detect speech and the server will decide \nwhen to commit. When Server VAD is disabled, you must commit the audio buffer\nmanually.\n\nThe client may choose how much audio to place in each event up to a maximum \nof 15 MiB, for example streaming smaller chunks from the client may allow the \nVAD to be more responsive. Unlike made other client events, the server will \nnot send a confirmation response to this event.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -8425,7 +8412,7 @@ pub struct RealtimeClientEventInputAudioBufferAppend {
     pub event_id: Option<String>,
     #[doc = "Base64-encoded audio bytes. This must be in the format specified by the \n`input_audio_format` field in the session configuration.\n"]
     #[serde(rename = "audio")]
-    pub audio: Option<String>,
+    pub audio: String,
 }
 #[doc = "Send this event to clear the audio bytes in the buffer. The server will \nrespond with an `input_audio_buffer.cleared` event.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -8474,7 +8461,7 @@ pub struct RealtimeClientEventSessionUpdate {
     #[serde(rename = "event_id")]
     pub event_id: Option<String>,
     #[serde(rename = "session")]
-    pub session: Option<RealtimeSessionCreateRequest>,
+    pub session: RealtimeSessionCreateRequest,
 }
 #[doc = "Send this event to update a transcription session.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -8483,7 +8470,7 @@ pub struct RealtimeClientEventTranscriptionSessionUpdate {
     #[serde(rename = "event_id")]
     pub event_id: Option<String>,
     #[serde(rename = "session")]
-    pub session: Option<RealtimeTranscriptionSessionCreateRequest>,
+    pub session: RealtimeTranscriptionSessionCreateRequest,
 }
 #[doc = "The item to add to the conversation."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -9047,10 +9034,10 @@ pub enum RealtimeServerEvent {
 pub struct RealtimeServerEventConversationCreated {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
-    pub event_id: Option<String>,
+    pub event_id: String,
     #[doc = "The conversation resource."]
     #[serde(rename = "conversation")]
-    pub conversation: Option<RealtimeServerEventConversationCreatedConversation>,
+    pub conversation: RealtimeServerEventConversationCreatedConversation,
 }
 #[doc = "The conversation resource."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -9067,38 +9054,38 @@ pub struct RealtimeServerEventConversationCreatedConversation {
 pub struct RealtimeServerEventConversationItemCreated {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
-    pub event_id: Option<String>,
+    pub event_id: String,
     #[doc = "The ID of the preceding item in the Conversation context, allows the \nclient to understand the order of the conversation.\n"]
     #[serde(rename = "previous_item_id")]
-    pub previous_item_id: Option<String>,
+    pub previous_item_id: String,
     #[serde(rename = "item")]
-    pub item: Option<RealtimeConversationItem>,
+    pub item: RealtimeConversationItem,
 }
 #[doc = "Returned when an item in the conversation is deleted by the client with a \n`conversation.item.delete` event. This event is used to synchronize the \nserver's understanding of the conversation history with the client's view.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RealtimeServerEventConversationItemDeleted {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
-    pub event_id: Option<String>,
+    pub event_id: String,
     #[doc = "The ID of the item that was deleted."]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
 }
 #[doc = "This event is the output of audio transcription for user audio written to the \nuser audio buffer. Transcription begins when the input audio buffer is \ncommitted by the client or server (in `server_vad` mode). Transcription runs \nasynchronously with Response creation, so this event may come before or after \nthe Response events.\n\nRealtime API models accept audio natively, and thus input transcription is a \nseparate process run on a separate ASR (Automatic Speech Recognition) model, \ncurrently always `whisper-1`. Thus the transcript may diverge somewhat from \nthe model's interpretation, and should be treated as a rough guide.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RealtimeServerEventConversationItemInputAudioTranscriptionCompleted {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
-    pub event_id: Option<String>,
+    pub event_id: String,
     #[doc = "The ID of the user message item containing the audio."]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
     #[doc = "The index of the content part containing the audio."]
     #[serde(rename = "content_index")]
-    pub content_index: Option<u64>,
+    pub content_index: u64,
     #[doc = "The transcribed text."]
     #[serde(rename = "transcript")]
-    pub transcript: Option<String>,
+    pub transcript: String,
     #[doc = "The log probabilities of the transcription."]
     #[serde(rename = "logprobs")]
     pub logprobs: Option<Vec<LogProbProperties>>,
@@ -9108,10 +9095,10 @@ pub struct RealtimeServerEventConversationItemInputAudioTranscriptionCompleted {
 pub struct RealtimeServerEventConversationItemInputAudioTranscriptionDelta {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
-    pub event_id: Option<String>,
+    pub event_id: String,
     #[doc = "The ID of the item."]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
     #[doc = "The index of the content part in the item's content array."]
     #[serde(rename = "content_index")]
     pub content_index: Option<u64>,
@@ -9127,16 +9114,16 @@ pub struct RealtimeServerEventConversationItemInputAudioTranscriptionDelta {
 pub struct RealtimeServerEventConversationItemInputAudioTranscriptionFailed {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
-    pub event_id: Option<String>,
+    pub event_id: String,
     #[doc = "The ID of the user message item."]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
     #[doc = "The index of the content part containing the audio."]
     #[serde(rename = "content_index")]
-    pub content_index: Option<u64>,
+    pub content_index: u64,
     #[doc = "Details of the transcription error."]
     #[serde(rename = "error")]
-    pub error: Option<RealtimeServerEventConversationItemInputAudioTranscriptionFailedError>,
+    pub error: RealtimeServerEventConversationItemInputAudioTranscriptionFailedError,
 }
 #[doc = "Details of the transcription error."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -9159,48 +9146,48 @@ pub struct RealtimeServerEventConversationItemInputAudioTranscriptionFailedError
 pub struct RealtimeServerEventConversationItemRetrieved {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
-    pub event_id: Option<String>,
+    pub event_id: String,
     #[serde(rename = "item")]
-    pub item: Option<RealtimeConversationItem>,
+    pub item: RealtimeConversationItem,
 }
 #[doc = "Returned when an earlier assistant audio message item is truncated by the \nclient with a `conversation.item.truncate` event. This event is used to \nsynchronize the server's understanding of the audio with the client's playback.\n\nThis action will truncate the audio and remove the server-side text transcript \nto ensure there is no text in the context that hasn't been heard by the user.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RealtimeServerEventConversationItemTruncated {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
-    pub event_id: Option<String>,
+    pub event_id: String,
     #[doc = "The ID of the assistant message item that was truncated."]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
     #[doc = "The index of the content part that was truncated."]
     #[serde(rename = "content_index")]
-    pub content_index: Option<u64>,
+    pub content_index: u64,
     #[doc = "The duration up to which the audio was truncated, in milliseconds.\n"]
     #[serde(rename = "audio_end_ms")]
-    pub audio_end_ms: Option<u64>,
+    pub audio_end_ms: u64,
 }
 #[doc = "Returned when an error occurs, which could be a client problem or a server \nproblem. Most errors are recoverable and the session will stay open, we \nrecommend to implementors to monitor and log error messages by default.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RealtimeServerEventError {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
-    pub event_id: Option<String>,
+    pub event_id: String,
     #[doc = "Details of the error."]
     #[serde(rename = "error")]
-    pub error: Option<RealtimeServerEventErrorError>,
+    pub error: RealtimeServerEventErrorError,
 }
 #[doc = "Details of the error."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RealtimeServerEventErrorError {
     #[doc = "The type of error (e.g., \"invalid_request_error\", \"server_error\").\n"]
     #[serde(rename = "type")]
-    pub type_: Option<String>,
+    pub type_: String,
     #[doc = "Error code, if any."]
     #[serde(rename = "code")]
     pub code: Option<String>,
     #[doc = "A human-readable error message."]
     #[serde(rename = "message")]
-    pub message: Option<String>,
+    pub message: String,
     #[doc = "Parameter related to the error, if any."]
     #[serde(rename = "param")]
     pub param: Option<String>,
@@ -9213,86 +9200,86 @@ pub struct RealtimeServerEventErrorError {
 pub struct RealtimeServerEventInputAudioBufferCleared {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
-    pub event_id: Option<String>,
+    pub event_id: String,
 }
 #[doc = "Returned when an input audio buffer is committed, either by the client or \nautomatically in server VAD mode. The `item_id` property is the ID of the user\nmessage item that will be created, thus a `conversation.item.created` event \nwill also be sent to the client.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RealtimeServerEventInputAudioBufferCommitted {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
-    pub event_id: Option<String>,
+    pub event_id: String,
     #[doc = "The ID of the preceding item after which the new item will be inserted.\n"]
     #[serde(rename = "previous_item_id")]
-    pub previous_item_id: Option<String>,
+    pub previous_item_id: String,
     #[doc = "The ID of the user message item that will be created."]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
 }
 #[doc = "Sent by the server when in `server_vad` mode to indicate that speech has been \ndetected in the audio buffer. This can happen any time audio is added to the \nbuffer (unless speech is already detected). The client may want to use this \nevent to interrupt audio playback or provide visual feedback to the user. \n\nThe client should expect to receive a `input_audio_buffer.speech_stopped` event \nwhen speech stops. The `item_id` property is the ID of the user message item \nthat will be created when speech stops and will also be included in the \n`input_audio_buffer.speech_stopped` event (unless the client manually commits \nthe audio buffer during VAD activation).\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RealtimeServerEventInputAudioBufferSpeechStarted {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
-    pub event_id: Option<String>,
+    pub event_id: String,
     #[doc = "Milliseconds from the start of all audio written to the buffer during the \nsession when speech was first detected. This will correspond to the \nbeginning of audio sent to the model, and thus includes the \n`prefix_padding_ms` configured in the Session.\n"]
     #[serde(rename = "audio_start_ms")]
-    pub audio_start_ms: Option<u64>,
+    pub audio_start_ms: u64,
     #[doc = "The ID of the user message item that will be created when speech stops.\n"]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
 }
 #[doc = "Returned in `server_vad` mode when the server detects the end of speech in \nthe audio buffer. The server will also send an `conversation.item.created` \nevent with the user message item that is created from the audio buffer.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RealtimeServerEventInputAudioBufferSpeechStopped {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
-    pub event_id: Option<String>,
+    pub event_id: String,
     #[doc = "Milliseconds since the session started when speech stopped. This will \ncorrespond to the end of audio sent to the model, and thus includes the \n`min_silence_duration_ms` configured in the Session.\n"]
     #[serde(rename = "audio_end_ms")]
-    pub audio_end_ms: Option<u64>,
+    pub audio_end_ms: u64,
     #[doc = "The ID of the user message item that will be created."]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
 }
 #[doc = "**WebRTC Only:** Emitted when the output audio buffer is cleared. This happens either in VAD\nmode when the user has interrupted (`input_audio_buffer.speech_started`),\nor when the client has emitted the `output_audio_buffer.clear` event to manually\ncut off the current audio response.\n[Learn more](/docs/guides/realtime-model-capabilities#client-and-server-events-for-audio-in-webrtc).\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RealtimeServerEventOutputAudioBufferCleared {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
-    pub event_id: Option<String>,
+    pub event_id: String,
     #[doc = "The unique ID of the response that produced the audio."]
     #[serde(rename = "response_id")]
-    pub response_id: Option<String>,
+    pub response_id: String,
 }
 #[doc = "**WebRTC Only:** Emitted when the server begins streaming audio to the client. This event is\nemitted after an audio content part has been added (`response.content_part.added`)\nto the response.\n[Learn more](/docs/guides/realtime-model-capabilities#client-and-server-events-for-audio-in-webrtc).\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RealtimeServerEventOutputAudioBufferStarted {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
-    pub event_id: Option<String>,
+    pub event_id: String,
     #[doc = "The unique ID of the response that produced the audio."]
     #[serde(rename = "response_id")]
-    pub response_id: Option<String>,
+    pub response_id: String,
 }
 #[doc = "**WebRTC Only:** Emitted when the output audio buffer has been completely drained on the server,\nand no more audio is forthcoming. This event is emitted after the full response\ndata has been sent to the client (`response.done`).\n[Learn more](/docs/guides/realtime-model-capabilities#client-and-server-events-for-audio-in-webrtc).\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RealtimeServerEventOutputAudioBufferStopped {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
-    pub event_id: Option<String>,
+    pub event_id: String,
     #[doc = "The unique ID of the response that produced the audio."]
     #[serde(rename = "response_id")]
-    pub response_id: Option<String>,
+    pub response_id: String,
 }
 #[doc = "Emitted at the beginning of a Response to indicate the updated rate limits. \nWhen a Response is created some tokens will be \"reserved\" for the output \ntokens, the rate limits shown here reflect that reservation, which is then \nadjusted accordingly once the Response is completed.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RealtimeServerEventRateLimitsUpdated {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
-    pub event_id: Option<String>,
+    pub event_id: String,
     #[doc = "List of rate limit information."]
     #[serde(rename = "rate_limits")]
-    pub rate_limits: Option<Vec<RealtimeServerEventRateLimitsUpdatedRateLimitsItem>>,
+    pub rate_limits: Vec<RealtimeServerEventRateLimitsUpdatedRateLimitsItem>,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RealtimeServerEventRateLimitsUpdatedRateLimitsItem {
@@ -9322,107 +9309,107 @@ pub enum RealtimeServerEventRateLimitsUpdatedRateLimitsItemName {
 pub struct RealtimeServerEventResponseAudioDelta {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
-    pub event_id: Option<String>,
+    pub event_id: String,
     #[doc = "The ID of the response."]
     #[serde(rename = "response_id")]
-    pub response_id: Option<String>,
+    pub response_id: String,
     #[doc = "The ID of the item."]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
     #[doc = "The index of the output item in the response."]
     #[serde(rename = "output_index")]
-    pub output_index: Option<u64>,
+    pub output_index: u64,
     #[doc = "The index of the content part in the item's content array."]
     #[serde(rename = "content_index")]
-    pub content_index: Option<u64>,
+    pub content_index: u64,
     #[doc = "Base64-encoded audio data delta."]
     #[serde(rename = "delta")]
-    pub delta: Option<String>,
+    pub delta: String,
 }
 #[doc = "Returned when the model-generated audio is done. Also emitted when a Response\nis interrupted, incomplete, or cancelled.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RealtimeServerEventResponseAudioDone {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
-    pub event_id: Option<String>,
+    pub event_id: String,
     #[doc = "The ID of the response."]
     #[serde(rename = "response_id")]
-    pub response_id: Option<String>,
+    pub response_id: String,
     #[doc = "The ID of the item."]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
     #[doc = "The index of the output item in the response."]
     #[serde(rename = "output_index")]
-    pub output_index: Option<u64>,
+    pub output_index: u64,
     #[doc = "The index of the content part in the item's content array."]
     #[serde(rename = "content_index")]
-    pub content_index: Option<u64>,
+    pub content_index: u64,
 }
 #[doc = "Returned when the model-generated transcription of audio output is updated.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RealtimeServerEventResponseAudioTranscriptDelta {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
-    pub event_id: Option<String>,
+    pub event_id: String,
     #[doc = "The ID of the response."]
     #[serde(rename = "response_id")]
-    pub response_id: Option<String>,
+    pub response_id: String,
     #[doc = "The ID of the item."]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
     #[doc = "The index of the output item in the response."]
     #[serde(rename = "output_index")]
-    pub output_index: Option<u64>,
+    pub output_index: u64,
     #[doc = "The index of the content part in the item's content array."]
     #[serde(rename = "content_index")]
-    pub content_index: Option<u64>,
+    pub content_index: u64,
     #[doc = "The transcript delta."]
     #[serde(rename = "delta")]
-    pub delta: Option<String>,
+    pub delta: String,
 }
 #[doc = "Returned when the model-generated transcription of audio output is done\nstreaming. Also emitted when a Response is interrupted, incomplete, or\ncancelled.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RealtimeServerEventResponseAudioTranscriptDone {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
-    pub event_id: Option<String>,
+    pub event_id: String,
     #[doc = "The ID of the response."]
     #[serde(rename = "response_id")]
-    pub response_id: Option<String>,
+    pub response_id: String,
     #[doc = "The ID of the item."]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
     #[doc = "The index of the output item in the response."]
     #[serde(rename = "output_index")]
-    pub output_index: Option<u64>,
+    pub output_index: u64,
     #[doc = "The index of the content part in the item's content array."]
     #[serde(rename = "content_index")]
-    pub content_index: Option<u64>,
+    pub content_index: u64,
     #[doc = "The final transcript of the audio."]
     #[serde(rename = "transcript")]
-    pub transcript: Option<String>,
+    pub transcript: String,
 }
 #[doc = "Returned when a new content part is added to an assistant message item during\nresponse generation.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RealtimeServerEventResponseContentPartAdded {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
-    pub event_id: Option<String>,
+    pub event_id: String,
     #[doc = "The ID of the response."]
     #[serde(rename = "response_id")]
-    pub response_id: Option<String>,
+    pub response_id: String,
     #[doc = "The ID of the item to which the content part was added."]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
     #[doc = "The index of the output item in the response."]
     #[serde(rename = "output_index")]
-    pub output_index: Option<u64>,
+    pub output_index: u64,
     #[doc = "The index of the content part in the item's content array."]
     #[serde(rename = "content_index")]
-    pub content_index: Option<u64>,
+    pub content_index: u64,
     #[doc = "The content part that was added."]
     #[serde(rename = "part")]
-    pub part: Option<RealtimeServerEventResponseContentPartAddedPart>,
+    pub part: RealtimeServerEventResponseContentPartAddedPart,
 }
 #[doc = "The content part that was added."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -9453,22 +9440,22 @@ pub enum RealtimeServerEventResponseContentPartAddedPartType {
 pub struct RealtimeServerEventResponseContentPartDone {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
-    pub event_id: Option<String>,
+    pub event_id: String,
     #[doc = "The ID of the response."]
     #[serde(rename = "response_id")]
-    pub response_id: Option<String>,
+    pub response_id: String,
     #[doc = "The ID of the item."]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
     #[doc = "The index of the output item in the response."]
     #[serde(rename = "output_index")]
-    pub output_index: Option<u64>,
+    pub output_index: u64,
     #[doc = "The index of the content part in the item's content array."]
     #[serde(rename = "content_index")]
-    pub content_index: Option<u64>,
+    pub content_index: u64,
     #[doc = "The content part that is done."]
     #[serde(rename = "part")]
-    pub part: Option<RealtimeServerEventResponseContentPartDonePart>,
+    pub part: RealtimeServerEventResponseContentPartDonePart,
 }
 #[doc = "The content part that is done."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -9499,163 +9486,163 @@ pub enum RealtimeServerEventResponseContentPartDonePartType {
 pub struct RealtimeServerEventResponseCreated {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
-    pub event_id: Option<String>,
+    pub event_id: String,
     #[serde(rename = "response")]
-    pub response: Option<RealtimeResponse>,
+    pub response: RealtimeResponse,
 }
 #[doc = "Returned when a Response is done streaming. Always emitted, no matter the \nfinal state. The Response object included in the `response.done` event will \ninclude all output Items in the Response but will omit the raw audio data.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RealtimeServerEventResponseDone {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
-    pub event_id: Option<String>,
+    pub event_id: String,
     #[serde(rename = "response")]
-    pub response: Option<RealtimeResponse>,
+    pub response: RealtimeResponse,
 }
 #[doc = "Returned when the model-generated function call arguments are updated.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RealtimeServerEventResponseFunctionCallArgumentsDelta {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
-    pub event_id: Option<String>,
+    pub event_id: String,
     #[doc = "The ID of the response."]
     #[serde(rename = "response_id")]
-    pub response_id: Option<String>,
+    pub response_id: String,
     #[doc = "The ID of the function call item."]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
     #[doc = "The index of the output item in the response."]
     #[serde(rename = "output_index")]
-    pub output_index: Option<u64>,
+    pub output_index: u64,
     #[doc = "The ID of the function call."]
     #[serde(rename = "call_id")]
-    pub call_id: Option<String>,
+    pub call_id: String,
     #[doc = "The arguments delta as a JSON string."]
     #[serde(rename = "delta")]
-    pub delta: Option<String>,
+    pub delta: String,
 }
 #[doc = "Returned when the model-generated function call arguments are done streaming.\nAlso emitted when a Response is interrupted, incomplete, or cancelled.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RealtimeServerEventResponseFunctionCallArgumentsDone {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
-    pub event_id: Option<String>,
+    pub event_id: String,
     #[doc = "The ID of the response."]
     #[serde(rename = "response_id")]
-    pub response_id: Option<String>,
+    pub response_id: String,
     #[doc = "The ID of the function call item."]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
     #[doc = "The index of the output item in the response."]
     #[serde(rename = "output_index")]
-    pub output_index: Option<u64>,
+    pub output_index: u64,
     #[doc = "The ID of the function call."]
     #[serde(rename = "call_id")]
-    pub call_id: Option<String>,
+    pub call_id: String,
     #[doc = "The final arguments as a JSON string."]
     #[serde(rename = "arguments")]
-    pub arguments: Option<String>,
+    pub arguments: String,
 }
 #[doc = "Returned when a new Item is created during Response generation."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RealtimeServerEventResponseOutputItemAdded {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
-    pub event_id: Option<String>,
+    pub event_id: String,
     #[doc = "The ID of the Response to which the item belongs."]
     #[serde(rename = "response_id")]
-    pub response_id: Option<String>,
+    pub response_id: String,
     #[doc = "The index of the output item in the Response."]
     #[serde(rename = "output_index")]
-    pub output_index: Option<u64>,
+    pub output_index: u64,
     #[serde(rename = "item")]
-    pub item: Option<RealtimeConversationItem>,
+    pub item: RealtimeConversationItem,
 }
 #[doc = "Returned when an Item is done streaming. Also emitted when a Response is \ninterrupted, incomplete, or cancelled.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RealtimeServerEventResponseOutputItemDone {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
-    pub event_id: Option<String>,
+    pub event_id: String,
     #[doc = "The ID of the Response to which the item belongs."]
     #[serde(rename = "response_id")]
-    pub response_id: Option<String>,
+    pub response_id: String,
     #[doc = "The index of the output item in the Response."]
     #[serde(rename = "output_index")]
-    pub output_index: Option<u64>,
+    pub output_index: u64,
     #[serde(rename = "item")]
-    pub item: Option<RealtimeConversationItem>,
+    pub item: RealtimeConversationItem,
 }
 #[doc = "Returned when the text value of a \"text\" content part is updated."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RealtimeServerEventResponseTextDelta {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
-    pub event_id: Option<String>,
+    pub event_id: String,
     #[doc = "The ID of the response."]
     #[serde(rename = "response_id")]
-    pub response_id: Option<String>,
+    pub response_id: String,
     #[doc = "The ID of the item."]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
     #[doc = "The index of the output item in the response."]
     #[serde(rename = "output_index")]
-    pub output_index: Option<u64>,
+    pub output_index: u64,
     #[doc = "The index of the content part in the item's content array."]
     #[serde(rename = "content_index")]
-    pub content_index: Option<u64>,
+    pub content_index: u64,
     #[doc = "The text delta."]
     #[serde(rename = "delta")]
-    pub delta: Option<String>,
+    pub delta: String,
 }
 #[doc = "Returned when the text value of a \"text\" content part is done streaming. Also\nemitted when a Response is interrupted, incomplete, or cancelled.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RealtimeServerEventResponseTextDone {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
-    pub event_id: Option<String>,
+    pub event_id: String,
     #[doc = "The ID of the response."]
     #[serde(rename = "response_id")]
-    pub response_id: Option<String>,
+    pub response_id: String,
     #[doc = "The ID of the item."]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
     #[doc = "The index of the output item in the response."]
     #[serde(rename = "output_index")]
-    pub output_index: Option<u64>,
+    pub output_index: u64,
     #[doc = "The index of the content part in the item's content array."]
     #[serde(rename = "content_index")]
-    pub content_index: Option<u64>,
+    pub content_index: u64,
     #[doc = "The final text content."]
     #[serde(rename = "text")]
-    pub text: Option<String>,
+    pub text: String,
 }
 #[doc = "Returned when a Session is created. Emitted automatically when a new \nconnection is established as the first server event. This event will contain \nthe default Session configuration.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RealtimeServerEventSessionCreated {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
-    pub event_id: Option<String>,
+    pub event_id: String,
     #[serde(rename = "session")]
-    pub session: Option<RealtimeSession>,
+    pub session: RealtimeSession,
 }
 #[doc = "Returned when a session is updated with a `session.update` event, unless \nthere is an error.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RealtimeServerEventSessionUpdated {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
-    pub event_id: Option<String>,
+    pub event_id: String,
     #[serde(rename = "session")]
-    pub session: Option<RealtimeSession>,
+    pub session: RealtimeSession,
 }
 #[doc = "Returned when a transcription session is updated with a `transcription_session.update` event, unless \nthere is an error.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RealtimeServerEventTranscriptionSessionUpdated {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
-    pub event_id: Option<String>,
+    pub event_id: String,
     #[serde(rename = "session")]
-    pub session: Option<RealtimeTranscriptionSessionCreateResponse>,
+    pub session: RealtimeTranscriptionSessionCreateResponse,
 }
 #[doc = "Realtime session object configuration."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -9899,7 +9886,7 @@ pub enum RealtimeSessionCreateRequestTurnDetectionType {
 pub struct RealtimeSessionCreateResponse {
     #[doc = "Ephemeral key returned by the API."]
     #[serde(rename = "client_secret")]
-    pub client_secret: Option<RealtimeSessionCreateResponseClientSecret>,
+    pub client_secret: RealtimeSessionCreateResponseClientSecret,
     #[doc = "The set of modalities the model can respond with. To disable audio,\nset this to [\"text\"].\n"]
     #[serde(rename = "modalities")]
     pub modalities: Option<Vec<RealtimeSessionCreateResponseModalitiesItem>>,
@@ -9939,10 +9926,10 @@ pub struct RealtimeSessionCreateResponse {
 pub struct RealtimeSessionCreateResponseClientSecret {
     #[doc = "Ephemeral key usable in client environments to authenticate connections\nto the Realtime API. Use this in client-side environments rather than\na standard API token, which should only be used server-side.\n"]
     #[serde(rename = "value")]
-    pub value: Option<String>,
+    pub value: String,
     #[doc = "Timestamp for when the token expires. Currently, all tokens expire\nafter one minute.\n"]
     #[serde(rename = "expires_at")]
-    pub expires_at: Option<u64>,
+    pub expires_at: u64,
 }
 #[doc = "Configuration for input audio transcription, defaults to off and can be \nset to `null` to turn off once on. Input audio transcription is not native \nto the model, since the model consumes audio directly. Transcription runs \nasynchronously through Whisper and should be treated as rough guidance \nrather than the representation understood by the model.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -10285,7 +10272,7 @@ pub enum RealtimeTranscriptionSessionCreateRequestTurnDetectionType {
 pub struct RealtimeTranscriptionSessionCreateResponse {
     #[doc = "Ephemeral key returned by the API. Only present when the session is\ncreated on the server via REST API.\n"]
     #[serde(rename = "client_secret")]
-    pub client_secret: Option<RealtimeTranscriptionSessionCreateResponseClientSecret>,
+    pub client_secret: RealtimeTranscriptionSessionCreateResponseClientSecret,
     #[doc = "The set of modalities the model can respond with. To disable audio,\nset this to [\"text\"].\n"]
     #[serde(rename = "modalities")]
     pub modalities: Option<Vec<RealtimeTranscriptionSessionCreateResponseModalitiesItem>>,
@@ -10305,10 +10292,10 @@ pub struct RealtimeTranscriptionSessionCreateResponse {
 pub struct RealtimeTranscriptionSessionCreateResponseClientSecret {
     #[doc = "Ephemeral key usable in client environments to authenticate connections\nto the Realtime API. Use this in client-side environments rather than\na standard API token, which should only be used server-side.\n"]
     #[serde(rename = "value")]
-    pub value: Option<String>,
+    pub value: String,
     #[doc = "Timestamp for when the token expires. Currently, all tokens expire\nafter one minute.\n"]
     #[serde(rename = "expires_at")]
-    pub expires_at: Option<u64>,
+    pub expires_at: u64,
 }
 #[doc = "Configuration of the transcription model.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -10393,13 +10380,13 @@ pub enum ReasoningGenerateSummary {
 pub struct ReasoningItem {
     #[doc = "The type of the object. Always `reasoning`.\n"]
     #[serde(rename = "type")]
-    pub type_: Option<ReasoningItemType>,
+    pub type_: ReasoningItemType,
     #[doc = "The unique identifier of the reasoning content.\n"]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "Reasoning text contents.\n"]
     #[serde(rename = "summary")]
-    pub summary: Option<Vec<ReasoningItemSummaryItem>>,
+    pub summary: Vec<ReasoningItemSummaryItem>,
     #[doc = "The status of the item. One of `in_progress`, `completed`, or\n`incomplete`. Populated when items are returned via API.\n"]
     #[serde(rename = "status")]
     pub status: Option<ReasoningItemStatus>,
@@ -10418,10 +10405,10 @@ pub enum ReasoningItemStatus {
 pub struct ReasoningItemSummaryItem {
     #[doc = "The type of the object. Always `summary_text`.\n"]
     #[serde(rename = "type")]
-    pub type_: Option<ReasoningItemSummaryItemType>,
+    pub type_: ReasoningItemSummaryItemType,
     #[doc = "A short summary of the reasoning used by the model when generating\nthe response.\n"]
     #[serde(rename = "text")]
-    pub text: Option<String>,
+    pub text: String,
 }
 #[doc = "The type of the object. Always `summary_text`.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -10450,7 +10437,7 @@ pub enum ReasoningSummary {
 pub struct RefusalContent {
     #[doc = "The refusal explanationfrom the model."]
     #[serde(rename = "refusal")]
-    pub refusal: Option<String>,
+    pub refusal: String,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct Response {
@@ -10460,24 +10447,24 @@ pub struct Response {
     pub response_properties: Option<ResponseProperties>,
     #[doc = "Unique identifier for this Response.\n"]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The object type of this resource - always set to `response`.\n"]
     #[serde(rename = "object")]
-    pub object: Option<ResponseObject>,
+    pub object: ResponseObject,
     #[doc = "The status of the response generation. One of `completed`, `failed`, \n`in_progress`, or `incomplete`.\n"]
     #[serde(rename = "status")]
     pub status: Option<ResponseStatus>,
     #[doc = "Unix timestamp (in seconds) of when this Response was created.\n"]
     #[serde(rename = "created_at")]
-    pub created_at: Option<f64>,
+    pub created_at: f64,
     #[serde(rename = "error")]
-    pub error: Option<ResponseError>,
+    pub error: ResponseError,
     #[doc = "Details about why the response is incomplete.\n"]
     #[serde(rename = "incomplete_details")]
     pub incomplete_details: Option<ResponseIncompleteDetails>,
     #[doc = "An array of content items generated by the model.\n\n- The length and order of items in the `output` array is dependent\n  on the model's response.\n- Rather than accessing the first item in the `output` array and \n  assuming it's an `assistant` message with the content generated by\n  the model, you might consider using the `output_text` property where\n  supported in SDKs.\n"]
     #[serde(rename = "output")]
-    pub output: Option<Vec<OutputItem>>,
+    pub output: Vec<OutputItem>,
     #[doc = "SDK-only convenience property that contains the aggregated text output \nfrom all `output_text` items in the `output` array, if any are present. \nSupported in the Python and JavaScript SDKs.\n"]
     #[serde(rename = "output_text")]
     pub output_text: Option<String>,
@@ -10485,14 +10472,14 @@ pub struct Response {
     pub usage: Option<ResponseUsage>,
     #[doc = "Whether to allow the model to run tool calls in parallel.\n"]
     #[serde(rename = "parallel_tool_calls")]
-    pub parallel_tool_calls: Option<bool>,
+    pub parallel_tool_calls: bool,
 }
 #[doc = "Emitted when there is a partial audio response."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ResponseAudioDeltaEvent {
     #[doc = "A chunk of Base64 encoded response audio bytes.\n"]
     #[serde(rename = "delta")]
-    pub delta: Option<String>,
+    pub delta: String,
 }
 #[doc = "Emitted when the audio response is complete."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -10502,7 +10489,7 @@ pub struct ResponseAudioDoneEvent {}
 pub struct ResponseAudioTranscriptDeltaEvent {
     #[doc = "The partial transcript of the audio response.\n"]
     #[serde(rename = "delta")]
-    pub delta: Option<String>,
+    pub delta: String,
 }
 #[doc = "Emitted when the full audio transcript is completed."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -10512,102 +10499,102 @@ pub struct ResponseAudioTranscriptDoneEvent {}
 pub struct ResponseCodeInterpreterCallCodeDeltaEvent {
     #[doc = "The index of the output item that the code interpreter call is in progress.\n"]
     #[serde(rename = "output_index")]
-    pub output_index: Option<u64>,
+    pub output_index: u64,
     #[doc = "The partial code snippet added by the code interpreter.\n"]
     #[serde(rename = "delta")]
-    pub delta: Option<String>,
+    pub delta: String,
 }
 #[doc = "Emitted when code snippet output is finalized by the code interpreter."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ResponseCodeInterpreterCallCodeDoneEvent {
     #[doc = "The index of the output item that the code interpreter call is in progress.\n"]
     #[serde(rename = "output_index")]
-    pub output_index: Option<u64>,
+    pub output_index: u64,
     #[doc = "The final code snippet output by the code interpreter.\n"]
     #[serde(rename = "code")]
-    pub code: Option<String>,
+    pub code: String,
 }
 #[doc = "Emitted when the code interpreter call is completed."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ResponseCodeInterpreterCallCompletedEvent {
     #[doc = "The index of the output item that the code interpreter call is in progress.\n"]
     #[serde(rename = "output_index")]
-    pub output_index: Option<u64>,
+    pub output_index: u64,
     #[serde(rename = "code_interpreter_call")]
-    pub code_interpreter_call: Option<CodeInterpreterToolCall>,
+    pub code_interpreter_call: CodeInterpreterToolCall,
 }
 #[doc = "Emitted when a code interpreter call is in progress."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ResponseCodeInterpreterCallInProgressEvent {
     #[doc = "The index of the output item that the code interpreter call is in progress.\n"]
     #[serde(rename = "output_index")]
-    pub output_index: Option<u64>,
+    pub output_index: u64,
     #[serde(rename = "code_interpreter_call")]
-    pub code_interpreter_call: Option<CodeInterpreterToolCall>,
+    pub code_interpreter_call: CodeInterpreterToolCall,
 }
 #[doc = "Emitted when the code interpreter is actively interpreting the code snippet."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ResponseCodeInterpreterCallInterpretingEvent {
     #[doc = "The index of the output item that the code interpreter call is in progress.\n"]
     #[serde(rename = "output_index")]
-    pub output_index: Option<u64>,
+    pub output_index: u64,
     #[serde(rename = "code_interpreter_call")]
-    pub code_interpreter_call: Option<CodeInterpreterToolCall>,
+    pub code_interpreter_call: CodeInterpreterToolCall,
 }
 #[doc = "Emitted when the model response is complete."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ResponseCompletedEvent {
     #[doc = "Properties of the completed response.\n"]
     #[serde(rename = "response")]
-    pub response: Option<Response>,
+    pub response: Response,
 }
 #[doc = "Emitted when a new content part is added."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ResponseContentPartAddedEvent {
     #[doc = "The ID of the output item that the content part was added to.\n"]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
     #[doc = "The index of the output item that the content part was added to.\n"]
     #[serde(rename = "output_index")]
-    pub output_index: Option<u64>,
+    pub output_index: u64,
     #[doc = "The index of the content part that was added.\n"]
     #[serde(rename = "content_index")]
-    pub content_index: Option<u64>,
+    pub content_index: u64,
     #[doc = "The content part that was added.\n"]
     #[serde(rename = "part")]
-    pub part: Option<OutputContent>,
+    pub part: OutputContent,
 }
 #[doc = "Emitted when a content part is done."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ResponseContentPartDoneEvent {
     #[doc = "The ID of the output item that the content part was added to.\n"]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
     #[doc = "The index of the output item that the content part was added to.\n"]
     #[serde(rename = "output_index")]
-    pub output_index: Option<u64>,
+    pub output_index: u64,
     #[doc = "The index of the content part that is done.\n"]
     #[serde(rename = "content_index")]
-    pub content_index: Option<u64>,
+    pub content_index: u64,
     #[doc = "The content part that is done.\n"]
     #[serde(rename = "part")]
-    pub part: Option<OutputContent>,
+    pub part: OutputContent,
 }
 #[doc = "An event that is emitted when a response is created.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ResponseCreatedEvent {
     #[doc = "The response that was created.\n"]
     #[serde(rename = "response")]
-    pub response: Option<Response>,
+    pub response: Response,
 }
 #[doc = "An error object returned when the model fails to generate a Response.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ResponseError {
     #[serde(rename = "code")]
-    pub code: Option<ResponseErrorCode>,
+    pub code: ResponseErrorCode,
     #[doc = "A human-readable description of the error.\n"]
     #[serde(rename = "message")]
-    pub message: Option<String>,
+    pub message: String,
 }
 #[doc = "The error code for the response.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -10657,7 +10644,7 @@ pub struct ResponseErrorEvent {
     pub code: Option<String>,
     #[doc = "The error message.\n"]
     #[serde(rename = "message")]
-    pub message: Option<String>,
+    pub message: String,
     #[doc = "The error parameter.\n"]
     #[serde(rename = "param")]
     pub param: Option<String>,
@@ -10667,37 +10654,37 @@ pub struct ResponseErrorEvent {
 pub struct ResponseFailedEvent {
     #[doc = "The response that failed.\n"]
     #[serde(rename = "response")]
-    pub response: Option<Response>,
+    pub response: Response,
 }
 #[doc = "Emitted when a file search call is completed (results found)."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ResponseFileSearchCallCompletedEvent {
     #[doc = "The index of the output item that the file search call is initiated.\n"]
     #[serde(rename = "output_index")]
-    pub output_index: Option<u64>,
+    pub output_index: u64,
     #[doc = "The ID of the output item that the file search call is initiated.\n"]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
 }
 #[doc = "Emitted when a file search call is initiated."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ResponseFileSearchCallInProgressEvent {
     #[doc = "The index of the output item that the file search call is initiated.\n"]
     #[serde(rename = "output_index")]
-    pub output_index: Option<u64>,
+    pub output_index: u64,
     #[doc = "The ID of the output item that the file search call is initiated.\n"]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
 }
 #[doc = "Emitted when a file search is currently searching."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ResponseFileSearchCallSearchingEvent {
     #[doc = "The index of the output item that the file search call is searching.\n"]
     #[serde(rename = "output_index")]
-    pub output_index: Option<u64>,
+    pub output_index: u64,
     #[doc = "The ID of the output item that the file search call is initiated.\n"]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
 }
 #[doc = "JSON object response format. An older method of generating JSON responses.\nUsing `json_schema` is recommended for models that support it. Note that the\nmodel will not generate JSON without a system or user message instructing it\nto do so.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -10707,7 +10694,7 @@ pub struct ResponseFormatJsonObject {}
 pub struct ResponseFormatJsonSchema {
     #[doc = "Structured Outputs configuration options, including a JSON Schema.\n"]
     #[serde(rename = "json_schema")]
-    pub json_schema: Option<ResponseFormatJsonSchemaJsonSchema>,
+    pub json_schema: ResponseFormatJsonSchemaJsonSchema,
 }
 #[doc = "Structured Outputs configuration options, including a JSON Schema.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -10717,7 +10704,7 @@ pub struct ResponseFormatJsonSchemaJsonSchema {
     pub description: Option<String>,
     #[doc = "The name of the response format. Must be a-z, A-Z, 0-9, or contain\nunderscores and dashes, with a maximum length of 64.\n"]
     #[serde(rename = "name")]
-    pub name: Option<String>,
+    pub name: String,
     #[serde(rename = "schema")]
     pub schema: Option<ResponseFormatJsonSchemaSchema>,
     #[doc = "Whether to enable strict schema adherence when generating the output.\nIf set to true, the model will always follow the exact schema defined\nin the `schema` field. Only a subset of JSON Schema is supported when\n`strict` is `true`. To learn more, read the [Structured Outputs\nguide](/docs/guides/structured-outputs).\n"]
@@ -10734,33 +10721,33 @@ pub struct ResponseFormatText {}
 pub struct ResponseFunctionCallArgumentsDeltaEvent {
     #[doc = "The ID of the output item that the function-call arguments delta is added to.\n"]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
     #[doc = "The index of the output item that the function-call arguments delta is added to.\n"]
     #[serde(rename = "output_index")]
-    pub output_index: Option<u64>,
+    pub output_index: u64,
     #[doc = "The function-call arguments delta that is added.\n"]
     #[serde(rename = "delta")]
-    pub delta: Option<String>,
+    pub delta: String,
 }
 #[doc = "Emitted when function-call arguments are finalized."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ResponseFunctionCallArgumentsDoneEvent {
     #[doc = "The ID of the item."]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
     #[doc = "The index of the output item."]
     #[serde(rename = "output_index")]
-    pub output_index: Option<u64>,
+    pub output_index: u64,
     #[doc = "The function-call arguments."]
     #[serde(rename = "arguments")]
-    pub arguments: Option<String>,
+    pub arguments: String,
 }
 #[doc = "Emitted when the response is in progress."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ResponseInProgressEvent {
     #[doc = "The response that is in progress.\n"]
     #[serde(rename = "response")]
-    pub response: Option<Response>,
+    pub response: Response,
 }
 #[doc = "Details about why the response is incomplete.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -10782,26 +10769,26 @@ pub enum ResponseIncompleteDetailsReason {
 pub struct ResponseIncompleteEvent {
     #[doc = "The response that was incomplete.\n"]
     #[serde(rename = "response")]
-    pub response: Option<Response>,
+    pub response: Response,
 }
 #[doc = "A list of Response items."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ResponseItemList {
     #[doc = "The type of object returned, must be `list`."]
     #[serde(rename = "object")]
-    pub object: Option<ResponseItemListObject>,
+    pub object: ResponseItemListObject,
     #[doc = "A list of items used to generate this response."]
     #[serde(rename = "data")]
-    pub data: Option<Vec<ItemResource>>,
+    pub data: Vec<ItemResource>,
     #[doc = "Whether there are more items available."]
     #[serde(rename = "has_more")]
-    pub has_more: Option<bool>,
+    pub has_more: bool,
     #[doc = "The ID of the first item in the list."]
     #[serde(rename = "first_id")]
-    pub first_id: Option<String>,
+    pub first_id: String,
     #[doc = "The ID of the last item in the list."]
     #[serde(rename = "last_id")]
-    pub last_id: Option<String>,
+    pub last_id: String,
 }
 #[doc = "The type of object returned, must be `list`."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -10829,20 +10816,20 @@ pub enum ResponseObject {
 pub struct ResponseOutputItemAddedEvent {
     #[doc = "The index of the output item that was added.\n"]
     #[serde(rename = "output_index")]
-    pub output_index: Option<u64>,
+    pub output_index: u64,
     #[doc = "The output item that was added.\n"]
     #[serde(rename = "item")]
-    pub item: Option<OutputItem>,
+    pub item: OutputItem,
 }
 #[doc = "Emitted when an output item is marked done."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ResponseOutputItemDoneEvent {
     #[doc = "The index of the output item that was marked done.\n"]
     #[serde(rename = "output_index")]
-    pub output_index: Option<u64>,
+    pub output_index: u64,
     #[doc = "The output item that was marked done.\n"]
     #[serde(rename = "item")]
-    pub item: Option<OutputItem>,
+    pub item: OutputItem,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ResponseProperties {
@@ -10901,26 +10888,26 @@ pub enum ResponsePropertiesTruncation {
 pub struct ResponseReasoningSummaryPartAddedEvent {
     #[doc = "The ID of the item this summary part is associated with.\n"]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
     #[doc = "The index of the output item this summary part is associated with.\n"]
     #[serde(rename = "output_index")]
-    pub output_index: Option<u64>,
+    pub output_index: u64,
     #[doc = "The index of the summary part within the reasoning summary.\n"]
     #[serde(rename = "summary_index")]
-    pub summary_index: Option<u64>,
+    pub summary_index: u64,
     #[doc = "The summary part that was added.\n"]
     #[serde(rename = "part")]
-    pub part: Option<ResponseReasoningSummaryPartAddedEventPart>,
+    pub part: ResponseReasoningSummaryPartAddedEventPart,
 }
 #[doc = "The summary part that was added.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ResponseReasoningSummaryPartAddedEventPart {
     #[doc = "The type of the summary part. Always `summary_text`."]
     #[serde(rename = "type")]
-    pub type_: Option<ResponseReasoningSummaryPartAddedEventPartType>,
+    pub type_: ResponseReasoningSummaryPartAddedEventPartType,
     #[doc = "The text of the summary part."]
     #[serde(rename = "text")]
-    pub text: Option<String>,
+    pub text: String,
 }
 #[doc = "The type of the summary part. Always `summary_text`."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -10933,26 +10920,26 @@ pub enum ResponseReasoningSummaryPartAddedEventPartType {
 pub struct ResponseReasoningSummaryPartDoneEvent {
     #[doc = "The ID of the item this summary part is associated with.\n"]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
     #[doc = "The index of the output item this summary part is associated with.\n"]
     #[serde(rename = "output_index")]
-    pub output_index: Option<u64>,
+    pub output_index: u64,
     #[doc = "The index of the summary part within the reasoning summary.\n"]
     #[serde(rename = "summary_index")]
-    pub summary_index: Option<u64>,
+    pub summary_index: u64,
     #[doc = "The completed summary part.\n"]
     #[serde(rename = "part")]
-    pub part: Option<ResponseReasoningSummaryPartDoneEventPart>,
+    pub part: ResponseReasoningSummaryPartDoneEventPart,
 }
 #[doc = "The completed summary part.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ResponseReasoningSummaryPartDoneEventPart {
     #[doc = "The type of the summary part. Always `summary_text`."]
     #[serde(rename = "type")]
-    pub type_: Option<ResponseReasoningSummaryPartDoneEventPartType>,
+    pub type_: ResponseReasoningSummaryPartDoneEventPartType,
     #[doc = "The text of the summary part."]
     #[serde(rename = "text")]
-    pub text: Option<String>,
+    pub text: String,
 }
 #[doc = "The type of the summary part. Always `summary_text`."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -10965,64 +10952,64 @@ pub enum ResponseReasoningSummaryPartDoneEventPartType {
 pub struct ResponseReasoningSummaryTextDeltaEvent {
     #[doc = "The ID of the item this summary text delta is associated with.\n"]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
     #[doc = "The index of the output item this summary text delta is associated with.\n"]
     #[serde(rename = "output_index")]
-    pub output_index: Option<u64>,
+    pub output_index: u64,
     #[doc = "The index of the summary part within the reasoning summary.\n"]
     #[serde(rename = "summary_index")]
-    pub summary_index: Option<u64>,
+    pub summary_index: u64,
     #[doc = "The text delta that was added to the summary.\n"]
     #[serde(rename = "delta")]
-    pub delta: Option<String>,
+    pub delta: String,
 }
 #[doc = "Emitted when a reasoning summary text is completed."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ResponseReasoningSummaryTextDoneEvent {
     #[doc = "The ID of the item this summary text is associated with.\n"]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
     #[doc = "The index of the output item this summary text is associated with.\n"]
     #[serde(rename = "output_index")]
-    pub output_index: Option<u64>,
+    pub output_index: u64,
     #[doc = "The index of the summary part within the reasoning summary.\n"]
     #[serde(rename = "summary_index")]
-    pub summary_index: Option<u64>,
+    pub summary_index: u64,
     #[doc = "The full text of the completed reasoning summary.\n"]
     #[serde(rename = "text")]
-    pub text: Option<String>,
+    pub text: String,
 }
 #[doc = "Emitted when there is a partial refusal text."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ResponseRefusalDeltaEvent {
     #[doc = "The ID of the output item that the refusal text is added to.\n"]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
     #[doc = "The index of the output item that the refusal text is added to.\n"]
     #[serde(rename = "output_index")]
-    pub output_index: Option<u64>,
+    pub output_index: u64,
     #[doc = "The index of the content part that the refusal text is added to.\n"]
     #[serde(rename = "content_index")]
-    pub content_index: Option<u64>,
+    pub content_index: u64,
     #[doc = "The refusal text that is added.\n"]
     #[serde(rename = "delta")]
-    pub delta: Option<String>,
+    pub delta: String,
 }
 #[doc = "Emitted when refusal text is finalized."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ResponseRefusalDoneEvent {
     #[doc = "The ID of the output item that the refusal text is finalized.\n"]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
     #[doc = "The index of the output item that the refusal text is finalized.\n"]
     #[serde(rename = "output_index")]
-    pub output_index: Option<u64>,
+    pub output_index: u64,
     #[doc = "The index of the content part that the refusal text is finalized.\n"]
     #[serde(rename = "content_index")]
-    pub content_index: Option<u64>,
+    pub content_index: u64,
     #[doc = "The refusal text that is finalized.\n"]
     #[serde(rename = "refusal")]
-    pub refusal: Option<String>,
+    pub refusal: String,
 }
 #[doc = "The status of the response generation. One of `completed`, `failed`, \n`in_progress`, or `incomplete`.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -11118,148 +11105,148 @@ pub enum ResponseStreamEvent {
 pub struct ResponseTextAnnotationDeltaEvent {
     #[doc = "The ID of the output item that the text annotation was added to.\n"]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
     #[doc = "The index of the output item that the text annotation was added to.\n"]
     #[serde(rename = "output_index")]
-    pub output_index: Option<u64>,
+    pub output_index: u64,
     #[doc = "The index of the content part that the text annotation was added to.\n"]
     #[serde(rename = "content_index")]
-    pub content_index: Option<u64>,
+    pub content_index: u64,
     #[doc = "The index of the annotation that was added.\n"]
     #[serde(rename = "annotation_index")]
-    pub annotation_index: Option<u64>,
+    pub annotation_index: u64,
     #[serde(rename = "annotation")]
-    pub annotation: Option<Annotation>,
+    pub annotation: Annotation,
 }
 #[doc = "Emitted when there is an additional text delta."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ResponseTextDeltaEvent {
     #[doc = "The ID of the output item that the text delta was added to.\n"]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
     #[doc = "The index of the output item that the text delta was added to.\n"]
     #[serde(rename = "output_index")]
-    pub output_index: Option<u64>,
+    pub output_index: u64,
     #[doc = "The index of the content part that the text delta was added to.\n"]
     #[serde(rename = "content_index")]
-    pub content_index: Option<u64>,
+    pub content_index: u64,
     #[doc = "The text delta that was added.\n"]
     #[serde(rename = "delta")]
-    pub delta: Option<String>,
+    pub delta: String,
 }
 #[doc = "Emitted when text content is finalized."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ResponseTextDoneEvent {
     #[doc = "The ID of the output item that the text content is finalized.\n"]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
     #[doc = "The index of the output item that the text content is finalized.\n"]
     #[serde(rename = "output_index")]
-    pub output_index: Option<u64>,
+    pub output_index: u64,
     #[doc = "The index of the content part that the text content is finalized.\n"]
     #[serde(rename = "content_index")]
-    pub content_index: Option<u64>,
+    pub content_index: u64,
     #[doc = "The text content that is finalized.\n"]
     #[serde(rename = "text")]
-    pub text: Option<String>,
+    pub text: String,
 }
 #[doc = "Represents token usage details including input tokens, output tokens,\na breakdown of output tokens, and the total tokens used.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ResponseUsage {
     #[doc = "The number of input tokens."]
     #[serde(rename = "input_tokens")]
-    pub input_tokens: Option<u64>,
+    pub input_tokens: u64,
     #[doc = "A detailed breakdown of the input tokens."]
     #[serde(rename = "input_tokens_details")]
-    pub input_tokens_details: Option<ResponseUsageInputTokensDetails>,
+    pub input_tokens_details: ResponseUsageInputTokensDetails,
     #[doc = "The number of output tokens."]
     #[serde(rename = "output_tokens")]
-    pub output_tokens: Option<u64>,
+    pub output_tokens: u64,
     #[doc = "A detailed breakdown of the output tokens."]
     #[serde(rename = "output_tokens_details")]
-    pub output_tokens_details: Option<ResponseUsageOutputTokensDetails>,
+    pub output_tokens_details: ResponseUsageOutputTokensDetails,
     #[doc = "The total number of tokens used."]
     #[serde(rename = "total_tokens")]
-    pub total_tokens: Option<u64>,
+    pub total_tokens: u64,
 }
 #[doc = "A detailed breakdown of the input tokens."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ResponseUsageInputTokensDetails {
     #[doc = "The number of tokens that were retrieved from the cache. \n[More on prompt caching](/docs/guides/prompt-caching).\n"]
     #[serde(rename = "cached_tokens")]
-    pub cached_tokens: Option<u64>,
+    pub cached_tokens: u64,
 }
 #[doc = "A detailed breakdown of the output tokens."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ResponseUsageOutputTokensDetails {
     #[doc = "The number of reasoning tokens."]
     #[serde(rename = "reasoning_tokens")]
-    pub reasoning_tokens: Option<u64>,
+    pub reasoning_tokens: u64,
 }
 #[doc = "Emitted when a web search call is completed."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ResponseWebSearchCallCompletedEvent {
     #[doc = "The index of the output item that the web search call is associated with.\n"]
     #[serde(rename = "output_index")]
-    pub output_index: Option<u64>,
+    pub output_index: u64,
     #[doc = "Unique ID for the output item associated with the web search call.\n"]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
 }
 #[doc = "Emitted when a web search call is initiated."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ResponseWebSearchCallInProgressEvent {
     #[doc = "The index of the output item that the web search call is associated with.\n"]
     #[serde(rename = "output_index")]
-    pub output_index: Option<u64>,
+    pub output_index: u64,
     #[doc = "Unique ID for the output item associated with the web search call.\n"]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
 }
 #[doc = "Emitted when a web search call is executing."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ResponseWebSearchCallSearchingEvent {
     #[doc = "The index of the output item that the web search call is associated with.\n"]
     #[serde(rename = "output_index")]
-    pub output_index: Option<u64>,
+    pub output_index: u64,
     #[doc = "Unique ID for the output item associated with the web search call.\n"]
     #[serde(rename = "item_id")]
-    pub item_id: Option<String>,
+    pub item_id: String,
 }
 #[doc = "Usage statistics related to the run. This value will be `null` if the run is not in a terminal state (i.e. `in_progress`, `queued`, etc.)."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RunCompletionUsage {
     #[doc = "Number of completion tokens used over the course of the run."]
     #[serde(rename = "completion_tokens")]
-    pub completion_tokens: Option<u64>,
+    pub completion_tokens: u64,
     #[doc = "Number of prompt tokens used over the course of the run."]
     #[serde(rename = "prompt_tokens")]
-    pub prompt_tokens: Option<u64>,
+    pub prompt_tokens: u64,
     #[doc = "Total number of tokens used (prompt + completion)."]
     #[serde(rename = "total_tokens")]
-    pub total_tokens: Option<u64>,
+    pub total_tokens: u64,
 }
 #[doc = "Represents an execution run on a [thread](/docs/api-reference/threads)."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RunObject {
     #[doc = "The identifier, which can be referenced in API endpoints."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The object type, which is always `thread.run`."]
     #[serde(rename = "object")]
-    pub object: Option<RunObjectObject>,
+    pub object: RunObjectObject,
     #[doc = "The Unix timestamp (in seconds) for when the run was created."]
     #[serde(rename = "created_at")]
-    pub created_at: Option<u64>,
+    pub created_at: u64,
     #[doc = "The ID of the [thread](/docs/api-reference/threads) that was executed on as a part of this run."]
     #[serde(rename = "thread_id")]
-    pub thread_id: Option<String>,
+    pub thread_id: String,
     #[doc = "The ID of the [assistant](/docs/api-reference/assistants) used for execution of this run."]
     #[serde(rename = "assistant_id")]
-    pub assistant_id: Option<String>,
+    pub assistant_id: String,
     #[doc = "The status of the run, which can be either `queued`, `in_progress`, `requires_action`, `cancelling`, `cancelled`, `failed`, `completed`, `incomplete`, or `expired`."]
     #[serde(rename = "status")]
-    pub status: Option<RunObjectStatus>,
+    pub status: RunObjectStatus,
     #[doc = "Details on the action required to continue the run. Will be `null` if no action is required."]
     #[serde(rename = "required_action")]
     pub required_action: Option<RunObjectRequiredAction>,
@@ -11286,17 +11273,17 @@ pub struct RunObject {
     pub incomplete_details: Option<RunObjectIncompleteDetails>,
     #[doc = "The model that the [assistant](/docs/api-reference/assistants) used for this run."]
     #[serde(rename = "model")]
-    pub model: Option<String>,
+    pub model: String,
     #[doc = "The instructions that the [assistant](/docs/api-reference/assistants) used for this run."]
     #[serde(rename = "instructions")]
-    pub instructions: Option<String>,
+    pub instructions: String,
     #[doc = "The list of tools that the [assistant](/docs/api-reference/assistants) used for this run."]
     #[serde(rename = "tools")]
-    pub tools: Option<Vec<RunObjectToolsItem>>,
+    pub tools: Vec<RunObjectToolsItem>,
     #[serde(rename = "metadata")]
-    pub metadata: Option<Metadata>,
+    pub metadata: Metadata,
     #[serde(rename = "usage")]
-    pub usage: Option<RunCompletionUsage>,
+    pub usage: RunCompletionUsage,
     #[doc = "The sampling temperature used for this run. If not set, defaults to 1."]
     #[serde(rename = "temperature")]
     pub temperature: Option<f64>,
@@ -11314,7 +11301,7 @@ pub struct RunObject {
     #[serde(rename = "tool_choice")]
     pub tool_choice: Option<AssistantsApiToolChoiceOption>,
     #[serde(rename = "parallel_tool_calls")]
-    pub parallel_tool_calls: Option<ParallelToolCalls>,
+    pub parallel_tool_calls: ParallelToolCalls,
     #[serde(rename = "response_format")]
     pub response_format: Option<AssistantsApiResponseFormatOption>,
 }
@@ -11338,10 +11325,10 @@ pub enum RunObjectIncompleteDetailsReason {
 pub struct RunObjectLastError {
     #[doc = "One of `server_error`, `rate_limit_exceeded`, or `invalid_prompt`."]
     #[serde(rename = "code")]
-    pub code: Option<RunObjectLastErrorCode>,
+    pub code: RunObjectLastErrorCode,
     #[doc = "A human-readable description of the error."]
     #[serde(rename = "message")]
-    pub message: Option<String>,
+    pub message: String,
 }
 #[doc = "One of `server_error`, `rate_limit_exceeded`, or `invalid_prompt`."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -11364,17 +11351,17 @@ pub enum RunObjectObject {
 pub struct RunObjectRequiredAction {
     #[doc = "For now, this is always `submit_tool_outputs`."]
     #[serde(rename = "type")]
-    pub type_: Option<RunObjectRequiredActionType>,
+    pub type_: RunObjectRequiredActionType,
     #[doc = "Details on the tool outputs needed for this run to continue."]
     #[serde(rename = "submit_tool_outputs")]
-    pub submit_tool_outputs: Option<RunObjectRequiredActionSubmitToolOutputs>,
+    pub submit_tool_outputs: RunObjectRequiredActionSubmitToolOutputs,
 }
 #[doc = "Details on the tool outputs needed for this run to continue."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RunObjectRequiredActionSubmitToolOutputs {
     #[doc = "A list of the relevant tool calls."]
     #[serde(rename = "tool_calls")]
-    pub tool_calls: Option<Vec<RunToolCallObject>>,
+    pub tool_calls: Vec<RunToolCallObject>,
 }
 #[doc = "For now, this is always `submit_tool_outputs`."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -11420,26 +11407,26 @@ pub enum RunObjectToolsItem {
 pub struct RunStepCompletionUsage {
     #[doc = "Number of completion tokens used over the course of the run step."]
     #[serde(rename = "completion_tokens")]
-    pub completion_tokens: Option<u64>,
+    pub completion_tokens: u64,
     #[doc = "Number of prompt tokens used over the course of the run step."]
     #[serde(rename = "prompt_tokens")]
-    pub prompt_tokens: Option<u64>,
+    pub prompt_tokens: u64,
     #[doc = "Total number of tokens used (prompt + completion)."]
     #[serde(rename = "total_tokens")]
-    pub total_tokens: Option<u64>,
+    pub total_tokens: u64,
 }
 #[doc = "Represents a run step delta i.e. any changed fields on a run step during streaming.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RunStepDeltaObject {
     #[doc = "The identifier of the run step, which can be referenced in API endpoints."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The object type, which is always `thread.run.step.delta`."]
     #[serde(rename = "object")]
-    pub object: Option<RunStepDeltaObjectObject>,
+    pub object: RunStepDeltaObjectObject,
     #[doc = "The delta containing the fields that have changed on the run step."]
     #[serde(rename = "delta")]
-    pub delta: Option<RunStepDeltaObjectDelta>,
+    pub delta: RunStepDeltaObjectDelta,
 }
 #[doc = "The delta containing the fields that have changed on the run step."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -11481,7 +11468,7 @@ pub struct RunStepDeltaStepDetailsMessageCreationObjectMessageCreation {
 pub struct RunStepDeltaStepDetailsToolCallsCodeObject {
     #[doc = "The index of the tool call in the tool calls array."]
     #[serde(rename = "index")]
-    pub index: Option<u64>,
+    pub index: u64,
     #[doc = "The ID of the tool call."]
     #[serde(rename = "id")]
     pub id: Option<String>,
@@ -11512,7 +11499,7 @@ pub enum RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterOutputsItem {
 pub struct RunStepDeltaStepDetailsToolCallsCodeOutputImageObject {
     #[doc = "The index of the output in the outputs array."]
     #[serde(rename = "index")]
-    pub index: Option<u64>,
+    pub index: u64,
     #[serde(rename = "image")]
     pub image: Option<RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImage>,
 }
@@ -11527,7 +11514,7 @@ pub struct RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImage {
 pub struct RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject {
     #[doc = "The index of the output in the outputs array."]
     #[serde(rename = "index")]
-    pub index: Option<u64>,
+    pub index: u64,
     #[doc = "The text output from the Code Interpreter tool call."]
     #[serde(rename = "logs")]
     pub logs: Option<String>,
@@ -11536,19 +11523,19 @@ pub struct RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject {
 pub struct RunStepDeltaStepDetailsToolCallsFileSearchObject {
     #[doc = "The index of the tool call in the tool calls array."]
     #[serde(rename = "index")]
-    pub index: Option<u64>,
+    pub index: u64,
     #[doc = "The ID of the tool call object."]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "For now, this is always going to be an empty object."]
     #[serde(rename = "file_search")]
-    pub file_search: Option<std::collections::HashMap<String, serde_json::Value>>,
+    pub file_search: std::collections::HashMap<String, serde_json::Value>,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RunStepDeltaStepDetailsToolCallsFunctionObject {
     #[doc = "The index of the tool call in the tool calls array."]
     #[serde(rename = "index")]
-    pub index: Option<u64>,
+    pub index: u64,
     #[doc = "The ID of the tool call object."]
     #[serde(rename = "id")]
     pub id: Option<String>,
@@ -11591,33 +11578,33 @@ pub enum RunStepDeltaStepDetailsToolCallsObjectToolCallsItem {
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RunStepDetailsMessageCreationObject {
     #[serde(rename = "message_creation")]
-    pub message_creation: Option<RunStepDetailsMessageCreationObjectMessageCreation>,
+    pub message_creation: RunStepDetailsMessageCreationObjectMessageCreation,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RunStepDetailsMessageCreationObjectMessageCreation {
     #[doc = "The ID of the message that was created by this run step."]
     #[serde(rename = "message_id")]
-    pub message_id: Option<String>,
+    pub message_id: String,
 }
 #[doc = "Details of the Code Interpreter tool call the run step was involved in."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RunStepDetailsToolCallsCodeObject {
     #[doc = "The ID of the tool call."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The Code Interpreter tool call definition."]
     #[serde(rename = "code_interpreter")]
-    pub code_interpreter: Option<RunStepDetailsToolCallsCodeObjectCodeInterpreter>,
+    pub code_interpreter: RunStepDetailsToolCallsCodeObjectCodeInterpreter,
 }
 #[doc = "The Code Interpreter tool call definition."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RunStepDetailsToolCallsCodeObjectCodeInterpreter {
     #[doc = "The input to the Code Interpreter tool call."]
     #[serde(rename = "input")]
-    pub input: Option<String>,
+    pub input: String,
     #[doc = "The outputs from the Code Interpreter tool call. Code Interpreter can output one or more items, including text (`logs`) or images (`image`). Each of these are represented by a different object type."]
     #[serde(rename = "outputs")]
-    pub outputs: Option<Vec<RunStepDetailsToolCallsCodeObjectCodeInterpreterOutputsItem>>,
+    pub outputs: Vec<RunStepDetailsToolCallsCodeObjectCodeInterpreterOutputsItem>,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 #[allow(clippy::large_enum_variant)]
@@ -11631,29 +11618,29 @@ pub enum RunStepDetailsToolCallsCodeObjectCodeInterpreterOutputsItem {
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RunStepDetailsToolCallsCodeOutputImageObject {
     #[serde(rename = "image")]
-    pub image: Option<RunStepDetailsToolCallsCodeOutputImageObjectImage>,
+    pub image: RunStepDetailsToolCallsCodeOutputImageObjectImage,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RunStepDetailsToolCallsCodeOutputImageObjectImage {
     #[doc = "The [file](/docs/api-reference/files) ID of the image."]
     #[serde(rename = "file_id")]
-    pub file_id: Option<String>,
+    pub file_id: String,
 }
 #[doc = "Text output from the Code Interpreter tool call as part of a run step."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RunStepDetailsToolCallsCodeOutputLogsObject {
     #[doc = "The text output from the Code Interpreter tool call."]
     #[serde(rename = "logs")]
-    pub logs: Option<String>,
+    pub logs: String,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RunStepDetailsToolCallsFileSearchObject {
     #[doc = "The ID of the tool call object."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "For now, this is always going to be an empty object."]
     #[serde(rename = "file_search")]
-    pub file_search: Option<RunStepDetailsToolCallsFileSearchObjectFileSearch>,
+    pub file_search: RunStepDetailsToolCallsFileSearchObjectFileSearch,
 }
 #[doc = "For now, this is always going to be an empty object."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -11668,23 +11655,23 @@ pub struct RunStepDetailsToolCallsFileSearchObjectFileSearch {
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RunStepDetailsToolCallsFileSearchRankingOptionsObject {
     #[serde(rename = "ranker")]
-    pub ranker: Option<FileSearchRanker>,
+    pub ranker: FileSearchRanker,
     #[doc = "The score threshold for the file search. All values must be a floating point number between 0 and 1."]
     #[serde(rename = "score_threshold")]
-    pub score_threshold: Option<f64>,
+    pub score_threshold: f64,
 }
 #[doc = "A result instance of the file search."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RunStepDetailsToolCallsFileSearchResultObject {
     #[doc = "The ID of the file that result was found in."]
     #[serde(rename = "file_id")]
-    pub file_id: Option<String>,
+    pub file_id: String,
     #[doc = "The name of the file that result was found in."]
     #[serde(rename = "file_name")]
-    pub file_name: Option<String>,
+    pub file_name: String,
     #[doc = "The score of the result. All values must be a floating point number between 0 and 1."]
     #[serde(rename = "score")]
-    pub score: Option<f64>,
+    pub score: f64,
     #[doc = "The content of the result that was found. The content is only included if requested via the include query parameter."]
     #[serde(rename = "content")]
     pub content: Option<Vec<RunStepDetailsToolCallsFileSearchResultObjectContentItem>>,
@@ -11708,20 +11695,20 @@ pub enum RunStepDetailsToolCallsFileSearchResultObjectContentItemType {
 pub struct RunStepDetailsToolCallsFunctionObject {
     #[doc = "The ID of the tool call object."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The definition of the function that was called."]
     #[serde(rename = "function")]
-    pub function: Option<RunStepDetailsToolCallsFunctionObjectFunction>,
+    pub function: RunStepDetailsToolCallsFunctionObjectFunction,
 }
 #[doc = "The definition of the function that was called."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RunStepDetailsToolCallsFunctionObjectFunction {
     #[doc = "The name of the function."]
     #[serde(rename = "name")]
-    pub name: Option<String>,
+    pub name: String,
     #[doc = "The arguments passed to the function."]
     #[serde(rename = "arguments")]
-    pub arguments: Option<String>,
+    pub arguments: String,
     #[doc = "The output of the function. This will be `null` if the outputs have not been [submitted](/docs/api-reference/runs/submitToolOutputs) yet."]
     #[serde(rename = "output")]
     pub output: Option<String>,
@@ -11731,7 +11718,7 @@ pub struct RunStepDetailsToolCallsFunctionObjectFunction {
 pub struct RunStepDetailsToolCallsObject {
     #[doc = "An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `file_search`, or `function`.\n"]
     #[serde(rename = "tool_calls")]
-    pub tool_calls: Option<Vec<RunStepDetailsToolCallsObjectToolCallsItem>>,
+    pub tool_calls: Vec<RunStepDetailsToolCallsObjectToolCallsItem>,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 #[allow(clippy::large_enum_variant)]
@@ -11749,31 +11736,31 @@ pub enum RunStepDetailsToolCallsObjectToolCallsItem {
 pub struct RunStepObject {
     #[doc = "The identifier of the run step, which can be referenced in API endpoints."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The object type, which is always `thread.run.step`."]
     #[serde(rename = "object")]
-    pub object: Option<RunStepObjectObject>,
+    pub object: RunStepObjectObject,
     #[doc = "The Unix timestamp (in seconds) for when the run step was created."]
     #[serde(rename = "created_at")]
-    pub created_at: Option<u64>,
+    pub created_at: u64,
     #[doc = "The ID of the [assistant](/docs/api-reference/assistants) associated with the run step."]
     #[serde(rename = "assistant_id")]
-    pub assistant_id: Option<String>,
+    pub assistant_id: String,
     #[doc = "The ID of the [thread](/docs/api-reference/threads) that was run."]
     #[serde(rename = "thread_id")]
-    pub thread_id: Option<String>,
+    pub thread_id: String,
     #[doc = "The ID of the [run](/docs/api-reference/runs) that this run step is a part of."]
     #[serde(rename = "run_id")]
-    pub run_id: Option<String>,
+    pub run_id: String,
     #[doc = "The type of run step, which can be either `message_creation` or `tool_calls`."]
     #[serde(rename = "type")]
-    pub type_: Option<RunStepObjectType>,
+    pub type_: RunStepObjectType,
     #[doc = "The status of the run step, which can be either `in_progress`, `cancelled`, `failed`, `completed`, or `expired`."]
     #[serde(rename = "status")]
-    pub status: Option<RunStepObjectStatus>,
+    pub status: RunStepObjectStatus,
     #[doc = "The details of the run step."]
     #[serde(rename = "step_details")]
-    pub step_details: Option<RunStepObjectStepDetails>,
+    pub step_details: RunStepObjectStepDetails,
     #[doc = "The last error associated with this run step. Will be `null` if there are no errors."]
     #[serde(rename = "last_error")]
     pub last_error: Option<RunStepObjectLastError>,
@@ -11790,19 +11777,19 @@ pub struct RunStepObject {
     #[serde(rename = "completed_at")]
     pub completed_at: Option<u64>,
     #[serde(rename = "metadata")]
-    pub metadata: Option<Metadata>,
+    pub metadata: Metadata,
     #[serde(rename = "usage")]
-    pub usage: Option<RunStepCompletionUsage>,
+    pub usage: RunStepCompletionUsage,
 }
 #[doc = "The last error associated with this run step. Will be `null` if there are no errors."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RunStepObjectLastError {
     #[doc = "One of `server_error` or `rate_limit_exceeded`."]
     #[serde(rename = "code")]
-    pub code: Option<RunStepObjectLastErrorCode>,
+    pub code: RunStepObjectLastErrorCode,
     #[doc = "A human-readable description of the error."]
     #[serde(rename = "message")]
-    pub message: Option<String>,
+    pub message: String,
 }
 #[doc = "One of `server_error` or `rate_limit_exceeded`."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -11873,43 +11860,43 @@ pub enum RunStepStreamEvent {
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RunStepStreamEvent0 {
     #[serde(rename = "data")]
-    pub data: Option<RunStepObject>,
+    pub data: RunStepObject,
 }
 #[doc = "Occurs when a [run step](/docs/api-reference/run-steps/step-object) moves to an `in_progress` state."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RunStepStreamEvent1 {
     #[serde(rename = "data")]
-    pub data: Option<RunStepObject>,
+    pub data: RunStepObject,
 }
 #[doc = "Occurs when parts of a [run step](/docs/api-reference/run-steps/step-object) are being streamed."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RunStepStreamEvent2 {
     #[serde(rename = "data")]
-    pub data: Option<RunStepDeltaObject>,
+    pub data: RunStepDeltaObject,
 }
 #[doc = "Occurs when a [run step](/docs/api-reference/run-steps/step-object) is completed."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RunStepStreamEvent3 {
     #[serde(rename = "data")]
-    pub data: Option<RunStepObject>,
+    pub data: RunStepObject,
 }
 #[doc = "Occurs when a [run step](/docs/api-reference/run-steps/step-object) fails."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RunStepStreamEvent4 {
     #[serde(rename = "data")]
-    pub data: Option<RunStepObject>,
+    pub data: RunStepObject,
 }
 #[doc = "Occurs when a [run step](/docs/api-reference/run-steps/step-object) is cancelled."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RunStepStreamEvent5 {
     #[serde(rename = "data")]
-    pub data: Option<RunStepObject>,
+    pub data: RunStepObject,
 }
 #[doc = "Occurs when a [run step](/docs/api-reference/run-steps/step-object) expires."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RunStepStreamEvent6 {
     #[serde(rename = "data")]
-    pub data: Option<RunStepObject>,
+    pub data: RunStepObject,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 #[allow(clippy::large_enum_variant)]
@@ -11940,84 +11927,84 @@ pub enum RunStreamEvent {
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RunStreamEvent0 {
     #[serde(rename = "data")]
-    pub data: Option<RunObject>,
+    pub data: RunObject,
 }
 #[doc = "Occurs when a [run](/docs/api-reference/runs/object) moves to a `queued` status."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RunStreamEvent1 {
     #[serde(rename = "data")]
-    pub data: Option<RunObject>,
+    pub data: RunObject,
 }
 #[doc = "Occurs when a [run](/docs/api-reference/runs/object) moves to an `in_progress` status."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RunStreamEvent2 {
     #[serde(rename = "data")]
-    pub data: Option<RunObject>,
+    pub data: RunObject,
 }
 #[doc = "Occurs when a [run](/docs/api-reference/runs/object) moves to a `requires_action` status."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RunStreamEvent3 {
     #[serde(rename = "data")]
-    pub data: Option<RunObject>,
+    pub data: RunObject,
 }
 #[doc = "Occurs when a [run](/docs/api-reference/runs/object) is completed."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RunStreamEvent4 {
     #[serde(rename = "data")]
-    pub data: Option<RunObject>,
+    pub data: RunObject,
 }
 #[doc = "Occurs when a [run](/docs/api-reference/runs/object) ends with status `incomplete`."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RunStreamEvent5 {
     #[serde(rename = "data")]
-    pub data: Option<RunObject>,
+    pub data: RunObject,
 }
 #[doc = "Occurs when a [run](/docs/api-reference/runs/object) fails."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RunStreamEvent6 {
     #[serde(rename = "data")]
-    pub data: Option<RunObject>,
+    pub data: RunObject,
 }
 #[doc = "Occurs when a [run](/docs/api-reference/runs/object) moves to a `cancelling` status."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RunStreamEvent7 {
     #[serde(rename = "data")]
-    pub data: Option<RunObject>,
+    pub data: RunObject,
 }
 #[doc = "Occurs when a [run](/docs/api-reference/runs/object) is cancelled."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RunStreamEvent8 {
     #[serde(rename = "data")]
-    pub data: Option<RunObject>,
+    pub data: RunObject,
 }
 #[doc = "Occurs when a [run](/docs/api-reference/runs/object) expires."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RunStreamEvent9 {
     #[serde(rename = "data")]
-    pub data: Option<RunObject>,
+    pub data: RunObject,
 }
 #[doc = "Tool call objects"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RunToolCallObject {
     #[doc = "The ID of the tool call. This ID must be referenced when you submit the tool outputs in using the [Submit tool outputs to run](/docs/api-reference/runs/submitToolOutputs) endpoint."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The type of tool call the output is required for. For now, this is always `function`."]
     #[serde(rename = "type")]
-    pub type_: Option<RunToolCallObjectType>,
+    pub type_: RunToolCallObjectType,
     #[doc = "The function definition."]
     #[serde(rename = "function")]
-    pub function: Option<RunToolCallObjectFunction>,
+    pub function: RunToolCallObjectFunction,
 }
 #[doc = "The function definition."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct RunToolCallObjectFunction {
     #[doc = "The name of the function."]
     #[serde(rename = "name")]
-    pub name: Option<String>,
+    pub name: String,
     #[doc = "The arguments that the model expects you to pass to the function."]
     #[serde(rename = "arguments")]
-    pub arguments: Option<String>,
+    pub arguments: String,
 }
 #[doc = "The type of tool call the output is required for. For now, this is always `function`."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -12033,16 +12020,16 @@ pub struct Screenshot {}
 pub struct Scroll {
     #[doc = "The x-coordinate where the scroll occurred.\n"]
     #[serde(rename = "x")]
-    pub x: Option<u64>,
+    pub x: u64,
     #[doc = "The y-coordinate where the scroll occurred.\n"]
     #[serde(rename = "y")]
-    pub y: Option<u64>,
+    pub y: u64,
     #[doc = "The horizontal scroll distance.\n"]
     #[serde(rename = "scroll_x")]
-    pub scroll_x: Option<u64>,
+    pub scroll_x: u64,
     #[doc = "The vertical scroll distance.\n"]
     #[serde(rename = "scroll_y")]
-    pub scroll_y: Option<u64>,
+    pub scroll_y: u64,
 }
 #[doc = "Specifies the latency tier to use for processing the request. This parameter is relevant for customers subscribed to the scale tier service:\n  - If set to 'auto', and the Project is Scale tier enabled, the system\n    will utilize scale tier credits until they are exhausted.\n  - If set to 'auto', and the Project is not Scale tier enabled, the request will be processed using the default service tier with a lower uptime SLA and no latency guarentee.\n  - If set to 'default', the request will be processed using the default service tier with a lower uptime SLA and no latency guarentee.\n  - If set to 'flex', the request will be processed with the Flex Processing service tier. [Learn more](/docs/guides/flex-processing).\n  - When not set, the default behavior is 'auto'.\n\n  When this parameter is set, the response body will include the `service_tier` utilized.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -12058,21 +12045,21 @@ pub enum ServiceTier {
 pub struct StaticChunkingStrategy {
     #[doc = "The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the maximum value is `4096`."]
     #[serde(rename = "max_chunk_size_tokens")]
-    pub max_chunk_size_tokens: Option<u64>,
+    pub max_chunk_size_tokens: u64,
     #[doc = "The number of tokens that overlap between chunks. The default value is `400`.\n\nNote that the overlap must not exceed half of `max_chunk_size_tokens`.\n"]
     #[serde(rename = "chunk_overlap_tokens")]
-    pub chunk_overlap_tokens: Option<u64>,
+    pub chunk_overlap_tokens: u64,
 }
 #[doc = "Customize your own chunking strategy by setting chunk size and chunk overlap."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct StaticChunkingStrategyRequestParam {
     #[serde(rename = "static")]
-    pub static_: Option<StaticChunkingStrategy>,
+    pub static_: StaticChunkingStrategy,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct StaticChunkingStrategyResponseParam {
     #[serde(rename = "static")]
-    pub static_: Option<StaticChunkingStrategy>,
+    pub static_: StaticChunkingStrategy,
 }
 #[doc = "Not supported with latest reasoning models `o3` and `o4-mini`.\n\nUp to 4 sequences where the API will stop generating further tokens. The\nreturned text will not contain the stop sequence.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -12086,7 +12073,7 @@ pub enum StopConfiguration {
 pub struct SubmitToolOutputsRunRequest {
     #[doc = "A list of tools for which the outputs are being submitted."]
     #[serde(rename = "tool_outputs")]
-    pub tool_outputs: Option<Vec<SubmitToolOutputsRunRequestToolOutputsItem>>,
+    pub tool_outputs: Vec<SubmitToolOutputsRunRequestToolOutputsItem>,
     #[doc = "If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.\n"]
     #[serde(rename = "stream")]
     pub stream: Option<bool>,
@@ -12120,9 +12107,9 @@ pub struct TextResponseFormatJsonSchema {
     pub description: Option<String>,
     #[doc = "The name of the response format. Must be a-z, A-Z, 0-9, or contain\nunderscores and dashes, with a maximum length of 64.\n"]
     #[serde(rename = "name")]
-    pub name: Option<String>,
+    pub name: String,
     #[serde(rename = "schema")]
-    pub schema: Option<ResponseFormatJsonSchemaSchema>,
+    pub schema: ResponseFormatJsonSchemaSchema,
     #[doc = "Whether to enable strict schema adherence when generating the output.\nIf set to true, the model will always follow the exact schema defined\nin the `schema` field. Only a subset of JSON Schema is supported when\n`strict` is `true`. To learn more, read the [Structured Outputs\nguide](/docs/guides/structured-outputs).\n"]
     #[serde(rename = "strict")]
     pub strict: Option<bool>,
@@ -12132,18 +12119,18 @@ pub struct TextResponseFormatJsonSchema {
 pub struct ThreadObject {
     #[doc = "The identifier, which can be referenced in API endpoints."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The object type, which is always `thread`."]
     #[serde(rename = "object")]
-    pub object: Option<ThreadObjectObject>,
+    pub object: ThreadObjectObject,
     #[doc = "The Unix timestamp (in seconds) for when the thread was created."]
     #[serde(rename = "created_at")]
-    pub created_at: Option<u64>,
+    pub created_at: u64,
     #[doc = "A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.\n"]
     #[serde(rename = "tool_resources")]
     pub tool_resources: Option<ThreadObjectToolResources>,
     #[serde(rename = "metadata")]
-    pub metadata: Option<Metadata>,
+    pub metadata: Metadata,
 }
 #[doc = "The object type, which is always `thread`."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -12185,12 +12172,12 @@ pub struct ThreadStreamEvent0 {
     #[serde(rename = "enabled")]
     pub enabled: Option<bool>,
     #[serde(rename = "data")]
-    pub data: Option<ThreadObject>,
+    pub data: ThreadObject,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct ToggleCertificatesRequest {
     #[serde(rename = "certificate_ids")]
-    pub certificate_ids: Option<Vec<String>>,
+    pub certificate_ids: Vec<String>,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 #[allow(clippy::large_enum_variant)]
@@ -12210,10 +12197,10 @@ pub enum Tool {
 pub struct ToolChoiceFunction {
     #[doc = "For function calling, the type is always `function`."]
     #[serde(rename = "type")]
-    pub type_: Option<ToolChoiceFunctionType>,
+    pub type_: ToolChoiceFunctionType,
     #[doc = "The name of the function to call."]
     #[serde(rename = "name")]
-    pub name: Option<String>,
+    pub name: String,
 }
 #[doc = "For function calling, the type is always `function`."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -12236,7 +12223,7 @@ pub enum ToolChoiceOptions {
 pub struct ToolChoiceTypes {
     #[doc = "The type of hosted tool the model should to use. Learn more about\n[built-in tools](/docs/guides/tools).\n\nAllowed values are:\n- `file_search`\n- `web_search_preview`\n- `computer_use_preview`\n"]
     #[serde(rename = "type")]
-    pub type_: Option<ToolChoiceTypesType>,
+    pub type_: ToolChoiceTypesType,
 }
 #[doc = "The type of hosted tool the model should to use. Learn more about\n[built-in tools](/docs/guides/tools).\n\nAllowed values are:\n- `file_search`\n- `web_search_preview`\n- `computer_use_preview`\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -12255,7 +12242,7 @@ pub enum ToolChoiceTypesType {
 pub struct TranscriptTextDeltaEvent {
     #[doc = "The text delta that was additionally transcribed.\n"]
     #[serde(rename = "delta")]
-    pub delta: Option<String>,
+    pub delta: String,
     #[doc = "The log probabilities of the delta. Only included if you [create a transcription](/docs/api-reference/audio/create-transcription) with the `include[]` parameter set to `logprobs`.\n"]
     #[serde(rename = "logprobs")]
     pub logprobs: Option<Vec<TranscriptTextDeltaEventLogprobsItem>>,
@@ -12277,7 +12264,7 @@ pub struct TranscriptTextDeltaEventLogprobsItem {
 pub struct TranscriptTextDoneEvent {
     #[doc = "The text that was transcribed.\n"]
     #[serde(rename = "text")]
-    pub text: Option<String>,
+    pub text: String,
     #[doc = "The log probabilities of the individual tokens in the transcription. Only included if you [create a transcription](/docs/api-reference/audio/create-transcription) with the `include[]` parameter set to `logprobs`.\n"]
     #[serde(rename = "logprobs")]
     pub logprobs: Option<Vec<TranscriptTextDoneEventLogprobsItem>>,
@@ -12303,53 +12290,53 @@ pub enum TranscriptionInclude {
 pub struct TranscriptionSegment {
     #[doc = "Unique identifier of the segment."]
     #[serde(rename = "id")]
-    pub id: Option<u64>,
+    pub id: u64,
     #[doc = "Seek offset of the segment."]
     #[serde(rename = "seek")]
-    pub seek: Option<u64>,
+    pub seek: u64,
     #[doc = "Start time of the segment in seconds."]
     #[serde(rename = "start")]
-    pub start: Option<f64>,
+    pub start: f64,
     #[doc = "End time of the segment in seconds."]
     #[serde(rename = "end")]
-    pub end: Option<f64>,
+    pub end: f64,
     #[doc = "Text content of the segment."]
     #[serde(rename = "text")]
-    pub text: Option<String>,
+    pub text: String,
     #[doc = "Array of token IDs for the text content."]
     #[serde(rename = "tokens")]
-    pub tokens: Option<Vec<u64>>,
+    pub tokens: Vec<u64>,
     #[doc = "Temperature parameter used for generating the segment."]
     #[serde(rename = "temperature")]
-    pub temperature: Option<f64>,
+    pub temperature: f64,
     #[doc = "Average logprob of the segment. If the value is lower than -1, consider the logprobs failed."]
     #[serde(rename = "avg_logprob")]
-    pub avg_logprob: Option<f64>,
+    pub avg_logprob: f64,
     #[doc = "Compression ratio of the segment. If the value is greater than 2.4, consider the compression failed."]
     #[serde(rename = "compression_ratio")]
-    pub compression_ratio: Option<f64>,
+    pub compression_ratio: f64,
     #[doc = "Probability of no speech in the segment. If the value is higher than 1.0 and the `avg_logprob` is below -1, consider this segment silent."]
     #[serde(rename = "no_speech_prob")]
-    pub no_speech_prob: Option<f64>,
+    pub no_speech_prob: f64,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct TranscriptionWord {
     #[doc = "The text content of the word."]
     #[serde(rename = "word")]
-    pub word: Option<String>,
+    pub word: String,
     #[doc = "Start time of the word in seconds."]
     #[serde(rename = "start")]
-    pub start: Option<f64>,
+    pub start: f64,
     #[doc = "End time of the word in seconds."]
     #[serde(rename = "end")]
-    pub end: Option<f64>,
+    pub end: f64,
 }
 #[doc = "Controls for how a thread will be truncated prior to the run. Use this to control the intial context window of the run."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct TruncationObject {
     #[doc = "The truncation strategy to use for the thread. The default is `auto`. If set to `last_messages`, the thread will be truncated to the n most recent messages in the thread. When set to `auto`, messages in the middle of the thread will be dropped to fit the context length of the model, `max_prompt_tokens`."]
     #[serde(rename = "type")]
-    pub type_: Option<TruncationObjectType>,
+    pub type_: TruncationObjectType,
     #[doc = "The number of most recent messages from the thread when constructing the context for the run."]
     #[serde(rename = "last_messages")]
     pub last_messages: Option<u64>,
@@ -12367,12 +12354,12 @@ pub enum TruncationObjectType {
 pub struct Type {
     #[doc = "The text to type.\n"]
     #[serde(rename = "text")]
-    pub text: Option<String>,
+    pub text: String,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct UpdateVectorStoreFileAttributesRequest {
     #[serde(rename = "attributes")]
-    pub attributes: Option<VectorStoreFileAttributes>,
+    pub attributes: VectorStoreFileAttributes,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct UpdateVectorStoreRequest {
@@ -12389,25 +12376,25 @@ pub struct UpdateVectorStoreRequest {
 pub struct Upload {
     #[doc = "The Upload unique identifier, which can be referenced in API endpoints."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The Unix timestamp (in seconds) for when the Upload was created."]
     #[serde(rename = "created_at")]
-    pub created_at: Option<u64>,
+    pub created_at: u64,
     #[doc = "The name of the file to be uploaded."]
     #[serde(rename = "filename")]
-    pub filename: Option<String>,
+    pub filename: String,
     #[doc = "The intended number of bytes to be uploaded."]
     #[serde(rename = "bytes")]
-    pub bytes: Option<u64>,
+    pub bytes: u64,
     #[doc = "The intended purpose of the file. [Please refer here](/docs/api-reference/files/object#files/object-purpose) for acceptable values."]
     #[serde(rename = "purpose")]
-    pub purpose: Option<String>,
+    pub purpose: String,
     #[doc = "The status of the Upload."]
     #[serde(rename = "status")]
-    pub status: Option<UploadStatus>,
+    pub status: UploadStatus,
     #[doc = "The Unix timestamp (in seconds) for when the Upload will expire."]
     #[serde(rename = "expires_at")]
-    pub expires_at: Option<u64>,
+    pub expires_at: u64,
     #[doc = "The object type, which is always \"upload\"."]
     #[serde(rename = "object")]
     pub object: Option<UploadObject>,
@@ -12422,7 +12409,7 @@ pub struct UploadCertificateRequest {
     pub name: Option<String>,
     #[doc = "The certificate content in PEM format"]
     #[serde(rename = "content")]
-    pub content: Option<String>,
+    pub content: String,
 }
 #[doc = "The object type, which is always \"upload\"."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -12435,16 +12422,16 @@ pub enum UploadObject {
 pub struct UploadPart {
     #[doc = "The upload Part unique identifier, which can be referenced in API endpoints."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The Unix timestamp (in seconds) for when the Part was created."]
     #[serde(rename = "created_at")]
-    pub created_at: Option<u64>,
+    pub created_at: u64,
     #[doc = "The ID of the Upload object that this Part was added to."]
     #[serde(rename = "upload_id")]
-    pub upload_id: Option<String>,
+    pub upload_id: String,
     #[doc = "The object type, which is always `upload.part`."]
     #[serde(rename = "object")]
-    pub object: Option<UploadPartObject>,
+    pub object: UploadPartObject,
 }
 #[doc = "The object type, which is always `upload.part`."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -12469,26 +12456,26 @@ pub enum UploadStatus {
 pub struct UrlCitationBody {
     #[doc = "The URL of the web resource."]
     #[serde(rename = "url")]
-    pub url: Option<String>,
+    pub url: String,
     #[doc = "The index of the first character of the URL citation in the message."]
     #[serde(rename = "start_index")]
-    pub start_index: Option<u64>,
+    pub start_index: u64,
     #[doc = "The index of the last character of the URL citation in the message."]
     #[serde(rename = "end_index")]
-    pub end_index: Option<u64>,
+    pub end_index: u64,
     #[doc = "The title of the web resource."]
     #[serde(rename = "title")]
-    pub title: Option<String>,
+    pub title: String,
 }
 #[doc = "The aggregated audio speeches usage details of the specific time bucket."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct UsageAudioSpeechesResult {
     #[doc = "The number of characters processed."]
     #[serde(rename = "characters")]
-    pub characters: Option<u64>,
+    pub characters: u64,
     #[doc = "The count of requests made to the model."]
     #[serde(rename = "num_model_requests")]
-    pub num_model_requests: Option<u64>,
+    pub num_model_requests: u64,
     #[doc = "When `group_by=project_id`, this field provides the project ID of the grouped usage result."]
     #[serde(rename = "project_id")]
     pub project_id: Option<String>,
@@ -12507,10 +12494,10 @@ pub struct UsageAudioSpeechesResult {
 pub struct UsageAudioTranscriptionsResult {
     #[doc = "The number of seconds processed."]
     #[serde(rename = "seconds")]
-    pub seconds: Option<u64>,
+    pub seconds: u64,
     #[doc = "The count of requests made to the model."]
     #[serde(rename = "num_model_requests")]
-    pub num_model_requests: Option<u64>,
+    pub num_model_requests: u64,
     #[doc = "When `group_by=project_id`, this field provides the project ID of the grouped usage result."]
     #[serde(rename = "project_id")]
     pub project_id: Option<String>,
@@ -12539,13 +12526,13 @@ pub struct UsageCodeInterpreterSessionsResult {
 pub struct UsageCompletionsResult {
     #[doc = "The aggregated number of text input tokens used, including cached tokens. For customers subscribe to scale tier, this includes scale tier tokens."]
     #[serde(rename = "input_tokens")]
-    pub input_tokens: Option<u64>,
+    pub input_tokens: u64,
     #[doc = "The aggregated number of text input tokens that has been cached from previous requests. For customers subscribe to scale tier, this includes scale tier tokens."]
     #[serde(rename = "input_cached_tokens")]
     pub input_cached_tokens: Option<u64>,
     #[doc = "The aggregated number of text output tokens used. For customers subscribe to scale tier, this includes scale tier tokens."]
     #[serde(rename = "output_tokens")]
-    pub output_tokens: Option<u64>,
+    pub output_tokens: u64,
     #[doc = "The aggregated number of audio input tokens used, including cached tokens."]
     #[serde(rename = "input_audio_tokens")]
     pub input_audio_tokens: Option<u64>,
@@ -12554,7 +12541,7 @@ pub struct UsageCompletionsResult {
     pub output_audio_tokens: Option<u64>,
     #[doc = "The count of requests made to the model."]
     #[serde(rename = "num_model_requests")]
-    pub num_model_requests: Option<u64>,
+    pub num_model_requests: u64,
     #[doc = "When `group_by=project_id`, this field provides the project ID of the grouped usage result."]
     #[serde(rename = "project_id")]
     pub project_id: Option<String>,
@@ -12576,10 +12563,10 @@ pub struct UsageCompletionsResult {
 pub struct UsageEmbeddingsResult {
     #[doc = "The aggregated number of input tokens used."]
     #[serde(rename = "input_tokens")]
-    pub input_tokens: Option<u64>,
+    pub input_tokens: u64,
     #[doc = "The count of requests made to the model."]
     #[serde(rename = "num_model_requests")]
-    pub num_model_requests: Option<u64>,
+    pub num_model_requests: u64,
     #[doc = "When `group_by=project_id`, this field provides the project ID of the grouped usage result."]
     #[serde(rename = "project_id")]
     pub project_id: Option<String>,
@@ -12598,10 +12585,10 @@ pub struct UsageEmbeddingsResult {
 pub struct UsageImagesResult {
     #[doc = "The number of images processed."]
     #[serde(rename = "images")]
-    pub images: Option<u64>,
+    pub images: u64,
     #[doc = "The count of requests made to the model."]
     #[serde(rename = "num_model_requests")]
-    pub num_model_requests: Option<u64>,
+    pub num_model_requests: u64,
     #[doc = "When `group_by=source`, this field provides the source of the grouped usage result, possible values are `image.generation`, `image.edit`, `image.variation`."]
     #[serde(rename = "source")]
     pub source: Option<String>,
@@ -12626,10 +12613,10 @@ pub struct UsageImagesResult {
 pub struct UsageModerationsResult {
     #[doc = "The aggregated number of input tokens used."]
     #[serde(rename = "input_tokens")]
-    pub input_tokens: Option<u64>,
+    pub input_tokens: u64,
     #[doc = "The count of requests made to the model."]
     #[serde(rename = "num_model_requests")]
-    pub num_model_requests: Option<u64>,
+    pub num_model_requests: u64,
     #[doc = "When `group_by=project_id`, this field provides the project ID of the grouped usage result."]
     #[serde(rename = "project_id")]
     pub project_id: Option<String>,
@@ -12646,13 +12633,13 @@ pub struct UsageModerationsResult {
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct UsageResponse {
     #[serde(rename = "object")]
-    pub object: Option<UsageResponseObject>,
+    pub object: UsageResponseObject,
     #[serde(rename = "data")]
-    pub data: Option<Vec<UsageTimeBucket>>,
+    pub data: Vec<UsageTimeBucket>,
     #[serde(rename = "has_more")]
-    pub has_more: Option<bool>,
+    pub has_more: bool,
     #[serde(rename = "next_page")]
-    pub next_page: Option<String>,
+    pub next_page: String,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub enum UsageResponseObject {
@@ -12662,13 +12649,13 @@ pub enum UsageResponseObject {
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct UsageTimeBucket {
     #[serde(rename = "object")]
-    pub object: Option<UsageTimeBucketObject>,
+    pub object: UsageTimeBucketObject,
     #[serde(rename = "start_time")]
-    pub start_time: Option<u64>,
+    pub start_time: u64,
     #[serde(rename = "end_time")]
-    pub end_time: Option<u64>,
+    pub end_time: u64,
     #[serde(rename = "result")]
-    pub result: Option<Vec<UsageTimeBucketResultItem>>,
+    pub result: Vec<UsageTimeBucketResultItem>,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub enum UsageTimeBucketObject {
@@ -12703,7 +12690,7 @@ pub enum UsageTimeBucketResultItem {
 pub struct UsageVectorStoresResult {
     #[doc = "The vector stores usage in bytes."]
     #[serde(rename = "usage_bytes")]
-    pub usage_bytes: Option<u64>,
+    pub usage_bytes: u64,
     #[doc = "When `group_by=project_id`, this field provides the project ID of the grouped usage result."]
     #[serde(rename = "project_id")]
     pub project_id: Option<String>,
@@ -12713,31 +12700,31 @@ pub struct UsageVectorStoresResult {
 pub struct User {
     #[doc = "The object type, which is always `organization.user`"]
     #[serde(rename = "object")]
-    pub object: Option<UserObject>,
+    pub object: UserObject,
     #[doc = "The identifier, which can be referenced in API endpoints"]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The name of the user"]
     #[serde(rename = "name")]
-    pub name: Option<String>,
+    pub name: String,
     #[doc = "The email address of the user"]
     #[serde(rename = "email")]
-    pub email: Option<String>,
+    pub email: String,
     #[doc = "`owner` or `reader`"]
     #[serde(rename = "role")]
-    pub role: Option<UserRole>,
+    pub role: UserRole,
     #[doc = "The Unix timestamp (in seconds) of when the user was added."]
     #[serde(rename = "added_at")]
-    pub added_at: Option<u64>,
+    pub added_at: u64,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct UserDeleteResponse {
     #[serde(rename = "object")]
-    pub object: Option<UserDeleteResponseObject>,
+    pub object: UserDeleteResponseObject,
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[serde(rename = "deleted")]
-    pub deleted: Option<bool>,
+    pub deleted: bool,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub enum UserDeleteResponseObject {
@@ -12747,15 +12734,15 @@ pub enum UserDeleteResponseObject {
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct UserListResponse {
     #[serde(rename = "object")]
-    pub object: Option<UserListResponseObject>,
+    pub object: UserListResponseObject,
     #[serde(rename = "data")]
-    pub data: Option<Vec<User>>,
+    pub data: Vec<User>,
     #[serde(rename = "first_id")]
-    pub first_id: Option<String>,
+    pub first_id: String,
     #[serde(rename = "last_id")]
-    pub last_id: Option<String>,
+    pub last_id: String,
     #[serde(rename = "has_more")]
-    pub has_more: Option<bool>,
+    pub has_more: bool,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub enum UserListResponseObject {
@@ -12780,7 +12767,7 @@ pub enum UserRole {
 pub struct UserRoleUpdateRequest {
     #[doc = "`owner` or `reader`"]
     #[serde(rename = "role")]
-    pub role: Option<UserRoleUpdateRequestRole>,
+    pub role: UserRoleUpdateRequestRole,
 }
 #[doc = "`owner` or `reader`"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -12795,10 +12782,10 @@ pub enum UserRoleUpdateRequestRole {
 pub struct VectorStoreExpirationAfter {
     #[doc = "Anchor timestamp after which the expiration policy applies. Supported anchors: `last_active_at`."]
     #[serde(rename = "anchor")]
-    pub anchor: Option<VectorStoreExpirationAfterAnchor>,
+    pub anchor: VectorStoreExpirationAfterAnchor,
     #[doc = "The number of days after the anchor time that the vector store will expire."]
     #[serde(rename = "days")]
-    pub days: Option<u64>,
+    pub days: u64,
 }
 #[doc = "Anchor timestamp after which the expiration policy applies. Supported anchors: `last_active_at`."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -12822,39 +12809,39 @@ pub enum VectorStoreFileAttributesItem {
 pub struct VectorStoreFileBatchObject {
     #[doc = "The identifier, which can be referenced in API endpoints."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The object type, which is always `vector_store.file_batch`."]
     #[serde(rename = "object")]
-    pub object: Option<VectorStoreFileBatchObjectObject>,
+    pub object: VectorStoreFileBatchObjectObject,
     #[doc = "The Unix timestamp (in seconds) for when the vector store files batch was created."]
     #[serde(rename = "created_at")]
-    pub created_at: Option<u64>,
+    pub created_at: u64,
     #[doc = "The ID of the [vector store](/docs/api-reference/vector-stores/object) that the [File](/docs/api-reference/files) is attached to."]
     #[serde(rename = "vector_store_id")]
-    pub vector_store_id: Option<String>,
+    pub vector_store_id: String,
     #[doc = "The status of the vector store files batch, which can be either `in_progress`, `completed`, `cancelled` or `failed`."]
     #[serde(rename = "status")]
-    pub status: Option<VectorStoreFileBatchObjectStatus>,
+    pub status: VectorStoreFileBatchObjectStatus,
     #[serde(rename = "file_counts")]
-    pub file_counts: Option<VectorStoreFileBatchObjectFileCounts>,
+    pub file_counts: VectorStoreFileBatchObjectFileCounts,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct VectorStoreFileBatchObjectFileCounts {
     #[doc = "The number of files that are currently being processed."]
     #[serde(rename = "in_progress")]
-    pub in_progress: Option<u64>,
+    pub in_progress: u64,
     #[doc = "The number of files that have been processed."]
     #[serde(rename = "completed")]
-    pub completed: Option<u64>,
+    pub completed: u64,
     #[doc = "The number of files that have failed to process."]
     #[serde(rename = "failed")]
-    pub failed: Option<u64>,
+    pub failed: u64,
     #[doc = "The number of files that where cancelled."]
     #[serde(rename = "cancelled")]
-    pub cancelled: Option<u64>,
+    pub cancelled: u64,
     #[doc = "The total number of files."]
     #[serde(rename = "total")]
-    pub total: Option<u64>,
+    pub total: u64,
 }
 #[doc = "The object type, which is always `vector_store.file_batch`."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -12879,13 +12866,13 @@ pub enum VectorStoreFileBatchObjectStatus {
 pub struct VectorStoreFileContentResponse {
     #[doc = "The object type, which is always `vector_store.file_content.page`"]
     #[serde(rename = "object")]
-    pub object: Option<VectorStoreFileContentResponseObject>,
+    pub object: VectorStoreFileContentResponseObject,
     #[doc = "Parsed content of the file."]
     #[serde(rename = "data")]
-    pub data: Option<Vec<VectorStoreFileContentResponseDataItem>>,
+    pub data: Vec<VectorStoreFileContentResponseDataItem>,
     #[doc = "Indicates if there are more content pages to fetch."]
     #[serde(rename = "has_more")]
-    pub has_more: Option<bool>,
+    pub has_more: bool,
     #[doc = "The token for the next page, if any."]
     #[serde(rename = "next_page")]
     pub next_page: Option<String>,
@@ -12910,22 +12897,22 @@ pub enum VectorStoreFileContentResponseObject {
 pub struct VectorStoreFileObject {
     #[doc = "The identifier, which can be referenced in API endpoints."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The object type, which is always `vector_store.file`."]
     #[serde(rename = "object")]
-    pub object: Option<VectorStoreFileObjectObject>,
+    pub object: VectorStoreFileObjectObject,
     #[doc = "The total vector store usage in bytes. Note that this may be different from the original file size."]
     #[serde(rename = "usage_bytes")]
-    pub usage_bytes: Option<u64>,
+    pub usage_bytes: u64,
     #[doc = "The Unix timestamp (in seconds) for when the vector store file was created."]
     #[serde(rename = "created_at")]
-    pub created_at: Option<u64>,
+    pub created_at: u64,
     #[doc = "The ID of the [vector store](/docs/api-reference/vector-stores/object) that the [File](/docs/api-reference/files) is attached to."]
     #[serde(rename = "vector_store_id")]
-    pub vector_store_id: Option<String>,
+    pub vector_store_id: String,
     #[doc = "The status of the vector store file, which can be either `in_progress`, `completed`, `cancelled`, or `failed`. The status `completed` indicates that the vector store file is ready for use."]
     #[serde(rename = "status")]
-    pub status: Option<VectorStoreFileObjectStatus>,
+    pub status: VectorStoreFileObjectStatus,
     #[doc = "The last error associated with this vector store file. Will be `null` if there are no errors."]
     #[serde(rename = "last_error")]
     pub last_error: Option<VectorStoreFileObjectLastError>,
@@ -12950,10 +12937,10 @@ pub enum VectorStoreFileObjectChunkingStrategy {
 pub struct VectorStoreFileObjectLastError {
     #[doc = "One of `server_error` or `rate_limit_exceeded`."]
     #[serde(rename = "code")]
-    pub code: Option<VectorStoreFileObjectLastErrorCode>,
+    pub code: VectorStoreFileObjectLastErrorCode,
     #[doc = "A human-readable description of the error."]
     #[serde(rename = "message")]
-    pub message: Option<String>,
+    pub message: String,
 }
 #[doc = "One of `server_error` or `rate_limit_exceeded`."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -12988,24 +12975,24 @@ pub enum VectorStoreFileObjectStatus {
 pub struct VectorStoreObject {
     #[doc = "The identifier, which can be referenced in API endpoints."]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The object type, which is always `vector_store`."]
     #[serde(rename = "object")]
-    pub object: Option<VectorStoreObjectObject>,
+    pub object: VectorStoreObjectObject,
     #[doc = "The Unix timestamp (in seconds) for when the vector store was created."]
     #[serde(rename = "created_at")]
-    pub created_at: Option<u64>,
+    pub created_at: u64,
     #[doc = "The name of the vector store."]
     #[serde(rename = "name")]
-    pub name: Option<String>,
+    pub name: String,
     #[doc = "The total number of bytes used by the files in the vector store."]
     #[serde(rename = "usage_bytes")]
-    pub usage_bytes: Option<u64>,
+    pub usage_bytes: u64,
     #[serde(rename = "file_counts")]
-    pub file_counts: Option<VectorStoreObjectFileCounts>,
+    pub file_counts: VectorStoreObjectFileCounts,
     #[doc = "The status of the vector store, which can be either `expired`, `in_progress`, or `completed`. A status of `completed` indicates that the vector store is ready for use."]
     #[serde(rename = "status")]
-    pub status: Option<VectorStoreObjectStatus>,
+    pub status: VectorStoreObjectStatus,
     #[serde(rename = "expires_after")]
     pub expires_after: Option<VectorStoreExpirationAfter>,
     #[doc = "The Unix timestamp (in seconds) for when the vector store will expire."]
@@ -13015,25 +13002,25 @@ pub struct VectorStoreObject {
     #[serde(rename = "last_active_at")]
     pub last_active_at: Option<u64>,
     #[serde(rename = "metadata")]
-    pub metadata: Option<Metadata>,
+    pub metadata: Metadata,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct VectorStoreObjectFileCounts {
     #[doc = "The number of files that are currently being processed."]
     #[serde(rename = "in_progress")]
-    pub in_progress: Option<u64>,
+    pub in_progress: u64,
     #[doc = "The number of files that have been successfully processed."]
     #[serde(rename = "completed")]
-    pub completed: Option<u64>,
+    pub completed: u64,
     #[doc = "The number of files that have failed to process."]
     #[serde(rename = "failed")]
-    pub failed: Option<u64>,
+    pub failed: u64,
     #[doc = "The number of files that were cancelled."]
     #[serde(rename = "cancelled")]
-    pub cancelled: Option<u64>,
+    pub cancelled: u64,
     #[doc = "The total number of files."]
     #[serde(rename = "total")]
-    pub total: Option<u64>,
+    pub total: u64,
 }
 #[doc = "The object type, which is always `vector_store`."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -13055,7 +13042,7 @@ pub enum VectorStoreObjectStatus {
 pub struct VectorStoreSearchRequest {
     #[doc = "A query string for a search"]
     #[serde(rename = "query")]
-    pub query: Option<VectorStoreSearchRequestQuery>,
+    pub query: VectorStoreSearchRequestQuery,
     #[doc = "Whether to rewrite the natural language query for vector search."]
     #[serde(rename = "rewrite_query")]
     pub rewrite_query: Option<bool>,
@@ -13104,10 +13091,10 @@ pub enum VectorStoreSearchRequestRankingOptionsRanker {
 pub struct VectorStoreSearchResultContentObject {
     #[doc = "The type of content."]
     #[serde(rename = "type")]
-    pub type_: Option<VectorStoreSearchResultContentObjectType>,
+    pub type_: VectorStoreSearchResultContentObjectType,
     #[doc = "The text content returned from search."]
     #[serde(rename = "text")]
-    pub text: Option<String>,
+    pub text: String,
 }
 #[doc = "The type of content."]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -13119,32 +13106,32 @@ pub enum VectorStoreSearchResultContentObjectType {
 pub struct VectorStoreSearchResultItem {
     #[doc = "The ID of the vector store file."]
     #[serde(rename = "file_id")]
-    pub file_id: Option<String>,
+    pub file_id: String,
     #[doc = "The name of the vector store file."]
     #[serde(rename = "filename")]
-    pub filename: Option<String>,
+    pub filename: String,
     #[doc = "The similarity score for the result."]
     #[serde(rename = "score")]
-    pub score: Option<f64>,
+    pub score: f64,
     #[serde(rename = "attributes")]
-    pub attributes: Option<VectorStoreFileAttributes>,
+    pub attributes: VectorStoreFileAttributes,
     #[doc = "Content chunks from the file."]
     #[serde(rename = "content")]
-    pub content: Option<Vec<VectorStoreSearchResultContentObject>>,
+    pub content: Vec<VectorStoreSearchResultContentObject>,
 }
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
 pub struct VectorStoreSearchResultsPage {
     #[doc = "The object type, which is always `vector_store.search_results.page`"]
     #[serde(rename = "object")]
-    pub object: Option<VectorStoreSearchResultsPageObject>,
+    pub object: VectorStoreSearchResultsPageObject,
     #[serde(rename = "search_query")]
-    pub search_query: Option<Vec<String>>,
+    pub search_query: Vec<String>,
     #[doc = "The list of search result items."]
     #[serde(rename = "data")]
-    pub data: Option<Vec<VectorStoreSearchResultItem>>,
+    pub data: Vec<VectorStoreSearchResultItem>,
     #[doc = "Indicates if there are more results to fetch."]
     #[serde(rename = "has_more")]
-    pub has_more: Option<bool>,
+    pub has_more: bool,
     #[doc = "The token for the next page, if any."]
     #[serde(rename = "next_page")]
     pub next_page: Option<String>,
@@ -13241,13 +13228,13 @@ pub enum WebSearchPreviewToolSearchContextSize {
 pub struct WebSearchToolCall {
     #[doc = "The unique ID of the web search tool call.\n"]
     #[serde(rename = "id")]
-    pub id: Option<String>,
+    pub id: String,
     #[doc = "The type of the web search tool call. Always `web_search_call`.\n"]
     #[serde(rename = "type")]
-    pub type_: Option<WebSearchToolCallType>,
+    pub type_: WebSearchToolCallType,
     #[doc = "The status of the web search tool call.\n"]
     #[serde(rename = "status")]
-    pub status: Option<WebSearchToolCallStatus>,
+    pub status: WebSearchToolCallStatus,
 }
 #[doc = "The status of the web search tool call.\n"]
 #[derive(Clone, Debug, serde :: Deserialize, serde :: Serialize)]
@@ -13267,601 +13254,5 @@ pub enum WebSearchToolCallType {
     #[serde(rename = "web_search_call")]
     WebSearchCall,
 }
-#[test]
-fn test_admin_api_key() {
-    serde_json :: from_str :: < AdminApiKey > ("{\"created_at\":1711471533,\"id\":\"key_abc\",\"last_used_at\":1711471534,\"name\":\"Main Admin Key\",\"object\":\"organization.admin_api_key\",\"owner\":{\"created_at\":1711471533,\"id\":\"user_123\",\"name\":\"John Doe\",\"object\":\"organization.user\",\"role\":\"owner\",\"type\":\"user\"},\"redacted_value\":\"sk-admin...xyz\"}") . unwrap () ;
-}
-#[test]
-fn test_assistant_object() {
-    serde_json :: from_str :: < AssistantObject > ("{\"created_at\":1698984975,\"description\":null,\"id\":\"asst_abc123\",\"instructions\":\"You are a personal math tutor. When asked a question, write and run Python code to answer the question.\",\"metadata\":{},\"model\":\"gpt-4o\",\"name\":\"Math Tutor\",\"object\":\"assistant\",\"response_format\":\"auto\",\"temperature\":1.0,\"tools\":[{\"type\":\"code_interpreter\"}],\"top_p\":1.0}") . unwrap () ;
-}
-#[test]
-fn test_audit_log() {
-    serde_json :: from_str :: < AuditLog > ("{\"actor\":{\"session\":{\"ip_address\":\"127.0.0.1\",\"user\":{\"email\":\"user@example.com\",\"id\":\"user-xxx\"},\"user_agent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36\"},\"type\":\"session\"},\"api_key.created\":{\"data\":{\"scopes\":[\"resource.operation\"]},\"id\":\"key_xxxx\"},\"effective_at\":1720804090,\"id\":\"req_xxx_20240101\",\"type\":\"api_key.created\"}") . unwrap () ;
-}
-#[test]
-fn test_batch_request_input() {
-    serde_json :: from_str :: < BatchRequestInput > ("{\"body\":{\"messages\":[{\"content\":\"You are a helpful assistant.\",\"role\":\"system\"},{\"content\":\"What is 2+2?\",\"role\":\"user\"}],\"model\":\"gpt-4o-mini\"},\"custom_id\":\"request-1\",\"method\":\"POST\",\"url\":\"/v1/chat/completions\"}") . unwrap () ;
-}
-#[test]
-fn test_batch_request_output() {
-    serde_json :: from_str :: < BatchRequestOutput > ("{\"custom_id\":\"request-2\",\"error\":null,\"id\":\"batch_req_wnaDys\",\"response\":{\"body\":{\"choices\":[{\"finish_reason\":\"stop\",\"index\":0,\"message\":{\"content\":\"2 + 2 equals 4.\",\"role\":\"assistant\"}}],\"created\":1711475054,\"id\":\"chatcmpl-9758Iw\",\"model\":\"gpt-4o-mini\",\"object\":\"chat.completion\",\"system_fingerprint\":null,\"usage\":{\"completion_tokens\":15,\"prompt_tokens\":24,\"total_tokens\":39}},\"request_id\":\"req_c187b3\",\"status_code\":200}}") . unwrap () ;
-}
-#[test]
-fn test_certificate() {
-    serde_json :: from_str :: < Certificate > ("{\"certificate_details\":{\"content\":\"-----BEGIN CERTIFICATE----- MIIGAjCCA...6znFlOW+ -----END CERTIFICATE-----\",\"expires_at\":12345678,\"valid_at\":1234567},\"created_at\":1234567,\"id\":\"cert_abc\",\"name\":\"My Certificate\",\"object\":\"certificate\"}") . unwrap () ;
-}
-#[test]
-fn test_chat_completion_list() {
-    serde_json :: from_str :: < ChatCompletionList > ("{\"data\":[{\"choices\":[{\"finish_reason\":\"stop\",\"index\":0,\"logprobs\":null,\"message\":{\"content\":\"Mind of circuits hum,  \\nLearning patterns in silence—  \\nFuture's quiet spark.\",\"function_call\":null,\"role\":\"assistant\",\"tool_calls\":null}}],\"created\":1738960610,\"frequency_penalty\":0.0,\"id\":\"chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2\",\"input_user\":null,\"metadata\":{},\"model\":\"gpt-4o-2024-08-06\",\"object\":\"chat.completion\",\"presence_penalty\":0.0,\"request_id\":\"req_ded8ab984ec4bf840f37566c1011c417\",\"response_format\":null,\"seed\":4944116822809979520,\"service_tier\":\"default\",\"system_fingerprint\":\"fp_50cad350e4\",\"temperature\":1.0,\"tool_choice\":null,\"tools\":null,\"top_p\":1.0,\"usage\":{\"completion_tokens\":18,\"prompt_tokens\":13,\"total_tokens\":31}}],\"first_id\":\"chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2\",\"has_more\":false,\"last_id\":\"chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2\",\"object\":\"list\"}") . unwrap () ;
-}
-#[test]
-fn test_chat_completion_message_list() {
-    serde_json :: from_str :: < ChatCompletionMessageList > ("{\"data\":[{\"content\":\"write a haiku about ai\",\"content_parts\":null,\"id\":\"chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2-0\",\"name\":null,\"role\":\"user\"}],\"first_id\":\"chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2-0\",\"has_more\":false,\"last_id\":\"chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2-0\",\"object\":\"list\"}") . unwrap () ;
-}
-#[test]
-fn test_costs_result() {
-    serde_json :: from_str :: < CostsResult > ("{\"amount\":{\"currency\":\"usd\",\"value\":0.06},\"line_item\":\"Image models\",\"object\":\"organization.costs.result\",\"project_id\":\"proj_abc\"}") . unwrap () ;
-}
-#[test]
-fn test_create_chat_completion_response() {
-    serde_json :: from_str :: < CreateChatCompletionResponse > ("{\"choices\":[{\"finish_reason\":\"stop\",\"index\":0,\"logprobs\":null,\"message\":{\"annotations\":[],\"content\":\"The image shows a wooden boardwalk path running through a lush green field or meadow. The sky is bright blue with some scattered clouds, giving the scene a serene and peaceful atmosphere. Trees and shrubs are visible in the background.\",\"refusal\":null,\"role\":\"assistant\"}}],\"created\":1741570283,\"id\":\"chatcmpl-B9MHDbslfkBeAs8l4bebGdFOJ6PeG\",\"model\":\"gpt-4o-2024-08-06\",\"object\":\"chat.completion\",\"service_tier\":\"default\",\"system_fingerprint\":\"fp_fc9f1d7035\",\"usage\":{\"completion_tokens\":46,\"completion_tokens_details\":{\"accepted_prediction_tokens\":0,\"audio_tokens\":0,\"reasoning_tokens\":0,\"rejected_prediction_tokens\":0},\"prompt_tokens\":1117,\"prompt_tokens_details\":{\"audio_tokens\":0,\"cached_tokens\":0},\"total_tokens\":1163}}") . unwrap () ;
-}
-#[test]
-fn test_create_completion_response() {
-    serde_json :: from_str :: < CreateCompletionResponse > ("{\"choices\":[{\"finish_reason\":\"length\",\"index\":0,\"logprobs\":null,\"text\":\"\\n\\nThis is indeed a test\"}],\"created\":1589478378,\"id\":\"cmpl-uqkvlQyYK7bGYrRHQ0eXlWi7\",\"model\":\"gpt-4-turbo\",\"object\":\"text_completion\",\"usage\":{\"completion_tokens\":7,\"prompt_tokens\":5,\"total_tokens\":12}}") . unwrap () ;
-}
-#[test]
-fn test_create_eval_completions_run_data_source() {
-    serde_json :: from_str :: < CreateEvalCompletionsRunDataSource > ("{\"data_source\":{\"input_messages\":{\"item_reference\":\"item.input\",\"type\":\"item_reference\"},\"model\":\"gpt-4o-mini-2024-07-18\",\"source\":{\"model\":\"gpt-4o-mini-2024-07-18\",\"type\":\"stored_completions\"},\"type\":\"completions\"},\"name\":\"gpt-4o-mini-2024-07-18\"}") . unwrap () ;
-}
-#[test]
-fn test_create_eval_custom_data_source_config() {
-    serde_json :: from_str :: < CreateEvalCustomDataSourceConfig > ("{\"include_sample_schema\":true,\"item_schema\":{\"properties\":{\"age\":{\"type\":\"integer\"},\"name\":{\"type\":\"string\"}},\"required\":[\"name\",\"age\"],\"type\":\"object\"},\"type\":\"custom\"}") . unwrap () ;
-}
-#[test]
-fn test_create_eval_jsonl_run_data_source() {
-    serde_json :: from_str :: < CreateEvalJsonlRunDataSource > ("{\"source\":{\"id\":\"file-9GYS6xbkWgWhmE7VoLUWFg\",\"type\":\"file_id\"},\"type\":\"jsonl\"}") . unwrap () ;
-}
-#[test]
-fn test_create_eval_label_model_grader() {
-    serde_json :: from_str :: < CreateEvalLabelModelGrader > ("{\"input\":[{\"content\":\"Classify the sentiment of the following statement as one of 'positive', 'neutral', or 'negative'\",\"role\":\"system\"},{\"content\":\"Statement: {{item.response}}\",\"role\":\"user\"}],\"labels\":[\"positive\",\"neutral\",\"negative\"],\"model\":\"gpt-4o-2024-08-06\",\"name\":\"Sentiment label grader\",\"passing_labels\":[\"positive\"],\"type\":\"label_model\"}") . unwrap () ;
-}
-#[test]
-fn test_create_eval_logs_data_source_config() {
-    serde_json::from_str::<CreateEvalLogsDataSourceConfig>(
-        "{\"metadata\":{\"use_case\":\"customer_support_agent\"},\"type\":\"logs\"}",
-    )
-    .unwrap();
-}
-#[test]
-fn test_create_eval_responses_run_data_source() {
-    serde_json :: from_str :: < CreateEvalResponsesRunDataSource > ("{\"data_source\":{\"input_messages\":{\"item_reference\":\"item.input\",\"type\":\"item_reference\"},\"model\":\"gpt-4o-mini-2024-07-18\",\"source\":{\"model\":\"gpt-4o-mini-2024-07-18\",\"type\":\"stored_completions\"},\"type\":\"completions\"},\"name\":\"gpt-4o-mini-2024-07-18\"}") . unwrap () ;
-}
-#[test]
-fn test_create_moderation_response() {
-    serde_json :: from_str :: < CreateModerationResponse > ("{\"id\":\"modr-0d9740456c391e43c445bf0f010940c7\",\"model\":\"omni-moderation-latest\",\"results\":[{\"categories\":{\"harassment\":true,\"harassment/threatening\":true,\"hate\":false,\"hate/threatening\":false,\"illicit\":false,\"illicit/violent\":false,\"self-harm\":false,\"self-harm/instructions\":false,\"self-harm/intent\":false,\"sexual\":false,\"sexual/minors\":false,\"violence\":true,\"violence/graphic\":true},\"category_applied_input_types\":{\"harassment\":[\"text\"],\"harassment/threatening\":[\"text\"],\"hate\":[\"text\"],\"hate/threatening\":[\"text\"],\"illicit\":[\"text\"],\"illicit/violent\":[\"text\"],\"self-harm\":[\"text\",\"image\"],\"self-harm/instructions\":[\"text\",\"image\"],\"self-harm/intent\":[\"text\",\"image\"],\"sexual\":[\"text\",\"image\"],\"sexual/minors\":[\"text\"],\"violence\":[\"text\",\"image\"],\"violence/graphic\":[\"text\",\"image\"]},\"category_scores\":{\"harassment\":0.8189693396524255,\"harassment/threatening\":0.804985420696006,\"hate\":0.007562942636942845,\"hate/threatening\":0.004208854591835476,\"illicit\":0.030535955153511665,\"illicit/violent\":0.008925306722380033,\"self-harm\":0.012598046106750154,\"self-harm/instructions\":0.0002293869201073356,\"self-harm/intent\":0.00023023930975076432,\"sexual\":1.573112165348997e-6,\"sexual/minors\":2.2125669095702613e-8,\"violence\":0.9999992735124786,\"violence/graphic\":0.843064871157054},\"flagged\":true}]}") . unwrap () ;
-}
-#[test]
-fn test_create_transcription_response_json() {
-    serde_json :: from_str :: < CreateTranscriptionResponseJson > ("{\"text\":\"Imagine the wildest idea that you've ever had, and you're curious about how it might scale to something that's a 100, a 1,000 times bigger. This is a place where you can get to do that.\"}") . unwrap () ;
-}
-#[test]
-fn test_eval_api_error() {
-    serde_json :: from_str :: < EvalApiError > ("{\"code\":\"internal_error\",\"message\":\"The eval run failed due to an internal error.\"}") . unwrap () ;
-}
-#[test]
-fn test_eval_label_model_grader() {
-    serde_json :: from_str :: < EvalLabelModelGrader > ("{\"input\":[{\"content\":{\"text\":\"Classify the sentiment of the following statement as one of positive, neutral, or negative\",\"type\":\"input_text\"},\"role\":\"system\",\"type\":\"message\"},{\"content\":{\"text\":\"Statement: {{item.response}}\",\"type\":\"input_text\"},\"role\":\"user\",\"type\":\"message\"}],\"labels\":[\"positive\",\"neutral\",\"negative\"],\"model\":\"gpt-4o-2024-08-06\",\"name\":\"First label grader\",\"passing_labels\":[\"positive\"],\"type\":\"label_model\"}") . unwrap () ;
-}
-#[test]
-fn test_eval_python_grader() {
-    serde_json :: from_str :: < EvalPythonGrader > ("{\"input\":\"{{sample.output_text}}\",\"name\":\"Example string check grader\",\"operation\":\"eq\",\"reference\":\"{{item.label}}\",\"type\":\"string_check\"}") . unwrap () ;
-}
-#[test]
-fn test_eval_responses_source() {
-    serde_json :: from_str :: < EvalResponsesSource > ("{\"allow_parallel_tool_calls\":true,\"model\":\"gpt-4o-mini-2024-07-18\",\"temperature\":0.7,\"top_p\":1.0,\"type\":\"responses\",\"users\":[\"user1\",\"user2\"]}") . unwrap () ;
-}
-#[test]
-fn test_eval_run() {
-    serde_json :: from_str :: < EvalRun > ("{\"created_at\":1743092069,\"data_source\":{\"input_messages\":{\"template\":[{\"content\":{\"text\":\"Categorize a given news headline into one of the following topics: Technology, Markets, World, Business, or Sports.\\n\\n# Steps\\n\\n1. Analyze the content of the news headline to understand its primary focus.\\n2. Extract the subject matter, identifying any key indicators or keywords.\\n3. Use the identified indicators to determine the most suitable category out of the five options: Technology, Markets, World, Business, or Sports.\\n4. Ensure only one category is selected per headline.\\n\\n# Output Format\\n\\nRespond with the chosen category as a single word. For instance: \\\"Technology\\\", \\\"Markets\\\", \\\"World\\\", \\\"Business\\\", or \\\"Sports\\\".\\n\\n# Examples\\n\\n**Input**: \\\"Apple Unveils New iPhone Model, Featuring Advanced AI Features\\\"  \\n**Output**: \\\"Technology\\\"\\n\\n**Input**: \\\"Global Stocks Mixed as Investors Await Central Bank Decisions\\\"  \\n**Output**: \\\"Markets\\\"\\n\\n**Input**: \\\"War in Ukraine: Latest Updates on Negotiation Status\\\"  \\n**Output**: \\\"World\\\"\\n\\n**Input**: \\\"Microsoft in Talks to Acquire Gaming Company for $2 Billion\\\"  \\n**Output**: \\\"Business\\\"\\n\\n**Input**: \\\"Manchester United Secures Win in Premier League Football Match\\\"  \\n**Output**: \\\"Sports\\\" \\n\\n# Notes\\n\\n- If the headline appears to fit into more than one category, choose the most dominant theme.\\n- Keywords or phrases such as \\\"stocks\\\", \\\"company acquisition\\\", \\\"match\\\", or technological brands can be good indicators for classification.\\n\",\"type\":\"input_text\"},\"role\":\"developer\",\"type\":\"message\"},{\"content\":{\"text\":\"{{item.input}}\",\"type\":\"input_text\"},\"role\":\"user\",\"type\":\"message\"}],\"type\":\"template\"},\"model\":\"gpt-4o-mini\",\"sampling_params\":{\"max_completions_tokens\":2048,\"seed\":42,\"temperature\":1.0,\"top_p\":1.0},\"source\":{\"content\":[{\"item\":{\"ground_truth\":\"Technology\",\"input\":\"Tech Company Launches Advanced Artificial Intelligence Platform\"}},{\"item\":{\"ground_truth\":\"Markets\",\"input\":\"Central Bank Increases Interest Rates Amid Inflation Concerns\"}},{\"item\":{\"ground_truth\":\"World\",\"input\":\"International Summit Addresses Climate Change Strategies\"}},{\"item\":{\"ground_truth\":\"Business\",\"input\":\"Major Retailer Reports Record-Breaking Holiday Sales\"}},{\"item\":{\"ground_truth\":\"Sports\",\"input\":\"National Team Qualifies for World Championship Finals\"}},{\"item\":{\"ground_truth\":\"Markets\",\"input\":\"Stock Markets Rally After Positive Economic Data Released\"}},{\"item\":{\"ground_truth\":\"Business\",\"input\":\"Global Manufacturer Announces Merger with Competitor\"}},{\"item\":{\"ground_truth\":\"Technology\",\"input\":\"Breakthrough in Renewable Energy Technology Unveiled\"}},{\"item\":{\"ground_truth\":\"World\",\"input\":\"World Leaders Sign Historic Climate Agreement\"}},{\"item\":{\"ground_truth\":\"Sports\",\"input\":\"Professional Athlete Sets New Record in Championship Event\"}},{\"item\":{\"ground_truth\":\"Business\",\"input\":\"Financial Institutions Adapt to New Regulatory Requirements\"}},{\"item\":{\"ground_truth\":\"Technology\",\"input\":\"Tech Conference Showcases Advances in Artificial Intelligence\"}},{\"item\":{\"ground_truth\":\"Markets\",\"input\":\"Global Markets Respond to Oil Price Fluctuations\"}},{\"item\":{\"ground_truth\":\"World\",\"input\":\"International Cooperation Strengthened Through New Treaty\"}},{\"item\":{\"ground_truth\":\"Sports\",\"input\":\"Sports League Announces Revised Schedule for Upcoming Season\"}}],\"type\":\"file_content\"},\"type\":\"completions\"},\"error\":null,\"eval_id\":\"eval_67e579652b548190aaa83ada4b125f47\",\"id\":\"evalrun_67e57965b480819094274e3a32235e4c\",\"metadata\":{},\"model\":\"gpt-4o-mini\",\"name\":\"gpt-4o-mini\",\"object\":\"eval.run\",\"per_model_usage\":null,\"per_testing_criteria_results\":null,\"report_url\":\"https://platform.openai.com/evaluations/eval_67e579652b548190aaa83ada4b125f47?run_id=evalrun_67e57965b480819094274e3a32235e4c\",\"result_counts\":{\"errored\":0,\"failed\":0,\"passed\":0,\"total\":0},\"status\":\"queued\"}") . unwrap () ;
-}
-#[test]
-fn test_eval_run_list() {
-    serde_json :: from_str :: < EvalRunList > ("{\"data\":[{\"created_at\":1740110812,\"error\":null,\"eval_id\":\"eval_67b7fa9a81a88190ab4aa417e397ea21\",\"id\":\"evalrun_67b7fbdad46c819092f6fe7a14189620\",\"metadata\":{\"test\":\"synthetics\"},\"model\":\"o3-mini\",\"name\":\"Academic Assistant\",\"object\":\"eval.run\",\"per_model_usage\":null,\"per_testing_criteria_results\":[{\"failed\":80,\"passed\":91,\"testing_criteria\":\"String check grader\"}],\"report_url\":\"https://platform.openai.com/evaluations/eval_67b7fa9a81a88190ab4aa417e397ea21?run_id=evalrun_67b7fbdad46c819092f6fe7a14189620\",\"result_counts\":{\"errored\":0,\"failed\":80,\"passed\":91,\"total\":171},\"run_data_source\":{\"datasource_reference\":null,\"max_completion_tokens\":null,\"model\":\"o3-mini\",\"seed\":null,\"temperature\":null,\"template_messages\":[{\"content\":{\"text\":\"You are a helpful assistant.\",\"type\":\"input_text\"},\"role\":\"system\",\"type\":\"message\"},{\"content\":{\"text\":\"Hello, can you help me with my homework?\",\"type\":\"input_text\"},\"role\":\"user\",\"type\":\"message\"}],\"top_p\":null,\"type\":\"completions\"},\"status\":\"completed\"}],\"first_id\":\"evalrun_67abd54d60ec8190832b46859da808f7\",\"has_more\":false,\"last_id\":\"evalrun_67abd54d60ec8190832b46859da808f7\",\"object\":\"list\"}") . unwrap () ;
-}
-#[test]
-fn test_eval_score_model_grader() {
-    serde_json :: from_str :: < EvalScoreModelGrader > ("{\"input\":\"{{sample.output_text}}\",\"name\":\"Example score model grader\",\"operation\":\"eq\",\"reference\":\"{{item.label}}\",\"type\":\"score_model\"}") . unwrap () ;
-}
-#[test]
-fn test_eval_stored_completions_source() {
-    serde_json :: from_str :: < EvalStoredCompletionsSource > ("{\"created_after\":1668124800,\"created_before\":1668124900,\"limit\":100,\"metadata\":{},\"model\":\"gpt-4o\",\"type\":\"stored_completions\"}") . unwrap () ;
-}
-#[test]
-fn test_eval_string_check_grader() {
-    serde_json :: from_str :: < EvalStringCheckGrader > ("{\"input\":\"{{sample.output_text}}\",\"name\":\"Example string check grader\",\"operation\":\"eq\",\"reference\":\"{{item.label}}\",\"type\":\"string_check\"}") . unwrap () ;
-}
-#[test]
-fn test_eval_text_similarity_grader() {
-    serde_json :: from_str :: < EvalTextSimilarityGrader > ("{\"evaluation_metric\":\"fuzzy_match\",\"input\":\"The graded text\",\"name\":\"example text similarity grader\",\"pass_threshold\":0.8,\"reference\":\"The reference text\",\"type\":\"text_similarity\"}") . unwrap () ;
-}
-#[test]
-fn test_fine_tune_chat_request_input() {
-    serde_json :: from_str :: < FineTuneChatRequestInput > ("{\"messages\":[{\"content\":\"What is the weather in San Francisco?\",\"role\":\"user\"},{\"role\":\"assistant\",\"tool_calls\":[{\"function\":{\"arguments\":\"{\\\"location\\\": \\\"San Francisco, USA\\\", \\\"format\\\": \\\"celsius\\\"}\",\"name\":\"get_current_weather\"},\"id\":\"call_id\",\"type\":\"function\"}]}],\"parallel_tool_calls\":false,\"tools\":[{\"function\":{\"description\":\"Get the current weather\",\"name\":\"get_current_weather\",\"parameters\":{\"properties\":{\"format\":{\"enum\":[\"celsius\",\"fahrenheit\"],\"type\":\"string\"},\"location\":{\"description\":\"The city and country, eg. San Francisco, USA\",\"type\":\"string\"}},\"required\":[\"location\",\"format\"],\"type\":\"object\"}},\"type\":\"function\"}]}") . unwrap () ;
-}
-#[test]
-fn test_fine_tune_completion_request_input() {
-    serde_json::from_str::<FineTuneCompletionRequestInput>(
-        "{\"completion\":\"4\",\"prompt\":\"What is the answer to 2+2\"}",
-    )
-    .unwrap();
-}
-#[test]
-fn test_fine_tune_preference_request_input() {
-    serde_json :: from_str :: < FineTunePreferenceRequestInput > ("{\"input\":{\"messages\":[{\"content\":\"What is the weather in San Francisco?\",\"role\":\"user\"}]},\"non_preferred_completion\":[{\"content\":\"The weather in San Francisco is 21 degrees Celsius.\",\"role\":\"assistant\"}],\"preferred_completion\":[{\"content\":\"The weather in San Francisco is 70 degrees Fahrenheit.\",\"role\":\"assistant\"}]}") . unwrap () ;
-}
-#[test]
-fn test_fine_tuning_checkpoint_permission() {
-    serde_json :: from_str :: < FineTuningCheckpointPermission > ("{\"created_at\":1712211699,\"id\":\"cp_zc4Q7MP6XxulcVzj4MZdwsAB\",\"object\":\"checkpoint.permission\",\"project_id\":\"proj_abGMw1llN8IrBb6SvvY5A1iH\"}") . unwrap () ;
-}
-#[test]
-fn test_fine_tuning_job() {
-    serde_json :: from_str :: < FineTuningJob > ("{\"created_at\":1692661014,\"estimated_finish\":0,\"fine_tuned_model\":\"ft:davinci-002:my-org:custom_suffix:7q8mpxmy\",\"finished_at\":1692661190,\"hyperparameters\":{\"batch_size\":1,\"learning_rate_multiplier\":1.0,\"n_epochs\":4},\"id\":\"ftjob-abc123\",\"integrations\":[],\"metadata\":{\"key\":\"value\"},\"method\":{\"supervised\":{\"hyperparameters\":{\"batch_size\":1,\"learning_rate_multiplier\":1.0,\"n_epochs\":4}},\"type\":\"supervised\"},\"model\":\"davinci-002\",\"object\":\"fine_tuning.job\",\"organization_id\":\"org-123\",\"result_files\":[\"file-abc123\"],\"seed\":0,\"status\":\"succeeded\",\"trained_tokens\":5768,\"training_file\":\"file-abc123\",\"validation_file\":null}") . unwrap () ;
-}
-#[test]
-fn test_fine_tuning_job_checkpoint() {
-    serde_json :: from_str :: < FineTuningJobCheckpoint > ("{\"created_at\":1712211699,\"fine_tuned_model_checkpoint\":\"ft:gpt-4o-mini-2024-07-18:my-org:custom_suffix:9ABel2dg:ckpt-step-88\",\"fine_tuning_job_id\":\"ftjob-fpbNQ3H1GrMehXRf8cO97xTN\",\"id\":\"ftckpt_qtZ5Gyk4BLq1SfLFWp3RtO3P\",\"metrics\":{\"full_valid_loss\":0.567,\"full_valid_mean_token_accuracy\":0.944,\"step\":88,\"train_loss\":0.478,\"train_mean_token_accuracy\":0.924,\"valid_loss\":10.112,\"valid_mean_token_accuracy\":0.145},\"object\":\"fine_tuning.job.checkpoint\",\"step_number\":88}") . unwrap () ;
-}
-#[test]
-fn test_images_response() {
-    serde_json :: from_str :: < ImagesResponse > ("{\"created\":1713833628,\"data\":[{\"b64_json\":\"...\"}],\"usage\":{\"input_tokens\":50,\"input_tokens_details\":{\"image_tokens\":40,\"text_tokens\":10},\"output_tokens\":50,\"total_tokens\":100}}") . unwrap () ;
-}
-#[test]
-fn test_invite() {
-    serde_json :: from_str :: < Invite > ("{\"accepted_at\":1711471533,\"email\":\"user@example.com\",\"expires_at\":1711471533,\"id\":\"invite-abc\",\"invited_at\":1711471533,\"object\":\"organization.invite\",\"projects\":[{\"id\":\"project-xyz\",\"role\":\"member\"}],\"role\":\"owner\",\"status\":\"accepted\"}") . unwrap () ;
-}
-#[test]
-fn test_list_assistants_response() {
-    serde_json :: from_str :: < ListAssistantsResponse > ("{\"data\":[{\"created_at\":1698982736,\"description\":null,\"id\":\"asst_abc123\",\"instructions\":\"You are a helpful assistant designed to make me better at coding!\",\"metadata\":{},\"model\":\"gpt-4o\",\"name\":\"Coding Tutor\",\"object\":\"assistant\",\"response_format\":\"auto\",\"temperature\":1.0,\"tool_resources\":{},\"tools\":[],\"top_p\":1.0},{\"created_at\":1698982718,\"description\":null,\"id\":\"asst_abc456\",\"instructions\":\"You are a helpful assistant designed to make me better at coding!\",\"metadata\":{},\"model\":\"gpt-4o\",\"name\":\"My Assistant\",\"object\":\"assistant\",\"response_format\":\"auto\",\"temperature\":1.0,\"tool_resources\":{},\"tools\":[],\"top_p\":1.0},{\"created_at\":1698982643,\"description\":null,\"id\":\"asst_abc789\",\"instructions\":null,\"metadata\":{},\"model\":\"gpt-4o\",\"name\":null,\"object\":\"assistant\",\"response_format\":\"auto\",\"temperature\":1.0,\"tool_resources\":{},\"tools\":[],\"top_p\":1.0}],\"first_id\":\"asst_abc123\",\"has_more\":false,\"last_id\":\"asst_abc789\",\"object\":\"list\"}") . unwrap () ;
-}
-#[test]
-fn test_message_delta_object() {
-    serde_json :: from_str :: < MessageDeltaObject > ("{\"delta\":{\"content\":[{\"index\":0,\"text\":{\"annotations\":[],\"value\":\"Hello\"},\"type\":\"text\"}]},\"id\":\"msg_123\",\"object\":\"thread.message.delta\"}") . unwrap () ;
-}
-#[test]
-fn test_message_object() {
-    serde_json :: from_str :: < MessageObject > ("{\"assistant_id\":\"asst_abc123\",\"attachments\":[],\"content\":[{\"text\":{\"annotations\":[],\"value\":\"Hi! How can I help you today?\"},\"type\":\"text\"}],\"created_at\":1698983503,\"id\":\"msg_abc123\",\"metadata\":{},\"object\":\"thread.message\",\"role\":\"assistant\",\"run_id\":\"run_abc123\",\"thread_id\":\"thread_abc123\"}") . unwrap () ;
-}
-#[test]
-fn test_model() {
-    serde_json :: from_str :: < Model > ("{\"created\":1686935002,\"id\":\"VAR_chat_model_id\",\"object\":\"model\",\"owned_by\":\"openai\"}") . unwrap () ;
-}
-#[test]
-fn test_project() {
-    serde_json :: from_str :: < Project > ("{\"archived_at\":null,\"created_at\":1711471533,\"id\":\"proj_abc\",\"name\":\"Project example\",\"object\":\"organization.project\",\"status\":\"active\"}") . unwrap () ;
-}
-#[test]
-fn test_project_api_key() {
-    serde_json :: from_str :: < ProjectApiKey > ("{\"created_at\":1711471533,\"id\":\"key_abc\",\"last_used_at\":1711471534,\"name\":\"My API Key\",\"object\":\"organization.project.api_key\",\"owner\":{\"type\":\"user\",\"user\":{\"created_at\":1711471533,\"email\":\"user@example.com\",\"id\":\"user_abc\",\"name\":\"First Last\",\"object\":\"organization.project.user\",\"role\":\"owner\"}},\"redacted_value\":\"sk-abc...def\"}") . unwrap () ;
-}
-#[test]
-fn test_project_rate_limit() {
-    serde_json :: from_str :: < ProjectRateLimit > ("{\"id\":\"rl_ada\",\"max_images_per_1_minute\":10,\"max_requests_per_1_minute\":600,\"max_tokens_per_1_minute\":150000,\"model\":\"ada\",\"object\":\"project.rate_limit\"}") . unwrap () ;
-}
-#[test]
-fn test_project_service_account() {
-    serde_json :: from_str :: < ProjectServiceAccount > ("{\"created_at\":1711471533,\"id\":\"svc_acct_abc\",\"name\":\"Service Account\",\"object\":\"organization.project.service_account\",\"role\":\"owner\"}") . unwrap () ;
-}
-#[test]
-fn test_project_user() {
-    serde_json :: from_str :: < ProjectUser > ("{\"added_at\":1711471533,\"email\":\"user@example.com\",\"id\":\"user_abc\",\"name\":\"First Last\",\"object\":\"organization.project.user\",\"role\":\"owner\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_client_event_conversation_item_create() {
-    serde_json :: from_str :: < RealtimeClientEventConversationItemCreate > ("{\"event_id\":\"event_345\",\"item\":{\"content\":[{\"text\":\"Hello, how are you?\",\"type\":\"input_text\"}],\"id\":\"msg_001\",\"role\":\"user\",\"type\":\"message\"},\"previous_item_id\":null,\"type\":\"conversation.item.create\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_client_event_conversation_item_delete() {
-    serde_json :: from_str :: < RealtimeClientEventConversationItemDelete > ("{\"event_id\":\"event_901\",\"item_id\":\"msg_003\",\"type\":\"conversation.item.delete\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_client_event_conversation_item_retrieve() {
-    serde_json :: from_str :: < RealtimeClientEventConversationItemRetrieve > ("{\"event_id\":\"event_901\",\"item_id\":\"msg_003\",\"type\":\"conversation.item.retrieve\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_client_event_conversation_item_truncate() {
-    serde_json :: from_str :: < RealtimeClientEventConversationItemTruncate > ("{\"audio_end_ms\":1500,\"content_index\":0,\"event_id\":\"event_678\",\"item_id\":\"msg_002\",\"type\":\"conversation.item.truncate\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_client_event_input_audio_buffer_append() {
-    serde_json :: from_str :: < RealtimeClientEventInputAudioBufferAppend > ("{\"audio\":\"Base64EncodedAudioData\",\"event_id\":\"event_456\",\"type\":\"input_audio_buffer.append\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_client_event_input_audio_buffer_clear() {
-    serde_json::from_str::<RealtimeClientEventInputAudioBufferClear>(
-        "{\"event_id\":\"event_012\",\"type\":\"input_audio_buffer.clear\"}",
-    )
-    .unwrap();
-}
-#[test]
-fn test_realtime_client_event_input_audio_buffer_commit() {
-    serde_json::from_str::<RealtimeClientEventInputAudioBufferCommit>(
-        "{\"event_id\":\"event_789\",\"type\":\"input_audio_buffer.commit\"}",
-    )
-    .unwrap();
-}
-#[test]
-fn test_realtime_client_event_output_audio_buffer_clear() {
-    serde_json::from_str::<RealtimeClientEventOutputAudioBufferClear>(
-        "{\"event_id\":\"optional_client_event_id\",\"type\":\"output_audio_buffer.clear\"}",
-    )
-    .unwrap();
-}
-#[test]
-fn test_realtime_client_event_response_cancel() {
-    serde_json::from_str::<RealtimeClientEventResponseCancel>(
-        "{\"event_id\":\"event_567\",\"type\":\"response.cancel\"}",
-    )
-    .unwrap();
-}
-#[test]
-fn test_realtime_client_event_response_create() {
-    serde_json :: from_str :: < RealtimeClientEventResponseCreate > ("{\"event_id\":\"event_234\",\"response\":{\"instructions\":\"Please assist the user.\",\"max_output_tokens\":1024,\"modalities\":[\"text\",\"audio\"],\"output_audio_format\":\"pcm16\",\"temperature\":0.8,\"tool_choice\":\"auto\",\"tools\":[{\"description\":\"Calculates the sum of two numbers.\",\"name\":\"calculate_sum\",\"parameters\":{\"properties\":{\"a\":{\"type\":\"number\"},\"b\":{\"type\":\"number\"}},\"required\":[\"a\",\"b\"],\"type\":\"object\"},\"type\":\"function\"}],\"voice\":\"sage\"},\"type\":\"response.create\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_client_event_session_update() {
-    serde_json :: from_str :: < RealtimeClientEventSessionUpdate > ("{\"event_id\":\"event_123\",\"session\":{\"input_audio_format\":\"pcm16\",\"input_audio_transcription\":{\"model\":\"whisper-1\"},\"instructions\":\"You are a helpful assistant.\",\"max_response_output_tokens\":\"inf\",\"modalities\":[\"text\",\"audio\"],\"output_audio_format\":\"pcm16\",\"temperature\":0.8,\"tool_choice\":\"auto\",\"tools\":[{\"description\":\"Get the current weather...\",\"name\":\"get_weather\",\"parameters\":{\"properties\":{\"location\":{\"type\":\"string\"}},\"required\":[\"location\"],\"type\":\"object\"},\"type\":\"function\"}],\"turn_detection\":{\"create_response\":true,\"prefix_padding_ms\":300,\"silence_duration_ms\":500,\"threshold\":0.5,\"type\":\"server_vad\"},\"voice\":\"sage\"},\"type\":\"session.update\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_server_event_conversation_created() {
-    serde_json :: from_str :: < RealtimeServerEventConversationCreated > ("{\"conversation\":{\"id\":\"conv_001\",\"object\":\"realtime.conversation\"},\"event_id\":\"event_9101\",\"type\":\"conversation.created\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_server_event_conversation_item_created() {
-    serde_json :: from_str :: < RealtimeServerEventConversationItemCreated > ("{\"event_id\":\"event_1920\",\"item\":{\"content\":[],\"id\":\"msg_003\",\"object\":\"realtime.item\",\"role\":\"user\",\"status\":\"completed\",\"type\":\"message\"},\"previous_item_id\":\"msg_002\",\"type\":\"conversation.item.created\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_server_event_conversation_item_deleted() {
-    serde_json :: from_str :: < RealtimeServerEventConversationItemDeleted > ("{\"event_id\":\"event_2728\",\"item_id\":\"msg_005\",\"type\":\"conversation.item.deleted\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_server_event_conversation_item_input_audio_transcription_completed() {
-    serde_json :: from_str :: < RealtimeServerEventConversationItemInputAudioTranscriptionCompleted > ("{\"content_index\":0,\"event_id\":\"event_2122\",\"item_id\":\"msg_003\",\"transcript\":\"Hello, how are you?\",\"type\":\"conversation.item.input_audio_transcription.completed\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_server_event_conversation_item_input_audio_transcription_delta() {
-    serde_json :: from_str :: < RealtimeServerEventConversationItemInputAudioTranscriptionDelta > ("{\"content_index\":0,\"delta\":\"Hello\",\"event_id\":\"event_001\",\"item_id\":\"item_001\",\"type\":\"conversation.item.input_audio_transcription.delta\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_server_event_conversation_item_input_audio_transcription_failed() {
-    serde_json :: from_str :: < RealtimeServerEventConversationItemInputAudioTranscriptionFailed > ("{\"content_index\":0,\"error\":{\"code\":\"audio_unintelligible\",\"message\":\"The audio could not be transcribed.\",\"param\":null,\"type\":\"transcription_error\"},\"event_id\":\"event_2324\",\"item_id\":\"msg_003\",\"type\":\"conversation.item.input_audio_transcription.failed\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_server_event_conversation_item_retrieved() {
-    serde_json :: from_str :: < RealtimeServerEventConversationItemRetrieved > ("{\"event_id\":\"event_1920\",\"item\":{\"content\":[{\"audio\":\"base64encodedaudio==\",\"transcript\":\"hello how are you\",\"type\":\"input_audio\"}],\"id\":\"msg_003\",\"object\":\"realtime.item\",\"role\":\"user\",\"status\":\"completed\",\"type\":\"message\"},\"previous_item_id\":\"msg_002\",\"type\":\"conversation.item.created\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_server_event_conversation_item_truncated() {
-    serde_json :: from_str :: < RealtimeServerEventConversationItemTruncated > ("{\"audio_end_ms\":1500,\"content_index\":0,\"event_id\":\"event_2526\",\"item_id\":\"msg_004\",\"type\":\"conversation.item.truncated\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_server_event_error() {
-    serde_json :: from_str :: < RealtimeServerEventError > ("{\"error\":{\"code\":\"invalid_event\",\"event_id\":\"event_567\",\"message\":\"The 'type' field is missing.\",\"param\":null,\"type\":\"invalid_request_error\"},\"event_id\":\"event_890\",\"type\":\"error\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_server_event_input_audio_buffer_cleared() {
-    serde_json::from_str::<RealtimeServerEventInputAudioBufferCleared>(
-        "{\"event_id\":\"event_1314\",\"type\":\"input_audio_buffer.cleared\"}",
-    )
-    .unwrap();
-}
-#[test]
-fn test_realtime_server_event_input_audio_buffer_committed() {
-    serde_json :: from_str :: < RealtimeServerEventInputAudioBufferCommitted > ("{\"event_id\":\"event_1121\",\"item_id\":\"msg_002\",\"previous_item_id\":\"msg_001\",\"type\":\"input_audio_buffer.committed\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_server_event_input_audio_buffer_speech_started() {
-    serde_json :: from_str :: < RealtimeServerEventInputAudioBufferSpeechStarted > ("{\"audio_start_ms\":1000,\"event_id\":\"event_1516\",\"item_id\":\"msg_003\",\"type\":\"input_audio_buffer.speech_started\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_server_event_input_audio_buffer_speech_stopped() {
-    serde_json :: from_str :: < RealtimeServerEventInputAudioBufferSpeechStopped > ("{\"audio_end_ms\":2000,\"event_id\":\"event_1718\",\"item_id\":\"msg_003\",\"type\":\"input_audio_buffer.speech_stopped\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_server_event_output_audio_buffer_cleared() {
-    serde_json :: from_str :: < RealtimeServerEventOutputAudioBufferCleared > ("{\"event_id\":\"event_abc123\",\"response_id\":\"resp_abc123\",\"type\":\"output_audio_buffer.cleared\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_server_event_output_audio_buffer_started() {
-    serde_json :: from_str :: < RealtimeServerEventOutputAudioBufferStarted > ("{\"event_id\":\"event_abc123\",\"response_id\":\"resp_abc123\",\"type\":\"output_audio_buffer.started\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_server_event_output_audio_buffer_stopped() {
-    serde_json :: from_str :: < RealtimeServerEventOutputAudioBufferStopped > ("{\"event_id\":\"event_abc123\",\"response_id\":\"resp_abc123\",\"type\":\"output_audio_buffer.stopped\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_server_event_rate_limits_updated() {
-    serde_json :: from_str :: < RealtimeServerEventRateLimitsUpdated > ("{\"event_id\":\"event_5758\",\"rate_limits\":[{\"limit\":1000,\"name\":\"requests\",\"remaining\":999,\"reset_seconds\":60},{\"limit\":50000,\"name\":\"tokens\",\"remaining\":49950,\"reset_seconds\":60}],\"type\":\"rate_limits.updated\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_server_event_response_audio_delta() {
-    serde_json :: from_str :: < RealtimeServerEventResponseAudioDelta > ("{\"content_index\":0,\"delta\":\"Base64EncodedAudioDelta\",\"event_id\":\"event_4950\",\"item_id\":\"msg_008\",\"output_index\":0,\"response_id\":\"resp_001\",\"type\":\"response.audio.delta\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_server_event_response_audio_done() {
-    serde_json :: from_str :: < RealtimeServerEventResponseAudioDone > ("{\"content_index\":0,\"event_id\":\"event_5152\",\"item_id\":\"msg_008\",\"output_index\":0,\"response_id\":\"resp_001\",\"type\":\"response.audio.done\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_server_event_response_audio_transcript_delta() {
-    serde_json :: from_str :: < RealtimeServerEventResponseAudioTranscriptDelta > ("{\"content_index\":0,\"delta\":\"Hello, how can I a\",\"event_id\":\"event_4546\",\"item_id\":\"msg_008\",\"output_index\":0,\"response_id\":\"resp_001\",\"type\":\"response.audio_transcript.delta\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_server_event_response_audio_transcript_done() {
-    serde_json :: from_str :: < RealtimeServerEventResponseAudioTranscriptDone > ("{\"content_index\":0,\"event_id\":\"event_4748\",\"item_id\":\"msg_008\",\"output_index\":0,\"response_id\":\"resp_001\",\"transcript\":\"Hello, how can I assist you today?\",\"type\":\"response.audio_transcript.done\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_server_event_response_content_part_added() {
-    serde_json :: from_str :: < RealtimeServerEventResponseContentPartAdded > ("{\"content_index\":0,\"event_id\":\"event_3738\",\"item_id\":\"msg_007\",\"output_index\":0,\"part\":{\"text\":\"\",\"type\":\"text\"},\"response_id\":\"resp_001\",\"type\":\"response.content_part.added\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_server_event_response_content_part_done() {
-    serde_json :: from_str :: < RealtimeServerEventResponseContentPartDone > ("{\"content_index\":0,\"event_id\":\"event_3940\",\"item_id\":\"msg_007\",\"output_index\":0,\"part\":{\"text\":\"Sure, I can help with that.\",\"type\":\"text\"},\"response_id\":\"resp_001\",\"type\":\"response.content_part.done\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_server_event_response_created() {
-    serde_json :: from_str :: < RealtimeServerEventResponseCreated > ("{\"event_id\":\"event_2930\",\"response\":{\"id\":\"resp_001\",\"object\":\"realtime.response\",\"output\":[],\"status\":\"in_progress\",\"status_details\":null,\"usage\":null},\"type\":\"response.created\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_server_event_response_done() {
-    serde_json :: from_str :: < RealtimeServerEventResponseDone > ("{\"event_id\":\"event_3132\",\"response\":{\"id\":\"resp_001\",\"object\":\"realtime.response\",\"output\":[{\"content\":[{\"text\":\"Sure, how can I assist you today?\",\"type\":\"text\"}],\"id\":\"msg_006\",\"object\":\"realtime.item\",\"role\":\"assistant\",\"status\":\"completed\",\"type\":\"message\"}],\"status\":\"completed\",\"status_details\":null,\"usage\":{\"input_token_details\":{\"audio_tokens\":8,\"cached_tokens\":384,\"cached_tokens_details\":{\"audio_tokens\":256,\"text_tokens\":128},\"text_tokens\":119},\"input_tokens\":127,\"output_token_details\":{\"audio_tokens\":112,\"text_tokens\":36},\"output_tokens\":148,\"total_tokens\":275}},\"type\":\"response.done\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_server_event_response_function_call_arguments_delta() {
-    serde_json :: from_str :: < RealtimeServerEventResponseFunctionCallArgumentsDelta > ("{\"call_id\":\"call_001\",\"delta\":\"{\\\"location\\\": \\\"San\\\"\",\"event_id\":\"event_5354\",\"item_id\":\"fc_001\",\"output_index\":0,\"response_id\":\"resp_002\",\"type\":\"response.function_call_arguments.delta\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_server_event_response_function_call_arguments_done() {
-    serde_json :: from_str :: < RealtimeServerEventResponseFunctionCallArgumentsDone > ("{\"arguments\":\"{\\\"location\\\": \\\"San Francisco\\\"}\",\"call_id\":\"call_001\",\"event_id\":\"event_5556\",\"item_id\":\"fc_001\",\"output_index\":0,\"response_id\":\"resp_002\",\"type\":\"response.function_call_arguments.done\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_server_event_response_output_item_added() {
-    serde_json :: from_str :: < RealtimeServerEventResponseOutputItemAdded > ("{\"event_id\":\"event_3334\",\"item\":{\"content\":[],\"id\":\"msg_007\",\"object\":\"realtime.item\",\"role\":\"assistant\",\"status\":\"in_progress\",\"type\":\"message\"},\"output_index\":0,\"response_id\":\"resp_001\",\"type\":\"response.output_item.added\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_server_event_response_output_item_done() {
-    serde_json :: from_str :: < RealtimeServerEventResponseOutputItemDone > ("{\"event_id\":\"event_3536\",\"item\":{\"content\":[{\"text\":\"Sure, I can help with that.\",\"type\":\"text\"}],\"id\":\"msg_007\",\"object\":\"realtime.item\",\"role\":\"assistant\",\"status\":\"completed\",\"type\":\"message\"},\"output_index\":0,\"response_id\":\"resp_001\",\"type\":\"response.output_item.done\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_server_event_response_text_delta() {
-    serde_json :: from_str :: < RealtimeServerEventResponseTextDelta > ("{\"content_index\":0,\"delta\":\"Sure, I can h\",\"event_id\":\"event_4142\",\"item_id\":\"msg_007\",\"output_index\":0,\"response_id\":\"resp_001\",\"type\":\"response.text.delta\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_server_event_response_text_done() {
-    serde_json :: from_str :: < RealtimeServerEventResponseTextDone > ("{\"content_index\":0,\"event_id\":\"event_4344\",\"item_id\":\"msg_007\",\"output_index\":0,\"response_id\":\"resp_001\",\"text\":\"Sure, I can help with that.\",\"type\":\"response.text.done\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_server_event_session_created() {
-    serde_json :: from_str :: < RealtimeServerEventSessionCreated > ("{\"event_id\":\"event_1234\",\"session\":{\"id\":\"sess_001\",\"input_audio_format\":\"pcm16\",\"input_audio_transcription\":null,\"instructions\":\"...model instructions here...\",\"max_response_output_tokens\":\"inf\",\"modalities\":[\"text\",\"audio\"],\"model\":\"gpt-4o-realtime-preview\",\"object\":\"realtime.session\",\"output_audio_format\":\"pcm16\",\"temperature\":0.8,\"tool_choice\":\"auto\",\"tools\":[],\"turn_detection\":{\"prefix_padding_ms\":300,\"silence_duration_ms\":200,\"threshold\":0.5,\"type\":\"server_vad\"},\"voice\":\"sage\"},\"type\":\"session.created\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_server_event_session_updated() {
-    serde_json :: from_str :: < RealtimeServerEventSessionUpdated > ("{\"event_id\":\"event_5678\",\"session\":{\"id\":\"sess_001\",\"input_audio_format\":\"pcm16\",\"input_audio_transcription\":{\"model\":\"whisper-1\"},\"instructions\":\"New instructions\",\"max_response_output_tokens\":200,\"modalities\":[\"text\"],\"model\":\"gpt-4o-realtime-preview\",\"object\":\"realtime.session\",\"output_audio_format\":\"pcm16\",\"temperature\":0.7,\"tool_choice\":\"none\",\"tools\":[],\"turn_detection\":null,\"voice\":\"sage\"},\"type\":\"session.updated\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_session_create_response() {
-    serde_json :: from_str :: < RealtimeSessionCreateResponse > ("{\"client_secret\":{\"expires_at\":1234567890,\"value\":\"ek_abc123\"},\"id\":\"sess_001\",\"input_audio_format\":\"pcm16\",\"input_audio_transcription\":{\"model\":\"whisper-1\"},\"instructions\":\"You are a friendly assistant.\",\"max_response_output_tokens\":200,\"modalities\":[\"audio\",\"text\"],\"model\":\"gpt-4o-realtime-preview\",\"object\":\"realtime.session\",\"output_audio_format\":\"pcm16\",\"temperature\":0.7,\"tool_choice\":\"none\",\"tools\":[],\"turn_detection\":null,\"voice\":\"alloy\"}") . unwrap () ;
-}
-#[test]
-fn test_realtime_transcription_session_create_response() {
-    serde_json :: from_str :: < RealtimeTranscriptionSessionCreateResponse > ("{\"client_secret\":null,\"expires_at\":1742188264,\"id\":\"sess_BBwZc7cFV3XizEyKGDCGL\",\"input_audio_format\":\"pcm16\",\"input_audio_transcription\":{\"language\":null,\"model\":\"gpt-4o-transcribe\",\"prompt\":\"\"},\"modalities\":[\"audio\",\"text\"],\"object\":\"realtime.transcription_session\",\"turn_detection\":{\"prefix_padding_ms\":300,\"silence_duration_ms\":200,\"threshold\":0.5,\"type\":\"server_vad\"}}") . unwrap () ;
-}
-#[test]
-fn test_response_audio_delta_event() {
-    serde_json :: from_str :: < ResponseAudioDeltaEvent > ("{\"delta\":\"base64encoded...\",\"response_id\":\"resp_123\",\"type\":\"response.audio.delta\"}") . unwrap () ;
-}
-#[test]
-fn test_response_audio_done_event() {
-    serde_json::from_str::<ResponseAudioDoneEvent>(
-        "{\"response_id\":\"resp-123\",\"type\":\"response.audio.done\"}",
-    )
-    .unwrap();
-}
-#[test]
-fn test_response_audio_transcript_delta_event() {
-    serde_json :: from_str :: < ResponseAudioTranscriptDeltaEvent > ("{\"delta\":\" ... partial transcript ... \",\"response_id\":\"resp_123\",\"type\":\"response.audio.transcript.delta\"}") . unwrap () ;
-}
-#[test]
-fn test_response_audio_transcript_done_event() {
-    serde_json::from_str::<ResponseAudioTranscriptDoneEvent>(
-        "{\"response_id\":\"resp_123\",\"type\":\"response.audio.transcript.done\"}",
-    )
-    .unwrap();
-}
-#[test]
-fn test_response_code_interpreter_call_code_delta_event() {
-    serde_json :: from_str :: < ResponseCodeInterpreterCallCodeDeltaEvent > ("{\"delta\":\"partial code\",\"output_index\":0,\"response_id\":\"resp-123\",\"type\":\"response.code_interpreter_call.code.delta\"}") . unwrap () ;
-}
-#[test]
-fn test_response_code_interpreter_call_code_done_event() {
-    serde_json :: from_str :: < ResponseCodeInterpreterCallCodeDoneEvent > ("{\"code\":\"console.log('done');\",\"output_index\":3,\"response_id\":\"resp-123\",\"type\":\"response.code_interpreter_call.code.done\"}") . unwrap () ;
-}
-#[test]
-fn test_response_code_interpreter_call_completed_event() {
-    serde_json :: from_str :: < ResponseCodeInterpreterCallCompletedEvent > ("{\"code_interpreter_call\":{},\"output_index\":5,\"response_id\":\"resp-123\",\"type\":\"response.code_interpreter_call.completed\"}") . unwrap () ;
-}
-#[test]
-fn test_response_code_interpreter_call_in_progress_event() {
-    serde_json :: from_str :: < ResponseCodeInterpreterCallInProgressEvent > ("{\"code_interpreter_call\":{},\"output_index\":0,\"response_id\":\"resp-123\",\"type\":\"response.code_interpreter_call.in.progress\"}") . unwrap () ;
-}
-#[test]
-fn test_response_code_interpreter_call_interpreting_event() {
-    serde_json :: from_str :: < ResponseCodeInterpreterCallInterpretingEvent > ("{\"code_interpreter_call\":{},\"output_index\":4,\"response_id\":\"resp-123\",\"type\":\"response.code_interpreter_call.interpreting\"}") . unwrap () ;
-}
-#[test]
-fn test_response_completed_event() {
-    serde_json :: from_str :: < ResponseCompletedEvent > ("{\"response\":{\"created_at\":1740855869,\"error\":null,\"id\":\"resp_123\",\"incomplete_details\":null,\"input\":[],\"instructions\":null,\"max_output_tokens\":null,\"metadata\":{},\"model\":\"gpt-4o-mini-2024-07-18\",\"object\":\"response\",\"output\":[{\"content\":[{\"annotations\":[],\"text\":\"In a shimmering forest under a sky full of stars, a lonely unicorn named Lila discovered a hidden pond that glowed with moonlight. Every night, she would leave sparkling, magical flowers by the water's edge, hoping to share her beauty with others. One enchanting evening, she woke to find a group of friendly animals gathered around, eager to be friends and share in her magic.\",\"type\":\"output_text\"}],\"id\":\"msg_123\",\"role\":\"assistant\",\"type\":\"message\"}],\"previous_response_id\":null,\"reasoning_effort\":null,\"status\":\"completed\",\"store\":false,\"temperature\":1,\"text\":{\"format\":{\"type\":\"text\"}},\"tool_choice\":\"auto\",\"tools\":[],\"top_p\":1,\"truncation\":\"disabled\",\"usage\":{\"input_tokens\":0,\"output_tokens\":0,\"output_tokens_details\":{\"reasoning_tokens\":0},\"total_tokens\":0},\"user\":null},\"type\":\"response.completed\"}") . unwrap () ;
-}
-#[test]
-fn test_response_content_part_added_event() {
-    serde_json :: from_str :: < ResponseContentPartAddedEvent > ("{\"content_index\":0,\"item_id\":\"msg_123\",\"output_index\":0,\"part\":{\"annotations\":[],\"text\":\"\",\"type\":\"output_text\"},\"type\":\"response.content_part.added\"}") . unwrap () ;
-}
-#[test]
-fn test_response_content_part_done_event() {
-    serde_json :: from_str :: < ResponseContentPartDoneEvent > ("{\"content_index\":0,\"item_id\":\"msg_123\",\"output_index\":0,\"part\":{\"annotations\":[],\"text\":\"In a shimmering forest under a sky full of stars, a lonely unicorn named Lila discovered a hidden pond that glowed with moonlight. Every night, she would leave sparkling, magical flowers by the water's edge, hoping to share her beauty with others. One enchanting evening, she woke to find a group of friendly animals gathered around, eager to be friends and share in her magic.\",\"type\":\"output_text\"},\"type\":\"response.content_part.done\"}") . unwrap () ;
-}
-#[test]
-fn test_response_created_event() {
-    serde_json :: from_str :: < ResponseCreatedEvent > ("{\"response\":{\"created_at\":1741487325,\"error\":null,\"id\":\"resp_67ccfcdd16748190a91872c75d38539e09e4d4aac714747c\",\"incomplete_details\":null,\"instructions\":null,\"max_output_tokens\":null,\"metadata\":{},\"model\":\"gpt-4o-2024-08-06\",\"object\":\"response\",\"output\":[],\"parallel_tool_calls\":true,\"previous_response_id\":null,\"reasoning\":{\"effort\":null,\"summary\":null},\"status\":\"in_progress\",\"store\":true,\"temperature\":1,\"text\":{\"format\":{\"type\":\"text\"}},\"tool_choice\":\"auto\",\"tools\":[],\"top_p\":1,\"truncation\":\"disabled\",\"usage\":null,\"user\":null},\"type\":\"response.created\"}") . unwrap () ;
-}
-#[test]
-fn test_response_error_event() {
-    serde_json :: from_str :: < ResponseErrorEvent > ("{\"code\":\"ERR_SOMETHING\",\"message\":\"Something went wrong\",\"param\":null,\"type\":\"error\"}") . unwrap () ;
-}
-#[test]
-fn test_response_failed_event() {
-    serde_json :: from_str :: < ResponseFailedEvent > ("{\"response\":{\"created_at\":1740855869,\"error\":{\"code\":\"server_error\",\"message\":\"The model failed to generate a response.\"},\"id\":\"resp_123\",\"incomplete_details\":null,\"instructions\":null,\"max_output_tokens\":null,\"metadata\":{},\"model\":\"gpt-4o-mini-2024-07-18\",\"object\":\"response\",\"output\":[],\"previous_response_id\":null,\"reasoning_effort\":null,\"status\":\"failed\",\"store\":false,\"temperature\":1,\"text\":{\"format\":{\"type\":\"text\"}},\"tool_choice\":\"auto\",\"tools\":[],\"top_p\":1,\"truncation\":\"disabled\",\"usage\":null,\"user\":null},\"type\":\"response.failed\"}") . unwrap () ;
-}
-#[test]
-fn test_response_function_call_arguments_delta_event() {
-    serde_json :: from_str :: < ResponseFunctionCallArgumentsDeltaEvent > ("{\"delta\":\"{ \\\"arg\\\":\",\"item_id\":\"item-abc\",\"output_index\":0,\"type\":\"response.function_call_arguments.delta\"}") . unwrap () ;
-}
-#[test]
-fn test_response_function_call_arguments_done_event() {
-    serde_json :: from_str :: < ResponseFunctionCallArgumentsDoneEvent > ("{\"arguments\":\"{ \\\"arg\\\": 123 }\",\"item_id\":\"item-abc\",\"output_index\":1,\"type\":\"response.function_call_arguments.done\"}") . unwrap () ;
-}
-#[test]
-fn test_response_in_progress_event() {
-    serde_json :: from_str :: < ResponseInProgressEvent > ("{\"response\":{\"created_at\":1741487325,\"error\":null,\"id\":\"resp_67ccfcdd16748190a91872c75d38539e09e4d4aac714747c\",\"incomplete_details\":null,\"instructions\":null,\"max_output_tokens\":null,\"metadata\":{},\"model\":\"gpt-4o-2024-08-06\",\"object\":\"response\",\"output\":[],\"parallel_tool_calls\":true,\"previous_response_id\":null,\"reasoning\":{\"effort\":null,\"summary\":null},\"status\":\"in_progress\",\"store\":true,\"temperature\":1,\"text\":{\"format\":{\"type\":\"text\"}},\"tool_choice\":\"auto\",\"tools\":[],\"top_p\":1,\"truncation\":\"disabled\",\"usage\":null,\"user\":null},\"type\":\"response.in_progress\"}") . unwrap () ;
-}
-#[test]
-fn test_response_incomplete_event() {
-    serde_json :: from_str :: < ResponseIncompleteEvent > ("{\"response\":{\"created_at\":1740855869,\"error\":null,\"id\":\"resp_123\",\"incomplete_details\":{\"reason\":\"max_tokens\"},\"instructions\":null,\"max_output_tokens\":null,\"metadata\":{},\"model\":\"gpt-4o-mini-2024-07-18\",\"object\":\"response\",\"output\":[],\"previous_response_id\":null,\"reasoning_effort\":null,\"status\":\"incomplete\",\"store\":false,\"temperature\":1,\"text\":{\"format\":{\"type\":\"text\"}},\"tool_choice\":\"auto\",\"tools\":[],\"top_p\":1,\"truncation\":\"disabled\",\"usage\":null,\"user\":null},\"type\":\"response.incomplete\"}") . unwrap () ;
-}
-#[test]
-fn test_response_item_list() {
-    serde_json :: from_str :: < ResponseItemList > ("{\"data\":[{\"content\":[{\"text\":\"Tell me a three sentence bedtime story about a unicorn.\",\"type\":\"input_text\"}],\"id\":\"msg_abc123\",\"role\":\"user\",\"type\":\"message\"}],\"first_id\":\"msg_abc123\",\"has_more\":false,\"last_id\":\"msg_abc123\",\"object\":\"list\"}") . unwrap () ;
-}
-#[test]
-fn test_response_output_item_added_event() {
-    serde_json :: from_str :: < ResponseOutputItemAddedEvent > ("{\"item\":{\"content\":[],\"id\":\"msg_123\",\"role\":\"assistant\",\"status\":\"in_progress\",\"type\":\"message\"},\"output_index\":0,\"type\":\"response.output_item.added\"}") . unwrap () ;
-}
-#[test]
-fn test_response_output_item_done_event() {
-    serde_json :: from_str :: < ResponseOutputItemDoneEvent > ("{\"item\":{\"content\":[{\"annotations\":[],\"text\":\"In a shimmering forest under a sky full of stars, a lonely unicorn named Lila discovered a hidden pond that glowed with moonlight. Every night, she would leave sparkling, magical flowers by the water's edge, hoping to share her beauty with others. One enchanting evening, she woke to find a group of friendly animals gathered around, eager to be friends and share in her magic.\",\"type\":\"output_text\"}],\"id\":\"msg_123\",\"role\":\"assistant\",\"status\":\"completed\",\"type\":\"message\"},\"output_index\":0,\"type\":\"response.output_item.done\"}") . unwrap () ;
-}
-#[test]
-fn test_response_reasoning_summary_part_added_event() {
-    serde_json :: from_str :: < ResponseReasoningSummaryPartAddedEvent > ("{\"item_id\":\"rs_6806bfca0b2481918a5748308061a2600d3ce51bdffd5476\",\"output_index\":0,\"part\":{\"text\":\"\",\"type\":\"summary_text\"},\"summary_index\":0,\"type\":\"response.reasoning_summary_part.added\"}") . unwrap () ;
-}
-#[test]
-fn test_response_reasoning_summary_part_done_event() {
-    serde_json :: from_str :: < ResponseReasoningSummaryPartDoneEvent > ("{\"item_id\":\"rs_6806bfca0b2481918a5748308061a2600d3ce51bdffd5476\",\"output_index\":0,\"part\":{\"text\":\"**Responding to a greeting**\\n\\nThe user just said, \\\"Hello!\\\" So, it seems I need to engage. I'll greet them back and offer help since they're looking to chat. I could say something like, \\\"Hello! How can I assist you today?\\\" That feels friendly and open. They didn't ask a specific question, so this approach will work well for starting a conversation. Let's see where it goes from there!\",\"type\":\"summary_text\"},\"summary_index\":0,\"type\":\"response.reasoning_summary_part.done\"}") . unwrap () ;
-}
-#[test]
-fn test_response_reasoning_summary_text_delta_event() {
-    serde_json :: from_str :: < ResponseReasoningSummaryTextDeltaEvent > ("{\"delta\":\"**Respond\",\"item_id\":\"rs_6806bfca0b2481918a5748308061a2600d3ce51bdffd5476\",\"output_index\":0,\"summary_index\":0,\"type\":\"response.reasoning_summary_text.delta\"}") . unwrap () ;
-}
-#[test]
-fn test_response_reasoning_summary_text_done_event() {
-    serde_json :: from_str :: < ResponseReasoningSummaryTextDoneEvent > ("{\"item_id\":\"rs_6806bfca0b2481918a5748308061a2600d3ce51bdffd5476\",\"output_index\":0,\"summary_index\":0,\"text\":\"**Responding to a greeting**\\n\\nThe user just said, \\\"Hello!\\\" So, it seems I need to engage. I'll greet them back and offer help since they're looking to chat. I could say something like, \\\"Hello! How can I assist you today?\\\" That feels friendly and open. They didn't ask a specific question, so this approach will work well for starting a conversation. Let's see where it goes from there!\",\"type\":\"response.reasoning_summary_text.done\"}") . unwrap () ;
-}
-#[test]
-fn test_response_refusal_delta_event() {
-    serde_json :: from_str :: < ResponseRefusalDeltaEvent > ("{\"content_index\":0,\"delta\":\"refusal text so far\",\"item_id\":\"msg_123\",\"output_index\":0,\"type\":\"response.refusal.delta\"}") . unwrap () ;
-}
-#[test]
-fn test_response_refusal_done_event() {
-    serde_json :: from_str :: < ResponseRefusalDoneEvent > ("{\"content_index\":2,\"item_id\":\"item-abc\",\"output_index\":1,\"refusal\":\"final refusal text\",\"type\":\"response.refusal.done\"}") . unwrap () ;
-}
-#[test]
-fn test_response_text_annotation_delta_event() {
-    serde_json :: from_str :: < ResponseTextAnnotationDeltaEvent > ("{\"annotation\":{\"file_id\":\"file-4wDz5b167pAf72nx1h9eiN\",\"filename\":\"dragons.pdf\",\"index\":390,\"type\":\"file_citation\"},\"annotation_index\":0,\"content_index\":0,\"item_id\":\"msg_abc123\",\"output_index\":1,\"type\":\"response.output_text.annotation.added\"}") . unwrap () ;
-}
-#[test]
-fn test_response_text_delta_event() {
-    serde_json :: from_str :: < ResponseTextDeltaEvent > ("{\"content_index\":0,\"delta\":\"In\",\"item_id\":\"msg_123\",\"output_index\":0,\"type\":\"response.output_text.delta\"}") . unwrap () ;
-}
-#[test]
-fn test_response_text_done_event() {
-    serde_json :: from_str :: < ResponseTextDoneEvent > ("{\"content_index\":0,\"item_id\":\"msg_123\",\"output_index\":0,\"text\":\"In a shimmering forest under a sky full of stars, a lonely unicorn named Lila discovered a hidden pond that glowed with moonlight. Every night, she would leave sparkling, magical flowers by the water's edge, hoping to share her beauty with others. One enchanting evening, she woke to find a group of friendly animals gathered around, eager to be friends and share in her magic.\",\"type\":\"response.output_text.done\"}") . unwrap () ;
-}
-#[test]
-fn test_run_object() {
-    serde_json :: from_str :: < RunObject > ("{\"assistant_id\":\"asst_abc123\",\"cancelled_at\":null,\"completed_at\":1699073498,\"created_at\":1698107661,\"expires_at\":null,\"failed_at\":null,\"id\":\"run_abc123\",\"incomplete_details\":null,\"instructions\":null,\"last_error\":null,\"max_completion_tokens\":1000,\"max_prompt_tokens\":1000,\"metadata\":{},\"model\":\"gpt-4o\",\"object\":\"thread.run\",\"parallel_tool_calls\":true,\"response_format\":\"auto\",\"started_at\":1699073476,\"status\":\"completed\",\"temperature\":1.0,\"thread_id\":\"thread_abc123\",\"tool_choice\":\"auto\",\"tools\":[{\"type\":\"file_search\"},{\"type\":\"code_interpreter\"}],\"top_p\":1.0,\"truncation_strategy\":{\"last_messages\":null,\"type\":\"auto\"},\"usage\":{\"completion_tokens\":456,\"prompt_tokens\":123,\"total_tokens\":579}}") . unwrap () ;
-}
-#[test]
-fn test_run_step_delta_object() {
-    serde_json :: from_str :: < RunStepDeltaObject > ("{\"delta\":{\"step_details\":{\"tool_calls\":[{\"code_interpreter\":{\"input\":\"\",\"outputs\":[]},\"id\":\"call_123\",\"index\":0,\"type\":\"code_interpreter\"}],\"type\":\"tool_calls\"}},\"id\":\"step_123\",\"object\":\"thread.run.step.delta\"}") . unwrap () ;
-}
-#[test]
-fn test_run_step_object() {
-    serde_json :: from_str :: < RunStepObject > ("{\"assistant_id\":\"asst_abc123\",\"cancelled_at\":null,\"completed_at\":1699063291,\"created_at\":1699063291,\"expired_at\":null,\"failed_at\":null,\"id\":\"step_abc123\",\"last_error\":null,\"object\":\"thread.run.step\",\"run_id\":\"run_abc123\",\"status\":\"completed\",\"step_details\":{\"message_creation\":{\"message_id\":\"msg_abc123\"},\"type\":\"message_creation\"},\"thread_id\":\"thread_abc123\",\"type\":\"message_creation\",\"usage\":{\"completion_tokens\":456,\"prompt_tokens\":123,\"total_tokens\":579}}") . unwrap () ;
-}
-#[test]
-fn test_thread_object() {
-    serde_json :: from_str :: < ThreadObject > ("{\"created_at\":1698107661,\"id\":\"thread_abc123\",\"metadata\":{},\"object\":\"thread\"}") . unwrap () ;
-}
-#[test]
-fn test_transcript_text_delta_event() {
-    serde_json::from_str::<TranscriptTextDeltaEvent>(
-        "{\"delta\":\" wonderful\",\"type\":\"transcript.text.delta\"}",
-    )
-    .unwrap();
-}
-#[test]
-fn test_transcript_text_done_event() {
-    serde_json :: from_str :: < TranscriptTextDoneEvent > ("{\"text\":\"I see skies of blue and clouds of white, the bright blessed days, the dark sacred nights, and I think to myself, what a wonderful world.\",\"type\":\"transcript.text.done\"}") . unwrap () ;
-}
-#[test]
-fn test_upload_part() {
-    serde_json :: from_str :: < UploadPart > ("{\"created_at\":1719186911,\"id\":\"part_def456\",\"object\":\"upload.part\",\"upload_id\":\"upload_abc123\"}") . unwrap () ;
-}
-#[test]
-fn test_usage_audio_speeches_result() {
-    serde_json :: from_str :: < UsageAudioSpeechesResult > ("{\"api_key_id\":\"key_abc\",\"characters\":45,\"model\":\"tts-1\",\"num_model_requests\":1,\"object\":\"organization.usage.audio_speeches.result\",\"project_id\":\"proj_abc\",\"user_id\":\"user-abc\"}") . unwrap () ;
-}
-#[test]
-fn test_usage_audio_transcriptions_result() {
-    serde_json :: from_str :: < UsageAudioTranscriptionsResult > ("{\"api_key_id\":\"key_abc\",\"model\":\"tts-1\",\"num_model_requests\":1,\"object\":\"organization.usage.audio_transcriptions.result\",\"project_id\":\"proj_abc\",\"seconds\":10,\"user_id\":\"user-abc\"}") . unwrap () ;
-}
-#[test]
-fn test_usage_code_interpreter_sessions_result() {
-    serde_json :: from_str :: < UsageCodeInterpreterSessionsResult > ("{\"num_sessions\":1,\"object\":\"organization.usage.code_interpreter_sessions.result\",\"project_id\":\"proj_abc\"}") . unwrap () ;
-}
-#[test]
-fn test_usage_completions_result() {
-    serde_json :: from_str :: < UsageCompletionsResult > ("{\"api_key_id\":\"key_abc\",\"batch\":false,\"input_audio_tokens\":300,\"input_cached_tokens\":4000,\"input_tokens\":5000,\"model\":\"gpt-4o-mini-2024-07-18\",\"num_model_requests\":5,\"object\":\"organization.usage.completions.result\",\"output_audio_tokens\":200,\"output_tokens\":1000,\"project_id\":\"proj_abc\",\"user_id\":\"user-abc\"}") . unwrap () ;
-}
-#[test]
-fn test_usage_embeddings_result() {
-    serde_json :: from_str :: < UsageEmbeddingsResult > ("{\"api_key_id\":\"key_abc\",\"input_tokens\":20,\"model\":\"text-embedding-ada-002-v2\",\"num_model_requests\":2,\"object\":\"organization.usage.embeddings.result\",\"project_id\":\"proj_abc\",\"user_id\":\"user-abc\"}") . unwrap () ;
-}
-#[test]
-fn test_usage_images_result() {
-    serde_json :: from_str :: < UsageImagesResult > ("{\"api_key_id\":\"key_abc\",\"images\":2,\"model\":\"dall-e-3\",\"num_model_requests\":2,\"object\":\"organization.usage.images.result\",\"project_id\":\"proj_abc\",\"size\":\"1024x1024\",\"source\":\"image.generation\",\"user_id\":\"user-abc\"}") . unwrap () ;
-}
-#[test]
-fn test_usage_moderations_result() {
-    serde_json :: from_str :: < UsageModerationsResult > ("{\"api_key_id\":\"key_abc\",\"input_tokens\":20,\"model\":\"text-moderation\",\"num_model_requests\":2,\"object\":\"organization.usage.moderations.result\",\"project_id\":\"proj_abc\",\"user_id\":\"user-abc\"}") . unwrap () ;
-}
-#[test]
-fn test_usage_vector_stores_result() {
-    serde_json :: from_str :: < UsageVectorStoresResult > ("{\"object\":\"organization.usage.vector_stores.result\",\"project_id\":\"proj_abc\",\"usage_bytes\":1024}") . unwrap () ;
-}
-#[test]
-fn test_user() {
-    serde_json :: from_str :: < User > ("{\"added_at\":1711471533,\"email\":\"user@example.com\",\"id\":\"user_abc\",\"name\":\"First Last\",\"object\":\"organization.user\",\"role\":\"owner\"}") . unwrap () ;
-}
-#[test]
-fn test_vector_store_file_batch_object() {
-    serde_json :: from_str :: < VectorStoreFileBatchObject > ("{\"created_at\":1698107661,\"file_counts\":{\"cancelled\":0,\"completed\":100,\"failed\":0,\"in_progress\":0,\"total\":100},\"id\":\"vsfb_123\",\"object\":\"vector_store.files_batch\",\"status\":\"completed\",\"vector_store_id\":\"vs_abc123\"}") . unwrap () ;
-}
-#[test]
-fn test_vector_store_file_object() {
-    serde_json :: from_str :: < VectorStoreFileObject > ("{\"chunking_strategy\":{\"static\":{\"chunk_overlap_tokens\":400,\"max_chunk_size_tokens\":800},\"type\":\"static\"},\"created_at\":1698107661,\"id\":\"file-abc123\",\"last_error\":null,\"object\":\"vector_store.file\",\"status\":\"completed\",\"usage_bytes\":1234,\"vector_store_id\":\"vs_abc123\"}") . unwrap () ;
-}
-#[test]
-fn test_vector_store_object() {
-    serde_json :: from_str :: < VectorStoreObject > ("{\"created_at\":1698107661,\"file_counts\":{\"cancelled\":0,\"completed\":100,\"failed\":0,\"in_progress\":0,\"total\":100},\"id\":\"vs_123\",\"last_active_at\":1698107661,\"last_used_at\":1698107661,\"name\":\"my_vector_store\",\"object\":\"vector_store\",\"status\":\"completed\",\"usage_bytes\":123456}") . unwrap () ;
-}
+#[cfg(test)]
+mod tests;

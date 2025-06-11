@@ -46,34 +46,6 @@ impl<'a> Generator<'a> {
         items.sort_unstable_by(|(a, _), (b, _)| a.cmp(b));
         Ok(items.into_iter().map(|(_, value)| value).collect())
     }
-
-    pub(super) fn tests(&self) -> Vec<syn::ItemFn> {
-        self.schemas
-            .iter()
-            .filter_map(|(name, schema)| {
-                if let Some(openapi::XOaiMeta {
-                    example: Some(example),
-                    ..
-                }) = &schema.x_oai_meta
-                {
-                    let ident = Self::to_ident_snake(&format!("test_{name}"));
-                    let type_ = Self::to_ident_pascal(name);
-                    let example = serde_json::to_string(
-                        &serde_json::from_str::<serde_json::Value>(example).ok()?,
-                    )
-                    .ok()?;
-                    Some(syn::parse_quote! {
-                        #[test]
-                        fn #ident() {
-                            serde_json::from_str::<#type_>(#example).unwrap();
-                        }
-                    })
-                } else {
-                    None
-                }
-            })
-            .collect()
-    }
 }
 
 impl Generator<'_> {
@@ -193,7 +165,6 @@ impl Generator<'_> {
             format: None | Some(openapi::Format::Int64),
             nullable: _,
             type_: Some(openapi::Type::Integer),
-            x_oai_meta: _,
         } = schema
         {
             // Integer
@@ -357,7 +328,6 @@ impl Generator<'_> {
             discriminator: _,
             nullable: _,
             one_of: Some(one_of),
-            x_oai_meta: _,
         } = schema
         {
             Some((description, one_of, "oneOf"))
@@ -440,7 +410,7 @@ impl Generator<'_> {
         if let Some((description, fields)) = if let openapi::Schema {
             all_of: Some(all_of),
             description,
-            required: _,
+            required: required_outer,
         } = schema
         {
             all_of
@@ -449,14 +419,22 @@ impl Generator<'_> {
                 .try_fold(Vec::new(), |mut fields, (i, all_of)| {
                     if let openapi::Schema {
                         properties: Some(properties),
-                        required: _,
+                        required: required_inner,
                         type_: Some(openapi::Type::Object),
-                        x_oai_meta: _,
                     } = all_of
                     {
                         for (property_name, property) in properties {
                             fields.push((
-                                either::Left((property_name, property)),
+                                either::Left((
+                                    property_name,
+                                    property,
+                                    required_outer
+                                        .as_ref()
+                                        .is_some_and(|required| required.contains(property_name))
+                                        || required_inner.as_ref().is_some_and(|required| {
+                                            required.contains(property_name)
+                                        }),
+                                )),
                                 vec![
                                     format!("properties[{property_name:?}]"),
                                     format!("allOf[{i}]"),
@@ -485,9 +463,8 @@ impl Generator<'_> {
             description,
             nullable: _,
             properties: Some(properties),
-            required: _,
+            required,
             type_: None | Some(openapi::Type::Object),
-            x_oai_meta: _,
             x_oai_type_label: None | Some(openapi::XOaiTypeLabel::Map),
         } = schema
         {
@@ -495,7 +472,13 @@ impl Generator<'_> {
                 .iter()
                 .map(|(property_name, property)| {
                     (
-                        either::Left((property_name, property)),
+                        either::Left((
+                            property_name,
+                            property,
+                            required
+                                .as_ref()
+                                .is_some_and(|required| required.contains(property_name)),
+                        )),
                         vec![format!("properties[{property_name:?}]")],
                     )
                 })
@@ -517,7 +500,7 @@ impl Generator<'_> {
             let fields = fields
                 .into_iter()
                 .filter(|(field, _)| {
-                    if let either::Left((property_name, _)) = field {
+                    if let either::Left((property_name, _, _)) = field {
                         Some(*property_name)
                             != discriminator.map(|discriminator| discriminator.property_name)
                     } else {
@@ -526,7 +509,7 @@ impl Generator<'_> {
                 })
                 .map(|(field, contexts)| {
                     field.either(
-                        |(property_name, property)| {
+                        |(property_name, property, required)| {
                             let ident = Self::to_ident_snake(property_name);
                             let description = Self::to_description(property.description.as_deref());
                             contexts
@@ -540,10 +523,18 @@ impl Generator<'_> {
                                     |output, context| output.context(context),
                                 )
                                 .map(|type_| {
-                                    quote::quote! {
-                                        #description
-                                        #[serde(rename = #property_name)]
-                                        pub #ident: Option<#type_>
+                                    if required && property.nullable != Some(true) {
+                                        quote::quote! {
+                                            #description
+                                            #[serde(rename = #property_name)]
+                                            pub #ident: #type_
+                                        }
+                                    } else {
+                                        quote::quote! {
+                                            #description
+                                            #[serde(rename = #property_name)]
+                                            pub #ident: Option<#type_>
+                                        }
                                     }
                                 })
                         },

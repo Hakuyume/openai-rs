@@ -31,7 +31,6 @@ pub fn strict(
                     "ref_",
                     "required",
                     "type_",
-                    "x_oai_meta",
                     "x_oai_type_label",
                     "x_stainless_const",
                 ];

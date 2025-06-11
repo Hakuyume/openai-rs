@@ -17,9 +17,15 @@ fn main() -> anyhow::Result<()> {
     for item in generator.types()? {
         println!("{}", item.to_token_stream());
     }
-    for item in generator.tests() {
-        println!("{}", item.to_token_stream());
-    }
+
+    println!(
+        "{}",
+        quote::quote! {
+            #[cfg(test)]
+            mod tests;
+        }
+        .to_token_stream()
+    );
 
     Ok(())
 }
