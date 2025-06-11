@@ -4,7 +4,6 @@ use crate::openapi;
 use anyhow::Context;
 use heck::{ToPascalCase, ToSnakeCase};
 use indexmap::IndexMap;
-use std::iter;
 use std::ptr;
 
 pub(super) struct Generator<'a> {
@@ -446,7 +445,7 @@ impl Generator<'_> {
         name: &str,
         inline: &mut Vec<(syn::Ident, syn::Item)>,
     ) -> anyhow::Result<Option<Node>> {
-        if let Some((description, all_of)) = if let openapi::Schema {
+        if let Some((description, fields)) = if let openapi::Schema {
             all_of: Some(all_of),
             description,
             required: _,
@@ -454,7 +453,8 @@ impl Generator<'_> {
         {
             all_of
                 .iter()
-                .map(|all_of| {
+                .enumerate()
+                .try_fold(Vec::new(), |mut fields, (i, all_of)| {
                     if let openapi::Schema {
                         properties: Some(properties),
                         required: _,
@@ -462,21 +462,59 @@ impl Generator<'_> {
                         x_oai_meta: _,
                     } = all_of
                     {
-                        Some(either::Left(properties))
-                    } else {
-                        if let openapi::Schema { ref_: Some(ref_) } = all_of {
-                            ref_.strip_prefix("#/components/schemas/")
-                        } else {
-                            None
+                        for (property_name, property) in properties {
+                            fields.push((
+                                either::Left((property_name, property)),
+                                vec![
+                                    format!("properties[{property_name:?}]"),
+                                    format!("allOf[{i}]"),
+                                ],
+                            ));
                         }
-                        .map(either::Right)
+                        Some(fields)
+                    } else if let Some(ref_) = if let openapi::Schema { ref_: Some(ref_) } = all_of
+                    {
+                        ref_.strip_prefix("#/components/schemas/")
+                    } else {
+                        None
+                    } {
+                        fields.push((
+                            either::Right(ref_),
+                            vec!["ref".to_owned(), format!("allOf[{i}]")],
+                        ));
+                        Some(fields)
+                    } else {
+                        None
                     }
                 })
-                .collect::<Option<Vec<_>>>()
-                .map(|all_of| (description, all_of))
+                .map(|fields| (description, fields))
+        } else if let openapi::Schema {
+            additional_properties: None | Some(openapi::AdditionalProperties::Bool(false)),
+            description,
+            nullable: _,
+            properties: Some(properties),
+            required: _,
+            type_: None | Some(openapi::Type::Object),
+            x_oai_meta: _,
+            x_oai_type_label: None | Some(openapi::XOaiTypeLabel::Map),
+        } = schema
+        {
+            let fields = properties
+                .iter()
+                .map(|(property_name, property)| {
+                    (
+                        either::Left((property_name, property)),
+                        vec![format!("properties[{property_name:?}]")],
+                    )
+                })
+                .collect();
+            Some((description, fields))
         } else {
             None
         } {
+            let description = Self::to_description(description.as_deref());
+            let derive = Self::derive();
+            let ident = Self::to_ident_pascal(name);
             let discriminator = self.discriminators.iter().find_map(|(_, discriminator)| {
                 discriminator
                     .mapping
@@ -484,31 +522,31 @@ impl Generator<'_> {
                     .any(|(s, _, _)| ptr::eq(*s, schema))
                     .then_some(discriminator)
             });
-            let description = Self::to_description(description.as_deref());
-            let derive = Self::derive();
-            let ident = Self::to_ident_pascal(name);
-            let fields = all_of
+            let fields = fields
                 .into_iter()
-                .flat_map(|all_of| {
-                    all_of.map_either(
-                        |properties| properties.iter().map(either::Left),
-                        |ref_| iter::once(either::Right(ref_)),
-                    )
+                .filter(|(field, _)| {
+                    if let either::Left((property_name, _)) = field {
+                        Some(*property_name)
+                            != discriminator.map(|discriminator| discriminator.property_name)
+                    } else {
+                        true
+                    }
                 })
-                .map(|all_of| {
-                    all_of.either(
+                .map(|(field, contexts)| {
+                    field.either(
                         |(property_name, property)| {
-                            // .iter()
-                            // .filter(|(property_name, _)| {
-                            //     Some(*property_name)
-                            //         != discriminator
-                            //             .map(|discriminator| discriminator.property_name)
-                            // })
-                            // .map(|| {
                             let ident = Self::to_ident_snake(property_name);
                             let description = Self::to_description(property.description.as_deref());
-                            self.to_type(property, &format!("{name}.{property_name}"), inline)
-                                .with_context(|| format!("properties[{property_name:?}]"))
+                            contexts
+                                .into_iter()
+                                .fold(
+                                    self.to_type(
+                                        property,
+                                        &format!("{name}.{property_name}"),
+                                        inline,
+                                    ),
+                                    |output, context| output.context(context),
+                                )
                                 .map(|type_| {
                                     quote::quote! {
                                         #description
@@ -529,55 +567,6 @@ impl Generator<'_> {
                     )
                 })
                 .collect::<Result<Vec<_>, _>>()?;
-            let value = syn::parse_quote! {
-                #description
-                #derive
-                pub struct #ident {
-                    #(#fields),*
-                }
-            };
-            Ok(Some(Node::Item { value, ident }))
-        } else if let openapi::Schema {
-            additional_properties: None | Some(openapi::AdditionalProperties::Bool(false)),
-            description,
-            nullable: _,
-            properties: Some(properties),
-            required: _,
-            type_: None | Some(openapi::Type::Object),
-            x_oai_meta: _,
-            x_oai_type_label: None | Some(openapi::XOaiTypeLabel::Map),
-        } = schema
-        {
-            let discriminator = self.discriminators.iter().find_map(|(_, discriminator)| {
-                discriminator
-                    .mapping
-                    .iter()
-                    .any(|(s, _, _)| ptr::eq(*s, schema))
-                    .then_some(discriminator)
-            });
-            let ident = Self::to_ident_pascal(name);
-            let fields = properties
-                .iter()
-                .filter(|(property_name, _)| {
-                    Some(*property_name)
-                        != discriminator.map(|discriminator| discriminator.property_name)
-                })
-                .map(|(property_name, property)| {
-                    let ident = Self::to_ident_snake(property_name);
-                    let description = Self::to_description(property.description.as_deref());
-                    self.to_type(property, &format!("{name}.{property_name}"), inline)
-                        .with_context(|| format!("properties[{property_name:?}]"))
-                        .map(|type_| {
-                            quote::quote! {
-                                #description
-                                #[serde(rename = #property_name)]
-                                pub #ident: Option<#type_>
-                            }
-                        })
-                })
-                .collect::<Result<Vec<_>, _>>()?;
-            let description = Self::to_description(description.as_deref());
-            let derive = Self::derive();
             let value = syn::parse_quote! {
                 #description
                 #derive
