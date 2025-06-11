@@ -13267,604 +13267,601 @@ pub enum WebSearchToolCallType {
     #[serde(rename = "web_search_call")]
     WebSearchCall,
 }
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn test_admin_api_key() {
-        serde_json :: from_str :: < super :: AdminApiKey > ("{\"created_at\":1711471533,\"id\":\"key_abc\",\"last_used_at\":1711471534,\"name\":\"Main Admin Key\",\"object\":\"organization.admin_api_key\",\"owner\":{\"created_at\":1711471533,\"id\":\"user_123\",\"name\":\"John Doe\",\"object\":\"organization.user\",\"role\":\"owner\",\"type\":\"user\"},\"redacted_value\":\"sk-admin...xyz\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_assistant_object() {
-        serde_json :: from_str :: < super :: AssistantObject > ("{\"created_at\":1698984975,\"description\":null,\"id\":\"asst_abc123\",\"instructions\":\"You are a personal math tutor. When asked a question, write and run Python code to answer the question.\",\"metadata\":{},\"model\":\"gpt-4o\",\"name\":\"Math Tutor\",\"object\":\"assistant\",\"response_format\":\"auto\",\"temperature\":1.0,\"tools\":[{\"type\":\"code_interpreter\"}],\"top_p\":1.0}") . unwrap () ;
-    }
-    #[test]
-    fn test_audit_log() {
-        serde_json :: from_str :: < super :: AuditLog > ("{\"actor\":{\"session\":{\"ip_address\":\"127.0.0.1\",\"user\":{\"email\":\"user@example.com\",\"id\":\"user-xxx\"},\"user_agent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36\"},\"type\":\"session\"},\"api_key.created\":{\"data\":{\"scopes\":[\"resource.operation\"]},\"id\":\"key_xxxx\"},\"effective_at\":1720804090,\"id\":\"req_xxx_20240101\",\"type\":\"api_key.created\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_batch_request_input() {
-        serde_json :: from_str :: < super :: BatchRequestInput > ("{\"body\":{\"messages\":[{\"content\":\"You are a helpful assistant.\",\"role\":\"system\"},{\"content\":\"What is 2+2?\",\"role\":\"user\"}],\"model\":\"gpt-4o-mini\"},\"custom_id\":\"request-1\",\"method\":\"POST\",\"url\":\"/v1/chat/completions\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_batch_request_output() {
-        serde_json :: from_str :: < super :: BatchRequestOutput > ("{\"custom_id\":\"request-2\",\"error\":null,\"id\":\"batch_req_wnaDys\",\"response\":{\"body\":{\"choices\":[{\"finish_reason\":\"stop\",\"index\":0,\"message\":{\"content\":\"2 + 2 equals 4.\",\"role\":\"assistant\"}}],\"created\":1711475054,\"id\":\"chatcmpl-9758Iw\",\"model\":\"gpt-4o-mini\",\"object\":\"chat.completion\",\"system_fingerprint\":null,\"usage\":{\"completion_tokens\":15,\"prompt_tokens\":24,\"total_tokens\":39}},\"request_id\":\"req_c187b3\",\"status_code\":200}}") . unwrap () ;
-    }
-    #[test]
-    fn test_certificate() {
-        serde_json :: from_str :: < super :: Certificate > ("{\"certificate_details\":{\"content\":\"-----BEGIN CERTIFICATE----- MIIGAjCCA...6znFlOW+ -----END CERTIFICATE-----\",\"expires_at\":12345678,\"valid_at\":1234567},\"created_at\":1234567,\"id\":\"cert_abc\",\"name\":\"My Certificate\",\"object\":\"certificate\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_chat_completion_list() {
-        serde_json :: from_str :: < super :: ChatCompletionList > ("{\"data\":[{\"choices\":[{\"finish_reason\":\"stop\",\"index\":0,\"logprobs\":null,\"message\":{\"content\":\"Mind of circuits hum,  \\nLearning patterns in silence—  \\nFuture's quiet spark.\",\"function_call\":null,\"role\":\"assistant\",\"tool_calls\":null}}],\"created\":1738960610,\"frequency_penalty\":0.0,\"id\":\"chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2\",\"input_user\":null,\"metadata\":{},\"model\":\"gpt-4o-2024-08-06\",\"object\":\"chat.completion\",\"presence_penalty\":0.0,\"request_id\":\"req_ded8ab984ec4bf840f37566c1011c417\",\"response_format\":null,\"seed\":4944116822809979520,\"service_tier\":\"default\",\"system_fingerprint\":\"fp_50cad350e4\",\"temperature\":1.0,\"tool_choice\":null,\"tools\":null,\"top_p\":1.0,\"usage\":{\"completion_tokens\":18,\"prompt_tokens\":13,\"total_tokens\":31}}],\"first_id\":\"chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2\",\"has_more\":false,\"last_id\":\"chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2\",\"object\":\"list\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_chat_completion_message_list() {
-        serde_json :: from_str :: < super :: ChatCompletionMessageList > ("{\"data\":[{\"content\":\"write a haiku about ai\",\"content_parts\":null,\"id\":\"chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2-0\",\"name\":null,\"role\":\"user\"}],\"first_id\":\"chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2-0\",\"has_more\":false,\"last_id\":\"chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2-0\",\"object\":\"list\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_costs_result() {
-        serde_json :: from_str :: < super :: CostsResult > ("{\"amount\":{\"currency\":\"usd\",\"value\":0.06},\"line_item\":\"Image models\",\"object\":\"organization.costs.result\",\"project_id\":\"proj_abc\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_create_chat_completion_response() {
-        serde_json :: from_str :: < super :: CreateChatCompletionResponse > ("{\"choices\":[{\"finish_reason\":\"stop\",\"index\":0,\"logprobs\":null,\"message\":{\"annotations\":[],\"content\":\"The image shows a wooden boardwalk path running through a lush green field or meadow. The sky is bright blue with some scattered clouds, giving the scene a serene and peaceful atmosphere. Trees and shrubs are visible in the background.\",\"refusal\":null,\"role\":\"assistant\"}}],\"created\":1741570283,\"id\":\"chatcmpl-B9MHDbslfkBeAs8l4bebGdFOJ6PeG\",\"model\":\"gpt-4o-2024-08-06\",\"object\":\"chat.completion\",\"service_tier\":\"default\",\"system_fingerprint\":\"fp_fc9f1d7035\",\"usage\":{\"completion_tokens\":46,\"completion_tokens_details\":{\"accepted_prediction_tokens\":0,\"audio_tokens\":0,\"reasoning_tokens\":0,\"rejected_prediction_tokens\":0},\"prompt_tokens\":1117,\"prompt_tokens_details\":{\"audio_tokens\":0,\"cached_tokens\":0},\"total_tokens\":1163}}") . unwrap () ;
-    }
-    #[test]
-    fn test_create_completion_response() {
-        serde_json :: from_str :: < super :: CreateCompletionResponse > ("{\"choices\":[{\"finish_reason\":\"length\",\"index\":0,\"logprobs\":null,\"text\":\"\\n\\nThis is indeed a test\"}],\"created\":1589478378,\"id\":\"cmpl-uqkvlQyYK7bGYrRHQ0eXlWi7\",\"model\":\"gpt-4-turbo\",\"object\":\"text_completion\",\"usage\":{\"completion_tokens\":7,\"prompt_tokens\":5,\"total_tokens\":12}}") . unwrap () ;
-    }
-    #[test]
-    fn test_create_eval_completions_run_data_source() {
-        serde_json :: from_str :: < super :: CreateEvalCompletionsRunDataSource > ("{\"data_source\":{\"input_messages\":{\"item_reference\":\"item.input\",\"type\":\"item_reference\"},\"model\":\"gpt-4o-mini-2024-07-18\",\"source\":{\"model\":\"gpt-4o-mini-2024-07-18\",\"type\":\"stored_completions\"},\"type\":\"completions\"},\"name\":\"gpt-4o-mini-2024-07-18\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_create_eval_custom_data_source_config() {
-        serde_json :: from_str :: < super :: CreateEvalCustomDataSourceConfig > ("{\"include_sample_schema\":true,\"item_schema\":{\"properties\":{\"age\":{\"type\":\"integer\"},\"name\":{\"type\":\"string\"}},\"required\":[\"name\",\"age\"],\"type\":\"object\"},\"type\":\"custom\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_create_eval_jsonl_run_data_source() {
-        serde_json :: from_str :: < super :: CreateEvalJsonlRunDataSource > ("{\"source\":{\"id\":\"file-9GYS6xbkWgWhmE7VoLUWFg\",\"type\":\"file_id\"},\"type\":\"jsonl\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_create_eval_label_model_grader() {
-        serde_json :: from_str :: < super :: CreateEvalLabelModelGrader > ("{\"input\":[{\"content\":\"Classify the sentiment of the following statement as one of 'positive', 'neutral', or 'negative'\",\"role\":\"system\"},{\"content\":\"Statement: {{item.response}}\",\"role\":\"user\"}],\"labels\":[\"positive\",\"neutral\",\"negative\"],\"model\":\"gpt-4o-2024-08-06\",\"name\":\"Sentiment label grader\",\"passing_labels\":[\"positive\"],\"type\":\"label_model\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_create_eval_logs_data_source_config() {
-        serde_json::from_str::<super::CreateEvalLogsDataSourceConfig>(
-            "{\"metadata\":{\"use_case\":\"customer_support_agent\"},\"type\":\"logs\"}",
-        )
-        .unwrap();
-    }
-    #[test]
-    fn test_create_eval_responses_run_data_source() {
-        serde_json :: from_str :: < super :: CreateEvalResponsesRunDataSource > ("{\"data_source\":{\"input_messages\":{\"item_reference\":\"item.input\",\"type\":\"item_reference\"},\"model\":\"gpt-4o-mini-2024-07-18\",\"source\":{\"model\":\"gpt-4o-mini-2024-07-18\",\"type\":\"stored_completions\"},\"type\":\"completions\"},\"name\":\"gpt-4o-mini-2024-07-18\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_create_moderation_response() {
-        serde_json :: from_str :: < super :: CreateModerationResponse > ("{\"id\":\"modr-0d9740456c391e43c445bf0f010940c7\",\"model\":\"omni-moderation-latest\",\"results\":[{\"categories\":{\"harassment\":true,\"harassment/threatening\":true,\"hate\":false,\"hate/threatening\":false,\"illicit\":false,\"illicit/violent\":false,\"self-harm\":false,\"self-harm/instructions\":false,\"self-harm/intent\":false,\"sexual\":false,\"sexual/minors\":false,\"violence\":true,\"violence/graphic\":true},\"category_applied_input_types\":{\"harassment\":[\"text\"],\"harassment/threatening\":[\"text\"],\"hate\":[\"text\"],\"hate/threatening\":[\"text\"],\"illicit\":[\"text\"],\"illicit/violent\":[\"text\"],\"self-harm\":[\"text\",\"image\"],\"self-harm/instructions\":[\"text\",\"image\"],\"self-harm/intent\":[\"text\",\"image\"],\"sexual\":[\"text\",\"image\"],\"sexual/minors\":[\"text\"],\"violence\":[\"text\",\"image\"],\"violence/graphic\":[\"text\",\"image\"]},\"category_scores\":{\"harassment\":0.8189693396524255,\"harassment/threatening\":0.804985420696006,\"hate\":0.007562942636942845,\"hate/threatening\":0.004208854591835476,\"illicit\":0.030535955153511665,\"illicit/violent\":0.008925306722380033,\"self-harm\":0.012598046106750154,\"self-harm/instructions\":0.0002293869201073356,\"self-harm/intent\":0.00023023930975076432,\"sexual\":1.573112165348997e-6,\"sexual/minors\":2.2125669095702613e-8,\"violence\":0.9999992735124786,\"violence/graphic\":0.843064871157054},\"flagged\":true}]}") . unwrap () ;
-    }
-    #[test]
-    fn test_create_transcription_response_json() {
-        serde_json :: from_str :: < super :: CreateTranscriptionResponseJson > ("{\"text\":\"Imagine the wildest idea that you've ever had, and you're curious about how it might scale to something that's a 100, a 1,000 times bigger. This is a place where you can get to do that.\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_eval_api_error() {
-        serde_json :: from_str :: < super :: EvalApiError > ("{\"code\":\"internal_error\",\"message\":\"The eval run failed due to an internal error.\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_eval_label_model_grader() {
-        serde_json :: from_str :: < super :: EvalLabelModelGrader > ("{\"input\":[{\"content\":{\"text\":\"Classify the sentiment of the following statement as one of positive, neutral, or negative\",\"type\":\"input_text\"},\"role\":\"system\",\"type\":\"message\"},{\"content\":{\"text\":\"Statement: {{item.response}}\",\"type\":\"input_text\"},\"role\":\"user\",\"type\":\"message\"}],\"labels\":[\"positive\",\"neutral\",\"negative\"],\"model\":\"gpt-4o-2024-08-06\",\"name\":\"First label grader\",\"passing_labels\":[\"positive\"],\"type\":\"label_model\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_eval_python_grader() {
-        serde_json :: from_str :: < super :: EvalPythonGrader > ("{\"input\":\"{{sample.output_text}}\",\"name\":\"Example string check grader\",\"operation\":\"eq\",\"reference\":\"{{item.label}}\",\"type\":\"string_check\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_eval_responses_source() {
-        serde_json :: from_str :: < super :: EvalResponsesSource > ("{\"allow_parallel_tool_calls\":true,\"model\":\"gpt-4o-mini-2024-07-18\",\"temperature\":0.7,\"top_p\":1.0,\"type\":\"responses\",\"users\":[\"user1\",\"user2\"]}") . unwrap () ;
-    }
-    #[test]
-    fn test_eval_run() {
-        serde_json :: from_str :: < super :: EvalRun > ("{\"created_at\":1743092069,\"data_source\":{\"input_messages\":{\"template\":[{\"content\":{\"text\":\"Categorize a given news headline into one of the following topics: Technology, Markets, World, Business, or Sports.\\n\\n# Steps\\n\\n1. Analyze the content of the news headline to understand its primary focus.\\n2. Extract the subject matter, identifying any key indicators or keywords.\\n3. Use the identified indicators to determine the most suitable category out of the five options: Technology, Markets, World, Business, or Sports.\\n4. Ensure only one category is selected per headline.\\n\\n# Output Format\\n\\nRespond with the chosen category as a single word. For instance: \\\"Technology\\\", \\\"Markets\\\", \\\"World\\\", \\\"Business\\\", or \\\"Sports\\\".\\n\\n# Examples\\n\\n**Input**: \\\"Apple Unveils New iPhone Model, Featuring Advanced AI Features\\\"  \\n**Output**: \\\"Technology\\\"\\n\\n**Input**: \\\"Global Stocks Mixed as Investors Await Central Bank Decisions\\\"  \\n**Output**: \\\"Markets\\\"\\n\\n**Input**: \\\"War in Ukraine: Latest Updates on Negotiation Status\\\"  \\n**Output**: \\\"World\\\"\\n\\n**Input**: \\\"Microsoft in Talks to Acquire Gaming Company for $2 Billion\\\"  \\n**Output**: \\\"Business\\\"\\n\\n**Input**: \\\"Manchester United Secures Win in Premier League Football Match\\\"  \\n**Output**: \\\"Sports\\\" \\n\\n# Notes\\n\\n- If the headline appears to fit into more than one category, choose the most dominant theme.\\n- Keywords or phrases such as \\\"stocks\\\", \\\"company acquisition\\\", \\\"match\\\", or technological brands can be good indicators for classification.\\n\",\"type\":\"input_text\"},\"role\":\"developer\",\"type\":\"message\"},{\"content\":{\"text\":\"{{item.input}}\",\"type\":\"input_text\"},\"role\":\"user\",\"type\":\"message\"}],\"type\":\"template\"},\"model\":\"gpt-4o-mini\",\"sampling_params\":{\"max_completions_tokens\":2048,\"seed\":42,\"temperature\":1.0,\"top_p\":1.0},\"source\":{\"content\":[{\"item\":{\"ground_truth\":\"Technology\",\"input\":\"Tech Company Launches Advanced Artificial Intelligence Platform\"}},{\"item\":{\"ground_truth\":\"Markets\",\"input\":\"Central Bank Increases Interest Rates Amid Inflation Concerns\"}},{\"item\":{\"ground_truth\":\"World\",\"input\":\"International Summit Addresses Climate Change Strategies\"}},{\"item\":{\"ground_truth\":\"Business\",\"input\":\"Major Retailer Reports Record-Breaking Holiday Sales\"}},{\"item\":{\"ground_truth\":\"Sports\",\"input\":\"National Team Qualifies for World Championship Finals\"}},{\"item\":{\"ground_truth\":\"Markets\",\"input\":\"Stock Markets Rally After Positive Economic Data Released\"}},{\"item\":{\"ground_truth\":\"Business\",\"input\":\"Global Manufacturer Announces Merger with Competitor\"}},{\"item\":{\"ground_truth\":\"Technology\",\"input\":\"Breakthrough in Renewable Energy Technology Unveiled\"}},{\"item\":{\"ground_truth\":\"World\",\"input\":\"World Leaders Sign Historic Climate Agreement\"}},{\"item\":{\"ground_truth\":\"Sports\",\"input\":\"Professional Athlete Sets New Record in Championship Event\"}},{\"item\":{\"ground_truth\":\"Business\",\"input\":\"Financial Institutions Adapt to New Regulatory Requirements\"}},{\"item\":{\"ground_truth\":\"Technology\",\"input\":\"Tech Conference Showcases Advances in Artificial Intelligence\"}},{\"item\":{\"ground_truth\":\"Markets\",\"input\":\"Global Markets Respond to Oil Price Fluctuations\"}},{\"item\":{\"ground_truth\":\"World\",\"input\":\"International Cooperation Strengthened Through New Treaty\"}},{\"item\":{\"ground_truth\":\"Sports\",\"input\":\"Sports League Announces Revised Schedule for Upcoming Season\"}}],\"type\":\"file_content\"},\"type\":\"completions\"},\"error\":null,\"eval_id\":\"eval_67e579652b548190aaa83ada4b125f47\",\"id\":\"evalrun_67e57965b480819094274e3a32235e4c\",\"metadata\":{},\"model\":\"gpt-4o-mini\",\"name\":\"gpt-4o-mini\",\"object\":\"eval.run\",\"per_model_usage\":null,\"per_testing_criteria_results\":null,\"report_url\":\"https://platform.openai.com/evaluations/eval_67e579652b548190aaa83ada4b125f47?run_id=evalrun_67e57965b480819094274e3a32235e4c\",\"result_counts\":{\"errored\":0,\"failed\":0,\"passed\":0,\"total\":0},\"status\":\"queued\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_eval_run_list() {
-        serde_json :: from_str :: < super :: EvalRunList > ("{\"data\":[{\"created_at\":1740110812,\"error\":null,\"eval_id\":\"eval_67b7fa9a81a88190ab4aa417e397ea21\",\"id\":\"evalrun_67b7fbdad46c819092f6fe7a14189620\",\"metadata\":{\"test\":\"synthetics\"},\"model\":\"o3-mini\",\"name\":\"Academic Assistant\",\"object\":\"eval.run\",\"per_model_usage\":null,\"per_testing_criteria_results\":[{\"failed\":80,\"passed\":91,\"testing_criteria\":\"String check grader\"}],\"report_url\":\"https://platform.openai.com/evaluations/eval_67b7fa9a81a88190ab4aa417e397ea21?run_id=evalrun_67b7fbdad46c819092f6fe7a14189620\",\"result_counts\":{\"errored\":0,\"failed\":80,\"passed\":91,\"total\":171},\"run_data_source\":{\"datasource_reference\":null,\"max_completion_tokens\":null,\"model\":\"o3-mini\",\"seed\":null,\"temperature\":null,\"template_messages\":[{\"content\":{\"text\":\"You are a helpful assistant.\",\"type\":\"input_text\"},\"role\":\"system\",\"type\":\"message\"},{\"content\":{\"text\":\"Hello, can you help me with my homework?\",\"type\":\"input_text\"},\"role\":\"user\",\"type\":\"message\"}],\"top_p\":null,\"type\":\"completions\"},\"status\":\"completed\"}],\"first_id\":\"evalrun_67abd54d60ec8190832b46859da808f7\",\"has_more\":false,\"last_id\":\"evalrun_67abd54d60ec8190832b46859da808f7\",\"object\":\"list\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_eval_score_model_grader() {
-        serde_json :: from_str :: < super :: EvalScoreModelGrader > ("{\"input\":\"{{sample.output_text}}\",\"name\":\"Example score model grader\",\"operation\":\"eq\",\"reference\":\"{{item.label}}\",\"type\":\"score_model\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_eval_stored_completions_source() {
-        serde_json :: from_str :: < super :: EvalStoredCompletionsSource > ("{\"created_after\":1668124800,\"created_before\":1668124900,\"limit\":100,\"metadata\":{},\"model\":\"gpt-4o\",\"type\":\"stored_completions\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_eval_string_check_grader() {
-        serde_json :: from_str :: < super :: EvalStringCheckGrader > ("{\"input\":\"{{sample.output_text}}\",\"name\":\"Example string check grader\",\"operation\":\"eq\",\"reference\":\"{{item.label}}\",\"type\":\"string_check\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_eval_text_similarity_grader() {
-        serde_json :: from_str :: < super :: EvalTextSimilarityGrader > ("{\"evaluation_metric\":\"fuzzy_match\",\"input\":\"The graded text\",\"name\":\"example text similarity grader\",\"pass_threshold\":0.8,\"reference\":\"The reference text\",\"type\":\"text_similarity\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_fine_tune_chat_request_input() {
-        serde_json :: from_str :: < super :: FineTuneChatRequestInput > ("{\"messages\":[{\"content\":\"What is the weather in San Francisco?\",\"role\":\"user\"},{\"role\":\"assistant\",\"tool_calls\":[{\"function\":{\"arguments\":\"{\\\"location\\\": \\\"San Francisco, USA\\\", \\\"format\\\": \\\"celsius\\\"}\",\"name\":\"get_current_weather\"},\"id\":\"call_id\",\"type\":\"function\"}]}],\"parallel_tool_calls\":false,\"tools\":[{\"function\":{\"description\":\"Get the current weather\",\"name\":\"get_current_weather\",\"parameters\":{\"properties\":{\"format\":{\"enum\":[\"celsius\",\"fahrenheit\"],\"type\":\"string\"},\"location\":{\"description\":\"The city and country, eg. San Francisco, USA\",\"type\":\"string\"}},\"required\":[\"location\",\"format\"],\"type\":\"object\"}},\"type\":\"function\"}]}") . unwrap () ;
-    }
-    #[test]
-    fn test_fine_tune_completion_request_input() {
-        serde_json::from_str::<super::FineTuneCompletionRequestInput>(
-            "{\"completion\":\"4\",\"prompt\":\"What is the answer to 2+2\"}",
-        )
-        .unwrap();
-    }
-    #[test]
-    fn test_fine_tune_preference_request_input() {
-        serde_json :: from_str :: < super :: FineTunePreferenceRequestInput > ("{\"input\":{\"messages\":[{\"content\":\"What is the weather in San Francisco?\",\"role\":\"user\"}]},\"non_preferred_completion\":[{\"content\":\"The weather in San Francisco is 21 degrees Celsius.\",\"role\":\"assistant\"}],\"preferred_completion\":[{\"content\":\"The weather in San Francisco is 70 degrees Fahrenheit.\",\"role\":\"assistant\"}]}") . unwrap () ;
-    }
-    #[test]
-    fn test_fine_tuning_checkpoint_permission() {
-        serde_json :: from_str :: < super :: FineTuningCheckpointPermission > ("{\"created_at\":1712211699,\"id\":\"cp_zc4Q7MP6XxulcVzj4MZdwsAB\",\"object\":\"checkpoint.permission\",\"project_id\":\"proj_abGMw1llN8IrBb6SvvY5A1iH\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_fine_tuning_job() {
-        serde_json :: from_str :: < super :: FineTuningJob > ("{\"created_at\":1692661014,\"estimated_finish\":0,\"fine_tuned_model\":\"ft:davinci-002:my-org:custom_suffix:7q8mpxmy\",\"finished_at\":1692661190,\"hyperparameters\":{\"batch_size\":1,\"learning_rate_multiplier\":1.0,\"n_epochs\":4},\"id\":\"ftjob-abc123\",\"integrations\":[],\"metadata\":{\"key\":\"value\"},\"method\":{\"supervised\":{\"hyperparameters\":{\"batch_size\":1,\"learning_rate_multiplier\":1.0,\"n_epochs\":4}},\"type\":\"supervised\"},\"model\":\"davinci-002\",\"object\":\"fine_tuning.job\",\"organization_id\":\"org-123\",\"result_files\":[\"file-abc123\"],\"seed\":0,\"status\":\"succeeded\",\"trained_tokens\":5768,\"training_file\":\"file-abc123\",\"validation_file\":null}") . unwrap () ;
-    }
-    #[test]
-    fn test_fine_tuning_job_checkpoint() {
-        serde_json :: from_str :: < super :: FineTuningJobCheckpoint > ("{\"created_at\":1712211699,\"fine_tuned_model_checkpoint\":\"ft:gpt-4o-mini-2024-07-18:my-org:custom_suffix:9ABel2dg:ckpt-step-88\",\"fine_tuning_job_id\":\"ftjob-fpbNQ3H1GrMehXRf8cO97xTN\",\"id\":\"ftckpt_qtZ5Gyk4BLq1SfLFWp3RtO3P\",\"metrics\":{\"full_valid_loss\":0.567,\"full_valid_mean_token_accuracy\":0.944,\"step\":88,\"train_loss\":0.478,\"train_mean_token_accuracy\":0.924,\"valid_loss\":10.112,\"valid_mean_token_accuracy\":0.145},\"object\":\"fine_tuning.job.checkpoint\",\"step_number\":88}") . unwrap () ;
-    }
-    #[test]
-    fn test_images_response() {
-        serde_json :: from_str :: < super :: ImagesResponse > ("{\"created\":1713833628,\"data\":[{\"b64_json\":\"...\"}],\"usage\":{\"input_tokens\":50,\"input_tokens_details\":{\"image_tokens\":40,\"text_tokens\":10},\"output_tokens\":50,\"total_tokens\":100}}") . unwrap () ;
-    }
-    #[test]
-    fn test_invite() {
-        serde_json :: from_str :: < super :: Invite > ("{\"accepted_at\":1711471533,\"email\":\"user@example.com\",\"expires_at\":1711471533,\"id\":\"invite-abc\",\"invited_at\":1711471533,\"object\":\"organization.invite\",\"projects\":[{\"id\":\"project-xyz\",\"role\":\"member\"}],\"role\":\"owner\",\"status\":\"accepted\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_list_assistants_response() {
-        serde_json :: from_str :: < super :: ListAssistantsResponse > ("{\"data\":[{\"created_at\":1698982736,\"description\":null,\"id\":\"asst_abc123\",\"instructions\":\"You are a helpful assistant designed to make me better at coding!\",\"metadata\":{},\"model\":\"gpt-4o\",\"name\":\"Coding Tutor\",\"object\":\"assistant\",\"response_format\":\"auto\",\"temperature\":1.0,\"tool_resources\":{},\"tools\":[],\"top_p\":1.0},{\"created_at\":1698982718,\"description\":null,\"id\":\"asst_abc456\",\"instructions\":\"You are a helpful assistant designed to make me better at coding!\",\"metadata\":{},\"model\":\"gpt-4o\",\"name\":\"My Assistant\",\"object\":\"assistant\",\"response_format\":\"auto\",\"temperature\":1.0,\"tool_resources\":{},\"tools\":[],\"top_p\":1.0},{\"created_at\":1698982643,\"description\":null,\"id\":\"asst_abc789\",\"instructions\":null,\"metadata\":{},\"model\":\"gpt-4o\",\"name\":null,\"object\":\"assistant\",\"response_format\":\"auto\",\"temperature\":1.0,\"tool_resources\":{},\"tools\":[],\"top_p\":1.0}],\"first_id\":\"asst_abc123\",\"has_more\":false,\"last_id\":\"asst_abc789\",\"object\":\"list\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_message_delta_object() {
-        serde_json :: from_str :: < super :: MessageDeltaObject > ("{\"delta\":{\"content\":[{\"index\":0,\"text\":{\"annotations\":[],\"value\":\"Hello\"},\"type\":\"text\"}]},\"id\":\"msg_123\",\"object\":\"thread.message.delta\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_message_object() {
-        serde_json :: from_str :: < super :: MessageObject > ("{\"assistant_id\":\"asst_abc123\",\"attachments\":[],\"content\":[{\"text\":{\"annotations\":[],\"value\":\"Hi! How can I help you today?\"},\"type\":\"text\"}],\"created_at\":1698983503,\"id\":\"msg_abc123\",\"metadata\":{},\"object\":\"thread.message\",\"role\":\"assistant\",\"run_id\":\"run_abc123\",\"thread_id\":\"thread_abc123\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_model() {
-        serde_json :: from_str :: < super :: Model > ("{\"created\":1686935002,\"id\":\"VAR_chat_model_id\",\"object\":\"model\",\"owned_by\":\"openai\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_project() {
-        serde_json :: from_str :: < super :: Project > ("{\"archived_at\":null,\"created_at\":1711471533,\"id\":\"proj_abc\",\"name\":\"Project example\",\"object\":\"organization.project\",\"status\":\"active\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_project_api_key() {
-        serde_json :: from_str :: < super :: ProjectApiKey > ("{\"created_at\":1711471533,\"id\":\"key_abc\",\"last_used_at\":1711471534,\"name\":\"My API Key\",\"object\":\"organization.project.api_key\",\"owner\":{\"type\":\"user\",\"user\":{\"created_at\":1711471533,\"email\":\"user@example.com\",\"id\":\"user_abc\",\"name\":\"First Last\",\"object\":\"organization.project.user\",\"role\":\"owner\"}},\"redacted_value\":\"sk-abc...def\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_project_rate_limit() {
-        serde_json :: from_str :: < super :: ProjectRateLimit > ("{\"id\":\"rl_ada\",\"max_images_per_1_minute\":10,\"max_requests_per_1_minute\":600,\"max_tokens_per_1_minute\":150000,\"model\":\"ada\",\"object\":\"project.rate_limit\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_project_service_account() {
-        serde_json :: from_str :: < super :: ProjectServiceAccount > ("{\"created_at\":1711471533,\"id\":\"svc_acct_abc\",\"name\":\"Service Account\",\"object\":\"organization.project.service_account\",\"role\":\"owner\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_project_user() {
-        serde_json :: from_str :: < super :: ProjectUser > ("{\"added_at\":1711471533,\"email\":\"user@example.com\",\"id\":\"user_abc\",\"name\":\"First Last\",\"object\":\"organization.project.user\",\"role\":\"owner\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_client_event_conversation_item_create() {
-        serde_json :: from_str :: < super :: RealtimeClientEventConversationItemCreate > ("{\"event_id\":\"event_345\",\"item\":{\"content\":[{\"text\":\"Hello, how are you?\",\"type\":\"input_text\"}],\"id\":\"msg_001\",\"role\":\"user\",\"type\":\"message\"},\"previous_item_id\":null,\"type\":\"conversation.item.create\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_client_event_conversation_item_delete() {
-        serde_json :: from_str :: < super :: RealtimeClientEventConversationItemDelete > ("{\"event_id\":\"event_901\",\"item_id\":\"msg_003\",\"type\":\"conversation.item.delete\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_client_event_conversation_item_retrieve() {
-        serde_json :: from_str :: < super :: RealtimeClientEventConversationItemRetrieve > ("{\"event_id\":\"event_901\",\"item_id\":\"msg_003\",\"type\":\"conversation.item.retrieve\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_client_event_conversation_item_truncate() {
-        serde_json :: from_str :: < super :: RealtimeClientEventConversationItemTruncate > ("{\"audio_end_ms\":1500,\"content_index\":0,\"event_id\":\"event_678\",\"item_id\":\"msg_002\",\"type\":\"conversation.item.truncate\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_client_event_input_audio_buffer_append() {
-        serde_json :: from_str :: < super :: RealtimeClientEventInputAudioBufferAppend > ("{\"audio\":\"Base64EncodedAudioData\",\"event_id\":\"event_456\",\"type\":\"input_audio_buffer.append\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_client_event_input_audio_buffer_clear() {
-        serde_json::from_str::<super::RealtimeClientEventInputAudioBufferClear>(
-            "{\"event_id\":\"event_012\",\"type\":\"input_audio_buffer.clear\"}",
-        )
-        .unwrap();
-    }
-    #[test]
-    fn test_realtime_client_event_input_audio_buffer_commit() {
-        serde_json::from_str::<super::RealtimeClientEventInputAudioBufferCommit>(
-            "{\"event_id\":\"event_789\",\"type\":\"input_audio_buffer.commit\"}",
-        )
-        .unwrap();
-    }
-    #[test]
-    fn test_realtime_client_event_output_audio_buffer_clear() {
-        serde_json::from_str::<super::RealtimeClientEventOutputAudioBufferClear>(
-            "{\"event_id\":\"optional_client_event_id\",\"type\":\"output_audio_buffer.clear\"}",
-        )
-        .unwrap();
-    }
-    #[test]
-    fn test_realtime_client_event_response_cancel() {
-        serde_json::from_str::<super::RealtimeClientEventResponseCancel>(
-            "{\"event_id\":\"event_567\",\"type\":\"response.cancel\"}",
-        )
-        .unwrap();
-    }
-    #[test]
-    fn test_realtime_client_event_response_create() {
-        serde_json :: from_str :: < super :: RealtimeClientEventResponseCreate > ("{\"event_id\":\"event_234\",\"response\":{\"instructions\":\"Please assist the user.\",\"max_output_tokens\":1024,\"modalities\":[\"text\",\"audio\"],\"output_audio_format\":\"pcm16\",\"temperature\":0.8,\"tool_choice\":\"auto\",\"tools\":[{\"description\":\"Calculates the sum of two numbers.\",\"name\":\"calculate_sum\",\"parameters\":{\"properties\":{\"a\":{\"type\":\"number\"},\"b\":{\"type\":\"number\"}},\"required\":[\"a\",\"b\"],\"type\":\"object\"},\"type\":\"function\"}],\"voice\":\"sage\"},\"type\":\"response.create\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_client_event_session_update() {
-        serde_json :: from_str :: < super :: RealtimeClientEventSessionUpdate > ("{\"event_id\":\"event_123\",\"session\":{\"input_audio_format\":\"pcm16\",\"input_audio_transcription\":{\"model\":\"whisper-1\"},\"instructions\":\"You are a helpful assistant.\",\"max_response_output_tokens\":\"inf\",\"modalities\":[\"text\",\"audio\"],\"output_audio_format\":\"pcm16\",\"temperature\":0.8,\"tool_choice\":\"auto\",\"tools\":[{\"description\":\"Get the current weather...\",\"name\":\"get_weather\",\"parameters\":{\"properties\":{\"location\":{\"type\":\"string\"}},\"required\":[\"location\"],\"type\":\"object\"},\"type\":\"function\"}],\"turn_detection\":{\"create_response\":true,\"prefix_padding_ms\":300,\"silence_duration_ms\":500,\"threshold\":0.5,\"type\":\"server_vad\"},\"voice\":\"sage\"},\"type\":\"session.update\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_server_event_conversation_created() {
-        serde_json :: from_str :: < super :: RealtimeServerEventConversationCreated > ("{\"conversation\":{\"id\":\"conv_001\",\"object\":\"realtime.conversation\"},\"event_id\":\"event_9101\",\"type\":\"conversation.created\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_server_event_conversation_item_created() {
-        serde_json :: from_str :: < super :: RealtimeServerEventConversationItemCreated > ("{\"event_id\":\"event_1920\",\"item\":{\"content\":[],\"id\":\"msg_003\",\"object\":\"realtime.item\",\"role\":\"user\",\"status\":\"completed\",\"type\":\"message\"},\"previous_item_id\":\"msg_002\",\"type\":\"conversation.item.created\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_server_event_conversation_item_deleted() {
-        serde_json :: from_str :: < super :: RealtimeServerEventConversationItemDeleted > ("{\"event_id\":\"event_2728\",\"item_id\":\"msg_005\",\"type\":\"conversation.item.deleted\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_server_event_conversation_item_input_audio_transcription_completed() {
-        serde_json :: from_str :: < super :: RealtimeServerEventConversationItemInputAudioTranscriptionCompleted > ("{\"content_index\":0,\"event_id\":\"event_2122\",\"item_id\":\"msg_003\",\"transcript\":\"Hello, how are you?\",\"type\":\"conversation.item.input_audio_transcription.completed\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_server_event_conversation_item_input_audio_transcription_delta() {
-        serde_json :: from_str :: < super :: RealtimeServerEventConversationItemInputAudioTranscriptionDelta > ("{\"content_index\":0,\"delta\":\"Hello\",\"event_id\":\"event_001\",\"item_id\":\"item_001\",\"type\":\"conversation.item.input_audio_transcription.delta\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_server_event_conversation_item_input_audio_transcription_failed() {
-        serde_json :: from_str :: < super :: RealtimeServerEventConversationItemInputAudioTranscriptionFailed > ("{\"content_index\":0,\"error\":{\"code\":\"audio_unintelligible\",\"message\":\"The audio could not be transcribed.\",\"param\":null,\"type\":\"transcription_error\"},\"event_id\":\"event_2324\",\"item_id\":\"msg_003\",\"type\":\"conversation.item.input_audio_transcription.failed\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_server_event_conversation_item_retrieved() {
-        serde_json :: from_str :: < super :: RealtimeServerEventConversationItemRetrieved > ("{\"event_id\":\"event_1920\",\"item\":{\"content\":[{\"audio\":\"base64encodedaudio==\",\"transcript\":\"hello how are you\",\"type\":\"input_audio\"}],\"id\":\"msg_003\",\"object\":\"realtime.item\",\"role\":\"user\",\"status\":\"completed\",\"type\":\"message\"},\"previous_item_id\":\"msg_002\",\"type\":\"conversation.item.created\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_server_event_conversation_item_truncated() {
-        serde_json :: from_str :: < super :: RealtimeServerEventConversationItemTruncated > ("{\"audio_end_ms\":1500,\"content_index\":0,\"event_id\":\"event_2526\",\"item_id\":\"msg_004\",\"type\":\"conversation.item.truncated\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_server_event_error() {
-        serde_json :: from_str :: < super :: RealtimeServerEventError > ("{\"error\":{\"code\":\"invalid_event\",\"event_id\":\"event_567\",\"message\":\"The 'type' field is missing.\",\"param\":null,\"type\":\"invalid_request_error\"},\"event_id\":\"event_890\",\"type\":\"error\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_server_event_input_audio_buffer_cleared() {
-        serde_json::from_str::<super::RealtimeServerEventInputAudioBufferCleared>(
-            "{\"event_id\":\"event_1314\",\"type\":\"input_audio_buffer.cleared\"}",
-        )
-        .unwrap();
-    }
-    #[test]
-    fn test_realtime_server_event_input_audio_buffer_committed() {
-        serde_json :: from_str :: < super :: RealtimeServerEventInputAudioBufferCommitted > ("{\"event_id\":\"event_1121\",\"item_id\":\"msg_002\",\"previous_item_id\":\"msg_001\",\"type\":\"input_audio_buffer.committed\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_server_event_input_audio_buffer_speech_started() {
-        serde_json :: from_str :: < super :: RealtimeServerEventInputAudioBufferSpeechStarted > ("{\"audio_start_ms\":1000,\"event_id\":\"event_1516\",\"item_id\":\"msg_003\",\"type\":\"input_audio_buffer.speech_started\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_server_event_input_audio_buffer_speech_stopped() {
-        serde_json :: from_str :: < super :: RealtimeServerEventInputAudioBufferSpeechStopped > ("{\"audio_end_ms\":2000,\"event_id\":\"event_1718\",\"item_id\":\"msg_003\",\"type\":\"input_audio_buffer.speech_stopped\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_server_event_output_audio_buffer_cleared() {
-        serde_json :: from_str :: < super :: RealtimeServerEventOutputAudioBufferCleared > ("{\"event_id\":\"event_abc123\",\"response_id\":\"resp_abc123\",\"type\":\"output_audio_buffer.cleared\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_server_event_output_audio_buffer_started() {
-        serde_json :: from_str :: < super :: RealtimeServerEventOutputAudioBufferStarted > ("{\"event_id\":\"event_abc123\",\"response_id\":\"resp_abc123\",\"type\":\"output_audio_buffer.started\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_server_event_output_audio_buffer_stopped() {
-        serde_json :: from_str :: < super :: RealtimeServerEventOutputAudioBufferStopped > ("{\"event_id\":\"event_abc123\",\"response_id\":\"resp_abc123\",\"type\":\"output_audio_buffer.stopped\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_server_event_rate_limits_updated() {
-        serde_json :: from_str :: < super :: RealtimeServerEventRateLimitsUpdated > ("{\"event_id\":\"event_5758\",\"rate_limits\":[{\"limit\":1000,\"name\":\"requests\",\"remaining\":999,\"reset_seconds\":60},{\"limit\":50000,\"name\":\"tokens\",\"remaining\":49950,\"reset_seconds\":60}],\"type\":\"rate_limits.updated\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_server_event_response_audio_delta() {
-        serde_json :: from_str :: < super :: RealtimeServerEventResponseAudioDelta > ("{\"content_index\":0,\"delta\":\"Base64EncodedAudioDelta\",\"event_id\":\"event_4950\",\"item_id\":\"msg_008\",\"output_index\":0,\"response_id\":\"resp_001\",\"type\":\"response.audio.delta\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_server_event_response_audio_done() {
-        serde_json :: from_str :: < super :: RealtimeServerEventResponseAudioDone > ("{\"content_index\":0,\"event_id\":\"event_5152\",\"item_id\":\"msg_008\",\"output_index\":0,\"response_id\":\"resp_001\",\"type\":\"response.audio.done\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_server_event_response_audio_transcript_delta() {
-        serde_json :: from_str :: < super :: RealtimeServerEventResponseAudioTranscriptDelta > ("{\"content_index\":0,\"delta\":\"Hello, how can I a\",\"event_id\":\"event_4546\",\"item_id\":\"msg_008\",\"output_index\":0,\"response_id\":\"resp_001\",\"type\":\"response.audio_transcript.delta\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_server_event_response_audio_transcript_done() {
-        serde_json :: from_str :: < super :: RealtimeServerEventResponseAudioTranscriptDone > ("{\"content_index\":0,\"event_id\":\"event_4748\",\"item_id\":\"msg_008\",\"output_index\":0,\"response_id\":\"resp_001\",\"transcript\":\"Hello, how can I assist you today?\",\"type\":\"response.audio_transcript.done\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_server_event_response_content_part_added() {
-        serde_json :: from_str :: < super :: RealtimeServerEventResponseContentPartAdded > ("{\"content_index\":0,\"event_id\":\"event_3738\",\"item_id\":\"msg_007\",\"output_index\":0,\"part\":{\"text\":\"\",\"type\":\"text\"},\"response_id\":\"resp_001\",\"type\":\"response.content_part.added\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_server_event_response_content_part_done() {
-        serde_json :: from_str :: < super :: RealtimeServerEventResponseContentPartDone > ("{\"content_index\":0,\"event_id\":\"event_3940\",\"item_id\":\"msg_007\",\"output_index\":0,\"part\":{\"text\":\"Sure, I can help with that.\",\"type\":\"text\"},\"response_id\":\"resp_001\",\"type\":\"response.content_part.done\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_server_event_response_created() {
-        serde_json :: from_str :: < super :: RealtimeServerEventResponseCreated > ("{\"event_id\":\"event_2930\",\"response\":{\"id\":\"resp_001\",\"object\":\"realtime.response\",\"output\":[],\"status\":\"in_progress\",\"status_details\":null,\"usage\":null},\"type\":\"response.created\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_server_event_response_done() {
-        serde_json :: from_str :: < super :: RealtimeServerEventResponseDone > ("{\"event_id\":\"event_3132\",\"response\":{\"id\":\"resp_001\",\"object\":\"realtime.response\",\"output\":[{\"content\":[{\"text\":\"Sure, how can I assist you today?\",\"type\":\"text\"}],\"id\":\"msg_006\",\"object\":\"realtime.item\",\"role\":\"assistant\",\"status\":\"completed\",\"type\":\"message\"}],\"status\":\"completed\",\"status_details\":null,\"usage\":{\"input_token_details\":{\"audio_tokens\":8,\"cached_tokens\":384,\"cached_tokens_details\":{\"audio_tokens\":256,\"text_tokens\":128},\"text_tokens\":119},\"input_tokens\":127,\"output_token_details\":{\"audio_tokens\":112,\"text_tokens\":36},\"output_tokens\":148,\"total_tokens\":275}},\"type\":\"response.done\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_server_event_response_function_call_arguments_delta() {
-        serde_json :: from_str :: < super :: RealtimeServerEventResponseFunctionCallArgumentsDelta > ("{\"call_id\":\"call_001\",\"delta\":\"{\\\"location\\\": \\\"San\\\"\",\"event_id\":\"event_5354\",\"item_id\":\"fc_001\",\"output_index\":0,\"response_id\":\"resp_002\",\"type\":\"response.function_call_arguments.delta\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_server_event_response_function_call_arguments_done() {
-        serde_json :: from_str :: < super :: RealtimeServerEventResponseFunctionCallArgumentsDone > ("{\"arguments\":\"{\\\"location\\\": \\\"San Francisco\\\"}\",\"call_id\":\"call_001\",\"event_id\":\"event_5556\",\"item_id\":\"fc_001\",\"output_index\":0,\"response_id\":\"resp_002\",\"type\":\"response.function_call_arguments.done\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_server_event_response_output_item_added() {
-        serde_json :: from_str :: < super :: RealtimeServerEventResponseOutputItemAdded > ("{\"event_id\":\"event_3334\",\"item\":{\"content\":[],\"id\":\"msg_007\",\"object\":\"realtime.item\",\"role\":\"assistant\",\"status\":\"in_progress\",\"type\":\"message\"},\"output_index\":0,\"response_id\":\"resp_001\",\"type\":\"response.output_item.added\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_server_event_response_output_item_done() {
-        serde_json :: from_str :: < super :: RealtimeServerEventResponseOutputItemDone > ("{\"event_id\":\"event_3536\",\"item\":{\"content\":[{\"text\":\"Sure, I can help with that.\",\"type\":\"text\"}],\"id\":\"msg_007\",\"object\":\"realtime.item\",\"role\":\"assistant\",\"status\":\"completed\",\"type\":\"message\"},\"output_index\":0,\"response_id\":\"resp_001\",\"type\":\"response.output_item.done\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_server_event_response_text_delta() {
-        serde_json :: from_str :: < super :: RealtimeServerEventResponseTextDelta > ("{\"content_index\":0,\"delta\":\"Sure, I can h\",\"event_id\":\"event_4142\",\"item_id\":\"msg_007\",\"output_index\":0,\"response_id\":\"resp_001\",\"type\":\"response.text.delta\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_server_event_response_text_done() {
-        serde_json :: from_str :: < super :: RealtimeServerEventResponseTextDone > ("{\"content_index\":0,\"event_id\":\"event_4344\",\"item_id\":\"msg_007\",\"output_index\":0,\"response_id\":\"resp_001\",\"text\":\"Sure, I can help with that.\",\"type\":\"response.text.done\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_server_event_session_created() {
-        serde_json :: from_str :: < super :: RealtimeServerEventSessionCreated > ("{\"event_id\":\"event_1234\",\"session\":{\"id\":\"sess_001\",\"input_audio_format\":\"pcm16\",\"input_audio_transcription\":null,\"instructions\":\"...model instructions here...\",\"max_response_output_tokens\":\"inf\",\"modalities\":[\"text\",\"audio\"],\"model\":\"gpt-4o-realtime-preview\",\"object\":\"realtime.session\",\"output_audio_format\":\"pcm16\",\"temperature\":0.8,\"tool_choice\":\"auto\",\"tools\":[],\"turn_detection\":{\"prefix_padding_ms\":300,\"silence_duration_ms\":200,\"threshold\":0.5,\"type\":\"server_vad\"},\"voice\":\"sage\"},\"type\":\"session.created\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_server_event_session_updated() {
-        serde_json :: from_str :: < super :: RealtimeServerEventSessionUpdated > ("{\"event_id\":\"event_5678\",\"session\":{\"id\":\"sess_001\",\"input_audio_format\":\"pcm16\",\"input_audio_transcription\":{\"model\":\"whisper-1\"},\"instructions\":\"New instructions\",\"max_response_output_tokens\":200,\"modalities\":[\"text\"],\"model\":\"gpt-4o-realtime-preview\",\"object\":\"realtime.session\",\"output_audio_format\":\"pcm16\",\"temperature\":0.7,\"tool_choice\":\"none\",\"tools\":[],\"turn_detection\":null,\"voice\":\"sage\"},\"type\":\"session.updated\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_session_create_response() {
-        serde_json :: from_str :: < super :: RealtimeSessionCreateResponse > ("{\"client_secret\":{\"expires_at\":1234567890,\"value\":\"ek_abc123\"},\"id\":\"sess_001\",\"input_audio_format\":\"pcm16\",\"input_audio_transcription\":{\"model\":\"whisper-1\"},\"instructions\":\"You are a friendly assistant.\",\"max_response_output_tokens\":200,\"modalities\":[\"audio\",\"text\"],\"model\":\"gpt-4o-realtime-preview\",\"object\":\"realtime.session\",\"output_audio_format\":\"pcm16\",\"temperature\":0.7,\"tool_choice\":\"none\",\"tools\":[],\"turn_detection\":null,\"voice\":\"alloy\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_realtime_transcription_session_create_response() {
-        serde_json :: from_str :: < super :: RealtimeTranscriptionSessionCreateResponse > ("{\"client_secret\":null,\"expires_at\":1742188264,\"id\":\"sess_BBwZc7cFV3XizEyKGDCGL\",\"input_audio_format\":\"pcm16\",\"input_audio_transcription\":{\"language\":null,\"model\":\"gpt-4o-transcribe\",\"prompt\":\"\"},\"modalities\":[\"audio\",\"text\"],\"object\":\"realtime.transcription_session\",\"turn_detection\":{\"prefix_padding_ms\":300,\"silence_duration_ms\":200,\"threshold\":0.5,\"type\":\"server_vad\"}}") . unwrap () ;
-    }
-    #[test]
-    fn test_response_audio_delta_event() {
-        serde_json :: from_str :: < super :: ResponseAudioDeltaEvent > ("{\"delta\":\"base64encoded...\",\"response_id\":\"resp_123\",\"type\":\"response.audio.delta\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_response_audio_done_event() {
-        serde_json::from_str::<super::ResponseAudioDoneEvent>(
-            "{\"response_id\":\"resp-123\",\"type\":\"response.audio.done\"}",
-        )
-        .unwrap();
-    }
-    #[test]
-    fn test_response_audio_transcript_delta_event() {
-        serde_json :: from_str :: < super :: ResponseAudioTranscriptDeltaEvent > ("{\"delta\":\" ... partial transcript ... \",\"response_id\":\"resp_123\",\"type\":\"response.audio.transcript.delta\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_response_audio_transcript_done_event() {
-        serde_json::from_str::<super::ResponseAudioTranscriptDoneEvent>(
-            "{\"response_id\":\"resp_123\",\"type\":\"response.audio.transcript.done\"}",
-        )
-        .unwrap();
-    }
-    #[test]
-    fn test_response_code_interpreter_call_code_delta_event() {
-        serde_json :: from_str :: < super :: ResponseCodeInterpreterCallCodeDeltaEvent > ("{\"delta\":\"partial code\",\"output_index\":0,\"response_id\":\"resp-123\",\"type\":\"response.code_interpreter_call.code.delta\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_response_code_interpreter_call_code_done_event() {
-        serde_json :: from_str :: < super :: ResponseCodeInterpreterCallCodeDoneEvent > ("{\"code\":\"console.log('done');\",\"output_index\":3,\"response_id\":\"resp-123\",\"type\":\"response.code_interpreter_call.code.done\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_response_code_interpreter_call_completed_event() {
-        serde_json :: from_str :: < super :: ResponseCodeInterpreterCallCompletedEvent > ("{\"code_interpreter_call\":{},\"output_index\":5,\"response_id\":\"resp-123\",\"type\":\"response.code_interpreter_call.completed\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_response_code_interpreter_call_in_progress_event() {
-        serde_json :: from_str :: < super :: ResponseCodeInterpreterCallInProgressEvent > ("{\"code_interpreter_call\":{},\"output_index\":0,\"response_id\":\"resp-123\",\"type\":\"response.code_interpreter_call.in.progress\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_response_code_interpreter_call_interpreting_event() {
-        serde_json :: from_str :: < super :: ResponseCodeInterpreterCallInterpretingEvent > ("{\"code_interpreter_call\":{},\"output_index\":4,\"response_id\":\"resp-123\",\"type\":\"response.code_interpreter_call.interpreting\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_response_completed_event() {
-        serde_json :: from_str :: < super :: ResponseCompletedEvent > ("{\"response\":{\"created_at\":1740855869,\"error\":null,\"id\":\"resp_123\",\"incomplete_details\":null,\"input\":[],\"instructions\":null,\"max_output_tokens\":null,\"metadata\":{},\"model\":\"gpt-4o-mini-2024-07-18\",\"object\":\"response\",\"output\":[{\"content\":[{\"annotations\":[],\"text\":\"In a shimmering forest under a sky full of stars, a lonely unicorn named Lila discovered a hidden pond that glowed with moonlight. Every night, she would leave sparkling, magical flowers by the water's edge, hoping to share her beauty with others. One enchanting evening, she woke to find a group of friendly animals gathered around, eager to be friends and share in her magic.\",\"type\":\"output_text\"}],\"id\":\"msg_123\",\"role\":\"assistant\",\"type\":\"message\"}],\"previous_response_id\":null,\"reasoning_effort\":null,\"status\":\"completed\",\"store\":false,\"temperature\":1,\"text\":{\"format\":{\"type\":\"text\"}},\"tool_choice\":\"auto\",\"tools\":[],\"top_p\":1,\"truncation\":\"disabled\",\"usage\":{\"input_tokens\":0,\"output_tokens\":0,\"output_tokens_details\":{\"reasoning_tokens\":0},\"total_tokens\":0},\"user\":null},\"type\":\"response.completed\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_response_content_part_added_event() {
-        serde_json :: from_str :: < super :: ResponseContentPartAddedEvent > ("{\"content_index\":0,\"item_id\":\"msg_123\",\"output_index\":0,\"part\":{\"annotations\":[],\"text\":\"\",\"type\":\"output_text\"},\"type\":\"response.content_part.added\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_response_content_part_done_event() {
-        serde_json :: from_str :: < super :: ResponseContentPartDoneEvent > ("{\"content_index\":0,\"item_id\":\"msg_123\",\"output_index\":0,\"part\":{\"annotations\":[],\"text\":\"In a shimmering forest under a sky full of stars, a lonely unicorn named Lila discovered a hidden pond that glowed with moonlight. Every night, she would leave sparkling, magical flowers by the water's edge, hoping to share her beauty with others. One enchanting evening, she woke to find a group of friendly animals gathered around, eager to be friends and share in her magic.\",\"type\":\"output_text\"},\"type\":\"response.content_part.done\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_response_created_event() {
-        serde_json :: from_str :: < super :: ResponseCreatedEvent > ("{\"response\":{\"created_at\":1741487325,\"error\":null,\"id\":\"resp_67ccfcdd16748190a91872c75d38539e09e4d4aac714747c\",\"incomplete_details\":null,\"instructions\":null,\"max_output_tokens\":null,\"metadata\":{},\"model\":\"gpt-4o-2024-08-06\",\"object\":\"response\",\"output\":[],\"parallel_tool_calls\":true,\"previous_response_id\":null,\"reasoning\":{\"effort\":null,\"summary\":null},\"status\":\"in_progress\",\"store\":true,\"temperature\":1,\"text\":{\"format\":{\"type\":\"text\"}},\"tool_choice\":\"auto\",\"tools\":[],\"top_p\":1,\"truncation\":\"disabled\",\"usage\":null,\"user\":null},\"type\":\"response.created\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_response_error_event() {
-        serde_json :: from_str :: < super :: ResponseErrorEvent > ("{\"code\":\"ERR_SOMETHING\",\"message\":\"Something went wrong\",\"param\":null,\"type\":\"error\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_response_failed_event() {
-        serde_json :: from_str :: < super :: ResponseFailedEvent > ("{\"response\":{\"created_at\":1740855869,\"error\":{\"code\":\"server_error\",\"message\":\"The model failed to generate a response.\"},\"id\":\"resp_123\",\"incomplete_details\":null,\"instructions\":null,\"max_output_tokens\":null,\"metadata\":{},\"model\":\"gpt-4o-mini-2024-07-18\",\"object\":\"response\",\"output\":[],\"previous_response_id\":null,\"reasoning_effort\":null,\"status\":\"failed\",\"store\":false,\"temperature\":1,\"text\":{\"format\":{\"type\":\"text\"}},\"tool_choice\":\"auto\",\"tools\":[],\"top_p\":1,\"truncation\":\"disabled\",\"usage\":null,\"user\":null},\"type\":\"response.failed\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_response_function_call_arguments_delta_event() {
-        serde_json :: from_str :: < super :: ResponseFunctionCallArgumentsDeltaEvent > ("{\"delta\":\"{ \\\"arg\\\":\",\"item_id\":\"item-abc\",\"output_index\":0,\"type\":\"response.function_call_arguments.delta\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_response_function_call_arguments_done_event() {
-        serde_json :: from_str :: < super :: ResponseFunctionCallArgumentsDoneEvent > ("{\"arguments\":\"{ \\\"arg\\\": 123 }\",\"item_id\":\"item-abc\",\"output_index\":1,\"type\":\"response.function_call_arguments.done\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_response_in_progress_event() {
-        serde_json :: from_str :: < super :: ResponseInProgressEvent > ("{\"response\":{\"created_at\":1741487325,\"error\":null,\"id\":\"resp_67ccfcdd16748190a91872c75d38539e09e4d4aac714747c\",\"incomplete_details\":null,\"instructions\":null,\"max_output_tokens\":null,\"metadata\":{},\"model\":\"gpt-4o-2024-08-06\",\"object\":\"response\",\"output\":[],\"parallel_tool_calls\":true,\"previous_response_id\":null,\"reasoning\":{\"effort\":null,\"summary\":null},\"status\":\"in_progress\",\"store\":true,\"temperature\":1,\"text\":{\"format\":{\"type\":\"text\"}},\"tool_choice\":\"auto\",\"tools\":[],\"top_p\":1,\"truncation\":\"disabled\",\"usage\":null,\"user\":null},\"type\":\"response.in_progress\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_response_incomplete_event() {
-        serde_json :: from_str :: < super :: ResponseIncompleteEvent > ("{\"response\":{\"created_at\":1740855869,\"error\":null,\"id\":\"resp_123\",\"incomplete_details\":{\"reason\":\"max_tokens\"},\"instructions\":null,\"max_output_tokens\":null,\"metadata\":{},\"model\":\"gpt-4o-mini-2024-07-18\",\"object\":\"response\",\"output\":[],\"previous_response_id\":null,\"reasoning_effort\":null,\"status\":\"incomplete\",\"store\":false,\"temperature\":1,\"text\":{\"format\":{\"type\":\"text\"}},\"tool_choice\":\"auto\",\"tools\":[],\"top_p\":1,\"truncation\":\"disabled\",\"usage\":null,\"user\":null},\"type\":\"response.incomplete\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_response_item_list() {
-        serde_json :: from_str :: < super :: ResponseItemList > ("{\"data\":[{\"content\":[{\"text\":\"Tell me a three sentence bedtime story about a unicorn.\",\"type\":\"input_text\"}],\"id\":\"msg_abc123\",\"role\":\"user\",\"type\":\"message\"}],\"first_id\":\"msg_abc123\",\"has_more\":false,\"last_id\":\"msg_abc123\",\"object\":\"list\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_response_output_item_added_event() {
-        serde_json :: from_str :: < super :: ResponseOutputItemAddedEvent > ("{\"item\":{\"content\":[],\"id\":\"msg_123\",\"role\":\"assistant\",\"status\":\"in_progress\",\"type\":\"message\"},\"output_index\":0,\"type\":\"response.output_item.added\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_response_output_item_done_event() {
-        serde_json :: from_str :: < super :: ResponseOutputItemDoneEvent > ("{\"item\":{\"content\":[{\"annotations\":[],\"text\":\"In a shimmering forest under a sky full of stars, a lonely unicorn named Lila discovered a hidden pond that glowed with moonlight. Every night, she would leave sparkling, magical flowers by the water's edge, hoping to share her beauty with others. One enchanting evening, she woke to find a group of friendly animals gathered around, eager to be friends and share in her magic.\",\"type\":\"output_text\"}],\"id\":\"msg_123\",\"role\":\"assistant\",\"status\":\"completed\",\"type\":\"message\"},\"output_index\":0,\"type\":\"response.output_item.done\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_response_reasoning_summary_part_added_event() {
-        serde_json :: from_str :: < super :: ResponseReasoningSummaryPartAddedEvent > ("{\"item_id\":\"rs_6806bfca0b2481918a5748308061a2600d3ce51bdffd5476\",\"output_index\":0,\"part\":{\"text\":\"\",\"type\":\"summary_text\"},\"summary_index\":0,\"type\":\"response.reasoning_summary_part.added\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_response_reasoning_summary_part_done_event() {
-        serde_json :: from_str :: < super :: ResponseReasoningSummaryPartDoneEvent > ("{\"item_id\":\"rs_6806bfca0b2481918a5748308061a2600d3ce51bdffd5476\",\"output_index\":0,\"part\":{\"text\":\"**Responding to a greeting**\\n\\nThe user just said, \\\"Hello!\\\" So, it seems I need to engage. I'll greet them back and offer help since they're looking to chat. I could say something like, \\\"Hello! How can I assist you today?\\\" That feels friendly and open. They didn't ask a specific question, so this approach will work well for starting a conversation. Let's see where it goes from there!\",\"type\":\"summary_text\"},\"summary_index\":0,\"type\":\"response.reasoning_summary_part.done\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_response_reasoning_summary_text_delta_event() {
-        serde_json :: from_str :: < super :: ResponseReasoningSummaryTextDeltaEvent > ("{\"delta\":\"**Respond\",\"item_id\":\"rs_6806bfca0b2481918a5748308061a2600d3ce51bdffd5476\",\"output_index\":0,\"summary_index\":0,\"type\":\"response.reasoning_summary_text.delta\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_response_reasoning_summary_text_done_event() {
-        serde_json :: from_str :: < super :: ResponseReasoningSummaryTextDoneEvent > ("{\"item_id\":\"rs_6806bfca0b2481918a5748308061a2600d3ce51bdffd5476\",\"output_index\":0,\"summary_index\":0,\"text\":\"**Responding to a greeting**\\n\\nThe user just said, \\\"Hello!\\\" So, it seems I need to engage. I'll greet them back and offer help since they're looking to chat. I could say something like, \\\"Hello! How can I assist you today?\\\" That feels friendly and open. They didn't ask a specific question, so this approach will work well for starting a conversation. Let's see where it goes from there!\",\"type\":\"response.reasoning_summary_text.done\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_response_refusal_delta_event() {
-        serde_json :: from_str :: < super :: ResponseRefusalDeltaEvent > ("{\"content_index\":0,\"delta\":\"refusal text so far\",\"item_id\":\"msg_123\",\"output_index\":0,\"type\":\"response.refusal.delta\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_response_refusal_done_event() {
-        serde_json :: from_str :: < super :: ResponseRefusalDoneEvent > ("{\"content_index\":2,\"item_id\":\"item-abc\",\"output_index\":1,\"refusal\":\"final refusal text\",\"type\":\"response.refusal.done\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_response_text_annotation_delta_event() {
-        serde_json :: from_str :: < super :: ResponseTextAnnotationDeltaEvent > ("{\"annotation\":{\"file_id\":\"file-4wDz5b167pAf72nx1h9eiN\",\"filename\":\"dragons.pdf\",\"index\":390,\"type\":\"file_citation\"},\"annotation_index\":0,\"content_index\":0,\"item_id\":\"msg_abc123\",\"output_index\":1,\"type\":\"response.output_text.annotation.added\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_response_text_delta_event() {
-        serde_json :: from_str :: < super :: ResponseTextDeltaEvent > ("{\"content_index\":0,\"delta\":\"In\",\"item_id\":\"msg_123\",\"output_index\":0,\"type\":\"response.output_text.delta\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_response_text_done_event() {
-        serde_json :: from_str :: < super :: ResponseTextDoneEvent > ("{\"content_index\":0,\"item_id\":\"msg_123\",\"output_index\":0,\"text\":\"In a shimmering forest under a sky full of stars, a lonely unicorn named Lila discovered a hidden pond that glowed with moonlight. Every night, she would leave sparkling, magical flowers by the water's edge, hoping to share her beauty with others. One enchanting evening, she woke to find a group of friendly animals gathered around, eager to be friends and share in her magic.\",\"type\":\"response.output_text.done\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_run_object() {
-        serde_json :: from_str :: < super :: RunObject > ("{\"assistant_id\":\"asst_abc123\",\"cancelled_at\":null,\"completed_at\":1699073498,\"created_at\":1698107661,\"expires_at\":null,\"failed_at\":null,\"id\":\"run_abc123\",\"incomplete_details\":null,\"instructions\":null,\"last_error\":null,\"max_completion_tokens\":1000,\"max_prompt_tokens\":1000,\"metadata\":{},\"model\":\"gpt-4o\",\"object\":\"thread.run\",\"parallel_tool_calls\":true,\"response_format\":\"auto\",\"started_at\":1699073476,\"status\":\"completed\",\"temperature\":1.0,\"thread_id\":\"thread_abc123\",\"tool_choice\":\"auto\",\"tools\":[{\"type\":\"file_search\"},{\"type\":\"code_interpreter\"}],\"top_p\":1.0,\"truncation_strategy\":{\"last_messages\":null,\"type\":\"auto\"},\"usage\":{\"completion_tokens\":456,\"prompt_tokens\":123,\"total_tokens\":579}}") . unwrap () ;
-    }
-    #[test]
-    fn test_run_step_delta_object() {
-        serde_json :: from_str :: < super :: RunStepDeltaObject > ("{\"delta\":{\"step_details\":{\"tool_calls\":[{\"code_interpreter\":{\"input\":\"\",\"outputs\":[]},\"id\":\"call_123\",\"index\":0,\"type\":\"code_interpreter\"}],\"type\":\"tool_calls\"}},\"id\":\"step_123\",\"object\":\"thread.run.step.delta\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_run_step_object() {
-        serde_json :: from_str :: < super :: RunStepObject > ("{\"assistant_id\":\"asst_abc123\",\"cancelled_at\":null,\"completed_at\":1699063291,\"created_at\":1699063291,\"expired_at\":null,\"failed_at\":null,\"id\":\"step_abc123\",\"last_error\":null,\"object\":\"thread.run.step\",\"run_id\":\"run_abc123\",\"status\":\"completed\",\"step_details\":{\"message_creation\":{\"message_id\":\"msg_abc123\"},\"type\":\"message_creation\"},\"thread_id\":\"thread_abc123\",\"type\":\"message_creation\",\"usage\":{\"completion_tokens\":456,\"prompt_tokens\":123,\"total_tokens\":579}}") . unwrap () ;
-    }
-    #[test]
-    fn test_thread_object() {
-        serde_json :: from_str :: < super :: ThreadObject > ("{\"created_at\":1698107661,\"id\":\"thread_abc123\",\"metadata\":{},\"object\":\"thread\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_transcript_text_delta_event() {
-        serde_json::from_str::<super::TranscriptTextDeltaEvent>(
-            "{\"delta\":\" wonderful\",\"type\":\"transcript.text.delta\"}",
-        )
-        .unwrap();
-    }
-    #[test]
-    fn test_transcript_text_done_event() {
-        serde_json :: from_str :: < super :: TranscriptTextDoneEvent > ("{\"text\":\"I see skies of blue and clouds of white, the bright blessed days, the dark sacred nights, and I think to myself, what a wonderful world.\",\"type\":\"transcript.text.done\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_upload_part() {
-        serde_json :: from_str :: < super :: UploadPart > ("{\"created_at\":1719186911,\"id\":\"part_def456\",\"object\":\"upload.part\",\"upload_id\":\"upload_abc123\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_usage_audio_speeches_result() {
-        serde_json :: from_str :: < super :: UsageAudioSpeechesResult > ("{\"api_key_id\":\"key_abc\",\"characters\":45,\"model\":\"tts-1\",\"num_model_requests\":1,\"object\":\"organization.usage.audio_speeches.result\",\"project_id\":\"proj_abc\",\"user_id\":\"user-abc\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_usage_audio_transcriptions_result() {
-        serde_json :: from_str :: < super :: UsageAudioTranscriptionsResult > ("{\"api_key_id\":\"key_abc\",\"model\":\"tts-1\",\"num_model_requests\":1,\"object\":\"organization.usage.audio_transcriptions.result\",\"project_id\":\"proj_abc\",\"seconds\":10,\"user_id\":\"user-abc\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_usage_code_interpreter_sessions_result() {
-        serde_json :: from_str :: < super :: UsageCodeInterpreterSessionsResult > ("{\"num_sessions\":1,\"object\":\"organization.usage.code_interpreter_sessions.result\",\"project_id\":\"proj_abc\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_usage_completions_result() {
-        serde_json :: from_str :: < super :: UsageCompletionsResult > ("{\"api_key_id\":\"key_abc\",\"batch\":false,\"input_audio_tokens\":300,\"input_cached_tokens\":4000,\"input_tokens\":5000,\"model\":\"gpt-4o-mini-2024-07-18\",\"num_model_requests\":5,\"object\":\"organization.usage.completions.result\",\"output_audio_tokens\":200,\"output_tokens\":1000,\"project_id\":\"proj_abc\",\"user_id\":\"user-abc\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_usage_embeddings_result() {
-        serde_json :: from_str :: < super :: UsageEmbeddingsResult > ("{\"api_key_id\":\"key_abc\",\"input_tokens\":20,\"model\":\"text-embedding-ada-002-v2\",\"num_model_requests\":2,\"object\":\"organization.usage.embeddings.result\",\"project_id\":\"proj_abc\",\"user_id\":\"user-abc\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_usage_images_result() {
-        serde_json :: from_str :: < super :: UsageImagesResult > ("{\"api_key_id\":\"key_abc\",\"images\":2,\"model\":\"dall-e-3\",\"num_model_requests\":2,\"object\":\"organization.usage.images.result\",\"project_id\":\"proj_abc\",\"size\":\"1024x1024\",\"source\":\"image.generation\",\"user_id\":\"user-abc\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_usage_moderations_result() {
-        serde_json :: from_str :: < super :: UsageModerationsResult > ("{\"api_key_id\":\"key_abc\",\"input_tokens\":20,\"model\":\"text-moderation\",\"num_model_requests\":2,\"object\":\"organization.usage.moderations.result\",\"project_id\":\"proj_abc\",\"user_id\":\"user-abc\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_usage_vector_stores_result() {
-        serde_json :: from_str :: < super :: UsageVectorStoresResult > ("{\"object\":\"organization.usage.vector_stores.result\",\"project_id\":\"proj_abc\",\"usage_bytes\":1024}") . unwrap () ;
-    }
-    #[test]
-    fn test_user() {
-        serde_json :: from_str :: < super :: User > ("{\"added_at\":1711471533,\"email\":\"user@example.com\",\"id\":\"user_abc\",\"name\":\"First Last\",\"object\":\"organization.user\",\"role\":\"owner\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_vector_store_file_batch_object() {
-        serde_json :: from_str :: < super :: VectorStoreFileBatchObject > ("{\"created_at\":1698107661,\"file_counts\":{\"cancelled\":0,\"completed\":100,\"failed\":0,\"in_progress\":0,\"total\":100},\"id\":\"vsfb_123\",\"object\":\"vector_store.files_batch\",\"status\":\"completed\",\"vector_store_id\":\"vs_abc123\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_vector_store_file_object() {
-        serde_json :: from_str :: < super :: VectorStoreFileObject > ("{\"chunking_strategy\":{\"static\":{\"chunk_overlap_tokens\":400,\"max_chunk_size_tokens\":800},\"type\":\"static\"},\"created_at\":1698107661,\"id\":\"file-abc123\",\"last_error\":null,\"object\":\"vector_store.file\",\"status\":\"completed\",\"usage_bytes\":1234,\"vector_store_id\":\"vs_abc123\"}") . unwrap () ;
-    }
-    #[test]
-    fn test_vector_store_object() {
-        serde_json :: from_str :: < super :: VectorStoreObject > ("{\"created_at\":1698107661,\"file_counts\":{\"cancelled\":0,\"completed\":100,\"failed\":0,\"in_progress\":0,\"total\":100},\"id\":\"vs_123\",\"last_active_at\":1698107661,\"last_used_at\":1698107661,\"name\":\"my_vector_store\",\"object\":\"vector_store\",\"status\":\"completed\",\"usage_bytes\":123456}") . unwrap () ;
-    }
+#[test]
+fn test_admin_api_key() {
+    serde_json :: from_str :: < AdminApiKey > ("{\"created_at\":1711471533,\"id\":\"key_abc\",\"last_used_at\":1711471534,\"name\":\"Main Admin Key\",\"object\":\"organization.admin_api_key\",\"owner\":{\"created_at\":1711471533,\"id\":\"user_123\",\"name\":\"John Doe\",\"object\":\"organization.user\",\"role\":\"owner\",\"type\":\"user\"},\"redacted_value\":\"sk-admin...xyz\"}") . unwrap () ;
+}
+#[test]
+fn test_assistant_object() {
+    serde_json :: from_str :: < AssistantObject > ("{\"created_at\":1698984975,\"description\":null,\"id\":\"asst_abc123\",\"instructions\":\"You are a personal math tutor. When asked a question, write and run Python code to answer the question.\",\"metadata\":{},\"model\":\"gpt-4o\",\"name\":\"Math Tutor\",\"object\":\"assistant\",\"response_format\":\"auto\",\"temperature\":1.0,\"tools\":[{\"type\":\"code_interpreter\"}],\"top_p\":1.0}") . unwrap () ;
+}
+#[test]
+fn test_audit_log() {
+    serde_json :: from_str :: < AuditLog > ("{\"actor\":{\"session\":{\"ip_address\":\"127.0.0.1\",\"user\":{\"email\":\"user@example.com\",\"id\":\"user-xxx\"},\"user_agent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36\"},\"type\":\"session\"},\"api_key.created\":{\"data\":{\"scopes\":[\"resource.operation\"]},\"id\":\"key_xxxx\"},\"effective_at\":1720804090,\"id\":\"req_xxx_20240101\",\"type\":\"api_key.created\"}") . unwrap () ;
+}
+#[test]
+fn test_batch_request_input() {
+    serde_json :: from_str :: < BatchRequestInput > ("{\"body\":{\"messages\":[{\"content\":\"You are a helpful assistant.\",\"role\":\"system\"},{\"content\":\"What is 2+2?\",\"role\":\"user\"}],\"model\":\"gpt-4o-mini\"},\"custom_id\":\"request-1\",\"method\":\"POST\",\"url\":\"/v1/chat/completions\"}") . unwrap () ;
+}
+#[test]
+fn test_batch_request_output() {
+    serde_json :: from_str :: < BatchRequestOutput > ("{\"custom_id\":\"request-2\",\"error\":null,\"id\":\"batch_req_wnaDys\",\"response\":{\"body\":{\"choices\":[{\"finish_reason\":\"stop\",\"index\":0,\"message\":{\"content\":\"2 + 2 equals 4.\",\"role\":\"assistant\"}}],\"created\":1711475054,\"id\":\"chatcmpl-9758Iw\",\"model\":\"gpt-4o-mini\",\"object\":\"chat.completion\",\"system_fingerprint\":null,\"usage\":{\"completion_tokens\":15,\"prompt_tokens\":24,\"total_tokens\":39}},\"request_id\":\"req_c187b3\",\"status_code\":200}}") . unwrap () ;
+}
+#[test]
+fn test_certificate() {
+    serde_json :: from_str :: < Certificate > ("{\"certificate_details\":{\"content\":\"-----BEGIN CERTIFICATE----- MIIGAjCCA...6znFlOW+ -----END CERTIFICATE-----\",\"expires_at\":12345678,\"valid_at\":1234567},\"created_at\":1234567,\"id\":\"cert_abc\",\"name\":\"My Certificate\",\"object\":\"certificate\"}") . unwrap () ;
+}
+#[test]
+fn test_chat_completion_list() {
+    serde_json :: from_str :: < ChatCompletionList > ("{\"data\":[{\"choices\":[{\"finish_reason\":\"stop\",\"index\":0,\"logprobs\":null,\"message\":{\"content\":\"Mind of circuits hum,  \\nLearning patterns in silence—  \\nFuture's quiet spark.\",\"function_call\":null,\"role\":\"assistant\",\"tool_calls\":null}}],\"created\":1738960610,\"frequency_penalty\":0.0,\"id\":\"chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2\",\"input_user\":null,\"metadata\":{},\"model\":\"gpt-4o-2024-08-06\",\"object\":\"chat.completion\",\"presence_penalty\":0.0,\"request_id\":\"req_ded8ab984ec4bf840f37566c1011c417\",\"response_format\":null,\"seed\":4944116822809979520,\"service_tier\":\"default\",\"system_fingerprint\":\"fp_50cad350e4\",\"temperature\":1.0,\"tool_choice\":null,\"tools\":null,\"top_p\":1.0,\"usage\":{\"completion_tokens\":18,\"prompt_tokens\":13,\"total_tokens\":31}}],\"first_id\":\"chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2\",\"has_more\":false,\"last_id\":\"chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2\",\"object\":\"list\"}") . unwrap () ;
+}
+#[test]
+fn test_chat_completion_message_list() {
+    serde_json :: from_str :: < ChatCompletionMessageList > ("{\"data\":[{\"content\":\"write a haiku about ai\",\"content_parts\":null,\"id\":\"chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2-0\",\"name\":null,\"role\":\"user\"}],\"first_id\":\"chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2-0\",\"has_more\":false,\"last_id\":\"chatcmpl-AyPNinnUqUDYo9SAdA52NobMflmj2-0\",\"object\":\"list\"}") . unwrap () ;
+}
+#[test]
+fn test_costs_result() {
+    serde_json :: from_str :: < CostsResult > ("{\"amount\":{\"currency\":\"usd\",\"value\":0.06},\"line_item\":\"Image models\",\"object\":\"organization.costs.result\",\"project_id\":\"proj_abc\"}") . unwrap () ;
+}
+#[test]
+fn test_create_chat_completion_response() {
+    serde_json :: from_str :: < CreateChatCompletionResponse > ("{\"choices\":[{\"finish_reason\":\"stop\",\"index\":0,\"logprobs\":null,\"message\":{\"annotations\":[],\"content\":\"The image shows a wooden boardwalk path running through a lush green field or meadow. The sky is bright blue with some scattered clouds, giving the scene a serene and peaceful atmosphere. Trees and shrubs are visible in the background.\",\"refusal\":null,\"role\":\"assistant\"}}],\"created\":1741570283,\"id\":\"chatcmpl-B9MHDbslfkBeAs8l4bebGdFOJ6PeG\",\"model\":\"gpt-4o-2024-08-06\",\"object\":\"chat.completion\",\"service_tier\":\"default\",\"system_fingerprint\":\"fp_fc9f1d7035\",\"usage\":{\"completion_tokens\":46,\"completion_tokens_details\":{\"accepted_prediction_tokens\":0,\"audio_tokens\":0,\"reasoning_tokens\":0,\"rejected_prediction_tokens\":0},\"prompt_tokens\":1117,\"prompt_tokens_details\":{\"audio_tokens\":0,\"cached_tokens\":0},\"total_tokens\":1163}}") . unwrap () ;
+}
+#[test]
+fn test_create_completion_response() {
+    serde_json :: from_str :: < CreateCompletionResponse > ("{\"choices\":[{\"finish_reason\":\"length\",\"index\":0,\"logprobs\":null,\"text\":\"\\n\\nThis is indeed a test\"}],\"created\":1589478378,\"id\":\"cmpl-uqkvlQyYK7bGYrRHQ0eXlWi7\",\"model\":\"gpt-4-turbo\",\"object\":\"text_completion\",\"usage\":{\"completion_tokens\":7,\"prompt_tokens\":5,\"total_tokens\":12}}") . unwrap () ;
+}
+#[test]
+fn test_create_eval_completions_run_data_source() {
+    serde_json :: from_str :: < CreateEvalCompletionsRunDataSource > ("{\"data_source\":{\"input_messages\":{\"item_reference\":\"item.input\",\"type\":\"item_reference\"},\"model\":\"gpt-4o-mini-2024-07-18\",\"source\":{\"model\":\"gpt-4o-mini-2024-07-18\",\"type\":\"stored_completions\"},\"type\":\"completions\"},\"name\":\"gpt-4o-mini-2024-07-18\"}") . unwrap () ;
+}
+#[test]
+fn test_create_eval_custom_data_source_config() {
+    serde_json :: from_str :: < CreateEvalCustomDataSourceConfig > ("{\"include_sample_schema\":true,\"item_schema\":{\"properties\":{\"age\":{\"type\":\"integer\"},\"name\":{\"type\":\"string\"}},\"required\":[\"name\",\"age\"],\"type\":\"object\"},\"type\":\"custom\"}") . unwrap () ;
+}
+#[test]
+fn test_create_eval_jsonl_run_data_source() {
+    serde_json :: from_str :: < CreateEvalJsonlRunDataSource > ("{\"source\":{\"id\":\"file-9GYS6xbkWgWhmE7VoLUWFg\",\"type\":\"file_id\"},\"type\":\"jsonl\"}") . unwrap () ;
+}
+#[test]
+fn test_create_eval_label_model_grader() {
+    serde_json :: from_str :: < CreateEvalLabelModelGrader > ("{\"input\":[{\"content\":\"Classify the sentiment of the following statement as one of 'positive', 'neutral', or 'negative'\",\"role\":\"system\"},{\"content\":\"Statement: {{item.response}}\",\"role\":\"user\"}],\"labels\":[\"positive\",\"neutral\",\"negative\"],\"model\":\"gpt-4o-2024-08-06\",\"name\":\"Sentiment label grader\",\"passing_labels\":[\"positive\"],\"type\":\"label_model\"}") . unwrap () ;
+}
+#[test]
+fn test_create_eval_logs_data_source_config() {
+    serde_json::from_str::<CreateEvalLogsDataSourceConfig>(
+        "{\"metadata\":{\"use_case\":\"customer_support_agent\"},\"type\":\"logs\"}",
+    )
+    .unwrap();
+}
+#[test]
+fn test_create_eval_responses_run_data_source() {
+    serde_json :: from_str :: < CreateEvalResponsesRunDataSource > ("{\"data_source\":{\"input_messages\":{\"item_reference\":\"item.input\",\"type\":\"item_reference\"},\"model\":\"gpt-4o-mini-2024-07-18\",\"source\":{\"model\":\"gpt-4o-mini-2024-07-18\",\"type\":\"stored_completions\"},\"type\":\"completions\"},\"name\":\"gpt-4o-mini-2024-07-18\"}") . unwrap () ;
+}
+#[test]
+fn test_create_moderation_response() {
+    serde_json :: from_str :: < CreateModerationResponse > ("{\"id\":\"modr-0d9740456c391e43c445bf0f010940c7\",\"model\":\"omni-moderation-latest\",\"results\":[{\"categories\":{\"harassment\":true,\"harassment/threatening\":true,\"hate\":false,\"hate/threatening\":false,\"illicit\":false,\"illicit/violent\":false,\"self-harm\":false,\"self-harm/instructions\":false,\"self-harm/intent\":false,\"sexual\":false,\"sexual/minors\":false,\"violence\":true,\"violence/graphic\":true},\"category_applied_input_types\":{\"harassment\":[\"text\"],\"harassment/threatening\":[\"text\"],\"hate\":[\"text\"],\"hate/threatening\":[\"text\"],\"illicit\":[\"text\"],\"illicit/violent\":[\"text\"],\"self-harm\":[\"text\",\"image\"],\"self-harm/instructions\":[\"text\",\"image\"],\"self-harm/intent\":[\"text\",\"image\"],\"sexual\":[\"text\",\"image\"],\"sexual/minors\":[\"text\"],\"violence\":[\"text\",\"image\"],\"violence/graphic\":[\"text\",\"image\"]},\"category_scores\":{\"harassment\":0.8189693396524255,\"harassment/threatening\":0.804985420696006,\"hate\":0.007562942636942845,\"hate/threatening\":0.004208854591835476,\"illicit\":0.030535955153511665,\"illicit/violent\":0.008925306722380033,\"self-harm\":0.012598046106750154,\"self-harm/instructions\":0.0002293869201073356,\"self-harm/intent\":0.00023023930975076432,\"sexual\":1.573112165348997e-6,\"sexual/minors\":2.2125669095702613e-8,\"violence\":0.9999992735124786,\"violence/graphic\":0.843064871157054},\"flagged\":true}]}") . unwrap () ;
+}
+#[test]
+fn test_create_transcription_response_json() {
+    serde_json :: from_str :: < CreateTranscriptionResponseJson > ("{\"text\":\"Imagine the wildest idea that you've ever had, and you're curious about how it might scale to something that's a 100, a 1,000 times bigger. This is a place where you can get to do that.\"}") . unwrap () ;
+}
+#[test]
+fn test_eval_api_error() {
+    serde_json :: from_str :: < EvalApiError > ("{\"code\":\"internal_error\",\"message\":\"The eval run failed due to an internal error.\"}") . unwrap () ;
+}
+#[test]
+fn test_eval_label_model_grader() {
+    serde_json :: from_str :: < EvalLabelModelGrader > ("{\"input\":[{\"content\":{\"text\":\"Classify the sentiment of the following statement as one of positive, neutral, or negative\",\"type\":\"input_text\"},\"role\":\"system\",\"type\":\"message\"},{\"content\":{\"text\":\"Statement: {{item.response}}\",\"type\":\"input_text\"},\"role\":\"user\",\"type\":\"message\"}],\"labels\":[\"positive\",\"neutral\",\"negative\"],\"model\":\"gpt-4o-2024-08-06\",\"name\":\"First label grader\",\"passing_labels\":[\"positive\"],\"type\":\"label_model\"}") . unwrap () ;
+}
+#[test]
+fn test_eval_python_grader() {
+    serde_json :: from_str :: < EvalPythonGrader > ("{\"input\":\"{{sample.output_text}}\",\"name\":\"Example string check grader\",\"operation\":\"eq\",\"reference\":\"{{item.label}}\",\"type\":\"string_check\"}") . unwrap () ;
+}
+#[test]
+fn test_eval_responses_source() {
+    serde_json :: from_str :: < EvalResponsesSource > ("{\"allow_parallel_tool_calls\":true,\"model\":\"gpt-4o-mini-2024-07-18\",\"temperature\":0.7,\"top_p\":1.0,\"type\":\"responses\",\"users\":[\"user1\",\"user2\"]}") . unwrap () ;
+}
+#[test]
+fn test_eval_run() {
+    serde_json :: from_str :: < EvalRun > ("{\"created_at\":1743092069,\"data_source\":{\"input_messages\":{\"template\":[{\"content\":{\"text\":\"Categorize a given news headline into one of the following topics: Technology, Markets, World, Business, or Sports.\\n\\n# Steps\\n\\n1. Analyze the content of the news headline to understand its primary focus.\\n2. Extract the subject matter, identifying any key indicators or keywords.\\n3. Use the identified indicators to determine the most suitable category out of the five options: Technology, Markets, World, Business, or Sports.\\n4. Ensure only one category is selected per headline.\\n\\n# Output Format\\n\\nRespond with the chosen category as a single word. For instance: \\\"Technology\\\", \\\"Markets\\\", \\\"World\\\", \\\"Business\\\", or \\\"Sports\\\".\\n\\n# Examples\\n\\n**Input**: \\\"Apple Unveils New iPhone Model, Featuring Advanced AI Features\\\"  \\n**Output**: \\\"Technology\\\"\\n\\n**Input**: \\\"Global Stocks Mixed as Investors Await Central Bank Decisions\\\"  \\n**Output**: \\\"Markets\\\"\\n\\n**Input**: \\\"War in Ukraine: Latest Updates on Negotiation Status\\\"  \\n**Output**: \\\"World\\\"\\n\\n**Input**: \\\"Microsoft in Talks to Acquire Gaming Company for $2 Billion\\\"  \\n**Output**: \\\"Business\\\"\\n\\n**Input**: \\\"Manchester United Secures Win in Premier League Football Match\\\"  \\n**Output**: \\\"Sports\\\" \\n\\n# Notes\\n\\n- If the headline appears to fit into more than one category, choose the most dominant theme.\\n- Keywords or phrases such as \\\"stocks\\\", \\\"company acquisition\\\", \\\"match\\\", or technological brands can be good indicators for classification.\\n\",\"type\":\"input_text\"},\"role\":\"developer\",\"type\":\"message\"},{\"content\":{\"text\":\"{{item.input}}\",\"type\":\"input_text\"},\"role\":\"user\",\"type\":\"message\"}],\"type\":\"template\"},\"model\":\"gpt-4o-mini\",\"sampling_params\":{\"max_completions_tokens\":2048,\"seed\":42,\"temperature\":1.0,\"top_p\":1.0},\"source\":{\"content\":[{\"item\":{\"ground_truth\":\"Technology\",\"input\":\"Tech Company Launches Advanced Artificial Intelligence Platform\"}},{\"item\":{\"ground_truth\":\"Markets\",\"input\":\"Central Bank Increases Interest Rates Amid Inflation Concerns\"}},{\"item\":{\"ground_truth\":\"World\",\"input\":\"International Summit Addresses Climate Change Strategies\"}},{\"item\":{\"ground_truth\":\"Business\",\"input\":\"Major Retailer Reports Record-Breaking Holiday Sales\"}},{\"item\":{\"ground_truth\":\"Sports\",\"input\":\"National Team Qualifies for World Championship Finals\"}},{\"item\":{\"ground_truth\":\"Markets\",\"input\":\"Stock Markets Rally After Positive Economic Data Released\"}},{\"item\":{\"ground_truth\":\"Business\",\"input\":\"Global Manufacturer Announces Merger with Competitor\"}},{\"item\":{\"ground_truth\":\"Technology\",\"input\":\"Breakthrough in Renewable Energy Technology Unveiled\"}},{\"item\":{\"ground_truth\":\"World\",\"input\":\"World Leaders Sign Historic Climate Agreement\"}},{\"item\":{\"ground_truth\":\"Sports\",\"input\":\"Professional Athlete Sets New Record in Championship Event\"}},{\"item\":{\"ground_truth\":\"Business\",\"input\":\"Financial Institutions Adapt to New Regulatory Requirements\"}},{\"item\":{\"ground_truth\":\"Technology\",\"input\":\"Tech Conference Showcases Advances in Artificial Intelligence\"}},{\"item\":{\"ground_truth\":\"Markets\",\"input\":\"Global Markets Respond to Oil Price Fluctuations\"}},{\"item\":{\"ground_truth\":\"World\",\"input\":\"International Cooperation Strengthened Through New Treaty\"}},{\"item\":{\"ground_truth\":\"Sports\",\"input\":\"Sports League Announces Revised Schedule for Upcoming Season\"}}],\"type\":\"file_content\"},\"type\":\"completions\"},\"error\":null,\"eval_id\":\"eval_67e579652b548190aaa83ada4b125f47\",\"id\":\"evalrun_67e57965b480819094274e3a32235e4c\",\"metadata\":{},\"model\":\"gpt-4o-mini\",\"name\":\"gpt-4o-mini\",\"object\":\"eval.run\",\"per_model_usage\":null,\"per_testing_criteria_results\":null,\"report_url\":\"https://platform.openai.com/evaluations/eval_67e579652b548190aaa83ada4b125f47?run_id=evalrun_67e57965b480819094274e3a32235e4c\",\"result_counts\":{\"errored\":0,\"failed\":0,\"passed\":0,\"total\":0},\"status\":\"queued\"}") . unwrap () ;
+}
+#[test]
+fn test_eval_run_list() {
+    serde_json :: from_str :: < EvalRunList > ("{\"data\":[{\"created_at\":1740110812,\"error\":null,\"eval_id\":\"eval_67b7fa9a81a88190ab4aa417e397ea21\",\"id\":\"evalrun_67b7fbdad46c819092f6fe7a14189620\",\"metadata\":{\"test\":\"synthetics\"},\"model\":\"o3-mini\",\"name\":\"Academic Assistant\",\"object\":\"eval.run\",\"per_model_usage\":null,\"per_testing_criteria_results\":[{\"failed\":80,\"passed\":91,\"testing_criteria\":\"String check grader\"}],\"report_url\":\"https://platform.openai.com/evaluations/eval_67b7fa9a81a88190ab4aa417e397ea21?run_id=evalrun_67b7fbdad46c819092f6fe7a14189620\",\"result_counts\":{\"errored\":0,\"failed\":80,\"passed\":91,\"total\":171},\"run_data_source\":{\"datasource_reference\":null,\"max_completion_tokens\":null,\"model\":\"o3-mini\",\"seed\":null,\"temperature\":null,\"template_messages\":[{\"content\":{\"text\":\"You are a helpful assistant.\",\"type\":\"input_text\"},\"role\":\"system\",\"type\":\"message\"},{\"content\":{\"text\":\"Hello, can you help me with my homework?\",\"type\":\"input_text\"},\"role\":\"user\",\"type\":\"message\"}],\"top_p\":null,\"type\":\"completions\"},\"status\":\"completed\"}],\"first_id\":\"evalrun_67abd54d60ec8190832b46859da808f7\",\"has_more\":false,\"last_id\":\"evalrun_67abd54d60ec8190832b46859da808f7\",\"object\":\"list\"}") . unwrap () ;
+}
+#[test]
+fn test_eval_score_model_grader() {
+    serde_json :: from_str :: < EvalScoreModelGrader > ("{\"input\":\"{{sample.output_text}}\",\"name\":\"Example score model grader\",\"operation\":\"eq\",\"reference\":\"{{item.label}}\",\"type\":\"score_model\"}") . unwrap () ;
+}
+#[test]
+fn test_eval_stored_completions_source() {
+    serde_json :: from_str :: < EvalStoredCompletionsSource > ("{\"created_after\":1668124800,\"created_before\":1668124900,\"limit\":100,\"metadata\":{},\"model\":\"gpt-4o\",\"type\":\"stored_completions\"}") . unwrap () ;
+}
+#[test]
+fn test_eval_string_check_grader() {
+    serde_json :: from_str :: < EvalStringCheckGrader > ("{\"input\":\"{{sample.output_text}}\",\"name\":\"Example string check grader\",\"operation\":\"eq\",\"reference\":\"{{item.label}}\",\"type\":\"string_check\"}") . unwrap () ;
+}
+#[test]
+fn test_eval_text_similarity_grader() {
+    serde_json :: from_str :: < EvalTextSimilarityGrader > ("{\"evaluation_metric\":\"fuzzy_match\",\"input\":\"The graded text\",\"name\":\"example text similarity grader\",\"pass_threshold\":0.8,\"reference\":\"The reference text\",\"type\":\"text_similarity\"}") . unwrap () ;
+}
+#[test]
+fn test_fine_tune_chat_request_input() {
+    serde_json :: from_str :: < FineTuneChatRequestInput > ("{\"messages\":[{\"content\":\"What is the weather in San Francisco?\",\"role\":\"user\"},{\"role\":\"assistant\",\"tool_calls\":[{\"function\":{\"arguments\":\"{\\\"location\\\": \\\"San Francisco, USA\\\", \\\"format\\\": \\\"celsius\\\"}\",\"name\":\"get_current_weather\"},\"id\":\"call_id\",\"type\":\"function\"}]}],\"parallel_tool_calls\":false,\"tools\":[{\"function\":{\"description\":\"Get the current weather\",\"name\":\"get_current_weather\",\"parameters\":{\"properties\":{\"format\":{\"enum\":[\"celsius\",\"fahrenheit\"],\"type\":\"string\"},\"location\":{\"description\":\"The city and country, eg. San Francisco, USA\",\"type\":\"string\"}},\"required\":[\"location\",\"format\"],\"type\":\"object\"}},\"type\":\"function\"}]}") . unwrap () ;
+}
+#[test]
+fn test_fine_tune_completion_request_input() {
+    serde_json::from_str::<FineTuneCompletionRequestInput>(
+        "{\"completion\":\"4\",\"prompt\":\"What is the answer to 2+2\"}",
+    )
+    .unwrap();
+}
+#[test]
+fn test_fine_tune_preference_request_input() {
+    serde_json :: from_str :: < FineTunePreferenceRequestInput > ("{\"input\":{\"messages\":[{\"content\":\"What is the weather in San Francisco?\",\"role\":\"user\"}]},\"non_preferred_completion\":[{\"content\":\"The weather in San Francisco is 21 degrees Celsius.\",\"role\":\"assistant\"}],\"preferred_completion\":[{\"content\":\"The weather in San Francisco is 70 degrees Fahrenheit.\",\"role\":\"assistant\"}]}") . unwrap () ;
+}
+#[test]
+fn test_fine_tuning_checkpoint_permission() {
+    serde_json :: from_str :: < FineTuningCheckpointPermission > ("{\"created_at\":1712211699,\"id\":\"cp_zc4Q7MP6XxulcVzj4MZdwsAB\",\"object\":\"checkpoint.permission\",\"project_id\":\"proj_abGMw1llN8IrBb6SvvY5A1iH\"}") . unwrap () ;
+}
+#[test]
+fn test_fine_tuning_job() {
+    serde_json :: from_str :: < FineTuningJob > ("{\"created_at\":1692661014,\"estimated_finish\":0,\"fine_tuned_model\":\"ft:davinci-002:my-org:custom_suffix:7q8mpxmy\",\"finished_at\":1692661190,\"hyperparameters\":{\"batch_size\":1,\"learning_rate_multiplier\":1.0,\"n_epochs\":4},\"id\":\"ftjob-abc123\",\"integrations\":[],\"metadata\":{\"key\":\"value\"},\"method\":{\"supervised\":{\"hyperparameters\":{\"batch_size\":1,\"learning_rate_multiplier\":1.0,\"n_epochs\":4}},\"type\":\"supervised\"},\"model\":\"davinci-002\",\"object\":\"fine_tuning.job\",\"organization_id\":\"org-123\",\"result_files\":[\"file-abc123\"],\"seed\":0,\"status\":\"succeeded\",\"trained_tokens\":5768,\"training_file\":\"file-abc123\",\"validation_file\":null}") . unwrap () ;
+}
+#[test]
+fn test_fine_tuning_job_checkpoint() {
+    serde_json :: from_str :: < FineTuningJobCheckpoint > ("{\"created_at\":1712211699,\"fine_tuned_model_checkpoint\":\"ft:gpt-4o-mini-2024-07-18:my-org:custom_suffix:9ABel2dg:ckpt-step-88\",\"fine_tuning_job_id\":\"ftjob-fpbNQ3H1GrMehXRf8cO97xTN\",\"id\":\"ftckpt_qtZ5Gyk4BLq1SfLFWp3RtO3P\",\"metrics\":{\"full_valid_loss\":0.567,\"full_valid_mean_token_accuracy\":0.944,\"step\":88,\"train_loss\":0.478,\"train_mean_token_accuracy\":0.924,\"valid_loss\":10.112,\"valid_mean_token_accuracy\":0.145},\"object\":\"fine_tuning.job.checkpoint\",\"step_number\":88}") . unwrap () ;
+}
+#[test]
+fn test_images_response() {
+    serde_json :: from_str :: < ImagesResponse > ("{\"created\":1713833628,\"data\":[{\"b64_json\":\"...\"}],\"usage\":{\"input_tokens\":50,\"input_tokens_details\":{\"image_tokens\":40,\"text_tokens\":10},\"output_tokens\":50,\"total_tokens\":100}}") . unwrap () ;
+}
+#[test]
+fn test_invite() {
+    serde_json :: from_str :: < Invite > ("{\"accepted_at\":1711471533,\"email\":\"user@example.com\",\"expires_at\":1711471533,\"id\":\"invite-abc\",\"invited_at\":1711471533,\"object\":\"organization.invite\",\"projects\":[{\"id\":\"project-xyz\",\"role\":\"member\"}],\"role\":\"owner\",\"status\":\"accepted\"}") . unwrap () ;
+}
+#[test]
+fn test_list_assistants_response() {
+    serde_json :: from_str :: < ListAssistantsResponse > ("{\"data\":[{\"created_at\":1698982736,\"description\":null,\"id\":\"asst_abc123\",\"instructions\":\"You are a helpful assistant designed to make me better at coding!\",\"metadata\":{},\"model\":\"gpt-4o\",\"name\":\"Coding Tutor\",\"object\":\"assistant\",\"response_format\":\"auto\",\"temperature\":1.0,\"tool_resources\":{},\"tools\":[],\"top_p\":1.0},{\"created_at\":1698982718,\"description\":null,\"id\":\"asst_abc456\",\"instructions\":\"You are a helpful assistant designed to make me better at coding!\",\"metadata\":{},\"model\":\"gpt-4o\",\"name\":\"My Assistant\",\"object\":\"assistant\",\"response_format\":\"auto\",\"temperature\":1.0,\"tool_resources\":{},\"tools\":[],\"top_p\":1.0},{\"created_at\":1698982643,\"description\":null,\"id\":\"asst_abc789\",\"instructions\":null,\"metadata\":{},\"model\":\"gpt-4o\",\"name\":null,\"object\":\"assistant\",\"response_format\":\"auto\",\"temperature\":1.0,\"tool_resources\":{},\"tools\":[],\"top_p\":1.0}],\"first_id\":\"asst_abc123\",\"has_more\":false,\"last_id\":\"asst_abc789\",\"object\":\"list\"}") . unwrap () ;
+}
+#[test]
+fn test_message_delta_object() {
+    serde_json :: from_str :: < MessageDeltaObject > ("{\"delta\":{\"content\":[{\"index\":0,\"text\":{\"annotations\":[],\"value\":\"Hello\"},\"type\":\"text\"}]},\"id\":\"msg_123\",\"object\":\"thread.message.delta\"}") . unwrap () ;
+}
+#[test]
+fn test_message_object() {
+    serde_json :: from_str :: < MessageObject > ("{\"assistant_id\":\"asst_abc123\",\"attachments\":[],\"content\":[{\"text\":{\"annotations\":[],\"value\":\"Hi! How can I help you today?\"},\"type\":\"text\"}],\"created_at\":1698983503,\"id\":\"msg_abc123\",\"metadata\":{},\"object\":\"thread.message\",\"role\":\"assistant\",\"run_id\":\"run_abc123\",\"thread_id\":\"thread_abc123\"}") . unwrap () ;
+}
+#[test]
+fn test_model() {
+    serde_json :: from_str :: < Model > ("{\"created\":1686935002,\"id\":\"VAR_chat_model_id\",\"object\":\"model\",\"owned_by\":\"openai\"}") . unwrap () ;
+}
+#[test]
+fn test_project() {
+    serde_json :: from_str :: < Project > ("{\"archived_at\":null,\"created_at\":1711471533,\"id\":\"proj_abc\",\"name\":\"Project example\",\"object\":\"organization.project\",\"status\":\"active\"}") . unwrap () ;
+}
+#[test]
+fn test_project_api_key() {
+    serde_json :: from_str :: < ProjectApiKey > ("{\"created_at\":1711471533,\"id\":\"key_abc\",\"last_used_at\":1711471534,\"name\":\"My API Key\",\"object\":\"organization.project.api_key\",\"owner\":{\"type\":\"user\",\"user\":{\"created_at\":1711471533,\"email\":\"user@example.com\",\"id\":\"user_abc\",\"name\":\"First Last\",\"object\":\"organization.project.user\",\"role\":\"owner\"}},\"redacted_value\":\"sk-abc...def\"}") . unwrap () ;
+}
+#[test]
+fn test_project_rate_limit() {
+    serde_json :: from_str :: < ProjectRateLimit > ("{\"id\":\"rl_ada\",\"max_images_per_1_minute\":10,\"max_requests_per_1_minute\":600,\"max_tokens_per_1_minute\":150000,\"model\":\"ada\",\"object\":\"project.rate_limit\"}") . unwrap () ;
+}
+#[test]
+fn test_project_service_account() {
+    serde_json :: from_str :: < ProjectServiceAccount > ("{\"created_at\":1711471533,\"id\":\"svc_acct_abc\",\"name\":\"Service Account\",\"object\":\"organization.project.service_account\",\"role\":\"owner\"}") . unwrap () ;
+}
+#[test]
+fn test_project_user() {
+    serde_json :: from_str :: < ProjectUser > ("{\"added_at\":1711471533,\"email\":\"user@example.com\",\"id\":\"user_abc\",\"name\":\"First Last\",\"object\":\"organization.project.user\",\"role\":\"owner\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_client_event_conversation_item_create() {
+    serde_json :: from_str :: < RealtimeClientEventConversationItemCreate > ("{\"event_id\":\"event_345\",\"item\":{\"content\":[{\"text\":\"Hello, how are you?\",\"type\":\"input_text\"}],\"id\":\"msg_001\",\"role\":\"user\",\"type\":\"message\"},\"previous_item_id\":null,\"type\":\"conversation.item.create\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_client_event_conversation_item_delete() {
+    serde_json :: from_str :: < RealtimeClientEventConversationItemDelete > ("{\"event_id\":\"event_901\",\"item_id\":\"msg_003\",\"type\":\"conversation.item.delete\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_client_event_conversation_item_retrieve() {
+    serde_json :: from_str :: < RealtimeClientEventConversationItemRetrieve > ("{\"event_id\":\"event_901\",\"item_id\":\"msg_003\",\"type\":\"conversation.item.retrieve\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_client_event_conversation_item_truncate() {
+    serde_json :: from_str :: < RealtimeClientEventConversationItemTruncate > ("{\"audio_end_ms\":1500,\"content_index\":0,\"event_id\":\"event_678\",\"item_id\":\"msg_002\",\"type\":\"conversation.item.truncate\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_client_event_input_audio_buffer_append() {
+    serde_json :: from_str :: < RealtimeClientEventInputAudioBufferAppend > ("{\"audio\":\"Base64EncodedAudioData\",\"event_id\":\"event_456\",\"type\":\"input_audio_buffer.append\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_client_event_input_audio_buffer_clear() {
+    serde_json::from_str::<RealtimeClientEventInputAudioBufferClear>(
+        "{\"event_id\":\"event_012\",\"type\":\"input_audio_buffer.clear\"}",
+    )
+    .unwrap();
+}
+#[test]
+fn test_realtime_client_event_input_audio_buffer_commit() {
+    serde_json::from_str::<RealtimeClientEventInputAudioBufferCommit>(
+        "{\"event_id\":\"event_789\",\"type\":\"input_audio_buffer.commit\"}",
+    )
+    .unwrap();
+}
+#[test]
+fn test_realtime_client_event_output_audio_buffer_clear() {
+    serde_json::from_str::<RealtimeClientEventOutputAudioBufferClear>(
+        "{\"event_id\":\"optional_client_event_id\",\"type\":\"output_audio_buffer.clear\"}",
+    )
+    .unwrap();
+}
+#[test]
+fn test_realtime_client_event_response_cancel() {
+    serde_json::from_str::<RealtimeClientEventResponseCancel>(
+        "{\"event_id\":\"event_567\",\"type\":\"response.cancel\"}",
+    )
+    .unwrap();
+}
+#[test]
+fn test_realtime_client_event_response_create() {
+    serde_json :: from_str :: < RealtimeClientEventResponseCreate > ("{\"event_id\":\"event_234\",\"response\":{\"instructions\":\"Please assist the user.\",\"max_output_tokens\":1024,\"modalities\":[\"text\",\"audio\"],\"output_audio_format\":\"pcm16\",\"temperature\":0.8,\"tool_choice\":\"auto\",\"tools\":[{\"description\":\"Calculates the sum of two numbers.\",\"name\":\"calculate_sum\",\"parameters\":{\"properties\":{\"a\":{\"type\":\"number\"},\"b\":{\"type\":\"number\"}},\"required\":[\"a\",\"b\"],\"type\":\"object\"},\"type\":\"function\"}],\"voice\":\"sage\"},\"type\":\"response.create\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_client_event_session_update() {
+    serde_json :: from_str :: < RealtimeClientEventSessionUpdate > ("{\"event_id\":\"event_123\",\"session\":{\"input_audio_format\":\"pcm16\",\"input_audio_transcription\":{\"model\":\"whisper-1\"},\"instructions\":\"You are a helpful assistant.\",\"max_response_output_tokens\":\"inf\",\"modalities\":[\"text\",\"audio\"],\"output_audio_format\":\"pcm16\",\"temperature\":0.8,\"tool_choice\":\"auto\",\"tools\":[{\"description\":\"Get the current weather...\",\"name\":\"get_weather\",\"parameters\":{\"properties\":{\"location\":{\"type\":\"string\"}},\"required\":[\"location\"],\"type\":\"object\"},\"type\":\"function\"}],\"turn_detection\":{\"create_response\":true,\"prefix_padding_ms\":300,\"silence_duration_ms\":500,\"threshold\":0.5,\"type\":\"server_vad\"},\"voice\":\"sage\"},\"type\":\"session.update\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_server_event_conversation_created() {
+    serde_json :: from_str :: < RealtimeServerEventConversationCreated > ("{\"conversation\":{\"id\":\"conv_001\",\"object\":\"realtime.conversation\"},\"event_id\":\"event_9101\",\"type\":\"conversation.created\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_server_event_conversation_item_created() {
+    serde_json :: from_str :: < RealtimeServerEventConversationItemCreated > ("{\"event_id\":\"event_1920\",\"item\":{\"content\":[],\"id\":\"msg_003\",\"object\":\"realtime.item\",\"role\":\"user\",\"status\":\"completed\",\"type\":\"message\"},\"previous_item_id\":\"msg_002\",\"type\":\"conversation.item.created\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_server_event_conversation_item_deleted() {
+    serde_json :: from_str :: < RealtimeServerEventConversationItemDeleted > ("{\"event_id\":\"event_2728\",\"item_id\":\"msg_005\",\"type\":\"conversation.item.deleted\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_server_event_conversation_item_input_audio_transcription_completed() {
+    serde_json :: from_str :: < RealtimeServerEventConversationItemInputAudioTranscriptionCompleted > ("{\"content_index\":0,\"event_id\":\"event_2122\",\"item_id\":\"msg_003\",\"transcript\":\"Hello, how are you?\",\"type\":\"conversation.item.input_audio_transcription.completed\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_server_event_conversation_item_input_audio_transcription_delta() {
+    serde_json :: from_str :: < RealtimeServerEventConversationItemInputAudioTranscriptionDelta > ("{\"content_index\":0,\"delta\":\"Hello\",\"event_id\":\"event_001\",\"item_id\":\"item_001\",\"type\":\"conversation.item.input_audio_transcription.delta\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_server_event_conversation_item_input_audio_transcription_failed() {
+    serde_json :: from_str :: < RealtimeServerEventConversationItemInputAudioTranscriptionFailed > ("{\"content_index\":0,\"error\":{\"code\":\"audio_unintelligible\",\"message\":\"The audio could not be transcribed.\",\"param\":null,\"type\":\"transcription_error\"},\"event_id\":\"event_2324\",\"item_id\":\"msg_003\",\"type\":\"conversation.item.input_audio_transcription.failed\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_server_event_conversation_item_retrieved() {
+    serde_json :: from_str :: < RealtimeServerEventConversationItemRetrieved > ("{\"event_id\":\"event_1920\",\"item\":{\"content\":[{\"audio\":\"base64encodedaudio==\",\"transcript\":\"hello how are you\",\"type\":\"input_audio\"}],\"id\":\"msg_003\",\"object\":\"realtime.item\",\"role\":\"user\",\"status\":\"completed\",\"type\":\"message\"},\"previous_item_id\":\"msg_002\",\"type\":\"conversation.item.created\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_server_event_conversation_item_truncated() {
+    serde_json :: from_str :: < RealtimeServerEventConversationItemTruncated > ("{\"audio_end_ms\":1500,\"content_index\":0,\"event_id\":\"event_2526\",\"item_id\":\"msg_004\",\"type\":\"conversation.item.truncated\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_server_event_error() {
+    serde_json :: from_str :: < RealtimeServerEventError > ("{\"error\":{\"code\":\"invalid_event\",\"event_id\":\"event_567\",\"message\":\"The 'type' field is missing.\",\"param\":null,\"type\":\"invalid_request_error\"},\"event_id\":\"event_890\",\"type\":\"error\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_server_event_input_audio_buffer_cleared() {
+    serde_json::from_str::<RealtimeServerEventInputAudioBufferCleared>(
+        "{\"event_id\":\"event_1314\",\"type\":\"input_audio_buffer.cleared\"}",
+    )
+    .unwrap();
+}
+#[test]
+fn test_realtime_server_event_input_audio_buffer_committed() {
+    serde_json :: from_str :: < RealtimeServerEventInputAudioBufferCommitted > ("{\"event_id\":\"event_1121\",\"item_id\":\"msg_002\",\"previous_item_id\":\"msg_001\",\"type\":\"input_audio_buffer.committed\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_server_event_input_audio_buffer_speech_started() {
+    serde_json :: from_str :: < RealtimeServerEventInputAudioBufferSpeechStarted > ("{\"audio_start_ms\":1000,\"event_id\":\"event_1516\",\"item_id\":\"msg_003\",\"type\":\"input_audio_buffer.speech_started\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_server_event_input_audio_buffer_speech_stopped() {
+    serde_json :: from_str :: < RealtimeServerEventInputAudioBufferSpeechStopped > ("{\"audio_end_ms\":2000,\"event_id\":\"event_1718\",\"item_id\":\"msg_003\",\"type\":\"input_audio_buffer.speech_stopped\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_server_event_output_audio_buffer_cleared() {
+    serde_json :: from_str :: < RealtimeServerEventOutputAudioBufferCleared > ("{\"event_id\":\"event_abc123\",\"response_id\":\"resp_abc123\",\"type\":\"output_audio_buffer.cleared\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_server_event_output_audio_buffer_started() {
+    serde_json :: from_str :: < RealtimeServerEventOutputAudioBufferStarted > ("{\"event_id\":\"event_abc123\",\"response_id\":\"resp_abc123\",\"type\":\"output_audio_buffer.started\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_server_event_output_audio_buffer_stopped() {
+    serde_json :: from_str :: < RealtimeServerEventOutputAudioBufferStopped > ("{\"event_id\":\"event_abc123\",\"response_id\":\"resp_abc123\",\"type\":\"output_audio_buffer.stopped\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_server_event_rate_limits_updated() {
+    serde_json :: from_str :: < RealtimeServerEventRateLimitsUpdated > ("{\"event_id\":\"event_5758\",\"rate_limits\":[{\"limit\":1000,\"name\":\"requests\",\"remaining\":999,\"reset_seconds\":60},{\"limit\":50000,\"name\":\"tokens\",\"remaining\":49950,\"reset_seconds\":60}],\"type\":\"rate_limits.updated\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_server_event_response_audio_delta() {
+    serde_json :: from_str :: < RealtimeServerEventResponseAudioDelta > ("{\"content_index\":0,\"delta\":\"Base64EncodedAudioDelta\",\"event_id\":\"event_4950\",\"item_id\":\"msg_008\",\"output_index\":0,\"response_id\":\"resp_001\",\"type\":\"response.audio.delta\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_server_event_response_audio_done() {
+    serde_json :: from_str :: < RealtimeServerEventResponseAudioDone > ("{\"content_index\":0,\"event_id\":\"event_5152\",\"item_id\":\"msg_008\",\"output_index\":0,\"response_id\":\"resp_001\",\"type\":\"response.audio.done\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_server_event_response_audio_transcript_delta() {
+    serde_json :: from_str :: < RealtimeServerEventResponseAudioTranscriptDelta > ("{\"content_index\":0,\"delta\":\"Hello, how can I a\",\"event_id\":\"event_4546\",\"item_id\":\"msg_008\",\"output_index\":0,\"response_id\":\"resp_001\",\"type\":\"response.audio_transcript.delta\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_server_event_response_audio_transcript_done() {
+    serde_json :: from_str :: < RealtimeServerEventResponseAudioTranscriptDone > ("{\"content_index\":0,\"event_id\":\"event_4748\",\"item_id\":\"msg_008\",\"output_index\":0,\"response_id\":\"resp_001\",\"transcript\":\"Hello, how can I assist you today?\",\"type\":\"response.audio_transcript.done\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_server_event_response_content_part_added() {
+    serde_json :: from_str :: < RealtimeServerEventResponseContentPartAdded > ("{\"content_index\":0,\"event_id\":\"event_3738\",\"item_id\":\"msg_007\",\"output_index\":0,\"part\":{\"text\":\"\",\"type\":\"text\"},\"response_id\":\"resp_001\",\"type\":\"response.content_part.added\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_server_event_response_content_part_done() {
+    serde_json :: from_str :: < RealtimeServerEventResponseContentPartDone > ("{\"content_index\":0,\"event_id\":\"event_3940\",\"item_id\":\"msg_007\",\"output_index\":0,\"part\":{\"text\":\"Sure, I can help with that.\",\"type\":\"text\"},\"response_id\":\"resp_001\",\"type\":\"response.content_part.done\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_server_event_response_created() {
+    serde_json :: from_str :: < RealtimeServerEventResponseCreated > ("{\"event_id\":\"event_2930\",\"response\":{\"id\":\"resp_001\",\"object\":\"realtime.response\",\"output\":[],\"status\":\"in_progress\",\"status_details\":null,\"usage\":null},\"type\":\"response.created\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_server_event_response_done() {
+    serde_json :: from_str :: < RealtimeServerEventResponseDone > ("{\"event_id\":\"event_3132\",\"response\":{\"id\":\"resp_001\",\"object\":\"realtime.response\",\"output\":[{\"content\":[{\"text\":\"Sure, how can I assist you today?\",\"type\":\"text\"}],\"id\":\"msg_006\",\"object\":\"realtime.item\",\"role\":\"assistant\",\"status\":\"completed\",\"type\":\"message\"}],\"status\":\"completed\",\"status_details\":null,\"usage\":{\"input_token_details\":{\"audio_tokens\":8,\"cached_tokens\":384,\"cached_tokens_details\":{\"audio_tokens\":256,\"text_tokens\":128},\"text_tokens\":119},\"input_tokens\":127,\"output_token_details\":{\"audio_tokens\":112,\"text_tokens\":36},\"output_tokens\":148,\"total_tokens\":275}},\"type\":\"response.done\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_server_event_response_function_call_arguments_delta() {
+    serde_json :: from_str :: < RealtimeServerEventResponseFunctionCallArgumentsDelta > ("{\"call_id\":\"call_001\",\"delta\":\"{\\\"location\\\": \\\"San\\\"\",\"event_id\":\"event_5354\",\"item_id\":\"fc_001\",\"output_index\":0,\"response_id\":\"resp_002\",\"type\":\"response.function_call_arguments.delta\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_server_event_response_function_call_arguments_done() {
+    serde_json :: from_str :: < RealtimeServerEventResponseFunctionCallArgumentsDone > ("{\"arguments\":\"{\\\"location\\\": \\\"San Francisco\\\"}\",\"call_id\":\"call_001\",\"event_id\":\"event_5556\",\"item_id\":\"fc_001\",\"output_index\":0,\"response_id\":\"resp_002\",\"type\":\"response.function_call_arguments.done\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_server_event_response_output_item_added() {
+    serde_json :: from_str :: < RealtimeServerEventResponseOutputItemAdded > ("{\"event_id\":\"event_3334\",\"item\":{\"content\":[],\"id\":\"msg_007\",\"object\":\"realtime.item\",\"role\":\"assistant\",\"status\":\"in_progress\",\"type\":\"message\"},\"output_index\":0,\"response_id\":\"resp_001\",\"type\":\"response.output_item.added\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_server_event_response_output_item_done() {
+    serde_json :: from_str :: < RealtimeServerEventResponseOutputItemDone > ("{\"event_id\":\"event_3536\",\"item\":{\"content\":[{\"text\":\"Sure, I can help with that.\",\"type\":\"text\"}],\"id\":\"msg_007\",\"object\":\"realtime.item\",\"role\":\"assistant\",\"status\":\"completed\",\"type\":\"message\"},\"output_index\":0,\"response_id\":\"resp_001\",\"type\":\"response.output_item.done\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_server_event_response_text_delta() {
+    serde_json :: from_str :: < RealtimeServerEventResponseTextDelta > ("{\"content_index\":0,\"delta\":\"Sure, I can h\",\"event_id\":\"event_4142\",\"item_id\":\"msg_007\",\"output_index\":0,\"response_id\":\"resp_001\",\"type\":\"response.text.delta\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_server_event_response_text_done() {
+    serde_json :: from_str :: < RealtimeServerEventResponseTextDone > ("{\"content_index\":0,\"event_id\":\"event_4344\",\"item_id\":\"msg_007\",\"output_index\":0,\"response_id\":\"resp_001\",\"text\":\"Sure, I can help with that.\",\"type\":\"response.text.done\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_server_event_session_created() {
+    serde_json :: from_str :: < RealtimeServerEventSessionCreated > ("{\"event_id\":\"event_1234\",\"session\":{\"id\":\"sess_001\",\"input_audio_format\":\"pcm16\",\"input_audio_transcription\":null,\"instructions\":\"...model instructions here...\",\"max_response_output_tokens\":\"inf\",\"modalities\":[\"text\",\"audio\"],\"model\":\"gpt-4o-realtime-preview\",\"object\":\"realtime.session\",\"output_audio_format\":\"pcm16\",\"temperature\":0.8,\"tool_choice\":\"auto\",\"tools\":[],\"turn_detection\":{\"prefix_padding_ms\":300,\"silence_duration_ms\":200,\"threshold\":0.5,\"type\":\"server_vad\"},\"voice\":\"sage\"},\"type\":\"session.created\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_server_event_session_updated() {
+    serde_json :: from_str :: < RealtimeServerEventSessionUpdated > ("{\"event_id\":\"event_5678\",\"session\":{\"id\":\"sess_001\",\"input_audio_format\":\"pcm16\",\"input_audio_transcription\":{\"model\":\"whisper-1\"},\"instructions\":\"New instructions\",\"max_response_output_tokens\":200,\"modalities\":[\"text\"],\"model\":\"gpt-4o-realtime-preview\",\"object\":\"realtime.session\",\"output_audio_format\":\"pcm16\",\"temperature\":0.7,\"tool_choice\":\"none\",\"tools\":[],\"turn_detection\":null,\"voice\":\"sage\"},\"type\":\"session.updated\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_session_create_response() {
+    serde_json :: from_str :: < RealtimeSessionCreateResponse > ("{\"client_secret\":{\"expires_at\":1234567890,\"value\":\"ek_abc123\"},\"id\":\"sess_001\",\"input_audio_format\":\"pcm16\",\"input_audio_transcription\":{\"model\":\"whisper-1\"},\"instructions\":\"You are a friendly assistant.\",\"max_response_output_tokens\":200,\"modalities\":[\"audio\",\"text\"],\"model\":\"gpt-4o-realtime-preview\",\"object\":\"realtime.session\",\"output_audio_format\":\"pcm16\",\"temperature\":0.7,\"tool_choice\":\"none\",\"tools\":[],\"turn_detection\":null,\"voice\":\"alloy\"}") . unwrap () ;
+}
+#[test]
+fn test_realtime_transcription_session_create_response() {
+    serde_json :: from_str :: < RealtimeTranscriptionSessionCreateResponse > ("{\"client_secret\":null,\"expires_at\":1742188264,\"id\":\"sess_BBwZc7cFV3XizEyKGDCGL\",\"input_audio_format\":\"pcm16\",\"input_audio_transcription\":{\"language\":null,\"model\":\"gpt-4o-transcribe\",\"prompt\":\"\"},\"modalities\":[\"audio\",\"text\"],\"object\":\"realtime.transcription_session\",\"turn_detection\":{\"prefix_padding_ms\":300,\"silence_duration_ms\":200,\"threshold\":0.5,\"type\":\"server_vad\"}}") . unwrap () ;
+}
+#[test]
+fn test_response_audio_delta_event() {
+    serde_json :: from_str :: < ResponseAudioDeltaEvent > ("{\"delta\":\"base64encoded...\",\"response_id\":\"resp_123\",\"type\":\"response.audio.delta\"}") . unwrap () ;
+}
+#[test]
+fn test_response_audio_done_event() {
+    serde_json::from_str::<ResponseAudioDoneEvent>(
+        "{\"response_id\":\"resp-123\",\"type\":\"response.audio.done\"}",
+    )
+    .unwrap();
+}
+#[test]
+fn test_response_audio_transcript_delta_event() {
+    serde_json :: from_str :: < ResponseAudioTranscriptDeltaEvent > ("{\"delta\":\" ... partial transcript ... \",\"response_id\":\"resp_123\",\"type\":\"response.audio.transcript.delta\"}") . unwrap () ;
+}
+#[test]
+fn test_response_audio_transcript_done_event() {
+    serde_json::from_str::<ResponseAudioTranscriptDoneEvent>(
+        "{\"response_id\":\"resp_123\",\"type\":\"response.audio.transcript.done\"}",
+    )
+    .unwrap();
+}
+#[test]
+fn test_response_code_interpreter_call_code_delta_event() {
+    serde_json :: from_str :: < ResponseCodeInterpreterCallCodeDeltaEvent > ("{\"delta\":\"partial code\",\"output_index\":0,\"response_id\":\"resp-123\",\"type\":\"response.code_interpreter_call.code.delta\"}") . unwrap () ;
+}
+#[test]
+fn test_response_code_interpreter_call_code_done_event() {
+    serde_json :: from_str :: < ResponseCodeInterpreterCallCodeDoneEvent > ("{\"code\":\"console.log('done');\",\"output_index\":3,\"response_id\":\"resp-123\",\"type\":\"response.code_interpreter_call.code.done\"}") . unwrap () ;
+}
+#[test]
+fn test_response_code_interpreter_call_completed_event() {
+    serde_json :: from_str :: < ResponseCodeInterpreterCallCompletedEvent > ("{\"code_interpreter_call\":{},\"output_index\":5,\"response_id\":\"resp-123\",\"type\":\"response.code_interpreter_call.completed\"}") . unwrap () ;
+}
+#[test]
+fn test_response_code_interpreter_call_in_progress_event() {
+    serde_json :: from_str :: < ResponseCodeInterpreterCallInProgressEvent > ("{\"code_interpreter_call\":{},\"output_index\":0,\"response_id\":\"resp-123\",\"type\":\"response.code_interpreter_call.in.progress\"}") . unwrap () ;
+}
+#[test]
+fn test_response_code_interpreter_call_interpreting_event() {
+    serde_json :: from_str :: < ResponseCodeInterpreterCallInterpretingEvent > ("{\"code_interpreter_call\":{},\"output_index\":4,\"response_id\":\"resp-123\",\"type\":\"response.code_interpreter_call.interpreting\"}") . unwrap () ;
+}
+#[test]
+fn test_response_completed_event() {
+    serde_json :: from_str :: < ResponseCompletedEvent > ("{\"response\":{\"created_at\":1740855869,\"error\":null,\"id\":\"resp_123\",\"incomplete_details\":null,\"input\":[],\"instructions\":null,\"max_output_tokens\":null,\"metadata\":{},\"model\":\"gpt-4o-mini-2024-07-18\",\"object\":\"response\",\"output\":[{\"content\":[{\"annotations\":[],\"text\":\"In a shimmering forest under a sky full of stars, a lonely unicorn named Lila discovered a hidden pond that glowed with moonlight. Every night, she would leave sparkling, magical flowers by the water's edge, hoping to share her beauty with others. One enchanting evening, she woke to find a group of friendly animals gathered around, eager to be friends and share in her magic.\",\"type\":\"output_text\"}],\"id\":\"msg_123\",\"role\":\"assistant\",\"type\":\"message\"}],\"previous_response_id\":null,\"reasoning_effort\":null,\"status\":\"completed\",\"store\":false,\"temperature\":1,\"text\":{\"format\":{\"type\":\"text\"}},\"tool_choice\":\"auto\",\"tools\":[],\"top_p\":1,\"truncation\":\"disabled\",\"usage\":{\"input_tokens\":0,\"output_tokens\":0,\"output_tokens_details\":{\"reasoning_tokens\":0},\"total_tokens\":0},\"user\":null},\"type\":\"response.completed\"}") . unwrap () ;
+}
+#[test]
+fn test_response_content_part_added_event() {
+    serde_json :: from_str :: < ResponseContentPartAddedEvent > ("{\"content_index\":0,\"item_id\":\"msg_123\",\"output_index\":0,\"part\":{\"annotations\":[],\"text\":\"\",\"type\":\"output_text\"},\"type\":\"response.content_part.added\"}") . unwrap () ;
+}
+#[test]
+fn test_response_content_part_done_event() {
+    serde_json :: from_str :: < ResponseContentPartDoneEvent > ("{\"content_index\":0,\"item_id\":\"msg_123\",\"output_index\":0,\"part\":{\"annotations\":[],\"text\":\"In a shimmering forest under a sky full of stars, a lonely unicorn named Lila discovered a hidden pond that glowed with moonlight. Every night, she would leave sparkling, magical flowers by the water's edge, hoping to share her beauty with others. One enchanting evening, she woke to find a group of friendly animals gathered around, eager to be friends and share in her magic.\",\"type\":\"output_text\"},\"type\":\"response.content_part.done\"}") . unwrap () ;
+}
+#[test]
+fn test_response_created_event() {
+    serde_json :: from_str :: < ResponseCreatedEvent > ("{\"response\":{\"created_at\":1741487325,\"error\":null,\"id\":\"resp_67ccfcdd16748190a91872c75d38539e09e4d4aac714747c\",\"incomplete_details\":null,\"instructions\":null,\"max_output_tokens\":null,\"metadata\":{},\"model\":\"gpt-4o-2024-08-06\",\"object\":\"response\",\"output\":[],\"parallel_tool_calls\":true,\"previous_response_id\":null,\"reasoning\":{\"effort\":null,\"summary\":null},\"status\":\"in_progress\",\"store\":true,\"temperature\":1,\"text\":{\"format\":{\"type\":\"text\"}},\"tool_choice\":\"auto\",\"tools\":[],\"top_p\":1,\"truncation\":\"disabled\",\"usage\":null,\"user\":null},\"type\":\"response.created\"}") . unwrap () ;
+}
+#[test]
+fn test_response_error_event() {
+    serde_json :: from_str :: < ResponseErrorEvent > ("{\"code\":\"ERR_SOMETHING\",\"message\":\"Something went wrong\",\"param\":null,\"type\":\"error\"}") . unwrap () ;
+}
+#[test]
+fn test_response_failed_event() {
+    serde_json :: from_str :: < ResponseFailedEvent > ("{\"response\":{\"created_at\":1740855869,\"error\":{\"code\":\"server_error\",\"message\":\"The model failed to generate a response.\"},\"id\":\"resp_123\",\"incomplete_details\":null,\"instructions\":null,\"max_output_tokens\":null,\"metadata\":{},\"model\":\"gpt-4o-mini-2024-07-18\",\"object\":\"response\",\"output\":[],\"previous_response_id\":null,\"reasoning_effort\":null,\"status\":\"failed\",\"store\":false,\"temperature\":1,\"text\":{\"format\":{\"type\":\"text\"}},\"tool_choice\":\"auto\",\"tools\":[],\"top_p\":1,\"truncation\":\"disabled\",\"usage\":null,\"user\":null},\"type\":\"response.failed\"}") . unwrap () ;
+}
+#[test]
+fn test_response_function_call_arguments_delta_event() {
+    serde_json :: from_str :: < ResponseFunctionCallArgumentsDeltaEvent > ("{\"delta\":\"{ \\\"arg\\\":\",\"item_id\":\"item-abc\",\"output_index\":0,\"type\":\"response.function_call_arguments.delta\"}") . unwrap () ;
+}
+#[test]
+fn test_response_function_call_arguments_done_event() {
+    serde_json :: from_str :: < ResponseFunctionCallArgumentsDoneEvent > ("{\"arguments\":\"{ \\\"arg\\\": 123 }\",\"item_id\":\"item-abc\",\"output_index\":1,\"type\":\"response.function_call_arguments.done\"}") . unwrap () ;
+}
+#[test]
+fn test_response_in_progress_event() {
+    serde_json :: from_str :: < ResponseInProgressEvent > ("{\"response\":{\"created_at\":1741487325,\"error\":null,\"id\":\"resp_67ccfcdd16748190a91872c75d38539e09e4d4aac714747c\",\"incomplete_details\":null,\"instructions\":null,\"max_output_tokens\":null,\"metadata\":{},\"model\":\"gpt-4o-2024-08-06\",\"object\":\"response\",\"output\":[],\"parallel_tool_calls\":true,\"previous_response_id\":null,\"reasoning\":{\"effort\":null,\"summary\":null},\"status\":\"in_progress\",\"store\":true,\"temperature\":1,\"text\":{\"format\":{\"type\":\"text\"}},\"tool_choice\":\"auto\",\"tools\":[],\"top_p\":1,\"truncation\":\"disabled\",\"usage\":null,\"user\":null},\"type\":\"response.in_progress\"}") . unwrap () ;
+}
+#[test]
+fn test_response_incomplete_event() {
+    serde_json :: from_str :: < ResponseIncompleteEvent > ("{\"response\":{\"created_at\":1740855869,\"error\":null,\"id\":\"resp_123\",\"incomplete_details\":{\"reason\":\"max_tokens\"},\"instructions\":null,\"max_output_tokens\":null,\"metadata\":{},\"model\":\"gpt-4o-mini-2024-07-18\",\"object\":\"response\",\"output\":[],\"previous_response_id\":null,\"reasoning_effort\":null,\"status\":\"incomplete\",\"store\":false,\"temperature\":1,\"text\":{\"format\":{\"type\":\"text\"}},\"tool_choice\":\"auto\",\"tools\":[],\"top_p\":1,\"truncation\":\"disabled\",\"usage\":null,\"user\":null},\"type\":\"response.incomplete\"}") . unwrap () ;
+}
+#[test]
+fn test_response_item_list() {
+    serde_json :: from_str :: < ResponseItemList > ("{\"data\":[{\"content\":[{\"text\":\"Tell me a three sentence bedtime story about a unicorn.\",\"type\":\"input_text\"}],\"id\":\"msg_abc123\",\"role\":\"user\",\"type\":\"message\"}],\"first_id\":\"msg_abc123\",\"has_more\":false,\"last_id\":\"msg_abc123\",\"object\":\"list\"}") . unwrap () ;
+}
+#[test]
+fn test_response_output_item_added_event() {
+    serde_json :: from_str :: < ResponseOutputItemAddedEvent > ("{\"item\":{\"content\":[],\"id\":\"msg_123\",\"role\":\"assistant\",\"status\":\"in_progress\",\"type\":\"message\"},\"output_index\":0,\"type\":\"response.output_item.added\"}") . unwrap () ;
+}
+#[test]
+fn test_response_output_item_done_event() {
+    serde_json :: from_str :: < ResponseOutputItemDoneEvent > ("{\"item\":{\"content\":[{\"annotations\":[],\"text\":\"In a shimmering forest under a sky full of stars, a lonely unicorn named Lila discovered a hidden pond that glowed with moonlight. Every night, she would leave sparkling, magical flowers by the water's edge, hoping to share her beauty with others. One enchanting evening, she woke to find a group of friendly animals gathered around, eager to be friends and share in her magic.\",\"type\":\"output_text\"}],\"id\":\"msg_123\",\"role\":\"assistant\",\"status\":\"completed\",\"type\":\"message\"},\"output_index\":0,\"type\":\"response.output_item.done\"}") . unwrap () ;
+}
+#[test]
+fn test_response_reasoning_summary_part_added_event() {
+    serde_json :: from_str :: < ResponseReasoningSummaryPartAddedEvent > ("{\"item_id\":\"rs_6806bfca0b2481918a5748308061a2600d3ce51bdffd5476\",\"output_index\":0,\"part\":{\"text\":\"\",\"type\":\"summary_text\"},\"summary_index\":0,\"type\":\"response.reasoning_summary_part.added\"}") . unwrap () ;
+}
+#[test]
+fn test_response_reasoning_summary_part_done_event() {
+    serde_json :: from_str :: < ResponseReasoningSummaryPartDoneEvent > ("{\"item_id\":\"rs_6806bfca0b2481918a5748308061a2600d3ce51bdffd5476\",\"output_index\":0,\"part\":{\"text\":\"**Responding to a greeting**\\n\\nThe user just said, \\\"Hello!\\\" So, it seems I need to engage. I'll greet them back and offer help since they're looking to chat. I could say something like, \\\"Hello! How can I assist you today?\\\" That feels friendly and open. They didn't ask a specific question, so this approach will work well for starting a conversation. Let's see where it goes from there!\",\"type\":\"summary_text\"},\"summary_index\":0,\"type\":\"response.reasoning_summary_part.done\"}") . unwrap () ;
+}
+#[test]
+fn test_response_reasoning_summary_text_delta_event() {
+    serde_json :: from_str :: < ResponseReasoningSummaryTextDeltaEvent > ("{\"delta\":\"**Respond\",\"item_id\":\"rs_6806bfca0b2481918a5748308061a2600d3ce51bdffd5476\",\"output_index\":0,\"summary_index\":0,\"type\":\"response.reasoning_summary_text.delta\"}") . unwrap () ;
+}
+#[test]
+fn test_response_reasoning_summary_text_done_event() {
+    serde_json :: from_str :: < ResponseReasoningSummaryTextDoneEvent > ("{\"item_id\":\"rs_6806bfca0b2481918a5748308061a2600d3ce51bdffd5476\",\"output_index\":0,\"summary_index\":0,\"text\":\"**Responding to a greeting**\\n\\nThe user just said, \\\"Hello!\\\" So, it seems I need to engage. I'll greet them back and offer help since they're looking to chat. I could say something like, \\\"Hello! How can I assist you today?\\\" That feels friendly and open. They didn't ask a specific question, so this approach will work well for starting a conversation. Let's see where it goes from there!\",\"type\":\"response.reasoning_summary_text.done\"}") . unwrap () ;
+}
+#[test]
+fn test_response_refusal_delta_event() {
+    serde_json :: from_str :: < ResponseRefusalDeltaEvent > ("{\"content_index\":0,\"delta\":\"refusal text so far\",\"item_id\":\"msg_123\",\"output_index\":0,\"type\":\"response.refusal.delta\"}") . unwrap () ;
+}
+#[test]
+fn test_response_refusal_done_event() {
+    serde_json :: from_str :: < ResponseRefusalDoneEvent > ("{\"content_index\":2,\"item_id\":\"item-abc\",\"output_index\":1,\"refusal\":\"final refusal text\",\"type\":\"response.refusal.done\"}") . unwrap () ;
+}
+#[test]
+fn test_response_text_annotation_delta_event() {
+    serde_json :: from_str :: < ResponseTextAnnotationDeltaEvent > ("{\"annotation\":{\"file_id\":\"file-4wDz5b167pAf72nx1h9eiN\",\"filename\":\"dragons.pdf\",\"index\":390,\"type\":\"file_citation\"},\"annotation_index\":0,\"content_index\":0,\"item_id\":\"msg_abc123\",\"output_index\":1,\"type\":\"response.output_text.annotation.added\"}") . unwrap () ;
+}
+#[test]
+fn test_response_text_delta_event() {
+    serde_json :: from_str :: < ResponseTextDeltaEvent > ("{\"content_index\":0,\"delta\":\"In\",\"item_id\":\"msg_123\",\"output_index\":0,\"type\":\"response.output_text.delta\"}") . unwrap () ;
+}
+#[test]
+fn test_response_text_done_event() {
+    serde_json :: from_str :: < ResponseTextDoneEvent > ("{\"content_index\":0,\"item_id\":\"msg_123\",\"output_index\":0,\"text\":\"In a shimmering forest under a sky full of stars, a lonely unicorn named Lila discovered a hidden pond that glowed with moonlight. Every night, she would leave sparkling, magical flowers by the water's edge, hoping to share her beauty with others. One enchanting evening, she woke to find a group of friendly animals gathered around, eager to be friends and share in her magic.\",\"type\":\"response.output_text.done\"}") . unwrap () ;
+}
+#[test]
+fn test_run_object() {
+    serde_json :: from_str :: < RunObject > ("{\"assistant_id\":\"asst_abc123\",\"cancelled_at\":null,\"completed_at\":1699073498,\"created_at\":1698107661,\"expires_at\":null,\"failed_at\":null,\"id\":\"run_abc123\",\"incomplete_details\":null,\"instructions\":null,\"last_error\":null,\"max_completion_tokens\":1000,\"max_prompt_tokens\":1000,\"metadata\":{},\"model\":\"gpt-4o\",\"object\":\"thread.run\",\"parallel_tool_calls\":true,\"response_format\":\"auto\",\"started_at\":1699073476,\"status\":\"completed\",\"temperature\":1.0,\"thread_id\":\"thread_abc123\",\"tool_choice\":\"auto\",\"tools\":[{\"type\":\"file_search\"},{\"type\":\"code_interpreter\"}],\"top_p\":1.0,\"truncation_strategy\":{\"last_messages\":null,\"type\":\"auto\"},\"usage\":{\"completion_tokens\":456,\"prompt_tokens\":123,\"total_tokens\":579}}") . unwrap () ;
+}
+#[test]
+fn test_run_step_delta_object() {
+    serde_json :: from_str :: < RunStepDeltaObject > ("{\"delta\":{\"step_details\":{\"tool_calls\":[{\"code_interpreter\":{\"input\":\"\",\"outputs\":[]},\"id\":\"call_123\",\"index\":0,\"type\":\"code_interpreter\"}],\"type\":\"tool_calls\"}},\"id\":\"step_123\",\"object\":\"thread.run.step.delta\"}") . unwrap () ;
+}
+#[test]
+fn test_run_step_object() {
+    serde_json :: from_str :: < RunStepObject > ("{\"assistant_id\":\"asst_abc123\",\"cancelled_at\":null,\"completed_at\":1699063291,\"created_at\":1699063291,\"expired_at\":null,\"failed_at\":null,\"id\":\"step_abc123\",\"last_error\":null,\"object\":\"thread.run.step\",\"run_id\":\"run_abc123\",\"status\":\"completed\",\"step_details\":{\"message_creation\":{\"message_id\":\"msg_abc123\"},\"type\":\"message_creation\"},\"thread_id\":\"thread_abc123\",\"type\":\"message_creation\",\"usage\":{\"completion_tokens\":456,\"prompt_tokens\":123,\"total_tokens\":579}}") . unwrap () ;
+}
+#[test]
+fn test_thread_object() {
+    serde_json :: from_str :: < ThreadObject > ("{\"created_at\":1698107661,\"id\":\"thread_abc123\",\"metadata\":{},\"object\":\"thread\"}") . unwrap () ;
+}
+#[test]
+fn test_transcript_text_delta_event() {
+    serde_json::from_str::<TranscriptTextDeltaEvent>(
+        "{\"delta\":\" wonderful\",\"type\":\"transcript.text.delta\"}",
+    )
+    .unwrap();
+}
+#[test]
+fn test_transcript_text_done_event() {
+    serde_json :: from_str :: < TranscriptTextDoneEvent > ("{\"text\":\"I see skies of blue and clouds of white, the bright blessed days, the dark sacred nights, and I think to myself, what a wonderful world.\",\"type\":\"transcript.text.done\"}") . unwrap () ;
+}
+#[test]
+fn test_upload_part() {
+    serde_json :: from_str :: < UploadPart > ("{\"created_at\":1719186911,\"id\":\"part_def456\",\"object\":\"upload.part\",\"upload_id\":\"upload_abc123\"}") . unwrap () ;
+}
+#[test]
+fn test_usage_audio_speeches_result() {
+    serde_json :: from_str :: < UsageAudioSpeechesResult > ("{\"api_key_id\":\"key_abc\",\"characters\":45,\"model\":\"tts-1\",\"num_model_requests\":1,\"object\":\"organization.usage.audio_speeches.result\",\"project_id\":\"proj_abc\",\"user_id\":\"user-abc\"}") . unwrap () ;
+}
+#[test]
+fn test_usage_audio_transcriptions_result() {
+    serde_json :: from_str :: < UsageAudioTranscriptionsResult > ("{\"api_key_id\":\"key_abc\",\"model\":\"tts-1\",\"num_model_requests\":1,\"object\":\"organization.usage.audio_transcriptions.result\",\"project_id\":\"proj_abc\",\"seconds\":10,\"user_id\":\"user-abc\"}") . unwrap () ;
+}
+#[test]
+fn test_usage_code_interpreter_sessions_result() {
+    serde_json :: from_str :: < UsageCodeInterpreterSessionsResult > ("{\"num_sessions\":1,\"object\":\"organization.usage.code_interpreter_sessions.result\",\"project_id\":\"proj_abc\"}") . unwrap () ;
+}
+#[test]
+fn test_usage_completions_result() {
+    serde_json :: from_str :: < UsageCompletionsResult > ("{\"api_key_id\":\"key_abc\",\"batch\":false,\"input_audio_tokens\":300,\"input_cached_tokens\":4000,\"input_tokens\":5000,\"model\":\"gpt-4o-mini-2024-07-18\",\"num_model_requests\":5,\"object\":\"organization.usage.completions.result\",\"output_audio_tokens\":200,\"output_tokens\":1000,\"project_id\":\"proj_abc\",\"user_id\":\"user-abc\"}") . unwrap () ;
+}
+#[test]
+fn test_usage_embeddings_result() {
+    serde_json :: from_str :: < UsageEmbeddingsResult > ("{\"api_key_id\":\"key_abc\",\"input_tokens\":20,\"model\":\"text-embedding-ada-002-v2\",\"num_model_requests\":2,\"object\":\"organization.usage.embeddings.result\",\"project_id\":\"proj_abc\",\"user_id\":\"user-abc\"}") . unwrap () ;
+}
+#[test]
+fn test_usage_images_result() {
+    serde_json :: from_str :: < UsageImagesResult > ("{\"api_key_id\":\"key_abc\",\"images\":2,\"model\":\"dall-e-3\",\"num_model_requests\":2,\"object\":\"organization.usage.images.result\",\"project_id\":\"proj_abc\",\"size\":\"1024x1024\",\"source\":\"image.generation\",\"user_id\":\"user-abc\"}") . unwrap () ;
+}
+#[test]
+fn test_usage_moderations_result() {
+    serde_json :: from_str :: < UsageModerationsResult > ("{\"api_key_id\":\"key_abc\",\"input_tokens\":20,\"model\":\"text-moderation\",\"num_model_requests\":2,\"object\":\"organization.usage.moderations.result\",\"project_id\":\"proj_abc\",\"user_id\":\"user-abc\"}") . unwrap () ;
+}
+#[test]
+fn test_usage_vector_stores_result() {
+    serde_json :: from_str :: < UsageVectorStoresResult > ("{\"object\":\"organization.usage.vector_stores.result\",\"project_id\":\"proj_abc\",\"usage_bytes\":1024}") . unwrap () ;
+}
+#[test]
+fn test_user() {
+    serde_json :: from_str :: < User > ("{\"added_at\":1711471533,\"email\":\"user@example.com\",\"id\":\"user_abc\",\"name\":\"First Last\",\"object\":\"organization.user\",\"role\":\"owner\"}") . unwrap () ;
+}
+#[test]
+fn test_vector_store_file_batch_object() {
+    serde_json :: from_str :: < VectorStoreFileBatchObject > ("{\"created_at\":1698107661,\"file_counts\":{\"cancelled\":0,\"completed\":100,\"failed\":0,\"in_progress\":0,\"total\":100},\"id\":\"vsfb_123\",\"object\":\"vector_store.files_batch\",\"status\":\"completed\",\"vector_store_id\":\"vs_abc123\"}") . unwrap () ;
+}
+#[test]
+fn test_vector_store_file_object() {
+    serde_json :: from_str :: < VectorStoreFileObject > ("{\"chunking_strategy\":{\"static\":{\"chunk_overlap_tokens\":400,\"max_chunk_size_tokens\":800},\"type\":\"static\"},\"created_at\":1698107661,\"id\":\"file-abc123\",\"last_error\":null,\"object\":\"vector_store.file\",\"status\":\"completed\",\"usage_bytes\":1234,\"vector_store_id\":\"vs_abc123\"}") . unwrap () ;
+}
+#[test]
+fn test_vector_store_object() {
+    serde_json :: from_str :: < VectorStoreObject > ("{\"created_at\":1698107661,\"file_counts\":{\"cancelled\":0,\"completed\":100,\"failed\":0,\"in_progress\":0,\"total\":100},\"id\":\"vs_123\",\"last_active_at\":1698107661,\"last_used_at\":1698107661,\"name\":\"my_vector_store\",\"object\":\"vector_store\",\"status\":\"completed\",\"usage_bytes\":123456}") . unwrap () ;
 }
