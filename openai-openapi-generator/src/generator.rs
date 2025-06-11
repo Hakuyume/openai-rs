@@ -344,14 +344,13 @@ impl Generator<'_> {
                 }
             };
             Ok(Some(Node::Item { value, ident }))
-        } else if let openapi::Schema {
+        } else if let Some((description, of, context)) = if let openapi::Schema {
             any_of: Some(any_of),
             description,
             discriminator: _,
         } = schema
         {
-            self.to_node_enum_impl(schema, (description, any_of, "anyOf"), name, inline)
-                .map(Some)
+            Some((description, any_of, "anyOf"))
         } else if let openapi::Schema {
             default: _,
             description,
@@ -361,80 +360,73 @@ impl Generator<'_> {
             x_oai_meta: _,
         } = schema
         {
-            self.to_node_enum_impl(schema, (description, one_of, "oneOf"), name, inline)
-                .map(Some)
+            Some((description, one_of, "oneOf"))
+        } else {
+            None
+        } {
+            let description = Self::to_description(description.as_deref());
+            let derive = Self::derive();
+            let ident = Self::to_ident_pascal(name);
+            if let Some((_, discriminator)) = self
+                .discriminators
+                .iter()
+                .find(|(s, _)| ptr::eq(*s, schema))
+            {
+                let property_name = discriminator.property_name;
+                let variants = of
+                    .iter()
+                    .zip(&discriminator.mapping)
+                    .enumerate()
+                    .map(|(i, (of, (_, const_, aliases)))| {
+                        let ident = Self::to_ident_pascal(const_);
+                        self.to_type(of, &format!("{name}.{i}"), inline)
+                            .with_context(|| format!("{context}[{i}]"))
+                            .map(|type_| {
+                                quote::quote! {
+                                    #[serde(rename = #const_, #(alias = #aliases),*)]
+                                    #ident(#type_)
+                                }
+                            })
+                    })
+                    .collect::<Result<Vec<_>, _>>()?;
+                let value = syn::parse_quote! {
+                    #description
+                    #derive
+                    #[allow(clippy::large_enum_variant)]
+                    #[serde(tag = #property_name)]
+                    pub enum #ident {
+                        #(#variants),*
+                    }
+                };
+                Ok(Some(Node::Item { value, ident }))
+            } else {
+                let variants = of
+                    .iter()
+                    .enumerate()
+                    .map(|(i, of)| {
+                        let ident = Self::to_ident_pascal(&i.to_string());
+                        self.to_type(of, &format!("{name}.{i}"), inline)
+                            .with_context(|| format!("{context}[{i}]"))
+                            .map(|type_| {
+                                quote::quote! {
+                                    #ident(#type_)
+                                }
+                            })
+                    })
+                    .collect::<Result<Vec<_>, _>>()?;
+                let value = syn::parse_quote! {
+                    #description
+                    #derive
+                    #[allow(clippy::large_enum_variant)]
+                    #[serde(untagged)]
+                    pub enum #ident {
+                        #(#variants),*
+                    }
+                };
+                Ok(Some(Node::Item { value, ident }))
+            }
         } else {
             Ok(None)
-        }
-    }
-
-    fn to_node_enum_impl(
-        &self,
-        schema: &openapi::Schema,
-        (description, of, context): (&Option<String>, &Vec<openapi::Schema>, &str),
-        name: &str,
-        inline: &mut Vec<(syn::Ident, syn::Item)>,
-    ) -> anyhow::Result<Node> {
-        let description = Self::to_description(description.as_deref());
-        let derive = Self::derive();
-        let ident = Self::to_ident_pascal(name);
-        if let Some((_, discriminator)) = self
-            .discriminators
-            .iter()
-            .find(|(s, _)| ptr::eq(*s, schema))
-        {
-            let property_name = discriminator.property_name;
-            let variants = of
-                .iter()
-                .zip(&discriminator.mapping)
-                .enumerate()
-                .map(|(i, (of, (_, const_, aliases)))| {
-                    let ident = Self::to_ident_pascal(const_);
-                    self.to_type(of, &format!("{name}.{i}"), inline)
-                        .with_context(|| format!("{context}[{i}]"))
-                        .map(|type_| {
-                            quote::quote! {
-                                #[serde(rename = #const_, #(alias = #aliases),*)]
-                                #ident(#type_)
-                            }
-                        })
-                })
-                .collect::<Result<Vec<_>, _>>()?;
-            let value = syn::parse_quote! {
-                #description
-                #derive
-                #[allow(clippy::large_enum_variant)]
-                #[serde(tag = #property_name)]
-                pub enum #ident {
-                    #(#variants),*
-                }
-            };
-            Ok(Node::Item { value, ident })
-        } else {
-            let variants = of
-                .iter()
-                .enumerate()
-                .map(|(i, of)| {
-                    let ident = Self::to_ident_pascal(&i.to_string());
-                    self.to_type(of, &format!("{name}.{i}"), inline)
-                        .with_context(|| format!("{context}[{i}]"))
-                        .map(|type_| {
-                            quote::quote! {
-                                #ident(#type_)
-                            }
-                        })
-                })
-                .collect::<Result<Vec<_>, _>>()?;
-            let value = syn::parse_quote! {
-                #description
-                #derive
-                #[allow(clippy::large_enum_variant)]
-                #[serde(untagged)]
-                pub enum #ident {
-                    #(#variants),*
-                }
-            };
-            Ok(Node::Item { value, ident })
         }
     }
 
