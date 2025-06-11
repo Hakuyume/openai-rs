@@ -93,23 +93,32 @@ fn patch(name: &str, schema: &mut openapi::Schema) {
         patch(name, schema)
     }
 
-    if let openapi::Schema {
+    if let Some(ref_) = if let openapi::Schema {
         all_of: Some(all_of),
     } = schema
-        && let [
+    {
+        if let [
             openapi::Schema {
                 ref_: ref_ @ Some(_),
             },
         ] = &mut all_of[..]
-    {
+        {
+            Some(ref_)
+        } else {
+            None
+        }
+    } else {
+        None
+    } {
         schema.ref_ = ref_.take();
         schema.all_of = None;
     }
 
-    if let openapi::Schema {
+    if let Some((ref_, description, nullable)) = if let openapi::Schema {
         all_of: Some(all_of),
     } = schema
-        && let [
+    {
+        if let [
             openapi::Schema {
                 ref_: ref_ @ Some(_),
             },
@@ -118,17 +127,34 @@ fn patch(name: &str, schema: &mut openapi::Schema) {
                 nullable: nullable @ Some(true),
             },
         ] = &mut all_of[..]
-    {
+        {
+            Some((ref_, description, nullable))
+        } else {
+            None
+        }
+    } else {
+        None
+    } {
         schema.ref_ = ref_.take();
         schema.description = description.take();
         schema.nullable = nullable.take();
         schema.all_of = None;
     }
 
-    if let openapi::Schema {
+    if let Some((
+        additional_properties,
+        default,
+        description,
+        enum_,
+        items,
+        ref_,
+        type_,
+        x_stainless_const,
+    )) = if let openapi::Schema {
         any_of: Some(any_of),
     } = schema
-        && let [
+    {
+        if let [
             openapi::Schema {
                 additional_properties,
                 default,
@@ -143,7 +169,23 @@ fn patch(name: &str, schema: &mut openapi::Schema) {
                 type_: Some(openapi::Type::Null),
             },
         ] = &mut any_of[..]
-    {
+        {
+            Some((
+                additional_properties,
+                default,
+                description,
+                enum_,
+                items,
+                ref_,
+                type_,
+                x_stainless_const,
+            ))
+        } else {
+            None
+        }
+    } else {
+        None
+    } {
         schema.additional_properties = additional_properties.take();
         schema.default = default.take();
         schema.description = description.take();
@@ -450,14 +492,17 @@ fn to_node(
     {
         let value = syn::parse_quote!(Vec<serde_json::Value>);
         Ok(Node::Type { value })
-    } else if let openapi::Schema {
+    } else if let Some(ref_) = if let openapi::Schema {
         description: _,
         nullable: _,
         ref_: Some(ref_),
         type_: _,
     } = schema
-        && let Some(ref_) = ref_.strip_prefix("#/components/schemas/")
     {
+        ref_.strip_prefix("#/components/schemas/")
+    } else {
+        None
+    } {
         let ref_ = to_ident_pascal(ref_);
         let value = syn::parse_quote!(#ref_);
         Ok(Node::Type { value })
@@ -708,12 +753,13 @@ fn to_node(
     {
         let value = syn::parse_quote!(std::collections::HashMap<String, serde_json::Value>);
         Ok(Node::Type { value })
-    } else if let openapi::Schema {
+    } else if let Some((description, all_of)) = if let openapi::Schema {
         all_of: Some(all_of),
         description,
         required: _,
     } = schema
-        && let Some(all_of) = all_of
+    {
+        all_of
             .iter()
             .map(|all_of| {
                 if let openapi::Schema {
@@ -724,16 +770,20 @@ fn to_node(
                 } = all_of
                 {
                     Some(either::Left(properties))
-                } else if let openapi::Schema { ref_: Some(ref_) } = all_of
-                    && let Some(ref_) = ref_.strip_prefix("#/components/schemas/")
-                {
-                    Some(either::Right(ref_))
                 } else {
-                    None
+                    if let openapi::Schema { ref_: Some(ref_) } = all_of {
+                        ref_.strip_prefix("#/components/schemas/")
+                    } else {
+                        None
+                    }
+                    .map(either::Right)
                 }
             })
             .collect::<Option<Vec<_>>>()
-    {
+            .map(|all_of| (description, all_of))
+    } else {
+        None
+    } {
         let discriminator = discriminators.iter().find_map(|(_, discriminator)| {
             discriminator
                 .mapping
