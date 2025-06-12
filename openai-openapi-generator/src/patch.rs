@@ -111,6 +111,21 @@ pub fn patch(name: &str, schema: &mut openapi::Schema) {
         schema.any_of = None;
     }
 
+    if let openapi::Schema {
+        description: Some(description),
+        enum_: None,
+        type_: Some(openapi::Type::String),
+        x_stainless_const: Some(true),
+    } = schema
+    {
+        if let Some(value) = description
+            .strip_prefix("The object type, which is always `")
+            .and_then(|description| description.strip_suffix('`'))
+        {
+            schema.enum_ = Some(vec![value.to_owned()]);
+        }
+    }
+
     if let Some(items) = &mut schema.items {
         if let Some(required) = schema.required.take() {
             items.required = Some(required.clone());

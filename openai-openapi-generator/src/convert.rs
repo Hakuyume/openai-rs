@@ -84,16 +84,6 @@ fn convert_primitive<'a>(schema: &'a openapi::Schema, _: Schemas<'a>) -> Option<
         } else {
             None
         }
-    } else if let openapi::Schema {
-        description: Some(description),
-        type_: Some(openapi::Type::String),
-        x_stainless_const: Some(true),
-    } = schema
-    {
-        description
-            .strip_prefix("The object type, which is always `")
-            .and_then(|description| description.strip_suffix('`'))
-            .map(|value| (Some(description.as_str()), value))
     } else {
         None
     } {
