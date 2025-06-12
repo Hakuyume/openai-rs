@@ -151,16 +151,14 @@ fn convert_primitive<'a>(schema: &'a openapi::Schema, _: Schemas<'a>) -> Option<
                 type_: crate::Type::Any,
             })),
         })
-    } else if let Some((description, nullable)) = if let openapi::Schema {
+    } else if let openapi::Schema {
         default: _,
         description,
         format: None | Some(openapi::Format::Uri),
         nullable,
         type_: Some(openapi::Type::String),
-    } = schema
-    {
-        Some((description, nullable))
-    } else if let openapi::Schema {
+    }
+    | openapi::Schema {
         any_of: Some(_),
         default: _,
         description,
@@ -168,30 +166,6 @@ fn convert_primitive<'a>(schema: &'a openapi::Schema, _: Schemas<'a>) -> Option<
         x_oai_type_label: Some(openapi::XOaiTypeLabel::String),
     } = schema
     {
-        Some((description, nullable))
-    } else if let openapi::Schema {
-        any_of: Some(any_of),
-        description,
-        nullable,
-    } = schema
-    {
-        if let [
-            openapi::Schema {
-                type_: Some(openapi::Type::String),
-            },
-            openapi::Schema {
-                enum_: Some(_),
-                type_: Some(openapi::Type::String),
-            },
-        ] = &any_of[..]
-        {
-            Some((description, nullable))
-        } else {
-            None
-        }
-    } else {
-        None
-    } {
         Some(crate::Schema {
             description: description.as_deref(),
             nullable: nullable.unwrap_or_default(),

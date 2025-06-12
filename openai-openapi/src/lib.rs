@@ -13684,19 +13684,6 @@ pub struct CreateFineTuningJobRequestHyperparameters {
     #[builder(default)]
     pub n_epochs: Option<CreateFineTuningJobRequestHyperparametersNEpochs>,
 }
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
-pub enum CreateFineTuningJobRequestIntegrationType0 {
-    #[default]
-    #[serde(rename = "wandb")]
-    Wandb,
-}
-#[doc = "The type of integration to enable. Currently, only \"wandb\" (Weights and Biases) is supported.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
-#[serde(untagged)]
-#[allow(clippy::large_enum_variant)]
-pub enum CreateFineTuningJobRequestIntegrationType {
-    _0(CreateFineTuningJobRequestIntegrationType0),
-}
 impl<'de> serde::Deserialize<'de> for CreateFineTuningJobRequestIntegrationWandb {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -13790,7 +13777,7 @@ impl<'de> serde::Deserialize<'de> for CreateFineTuningJobRequestIntegration {
         struct _D {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: CreateFineTuningJobRequestIntegrationType,
+            type_: String,
             #[serde(rename = "wandb")]
             #[allow(dead_code)]
             wandb: CreateFineTuningJobRequestIntegrationWandb,
@@ -13807,7 +13794,7 @@ impl serde::Serialize for CreateFineTuningJobRequestIntegration {
         #[derive(serde :: Serialize)]
         struct _S<'a> {
             #[serde(rename = "type")]
-            type_: &'a CreateFineTuningJobRequestIntegrationType,
+            type_: &'a String,
             #[serde(rename = "wandb")]
             wandb: &'a CreateFineTuningJobRequestIntegrationWandb,
         }
@@ -13818,7 +13805,7 @@ impl serde::Serialize for CreateFineTuningJobRequestIntegration {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateFineTuningJobRequestIntegration {
     #[doc = "The type of integration to enable. Currently, only \"wandb\" (Weights and Biases) is supported.\n"]
-    pub type_: CreateFineTuningJobRequestIntegrationType,
+    pub type_: String,
     #[doc = "The settings for your integration with Weights and Biases. This payload specifies the project that\nmetrics will be sent to. Optionally, you can set an explicit display name for your run, add tags\nto your run, and set a default entity (team, username, etc) to be associated with your run.\n"]
     pub wandb: CreateFineTuningJobRequestIntegrationWandb,
 }
@@ -29749,31 +29736,8 @@ pub struct Model {
     #[doc = "The organization that owns the model."]
     pub owned_by: String,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(untagged)]
-#[allow(clippy::large_enum_variant)]
-pub enum ModelIds {
-    ModelIdsShared(ModelIdsShared),
-    ModelIdsResponses(ModelIdsResponses),
-}
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
-pub enum ModelIdsResponses1 {
-    #[serde(rename = "o1-pro")]
-    O1Pro,
-    #[serde(rename = "o1-pro-2025-03-19")]
-    O1Pro20250319,
-    #[serde(rename = "computer-use-preview")]
-    ComputerUsePreview,
-    #[serde(rename = "computer-use-preview-2025-03-11")]
-    ComputerUsePreview20250311,
-}
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(untagged)]
-#[allow(clippy::large_enum_variant)]
-pub enum ModelIdsResponses {
-    ModelIdsShared(ModelIdsShared),
-    _1(ModelIdsResponses1),
-}
+pub type ModelIds = String;
+pub type ModelIdsResponses = String;
 pub type ModelIdsShared = String;
 impl<'de> serde::Deserialize<'de> for ModelResponseProperties {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -29870,14 +29834,6 @@ pub struct ModelResponseProperties {
     pub user: Option<String>,
     #[builder(default)]
     pub service_tier: Option<ServiceTier>,
-}
-#[doc = "ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models) for descriptions of them.\n"]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(untagged)]
-#[allow(clippy::large_enum_variant)]
-pub enum ModifyAssistantRequestModel {
-    _0(String),
-    AssistantSupportedModels(AssistantSupportedModels),
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 #[serde(untagged)]
@@ -30028,7 +29984,7 @@ impl<'de> serde::Deserialize<'de> for ModifyAssistantRequest {
         struct _D {
             #[serde(rename = "model")]
             #[allow(dead_code)]
-            model: Option<ModifyAssistantRequestModel>,
+            model: Option<String>,
             #[serde(rename = "reasoning_effort")]
             #[allow(dead_code)]
             reasoning_effort: Option<ReasoningEffort>,
@@ -30098,7 +30054,7 @@ impl serde::Serialize for ModifyAssistantRequest {
         struct _S<'a> {
             #[serde(rename = "model")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            model: &'a Option<ModifyAssistantRequestModel>,
+            model: &'a Option<String>,
             #[serde(rename = "reasoning_effort")]
             #[serde(skip_serializing_if = "Option::is_none")]
             reasoning_effort: &'a Option<ReasoningEffort>,
@@ -30163,7 +30119,7 @@ impl serde::Serialize for ModifyAssistantRequest {
 pub struct ModifyAssistantRequest {
     #[doc = "ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models) for descriptions of them.\n"]
     #[builder(default)]
-    pub model: Option<ModifyAssistantRequestModel>,
+    pub model: Option<String>,
     #[builder(default)]
     pub reasoning_effort: Option<ReasoningEffort>,
     #[doc = "The name of the assistant. The maximum length is 256 characters.\n"]
@@ -35267,22 +35223,6 @@ pub enum RealtimeResponseCreateParamsMaxResponseOutputTokens {
     _0(u64),
     _1(RealtimeResponseCreateParamsMaxResponseOutputTokens1),
 }
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
-pub enum RealtimeResponseCreateParamsConversation1 {
-    #[default]
-    #[serde(rename = "auto")]
-    Auto,
-    #[serde(rename = "none")]
-    None,
-}
-#[doc = "Controls which conversation the response is added to. Currently supports\n`auto` and `none`, with `auto` as the default value. The `auto` value\nmeans that the contents of the response will be added to the default\nconversation. Set this to `none` to create an out-of-band response which \nwill not add items to default conversation.\n"]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(untagged)]
-#[allow(clippy::large_enum_variant)]
-pub enum RealtimeResponseCreateParamsConversation {
-    _0(String),
-    _1(RealtimeResponseCreateParamsConversation1),
-}
 impl<'de> serde::Deserialize<'de> for RealtimeResponseCreateParams {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -35316,7 +35256,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeResponseCreateParams {
             max_response_output_tokens: Option<RealtimeResponseCreateParamsMaxResponseOutputTokens>,
             #[serde(rename = "conversation")]
             #[allow(dead_code)]
-            conversation: Option<RealtimeResponseCreateParamsConversation>,
+            conversation: Option<String>,
             #[serde(rename = "metadata")]
             #[allow(dead_code)]
             metadata: Option<Metadata>,
@@ -35387,7 +35327,7 @@ impl serde::Serialize for RealtimeResponseCreateParams {
                 &'a Option<RealtimeResponseCreateParamsMaxResponseOutputTokens>,
             #[serde(rename = "conversation")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            conversation: &'a Option<RealtimeResponseCreateParamsConversation>,
+            conversation: &'a Option<String>,
             #[serde(rename = "metadata")]
             #[serde(skip_serializing_if = "Option::is_none")]
             metadata: &'a Option<Metadata>,
@@ -35453,7 +35393,7 @@ pub struct RealtimeResponseCreateParams {
     pub max_response_output_tokens: Option<RealtimeResponseCreateParamsMaxResponseOutputTokens>,
     #[doc = "Controls which conversation the response is added to. Currently supports\n`auto` and `none`, with `auto` as the default value. The `auto` value\nmeans that the contents of the response will be added to the default\nconversation. Set this to `none` to create an out-of-band response which \nwill not add items to default conversation.\n"]
     #[builder(default)]
-    pub conversation: Option<RealtimeResponseCreateParamsConversation>,
+    pub conversation: Option<String>,
     #[builder(default)]
     pub metadata: Option<Metadata>,
     #[doc = "Input items to include in the prompt for the model. Using this field\ncreates a new context for this Response instead of using the default\nconversation. An empty array `[]` will clear the context for this Response.\nNote that this can include references to items from the default conversation.\n"]

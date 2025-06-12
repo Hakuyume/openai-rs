@@ -157,6 +157,9 @@ fn to_type(
         }
         Type::Binary => syn::parse_quote!(Vec<u8>),
         Type::Boolean => syn::parse_quote!(bool),
+        Type::EnumOf(variants) if variants.iter().all(|variant| is_string(variant, schemas)) => {
+            syn::parse_quote!(String)
+        }
         Type::Float => syn::parse_quote!(f64),
         Type::Integer => syn::parse_quote!(u64),
         Type::Map(item) => {
@@ -206,7 +209,7 @@ fn to_item(
                 }
             }
         }
-        Type::EnumOf(variants) => {
+        Type::EnumOf(variants) if !variants.iter().all(|variant| is_string(variant, schemas)) => {
             let variant_names = {
                 let tags = variants
                     .iter()
@@ -538,6 +541,17 @@ fn is_default(schema: &Schema<'_>, schemas: &IndexMap<&str, Schema<'_>>) -> bool
             } => is_default(schema, schemas) || schema.nullable || !required,
             Field::Ref(ref_) => is_default(schemas.get(ref_).unwrap(), schemas),
         }),
+        _ => false,
+    }
+}
+
+fn is_string(schema: &Schema<'_>, schemas: &IndexMap<&str, Schema<'_>>) -> bool {
+    match &schema.type_ {
+        Type::Const(_) => true,
+        Type::EnumOf(variant) => variant.iter().all(|variant| is_string(variant, schemas)),
+        Type::EnumString(_) => true,
+        Type::Ref(ref_) => is_string(schemas.get(ref_).unwrap(), schemas),
+        Type::String => true,
         _ => false,
     }
 }
