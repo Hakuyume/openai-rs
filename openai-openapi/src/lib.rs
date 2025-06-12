@@ -726,8 +726,8 @@ pub enum AssistantStreamEvent {
     RunStreamEvent(RunStreamEvent),
     RunStepStreamEvent(RunStepStreamEvent),
     MessageStreamEvent(MessageStreamEvent),
-    Error(ErrorEvent),
-    Done(DoneEvent),
+    ErrorEvent(ErrorEvent),
+    DoneEvent(DoneEvent),
 }
 #[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
 pub enum AssistantSupportedModels {
@@ -22627,7 +22627,7 @@ pub struct FineTuneChatCompletionRequestAssistantMessage {
 pub enum FineTuneChatRequestInputMessages {
     System(ChatCompletionRequestSystemMessage),
     User(ChatCompletionRequestUserMessage),
-    FineTuneChatCompletionRequestAssistantMessage(FineTuneChatCompletionRequestAssistantMessage),
+    Assistant(FineTuneChatCompletionRequestAssistantMessage),
     Tool(ChatCompletionRequestToolMessage),
     Function(ChatCompletionRequestFunctionMessage),
 }
@@ -23031,7 +23031,7 @@ pub struct FineTuneMethod {
 pub enum FineTunePreferenceRequestInputInputMessages {
     System(ChatCompletionRequestSystemMessage),
     User(ChatCompletionRequestUserMessage),
-    FineTuneChatCompletionRequestAssistantMessage(FineTuneChatCompletionRequestAssistantMessage),
+    Assistant(FineTuneChatCompletionRequestAssistantMessage),
     Tool(ChatCompletionRequestToolMessage),
     Function(ChatCompletionRequestFunctionMessage),
 }
@@ -25946,14 +25946,14 @@ pub struct InviteRequest {
 #[allow(clippy::large_enum_variant)]
 pub enum Item {
     InputMessage(InputMessage),
-    Message(OutputMessage),
-    FileSearchCall(FileSearchToolCall),
-    ComputerCall(ComputerToolCall),
-    ComputerCallOutput(ComputerCallOutputItemParam),
-    WebSearchCall(WebSearchToolCall),
-    FunctionCall(FunctionToolCall),
-    FunctionCallOutput(FunctionCallOutputItemParam),
-    Reasoning(ReasoningItem),
+    OutputMessage(OutputMessage),
+    FileSearchToolCall(FileSearchToolCall),
+    ComputerToolCall(ComputerToolCall),
+    ComputerCallOutputItemParam(ComputerCallOutputItemParam),
+    WebSearchToolCall(WebSearchToolCall),
+    FunctionToolCall(FunctionToolCall),
+    FunctionCallOutputItemParam(FunctionCallOutputItemParam),
+    ReasoningItem(ReasoningItem),
 }
 #[doc = "Content item used to generate a response.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
@@ -25961,11 +25961,11 @@ pub enum Item {
 #[allow(clippy::large_enum_variant)]
 pub enum ItemResource {
     InputMessageResource(InputMessageResource),
-    Message(OutputMessage),
-    FileSearchCall(FileSearchToolCall),
-    ComputerCall(ComputerToolCall),
+    OutputMessage(OutputMessage),
+    FileSearchToolCall(FileSearchToolCall),
+    ComputerToolCall(ComputerToolCall),
     ComputerToolCallOutputResource(ComputerToolCallOutputResource),
-    WebSearchCall(WebSearchToolCall),
+    WebSearchToolCall(WebSearchToolCall),
     FunctionToolCallResource(FunctionToolCallResource),
     FunctionToolCallOutputResource(FunctionToolCallOutputResource),
 }
@@ -50938,7 +50938,7 @@ pub struct ThreadObject {
     pub tool_resources: Option<ThreadObjectToolResources>,
     pub metadata: Metadata,
 }
-impl<'de> serde::Deserialize<'de> for ThreadStreamEvent0 {
+impl<'de> serde::Deserialize<'de> for ThreadStreamEventThreadCreated {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
         D: serde::Deserializer<'de>,
@@ -50946,7 +50946,7 @@ impl<'de> serde::Deserialize<'de> for ThreadStreamEvent0 {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ThreadStreamEvent0Event {
+        enum ThreadStreamEventThreadCreatedEvent {
             #[default]
             #[serde(rename = "thread.created")]
             ThreadCreated,
@@ -50958,16 +50958,16 @@ impl<'de> serde::Deserialize<'de> for ThreadStreamEvent0 {
             enabled: Option<bool>,
             #[serde(rename = "event")]
             #[allow(dead_code)]
-            event: ThreadStreamEvent0Event,
+            event: ThreadStreamEventThreadCreatedEvent,
             #[serde(rename = "data")]
             #[allow(dead_code)]
             data: ThreadObject,
         }
         let _D { enabled, data, .. } = _D::deserialize(deserializer)?;
-        Ok(ThreadStreamEvent0 { enabled, data })
+        Ok(ThreadStreamEventThreadCreated { enabled, data })
     }
 }
-impl serde::Serialize for ThreadStreamEvent0 {
+impl serde::Serialize for ThreadStreamEventThreadCreated {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: serde::Serializer,
@@ -50975,7 +50975,7 @@ impl serde::Serialize for ThreadStreamEvent0 {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ThreadStreamEvent0Event {
+        enum ThreadStreamEventThreadCreatedEvent {
             #[default]
             #[serde(rename = "thread.created")]
             ThreadCreated,
@@ -50986,11 +50986,11 @@ impl serde::Serialize for ThreadStreamEvent0 {
             #[serde(skip_serializing_if = "Option::is_none")]
             enabled: &'a Option<bool>,
             #[serde(rename = "event")]
-            event: &'a ThreadStreamEvent0Event,
+            event: &'a ThreadStreamEventThreadCreatedEvent,
             #[serde(rename = "data")]
             data: &'a ThreadObject,
         }
-        let ThreadStreamEvent0 { enabled, data } = self;
+        let ThreadStreamEventThreadCreated { enabled, data } = self;
         _S {
             enabled,
             event: &Default::default(),
@@ -51001,7 +51001,7 @@ impl serde::Serialize for ThreadStreamEvent0 {
 }
 #[doc = "Occurs when a new [thread](/docs/api-reference/threads/object) is created."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
-pub struct ThreadStreamEvent0 {
+pub struct ThreadStreamEventThreadCreated {
     #[doc = "Whether to enable input audio transcription."]
     #[builder(default)]
     pub enabled: Option<bool>,
@@ -51011,7 +51011,7 @@ pub struct ThreadStreamEvent0 {
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum ThreadStreamEvent {
-    _0(ThreadStreamEvent0),
+    ThreadCreated(ThreadStreamEventThreadCreated),
 }
 impl<'de> serde::Deserialize<'de> for ToggleCertificatesRequest {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -56152,10 +56152,10 @@ pub struct ComputerUsePreviewTool {
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum Tool {
-    FileSearch(FileSearchTool),
-    Function(FunctionTool),
+    FileSearchTool(FileSearchTool),
+    FunctionTool(FunctionTool),
     WebSearchPreviewTool(WebSearchPreviewTool),
-    ComputerUsePreview(ComputerUsePreviewTool),
+    ComputerUsePreviewTool(ComputerUsePreviewTool),
 }
 impl<'de> serde::Deserialize<'de> for FileCitationBody {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>

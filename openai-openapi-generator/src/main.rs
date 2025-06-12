@@ -214,29 +214,12 @@ fn to_item(
                 let tags = variants
                     .iter()
                     .map(|variant| {
-                        let fields = if let Type::Ref(ref_) = &variant.type_ {
-                            if let Type::Struct(fields) = &schemas.get(ref_).unwrap().type_ {
-                                Some(fields)
-                            } else {
-                                None
-                            }
-                        } else if let Type::Struct(fields) = &variant.type_ {
-                            Some(fields)
-                        } else {
-                            None
-                        };
-                        fields
+                        visit_fields(variant, schemas)
                             .into_iter()
-                            .flatten()
-                            .filter_map(|field| {
-                                if let Field::Property {
-                                    name,
-                                    schema,
-                                    required: true,
-                                } = field
-                                {
+                            .filter_map(|(name, schema, required)| {
+                                if ["event", "object", "role", "type"].contains(&name) && required {
                                     if let Type::Const(value) = &schema.type_ {
-                                        Some((*name, *value))
+                                        Some((name, *value))
                                     } else {
                                         None
                                     }
@@ -255,16 +238,26 @@ fn to_item(
                         counts
                     })
                     .into_iter()
-                    .filter(|(_, count)| *count > 1)
-                    .max_by_key(|(_, count)| *count)
-                    .map(|(key, _)| key);
+                    .max_by_key(|(_, count)| *count);
 
                 let mut names = variants
                     .iter()
                     .zip(tags)
                     .enumerate()
                     .map(|(i, (variant, mut tags))| {
-                        if let Some(tag) = key.and_then(|key| tags.remove(key)) {
+                        if let Some(tag) = key.and_then(|(key, count)| {
+                            if count > 1
+                                && count
+                                    == variants
+                                        .iter()
+                                        .filter(|variant| !is_string(variant, schemas))
+                                        .count()
+                            {
+                                tags.remove(key)
+                            } else {
+                                None
+                            }
+                        }) {
                             tag.to_owned()
                         } else if let Schema {
                             type_: Type::Ref(ref_),
@@ -272,6 +265,8 @@ fn to_item(
                         } = variant
                         {
                             (*ref_).to_owned()
+                        } else if let Some(tag) = key.and_then(|(key, _)| tags.remove(key)) {
+                            tag.to_owned()
                         } else {
                             i.to_string()
                         }
@@ -553,5 +548,26 @@ fn is_string(schema: &Schema<'_>, schemas: &IndexMap<&str, Schema<'_>>) -> bool 
         Type::Ref(ref_) => is_string(schemas.get(ref_).unwrap(), schemas),
         Type::String => true,
         _ => false,
+    }
+}
+
+fn visit_fields<'a>(
+    schema: &'a Schema<'a>,
+    schemas: &'a IndexMap<&'a str, Schema<'a>>,
+) -> Vec<(&'a str, &'a Schema<'a>, bool)> {
+    match &schema.type_ {
+        Type::Ref(ref_) => visit_fields(schemas.get(ref_).unwrap(), schemas),
+        Type::Struct(fields) => fields
+            .iter()
+            .flat_map(|field| match field {
+                Field::Property {
+                    name,
+                    schema,
+                    required,
+                } => vec![(*name, schema, *required)],
+                Field::Ref(ref_) => visit_fields(schemas.get(ref_).unwrap(), schemas),
+            })
+            .collect(),
+        _ => Vec::new(),
     }
 }
