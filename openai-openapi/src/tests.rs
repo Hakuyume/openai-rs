@@ -80,7 +80,7 @@ fn test_create_chat_completion_response_default() {
         .created(1741569952)
         .model("gpt-4.1-2025-04-14".to_owned())
         .choices(vec![
-            crate::CreateChatCompletionResponseChoicesItem::builder()
+            crate::CreateChatCompletionResponseChoice::builder()
                 .index(0)
                 .message(
                     crate::ChatCompletionResponseMessage::builder()
@@ -88,7 +88,7 @@ fn test_create_chat_completion_response_default() {
                         .annotations(Some(Vec::new()))
                         .build(),
                 )
-                .finish_reason(crate::CreateChatCompletionResponseChoicesItemFinishReason::Stop)
+                .finish_reason(crate::CreateChatCompletionResponseChoiceFinishReason::Stop)
                 .build(),
         ])
         .usage(Some(

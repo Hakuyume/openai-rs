@@ -137,7 +137,36 @@ fn to_type(
     match &schema.type_ {
         Type::Any => syn::parse_quote!(serde_json::Value),
         Type::Array(item) => {
-            let type_ = to_type(&format!("{name}.item"), item, schemas, inline);
+            let vocab = [
+                ("annotation", "annotations"),
+                ("attribute", "attributes"),
+                ("certificate", "certificates"),
+                ("choice", "choices"),
+                ("datum", "data"),
+                ("file", "files"),
+                ("filter", "filters"),
+                ("integration", "integrations"),
+                ("logprob", "logprobs"),
+                ("modality", "modalities"),
+                ("result", "results"),
+                ("store", "stores"),
+                ("tool", "tools"),
+            ];
+            let name = vocab
+                .iter()
+                .find_map(|(singular, plural)| {
+                    if let Some(name) = name.strip_suffix(&plural.to_pascal_case()) {
+                        Some(format!("{name}{}", singular.to_pascal_case()))
+                    } else if let Some(name) = name.strip_suffix(&format!("_{plural}")) {
+                        Some(format!("{name}_{singular}"))
+                    } else if let Some(name) = name.strip_suffix(&format!(".{plural}")) {
+                        Some(format!("{name}.{singular}"))
+                    } else {
+                        None
+                    }
+                })
+                .unwrap_or_else(|| name.to_owned());
+            let type_ = to_type(&name, item, schemas, inline);
             syn::parse_quote!(Vec<#type_>)
         }
         Type::Binary => syn::parse_quote!(Vec<u8>),
@@ -145,7 +174,7 @@ fn to_type(
         Type::Float => syn::parse_quote!(f64),
         Type::Integer => syn::parse_quote!(u64),
         Type::Map(item) => {
-            let type_ = to_type(&format!("{name}.item"), item, schemas, inline);
+            let type_ = to_type(name, item, schemas, inline);
             syn::parse_quote!(std::collections::HashMap<String, #type_>)
         }
         Type::Ref(ref_) => {
