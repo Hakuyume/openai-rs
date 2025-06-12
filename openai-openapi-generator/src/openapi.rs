@@ -49,9 +49,7 @@ pub enum AdditionalProperties {
 
 #[derive(Clone, Debug, Default, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Discriminator {
-    pub property_name: String,
-}
+pub struct Discriminator {}
 
 #[derive(Clone, Copy, Debug, Deserialize)]
 #[serde(rename_all = "lowercase")]

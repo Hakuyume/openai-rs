@@ -114,21 +114,17 @@ pub struct ApiKeyList {
 }
 #[doc = "The object type, which is always `assistant`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum AssistantObjectObject {
     #[default]
     #[serde(rename = "assistant")]
     Assistant,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum AssistantObjectTool {
-    #[serde(rename = "code_interpreter")]
     CodeInterpreter(AssistantToolsCode),
-    #[serde(rename = "file_search")]
     FileSearch(AssistantToolsFileSearch),
-    #[serde(rename = "function")]
     Function(AssistantToolsFunction),
 }
 #[derive(
@@ -250,11 +246,10 @@ pub enum AssistantStreamEvent {
     RunStreamEvent(RunStreamEvent),
     RunStepStreamEvent(RunStepStreamEvent),
     MessageStreamEvent(MessageStreamEvent),
-    ErrorEvent(ErrorEvent),
-    DoneEvent(DoneEvent),
+    Error(ErrorEvent),
+    Done(DoneEvent),
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum AssistantSupportedModels {
     #[serde(rename = "gpt-4.1")]
     Gpt41,
@@ -329,6 +324,13 @@ pub enum AssistantSupportedModels {
     #[serde(rename = "gpt-3.5-turbo-16k-0613")]
     Gpt35Turbo16k0613,
 }
+#[doc = "The type of tool being defined: `code_interpreter`"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum AssistantToolsCodeType {
+    #[default]
+    #[serde(rename = "code_interpreter")]
+    CodeInterpreter,
+}
 #[derive(
     Clone,
     Debug,
@@ -338,7 +340,19 @@ pub enum AssistantSupportedModels {
     Default,
     typed_builder :: TypedBuilder,
 )]
-pub struct AssistantToolsCode {}
+pub struct AssistantToolsCode {
+    #[doc = "The type of tool being defined: `code_interpreter`"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: AssistantToolsCodeType,
+}
+#[doc = "The type of tool being defined: `file_search`"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum AssistantToolsFileSearchType {
+    #[default]
+    #[serde(rename = "file_search")]
+    FileSearch,
+}
 #[doc = "Overrides for the file search tool."]
 #[derive(
     Clone,
@@ -370,11 +384,22 @@ pub struct AssistantToolsFileSearchFileSearch {
     typed_builder :: TypedBuilder,
 )]
 pub struct AssistantToolsFileSearch {
+    #[doc = "The type of tool being defined: `file_search`"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: AssistantToolsFileSearchType,
     #[doc = "Overrides for the file search tool."]
     #[builder(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "file_search")]
     pub file_search: Option<AssistantToolsFileSearchFileSearch>,
+}
+#[doc = "The type of tool being defined: `file_search`"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum AssistantToolsFileSearchTypeOnlyType {
+    #[default]
+    #[serde(rename = "file_search")]
+    FileSearch,
 }
 #[derive(
     Clone,
@@ -385,17 +410,32 @@ pub struct AssistantToolsFileSearch {
     Default,
     typed_builder :: TypedBuilder,
 )]
-pub struct AssistantToolsFileSearchTypeOnly {}
+pub struct AssistantToolsFileSearchTypeOnly {
+    #[doc = "The type of tool being defined: `file_search`"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: AssistantToolsFileSearchTypeOnlyType,
+}
+#[doc = "The type of tool being defined: `function`"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum AssistantToolsFunctionType {
+    #[default]
+    #[serde(rename = "function")]
+    Function,
+}
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct AssistantToolsFunction {
+    #[doc = "The type of tool being defined: `function`"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: AssistantToolsFunctionType,
     #[serde(rename = "function")]
     pub function: FunctionObject,
 }
 #[doc = "`auto` is the default value\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum AssistantsApiResponseFormatOption0 {
     #[default]
     #[serde(rename = "auto")]
@@ -407,13 +447,12 @@ pub enum AssistantsApiResponseFormatOption0 {
 #[allow(clippy::large_enum_variant)]
 pub enum AssistantsApiResponseFormatOption {
     _0(AssistantsApiResponseFormatOption0),
-    ResponseFormatText(ResponseFormatText),
-    ResponseFormatJsonObject(ResponseFormatJsonObject),
-    ResponseFormatJsonSchema(ResponseFormatJsonSchema),
+    Text(ResponseFormatText),
+    JsonObject(ResponseFormatJsonObject),
+    JsonSchema(ResponseFormatJsonSchema),
 }
 #[doc = "`none` means the model will not call any tools and instead generates a message. `auto` means the model can pick between generating a message or calling one or more tools. `required` means the model must call one or more tools before responding to the user.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum AssistantsApiToolChoiceOption0 {
     #[serde(rename = "none")]
     None,
@@ -432,7 +471,6 @@ pub enum AssistantsApiToolChoiceOption {
 }
 #[doc = "The type of the tool. If type is `function`, the function name must be set"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum AssistantsNamedToolChoiceType {
     #[serde(rename = "function")]
     Function,
@@ -464,7 +502,6 @@ pub struct AssistantsNamedToolChoice {
 }
 #[doc = "The format of the output, in one of these options: `json`, `text`, `srt`, `verbose_json`, or `vtt`. For `gpt-4o-transcribe` and `gpt-4o-mini-transcribe`, the only supported format is `json`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum AudioResponseFormat {
     #[default]
     #[serde(rename = "json")]
@@ -1527,7 +1564,6 @@ pub struct AuditLog {
 }
 #[doc = "The type of actor. Is either `session` or `api_key`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum AuditLogActorType {
     #[serde(rename = "session")]
     Session,
@@ -1561,7 +1597,6 @@ pub struct AuditLogActor {
 }
 #[doc = "The type of API key. Can be either `user` or `service_account`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum AuditLogActorApiKeyType {
     #[serde(rename = "user")]
     User,
@@ -1660,7 +1695,6 @@ pub struct AuditLogActorUser {
 }
 #[doc = "The event type."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum AuditLogEventType {
     #[serde(rename = "api_key.created")]
     ApiKeyCreated,
@@ -1711,6 +1745,13 @@ pub enum AuditLogEventType {
     #[serde(rename = "user.deleted")]
     UserDeleted,
 }
+#[doc = "Always `auto`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum AutoChunkingStrategyRequestParamType {
+    #[default]
+    #[serde(rename = "auto")]
+    Auto,
+}
 #[doc = "The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`."]
 #[derive(
     Clone,
@@ -1721,10 +1762,14 @@ pub enum AuditLogEventType {
     Default,
     typed_builder :: TypedBuilder,
 )]
-pub struct AutoChunkingStrategyRequestParam {}
+pub struct AutoChunkingStrategyRequestParam {
+    #[doc = "Always `auto`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: AutoChunkingStrategyRequestParamType,
+}
 #[doc = "The object type, which is always `batch`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum BatchObject {
     #[default]
     #[serde(rename = "batch")]
@@ -1783,7 +1828,6 @@ pub struct BatchErrors {
 }
 #[doc = "The current status of the batch."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum BatchStatus {
     #[serde(rename = "validating")]
     Validating,
@@ -1908,7 +1952,6 @@ pub struct Batch {
 }
 #[doc = "The HTTP method to be used for the request. Currently only `POST` is supported."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum BatchRequestInputMethod {
     #[default]
     #[serde(rename = "POST")]
@@ -2021,7 +2064,6 @@ pub struct BatchRequestOutput {
 }
 #[doc = "The object type.\n\n- If creating, updating, or getting a specific certificate, the object type is `certificate`.\n- If listing, activating, or deactivating certificates for the organization, the object type is `organization.certificate`.\n- If listing, activating, or deactivating certificates for a project, the object type is `organization.project.certificate`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum CertificateObject {
     #[default]
     #[serde(rename = "certificate")]
@@ -2086,7 +2128,6 @@ pub struct Certificate {
 }
 #[doc = "The type of object being deleted."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionDeletedObject {
     #[default]
     #[serde(rename = "chat.completion.deleted")]
@@ -2135,7 +2176,6 @@ pub struct ChatCompletionFunctions {
 }
 #[doc = "The type of this object. It is always set to \"list\".\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionListObject {
     #[default]
     #[serde(rename = "list")]
@@ -2165,7 +2205,6 @@ pub struct ChatCompletionList {
 }
 #[doc = "The type of this object. It is always set to \"list\".\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionMessageListObject {
     #[default]
     #[serde(rename = "list")]
@@ -2206,7 +2245,6 @@ pub struct ChatCompletionMessageList {
 }
 #[doc = "The type of the tool. Currently, only `function` is supported."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionMessageToolCallType {
     #[default]
     #[serde(rename = "function")]
@@ -2241,7 +2279,6 @@ pub struct ChatCompletionMessageToolCall {
 }
 #[doc = "The type of the tool. Currently, only `function` is supported."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionMessageToolCallChunkType {
     #[default]
     #[serde(rename = "function")]
@@ -2291,7 +2328,6 @@ pub struct ChatCompletionMessageToolCallChunk {
 }
 pub type ChatCompletionMessageToolCalls = Vec<ChatCompletionMessageToolCall>;
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionModality {
     #[serde(rename = "text")]
     Text,
@@ -2301,7 +2337,6 @@ pub enum ChatCompletionModality {
 pub type ChatCompletionModalities = Vec<ChatCompletionModality>;
 #[doc = "The type of the tool. Currently, only `function` is supported."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionNamedToolChoiceType {
     #[default]
     #[serde(rename = "function")]
@@ -2334,6 +2369,13 @@ pub struct ChatCompletionNamedToolChoice {
 pub enum ChatCompletionRequestAssistantMessageContent {
     _0(String),
     _1(Vec<ChatCompletionRequestAssistantMessageContentPart>),
+}
+#[doc = "The role of the messages author, in this case `assistant`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ChatCompletionRequestAssistantMessageRole {
+    #[default]
+    #[serde(rename = "assistant")]
+    Assistant,
 }
 #[doc = "Data about a previous audio response from the model. \n[Learn more](/docs/guides/audio).\n"]
 #[derive(
@@ -2377,6 +2419,10 @@ pub struct ChatCompletionRequestAssistantMessage {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "refusal")]
     pub refusal: Option<String>,
+    #[doc = "The role of the messages author, in this case `assistant`."]
+    #[builder(default)]
+    #[serde(rename = "role")]
+    pub role: ChatCompletionRequestAssistantMessageRole,
     #[doc = "An optional name for the participant. Provides the model information to differentiate between participants of the same role."]
     #[builder(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -2398,12 +2444,10 @@ pub struct ChatCompletionRequestAssistantMessage {
     pub function_call: Option<ChatCompletionRequestAssistantMessageFunctionCall>,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionRequestAssistantMessageContentPart {
-    #[serde(rename = "text")]
     Text(ChatCompletionRequestMessageContentPartText),
-    #[serde(rename = "refusal")]
     Refusal(ChatCompletionRequestMessageContentPartRefusal),
 }
 #[doc = "The contents of the developer message."]
@@ -2414,6 +2458,13 @@ pub enum ChatCompletionRequestDeveloperMessageContent {
     _0(String),
     _1(Vec<ChatCompletionRequestMessageContentPartText>),
 }
+#[doc = "The role of the messages author, in this case `developer`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ChatCompletionRequestDeveloperMessageRole {
+    #[default]
+    #[serde(rename = "developer")]
+    Developer,
+}
 #[doc = "Developer-provided instructions that the model should follow, regardless of\nmessages sent by the user. With o1 models and newer, `developer` messages\nreplace the previous `system` messages.\n"]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
@@ -2422,16 +2473,31 @@ pub struct ChatCompletionRequestDeveloperMessage {
     #[doc = "The contents of the developer message."]
     #[serde(rename = "content")]
     pub content: ChatCompletionRequestDeveloperMessageContent,
+    #[doc = "The role of the messages author, in this case `developer`."]
+    #[builder(default)]
+    #[serde(rename = "role")]
+    pub role: ChatCompletionRequestDeveloperMessageRole,
     #[doc = "An optional name for the participant. Provides the model information to differentiate between participants of the same role."]
     #[builder(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "name")]
     pub name: Option<String>,
 }
+#[doc = "The role of the messages author, in this case `function`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ChatCompletionRequestFunctionMessageRole {
+    #[default]
+    #[serde(rename = "function")]
+    Function,
+}
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ChatCompletionRequestFunctionMessage {
+    #[doc = "The role of the messages author, in this case `function`."]
+    #[builder(default)]
+    #[serde(rename = "role")]
+    pub role: ChatCompletionRequestFunctionMessageRole,
     #[doc = "The contents of the function message."]
     #[builder(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -2442,25 +2508,25 @@ pub struct ChatCompletionRequestFunctionMessage {
     pub name: String,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "role")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionRequestMessage {
-    #[serde(rename = "developer")]
     Developer(ChatCompletionRequestDeveloperMessage),
-    #[serde(rename = "system")]
     System(ChatCompletionRequestSystemMessage),
-    #[serde(rename = "user")]
     User(ChatCompletionRequestUserMessage),
-    #[serde(rename = "assistant")]
     Assistant(ChatCompletionRequestAssistantMessage),
-    #[serde(rename = "tool")]
     Tool(ChatCompletionRequestToolMessage),
-    #[serde(rename = "function")]
     Function(ChatCompletionRequestFunctionMessage),
+}
+#[doc = "The type of the content part. Always `input_audio`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ChatCompletionRequestMessageContentPartAudioType {
+    #[default]
+    #[serde(rename = "input_audio")]
+    InputAudio,
 }
 #[doc = "The format of the encoded audio data. Currently supports \"wav\" and \"mp3\".\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionRequestMessageContentPartAudioInputAudioFormat {
     #[serde(rename = "wav")]
     Wav,
@@ -2483,8 +2549,19 @@ pub struct ChatCompletionRequestMessageContentPartAudioInputAudio {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ChatCompletionRequestMessageContentPartAudio {
+    #[doc = "The type of the content part. Always `input_audio`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ChatCompletionRequestMessageContentPartAudioType,
     #[serde(rename = "input_audio")]
     pub input_audio: ChatCompletionRequestMessageContentPartAudioInputAudio,
+}
+#[doc = "The type of the content part. Always `file`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ChatCompletionRequestMessageContentPartFileType {
+    #[default]
+    #[serde(rename = "file")]
+    File,
 }
 #[derive(
     Clone,
@@ -2523,13 +2600,23 @@ pub struct ChatCompletionRequestMessageContentPartFileFile {
     typed_builder :: TypedBuilder,
 )]
 pub struct ChatCompletionRequestMessageContentPartFile {
+    #[doc = "The type of the content part. Always `file`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ChatCompletionRequestMessageContentPartFileType,
     #[builder(default)]
     #[serde(rename = "file")]
     pub file: ChatCompletionRequestMessageContentPartFileFile,
 }
+#[doc = "The type of the content part."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ChatCompletionRequestMessageContentPartImageType {
+    #[default]
+    #[serde(rename = "image_url")]
+    ImageUrl,
+}
 #[doc = "Specifies the detail level of the image. Learn more in the [Vision guide](/docs/guides/vision#low-or-high-fidelity-image-understanding)."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionRequestMessageContentPartImageImageUrlDetail {
     #[default]
     #[serde(rename = "auto")]
@@ -2557,22 +2644,48 @@ pub struct ChatCompletionRequestMessageContentPartImageImageUrl {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ChatCompletionRequestMessageContentPartImage {
+    #[doc = "The type of the content part."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ChatCompletionRequestMessageContentPartImageType,
     #[serde(rename = "image_url")]
     pub image_url: ChatCompletionRequestMessageContentPartImageImageUrl,
+}
+#[doc = "The type of the content part."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ChatCompletionRequestMessageContentPartRefusalType {
+    #[default]
+    #[serde(rename = "refusal")]
+    Refusal,
 }
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ChatCompletionRequestMessageContentPartRefusal {
+    #[doc = "The type of the content part."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ChatCompletionRequestMessageContentPartRefusalType,
     #[doc = "The refusal message generated by the model."]
     #[serde(rename = "refusal")]
     pub refusal: String,
+}
+#[doc = "The type of the content part."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ChatCompletionRequestMessageContentPartTextType {
+    #[default]
+    #[serde(rename = "text")]
+    Text,
 }
 #[doc = "Learn about [text inputs](/docs/guides/text-generation).\n"]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ChatCompletionRequestMessageContentPartText {
+    #[doc = "The type of the content part."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ChatCompletionRequestMessageContentPartTextType,
     #[doc = "The text content."]
     #[serde(rename = "text")]
     pub text: String,
@@ -2585,6 +2698,13 @@ pub enum ChatCompletionRequestSystemMessageContent {
     _0(String),
     _1(Vec<ChatCompletionRequestSystemMessageContentPart>),
 }
+#[doc = "The role of the messages author, in this case `system`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ChatCompletionRequestSystemMessageRole {
+    #[default]
+    #[serde(rename = "system")]
+    System,
+}
 #[doc = "Developer-provided instructions that the model should follow, regardless of\nmessages sent by the user. With o1 models and newer, use `developer` messages\nfor this purpose instead.\n"]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
@@ -2593,6 +2713,10 @@ pub struct ChatCompletionRequestSystemMessage {
     #[doc = "The contents of the system message."]
     #[serde(rename = "content")]
     pub content: ChatCompletionRequestSystemMessageContent,
+    #[doc = "The role of the messages author, in this case `system`."]
+    #[builder(default)]
+    #[serde(rename = "role")]
+    pub role: ChatCompletionRequestSystemMessageRole,
     #[doc = "An optional name for the participant. Provides the model information to differentiate between participants of the same role."]
     #[builder(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -2600,11 +2724,17 @@ pub struct ChatCompletionRequestSystemMessage {
     pub name: Option<String>,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionRequestSystemMessageContentPart {
-    #[serde(rename = "text")]
-    Text(ChatCompletionRequestMessageContentPartText),
+    ChatCompletionRequestMessageContentPartText(ChatCompletionRequestMessageContentPartText),
+}
+#[doc = "The role of the messages author, in this case `tool`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ChatCompletionRequestToolMessageRole {
+    #[default]
+    #[serde(rename = "tool")]
+    Tool,
 }
 #[doc = "The contents of the tool message."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
@@ -2618,6 +2748,10 @@ pub enum ChatCompletionRequestToolMessageContent {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ChatCompletionRequestToolMessage {
+    #[doc = "The role of the messages author, in this case `tool`."]
+    #[builder(default)]
+    #[serde(rename = "role")]
+    pub role: ChatCompletionRequestToolMessageRole,
     #[doc = "The contents of the tool message."]
     #[serde(rename = "content")]
     pub content: ChatCompletionRequestToolMessageContent,
@@ -2626,11 +2760,10 @@ pub struct ChatCompletionRequestToolMessage {
     pub tool_call_id: String,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionRequestToolMessageContentPart {
-    #[serde(rename = "text")]
-    Text(ChatCompletionRequestMessageContentPartText),
+    ChatCompletionRequestMessageContentPartText(ChatCompletionRequestMessageContentPartText),
 }
 #[doc = "The contents of the user message.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
@@ -2640,6 +2773,13 @@ pub enum ChatCompletionRequestUserMessageContent {
     _0(String),
     _1(Vec<ChatCompletionRequestUserMessageContentPart>),
 }
+#[doc = "The role of the messages author, in this case `user`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ChatCompletionRequestUserMessageRole {
+    #[default]
+    #[serde(rename = "user")]
+    User,
+}
 #[doc = "Messages sent by an end user, containing prompts or additional context\ninformation.\n"]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
@@ -2648,6 +2788,10 @@ pub struct ChatCompletionRequestUserMessage {
     #[doc = "The contents of the user message.\n"]
     #[serde(rename = "content")]
     pub content: ChatCompletionRequestUserMessageContent,
+    #[doc = "The role of the messages author, in this case `user`."]
+    #[builder(default)]
+    #[serde(rename = "role")]
+    pub role: ChatCompletionRequestUserMessageRole,
     #[doc = "An optional name for the participant. Provides the model information to differentiate between participants of the same role."]
     #[builder(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -2655,21 +2799,16 @@ pub struct ChatCompletionRequestUserMessage {
     pub name: Option<String>,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionRequestUserMessageContentPart {
-    #[serde(rename = "text")]
     Text(ChatCompletionRequestMessageContentPartText),
-    #[serde(rename = "image_url")]
     ImageUrl(ChatCompletionRequestMessageContentPartImage),
-    #[serde(rename = "input_audio")]
     InputAudio(ChatCompletionRequestMessageContentPartAudio),
-    #[serde(rename = "file")]
     File(ChatCompletionRequestMessageContentPartFile),
 }
 #[doc = "The type of the URL citation. Always `url_citation`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionResponseMessageAnnotationType {
     #[default]
     #[serde(rename = "url_citation")]
@@ -2708,7 +2847,6 @@ pub struct ChatCompletionResponseMessageAnnotation {
 }
 #[doc = "The role of the author of this message."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionResponseMessageRole {
     #[default]
     #[serde(rename = "assistant")]
@@ -2791,7 +2929,6 @@ pub struct ChatCompletionResponseMessage {
 }
 #[doc = "The role of the author of a message"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionRole {
     #[serde(rename = "developer")]
     Developer,
@@ -2847,7 +2984,6 @@ pub struct ChatCompletionStreamResponseDeltaFunctionCall {
 }
 #[doc = "The role of the author of this message."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionStreamResponseDeltaRole {
     #[serde(rename = "developer")]
     Developer,
@@ -2933,7 +3069,6 @@ pub struct ChatCompletionTokenLogprob {
 }
 #[doc = "The type of the tool. Currently, only `function` is supported."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionToolType {
     #[default]
     #[serde(rename = "function")]
@@ -2952,7 +3087,6 @@ pub struct ChatCompletionTool {
 }
 #[doc = "`none` means the model will not call any tool and instead generates a message. `auto` means the model can pick between generating a message or calling one or more tools. `required` means the model must call one or more tools.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionToolChoiceOption0 {
     #[serde(rename = "none")]
     None,
@@ -2971,17 +3105,21 @@ pub enum ChatCompletionToolChoiceOption {
 }
 #[doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum ChunkingStrategyRequestParam {
-    #[serde(rename = "auto")]
     Auto(AutoChunkingStrategyRequestParam),
-    #[serde(rename = "static")]
     Static(StaticChunkingStrategyRequestParam),
+}
+#[doc = "Specifies the event type. For a click action, this property is \nalways set to `click`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ClickType {
+    #[default]
+    #[serde(rename = "click")]
+    Click,
 }
 #[doc = "Indicates which mouse button was pressed during the click. One of `left`, `right`, `wheel`, `back`, or `forward`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum ClickButton {
     #[serde(rename = "left")]
     Left,
@@ -2999,6 +3137,10 @@ pub enum ClickButton {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct Click {
+    #[doc = "Specifies the event type. For a click action, this property is \nalways set to `click`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ClickType,
     #[doc = "Indicates which mouse button was pressed during the click. One of `left`, `right`, `wheel`, `back`, or `forward`.\n"]
     #[serde(rename = "button")]
     pub button: ClickButton,
@@ -3008,6 +3150,13 @@ pub struct Click {
     #[doc = "The y-coordinate where the click occurred.\n"]
     #[serde(rename = "y")]
     pub y: u64,
+}
+#[doc = "The type of the code interpreter file output. Always `files`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum CodeInterpreterFileOutputType {
+    #[default]
+    #[serde(rename = "files")]
+    Files,
 }
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
@@ -3025,21 +3174,35 @@ pub struct CodeInterpreterFileOutputFile {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct CodeInterpreterFileOutput {
+    #[doc = "The type of the code interpreter file output. Always `files`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: CodeInterpreterFileOutputType,
     #[serde(rename = "files")]
     pub files: Vec<CodeInterpreterFileOutputFile>,
+}
+#[doc = "The type of the code interpreter text output. Always `logs`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum CodeInterpreterTextOutputType {
+    #[default]
+    #[serde(rename = "logs")]
+    Logs,
 }
 #[doc = "The output of a code interpreter tool call that is text.\n"]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct CodeInterpreterTextOutput {
+    #[doc = "The type of the code interpreter text output. Always `logs`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: CodeInterpreterTextOutputType,
     #[doc = "The logs of the code interpreter tool call.\n"]
     #[serde(rename = "logs")]
     pub logs: String,
 }
 #[doc = "The type of the code interpreter tool call. Always `code_interpreter_call`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum CodeInterpreterToolCallType {
     #[default]
     #[serde(rename = "code_interpreter_call")]
@@ -3047,7 +3210,6 @@ pub enum CodeInterpreterToolCallType {
 }
 #[doc = "The status of the code interpreter tool call.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum CodeInterpreterToolCallStatus {
     #[serde(rename = "in_progress")]
     InProgress,
@@ -3079,17 +3241,14 @@ pub struct CodeInterpreterToolCall {
     pub results: Vec<CodeInterpreterToolOutput>,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CodeInterpreterToolOutput {
-    #[serde(rename = "logs")]
     Logs(CodeInterpreterTextOutput),
-    #[serde(rename = "files")]
     Files(CodeInterpreterFileOutput),
 }
 #[doc = "Specifies the comparison operator: `eq`, `ne`, `gt`, `gte`, `lt`, `lte`.\n- `eq`: equals\n- `ne`: not equal\n- `gt`: greater than\n- `gte`: greater than or equal\n- `lt`: less than\n- `lte`: less than or equal\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ComparisonFilterType {
     #[default]
     #[serde(rename = "eq")]
@@ -3224,7 +3383,6 @@ pub struct CompletionUsage {
 }
 #[doc = "Type of operation: `and` or `or`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum CompoundFilterType {
     #[serde(rename = "and")]
     And,
@@ -3251,31 +3409,21 @@ pub struct CompoundFilter {
     pub filters: Vec<CompoundFilterFilter>,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum ComputerAction {
-    #[serde(rename = "click")]
     Click(Click),
-    #[serde(rename = "double_click")]
     DoubleClick(DoubleClick),
-    #[serde(rename = "drag")]
     Drag(Drag),
-    #[serde(rename = "keypress")]
     Keypress(KeyPress),
-    #[serde(rename = "move")]
     Move(Move),
-    #[serde(rename = "screenshot")]
     Screenshot(Screenshot),
-    #[serde(rename = "scroll")]
     Scroll(Scroll),
-    #[serde(rename = "type")]
     Type(Type),
-    #[serde(rename = "wait")]
     Wait(Wait),
 }
 #[doc = "Specifies the event type. For a computer screenshot, this property is \nalways set to `computer_screenshot`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ComputerScreenshotImageType {
     #[default]
     #[serde(rename = "computer_screenshot")]
@@ -3309,7 +3457,6 @@ pub struct ComputerScreenshotImage {
 }
 #[doc = "The type of the computer call. Always `computer_call`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ComputerToolCallType {
     #[default]
     #[serde(rename = "computer_call")]
@@ -3317,7 +3464,6 @@ pub enum ComputerToolCallType {
 }
 #[doc = "The status of the item. One of `in_progress`, `completed`, or\n`incomplete`. Populated when items are returned via API.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum ComputerToolCallStatus {
     #[serde(rename = "in_progress")]
     InProgress,
@@ -3352,7 +3498,6 @@ pub struct ComputerToolCall {
 }
 #[doc = "The type of the computer tool call output. Always `computer_call_output`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ComputerToolCallOutputType {
     #[default]
     #[serde(rename = "computer_call_output")]
@@ -3360,7 +3505,6 @@ pub enum ComputerToolCallOutputType {
 }
 #[doc = "The status of the message input. One of `in_progress`, `completed`, or\n`incomplete`. Populated when input items are returned via API.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum ComputerToolCallOutputStatus {
     #[serde(rename = "in_progress")]
     InProgress,
@@ -3445,6 +3589,12 @@ pub struct Coordinate {
     #[serde(rename = "y")]
     pub y: u64,
 }
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum CostsResultObject {
+    #[default]
+    #[serde(rename = "organization.costs.result")]
+    OrganizationCostsResult,
+}
 #[doc = "The monetary value in its associated currency."]
 #[derive(
     Clone,
@@ -3478,6 +3628,9 @@ pub struct CostsResultAmount {
     typed_builder :: TypedBuilder,
 )]
 pub struct CostsResult {
+    #[builder(default)]
+    #[serde(rename = "object")]
+    pub object: CostsResultObject,
     #[doc = "The monetary value in its associated currency."]
     #[builder(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -3495,14 +3648,11 @@ pub struct CostsResult {
     pub project_id: Option<String>,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateAssistantRequestTool {
-    #[serde(rename = "code_interpreter")]
     CodeInterpreter(AssistantToolsCode),
-    #[serde(rename = "file_search")]
     FileSearch(AssistantToolsFileSearch),
-    #[serde(rename = "function")]
     Function(AssistantToolsFunction),
 }
 #[derive(
@@ -3521,6 +3671,13 @@ pub struct CreateAssistantRequestToolResourcesCodeInterpreter {
     #[serde(rename = "file_ids")]
     pub file_ids: Option<Vec<String>>,
 }
+#[doc = "Always `auto`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAutoType {
+    #[default]
+    #[serde(rename = "auto")]
+    Auto,
+}
 #[doc = "The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`."]
 #[derive(
     Clone,
@@ -3531,7 +3688,19 @@ pub struct CreateAssistantRequestToolResourcesCodeInterpreter {
     Default,
     typed_builder :: TypedBuilder,
 )]
-pub struct CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto {}
+pub struct CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto {
+    #[doc = "Always `auto`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAutoType,
+}
+#[doc = "Always `static`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticType {
+    #[default]
+    #[serde(rename = "static")]
+    Static,
+}
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
@@ -3547,18 +3716,20 @@ pub struct CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStra
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic {
+    #[doc = "Always `static`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticType,
     #[serde(rename = "static")]
     pub static_:
         CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticStatic,
 }
 #[doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategy {
-    #[serde(rename = "auto")]
     Auto(CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto),
-    #[serde(rename = "static")]
     Static(CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic),
 }
 #[derive(
@@ -3600,6 +3771,13 @@ pub struct CreateAssistantRequestToolResourcesFileSearch0 {
     #[serde(rename = "vector_stores")]
     pub vector_stores: Option<Vec<CreateAssistantRequestToolResourcesFileSearch0VectorStore>>,
 }
+#[doc = "Always `auto`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAutoType {
+    #[default]
+    #[serde(rename = "auto")]
+    Auto,
+}
 #[doc = "The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`."]
 #[derive(
     Clone,
@@ -3610,7 +3788,19 @@ pub struct CreateAssistantRequestToolResourcesFileSearch0 {
     Default,
     typed_builder :: TypedBuilder,
 )]
-pub struct CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto {}
+pub struct CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto {
+    #[doc = "Always `auto`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAutoType,
+}
+#[doc = "Always `static`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticType {
+    #[default]
+    #[serde(rename = "static")]
+    Static,
+}
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
@@ -3626,18 +3816,20 @@ pub struct CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStra
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic {
+    #[doc = "Always `static`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticType,
     #[serde(rename = "static")]
     pub static_:
         CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticStatic,
 }
 #[doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategy {
-    #[serde(rename = "auto")]
     Auto(CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto),
-    #[serde(rename = "static")]
     Static(CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic),
 }
 #[derive(
@@ -3763,7 +3955,6 @@ pub struct CreateAssistantRequest {
 }
 #[doc = "The type of location approximation. Always `approximate`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateChatCompletionRequestWebSearchOptionsUserLocationType {
     #[default]
     #[serde(rename = "approximate")]
@@ -3811,19 +4002,15 @@ pub struct CreateChatCompletionRequestWebSearchOptions {
 }
 #[doc = "An object specifying the format that the model must output.\n\nSetting to `{ \"type\": \"json_schema\", \"json_schema\": {...} }` enables\nStructured Outputs which ensures the model will match your supplied JSON\nschema. Learn more in the [Structured Outputs\nguide](/docs/guides/structured-outputs).\n\nSetting to `{ \"type\": \"json_object\" }` enables the older JSON mode, which\nensures the message the model generates is valid JSON. Using `json_schema`\nis preferred for models that support it.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateChatCompletionRequestResponseFormat {
-    #[serde(rename = "text")]
     Text(ResponseFormatText),
-    #[serde(rename = "json_schema")]
     JsonSchema(ResponseFormatJsonSchema),
-    #[serde(rename = "json_object")]
     JsonObject(ResponseFormatJsonObject),
 }
 #[doc = "Specifies the output audio format. Must be one of `wav`, `mp3`, `flac`,\n`opus`, or `pcm16`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateChatCompletionRequestAudioFormat {
     #[serde(rename = "wav")]
     Wav,
@@ -3852,15 +4039,13 @@ pub struct CreateChatCompletionRequestAudio {
 }
 #[doc = "Configuration for a [Predicted Output](/docs/guides/predicted-outputs),\nwhich can greatly improve response times when large parts of the model\nresponse are known ahead of time. This is most common when you are\nregenerating a file with only minor changes to most of the content.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateChatCompletionRequestPrediction {
-    #[serde(rename = "content")]
-    Content(PredictionContent),
+    PredictionContent(PredictionContent),
 }
 #[doc = "`none` means the model will not call a function and instead generates a message. `auto` means the model can pick between generating a message or calling a function.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateChatCompletionRequestFunctionCall0 {
     #[serde(rename = "none")]
     None,
@@ -4005,7 +4190,6 @@ pub struct CreateChatCompletionRequest {
 }
 #[doc = "The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,\n`length` if the maximum number of tokens specified in the request was reached,\n`content_filter` if content was omitted due to a flag from our content filters,\n`tool_calls` if the model called a tool, or `function_call` (deprecated) if the model called a function.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateChatCompletionResponseChoiceFinishReason {
     #[serde(rename = "stop")]
     Stop,
@@ -4061,7 +4245,6 @@ pub struct CreateChatCompletionResponseChoice {
 }
 #[doc = "The object type, which is always `chat.completion`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateChatCompletionResponseObject {
     #[default]
     #[serde(rename = "chat.completion")]
@@ -4126,7 +4309,6 @@ pub struct CreateChatCompletionStreamResponseChoiceLogprobs {
 }
 #[doc = "The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,\n`length` if the maximum number of tokens specified in the request was reached,\n`content_filter` if content was omitted due to a flag from our content filters,\n`tool_calls` if the model called a tool, or `function_call` (deprecated) if the model called a function.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateChatCompletionStreamResponseChoiceFinishReason {
     #[serde(rename = "stop")]
     Stop,
@@ -4162,7 +4344,6 @@ pub struct CreateChatCompletionStreamResponseChoice {
 }
 #[doc = "The object type, which is always `chat.completion.chunk`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateChatCompletionStreamResponseObject {
     #[default]
     #[serde(rename = "chat.completion.chunk")]
@@ -4307,7 +4488,6 @@ pub struct CreateCompletionRequest {
 }
 #[doc = "The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,\n`length` if the maximum number of tokens specified in the request was reached,\nor `content_filter` if content was omitted due to a flag from our content filters.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateCompletionResponseChoiceFinishReason {
     #[serde(rename = "stop")]
     Stop,
@@ -4361,7 +4541,6 @@ pub struct CreateCompletionResponseChoice {
 }
 #[doc = "The object type, which is always \"text_completion\""]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateCompletionResponseObject {
     #[default]
     #[serde(rename = "text_completion")]
@@ -4410,7 +4589,6 @@ pub enum CreateEmbeddingRequestInput {
 }
 #[doc = "The format to return the embeddings in. Can be either `float` or [`base64`](https://pypi.org/project/pybase64/)."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateEmbeddingRequestEncodingFormat {
     #[default]
     #[serde(rename = "float")]
@@ -4446,7 +4624,6 @@ pub struct CreateEmbeddingRequest {
 }
 #[doc = "The object type, which is always \"list\"."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateEmbeddingResponseObject {
     #[default]
     #[serde(rename = "list")]
@@ -4484,7 +4661,6 @@ pub struct CreateEmbeddingResponse {
 }
 #[doc = "The type of run data source. Always `completions`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateEvalCompletionsRunDataSourceType {
     #[default]
     #[serde(rename = "completions")]
@@ -4492,7 +4668,6 @@ pub enum CreateEvalCompletionsRunDataSourceType {
 }
 #[doc = "The type of input messages. Always `template`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateEvalCompletionsRunDataSourceInputMessages0Type {
     #[serde(rename = "template")]
     Template,
@@ -4517,7 +4692,6 @@ pub struct CreateEvalCompletionsRunDataSourceInputMessages0 {
 }
 #[doc = "The type of input messages. Always `item_reference`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateEvalCompletionsRunDataSourceInputMessages1Type {
     #[serde(rename = "item_reference")]
     ItemReference,
@@ -4572,14 +4746,11 @@ pub struct CreateEvalCompletionsRunDataSourceSamplingParams {
     pub seed: Option<u64>,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateEvalCompletionsRunDataSourceSource {
-    #[serde(rename = "file_content")]
     FileContent(EvalJsonlFileContentSource),
-    #[serde(rename = "file_id")]
     FileId(EvalJsonlFileIdSource),
-    #[serde(rename = "stored_completions")]
     StoredCompletions(EvalStoredCompletionsSource),
 }
 #[doc = "A CompletionsRunDataSource object describing a model sampling configuration.\n"]
@@ -4607,11 +4778,22 @@ pub struct CreateEvalCompletionsRunDataSource {
     #[serde(rename = "source")]
     pub source: CreateEvalCompletionsRunDataSourceSource,
 }
+#[doc = "The type of data source. Always `custom`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum CreateEvalCustomDataSourceConfigType {
+    #[default]
+    #[serde(rename = "custom")]
+    Custom,
+}
 #[doc = "A CustomDataSourceConfig object that defines the schema for the data source used for the evaluation runs.\nThis schema is used to define the shape of the data that will be:\n- Used to define your testing criteria and\n- What data is required when creating a run\n"]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct CreateEvalCustomDataSourceConfig {
+    #[doc = "The type of data source. Always `custom`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: CreateEvalCustomDataSourceConfigType,
     #[doc = "The json schema for each row in the data source."]
     #[serde(rename = "item_schema")]
     pub item_schema: std::collections::HashMap<String, serde_json::Value>,
@@ -4642,19 +4824,16 @@ pub enum CreateEvalItem {
 }
 #[doc = "The type of data source. Always `jsonl`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateEvalJsonlRunDataSourceType {
     #[default]
     #[serde(rename = "jsonl")]
     Jsonl,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateEvalJsonlRunDataSourceSource {
-    #[serde(rename = "file_content")]
     FileContent(EvalJsonlFileContentSource),
-    #[serde(rename = "file_id")]
     FileId(EvalJsonlFileIdSource),
 }
 #[doc = "A JsonlRunDataSource object with that specifies a JSONL file that matches the eval \n"]
@@ -4669,11 +4848,22 @@ pub struct CreateEvalJsonlRunDataSource {
     #[serde(rename = "source")]
     pub source: CreateEvalJsonlRunDataSourceSource,
 }
+#[doc = "The object type, which is always `label_model`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum CreateEvalLabelModelGraderType {
+    #[default]
+    #[serde(rename = "label_model")]
+    LabelModel,
+}
 #[doc = "A LabelModelGrader object which uses a model to assign labels to each item\nin the evaluation.\n"]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct CreateEvalLabelModelGrader {
+    #[doc = "The object type, which is always `label_model`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: CreateEvalLabelModelGraderType,
     #[doc = "The name of the grader."]
     #[serde(rename = "name")]
     pub name: String,
@@ -4690,6 +4880,13 @@ pub struct CreateEvalLabelModelGrader {
     #[serde(rename = "passing_labels")]
     pub passing_labels: Vec<String>,
 }
+#[doc = "The type of data source. Always `logs`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum CreateEvalLogsDataSourceConfigType {
+    #[default]
+    #[serde(rename = "logs")]
+    Logs,
+}
 #[doc = "A data source config which specifies the metadata property of your stored completions query.\nThis is usually metadata like `usecase=chatbot` or `prompt-version=v2`, etc.\n"]
 #[derive(
     Clone,
@@ -4701,6 +4898,10 @@ pub struct CreateEvalLabelModelGrader {
     typed_builder :: TypedBuilder,
 )]
 pub struct CreateEvalLogsDataSourceConfig {
+    #[doc = "The type of data source. Always `logs`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: CreateEvalLogsDataSourceConfigType,
     #[doc = "Metadata filters for the logs data source."]
     #[builder(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -4709,27 +4910,20 @@ pub struct CreateEvalLogsDataSourceConfig {
 }
 #[doc = "The configuration for the data source used for the evaluation runs."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateEvalRequestDataSourceConfig {
-    #[serde(rename = "custom")]
     Custom(CreateEvalCustomDataSourceConfig),
-    #[serde(rename = "logs")]
     Logs(CreateEvalLogsDataSourceConfig),
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateEvalRequestTestingCriteria {
-    #[serde(rename = "label_model")]
     LabelModel(CreateEvalLabelModelGrader),
-    #[serde(rename = "string_check")]
     StringCheck(EvalStringCheckGrader),
-    #[serde(rename = "text_similarity")]
     TextSimilarity(EvalTextSimilarityGrader),
-    #[serde(rename = "python")]
     Python(EvalPythonGrader),
-    #[serde(rename = "score_model")]
     ScoreModel(EvalScoreModelGrader),
 }
 #[derive(
@@ -4754,7 +4948,6 @@ pub struct CreateEvalRequest {
 }
 #[doc = "The type of run data source. Always `completions`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateEvalResponsesRunDataSourceType {
     #[default]
     #[serde(rename = "completions")]
@@ -4762,7 +4955,6 @@ pub enum CreateEvalResponsesRunDataSourceType {
 }
 #[doc = "The type of input messages. Always `template`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateEvalResponsesRunDataSourceInputMessages0Type {
     #[serde(rename = "template")]
     Template,
@@ -4798,7 +4990,6 @@ pub struct CreateEvalResponsesRunDataSourceInputMessages0 {
 }
 #[doc = "The type of input messages. Always `item_reference`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateEvalResponsesRunDataSourceInputMessages1Type {
     #[serde(rename = "item_reference")]
     ItemReference,
@@ -4856,8 +5047,8 @@ pub struct CreateEvalResponsesRunDataSourceSamplingParams {
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateEvalResponsesRunDataSourceSource {
-    EvalJsonlFileContentSource(EvalJsonlFileContentSource),
-    EvalJsonlFileIdSource(EvalJsonlFileIdSource),
+    FileContent(EvalJsonlFileContentSource),
+    FileId(EvalJsonlFileIdSource),
     EvalResponsesSource(EvalResponsesSource),
 }
 #[doc = "A ResponsesRunDataSource object describing a model sampling configuration.\n"]
@@ -4890,9 +5081,9 @@ pub struct CreateEvalResponsesRunDataSource {
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateEvalRunRequestDataSource {
-    CreateEvalJsonlRunDataSource(CreateEvalJsonlRunDataSource),
-    CreateEvalCompletionsRunDataSource(CreateEvalCompletionsRunDataSource),
-    CreateEvalResponsesRunDataSource(CreateEvalResponsesRunDataSource),
+    Jsonl(CreateEvalJsonlRunDataSource),
+    Completions0(CreateEvalCompletionsRunDataSource),
+    Completions1(CreateEvalResponsesRunDataSource),
 }
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
@@ -4913,7 +5104,6 @@ pub struct CreateEvalRunRequest {
 }
 #[doc = "The intended purpose of the uploaded file. One of: - `assistants`: Used in the Assistants API - `batch`: Used in the Batch API - `fine-tune`: Used for fine-tuning - `vision`: Images used for vision fine-tuning - `user_data`: Flexible file type for any purpose - `evals`: Used for eval data sets\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateFileRequestPurpose {
     #[serde(rename = "assistants")]
     Assistants,
@@ -4948,7 +5138,6 @@ pub struct CreateFineTuningCheckpointPermissionRequest {
     pub project_ids: Vec<String>,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateFineTuningJobRequestHyperparametersBatchSize0 {
     #[default]
     #[serde(rename = "auto")]
@@ -4963,7 +5152,6 @@ pub enum CreateFineTuningJobRequestHyperparametersBatchSize {
     _1(u64),
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateFineTuningJobRequestHyperparametersLearningRateMultiplier0 {
     #[default]
     #[serde(rename = "auto")]
@@ -4978,7 +5166,6 @@ pub enum CreateFineTuningJobRequestHyperparametersLearningRateMultiplier {
     _1(f64),
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateFineTuningJobRequestHyperparametersNEpochs0 {
     #[default]
     #[serde(rename = "auto")]
@@ -5021,7 +5208,6 @@ pub struct CreateFineTuningJobRequestHyperparameters {
     pub n_epochs: Option<CreateFineTuningJobRequestHyperparametersNEpochs>,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateFineTuningJobRequestIntegrationType0 {
     #[default]
     #[serde(rename = "wandb")]
@@ -5123,7 +5309,6 @@ pub enum CreateImageEditRequestImage {
 }
 #[doc = "The size of the generated images. Must be one of `1024x1024`, `1536x1024` (landscape), `1024x1536` (portrait), or `auto` (default value) for `gpt-image-1`, and one of `256x256`, `512x512`, or `1024x1024` for `dall-e-2`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateImageEditRequestSize {
     #[serde(rename = "256x256")]
     _256x256,
@@ -5141,7 +5326,6 @@ pub enum CreateImageEditRequestSize {
 }
 #[doc = "The format in which the generated images are returned. Must be one of `url` or `b64_json`. URLs are only valid for 60 minutes after the image has been generated. This parameter is only supported for `dall-e-2`, as `gpt-image-1` will always return base64-encoded images."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateImageEditRequestResponseFormat {
     #[default]
     #[serde(rename = "url")]
@@ -5151,7 +5335,6 @@ pub enum CreateImageEditRequestResponseFormat {
 }
 #[doc = "The quality of the image that will be generated. `high`, `medium` and `low` are only supported for `gpt-image-1`. `dall-e-2` only supports `standard` quality. Defaults to `auto`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateImageEditRequestQuality {
     #[serde(rename = "standard")]
     Standard,
@@ -5213,7 +5396,6 @@ pub struct CreateImageEditRequest {
 }
 #[doc = "The quality of the image that will be generated. \n\n- `auto` (default value) will automatically select the best quality for the given model.\n- `high`, `medium` and `low` are supported for `gpt-image-1`.\n- `hd` and `standard` are supported for `dall-e-3`.\n- `standard` is the only option for `dall-e-2`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateImageRequestQuality {
     #[serde(rename = "standard")]
     Standard,
@@ -5231,7 +5413,6 @@ pub enum CreateImageRequestQuality {
 }
 #[doc = "The format in which generated images with `dall-e-2` and `dall-e-3` are returned. Must be one of `url` or `b64_json`. URLs are only valid for 60 minutes after the image has been generated. This parameter isn't supported for `gpt-image-1` which will always return base64-encoded images."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateImageRequestResponseFormat {
     #[default]
     #[serde(rename = "url")]
@@ -5241,7 +5422,6 @@ pub enum CreateImageRequestResponseFormat {
 }
 #[doc = "The format in which the generated images are returned. This parameter is only supported for `gpt-image-1`. Must be one of `png`, `jpeg`, or `webp`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateImageRequestOutputFormat {
     #[default]
     #[serde(rename = "png")]
@@ -5253,7 +5433,6 @@ pub enum CreateImageRequestOutputFormat {
 }
 #[doc = "The size of the generated images. Must be one of `1024x1024`, `1536x1024` (landscape), `1024x1536` (portrait), or `auto` (default value) for `gpt-image-1`, one of `256x256`, `512x512`, or `1024x1024` for `dall-e-2`, and one of `1024x1024`, `1792x1024`, or `1024x1792` for `dall-e-3`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateImageRequestSize {
     #[default]
     #[serde(rename = "auto")]
@@ -5275,7 +5454,6 @@ pub enum CreateImageRequestSize {
 }
 #[doc = "Control the content-moderation level for images generated by `gpt-image-1`. Must be either `low` for less restrictive filtering or `auto` (default value)."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateImageRequestModeration {
     #[serde(rename = "low")]
     Low,
@@ -5285,7 +5463,6 @@ pub enum CreateImageRequestModeration {
 }
 #[doc = "Allows to set transparency for the background of the generated image(s). \nThis parameter is only supported for `gpt-image-1`. Must be one of \n`transparent`, `opaque` or `auto` (default value). When `auto` is used, the \nmodel will automatically determine the best background for the image.\n\nIf `transparent`, the output format needs to support transparency, so it \nshould be set to either `png` (default value) or `webp`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateImageRequestBackground {
     #[serde(rename = "transparent")]
     Transparent,
@@ -5297,7 +5474,6 @@ pub enum CreateImageRequestBackground {
 }
 #[doc = "The style of the generated images. This parameter is only supported for `dall-e-3`. Must be one of `vivid` or `natural`. Vivid causes the model to lean towards generating hyper-real and dramatic images. Natural causes the model to produce more natural, less hyper-real looking images."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateImageRequestStyle {
     #[default]
     #[serde(rename = "vivid")]
@@ -5370,7 +5546,6 @@ pub struct CreateImageRequest {
 }
 #[doc = "The format in which the generated images are returned. Must be one of `url` or `b64_json`. URLs are only valid for 60 minutes after the image has been generated."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateImageVariationRequestResponseFormat {
     #[default]
     #[serde(rename = "url")]
@@ -5380,7 +5555,6 @@ pub enum CreateImageVariationRequestResponseFormat {
 }
 #[doc = "The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateImageVariationRequestSize {
     #[serde(rename = "256x256")]
     _256x256,
@@ -5425,7 +5599,6 @@ pub struct CreateImageVariationRequest {
 }
 #[doc = "The role of the entity that is creating the message. Allowed values include:\n- `user`: Indicates the message is sent by an actual user and should be used in most cases to represent user-generated messages.\n- `assistant`: Indicates the message is generated by the assistant. Use this value to insert messages from the assistant into the conversation.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateMessageRequestRole {
     #[serde(rename = "user")]
     User,
@@ -5433,14 +5606,11 @@ pub enum CreateMessageRequestRole {
     Assistant,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateMessageRequestContent1 {
-    #[serde(rename = "image_file")]
     ImageFile(MessageContentImageFileObject),
-    #[serde(rename = "image_url")]
     ImageUrl(MessageContentImageUrlObject),
-    #[serde(rename = "text")]
     Text(MessageRequestContentTextObject),
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
@@ -5451,12 +5621,10 @@ pub enum CreateMessageRequestContent {
     _1(Vec<CreateMessageRequestContent1>),
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateMessageRequestAttachmentsTool {
-    #[serde(rename = "code_interpreter")]
     CodeInterpreter(AssistantToolsCode),
-    #[serde(rename = "file_search")]
     FileSearch(AssistantToolsFileSearchTypeOnly),
 }
 #[derive(
@@ -5490,6 +5658,13 @@ pub struct CreateMessageRequest {
     pub metadata: Option<Metadata>,
 }
 pub type CreateModelResponseProperties = ModelResponseProperties;
+#[doc = "Always `image_url`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum CreateModerationRequestInput2ImageUrlType {
+    #[default]
+    #[serde(rename = "image_url")]
+    ImageUrl,
+}
 #[doc = "Contains either an image URL or a data URL for a base64 encoded image."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
@@ -5504,26 +5679,39 @@ pub struct CreateModerationRequestInput2ImageUrlImageUrl {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct CreateModerationRequestInput2ImageUrl {
+    #[doc = "Always `image_url`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: CreateModerationRequestInput2ImageUrlType,
     #[doc = "Contains either an image URL or a data URL for a base64 encoded image."]
     #[serde(rename = "image_url")]
     pub image_url: CreateModerationRequestInput2ImageUrlImageUrl,
+}
+#[doc = "Always `text`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum CreateModerationRequestInput2TextType {
+    #[default]
+    #[serde(rename = "text")]
+    Text,
 }
 #[doc = "An object describing text to classify."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct CreateModerationRequestInput2Text {
+    #[doc = "Always `text`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: CreateModerationRequestInput2TextType,
     #[doc = "A string of text to classify."]
     #[serde(rename = "text")]
     pub text: String,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateModerationRequestInput2 {
-    #[serde(rename = "image_url")]
     ImageUrl(CreateModerationRequestInput2ImageUrl),
-    #[serde(rename = "text")]
     Text(CreateModerationRequestInput2Text),
 }
 #[doc = "Input (or inputs) to classify. Can be a single string, an array of strings, or\nan array of multi-modal input objects similar to other models.\n"]
@@ -5643,49 +5831,42 @@ pub struct CreateModerationResponseResultCategoryScores {
     pub violence_graphic: f64,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateModerationResponseResultCategoryAppliedInputTypesHate {
     #[default]
     #[serde(rename = "text")]
     Text,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateModerationResponseResultCategoryAppliedInputTypesHateThreatening {
     #[default]
     #[serde(rename = "text")]
     Text,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateModerationResponseResultCategoryAppliedInputTypesHarassment {
     #[default]
     #[serde(rename = "text")]
     Text,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateModerationResponseResultCategoryAppliedInputTypesHarassmentThreatening {
     #[default]
     #[serde(rename = "text")]
     Text,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateModerationResponseResultCategoryAppliedInputTypesIllicit {
     #[default]
     #[serde(rename = "text")]
     Text,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateModerationResponseResultCategoryAppliedInputTypesIllicitViolent {
     #[default]
     #[serde(rename = "text")]
     Text,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateModerationResponseResultCategoryAppliedInputTypesSelfHarm {
     #[serde(rename = "text")]
     Text,
@@ -5693,7 +5874,6 @@ pub enum CreateModerationResponseResultCategoryAppliedInputTypesSelfHarm {
     Image,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateModerationResponseResultCategoryAppliedInputTypesSelfHarmIntent {
     #[serde(rename = "text")]
     Text,
@@ -5701,7 +5881,6 @@ pub enum CreateModerationResponseResultCategoryAppliedInputTypesSelfHarmIntent {
     Image,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateModerationResponseResultCategoryAppliedInputTypesSelfHarmInstructions {
     #[serde(rename = "text")]
     Text,
@@ -5709,7 +5888,6 @@ pub enum CreateModerationResponseResultCategoryAppliedInputTypesSelfHarmInstruct
     Image,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateModerationResponseResultCategoryAppliedInputTypesSexual {
     #[serde(rename = "text")]
     Text,
@@ -5717,14 +5895,12 @@ pub enum CreateModerationResponseResultCategoryAppliedInputTypesSexual {
     Image,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateModerationResponseResultCategoryAppliedInputTypesSexualMinors {
     #[default]
     #[serde(rename = "text")]
     Text,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateModerationResponseResultCategoryAppliedInputTypesViolence {
     #[serde(rename = "text")]
     Text,
@@ -5732,7 +5908,6 @@ pub enum CreateModerationResponseResultCategoryAppliedInputTypesViolence {
     Image,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateModerationResponseResultCategoryAppliedInputTypesViolenceGraphic {
     #[serde(rename = "text")]
     Text,
@@ -5864,14 +6039,11 @@ pub struct CreateResponse {
     pub stream: Option<bool>,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateRunRequestTool {
-    #[serde(rename = "code_interpreter")]
     CodeInterpreter(AssistantToolsCode),
-    #[serde(rename = "file_search")]
     FileSearch(AssistantToolsFileSearch),
-    #[serde(rename = "function")]
     Function(AssistantToolsFunction),
 }
 #[derive(
@@ -5958,7 +6130,6 @@ pub struct CreateRunRequest {
 }
 #[doc = "The format to audio in. Supported formats are `mp3`, `opus`, `aac`, `flac`, `wav`, and `pcm`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateSpeechRequestResponseFormat {
     #[default]
     #[serde(rename = "mp3")]
@@ -6004,14 +6175,11 @@ pub struct CreateSpeechRequest {
     pub speed: Option<f64>,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateThreadAndRunRequestTool {
-    #[serde(rename = "code_interpreter")]
     CodeInterpreter(AssistantToolsCode),
-    #[serde(rename = "file_search")]
     FileSearch(AssistantToolsFileSearch),
-    #[serde(rename = "function")]
     Function(AssistantToolsFunction),
 }
 #[derive(
@@ -6159,6 +6327,13 @@ pub struct CreateThreadRequestToolResourcesCodeInterpreter {
     #[serde(rename = "file_ids")]
     pub file_ids: Option<Vec<String>>,
 }
+#[doc = "Always `auto`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAutoType {
+    #[default]
+    #[serde(rename = "auto")]
+    Auto,
+}
 #[doc = "The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`."]
 #[derive(
     Clone,
@@ -6169,7 +6344,19 @@ pub struct CreateThreadRequestToolResourcesCodeInterpreter {
     Default,
     typed_builder :: TypedBuilder,
 )]
-pub struct CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto {}
+pub struct CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto {
+    #[doc = "Always `auto`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAutoType,
+}
+#[doc = "Always `static`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticType {
+    #[default]
+    #[serde(rename = "static")]
+    Static,
+}
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
@@ -6185,17 +6372,19 @@ pub struct CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrateg
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic {
+    #[doc = "Always `static`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticType,
     #[serde(rename = "static")]
     pub static_: CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticStatic,
 }
 #[doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategy {
-    #[serde(rename = "auto")]
     Auto(CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto),
-    #[serde(rename = "static")]
     Static(CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic),
 }
 #[derive(
@@ -6237,6 +6426,13 @@ pub struct CreateThreadRequestToolResourcesFileSearch0 {
     #[serde(rename = "vector_stores")]
     pub vector_stores: Option<Vec<CreateThreadRequestToolResourcesFileSearch0VectorStore>>,
 }
+#[doc = "Always `auto`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAutoType {
+    #[default]
+    #[serde(rename = "auto")]
+    Auto,
+}
 #[doc = "The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`."]
 #[derive(
     Clone,
@@ -6247,7 +6443,19 @@ pub struct CreateThreadRequestToolResourcesFileSearch0 {
     Default,
     typed_builder :: TypedBuilder,
 )]
-pub struct CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto {}
+pub struct CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto {
+    #[doc = "Always `auto`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAutoType,
+}
+#[doc = "Always `static`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticType {
+    #[default]
+    #[serde(rename = "static")]
+    Static,
+}
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
@@ -6263,17 +6471,19 @@ pub struct CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrateg
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic {
+    #[doc = "Always `static`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticType,
     #[serde(rename = "static")]
     pub static_: CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticStatic,
 }
 #[doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategy {
-    #[serde(rename = "auto")]
     Auto(CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto),
-    #[serde(rename = "static")]
     Static(CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic),
 }
 #[derive(
@@ -6369,7 +6579,6 @@ pub struct CreateThreadRequest {
     pub metadata: Option<Metadata>,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateTranscriptionRequestTimestampGranularities {
     #[serde(rename = "word")]
     Word,
@@ -6462,12 +6671,10 @@ pub struct CreateTranscriptionResponseJson {
     pub logprobs: Option<Vec<CreateTranscriptionResponseJsonLogprob>>,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateTranscriptionResponseStreamEvent {
-    #[serde(rename = "transcript.text.delta")]
     TranscriptTextDelta(TranscriptTextDeltaEvent),
-    #[serde(rename = "transcript.text.done")]
     TranscriptTextDone(TranscriptTextDoneEvent),
 }
 #[doc = "Represents a verbose json transcription response returned by model, based on the provided input."]
@@ -6497,7 +6704,6 @@ pub struct CreateTranscriptionResponseVerboseJson {
 }
 #[doc = "The format of the output, in one of these options: `json`, `text`, `srt`, `verbose_json`, or `vtt`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateTranslationRequestResponseFormat {
     #[default]
     #[serde(rename = "json")]
@@ -6565,7 +6771,6 @@ pub struct CreateTranslationResponseVerboseJson {
 }
 #[doc = "The intended purpose of the uploaded file.\n\nSee the [documentation on File purposes](/docs/api-reference/files/create#files-create-purpose).\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum CreateUploadRequestPurpose {
     #[serde(rename = "assistants")]
     Assistants,
@@ -6627,12 +6832,10 @@ pub struct CreateVectorStoreFileRequest {
 }
 #[doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy. Only applicable if `file_ids` is non-empty."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateVectorStoreRequestChunkingStrategy {
-    #[serde(rename = "auto")]
     Auto(AutoChunkingStrategyRequestParam),
-    #[serde(rename = "static")]
     Static(StaticChunkingStrategyRequestParam),
 }
 #[derive(
@@ -6670,7 +6873,6 @@ pub struct CreateVectorStoreRequest {
     pub metadata: Option<Metadata>,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum DeleteAssistantResponseObject {
     #[default]
     #[serde(rename = "assistant.deleted")]
@@ -6690,7 +6892,6 @@ pub struct DeleteAssistantResponse {
 }
 #[doc = "The object type, must be `certificate.deleted`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum DeleteCertificateResponseObject {
     #[default]
     #[serde(rename = "certificate.deleted")]
@@ -6709,7 +6910,6 @@ pub struct DeleteCertificateResponse {
     pub id: String,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum DeleteFileResponseObject {
     #[default]
     #[serde(rename = "file")]
@@ -6729,7 +6929,6 @@ pub struct DeleteFileResponse {
 }
 #[doc = "The object type, which is always \"checkpoint.permission\"."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum DeleteFineTuningCheckpointPermissionResponseObject {
     #[default]
     #[serde(rename = "checkpoint.permission")]
@@ -6751,7 +6950,6 @@ pub struct DeleteFineTuningCheckpointPermissionResponse {
     pub deleted: bool,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum DeleteMessageResponseObject {
     #[default]
     #[serde(rename = "thread.message.deleted")]
@@ -6781,7 +6979,6 @@ pub struct DeleteModelResponse {
     pub object: String,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum DeleteThreadResponseObject {
     #[default]
     #[serde(rename = "thread.deleted")]
@@ -6800,7 +6997,6 @@ pub struct DeleteThreadResponse {
     pub object: DeleteThreadResponseObject,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum DeleteVectorStoreFileResponseObject {
     #[default]
     #[serde(rename = "vector_store.file.deleted")]
@@ -6819,7 +7015,6 @@ pub struct DeleteVectorStoreFileResponse {
     pub object: DeleteVectorStoreFileResponseObject,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum DeleteVectorStoreResponseObject {
     #[default]
     #[serde(rename = "vector_store.deleted")]
@@ -6838,14 +7033,12 @@ pub struct DeleteVectorStoreResponse {
     pub object: DeleteVectorStoreResponseObject,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum DoneEventEvent {
     #[default]
     #[serde(rename = "done")]
     Done,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum DoneEventData {
     #[default]
     #[serde(rename = "[DONE]")]
@@ -6869,11 +7062,22 @@ pub struct DoneEvent {
     #[serde(rename = "data")]
     pub data: DoneEventData,
 }
+#[doc = "Specifies the event type. For a double click action, this property is \nalways set to `double_click`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum DoubleClickType {
+    #[default]
+    #[serde(rename = "double_click")]
+    DoubleClick,
+}
 #[doc = "A double click action.\n"]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct DoubleClick {
+    #[doc = "Specifies the event type. For a double click action, this property is \nalways set to `double_click`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: DoubleClickType,
     #[doc = "The x-coordinate where the double click occurred.\n"]
     #[serde(rename = "x")]
     pub x: u64,
@@ -6881,18 +7085,28 @@ pub struct DoubleClick {
     #[serde(rename = "y")]
     pub y: u64,
 }
+#[doc = "Specifies the event type. For a drag action, this property is \nalways set to `drag`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum DragType {
+    #[default]
+    #[serde(rename = "drag")]
+    Drag,
+}
 #[doc = "A drag action.\n"]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct Drag {
+    #[doc = "Specifies the event type. For a drag action, this property is \nalways set to `drag`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: DragType,
     #[doc = "An array of coordinates representing the path of the drag action. Coordinates will appear as an array\nof objects, eg\n```\n[\n  { x: 100, y: 200 },\n  { x: 200, y: 300 }\n]\n```\n"]
     #[serde(rename = "path")]
     pub path: Vec<Coordinate>,
 }
 #[doc = "The role of the message input. One of `user`, `assistant`, `system`, or\n`developer`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum EasyInputMessageRole {
     #[serde(rename = "user")]
     User,
@@ -6913,7 +7127,6 @@ pub enum EasyInputMessageContent {
 }
 #[doc = "The type of the message input. Always `message`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum EasyInputMessageType {
     #[default]
     #[serde(rename = "message")]
@@ -6938,7 +7151,6 @@ pub struct EasyInputMessage {
 }
 #[doc = "The object type, which is always \"embedding\"."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum EmbeddingObject {
     #[default]
     #[serde(rename = "embedding")]
@@ -6978,7 +7190,6 @@ pub struct Error {
     pub type_: String,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ErrorEventEvent {
     #[default]
     #[serde(rename = "error")]
@@ -7004,7 +7215,6 @@ pub struct ErrorResponse {
 }
 #[doc = "The object type."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum EvalObject {
     #[default]
     #[serde(rename = "eval")]
@@ -7012,27 +7222,20 @@ pub enum EvalObject {
 }
 #[doc = "Configuration of data sources used in runs of the evaluation."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum EvalDataSourceConfig {
-    #[serde(rename = "custom")]
     Custom(EvalCustomDataSourceConfig),
-    #[serde(rename = "stored_completions")]
     StoredCompletions(EvalStoredCompletionsDataSourceConfig),
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum EvalTestingCriteria {
-    #[serde(rename = "label_model")]
     LabelModel(EvalLabelModelGrader),
-    #[serde(rename = "string_check")]
     StringCheck(EvalStringCheckGrader),
-    #[serde(rename = "text_similarity")]
     TextSimilarity(EvalTextSimilarityGrader),
-    #[serde(rename = "python")]
     Python(EvalPythonGrader),
-    #[serde(rename = "score_model")]
     ScoreModel(EvalScoreModelGrader),
 }
 #[doc = "An Eval object with a data source config and testing criteria.\nAn Eval represents a task to be done for your LLM integration.\nLike:\n - Improve the quality of my chatbot\n - See how well my chatbot handles customer support\n - Check if o3-mini is better at my usecase than gpt-4o\n"]
@@ -7074,18 +7277,28 @@ pub struct EvalApiError {
     #[serde(rename = "message")]
     pub message: String,
 }
+#[doc = "The type of data source. Always `custom`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum EvalCustomDataSourceConfigType {
+    #[default]
+    #[serde(rename = "custom")]
+    Custom,
+}
 #[doc = "A CustomDataSourceConfig which specifies the schema of your `item` and optionally `sample` namespaces.\nThe response schema defines the shape of the data that will be:\n- Used to define your testing criteria and\n- What data is required when creating a run\n"]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct EvalCustomDataSourceConfig {
+    #[doc = "The type of data source. Always `custom`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: EvalCustomDataSourceConfigType,
     #[doc = "The json schema for the run data source items.\nLearn how to build JSON schemas [here](https://json-schema.org/).\n"]
     #[serde(rename = "schema")]
     pub schema: std::collections::HashMap<String, serde_json::Value>,
 }
 #[doc = "The role of the message input. One of `user`, `assistant`, `system`, or\n`developer`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum EvalItemRole {
     #[serde(rename = "user")]
     User,
@@ -7098,8 +7311,7 @@ pub enum EvalItemRole {
 }
 #[doc = "The type of the output text. Always `output_text`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
-pub enum EvalItemContent2Type {
+pub enum EvalItemContentOutputTextType {
     #[default]
     #[serde(rename = "output_text")]
     OutputText,
@@ -7108,11 +7320,11 @@ pub enum EvalItemContent2Type {
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
-pub struct EvalItemContent2 {
+pub struct EvalItemContentOutputText {
     #[doc = "The type of the output text. Always `output_text`.\n"]
     #[builder(default)]
     #[serde(rename = "type")]
-    pub type_: EvalItemContent2Type,
+    pub type_: EvalItemContentOutputTextType,
     #[doc = "The text output from the model.\n"]
     #[serde(rename = "text")]
     pub text: String,
@@ -7123,12 +7335,11 @@ pub struct EvalItemContent2 {
 #[allow(clippy::large_enum_variant)]
 pub enum EvalItemContent {
     _0(String),
-    InputTextContent(InputTextContent),
-    _2(EvalItemContent2),
+    InputText(InputTextContent),
+    OutputText(EvalItemContentOutputText),
 }
 #[doc = "The type of the message input. Always `message`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum EvalItemType {
     #[default]
     #[serde(rename = "message")]
@@ -7151,6 +7362,13 @@ pub struct EvalItem {
     #[serde(rename = "type")]
     pub type_: Option<EvalItemType>,
 }
+#[doc = "The type of jsonl source. Always `file_content`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum EvalJsonlFileContentSourceType {
+    #[default]
+    #[serde(rename = "file_content")]
+    FileContent,
+}
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
@@ -7166,23 +7384,49 @@ pub struct EvalJsonlFileContentSourceContent {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct EvalJsonlFileContentSource {
+    #[doc = "The type of jsonl source. Always `file_content`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: EvalJsonlFileContentSourceType,
     #[doc = "The content of the jsonl file."]
     #[serde(rename = "content")]
     pub content: Vec<EvalJsonlFileContentSourceContent>,
+}
+#[doc = "The type of jsonl source. Always `file_id`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum EvalJsonlFileIdSourceType {
+    #[default]
+    #[serde(rename = "file_id")]
+    FileId,
 }
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct EvalJsonlFileIdSource {
+    #[doc = "The type of jsonl source. Always `file_id`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: EvalJsonlFileIdSourceType,
     #[doc = "The identifier of the file."]
     #[serde(rename = "id")]
     pub id: String,
+}
+#[doc = "The object type, which is always `label_model`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum EvalLabelModelGraderType {
+    #[default]
+    #[serde(rename = "label_model")]
+    LabelModel,
 }
 #[doc = "A LabelModelGrader object which uses a model to assign labels to each item\nin the evaluation.\n"]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct EvalLabelModelGrader {
+    #[doc = "The object type, which is always `label_model`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: EvalLabelModelGraderType,
     #[doc = "The name of the grader."]
     #[serde(rename = "name")]
     pub name: String,
@@ -7200,7 +7444,6 @@ pub struct EvalLabelModelGrader {
 }
 #[doc = "The type of this object. It is always set to \"list\".\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum EvalListObject {
     #[default]
     #[serde(rename = "list")]
@@ -7228,11 +7471,22 @@ pub struct EvalList {
     #[serde(rename = "has_more")]
     pub has_more: bool,
 }
+#[doc = "The object type, which is always `python`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum EvalPythonGraderType {
+    #[default]
+    #[serde(rename = "python")]
+    Python,
+}
 #[doc = "A PythonGrader object that runs a python script on the input.\n"]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct EvalPythonGrader {
+    #[doc = "The object type, which is always `python`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: EvalPythonGraderType,
     #[doc = "The name of the grader."]
     #[serde(rename = "name")]
     pub name: String,
@@ -7252,7 +7506,6 @@ pub struct EvalPythonGrader {
 }
 #[doc = "The type of run data source. Always `responses`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum EvalResponsesSourceType {
     #[serde(rename = "responses")]
     Responses,
@@ -7323,7 +7576,6 @@ pub struct EvalResponsesSource {
 }
 #[doc = "The type of the object. Always \"eval.run\"."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum EvalRunObject {
     #[default]
     #[serde(rename = "eval.run")]
@@ -7389,9 +7641,9 @@ pub struct EvalRunPerTestingCriteriaResult {
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum EvalRunDataSource {
-    CreateEvalJsonlRunDataSource(CreateEvalJsonlRunDataSource),
-    CreateEvalCompletionsRunDataSource(CreateEvalCompletionsRunDataSource),
-    CreateEvalResponsesRunDataSource(CreateEvalResponsesRunDataSource),
+    Jsonl(CreateEvalJsonlRunDataSource),
+    Completions0(CreateEvalCompletionsRunDataSource),
+    Completions1(CreateEvalResponsesRunDataSource),
 }
 #[doc = "A schema representing an evaluation run.\n"]
 #[derive(
@@ -7442,7 +7694,6 @@ pub struct EvalRun {
 }
 #[doc = "The type of this object. It is always set to \"list\".\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum EvalRunListObject {
     #[default]
     #[serde(rename = "list")]
@@ -7472,7 +7723,6 @@ pub struct EvalRunList {
 }
 #[doc = "The type of the object. Always \"eval.run.output_item\"."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum EvalRunOutputItemObject {
     #[default]
     #[serde(rename = "eval.run.output_item")]
@@ -7603,7 +7853,6 @@ pub struct EvalRunOutputItem {
 }
 #[doc = "The type of this object. It is always set to \"list\".\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum EvalRunOutputItemListObject {
     #[default]
     #[serde(rename = "list")]
@@ -7631,11 +7880,22 @@ pub struct EvalRunOutputItemList {
     #[serde(rename = "has_more")]
     pub has_more: bool,
 }
+#[doc = "The object type, which is always `score_model`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum EvalScoreModelGraderType {
+    #[default]
+    #[serde(rename = "score_model")]
+    ScoreModel,
+}
 #[doc = "A ScoreModelGrader object that uses a model to assign a score to the input.\n"]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct EvalScoreModelGrader {
+    #[doc = "The object type, which is always `score_model`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: EvalScoreModelGraderType,
     #[doc = "The name of the grader."]
     #[serde(rename = "name")]
     pub name: String,
@@ -7661,11 +7921,22 @@ pub struct EvalScoreModelGrader {
     #[serde(rename = "range")]
     pub range: Option<Vec<f64>>,
 }
+#[doc = "The type of data source. Always `stored_completions`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum EvalStoredCompletionsDataSourceConfigType {
+    #[default]
+    #[serde(rename = "stored_completions")]
+    StoredCompletions,
+}
 #[doc = "A StoredCompletionsDataSourceConfig which specifies the metadata property of your stored completions query.\nThis is usually metadata like `usecase=chatbot` or `prompt-version=v2`, etc.\nThe schema returned by this data source config is used to defined what variables are available in your evals.\n`item` and `sample` are both defined when using this data source config.\n"]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct EvalStoredCompletionsDataSourceConfig {
+    #[doc = "The type of data source. Always `stored_completions`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: EvalStoredCompletionsDataSourceConfigType,
     #[builder(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "metadata")]
@@ -7673,6 +7944,13 @@ pub struct EvalStoredCompletionsDataSourceConfig {
     #[doc = "The json schema for the run data source items.\nLearn how to build JSON schemas [here](https://json-schema.org/).\n"]
     #[serde(rename = "schema")]
     pub schema: std::collections::HashMap<String, serde_json::Value>,
+}
+#[doc = "The type of source. Always `stored_completions`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum EvalStoredCompletionsSourceType {
+    #[default]
+    #[serde(rename = "stored_completions")]
+    StoredCompletions,
 }
 #[doc = "A StoredCompletionsRunDataSource configuration describing a set of filters\n"]
 #[derive(
@@ -7685,6 +7963,10 @@ pub struct EvalStoredCompletionsDataSourceConfig {
     typed_builder :: TypedBuilder,
 )]
 pub struct EvalStoredCompletionsSource {
+    #[doc = "The type of source. Always `stored_completions`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: EvalStoredCompletionsSourceType,
     #[builder(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "metadata")]
@@ -7710,9 +7992,15 @@ pub struct EvalStoredCompletionsSource {
     #[serde(rename = "limit")]
     pub limit: Option<u64>,
 }
+#[doc = "The object type, which is always `string_check`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum EvalStringCheckGraderType {
+    #[default]
+    #[serde(rename = "string_check")]
+    StringCheck,
+}
 #[doc = "The string check operation to perform. One of `eq`, `ne`, `like`, or `ilike`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum EvalStringCheckGraderOperation {
     #[serde(rename = "eq")]
     Eq,
@@ -7728,6 +8016,10 @@ pub enum EvalStringCheckGraderOperation {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct EvalStringCheckGrader {
+    #[doc = "The object type, which is always `string_check`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: EvalStringCheckGraderType,
     #[doc = "The name of the grader."]
     #[serde(rename = "name")]
     pub name: String,
@@ -7741,9 +8033,15 @@ pub struct EvalStringCheckGrader {
     #[serde(rename = "operation")]
     pub operation: EvalStringCheckGraderOperation,
 }
+#[doc = "The type of grader."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum EvalTextSimilarityGraderType {
+    #[default]
+    #[serde(rename = "text_similarity")]
+    TextSimilarity,
+}
 #[doc = "The evaluation metric to use. One of `fuzzy_match`, `bleu`, `gleu`, `meteor`, `rouge_1`, `rouge_2`, `rouge_3`, `rouge_4`, `rouge_5`, or `rouge_l`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum EvalTextSimilarityGraderEvaluationMetric {
     #[serde(rename = "fuzzy_match")]
     FuzzyMatch,
@@ -7771,6 +8069,10 @@ pub enum EvalTextSimilarityGraderEvaluationMetric {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct EvalTextSimilarityGrader {
+    #[doc = "The type of grader."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: EvalTextSimilarityGraderType,
     #[doc = "The name of the grader."]
     #[builder(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -7789,11 +8091,22 @@ pub struct EvalTextSimilarityGrader {
     #[serde(rename = "evaluation_metric")]
     pub evaluation_metric: EvalTextSimilarityGraderEvaluationMetric,
 }
+#[doc = "The type of the file path. Always `file_path`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum FilePathType {
+    #[default]
+    #[serde(rename = "file_path")]
+    FilePath,
+}
 #[doc = "A path to a file.\n"]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct FilePath {
+    #[doc = "The type of the file path. Always `file_path`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: FilePathType,
     #[doc = "The ID of the file.\n"]
     #[serde(rename = "file_id")]
     pub file_id: String,
@@ -7803,7 +8116,6 @@ pub struct FilePath {
 }
 #[doc = "The ranker to use for the file search. If not specified will use the `auto` ranker."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum FileSearchRanker {
     #[serde(rename = "auto")]
     Auto,
@@ -7825,7 +8137,6 @@ pub struct FileSearchRankingOptions {
 }
 #[doc = "The type of the file search tool call. Always `file_search_call`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum FileSearchToolCallType {
     #[default]
     #[serde(rename = "file_search_call")]
@@ -7833,7 +8144,6 @@ pub enum FileSearchToolCallType {
 }
 #[doc = "The status of the file search tool call. One of `in_progress`, \n`searching`, `incomplete` or `failed`,\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum FileSearchToolCallStatus {
     #[serde(rename = "in_progress")]
     InProgress,
@@ -7928,11 +8238,11 @@ pub struct FineTuneChatCompletionRequestAssistantMessage {
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuneChatRequestInputMessages {
-    ChatCompletionRequestSystemMessage(ChatCompletionRequestSystemMessage),
-    ChatCompletionRequestUserMessage(ChatCompletionRequestUserMessage),
+    System(ChatCompletionRequestSystemMessage),
+    User(ChatCompletionRequestUserMessage),
     FineTuneChatCompletionRequestAssistantMessage(FineTuneChatCompletionRequestAssistantMessage),
-    ChatCompletionRequestToolMessage(ChatCompletionRequestToolMessage),
-    ChatCompletionRequestFunctionMessage(ChatCompletionRequestFunctionMessage),
+    Tool(ChatCompletionRequestToolMessage),
+    Function(ChatCompletionRequestFunctionMessage),
 }
 #[doc = "The per-line training example of a fine-tuning input file for chat models using the supervised method."]
 #[derive(
@@ -7987,7 +8297,6 @@ pub struct FineTuneCompletionRequestInput {
     pub completion: Option<String>,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum FineTuneDpoMethodHyperparametersBeta0 {
     #[default]
     #[serde(rename = "auto")]
@@ -8002,7 +8311,6 @@ pub enum FineTuneDpoMethodHyperparametersBeta {
     _1(f64),
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum FineTuneDpoMethodHyperparametersBatchSize0 {
     #[default]
     #[serde(rename = "auto")]
@@ -8017,7 +8325,6 @@ pub enum FineTuneDpoMethodHyperparametersBatchSize {
     _1(u64),
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum FineTuneDpoMethodHyperparametersLearningRateMultiplier0 {
     #[default]
     #[serde(rename = "auto")]
@@ -8032,7 +8339,6 @@ pub enum FineTuneDpoMethodHyperparametersLearningRateMultiplier {
     _1(f64),
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum FineTuneDpoMethodHyperparametersNEpochs0 {
     #[default]
     #[serde(rename = "auto")]
@@ -8097,7 +8403,6 @@ pub struct FineTuneDpoMethod {
 }
 #[doc = "The type of method. Is either `supervised` or `dpo`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum FineTuneMethodType {
     #[serde(rename = "supervised")]
     Supervised,
@@ -8133,11 +8438,11 @@ pub struct FineTuneMethod {
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTunePreferenceRequestInputInputMessages {
-    ChatCompletionRequestSystemMessage(ChatCompletionRequestSystemMessage),
-    ChatCompletionRequestUserMessage(ChatCompletionRequestUserMessage),
+    System(ChatCompletionRequestSystemMessage),
+    User(ChatCompletionRequestUserMessage),
     FineTuneChatCompletionRequestAssistantMessage(FineTuneChatCompletionRequestAssistantMessage),
-    ChatCompletionRequestToolMessage(ChatCompletionRequestToolMessage),
-    ChatCompletionRequestFunctionMessage(ChatCompletionRequestFunctionMessage),
+    Tool(ChatCompletionRequestToolMessage),
+    Function(ChatCompletionRequestFunctionMessage),
 }
 #[derive(
     Clone,
@@ -8164,18 +8469,16 @@ pub struct FineTunePreferenceRequestInputInput {
     pub parallel_tool_calls: Option<ParallelToolCalls>,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "role")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTunePreferenceRequestInputPreferredCompletion {
-    #[serde(rename = "assistant")]
-    Assistant(ChatCompletionRequestAssistantMessage),
+    ChatCompletionRequestAssistantMessage(ChatCompletionRequestAssistantMessage),
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "role")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTunePreferenceRequestInputNonPreferredCompletion {
-    #[serde(rename = "assistant")]
-    Assistant(ChatCompletionRequestAssistantMessage),
+    ChatCompletionRequestAssistantMessage(ChatCompletionRequestAssistantMessage),
 }
 #[doc = "The per-line training example of a fine-tuning input file for chat models using the dpo method."]
 #[derive(
@@ -8204,7 +8507,6 @@ pub struct FineTunePreferenceRequestInput {
     pub non_preferred_completion: Option<Vec<FineTunePreferenceRequestInputNonPreferredCompletion>>,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum FineTuneSupervisedMethodHyperparametersBatchSize0 {
     #[default]
     #[serde(rename = "auto")]
@@ -8219,7 +8521,6 @@ pub enum FineTuneSupervisedMethodHyperparametersBatchSize {
     _1(u64),
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum FineTuneSupervisedMethodHyperparametersLearningRateMultiplier0 {
     #[default]
     #[serde(rename = "auto")]
@@ -8234,7 +8535,6 @@ pub enum FineTuneSupervisedMethodHyperparametersLearningRateMultiplier {
     _1(f64),
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum FineTuneSupervisedMethodHyperparametersNEpochs0 {
     #[default]
     #[serde(rename = "auto")]
@@ -8295,7 +8595,6 @@ pub struct FineTuneSupervisedMethod {
 }
 #[doc = "The object type, which is always \"checkpoint.permission\"."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum FineTuningCheckpointPermissionObject {
     #[default]
     #[serde(rename = "checkpoint.permission")]
@@ -8319,6 +8618,13 @@ pub struct FineTuningCheckpointPermission {
     #[builder(default)]
     #[serde(rename = "object")]
     pub object: FineTuningCheckpointPermissionObject,
+}
+#[doc = "The type of the integration being enabled for the fine-tuning job"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum FineTuningIntegrationType {
+    #[default]
+    #[serde(rename = "wandb")]
+    Wandb,
 }
 #[doc = "The settings for your integration with Weights and Biases. This payload specifies the project that\nmetrics will be sent to. Optionally, you can set an explicit display name for your run, add tags\nto your run, and set a default entity (team, username, etc) to be associated with your run.\n"]
 #[derive(
@@ -8348,6 +8654,10 @@ pub struct FineTuningIntegrationWandb {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct FineTuningIntegration {
+    #[doc = "The type of the integration being enabled for the fine-tuning job"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: FineTuningIntegrationType,
     #[doc = "The settings for your integration with Weights and Biases. This payload specifies the project that\nmetrics will be sent to. Optionally, you can set an explicit display name for your run, add tags\nto your run, and set a default entity (team, username, etc) to be associated with your run.\n"]
     #[serde(rename = "wandb")]
     pub wandb: FineTuningIntegrationWandb,
@@ -8370,7 +8680,6 @@ pub struct FineTuningJobError {
     pub param: Option<String>,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum FineTuningJobHyperparametersBatchSize0 {
     #[default]
     #[serde(rename = "auto")]
@@ -8385,7 +8694,6 @@ pub enum FineTuningJobHyperparametersBatchSize {
     _1(u64),
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum FineTuningJobHyperparametersLearningRateMultiplier0 {
     #[default]
     #[serde(rename = "auto")]
@@ -8400,7 +8708,6 @@ pub enum FineTuningJobHyperparametersLearningRateMultiplier {
     _1(f64),
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum FineTuningJobHyperparametersNEpochs0 {
     #[default]
     #[serde(rename = "auto")]
@@ -8443,7 +8750,6 @@ pub struct FineTuningJobHyperparameters {
 }
 #[doc = "The object type, which is always \"fine_tuning.job\"."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum FineTuningJobObject {
     #[default]
     #[serde(rename = "fine_tuning.job")]
@@ -8451,7 +8757,6 @@ pub enum FineTuningJobObject {
 }
 #[doc = "The current status of the fine-tuning job, which can be either `validating_files`, `queued`, `running`, `succeeded`, `failed`, or `cancelled`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum FineTuningJobStatus {
     #[serde(rename = "validating_files")]
     ValidatingFiles,
@@ -8467,11 +8772,10 @@ pub enum FineTuningJobStatus {
     Cancelled,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuningJobIntegration {
-    #[serde(rename = "wandb")]
-    Wandb(FineTuningIntegration),
+    FineTuningIntegration(FineTuningIntegration),
 }
 #[doc = "The `fine_tuning.job` object represents a fine-tuning job that has been created through the API.\n"]
 #[derive(
@@ -8596,7 +8900,6 @@ pub struct FineTuningJobCheckpointMetrics {
 }
 #[doc = "The object type, which is always \"fine_tuning.job.checkpoint\"."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum FineTuningJobCheckpointObject {
     #[default]
     #[serde(rename = "fine_tuning.job.checkpoint")]
@@ -8633,7 +8936,6 @@ pub struct FineTuningJobCheckpoint {
 }
 #[doc = "The object type, which is always \"fine_tuning.job.event\"."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum FineTuningJobEventObject {
     #[default]
     #[serde(rename = "fine_tuning.job.event")]
@@ -8641,7 +8943,6 @@ pub enum FineTuningJobEventObject {
 }
 #[doc = "The log level of the event."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum FineTuningJobEventLevel {
     #[serde(rename = "info")]
     Info,
@@ -8652,7 +8953,6 @@ pub enum FineTuningJobEventLevel {
 }
 #[doc = "The type of event."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum FineTuningJobEventType {
     #[serde(rename = "message")]
     Message,
@@ -8716,7 +9016,6 @@ pub struct FunctionObject {
 pub type FunctionParameters = std::collections::HashMap<String, serde_json::Value>;
 #[doc = "The type of the function tool call. Always `function_call`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum FunctionToolCallType {
     #[default]
     #[serde(rename = "function_call")]
@@ -8724,7 +9023,6 @@ pub enum FunctionToolCallType {
 }
 #[doc = "The status of the item. One of `in_progress`, `completed`, or\n`incomplete`. Populated when items are returned via API.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum FunctionToolCallStatus {
     #[serde(rename = "in_progress")]
     InProgress,
@@ -8764,7 +9062,6 @@ pub struct FunctionToolCall {
 }
 #[doc = "The type of the function tool call output. Always `function_call_output`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum FunctionToolCallOutputType {
     #[default]
     #[serde(rename = "function_call_output")]
@@ -8772,7 +9069,6 @@ pub enum FunctionToolCallOutputType {
 }
 #[doc = "The status of the item. One of `in_progress`, `completed`, or\n`incomplete`. Populated when items are returned via API.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum FunctionToolCallOutputStatus {
     #[serde(rename = "in_progress")]
     InProgress,
@@ -8905,7 +9201,6 @@ pub struct ImagesResponse {
 }
 #[doc = "Specify additional output data to include in the model response. Currently\nsupported values are:\n- `file_search_call.results`: Include the search results of\n  the file search tool call.\n- `message.input_image.image_url`: Include image urls from the input message.\n- `computer_call_output.output.image_url`: Include image urls from the computer call output.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum Includable {
     #[serde(rename = "file_search_call.results")]
     FileSearchCallResults,
@@ -8916,7 +9211,6 @@ pub enum Includable {
 }
 #[doc = "The type of the input item. Always `input_audio`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum InputAudioType {
     #[default]
     #[serde(rename = "input_audio")]
@@ -8924,7 +9218,6 @@ pub enum InputAudioType {
 }
 #[doc = "The format of the audio data. Currently supported formats are `mp3` and\n`wav`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum InputAudioFormat {
     #[serde(rename = "mp3")]
     Mp3,
@@ -8948,14 +9241,11 @@ pub struct InputAudio {
     pub format: InputAudioFormat,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum InputContent {
-    #[serde(rename = "input_text")]
     InputText(InputTextContent),
-    #[serde(rename = "input_image")]
     InputImage(InputImageContent),
-    #[serde(rename = "input_file")]
     InputFile(InputFileContent),
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
@@ -8968,7 +9258,6 @@ pub enum InputItem {
 }
 #[doc = "The type of the message input. Always set to `message`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum InputMessageType {
     #[default]
     #[serde(rename = "message")]
@@ -8976,7 +9265,6 @@ pub enum InputMessageType {
 }
 #[doc = "The role of the message input. One of `user`, `system`, or `developer`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum InputMessageRole {
     #[serde(rename = "user")]
     User,
@@ -8987,7 +9275,6 @@ pub enum InputMessageRole {
 }
 #[doc = "The status of item. One of `in_progress`, `completed`, or\n`incomplete`. Populated when items are returned via API.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum InputMessageStatus {
     #[serde(rename = "in_progress")]
     InProgress,
@@ -9030,7 +9317,6 @@ pub struct InputMessageResource {
 }
 #[doc = "The object type, which is always `organization.invite`"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum InviteObject {
     #[default]
     #[serde(rename = "organization.invite")]
@@ -9038,7 +9324,6 @@ pub enum InviteObject {
 }
 #[doc = "`owner` or `reader`"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum InviteRole {
     #[serde(rename = "owner")]
     Owner,
@@ -9047,7 +9332,6 @@ pub enum InviteRole {
 }
 #[doc = "`accepted`,`expired`, or `pending`"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum InviteStatus {
     #[serde(rename = "accepted")]
     Accepted,
@@ -9058,7 +9342,6 @@ pub enum InviteStatus {
 }
 #[doc = "Project membership role"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum InviteProjectsRole {
     #[serde(rename = "member")]
     Member,
@@ -9126,7 +9409,6 @@ pub struct Invite {
 }
 #[doc = "The object type, which is always `organization.invite.deleted`"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum InviteDeleteResponseObject {
     #[default]
     #[serde(rename = "organization.invite.deleted")]
@@ -9147,7 +9429,6 @@ pub struct InviteDeleteResponse {
 }
 #[doc = "The object type, which is always `list`"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum InviteListResponseObject {
     #[default]
     #[serde(rename = "list")]
@@ -9181,7 +9462,6 @@ pub struct InviteListResponse {
 }
 #[doc = "`owner` or `reader`"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum InviteRequestRole {
     #[serde(rename = "reader")]
     Reader,
@@ -9190,7 +9470,6 @@ pub enum InviteRequestRole {
 }
 #[doc = "Project membership role"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum InviteRequestProjectsRole {
     #[serde(rename = "member")]
     Member,
@@ -9230,14 +9509,14 @@ pub struct InviteRequest {
 #[allow(clippy::large_enum_variant)]
 pub enum Item {
     InputMessage(InputMessage),
-    OutputMessage(OutputMessage),
-    FileSearchToolCall(FileSearchToolCall),
-    ComputerToolCall(ComputerToolCall),
-    ComputerCallOutputItemParam(ComputerCallOutputItemParam),
-    WebSearchToolCall(WebSearchToolCall),
-    FunctionToolCall(FunctionToolCall),
-    FunctionCallOutputItemParam(FunctionCallOutputItemParam),
-    ReasoningItem(ReasoningItem),
+    Message(OutputMessage),
+    FileSearchCall(FileSearchToolCall),
+    ComputerCall(ComputerToolCall),
+    ComputerCallOutput(ComputerCallOutputItemParam),
+    WebSearchCall(WebSearchToolCall),
+    FunctionCall(FunctionToolCall),
+    FunctionCallOutput(FunctionCallOutputItemParam),
+    Reasoning(ReasoningItem),
 }
 #[doc = "Content item used to generate a response.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
@@ -9245,19 +9524,30 @@ pub enum Item {
 #[allow(clippy::large_enum_variant)]
 pub enum ItemResource {
     InputMessageResource(InputMessageResource),
-    OutputMessage(OutputMessage),
-    FileSearchToolCall(FileSearchToolCall),
-    ComputerToolCall(ComputerToolCall),
+    Message(OutputMessage),
+    FileSearchCall(FileSearchToolCall),
+    ComputerCall(ComputerToolCall),
     ComputerToolCallOutputResource(ComputerToolCallOutputResource),
-    WebSearchToolCall(WebSearchToolCall),
+    WebSearchCall(WebSearchToolCall),
     FunctionToolCallResource(FunctionToolCallResource),
     FunctionToolCallOutputResource(FunctionToolCallOutputResource),
+}
+#[doc = "Specifies the event type. For a keypress action, this property is \nalways set to `keypress`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum KeyPressType {
+    #[default]
+    #[serde(rename = "keypress")]
+    Keypress,
 }
 #[doc = "A collection of keypresses the model would like to perform.\n"]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct KeyPress {
+    #[doc = "Specifies the event type. For a keypress action, this property is \nalways set to `keypress`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: KeyPressType,
     #[doc = "The combination of keys the model is requesting to be pressed. This is an\narray of strings, each representing a key.\n"]
     #[serde(rename = "keys")]
     pub keys: Vec<String>,
@@ -9278,7 +9568,6 @@ pub struct ListAssistantsResponse {
     pub has_more: bool,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ListAuditLogsResponseObject {
     #[default]
     #[serde(rename = "list")]
@@ -9301,7 +9590,6 @@ pub struct ListAuditLogsResponse {
     pub has_more: bool,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ListBatchesResponseObject {
     #[default]
     #[serde(rename = "list")]
@@ -9328,7 +9616,6 @@ pub struct ListBatchesResponse {
     pub object: ListBatchesResponseObject,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ListCertificatesResponseObject {
     #[default]
     #[serde(rename = "list")]
@@ -9370,7 +9657,6 @@ pub struct ListFilesResponse {
     pub has_more: bool,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ListFineTuningCheckpointPermissionResponseObject {
     #[default]
     #[serde(rename = "list")]
@@ -9397,7 +9683,6 @@ pub struct ListFineTuningCheckpointPermissionResponse {
     pub has_more: bool,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ListFineTuningJobCheckpointsResponseObject {
     #[default]
     #[serde(rename = "list")]
@@ -9424,7 +9709,6 @@ pub struct ListFineTuningJobCheckpointsResponse {
     pub has_more: bool,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ListFineTuningJobEventsResponseObject {
     #[default]
     #[serde(rename = "list")]
@@ -9458,7 +9742,6 @@ pub struct ListMessagesResponse {
     pub has_more: bool,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ListModelsResponseObject {
     #[default]
     #[serde(rename = "list")]
@@ -9475,7 +9758,6 @@ pub struct ListModelsResponse {
     pub data: Vec<Model>,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ListPaginatedFineTuningJobsResponseObject {
     #[default]
     #[serde(rename = "list")]
@@ -9568,9 +9850,15 @@ pub struct LogProbProperties {
     #[serde(rename = "bytes")]
     pub bytes: Vec<u64>,
 }
+#[doc = "Always `image_file`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum MessageContentImageFileObjectType {
+    #[default]
+    #[serde(rename = "image_file")]
+    ImageFile,
+}
 #[doc = "Specifies the detail level of the image if specified by the user. `low` uses fewer tokens, you can opt in to high resolution using `high`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum MessageContentImageFileObjectImageFileDetail {
     #[default]
     #[serde(rename = "auto")]
@@ -9598,12 +9886,22 @@ pub struct MessageContentImageFileObjectImageFile {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct MessageContentImageFileObject {
+    #[doc = "Always `image_file`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: MessageContentImageFileObjectType,
     #[serde(rename = "image_file")]
     pub image_file: MessageContentImageFileObjectImageFile,
 }
+#[doc = "The type of the content part."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum MessageContentImageUrlObjectType {
+    #[default]
+    #[serde(rename = "image_url")]
+    ImageUrl,
+}
 #[doc = "Specifies the detail level of the image. `low` uses fewer tokens, you can opt in to high resolution using `high`. Default value is `auto`"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum MessageContentImageUrlObjectImageUrlDetail {
     #[default]
     #[serde(rename = "auto")]
@@ -9631,16 +9929,38 @@ pub struct MessageContentImageUrlObjectImageUrl {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct MessageContentImageUrlObject {
+    #[doc = "The type of the content part."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: MessageContentImageUrlObjectType,
     #[serde(rename = "image_url")]
     pub image_url: MessageContentImageUrlObjectImageUrl,
+}
+#[doc = "Always `refusal`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum MessageContentRefusalObjectType {
+    #[default]
+    #[serde(rename = "refusal")]
+    Refusal,
 }
 #[doc = "The refusal content generated by the assistant."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct MessageContentRefusalObject {
+    #[doc = "Always `refusal`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: MessageContentRefusalObjectType,
     #[serde(rename = "refusal")]
     pub refusal: String,
+}
+#[doc = "Always `file_citation`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum MessageContentTextAnnotationsFileCitationObjectType {
+    #[default]
+    #[serde(rename = "file_citation")]
+    FileCitation,
 }
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
@@ -9655,6 +9975,10 @@ pub struct MessageContentTextAnnotationsFileCitationObjectFileCitation {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct MessageContentTextAnnotationsFileCitationObject {
+    #[doc = "Always `file_citation`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: MessageContentTextAnnotationsFileCitationObjectType,
     #[doc = "The text in the message content that needs to be replaced."]
     #[serde(rename = "text")]
     pub text: String,
@@ -9664,6 +9988,13 @@ pub struct MessageContentTextAnnotationsFileCitationObject {
     pub start_index: u64,
     #[serde(rename = "end_index")]
     pub end_index: u64,
+}
+#[doc = "Always `file_path`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum MessageContentTextAnnotationsFilePathObjectType {
+    #[default]
+    #[serde(rename = "file_path")]
+    FilePath,
 }
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
@@ -9678,6 +10009,10 @@ pub struct MessageContentTextAnnotationsFilePathObjectFilePath {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct MessageContentTextAnnotationsFilePathObject {
+    #[doc = "Always `file_path`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: MessageContentTextAnnotationsFilePathObjectType,
     #[doc = "The text in the message content that needs to be replaced."]
     #[serde(rename = "text")]
     pub text: String,
@@ -9688,13 +10023,18 @@ pub struct MessageContentTextAnnotationsFilePathObject {
     #[serde(rename = "end_index")]
     pub end_index: u64,
 }
+#[doc = "Always `text`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum MessageContentTextObjectType {
+    #[default]
+    #[serde(rename = "text")]
+    Text,
+}
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum MessageContentTextObjectTextAnnotation {
-    #[serde(rename = "file_citation")]
     FileCitation(MessageContentTextAnnotationsFileCitationObject),
-    #[serde(rename = "file_path")]
     FilePath(MessageContentTextAnnotationsFilePathObject),
 }
 #[derive(
@@ -9712,12 +10052,22 @@ pub struct MessageContentTextObjectText {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct MessageContentTextObject {
+    #[doc = "Always `text`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: MessageContentTextObjectType,
     #[serde(rename = "text")]
     pub text: MessageContentTextObjectText,
 }
+#[doc = "Always `image_file`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum MessageDeltaContentImageFileObjectType {
+    #[default]
+    #[serde(rename = "image_file")]
+    ImageFile,
+}
 #[doc = "Specifies the detail level of the image if specified by the user. `low` uses fewer tokens, you can opt in to high resolution using `high`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum MessageDeltaContentImageFileObjectImageFileDetail {
     #[default]
     #[serde(rename = "auto")]
@@ -9756,14 +10106,24 @@ pub struct MessageDeltaContentImageFileObject {
     #[doc = "The index of the content part in the message."]
     #[serde(rename = "index")]
     pub index: u64,
+    #[doc = "Always `image_file`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: MessageDeltaContentImageFileObjectType,
     #[builder(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "image_file")]
     pub image_file: Option<MessageDeltaContentImageFileObjectImageFile>,
 }
+#[doc = "Always `image_url`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum MessageDeltaContentImageUrlObjectType {
+    #[default]
+    #[serde(rename = "image_url")]
+    ImageUrl,
+}
 #[doc = "Specifies the detail level of the image. `low` uses fewer tokens, you can opt in to high resolution using `high`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum MessageDeltaContentImageUrlObjectImageUrlDetail {
     #[default]
     #[serde(rename = "auto")]
@@ -9802,10 +10162,21 @@ pub struct MessageDeltaContentImageUrlObject {
     #[doc = "The index of the content part in the message."]
     #[serde(rename = "index")]
     pub index: u64,
+    #[doc = "Always `image_url`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: MessageDeltaContentImageUrlObjectType,
     #[builder(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "image_url")]
     pub image_url: Option<MessageDeltaContentImageUrlObjectImageUrl>,
+}
+#[doc = "Always `refusal`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum MessageDeltaContentRefusalObjectType {
+    #[default]
+    #[serde(rename = "refusal")]
+    Refusal,
 }
 #[doc = "The refusal content that is part of a message."]
 #[derive(
@@ -9815,10 +10186,21 @@ pub struct MessageDeltaContentRefusalObject {
     #[doc = "The index of the refusal part in the message."]
     #[serde(rename = "index")]
     pub index: u64,
+    #[doc = "Always `refusal`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: MessageDeltaContentRefusalObjectType,
     #[builder(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "refusal")]
     pub refusal: Option<String>,
+}
+#[doc = "Always `file_citation`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum MessageDeltaContentTextAnnotationsFileCitationObjectType {
+    #[default]
+    #[serde(rename = "file_citation")]
+    FileCitation,
 }
 #[derive(
     Clone,
@@ -9849,6 +10231,10 @@ pub struct MessageDeltaContentTextAnnotationsFileCitationObject {
     #[doc = "The index of the annotation in the text content part."]
     #[serde(rename = "index")]
     pub index: u64,
+    #[doc = "Always `file_citation`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: MessageDeltaContentTextAnnotationsFileCitationObjectType,
     #[doc = "The text in the message content that needs to be replaced."]
     #[builder(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -9866,6 +10252,13 @@ pub struct MessageDeltaContentTextAnnotationsFileCitationObject {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "end_index")]
     pub end_index: Option<u64>,
+}
+#[doc = "Always `file_path`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum MessageDeltaContentTextAnnotationsFilePathObjectType {
+    #[default]
+    #[serde(rename = "file_path")]
+    FilePath,
 }
 #[derive(
     Clone,
@@ -9891,6 +10284,10 @@ pub struct MessageDeltaContentTextAnnotationsFilePathObject {
     #[doc = "The index of the annotation in the text content part."]
     #[serde(rename = "index")]
     pub index: u64,
+    #[doc = "Always `file_path`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: MessageDeltaContentTextAnnotationsFilePathObjectType,
     #[doc = "The text in the message content that needs to be replaced."]
     #[builder(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -9909,13 +10306,18 @@ pub struct MessageDeltaContentTextAnnotationsFilePathObject {
     #[serde(rename = "end_index")]
     pub end_index: Option<u64>,
 }
+#[doc = "Always `text`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum MessageDeltaContentTextObjectType {
+    #[default]
+    #[serde(rename = "text")]
+    Text,
+}
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum MessageDeltaContentTextObjectTextAnnotation {
-    #[serde(rename = "file_citation")]
     FileCitation(MessageDeltaContentTextAnnotationsFileCitationObject),
-    #[serde(rename = "file_path")]
     FilePath(MessageDeltaContentTextAnnotationsFilePathObject),
 }
 #[derive(
@@ -9946,6 +10348,10 @@ pub struct MessageDeltaContentTextObject {
     #[doc = "The index of the content part in the message."]
     #[serde(rename = "index")]
     pub index: u64,
+    #[doc = "Always `text`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: MessageDeltaContentTextObjectType,
     #[builder(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "text")]
@@ -9953,7 +10359,6 @@ pub struct MessageDeltaContentTextObject {
 }
 #[doc = "The object type, which is always `thread.message.delta`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum MessageDeltaObjectObject {
     #[default]
     #[serde(rename = "thread.message.delta")]
@@ -9961,7 +10366,6 @@ pub enum MessageDeltaObjectObject {
 }
 #[doc = "The entity that produced the message. One of `user` or `assistant`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum MessageDeltaObjectDeltaRole {
     #[serde(rename = "user")]
     User,
@@ -9969,16 +10373,12 @@ pub enum MessageDeltaObjectDeltaRole {
     Assistant,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum MessageDeltaObjectDeltaContent {
-    #[serde(rename = "image_file")]
     ImageFile(MessageDeltaContentImageFileObject),
-    #[serde(rename = "text")]
     Text(MessageDeltaContentTextObject),
-    #[serde(rename = "refusal")]
     Refusal(MessageDeltaContentRefusalObject),
-    #[serde(rename = "image_url")]
     ImageUrl(MessageDeltaContentImageUrlObject),
 }
 #[doc = "The delta containing the fields that have changed on the Message."]
@@ -10022,7 +10422,6 @@ pub struct MessageDeltaObject {
 }
 #[doc = "The object type, which is always `thread.message`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum MessageObjectObject {
     #[default]
     #[serde(rename = "thread.message")]
@@ -10030,7 +10429,6 @@ pub enum MessageObjectObject {
 }
 #[doc = "The status of the message, which can be either `in_progress`, `incomplete`, or `completed`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum MessageObjectStatus {
     #[serde(rename = "in_progress")]
     InProgress,
@@ -10041,7 +10439,6 @@ pub enum MessageObjectStatus {
 }
 #[doc = "The reason the message is incomplete."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum MessageObjectIncompleteDetailsReason {
     #[serde(rename = "content_filter")]
     ContentFilter,
@@ -10065,7 +10462,6 @@ pub struct MessageObjectIncompleteDetails {
 }
 #[doc = "The entity that produced the message. One of `user` or `assistant`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum MessageObjectRole {
     #[serde(rename = "user")]
     User,
@@ -10073,25 +10469,19 @@ pub enum MessageObjectRole {
     Assistant,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum MessageObjectContent {
-    #[serde(rename = "image_file")]
     ImageFile(MessageContentImageFileObject),
-    #[serde(rename = "image_url")]
     ImageUrl(MessageContentImageUrlObject),
-    #[serde(rename = "text")]
     Text(MessageContentTextObject),
-    #[serde(rename = "refusal")]
     Refusal(MessageContentRefusalObject),
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum MessageObjectAttachmentsTool {
-    #[serde(rename = "code_interpreter")]
     CodeInterpreter(AssistantToolsCode),
-    #[serde(rename = "file_search")]
     FileSearch(AssistantToolsFileSearchTypeOnly),
 }
 #[derive(
@@ -10175,74 +10565,124 @@ pub struct MessageObject {
     #[serde(rename = "metadata")]
     pub metadata: Metadata,
 }
+#[doc = "Always `text`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum MessageRequestContentTextObjectType {
+    #[default]
+    #[serde(rename = "text")]
+    Text,
+}
 #[doc = "The text content that is part of a message."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct MessageRequestContentTextObject {
+    #[doc = "Always `text`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: MessageRequestContentTextObjectType,
     #[doc = "Text content to be sent to the model"]
     #[serde(rename = "text")]
     pub text: String,
+}
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum MessageStreamEventThreadMessageCreatedEvent {
+    #[default]
+    #[serde(rename = "thread.message.created")]
+    ThreadMessageCreated,
 }
 #[doc = "Occurs when a [message](/docs/api-reference/messages/object) is created."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct MessageStreamEventThreadMessageCreated {
+    #[builder(default)]
+    #[serde(rename = "event")]
+    pub event: MessageStreamEventThreadMessageCreatedEvent,
     #[serde(rename = "data")]
     pub data: MessageObject,
+}
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum MessageStreamEventThreadMessageInProgressEvent {
+    #[default]
+    #[serde(rename = "thread.message.in_progress")]
+    ThreadMessageInProgress,
 }
 #[doc = "Occurs when a [message](/docs/api-reference/messages/object) moves to an `in_progress` state."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct MessageStreamEventThreadMessageInProgress {
+    #[builder(default)]
+    #[serde(rename = "event")]
+    pub event: MessageStreamEventThreadMessageInProgressEvent,
     #[serde(rename = "data")]
     pub data: MessageObject,
+}
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum MessageStreamEventThreadMessageDeltaEvent {
+    #[default]
+    #[serde(rename = "thread.message.delta")]
+    ThreadMessageDelta,
 }
 #[doc = "Occurs when parts of a [Message](/docs/api-reference/messages/object) are being streamed."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct MessageStreamEventThreadMessageDelta {
+    #[builder(default)]
+    #[serde(rename = "event")]
+    pub event: MessageStreamEventThreadMessageDeltaEvent,
     #[serde(rename = "data")]
     pub data: MessageDeltaObject,
+}
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum MessageStreamEventThreadMessageCompletedEvent {
+    #[default]
+    #[serde(rename = "thread.message.completed")]
+    ThreadMessageCompleted,
 }
 #[doc = "Occurs when a [message](/docs/api-reference/messages/object) is completed."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct MessageStreamEventThreadMessageCompleted {
+    #[builder(default)]
+    #[serde(rename = "event")]
+    pub event: MessageStreamEventThreadMessageCompletedEvent,
     #[serde(rename = "data")]
     pub data: MessageObject,
+}
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum MessageStreamEventThreadMessageIncompleteEvent {
+    #[default]
+    #[serde(rename = "thread.message.incomplete")]
+    ThreadMessageIncomplete,
 }
 #[doc = "Occurs when a [message](/docs/api-reference/messages/object) ends before it is completed."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct MessageStreamEventThreadMessageIncomplete {
+    #[builder(default)]
+    #[serde(rename = "event")]
+    pub event: MessageStreamEventThreadMessageIncompleteEvent,
     #[serde(rename = "data")]
     pub data: MessageObject,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "event")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum MessageStreamEvent {
-    #[serde(rename = "thread.message.created")]
     ThreadMessageCreated(MessageStreamEventThreadMessageCreated),
-    #[serde(rename = "thread.message.in_progress")]
     ThreadMessageInProgress(MessageStreamEventThreadMessageInProgress),
-    #[serde(rename = "thread.message.delta")]
     ThreadMessageDelta(MessageStreamEventThreadMessageDelta),
-    #[serde(rename = "thread.message.completed")]
     ThreadMessageCompleted(MessageStreamEventThreadMessageCompleted),
-    #[serde(rename = "thread.message.incomplete")]
     ThreadMessageIncomplete(MessageStreamEventThreadMessageIncomplete),
 }
 pub type Metadata = Vec<String>;
 #[doc = "The object type, which is always \"model\"."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ModelObject {
     #[default]
     #[serde(rename = "model")]
@@ -10275,7 +10715,6 @@ pub enum ModelIds {
     ModelIdsResponses(ModelIdsResponses),
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum ModelIdsResponses1 {
     #[serde(rename = "o1-pro")]
     O1Pro,
@@ -10337,14 +10776,11 @@ pub enum ModifyAssistantRequestModel {
     AssistantSupportedModels(AssistantSupportedModels),
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum ModifyAssistantRequestTool {
-    #[serde(rename = "code_interpreter")]
     CodeInterpreter(AssistantToolsCode),
-    #[serde(rename = "file_search")]
     FileSearch(AssistantToolsFileSearch),
-    #[serde(rename = "function")]
     Function(AssistantToolsFunction),
 }
 #[derive(
@@ -10572,11 +11008,22 @@ pub struct ModifyThreadRequest {
     #[serde(rename = "metadata")]
     pub metadata: Option<Metadata>,
 }
+#[doc = "Specifies the event type. For a move action, this property is \nalways set to `move`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum MoveType {
+    #[default]
+    #[serde(rename = "move")]
+    Move,
+}
 #[doc = "A mouse move action.\n"]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct Move {
+    #[doc = "Specifies the event type. For a move action, this property is \nalways set to `move`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: MoveType,
     #[doc = "The x-coordinate to move to.\n"]
     #[serde(rename = "x")]
     pub x: u64,
@@ -10586,7 +11033,6 @@ pub struct Move {
 }
 #[doc = "The object type, which is always `file`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum OpenAiFileObject {
     #[default]
     #[serde(rename = "file")]
@@ -10594,7 +11040,6 @@ pub enum OpenAiFileObject {
 }
 #[doc = "The intended purpose of the file. Supported values are `assistants`, `assistants_output`, `batch`, `batch_output`, `fine-tune`, `fine-tune-results` and `vision`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum OpenAiFilePurpose {
     #[serde(rename = "assistants")]
     Assistants,
@@ -10613,7 +11058,6 @@ pub enum OpenAiFilePurpose {
 }
 #[doc = "Deprecated. The current status of the file, which can be either `uploaded`, `processed`, or `error`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum OpenAiFileStatus {
     #[serde(rename = "uploaded")]
     Uploaded,
@@ -10660,6 +11104,13 @@ pub struct OpenAiFile {
     #[serde(rename = "status_details")]
     pub status_details: Option<String>,
 }
+#[doc = "Always `other`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum OtherChunkingStrategyResponseParamType {
+    #[default]
+    #[serde(rename = "other")]
+    Other,
+}
 #[doc = "This is returned when the chunking strategy is unknown. Typically, this is because the file was indexed before the `chunking_strategy` concept was introduced in the API."]
 #[derive(
     Clone,
@@ -10670,10 +11121,14 @@ pub struct OpenAiFile {
     Default,
     typed_builder :: TypedBuilder,
 )]
-pub struct OtherChunkingStrategyResponseParam {}
+pub struct OtherChunkingStrategyResponseParam {
+    #[doc = "Always `other`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: OtherChunkingStrategyResponseParamType,
+}
 #[doc = "The type of the output audio. Always `output_audio`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum OutputAudioType {
     #[default]
     #[serde(rename = "output_audio")]
@@ -10696,28 +11151,25 @@ pub struct OutputAudio {
     pub transcript: String,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum OutputContent {
-    #[serde(rename = "output_text")]
     OutputText(OutputTextContent),
-    #[serde(rename = "refusal")]
     Refusal(RefusalContent),
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum OutputItem {
-    OutputMessage(OutputMessage),
-    FileSearchToolCall(FileSearchToolCall),
-    FunctionToolCall(FunctionToolCall),
-    WebSearchToolCall(WebSearchToolCall),
-    ComputerToolCall(ComputerToolCall),
-    ReasoningItem(ReasoningItem),
+    Message(OutputMessage),
+    FileSearchCall(FileSearchToolCall),
+    FunctionCall(FunctionToolCall),
+    WebSearchCall(WebSearchToolCall),
+    ComputerCall(ComputerToolCall),
+    Reasoning(ReasoningItem),
 }
 #[doc = "The type of the output message. Always `message`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum OutputMessageType {
     #[default]
     #[serde(rename = "message")]
@@ -10725,7 +11177,6 @@ pub enum OutputMessageType {
 }
 #[doc = "The role of the output message. Always `assistant`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum OutputMessageRole {
     #[default]
     #[serde(rename = "assistant")]
@@ -10733,7 +11184,6 @@ pub enum OutputMessageRole {
 }
 #[doc = "The status of the message input. One of `in_progress`, `completed`, or\n`incomplete`. Populated when input items are returned via API.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum OutputMessageStatus {
     #[serde(rename = "in_progress")]
     InProgress,
@@ -10766,6 +11216,13 @@ pub struct OutputMessage {
     pub status: OutputMessageStatus,
 }
 pub type ParallelToolCalls = bool;
+#[doc = "The type of the predicted content you want to provide. This type is\ncurrently always `content`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum PredictionContentType {
+    #[default]
+    #[serde(rename = "content")]
+    Content,
+}
 #[doc = "The content that should be matched when generating a model response.\nIf generated tokens would match this content, the entire model response\ncan be returned much more quickly.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 #[serde(untagged)]
@@ -10779,13 +11236,16 @@ pub enum PredictionContentContent {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct PredictionContent {
+    #[doc = "The type of the predicted content you want to provide. This type is\ncurrently always `content`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: PredictionContentType,
     #[doc = "The content that should be matched when generating a model response.\nIf generated tokens would match this content, the entire model response\ncan be returned much more quickly.\n"]
     #[serde(rename = "content")]
     pub content: PredictionContentContent,
 }
 #[doc = "The object type, which is always `organization.project`"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ProjectObject {
     #[default]
     #[serde(rename = "organization.project")]
@@ -10793,7 +11253,6 @@ pub enum ProjectObject {
 }
 #[doc = "`active` or `archived`"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum ProjectStatus {
     #[serde(rename = "active")]
     Active,
@@ -10829,7 +11288,6 @@ pub struct Project {
 }
 #[doc = "The object type, which is always `organization.project.api_key`"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ProjectApiKeyObject {
     #[default]
     #[serde(rename = "organization.project.api_key")]
@@ -10837,7 +11295,6 @@ pub enum ProjectApiKeyObject {
 }
 #[doc = "`user` or `service_account`"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum ProjectApiKeyOwnerType {
     #[serde(rename = "user")]
     User,
@@ -10897,7 +11354,6 @@ pub struct ProjectApiKey {
     pub owner: ProjectApiKeyOwner,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ProjectApiKeyDeleteResponseObject {
     #[default]
     #[serde(rename = "organization.project.api_key.deleted")]
@@ -10916,7 +11372,6 @@ pub struct ProjectApiKeyDeleteResponse {
     pub deleted: bool,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ProjectApiKeyListResponseObject {
     #[default]
     #[serde(rename = "list")]
@@ -10947,7 +11402,6 @@ pub struct ProjectCreateRequest {
     pub name: String,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ProjectListResponseObject {
     #[default]
     #[serde(rename = "list")]
@@ -10971,7 +11425,6 @@ pub struct ProjectListResponse {
 }
 #[doc = "The object type, which is always `project.rate_limit`"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ProjectRateLimitObject {
     #[default]
     #[serde(rename = "project.rate_limit")]
@@ -11020,7 +11473,6 @@ pub struct ProjectRateLimit {
     pub batch_1_day_max_input_tokens: Option<u64>,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ProjectRateLimitListResponseObject {
     #[default]
     #[serde(rename = "list")]
@@ -11085,7 +11537,6 @@ pub struct ProjectRateLimitUpdateRequest {
 }
 #[doc = "The object type, which is always `organization.project.service_account`"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ProjectServiceAccountObject {
     #[default]
     #[serde(rename = "organization.project.service_account")]
@@ -11093,7 +11544,6 @@ pub enum ProjectServiceAccountObject {
 }
 #[doc = "`owner` or `member`"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum ProjectServiceAccountRole {
     #[serde(rename = "owner")]
     Owner,
@@ -11124,7 +11574,6 @@ pub struct ProjectServiceAccount {
 }
 #[doc = "The object type, which is always `organization.project.service_account.api_key`"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ProjectServiceAccountApiKeyObject {
     #[default]
     #[serde(rename = "organization.project.service_account.api_key")]
@@ -11156,7 +11605,6 @@ pub struct ProjectServiceAccountCreateRequest {
     pub name: String,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ProjectServiceAccountCreateResponseObject {
     #[default]
     #[serde(rename = "organization.project.service_account")]
@@ -11164,7 +11612,6 @@ pub enum ProjectServiceAccountCreateResponseObject {
 }
 #[doc = "Service accounts can only have one role of type `member`"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ProjectServiceAccountCreateResponseRole {
     #[default]
     #[serde(rename = "member")]
@@ -11191,7 +11638,6 @@ pub struct ProjectServiceAccountCreateResponse {
     pub api_key: ProjectServiceAccountApiKey,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ProjectServiceAccountDeleteResponseObject {
     #[default]
     #[serde(rename = "organization.project.service_account.deleted")]
@@ -11210,7 +11656,6 @@ pub struct ProjectServiceAccountDeleteResponse {
     pub deleted: bool,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ProjectServiceAccountListResponseObject {
     #[default]
     #[serde(rename = "list")]
@@ -11242,7 +11687,6 @@ pub struct ProjectUpdateRequest {
 }
 #[doc = "The object type, which is always `organization.project.user`"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ProjectUserObject {
     #[default]
     #[serde(rename = "organization.project.user")]
@@ -11250,7 +11694,6 @@ pub enum ProjectUserObject {
 }
 #[doc = "`owner` or `member`"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum ProjectUserRole {
     #[serde(rename = "owner")]
     Owner,
@@ -11284,7 +11727,6 @@ pub struct ProjectUser {
 }
 #[doc = "`owner` or `member`"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum ProjectUserCreateRequestRole {
     #[serde(rename = "owner")]
     Owner,
@@ -11303,7 +11745,6 @@ pub struct ProjectUserCreateRequest {
     pub role: ProjectUserCreateRequestRole,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ProjectUserDeleteResponseObject {
     #[default]
     #[serde(rename = "organization.project.user.deleted")]
@@ -11338,7 +11779,6 @@ pub struct ProjectUserListResponse {
 }
 #[doc = "`owner` or `member`"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum ProjectUserUpdateRequestRole {
     #[serde(rename = "owner")]
     Owner,
@@ -11355,33 +11795,28 @@ pub struct ProjectUserUpdateRequest {
 }
 #[doc = "A realtime client event.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeClientEvent {
-    #[serde(rename = "conversation.item.create")]
     ConversationItemCreate(RealtimeClientEventConversationItemCreate),
-    #[serde(rename = "conversation.item.delete")]
     ConversationItemDelete(RealtimeClientEventConversationItemDelete),
-    #[serde(rename = "conversation.item.retrieve")]
     ConversationItemRetrieve(RealtimeClientEventConversationItemRetrieve),
-    #[serde(rename = "conversation.item.truncate")]
     ConversationItemTruncate(RealtimeClientEventConversationItemTruncate),
-    #[serde(rename = "input_audio_buffer.append")]
     InputAudioBufferAppend(RealtimeClientEventInputAudioBufferAppend),
-    #[serde(rename = "input_audio_buffer.clear")]
     InputAudioBufferClear(RealtimeClientEventInputAudioBufferClear),
-    #[serde(rename = "output_audio_buffer.clear")]
     OutputAudioBufferClear(RealtimeClientEventOutputAudioBufferClear),
-    #[serde(rename = "input_audio_buffer.commit")]
     InputAudioBufferCommit(RealtimeClientEventInputAudioBufferCommit),
-    #[serde(rename = "response.cancel")]
     ResponseCancel(RealtimeClientEventResponseCancel),
-    #[serde(rename = "response.create")]
     ResponseCreate(RealtimeClientEventResponseCreate),
-    #[serde(rename = "session.update")]
     SessionUpdate(RealtimeClientEventSessionUpdate),
-    #[serde(rename = "transcription_session.update")]
     TranscriptionSessionUpdate(RealtimeClientEventTranscriptionSessionUpdate),
+}
+#[doc = "The event type, must be `conversation.item.create`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeClientEventConversationItemCreateType {
+    #[default]
+    #[serde(rename = "conversation.item.create")]
+    ConversationItemCreate,
 }
 #[doc = "Add a new Item to the Conversation's context, including messages, function \ncalls, and function call responses. This event can be used both to populate a \n\"history\" of the conversation and to add new items mid-stream, but has the \ncurrent limitation that it cannot populate assistant audio messages.\n\nIf successful, the server will respond with a `conversation.item.created` \nevent, otherwise an `error` event will be sent.\n"]
 #[derive(
@@ -11399,6 +11834,10 @@ pub struct RealtimeClientEventConversationItemCreate {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "event_id")]
     pub event_id: Option<String>,
+    #[doc = "The event type, must be `conversation.item.create`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeClientEventConversationItemCreateType,
     #[doc = "The ID of the preceding item after which the new item will be inserted. \nIf not set, the new item will be appended to the end of the conversation.\nIf set to `root`, the new item will be added to the beginning of the conversation.\nIf set to an existing ID, it allows an item to be inserted mid-conversation. If the\nID cannot be found, an error will be returned and the item will not be added.\n"]
     #[builder(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -11407,6 +11846,13 @@ pub struct RealtimeClientEventConversationItemCreate {
     #[builder(default)]
     #[serde(rename = "item")]
     pub item: RealtimeConversationItem,
+}
+#[doc = "The event type, must be `conversation.item.delete`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeClientEventConversationItemDeleteType {
+    #[default]
+    #[serde(rename = "conversation.item.delete")]
+    ConversationItemDelete,
 }
 #[doc = "Send this event when you want to remove any item from the conversation \nhistory. The server will respond with a `conversation.item.deleted` event, \nunless the item does not exist in the conversation history, in which case the \nserver will respond with an error.\n"]
 #[derive(
@@ -11418,9 +11864,20 @@ pub struct RealtimeClientEventConversationItemDelete {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "event_id")]
     pub event_id: Option<String>,
+    #[doc = "The event type, must be `conversation.item.delete`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeClientEventConversationItemDeleteType,
     #[doc = "The ID of the item to delete."]
     #[serde(rename = "item_id")]
     pub item_id: String,
+}
+#[doc = "The event type, must be `conversation.item.retrieve`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeClientEventConversationItemRetrieveType {
+    #[default]
+    #[serde(rename = "conversation.item.retrieve")]
+    ConversationItemRetrieve,
 }
 #[doc = "Send this event when you want to retrieve the server's representation of a specific item in the conversation history. This is useful, for example, to inspect user audio after noise cancellation and VAD.\nThe server will respond with a `conversation.item.retrieved` event, \nunless the item does not exist in the conversation history, in which case the \nserver will respond with an error.\n"]
 #[derive(
@@ -11432,9 +11889,20 @@ pub struct RealtimeClientEventConversationItemRetrieve {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "event_id")]
     pub event_id: Option<String>,
+    #[doc = "The event type, must be `conversation.item.retrieve`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeClientEventConversationItemRetrieveType,
     #[doc = "The ID of the item to retrieve."]
     #[serde(rename = "item_id")]
     pub item_id: String,
+}
+#[doc = "The event type, must be `conversation.item.truncate`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeClientEventConversationItemTruncateType {
+    #[default]
+    #[serde(rename = "conversation.item.truncate")]
+    ConversationItemTruncate,
 }
 #[doc = "Send this event to truncate a previous assistant message’s audio. The server \nwill produce audio faster than realtime, so this event is useful when the user \ninterrupts to truncate audio that has already been sent to the client but not \nyet played. This will synchronize the server's understanding of the audio with \nthe client's playback.\n\nTruncating audio will delete the server-side text transcript to ensure there \nis not text in the context that hasn't been heard by the user.\n\nIf successful, the server will respond with a `conversation.item.truncated` \nevent. \n"]
 #[derive(
@@ -11446,6 +11914,10 @@ pub struct RealtimeClientEventConversationItemTruncate {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "event_id")]
     pub event_id: Option<String>,
+    #[doc = "The event type, must be `conversation.item.truncate`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeClientEventConversationItemTruncateType,
     #[doc = "The ID of the assistant message item to truncate. Only assistant message \nitems can be truncated.\n"]
     #[serde(rename = "item_id")]
     pub item_id: String,
@@ -11455,6 +11927,13 @@ pub struct RealtimeClientEventConversationItemTruncate {
     #[doc = "Inclusive duration up to which audio is truncated, in milliseconds. If \nthe audio_end_ms is greater than the actual audio duration, the server \nwill respond with an error.\n"]
     #[serde(rename = "audio_end_ms")]
     pub audio_end_ms: u64,
+}
+#[doc = "The event type, must be `input_audio_buffer.append`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeClientEventInputAudioBufferAppendType {
+    #[default]
+    #[serde(rename = "input_audio_buffer.append")]
+    InputAudioBufferAppend,
 }
 #[doc = "Send this event to append audio bytes to the input audio buffer. The audio \nbuffer is temporary storage you can write to and later commit. In Server VAD \nmode, the audio buffer is used to detect speech and the server will decide \nwhen to commit. When Server VAD is disabled, you must commit the audio buffer\nmanually.\n\nThe client may choose how much audio to place in each event up to a maximum \nof 15 MiB, for example streaming smaller chunks from the client may allow the \nVAD to be more responsive. Unlike made other client events, the server will \nnot send a confirmation response to this event.\n"]
 #[derive(
@@ -11466,9 +11945,20 @@ pub struct RealtimeClientEventInputAudioBufferAppend {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "event_id")]
     pub event_id: Option<String>,
+    #[doc = "The event type, must be `input_audio_buffer.append`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeClientEventInputAudioBufferAppendType,
     #[doc = "Base64-encoded audio bytes. This must be in the format specified by the \n`input_audio_format` field in the session configuration.\n"]
     #[serde(rename = "audio")]
     pub audio: String,
+}
+#[doc = "The event type, must be `input_audio_buffer.clear`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeClientEventInputAudioBufferClearType {
+    #[default]
+    #[serde(rename = "input_audio_buffer.clear")]
+    InputAudioBufferClear,
 }
 #[doc = "Send this event to clear the audio bytes in the buffer. The server will \nrespond with an `input_audio_buffer.cleared` event.\n"]
 #[derive(
@@ -11486,6 +11976,17 @@ pub struct RealtimeClientEventInputAudioBufferClear {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "event_id")]
     pub event_id: Option<String>,
+    #[doc = "The event type, must be `input_audio_buffer.clear`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeClientEventInputAudioBufferClearType,
+}
+#[doc = "The event type, must be `input_audio_buffer.commit`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeClientEventInputAudioBufferCommitType {
+    #[default]
+    #[serde(rename = "input_audio_buffer.commit")]
+    InputAudioBufferCommit,
 }
 #[doc = "Send this event to commit the user input audio buffer, which will create a \nnew user message item in the conversation. This event will produce an error \nif the input audio buffer is empty. When in Server VAD mode, the client does \nnot need to send this event, the server will commit the audio buffer \nautomatically.\n\nCommitting the input audio buffer will trigger input audio transcription \n(if enabled in session configuration), but it will not create a response \nfrom the model. The server will respond with an `input_audio_buffer.committed` \nevent.\n"]
 #[derive(
@@ -11503,6 +12004,17 @@ pub struct RealtimeClientEventInputAudioBufferCommit {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "event_id")]
     pub event_id: Option<String>,
+    #[doc = "The event type, must be `input_audio_buffer.commit`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeClientEventInputAudioBufferCommitType,
+}
+#[doc = "The event type, must be `output_audio_buffer.clear`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeClientEventOutputAudioBufferClearType {
+    #[default]
+    #[serde(rename = "output_audio_buffer.clear")]
+    OutputAudioBufferClear,
 }
 #[doc = "**WebRTC Only:** Emit to cut off the current audio response. This will trigger the server to\nstop generating audio and emit a `output_audio_buffer.cleared` event. This \nevent should be preceded by a `response.cancel` client event to stop the \ngeneration of the current response.\n[Learn more](/docs/guides/realtime-model-capabilities#client-and-server-events-for-audio-in-webrtc).\n"]
 #[derive(
@@ -11520,6 +12032,17 @@ pub struct RealtimeClientEventOutputAudioBufferClear {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "event_id")]
     pub event_id: Option<String>,
+    #[doc = "The event type, must be `output_audio_buffer.clear`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeClientEventOutputAudioBufferClearType,
+}
+#[doc = "The event type, must be `response.cancel`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeClientEventResponseCancelType {
+    #[default]
+    #[serde(rename = "response.cancel")]
+    ResponseCancel,
 }
 #[doc = "Send this event to cancel an in-progress response. The server will respond \nwith a `response.cancelled` event or an error if there is no response to \ncancel.\n"]
 #[derive(
@@ -11537,11 +12060,22 @@ pub struct RealtimeClientEventResponseCancel {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "event_id")]
     pub event_id: Option<String>,
+    #[doc = "The event type, must be `response.cancel`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeClientEventResponseCancelType,
     #[doc = "A specific response ID to cancel - if not provided, will cancel an \nin-progress response in the default conversation.\n"]
     #[builder(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "response_id")]
     pub response_id: Option<String>,
+}
+#[doc = "The event type, must be `response.create`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeClientEventResponseCreateType {
+    #[default]
+    #[serde(rename = "response.create")]
+    ResponseCreate,
 }
 #[doc = "This event instructs the server to create a Response, which means triggering \nmodel inference. When in Server VAD mode, the server will create Responses \nautomatically.\n\nA Response will include at least one Item, and may have two, in which case \nthe second will be a function call. These Items will be appended to the \nconversation history.\n\nThe server will respond with a `response.created` event, events for Items \nand content created, and finally a `response.done` event to indicate the \nResponse is complete.\n\nThe `response.create` event includes inference configuration like \n`instructions`, and `temperature`. These fields will override the Session's \nconfiguration for this Response only.\n"]
 #[derive(
@@ -11559,10 +12093,21 @@ pub struct RealtimeClientEventResponseCreate {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "event_id")]
     pub event_id: Option<String>,
+    #[doc = "The event type, must be `response.create`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeClientEventResponseCreateType,
     #[builder(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "response")]
     pub response: Option<RealtimeResponseCreateParams>,
+}
+#[doc = "The event type, must be `session.update`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeClientEventSessionUpdateType {
+    #[default]
+    #[serde(rename = "session.update")]
+    SessionUpdate,
 }
 #[doc = "Send this event to update the session’s default configuration.\nThe client may send this event at any time to update any field,\nexcept for `voice`. However, note that once a session has been\ninitialized with a particular `model`, it can’t be changed to\nanother model using `session.update`.\n\nWhen the server receives a `session.update`, it will respond\nwith a `session.updated` event showing the full, effective configuration.\nOnly the fields that are present are updated. To clear a field like\n`instructions`, pass an empty string.\n"]
 #[derive(
@@ -11580,9 +12125,20 @@ pub struct RealtimeClientEventSessionUpdate {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "event_id")]
     pub event_id: Option<String>,
+    #[doc = "The event type, must be `session.update`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeClientEventSessionUpdateType,
     #[builder(default)]
     #[serde(rename = "session")]
     pub session: RealtimeSessionCreateRequest,
+}
+#[doc = "The event type, must be `transcription_session.update`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeClientEventTranscriptionSessionUpdateType {
+    #[default]
+    #[serde(rename = "transcription_session.update")]
+    TranscriptionSessionUpdate,
 }
 #[doc = "Send this event to update a transcription session.\n"]
 #[derive(
@@ -11600,13 +12156,16 @@ pub struct RealtimeClientEventTranscriptionSessionUpdate {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "event_id")]
     pub event_id: Option<String>,
+    #[doc = "The event type, must be `transcription_session.update`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeClientEventTranscriptionSessionUpdateType,
     #[builder(default)]
     #[serde(rename = "session")]
     pub session: RealtimeTranscriptionSessionCreateRequest,
 }
 #[doc = "The type of the item (`message`, `function_call`, `function_call_output`).\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeConversationItemType {
     #[serde(rename = "message")]
     Message,
@@ -11617,7 +12176,6 @@ pub enum RealtimeConversationItemType {
 }
 #[doc = "Identifier for the API object being returned - always `realtime.item`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeConversationItemObject {
     #[default]
     #[serde(rename = "realtime.item")]
@@ -11625,7 +12183,6 @@ pub enum RealtimeConversationItemObject {
 }
 #[doc = "The status of the item (`completed`, `incomplete`). These have no effect \non the conversation, but are accepted for consistency with the \n`conversation.item.created` event.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeConversationItemStatus {
     #[serde(rename = "completed")]
     Completed,
@@ -11634,7 +12191,6 @@ pub enum RealtimeConversationItemStatus {
 }
 #[doc = "The role of the message sender (`user`, `assistant`, `system`), only \napplicable for `message` items.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeConversationItemRole {
     #[serde(rename = "user")]
     User,
@@ -11645,7 +12201,6 @@ pub enum RealtimeConversationItemRole {
 }
 #[doc = "The content type (`input_text`, `input_audio`, `item_reference`, `text`).\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeConversationItemContentType {
     #[serde(rename = "input_audio")]
     InputAudio,
@@ -11756,7 +12311,6 @@ pub struct RealtimeConversationItem {
 }
 #[doc = "The type of the item (`message`, `function_call`, `function_call_output`, `item_reference`).\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeConversationItemWithReferenceType {
     #[serde(rename = "message")]
     Message,
@@ -11767,7 +12321,6 @@ pub enum RealtimeConversationItemWithReferenceType {
 }
 #[doc = "Identifier for the API object being returned - always `realtime.item`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeConversationItemWithReferenceObject {
     #[default]
     #[serde(rename = "realtime.item")]
@@ -11775,7 +12328,6 @@ pub enum RealtimeConversationItemWithReferenceObject {
 }
 #[doc = "The status of the item (`completed`, `incomplete`). These have no effect \non the conversation, but are accepted for consistency with the \n`conversation.item.created` event.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeConversationItemWithReferenceStatus {
     #[serde(rename = "completed")]
     Completed,
@@ -11784,7 +12336,6 @@ pub enum RealtimeConversationItemWithReferenceStatus {
 }
 #[doc = "The role of the message sender (`user`, `assistant`, `system`), only \napplicable for `message` items.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeConversationItemWithReferenceRole {
     #[serde(rename = "user")]
     User,
@@ -11795,7 +12346,6 @@ pub enum RealtimeConversationItemWithReferenceRole {
 }
 #[doc = "The content type (`input_text`, `input_audio`, `item_reference`, `text`).\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeConversationItemWithReferenceContentType {
     #[serde(rename = "input_audio")]
     InputAudio,
@@ -11906,7 +12456,6 @@ pub struct RealtimeConversationItemWithReference {
 }
 #[doc = "The object type, must be `realtime.response`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeResponseObject {
     #[default]
     #[serde(rename = "realtime.response")]
@@ -11914,7 +12463,6 @@ pub enum RealtimeResponseObject {
 }
 #[doc = "The final status of the response (`completed`, `cancelled`, `failed`, or \n`incomplete`).\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeResponseStatus {
     #[serde(rename = "completed")]
     Completed,
@@ -11927,7 +12475,6 @@ pub enum RealtimeResponseStatus {
 }
 #[doc = "The type of error that caused the response to fail, corresponding \nwith the `status` field (`completed`, `cancelled`, `incomplete`, \n`failed`).\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeResponseStatusDetailsType {
     #[serde(rename = "completed")]
     Completed,
@@ -11940,7 +12487,6 @@ pub enum RealtimeResponseStatusDetailsType {
 }
 #[doc = "The reason the Response did not complete. For a `cancelled` Response, \none of `turn_detected` (the server VAD detected a new start of speech) \nor `client_cancelled` (the client sent a cancel event). For an \n`incomplete` Response, one of `max_output_tokens` or `content_filter` \n(the server-side safety filter activated and cut off the response).\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeResponseStatusDetailsReason {
     #[serde(rename = "turn_detected")]
     TurnDetected,
@@ -12087,7 +12633,6 @@ pub struct RealtimeResponseUsage {
     pub output_token_details: Option<RealtimeResponseUsageOutputTokenDetails>,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeResponseModality {
     #[serde(rename = "text")]
     Text,
@@ -12096,7 +12641,6 @@ pub enum RealtimeResponseModality {
 }
 #[doc = "The format of output audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeResponseOutputAudioFormat {
     #[serde(rename = "pcm16")]
     Pcm16,
@@ -12106,7 +12650,6 @@ pub enum RealtimeResponseOutputAudioFormat {
     G711Alaw,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeResponseMaxOutputTokens1 {
     #[default]
     #[serde(rename = "inf")]
@@ -12197,7 +12740,6 @@ pub struct RealtimeResponse {
     pub max_output_tokens: Option<RealtimeResponseMaxOutputTokens>,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeResponseCreateParamsModality {
     #[serde(rename = "text")]
     Text,
@@ -12206,7 +12748,6 @@ pub enum RealtimeResponseCreateParamsModality {
 }
 #[doc = "The format of output audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeResponseCreateParamsOutputAudioFormat {
     #[serde(rename = "pcm16")]
     Pcm16,
@@ -12217,7 +12758,6 @@ pub enum RealtimeResponseCreateParamsOutputAudioFormat {
 }
 #[doc = "The type of the tool, i.e. `function`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeResponseCreateParamsToolType {
     #[default]
     #[serde(rename = "function")]
@@ -12255,7 +12795,6 @@ pub struct RealtimeResponseCreateParamsTool {
     pub parameters: Option<std::collections::HashMap<String, serde_json::Value>>,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeResponseCreateParamsMaxResponseOutputTokens1 {
     #[default]
     #[serde(rename = "inf")]
@@ -12270,7 +12809,6 @@ pub enum RealtimeResponseCreateParamsMaxResponseOutputTokens {
     _1(RealtimeResponseCreateParamsMaxResponseOutputTokens1),
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeResponseCreateParamsConversation1 {
     #[default]
     #[serde(rename = "auto")]
@@ -12354,83 +12892,56 @@ pub struct RealtimeResponseCreateParams {
 }
 #[doc = "A realtime server event.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeServerEvent {
-    #[serde(rename = "conversation.created")]
     ConversationCreated(RealtimeServerEventConversationCreated),
-    #[serde(rename = "conversation.item.created")]
     ConversationItemCreated(RealtimeServerEventConversationItemCreated),
-    #[serde(rename = "conversation.item.deleted")]
     ConversationItemDeleted(RealtimeServerEventConversationItemDeleted),
-    #[serde(rename = "conversation.item.input_audio_transcription.completed")]
     ConversationItemInputAudioTranscriptionCompleted(
         RealtimeServerEventConversationItemInputAudioTranscriptionCompleted,
     ),
-    #[serde(rename = "conversation.item.input_audio_transcription.delta")]
     ConversationItemInputAudioTranscriptionDelta(
         RealtimeServerEventConversationItemInputAudioTranscriptionDelta,
     ),
-    #[serde(rename = "conversation.item.input_audio_transcription.failed")]
     ConversationItemInputAudioTranscriptionFailed(
         RealtimeServerEventConversationItemInputAudioTranscriptionFailed,
     ),
-    #[serde(rename = "conversation.item.retrieved")]
     ConversationItemRetrieved(RealtimeServerEventConversationItemRetrieved),
-    #[serde(rename = "conversation.item.truncated")]
     ConversationItemTruncated(RealtimeServerEventConversationItemTruncated),
-    #[serde(rename = "error")]
     Error(RealtimeServerEventError),
-    #[serde(rename = "input_audio_buffer.cleared")]
     InputAudioBufferCleared(RealtimeServerEventInputAudioBufferCleared),
-    #[serde(rename = "input_audio_buffer.committed")]
     InputAudioBufferCommitted(RealtimeServerEventInputAudioBufferCommitted),
-    #[serde(rename = "input_audio_buffer.speech_started")]
     InputAudioBufferSpeechStarted(RealtimeServerEventInputAudioBufferSpeechStarted),
-    #[serde(rename = "input_audio_buffer.speech_stopped")]
     InputAudioBufferSpeechStopped(RealtimeServerEventInputAudioBufferSpeechStopped),
-    #[serde(rename = "rate_limits.updated")]
     RateLimitsUpdated(RealtimeServerEventRateLimitsUpdated),
-    #[serde(rename = "response.audio.delta")]
     ResponseAudioDelta(RealtimeServerEventResponseAudioDelta),
-    #[serde(rename = "response.audio.done")]
     ResponseAudioDone(RealtimeServerEventResponseAudioDone),
-    #[serde(rename = "response.audio_transcript.delta")]
     ResponseAudioTranscriptDelta(RealtimeServerEventResponseAudioTranscriptDelta),
-    #[serde(rename = "response.audio_transcript.done")]
     ResponseAudioTranscriptDone(RealtimeServerEventResponseAudioTranscriptDone),
-    #[serde(rename = "response.content_part.added")]
     ResponseContentPartAdded(RealtimeServerEventResponseContentPartAdded),
-    #[serde(rename = "response.content_part.done")]
     ResponseContentPartDone(RealtimeServerEventResponseContentPartDone),
-    #[serde(rename = "response.created")]
     ResponseCreated(RealtimeServerEventResponseCreated),
-    #[serde(rename = "response.done")]
     ResponseDone(RealtimeServerEventResponseDone),
-    #[serde(rename = "response.function_call_arguments.delta")]
     ResponseFunctionCallArgumentsDelta(RealtimeServerEventResponseFunctionCallArgumentsDelta),
-    #[serde(rename = "response.function_call_arguments.done")]
     ResponseFunctionCallArgumentsDone(RealtimeServerEventResponseFunctionCallArgumentsDone),
-    #[serde(rename = "response.output_item.added")]
     ResponseOutputItemAdded(RealtimeServerEventResponseOutputItemAdded),
-    #[serde(rename = "response.output_item.done")]
     ResponseOutputItemDone(RealtimeServerEventResponseOutputItemDone),
-    #[serde(rename = "response.text.delta")]
     ResponseTextDelta(RealtimeServerEventResponseTextDelta),
-    #[serde(rename = "response.text.done")]
     ResponseTextDone(RealtimeServerEventResponseTextDone),
-    #[serde(rename = "session.created")]
     SessionCreated(RealtimeServerEventSessionCreated),
-    #[serde(rename = "session.updated")]
     SessionUpdated(RealtimeServerEventSessionUpdated),
-    #[serde(rename = "transcription_session.updated")]
     TranscriptionSessionUpdated(RealtimeServerEventTranscriptionSessionUpdated),
-    #[serde(rename = "output_audio_buffer.started")]
     OutputAudioBufferStarted(RealtimeServerEventOutputAudioBufferStarted),
-    #[serde(rename = "output_audio_buffer.stopped")]
     OutputAudioBufferStopped(RealtimeServerEventOutputAudioBufferStopped),
-    #[serde(rename = "output_audio_buffer.cleared")]
     OutputAudioBufferCleared(RealtimeServerEventOutputAudioBufferCleared),
+}
+#[doc = "The event type, must be `conversation.created`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeServerEventConversationCreatedType {
+    #[default]
+    #[serde(rename = "conversation.created")]
+    ConversationCreated,
 }
 #[doc = "The conversation resource."]
 #[derive(
@@ -12462,10 +12973,21 @@ pub struct RealtimeServerEventConversationCreated {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
     pub event_id: String,
+    #[doc = "The event type, must be `conversation.created`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeServerEventConversationCreatedType,
     #[doc = "The conversation resource."]
     #[builder(default)]
     #[serde(rename = "conversation")]
     pub conversation: RealtimeServerEventConversationCreatedConversation,
+}
+#[doc = "The event type, must be `conversation.item.created`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeServerEventConversationItemCreatedType {
+    #[default]
+    #[serde(rename = "conversation.item.created")]
+    ConversationItemCreated,
 }
 #[doc = "Returned when a conversation item is created. There are several scenarios that produce this event:\n  - The server is generating a Response, which if successful will produce \n    either one or two Items, which will be of type `message` \n    (role `assistant`) or type `function_call`.\n  - The input audio buffer has been committed, either by the client or the \n    server (in `server_vad` mode). The server will take the content of the \n    input audio buffer and add it to a new user message Item.\n  - The client has sent a `conversation.item.create` event to add a new Item \n    to the Conversation.\n"]
 #[derive(
@@ -12475,12 +12997,23 @@ pub struct RealtimeServerEventConversationItemCreated {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
     pub event_id: String,
+    #[doc = "The event type, must be `conversation.item.created`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeServerEventConversationItemCreatedType,
     #[doc = "The ID of the preceding item in the Conversation context, allows the \nclient to understand the order of the conversation.\n"]
     #[serde(rename = "previous_item_id")]
     pub previous_item_id: String,
     #[builder(default)]
     #[serde(rename = "item")]
     pub item: RealtimeConversationItem,
+}
+#[doc = "The event type, must be `conversation.item.deleted`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeServerEventConversationItemDeletedType {
+    #[default]
+    #[serde(rename = "conversation.item.deleted")]
+    ConversationItemDeleted,
 }
 #[doc = "Returned when an item in the conversation is deleted by the client with a \n`conversation.item.delete` event. This event is used to synchronize the \nserver's understanding of the conversation history with the client's view.\n"]
 #[derive(
@@ -12490,9 +13023,20 @@ pub struct RealtimeServerEventConversationItemDeleted {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
     pub event_id: String,
+    #[doc = "The event type, must be `conversation.item.deleted`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeServerEventConversationItemDeletedType,
     #[doc = "The ID of the item that was deleted."]
     #[serde(rename = "item_id")]
     pub item_id: String,
+}
+#[doc = "The event type, must be\n`conversation.item.input_audio_transcription.completed`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeServerEventConversationItemInputAudioTranscriptionCompletedType {
+    #[default]
+    #[serde(rename = "conversation.item.input_audio_transcription.completed")]
+    ConversationItemInputAudioTranscriptionCompleted,
 }
 #[doc = "This event is the output of audio transcription for user audio written to the \nuser audio buffer. Transcription begins when the input audio buffer is \ncommitted by the client or server (in `server_vad` mode). Transcription runs \nasynchronously with Response creation, so this event may come before or after \nthe Response events.\n\nRealtime API models accept audio natively, and thus input transcription is a \nseparate process run on a separate ASR (Automatic Speech Recognition) model, \ncurrently always `whisper-1`. Thus the transcript may diverge somewhat from \nthe model's interpretation, and should be treated as a rough guide.\n"]
 #[derive(
@@ -12502,6 +13046,10 @@ pub struct RealtimeServerEventConversationItemInputAudioTranscriptionCompleted {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
     pub event_id: String,
+    #[doc = "The event type, must be\n`conversation.item.input_audio_transcription.completed`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeServerEventConversationItemInputAudioTranscriptionCompletedType,
     #[doc = "The ID of the user message item containing the audio."]
     #[serde(rename = "item_id")]
     pub item_id: String,
@@ -12517,6 +13065,13 @@ pub struct RealtimeServerEventConversationItemInputAudioTranscriptionCompleted {
     #[serde(rename = "logprobs")]
     pub logprobs: Option<Vec<LogProbProperties>>,
 }
+#[doc = "The event type, must be `conversation.item.input_audio_transcription.delta`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeServerEventConversationItemInputAudioTranscriptionDeltaType {
+    #[default]
+    #[serde(rename = "conversation.item.input_audio_transcription.delta")]
+    ConversationItemInputAudioTranscriptionDelta,
+}
 #[doc = "Returned when the text value of an input audio transcription content part is updated.\n"]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
@@ -12525,6 +13080,10 @@ pub struct RealtimeServerEventConversationItemInputAudioTranscriptionDelta {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
     pub event_id: String,
+    #[doc = "The event type, must be `conversation.item.input_audio_transcription.delta`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeServerEventConversationItemInputAudioTranscriptionDeltaType,
     #[doc = "The ID of the item."]
     #[serde(rename = "item_id")]
     pub item_id: String,
@@ -12543,6 +13102,13 @@ pub struct RealtimeServerEventConversationItemInputAudioTranscriptionDelta {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "logprobs")]
     pub logprobs: Option<Vec<LogProbProperties>>,
+}
+#[doc = "The event type, must be\n`conversation.item.input_audio_transcription.failed`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeServerEventConversationItemInputAudioTranscriptionFailedType {
+    #[default]
+    #[serde(rename = "conversation.item.input_audio_transcription.failed")]
+    ConversationItemInputAudioTranscriptionFailed,
 }
 #[doc = "Details of the transcription error."]
 #[derive(
@@ -12584,6 +13150,10 @@ pub struct RealtimeServerEventConversationItemInputAudioTranscriptionFailed {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
     pub event_id: String,
+    #[doc = "The event type, must be\n`conversation.item.input_audio_transcription.failed`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeServerEventConversationItemInputAudioTranscriptionFailedType,
     #[doc = "The ID of the user message item."]
     #[serde(rename = "item_id")]
     pub item_id: String,
@@ -12595,6 +13165,13 @@ pub struct RealtimeServerEventConversationItemInputAudioTranscriptionFailed {
     #[serde(rename = "error")]
     pub error: RealtimeServerEventConversationItemInputAudioTranscriptionFailedError,
 }
+#[doc = "The event type, must be `conversation.item.retrieved`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeServerEventConversationItemRetrievedType {
+    #[default]
+    #[serde(rename = "conversation.item.retrieved")]
+    ConversationItemRetrieved,
+}
 #[doc = "Returned when a conversation item is retrieved with `conversation.item.retrieve`.\n"]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
@@ -12603,9 +13180,20 @@ pub struct RealtimeServerEventConversationItemRetrieved {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
     pub event_id: String,
+    #[doc = "The event type, must be `conversation.item.retrieved`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeServerEventConversationItemRetrievedType,
     #[builder(default)]
     #[serde(rename = "item")]
     pub item: RealtimeConversationItem,
+}
+#[doc = "The event type, must be `conversation.item.truncated`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeServerEventConversationItemTruncatedType {
+    #[default]
+    #[serde(rename = "conversation.item.truncated")]
+    ConversationItemTruncated,
 }
 #[doc = "Returned when an earlier assistant audio message item is truncated by the \nclient with a `conversation.item.truncate` event. This event is used to \nsynchronize the server's understanding of the audio with the client's playback.\n\nThis action will truncate the audio and remove the server-side text transcript \nto ensure there is no text in the context that hasn't been heard by the user.\n"]
 #[derive(
@@ -12615,6 +13203,10 @@ pub struct RealtimeServerEventConversationItemTruncated {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
     pub event_id: String,
+    #[doc = "The event type, must be `conversation.item.truncated`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeServerEventConversationItemTruncatedType,
     #[doc = "The ID of the assistant message item that was truncated."]
     #[serde(rename = "item_id")]
     pub item_id: String,
@@ -12624,6 +13216,13 @@ pub struct RealtimeServerEventConversationItemTruncated {
     #[doc = "The duration up to which the audio was truncated, in milliseconds.\n"]
     #[serde(rename = "audio_end_ms")]
     pub audio_end_ms: u64,
+}
+#[doc = "The event type, must be `error`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeServerEventErrorType {
+    #[default]
+    #[serde(rename = "error")]
+    Error,
 }
 #[doc = "Details of the error."]
 #[derive(
@@ -12660,9 +13259,20 @@ pub struct RealtimeServerEventError {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
     pub event_id: String,
+    #[doc = "The event type, must be `error`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeServerEventErrorType,
     #[doc = "Details of the error."]
     #[serde(rename = "error")]
     pub error: RealtimeServerEventErrorError,
+}
+#[doc = "The event type, must be `input_audio_buffer.cleared`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeServerEventInputAudioBufferClearedType {
+    #[default]
+    #[serde(rename = "input_audio_buffer.cleared")]
+    InputAudioBufferCleared,
 }
 #[doc = "Returned when the input audio buffer is cleared by the client with a \n`input_audio_buffer.clear` event.\n"]
 #[derive(
@@ -12672,6 +13282,17 @@ pub struct RealtimeServerEventInputAudioBufferCleared {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
     pub event_id: String,
+    #[doc = "The event type, must be `input_audio_buffer.cleared`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeServerEventInputAudioBufferClearedType,
+}
+#[doc = "The event type, must be `input_audio_buffer.committed`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeServerEventInputAudioBufferCommittedType {
+    #[default]
+    #[serde(rename = "input_audio_buffer.committed")]
+    InputAudioBufferCommitted,
 }
 #[doc = "Returned when an input audio buffer is committed, either by the client or \nautomatically in server VAD mode. The `item_id` property is the ID of the user\nmessage item that will be created, thus a `conversation.item.created` event \nwill also be sent to the client.\n"]
 #[derive(
@@ -12681,12 +13302,23 @@ pub struct RealtimeServerEventInputAudioBufferCommitted {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
     pub event_id: String,
+    #[doc = "The event type, must be `input_audio_buffer.committed`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeServerEventInputAudioBufferCommittedType,
     #[doc = "The ID of the preceding item after which the new item will be inserted.\n"]
     #[serde(rename = "previous_item_id")]
     pub previous_item_id: String,
     #[doc = "The ID of the user message item that will be created."]
     #[serde(rename = "item_id")]
     pub item_id: String,
+}
+#[doc = "The event type, must be `input_audio_buffer.speech_started`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeServerEventInputAudioBufferSpeechStartedType {
+    #[default]
+    #[serde(rename = "input_audio_buffer.speech_started")]
+    InputAudioBufferSpeechStarted,
 }
 #[doc = "Sent by the server when in `server_vad` mode to indicate that speech has been \ndetected in the audio buffer. This can happen any time audio is added to the \nbuffer (unless speech is already detected). The client may want to use this \nevent to interrupt audio playback or provide visual feedback to the user. \n\nThe client should expect to receive a `input_audio_buffer.speech_stopped` event \nwhen speech stops. The `item_id` property is the ID of the user message item \nthat will be created when speech stops and will also be included in the \n`input_audio_buffer.speech_stopped` event (unless the client manually commits \nthe audio buffer during VAD activation).\n"]
 #[derive(
@@ -12696,12 +13328,23 @@ pub struct RealtimeServerEventInputAudioBufferSpeechStarted {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
     pub event_id: String,
+    #[doc = "The event type, must be `input_audio_buffer.speech_started`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeServerEventInputAudioBufferSpeechStartedType,
     #[doc = "Milliseconds from the start of all audio written to the buffer during the \nsession when speech was first detected. This will correspond to the \nbeginning of audio sent to the model, and thus includes the \n`prefix_padding_ms` configured in the Session.\n"]
     #[serde(rename = "audio_start_ms")]
     pub audio_start_ms: u64,
     #[doc = "The ID of the user message item that will be created when speech stops.\n"]
     #[serde(rename = "item_id")]
     pub item_id: String,
+}
+#[doc = "The event type, must be `input_audio_buffer.speech_stopped`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeServerEventInputAudioBufferSpeechStoppedType {
+    #[default]
+    #[serde(rename = "input_audio_buffer.speech_stopped")]
+    InputAudioBufferSpeechStopped,
 }
 #[doc = "Returned in `server_vad` mode when the server detects the end of speech in \nthe audio buffer. The server will also send an `conversation.item.created` \nevent with the user message item that is created from the audio buffer.\n"]
 #[derive(
@@ -12711,12 +13354,23 @@ pub struct RealtimeServerEventInputAudioBufferSpeechStopped {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
     pub event_id: String,
+    #[doc = "The event type, must be `input_audio_buffer.speech_stopped`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeServerEventInputAudioBufferSpeechStoppedType,
     #[doc = "Milliseconds since the session started when speech stopped. This will \ncorrespond to the end of audio sent to the model, and thus includes the \n`min_silence_duration_ms` configured in the Session.\n"]
     #[serde(rename = "audio_end_ms")]
     pub audio_end_ms: u64,
     #[doc = "The ID of the user message item that will be created."]
     #[serde(rename = "item_id")]
     pub item_id: String,
+}
+#[doc = "The event type, must be `output_audio_buffer.cleared`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeServerEventOutputAudioBufferClearedType {
+    #[default]
+    #[serde(rename = "output_audio_buffer.cleared")]
+    OutputAudioBufferCleared,
 }
 #[doc = "**WebRTC Only:** Emitted when the output audio buffer is cleared. This happens either in VAD\nmode when the user has interrupted (`input_audio_buffer.speech_started`),\nor when the client has emitted the `output_audio_buffer.clear` event to manually\ncut off the current audio response.\n[Learn more](/docs/guides/realtime-model-capabilities#client-and-server-events-for-audio-in-webrtc).\n"]
 #[derive(
@@ -12726,9 +13380,20 @@ pub struct RealtimeServerEventOutputAudioBufferCleared {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
     pub event_id: String,
+    #[doc = "The event type, must be `output_audio_buffer.cleared`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeServerEventOutputAudioBufferClearedType,
     #[doc = "The unique ID of the response that produced the audio."]
     #[serde(rename = "response_id")]
     pub response_id: String,
+}
+#[doc = "The event type, must be `output_audio_buffer.started`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeServerEventOutputAudioBufferStartedType {
+    #[default]
+    #[serde(rename = "output_audio_buffer.started")]
+    OutputAudioBufferStarted,
 }
 #[doc = "**WebRTC Only:** Emitted when the server begins streaming audio to the client. This event is\nemitted after an audio content part has been added (`response.content_part.added`)\nto the response.\n[Learn more](/docs/guides/realtime-model-capabilities#client-and-server-events-for-audio-in-webrtc).\n"]
 #[derive(
@@ -12738,9 +13403,20 @@ pub struct RealtimeServerEventOutputAudioBufferStarted {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
     pub event_id: String,
+    #[doc = "The event type, must be `output_audio_buffer.started`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeServerEventOutputAudioBufferStartedType,
     #[doc = "The unique ID of the response that produced the audio."]
     #[serde(rename = "response_id")]
     pub response_id: String,
+}
+#[doc = "The event type, must be `output_audio_buffer.stopped`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeServerEventOutputAudioBufferStoppedType {
+    #[default]
+    #[serde(rename = "output_audio_buffer.stopped")]
+    OutputAudioBufferStopped,
 }
 #[doc = "**WebRTC Only:** Emitted when the output audio buffer has been completely drained on the server,\nand no more audio is forthcoming. This event is emitted after the full response\ndata has been sent to the client (`response.done`).\n[Learn more](/docs/guides/realtime-model-capabilities#client-and-server-events-for-audio-in-webrtc).\n"]
 #[derive(
@@ -12750,13 +13426,23 @@ pub struct RealtimeServerEventOutputAudioBufferStopped {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
     pub event_id: String,
+    #[doc = "The event type, must be `output_audio_buffer.stopped`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeServerEventOutputAudioBufferStoppedType,
     #[doc = "The unique ID of the response that produced the audio."]
     #[serde(rename = "response_id")]
     pub response_id: String,
 }
+#[doc = "The event type, must be `rate_limits.updated`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeServerEventRateLimitsUpdatedType {
+    #[default]
+    #[serde(rename = "rate_limits.updated")]
+    RateLimitsUpdated,
+}
 #[doc = "The name of the rate limit (`requests`, `tokens`).\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeServerEventRateLimitsUpdatedRateLimitsName {
     #[serde(rename = "requests")]
     Requests,
@@ -12802,9 +13488,20 @@ pub struct RealtimeServerEventRateLimitsUpdated {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
     pub event_id: String,
+    #[doc = "The event type, must be `rate_limits.updated`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeServerEventRateLimitsUpdatedType,
     #[doc = "List of rate limit information."]
     #[serde(rename = "rate_limits")]
     pub rate_limits: Vec<RealtimeServerEventRateLimitsUpdatedRateLimits>,
+}
+#[doc = "The event type, must be `response.audio.delta`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeServerEventResponseAudioDeltaType {
+    #[default]
+    #[serde(rename = "response.audio.delta")]
+    ResponseAudioDelta,
 }
 #[doc = "Returned when the model-generated audio is updated."]
 #[derive(
@@ -12814,6 +13511,10 @@ pub struct RealtimeServerEventResponseAudioDelta {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
     pub event_id: String,
+    #[doc = "The event type, must be `response.audio.delta`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeServerEventResponseAudioDeltaType,
     #[doc = "The ID of the response."]
     #[serde(rename = "response_id")]
     pub response_id: String,
@@ -12830,6 +13531,13 @@ pub struct RealtimeServerEventResponseAudioDelta {
     #[serde(rename = "delta")]
     pub delta: String,
 }
+#[doc = "The event type, must be `response.audio.done`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeServerEventResponseAudioDoneType {
+    #[default]
+    #[serde(rename = "response.audio.done")]
+    ResponseAudioDone,
+}
 #[doc = "Returned when the model-generated audio is done. Also emitted when a Response\nis interrupted, incomplete, or cancelled.\n"]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
@@ -12838,6 +13546,10 @@ pub struct RealtimeServerEventResponseAudioDone {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
     pub event_id: String,
+    #[doc = "The event type, must be `response.audio.done`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeServerEventResponseAudioDoneType,
     #[doc = "The ID of the response."]
     #[serde(rename = "response_id")]
     pub response_id: String,
@@ -12851,6 +13563,13 @@ pub struct RealtimeServerEventResponseAudioDone {
     #[serde(rename = "content_index")]
     pub content_index: u64,
 }
+#[doc = "The event type, must be `response.audio_transcript.delta`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeServerEventResponseAudioTranscriptDeltaType {
+    #[default]
+    #[serde(rename = "response.audio_transcript.delta")]
+    ResponseAudioTranscriptDelta,
+}
 #[doc = "Returned when the model-generated transcription of audio output is updated.\n"]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
@@ -12859,6 +13578,10 @@ pub struct RealtimeServerEventResponseAudioTranscriptDelta {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
     pub event_id: String,
+    #[doc = "The event type, must be `response.audio_transcript.delta`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeServerEventResponseAudioTranscriptDeltaType,
     #[doc = "The ID of the response."]
     #[serde(rename = "response_id")]
     pub response_id: String,
@@ -12875,6 +13598,13 @@ pub struct RealtimeServerEventResponseAudioTranscriptDelta {
     #[serde(rename = "delta")]
     pub delta: String,
 }
+#[doc = "The event type, must be `response.audio_transcript.done`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeServerEventResponseAudioTranscriptDoneType {
+    #[default]
+    #[serde(rename = "response.audio_transcript.done")]
+    ResponseAudioTranscriptDone,
+}
 #[doc = "Returned when the model-generated transcription of audio output is done\nstreaming. Also emitted when a Response is interrupted, incomplete, or\ncancelled.\n"]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
@@ -12883,6 +13613,10 @@ pub struct RealtimeServerEventResponseAudioTranscriptDone {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
     pub event_id: String,
+    #[doc = "The event type, must be `response.audio_transcript.done`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeServerEventResponseAudioTranscriptDoneType,
     #[doc = "The ID of the response."]
     #[serde(rename = "response_id")]
     pub response_id: String,
@@ -12899,9 +13633,15 @@ pub struct RealtimeServerEventResponseAudioTranscriptDone {
     #[serde(rename = "transcript")]
     pub transcript: String,
 }
+#[doc = "The event type, must be `response.content_part.added`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeServerEventResponseContentPartAddedType {
+    #[default]
+    #[serde(rename = "response.content_part.added")]
+    ResponseContentPartAdded,
+}
 #[doc = "The content type (\"text\", \"audio\")."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeServerEventResponseContentPartAddedPartType {
     #[serde(rename = "audio")]
     Audio,
@@ -12948,6 +13688,10 @@ pub struct RealtimeServerEventResponseContentPartAdded {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
     pub event_id: String,
+    #[doc = "The event type, must be `response.content_part.added`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeServerEventResponseContentPartAddedType,
     #[doc = "The ID of the response."]
     #[serde(rename = "response_id")]
     pub response_id: String,
@@ -12965,9 +13709,15 @@ pub struct RealtimeServerEventResponseContentPartAdded {
     #[serde(rename = "part")]
     pub part: RealtimeServerEventResponseContentPartAddedPart,
 }
+#[doc = "The event type, must be `response.content_part.done`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeServerEventResponseContentPartDoneType {
+    #[default]
+    #[serde(rename = "response.content_part.done")]
+    ResponseContentPartDone,
+}
 #[doc = "The content type (\"text\", \"audio\")."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeServerEventResponseContentPartDonePartType {
     #[serde(rename = "audio")]
     Audio,
@@ -13014,6 +13764,10 @@ pub struct RealtimeServerEventResponseContentPartDone {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
     pub event_id: String,
+    #[doc = "The event type, must be `response.content_part.done`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeServerEventResponseContentPartDoneType,
     #[doc = "The ID of the response."]
     #[serde(rename = "response_id")]
     pub response_id: String,
@@ -13031,6 +13785,13 @@ pub struct RealtimeServerEventResponseContentPartDone {
     #[serde(rename = "part")]
     pub part: RealtimeServerEventResponseContentPartDonePart,
 }
+#[doc = "The event type, must be `response.created`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeServerEventResponseCreatedType {
+    #[default]
+    #[serde(rename = "response.created")]
+    ResponseCreated,
+}
 #[doc = "Returned when a new Response is created. The first event of response creation,\nwhere the response is in an initial state of `in_progress`.\n"]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
@@ -13039,9 +13800,20 @@ pub struct RealtimeServerEventResponseCreated {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
     pub event_id: String,
+    #[doc = "The event type, must be `response.created`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeServerEventResponseCreatedType,
     #[builder(default)]
     #[serde(rename = "response")]
     pub response: RealtimeResponse,
+}
+#[doc = "The event type, must be `response.done`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeServerEventResponseDoneType {
+    #[default]
+    #[serde(rename = "response.done")]
+    ResponseDone,
 }
 #[doc = "Returned when a Response is done streaming. Always emitted, no matter the \nfinal state. The Response object included in the `response.done` event will \ninclude all output Items in the Response but will omit the raw audio data.\n"]
 #[derive(
@@ -13051,9 +13823,20 @@ pub struct RealtimeServerEventResponseDone {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
     pub event_id: String,
+    #[doc = "The event type, must be `response.done`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeServerEventResponseDoneType,
     #[builder(default)]
     #[serde(rename = "response")]
     pub response: RealtimeResponse,
+}
+#[doc = "The event type, must be `response.function_call_arguments.delta`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeServerEventResponseFunctionCallArgumentsDeltaType {
+    #[default]
+    #[serde(rename = "response.function_call_arguments.delta")]
+    ResponseFunctionCallArgumentsDelta,
 }
 #[doc = "Returned when the model-generated function call arguments are updated.\n"]
 #[derive(
@@ -13063,6 +13846,10 @@ pub struct RealtimeServerEventResponseFunctionCallArgumentsDelta {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
     pub event_id: String,
+    #[doc = "The event type, must be `response.function_call_arguments.delta`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeServerEventResponseFunctionCallArgumentsDeltaType,
     #[doc = "The ID of the response."]
     #[serde(rename = "response_id")]
     pub response_id: String,
@@ -13079,6 +13866,13 @@ pub struct RealtimeServerEventResponseFunctionCallArgumentsDelta {
     #[serde(rename = "delta")]
     pub delta: String,
 }
+#[doc = "The event type, must be `response.function_call_arguments.done`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeServerEventResponseFunctionCallArgumentsDoneType {
+    #[default]
+    #[serde(rename = "response.function_call_arguments.done")]
+    ResponseFunctionCallArgumentsDone,
+}
 #[doc = "Returned when the model-generated function call arguments are done streaming.\nAlso emitted when a Response is interrupted, incomplete, or cancelled.\n"]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
@@ -13087,6 +13881,10 @@ pub struct RealtimeServerEventResponseFunctionCallArgumentsDone {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
     pub event_id: String,
+    #[doc = "The event type, must be `response.function_call_arguments.done`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeServerEventResponseFunctionCallArgumentsDoneType,
     #[doc = "The ID of the response."]
     #[serde(rename = "response_id")]
     pub response_id: String,
@@ -13103,6 +13901,13 @@ pub struct RealtimeServerEventResponseFunctionCallArgumentsDone {
     #[serde(rename = "arguments")]
     pub arguments: String,
 }
+#[doc = "The event type, must be `response.output_item.added`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeServerEventResponseOutputItemAddedType {
+    #[default]
+    #[serde(rename = "response.output_item.added")]
+    ResponseOutputItemAdded,
+}
 #[doc = "Returned when a new Item is created during Response generation."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
@@ -13111,6 +13916,10 @@ pub struct RealtimeServerEventResponseOutputItemAdded {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
     pub event_id: String,
+    #[doc = "The event type, must be `response.output_item.added`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeServerEventResponseOutputItemAddedType,
     #[doc = "The ID of the Response to which the item belongs."]
     #[serde(rename = "response_id")]
     pub response_id: String,
@@ -13120,6 +13929,13 @@ pub struct RealtimeServerEventResponseOutputItemAdded {
     #[builder(default)]
     #[serde(rename = "item")]
     pub item: RealtimeConversationItem,
+}
+#[doc = "The event type, must be `response.output_item.done`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeServerEventResponseOutputItemDoneType {
+    #[default]
+    #[serde(rename = "response.output_item.done")]
+    ResponseOutputItemDone,
 }
 #[doc = "Returned when an Item is done streaming. Also emitted when a Response is \ninterrupted, incomplete, or cancelled.\n"]
 #[derive(
@@ -13129,6 +13945,10 @@ pub struct RealtimeServerEventResponseOutputItemDone {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
     pub event_id: String,
+    #[doc = "The event type, must be `response.output_item.done`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeServerEventResponseOutputItemDoneType,
     #[doc = "The ID of the Response to which the item belongs."]
     #[serde(rename = "response_id")]
     pub response_id: String,
@@ -13139,6 +13959,13 @@ pub struct RealtimeServerEventResponseOutputItemDone {
     #[serde(rename = "item")]
     pub item: RealtimeConversationItem,
 }
+#[doc = "The event type, must be `response.text.delta`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeServerEventResponseTextDeltaType {
+    #[default]
+    #[serde(rename = "response.text.delta")]
+    ResponseTextDelta,
+}
 #[doc = "Returned when the text value of a \"text\" content part is updated."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
@@ -13147,6 +13974,10 @@ pub struct RealtimeServerEventResponseTextDelta {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
     pub event_id: String,
+    #[doc = "The event type, must be `response.text.delta`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeServerEventResponseTextDeltaType,
     #[doc = "The ID of the response."]
     #[serde(rename = "response_id")]
     pub response_id: String,
@@ -13163,6 +13994,13 @@ pub struct RealtimeServerEventResponseTextDelta {
     #[serde(rename = "delta")]
     pub delta: String,
 }
+#[doc = "The event type, must be `response.text.done`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeServerEventResponseTextDoneType {
+    #[default]
+    #[serde(rename = "response.text.done")]
+    ResponseTextDone,
+}
 #[doc = "Returned when the text value of a \"text\" content part is done streaming. Also\nemitted when a Response is interrupted, incomplete, or cancelled.\n"]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
@@ -13171,6 +14009,10 @@ pub struct RealtimeServerEventResponseTextDone {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
     pub event_id: String,
+    #[doc = "The event type, must be `response.text.done`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeServerEventResponseTextDoneType,
     #[doc = "The ID of the response."]
     #[serde(rename = "response_id")]
     pub response_id: String,
@@ -13187,6 +14029,13 @@ pub struct RealtimeServerEventResponseTextDone {
     #[serde(rename = "text")]
     pub text: String,
 }
+#[doc = "The event type, must be `session.created`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeServerEventSessionCreatedType {
+    #[default]
+    #[serde(rename = "session.created")]
+    SessionCreated,
+}
 #[doc = "Returned when a Session is created. Emitted automatically when a new \nconnection is established as the first server event. This event will contain \nthe default Session configuration.\n"]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
@@ -13195,9 +14044,20 @@ pub struct RealtimeServerEventSessionCreated {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
     pub event_id: String,
+    #[doc = "The event type, must be `session.created`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeServerEventSessionCreatedType,
     #[builder(default)]
     #[serde(rename = "session")]
     pub session: RealtimeSession,
+}
+#[doc = "The event type, must be `session.updated`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeServerEventSessionUpdatedType {
+    #[default]
+    #[serde(rename = "session.updated")]
+    SessionUpdated,
 }
 #[doc = "Returned when a session is updated with a `session.update` event, unless \nthere is an error.\n"]
 #[derive(
@@ -13207,9 +14067,20 @@ pub struct RealtimeServerEventSessionUpdated {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
     pub event_id: String,
+    #[doc = "The event type, must be `session.updated`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeServerEventSessionUpdatedType,
     #[builder(default)]
     #[serde(rename = "session")]
     pub session: RealtimeSession,
+}
+#[doc = "The event type, must be `transcription_session.updated`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RealtimeServerEventTranscriptionSessionUpdatedType {
+    #[default]
+    #[serde(rename = "transcription_session.updated")]
+    TranscriptionSessionUpdated,
 }
 #[doc = "Returned when a transcription session is updated with a `transcription_session.update` event, unless \nthere is an error.\n"]
 #[derive(
@@ -13219,11 +14090,14 @@ pub struct RealtimeServerEventTranscriptionSessionUpdated {
     #[doc = "The unique ID of the server event."]
     #[serde(rename = "event_id")]
     pub event_id: String,
+    #[doc = "The event type, must be `transcription_session.updated`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RealtimeServerEventTranscriptionSessionUpdatedType,
     #[serde(rename = "session")]
     pub session: RealtimeTranscriptionSessionCreateResponse,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionModality {
     #[serde(rename = "text")]
     Text,
@@ -13232,7 +14106,6 @@ pub enum RealtimeSessionModality {
 }
 #[doc = "The Realtime model used for this session.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionModel {
     #[serde(rename = "gpt-4o-realtime-preview")]
     Gpt4oRealtimePreview,
@@ -13247,7 +14120,6 @@ pub enum RealtimeSessionModel {
 }
 #[doc = "The format of input audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.\nFor `pcm16`, input audio must be 16-bit PCM at a 24kHz sample rate, \nsingle channel (mono), and little-endian byte order.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionInputAudioFormat {
     #[default]
     #[serde(rename = "pcm16")]
@@ -13259,7 +14131,6 @@ pub enum RealtimeSessionInputAudioFormat {
 }
 #[doc = "The format of output audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.\nFor `pcm16`, output audio is sampled at a rate of 24kHz.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionOutputAudioFormat {
     #[default]
     #[serde(rename = "pcm16")]
@@ -13298,7 +14169,6 @@ pub struct RealtimeSessionInputAudioTranscription {
 }
 #[doc = "Type of turn detection.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionTurnDetectionType {
     #[default]
     #[serde(rename = "server_vad")]
@@ -13308,7 +14178,6 @@ pub enum RealtimeSessionTurnDetectionType {
 }
 #[doc = "Used only for `semantic_vad` mode. The eagerness of the model to respond. `low` will wait longer for the user to continue speaking, `high` will respond more quickly. `auto` is the default and is equivalent to `medium`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionTurnDetectionEagerness {
     #[serde(rename = "low")]
     Low,
@@ -13369,7 +14238,6 @@ pub struct RealtimeSessionTurnDetection {
 }
 #[doc = "Type of noise reduction. `near_field` is for close-talking microphones such as headphones, `far_field` is for far-field microphones such as laptop or conference room microphones.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionInputAudioNoiseReductionType {
     #[serde(rename = "near_field")]
     NearField,
@@ -13395,7 +14263,6 @@ pub struct RealtimeSessionInputAudioNoiseReduction {
 }
 #[doc = "The type of the tool, i.e. `function`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionToolType {
     #[default]
     #[serde(rename = "function")]
@@ -13433,7 +14300,6 @@ pub struct RealtimeSessionTool {
     pub parameters: Option<std::collections::HashMap<String, serde_json::Value>>,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionMaxResponseOutputTokens1 {
     #[default]
     #[serde(rename = "inf")]
@@ -13530,7 +14396,6 @@ pub struct RealtimeSession {
     pub max_response_output_tokens: Option<RealtimeSessionMaxResponseOutputTokens>,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionCreateRequestModality {
     #[serde(rename = "text")]
     Text,
@@ -13539,7 +14404,6 @@ pub enum RealtimeSessionCreateRequestModality {
 }
 #[doc = "The Realtime model used for this session.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionCreateRequestModel {
     #[serde(rename = "gpt-4o-realtime-preview")]
     Gpt4oRealtimePreview,
@@ -13554,7 +14418,6 @@ pub enum RealtimeSessionCreateRequestModel {
 }
 #[doc = "The format of input audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.\nFor `pcm16`, input audio must be 16-bit PCM at a 24kHz sample rate, \nsingle channel (mono), and little-endian byte order.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionCreateRequestInputAudioFormat {
     #[default]
     #[serde(rename = "pcm16")]
@@ -13566,7 +14429,6 @@ pub enum RealtimeSessionCreateRequestInputAudioFormat {
 }
 #[doc = "The format of output audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.\nFor `pcm16`, output audio is sampled at a rate of 24kHz.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionCreateRequestOutputAudioFormat {
     #[default]
     #[serde(rename = "pcm16")]
@@ -13605,7 +14467,6 @@ pub struct RealtimeSessionCreateRequestInputAudioTranscription {
 }
 #[doc = "Type of turn detection.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionCreateRequestTurnDetectionType {
     #[default]
     #[serde(rename = "server_vad")]
@@ -13615,7 +14476,6 @@ pub enum RealtimeSessionCreateRequestTurnDetectionType {
 }
 #[doc = "Used only for `semantic_vad` mode. The eagerness of the model to respond. `low` will wait longer for the user to continue speaking, `high` will respond more quickly. `auto` is the default and is equivalent to `medium`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionCreateRequestTurnDetectionEagerness {
     #[serde(rename = "low")]
     Low,
@@ -13676,7 +14536,6 @@ pub struct RealtimeSessionCreateRequestTurnDetection {
 }
 #[doc = "Type of noise reduction. `near_field` is for close-talking microphones such as headphones, `far_field` is for far-field microphones such as laptop or conference room microphones.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionCreateRequestInputAudioNoiseReductionType {
     #[serde(rename = "near_field")]
     NearField,
@@ -13702,7 +14561,6 @@ pub struct RealtimeSessionCreateRequestInputAudioNoiseReduction {
 }
 #[doc = "The type of the tool, i.e. `function`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionCreateRequestToolType {
     #[default]
     #[serde(rename = "function")]
@@ -13740,7 +14598,6 @@ pub struct RealtimeSessionCreateRequestTool {
     pub parameters: Option<std::collections::HashMap<String, serde_json::Value>>,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionCreateRequestMaxResponseOutputTokens1 {
     #[default]
     #[serde(rename = "inf")]
@@ -13844,7 +14701,6 @@ pub struct RealtimeSessionCreateResponseClientSecret {
     pub expires_at: u64,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionCreateResponseModality {
     #[serde(rename = "text")]
     Text,
@@ -13902,7 +14758,6 @@ pub struct RealtimeSessionCreateResponseTurnDetection {
 }
 #[doc = "The type of the tool, i.e. `function`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionCreateResponseToolType {
     #[default]
     #[serde(rename = "function")]
@@ -13940,7 +14795,6 @@ pub struct RealtimeSessionCreateResponseTool {
     pub parameters: Option<std::collections::HashMap<String, serde_json::Value>>,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionCreateResponseMaxResponseOutputTokens1 {
     #[default]
     #[serde(rename = "inf")]
@@ -14019,7 +14873,6 @@ pub struct RealtimeSessionCreateResponse {
     pub max_response_output_tokens: Option<RealtimeSessionCreateResponseMaxResponseOutputTokens>,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeTranscriptionSessionCreateRequestModality {
     #[serde(rename = "text")]
     Text,
@@ -14028,7 +14881,6 @@ pub enum RealtimeTranscriptionSessionCreateRequestModality {
 }
 #[doc = "The format of input audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.\nFor `pcm16`, input audio must be 16-bit PCM at a 24kHz sample rate, \nsingle channel (mono), and little-endian byte order.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeTranscriptionSessionCreateRequestInputAudioFormat {
     #[default]
     #[serde(rename = "pcm16")]
@@ -14040,7 +14892,6 @@ pub enum RealtimeTranscriptionSessionCreateRequestInputAudioFormat {
 }
 #[doc = "The model to use for transcription, current options are `gpt-4o-transcribe`, `gpt-4o-mini-transcribe`, and `whisper-1`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeTranscriptionSessionCreateRequestInputAudioTranscriptionModel {
     #[serde(rename = "gpt-4o-transcribe")]
     Gpt4oTranscribe,
@@ -14078,7 +14929,6 @@ pub struct RealtimeTranscriptionSessionCreateRequestInputAudioTranscription {
 }
 #[doc = "Type of turn detection.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeTranscriptionSessionCreateRequestTurnDetectionType {
     #[default]
     #[serde(rename = "server_vad")]
@@ -14088,7 +14938,6 @@ pub enum RealtimeTranscriptionSessionCreateRequestTurnDetectionType {
 }
 #[doc = "Used only for `semantic_vad` mode. The eagerness of the model to respond. `low` will wait longer for the user to continue speaking, `high` will respond more quickly. `auto` is the default and is equivalent to `medium`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeTranscriptionSessionCreateRequestTurnDetectionEagerness {
     #[serde(rename = "low")]
     Low,
@@ -14149,7 +14998,6 @@ pub struct RealtimeTranscriptionSessionCreateRequestTurnDetection {
 }
 #[doc = "Type of noise reduction. `near_field` is for close-talking microphones such as headphones, `far_field` is for far-field microphones such as laptop or conference room microphones.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeTranscriptionSessionCreateRequestInputAudioNoiseReductionType {
     #[serde(rename = "near_field")]
     NearField,
@@ -14230,7 +15078,6 @@ pub struct RealtimeTranscriptionSessionCreateResponseClientSecret {
     pub expires_at: u64,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeTranscriptionSessionCreateResponseModality {
     #[serde(rename = "text")]
     Text,
@@ -14239,7 +15086,6 @@ pub enum RealtimeTranscriptionSessionCreateResponseModality {
 }
 #[doc = "The model to use for transcription. Can be `gpt-4o-transcribe`, `gpt-4o-mini-transcribe`, or `whisper-1`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum RealtimeTranscriptionSessionCreateResponseInputAudioTranscriptionModel {
     #[serde(rename = "gpt-4o-transcribe")]
     Gpt4oTranscribe,
@@ -14339,7 +15185,6 @@ pub struct RealtimeTranscriptionSessionCreateResponse {
 }
 #[doc = "A summary of the reasoning performed by the model. This can be\nuseful for debugging and understanding the model's reasoning process.\nOne of `auto`, `concise`, or `detailed`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum ReasoningSummary {
     #[serde(rename = "auto")]
     Auto,
@@ -14350,7 +15195,6 @@ pub enum ReasoningSummary {
 }
 #[doc = "**Deprecated:** use `summary` instead.\n\nA summary of the reasoning performed by the model. This can be\nuseful for debugging and understanding the model's reasoning process.\nOne of `auto`, `concise`, or `detailed`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum ReasoningGenerateSummary {
     #[serde(rename = "auto")]
     Auto,
@@ -14387,7 +15231,6 @@ pub struct Reasoning {
 }
 #[doc = "**o-series models only** \n\nConstrains effort on reasoning for \n[reasoning models](https://platform.openai.com/docs/guides/reasoning).\nCurrently supported values are `low`, `medium`, and `high`. Reducing\nreasoning effort can result in faster responses and fewer tokens used\non reasoning in a response.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ReasoningEffort {
     #[serde(rename = "low")]
     Low,
@@ -14399,7 +15242,6 @@ pub enum ReasoningEffort {
 }
 #[doc = "The type of the object. Always `reasoning`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ReasoningItemType {
     #[default]
     #[serde(rename = "reasoning")]
@@ -14407,7 +15249,6 @@ pub enum ReasoningItemType {
 }
 #[doc = "The type of the object. Always `summary_text`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ReasoningItemSummaryType {
     #[default]
     #[serde(rename = "summary_text")]
@@ -14427,7 +15268,6 @@ pub struct ReasoningItemSummary {
 }
 #[doc = "The status of the item. One of `in_progress`, `completed`, or\n`incomplete`. Populated when items are returned via API.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum ReasoningItemStatus {
     #[serde(rename = "in_progress")]
     InProgress,
@@ -14459,7 +15299,6 @@ pub struct ReasoningItem {
 }
 #[doc = "The object type of this resource - always set to `response`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ResponseObject {
     #[default]
     #[serde(rename = "response")]
@@ -14467,7 +15306,6 @@ pub enum ResponseObject {
 }
 #[doc = "The status of the response generation. One of `completed`, `failed`, \n`in_progress`, or `incomplete`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum ResponseStatus {
     #[serde(rename = "completed")]
     Completed,
@@ -14480,7 +15318,6 @@ pub enum ResponseStatus {
 }
 #[doc = "The reason why the response is incomplete."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum ResponseIncompleteDetailsReason {
     #[serde(rename = "max_output_tokens")]
     MaxOutputTokens,
@@ -14552,14 +15389,32 @@ pub struct Response {
     #[serde(rename = "parallel_tool_calls")]
     pub parallel_tool_calls: bool,
 }
+#[doc = "The type of the event. Always `response.audio.delta`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ResponseAudioDeltaEventType {
+    #[default]
+    #[serde(rename = "response.audio.delta")]
+    ResponseAudioDelta,
+}
 #[doc = "Emitted when there is a partial audio response."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ResponseAudioDeltaEvent {
+    #[doc = "The type of the event. Always `response.audio.delta`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ResponseAudioDeltaEventType,
     #[doc = "A chunk of Base64 encoded response audio bytes.\n"]
     #[serde(rename = "delta")]
     pub delta: String,
+}
+#[doc = "The type of the event. Always `response.audio.done`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ResponseAudioDoneEventType {
+    #[default]
+    #[serde(rename = "response.audio.done")]
+    ResponseAudioDone,
 }
 #[doc = "Emitted when the audio response is complete."]
 #[derive(
@@ -14571,15 +15426,38 @@ pub struct ResponseAudioDeltaEvent {
     Default,
     typed_builder :: TypedBuilder,
 )]
-pub struct ResponseAudioDoneEvent {}
+pub struct ResponseAudioDoneEvent {
+    #[doc = "The type of the event. Always `response.audio.done`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ResponseAudioDoneEventType,
+}
+#[doc = "The type of the event. Always `response.audio.transcript.delta`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ResponseAudioTranscriptDeltaEventType {
+    #[default]
+    #[serde(rename = "response.audio.transcript.delta")]
+    ResponseAudioTranscriptDelta,
+}
 #[doc = "Emitted when there is a partial transcript of audio."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ResponseAudioTranscriptDeltaEvent {
+    #[doc = "The type of the event. Always `response.audio.transcript.delta`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ResponseAudioTranscriptDeltaEventType,
     #[doc = "The partial transcript of the audio response.\n"]
     #[serde(rename = "delta")]
     pub delta: String,
+}
+#[doc = "The type of the event. Always `response.audio.transcript.done`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ResponseAudioTranscriptDoneEventType {
+    #[default]
+    #[serde(rename = "response.audio.transcript.done")]
+    ResponseAudioTranscriptDone,
 }
 #[doc = "Emitted when the full audio transcript is completed."]
 #[derive(
@@ -14591,12 +15469,28 @@ pub struct ResponseAudioTranscriptDeltaEvent {
     Default,
     typed_builder :: TypedBuilder,
 )]
-pub struct ResponseAudioTranscriptDoneEvent {}
+pub struct ResponseAudioTranscriptDoneEvent {
+    #[doc = "The type of the event. Always `response.audio.transcript.done`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ResponseAudioTranscriptDoneEventType,
+}
+#[doc = "The type of the event. Always `response.code_interpreter_call.code.delta`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ResponseCodeInterpreterCallCodeDeltaEventType {
+    #[default]
+    #[serde(rename = "response.code_interpreter_call.code.delta")]
+    ResponseCodeInterpreterCallCodeDelta,
+}
 #[doc = "Emitted when a partial code snippet is added by the code interpreter."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ResponseCodeInterpreterCallCodeDeltaEvent {
+    #[doc = "The type of the event. Always `response.code_interpreter_call.code.delta`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ResponseCodeInterpreterCallCodeDeltaEventType,
     #[doc = "The index of the output item that the code interpreter call is in progress.\n"]
     #[serde(rename = "output_index")]
     pub output_index: u64,
@@ -14604,11 +15498,22 @@ pub struct ResponseCodeInterpreterCallCodeDeltaEvent {
     #[serde(rename = "delta")]
     pub delta: String,
 }
+#[doc = "The type of the event. Always `response.code_interpreter_call.code.done`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ResponseCodeInterpreterCallCodeDoneEventType {
+    #[default]
+    #[serde(rename = "response.code_interpreter_call.code.done")]
+    ResponseCodeInterpreterCallCodeDone,
+}
 #[doc = "Emitted when code snippet output is finalized by the code interpreter."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ResponseCodeInterpreterCallCodeDoneEvent {
+    #[doc = "The type of the event. Always `response.code_interpreter_call.code.done`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ResponseCodeInterpreterCallCodeDoneEventType,
     #[doc = "The index of the output item that the code interpreter call is in progress.\n"]
     #[serde(rename = "output_index")]
     pub output_index: u64,
@@ -14616,53 +15521,108 @@ pub struct ResponseCodeInterpreterCallCodeDoneEvent {
     #[serde(rename = "code")]
     pub code: String,
 }
+#[doc = "The type of the event. Always `response.code_interpreter_call.completed`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ResponseCodeInterpreterCallCompletedEventType {
+    #[default]
+    #[serde(rename = "response.code_interpreter_call.completed")]
+    ResponseCodeInterpreterCallCompleted,
+}
 #[doc = "Emitted when the code interpreter call is completed."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ResponseCodeInterpreterCallCompletedEvent {
+    #[doc = "The type of the event. Always `response.code_interpreter_call.completed`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ResponseCodeInterpreterCallCompletedEventType,
     #[doc = "The index of the output item that the code interpreter call is in progress.\n"]
     #[serde(rename = "output_index")]
     pub output_index: u64,
     #[serde(rename = "code_interpreter_call")]
     pub code_interpreter_call: CodeInterpreterToolCall,
+}
+#[doc = "The type of the event. Always `response.code_interpreter_call.in_progress`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ResponseCodeInterpreterCallInProgressEventType {
+    #[default]
+    #[serde(rename = "response.code_interpreter_call.in_progress")]
+    ResponseCodeInterpreterCallInProgress,
 }
 #[doc = "Emitted when a code interpreter call is in progress."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ResponseCodeInterpreterCallInProgressEvent {
+    #[doc = "The type of the event. Always `response.code_interpreter_call.in_progress`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ResponseCodeInterpreterCallInProgressEventType,
     #[doc = "The index of the output item that the code interpreter call is in progress.\n"]
     #[serde(rename = "output_index")]
     pub output_index: u64,
     #[serde(rename = "code_interpreter_call")]
     pub code_interpreter_call: CodeInterpreterToolCall,
+}
+#[doc = "The type of the event. Always `response.code_interpreter_call.interpreting`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ResponseCodeInterpreterCallInterpretingEventType {
+    #[default]
+    #[serde(rename = "response.code_interpreter_call.interpreting")]
+    ResponseCodeInterpreterCallInterpreting,
 }
 #[doc = "Emitted when the code interpreter is actively interpreting the code snippet."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ResponseCodeInterpreterCallInterpretingEvent {
+    #[doc = "The type of the event. Always `response.code_interpreter_call.interpreting`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ResponseCodeInterpreterCallInterpretingEventType,
     #[doc = "The index of the output item that the code interpreter call is in progress.\n"]
     #[serde(rename = "output_index")]
     pub output_index: u64,
     #[serde(rename = "code_interpreter_call")]
     pub code_interpreter_call: CodeInterpreterToolCall,
 }
+#[doc = "The type of the event. Always `response.completed`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ResponseCompletedEventType {
+    #[default]
+    #[serde(rename = "response.completed")]
+    ResponseCompleted,
+}
 #[doc = "Emitted when the model response is complete."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ResponseCompletedEvent {
+    #[doc = "The type of the event. Always `response.completed`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ResponseCompletedEventType,
     #[doc = "Properties of the completed response.\n"]
     #[serde(rename = "response")]
     pub response: Response,
+}
+#[doc = "The type of the event. Always `response.content_part.added`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ResponseContentPartAddedEventType {
+    #[default]
+    #[serde(rename = "response.content_part.added")]
+    ResponseContentPartAdded,
 }
 #[doc = "Emitted when a new content part is added."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ResponseContentPartAddedEvent {
+    #[doc = "The type of the event. Always `response.content_part.added`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ResponseContentPartAddedEventType,
     #[doc = "The ID of the output item that the content part was added to.\n"]
     #[serde(rename = "item_id")]
     pub item_id: String,
@@ -14676,11 +15636,22 @@ pub struct ResponseContentPartAddedEvent {
     #[serde(rename = "part")]
     pub part: OutputContent,
 }
+#[doc = "The type of the event. Always `response.content_part.done`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ResponseContentPartDoneEventType {
+    #[default]
+    #[serde(rename = "response.content_part.done")]
+    ResponseContentPartDone,
+}
 #[doc = "Emitted when a content part is done."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ResponseContentPartDoneEvent {
+    #[doc = "The type of the event. Always `response.content_part.done`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ResponseContentPartDoneEventType,
     #[doc = "The ID of the output item that the content part was added to.\n"]
     #[serde(rename = "item_id")]
     pub item_id: String,
@@ -14694,11 +15665,22 @@ pub struct ResponseContentPartDoneEvent {
     #[serde(rename = "part")]
     pub part: OutputContent,
 }
+#[doc = "The type of the event. Always `response.created`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ResponseCreatedEventType {
+    #[default]
+    #[serde(rename = "response.created")]
+    ResponseCreated,
+}
 #[doc = "An event that is emitted when a response is created.\n"]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ResponseCreatedEvent {
+    #[doc = "The type of the event. Always `response.created`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ResponseCreatedEventType,
     #[doc = "The response that was created.\n"]
     #[serde(rename = "response")]
     pub response: Response,
@@ -14716,7 +15698,6 @@ pub struct ResponseError {
 }
 #[doc = "The error code for the response.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum ResponseErrorCode {
     #[serde(rename = "server_error")]
     ServerError,
@@ -14755,11 +15736,22 @@ pub enum ResponseErrorCode {
     #[serde(rename = "image_file_not_found")]
     ImageFileNotFound,
 }
+#[doc = "The type of the event. Always `error`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ResponseErrorEventType {
+    #[default]
+    #[serde(rename = "error")]
+    Error,
+}
 #[doc = "Emitted when an error occurs."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ResponseErrorEvent {
+    #[doc = "The type of the event. Always `error`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ResponseErrorEventType,
     #[doc = "The error code.\n"]
     #[builder(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -14774,32 +15766,65 @@ pub struct ResponseErrorEvent {
     #[serde(rename = "param")]
     pub param: Option<String>,
 }
+#[doc = "The type of the event. Always `response.failed`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ResponseFailedEventType {
+    #[default]
+    #[serde(rename = "response.failed")]
+    ResponseFailed,
+}
 #[doc = "An event that is emitted when a response fails.\n"]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ResponseFailedEvent {
+    #[doc = "The type of the event. Always `response.failed`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ResponseFailedEventType,
     #[doc = "The response that failed.\n"]
     #[serde(rename = "response")]
     pub response: Response,
+}
+#[doc = "The type of the event. Always `response.file_search_call.completed`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ResponseFileSearchCallCompletedEventType {
+    #[default]
+    #[serde(rename = "response.file_search_call.completed")]
+    ResponseFileSearchCallCompleted,
 }
 #[doc = "Emitted when a file search call is completed (results found)."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ResponseFileSearchCallCompletedEvent {
+    #[doc = "The type of the event. Always `response.file_search_call.completed`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ResponseFileSearchCallCompletedEventType,
     #[doc = "The index of the output item that the file search call is initiated.\n"]
     #[serde(rename = "output_index")]
     pub output_index: u64,
     #[doc = "The ID of the output item that the file search call is initiated.\n"]
     #[serde(rename = "item_id")]
     pub item_id: String,
+}
+#[doc = "The type of the event. Always `response.file_search_call.in_progress`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ResponseFileSearchCallInProgressEventType {
+    #[default]
+    #[serde(rename = "response.file_search_call.in_progress")]
+    ResponseFileSearchCallInProgress,
 }
 #[doc = "Emitted when a file search call is initiated."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ResponseFileSearchCallInProgressEvent {
+    #[doc = "The type of the event. Always `response.file_search_call.in_progress`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ResponseFileSearchCallInProgressEventType,
     #[doc = "The index of the output item that the file search call is initiated.\n"]
     #[serde(rename = "output_index")]
     pub output_index: u64,
@@ -14807,17 +15832,35 @@ pub struct ResponseFileSearchCallInProgressEvent {
     #[serde(rename = "item_id")]
     pub item_id: String,
 }
+#[doc = "The type of the event. Always `response.file_search_call.searching`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ResponseFileSearchCallSearchingEventType {
+    #[default]
+    #[serde(rename = "response.file_search_call.searching")]
+    ResponseFileSearchCallSearching,
+}
 #[doc = "Emitted when a file search is currently searching."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ResponseFileSearchCallSearchingEvent {
+    #[doc = "The type of the event. Always `response.file_search_call.searching`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ResponseFileSearchCallSearchingEventType,
     #[doc = "The index of the output item that the file search call is searching.\n"]
     #[serde(rename = "output_index")]
     pub output_index: u64,
     #[doc = "The ID of the output item that the file search call is initiated.\n"]
     #[serde(rename = "item_id")]
     pub item_id: String,
+}
+#[doc = "The type of response format being defined. Always `json_object`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ResponseFormatJsonObjectType {
+    #[default]
+    #[serde(rename = "json_object")]
+    JsonObject,
 }
 #[doc = "JSON object response format. An older method of generating JSON responses.\nUsing `json_schema` is recommended for models that support it. Note that the\nmodel will not generate JSON without a system or user message instructing it\nto do so.\n"]
 #[derive(
@@ -14829,7 +15872,19 @@ pub struct ResponseFileSearchCallSearchingEvent {
     Default,
     typed_builder :: TypedBuilder,
 )]
-pub struct ResponseFormatJsonObject {}
+pub struct ResponseFormatJsonObject {
+    #[doc = "The type of response format being defined. Always `json_object`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ResponseFormatJsonObjectType,
+}
+#[doc = "The type of response format being defined. Always `json_schema`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ResponseFormatJsonSchemaType {
+    #[default]
+    #[serde(rename = "json_schema")]
+    JsonSchema,
+}
 #[doc = "Structured Outputs configuration options, including a JSON Schema.\n"]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
@@ -14858,11 +15913,22 @@ pub struct ResponseFormatJsonSchemaJsonSchema {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ResponseFormatJsonSchema {
+    #[doc = "The type of response format being defined. Always `json_schema`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ResponseFormatJsonSchemaType,
     #[doc = "Structured Outputs configuration options, including a JSON Schema.\n"]
     #[serde(rename = "json_schema")]
     pub json_schema: ResponseFormatJsonSchemaJsonSchema,
 }
 pub type ResponseFormatJsonSchemaSchema = std::collections::HashMap<String, serde_json::Value>;
+#[doc = "The type of response format being defined. Always `text`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ResponseFormatTextType {
+    #[default]
+    #[serde(rename = "text")]
+    Text,
+}
 #[doc = "Default response format. Used to generate text responses.\n"]
 #[derive(
     Clone,
@@ -14873,12 +15939,28 @@ pub type ResponseFormatJsonSchemaSchema = std::collections::HashMap<String, serd
     Default,
     typed_builder :: TypedBuilder,
 )]
-pub struct ResponseFormatText {}
+pub struct ResponseFormatText {
+    #[doc = "The type of response format being defined. Always `text`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ResponseFormatTextType,
+}
+#[doc = "The type of the event. Always `response.function_call_arguments.delta`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ResponseFunctionCallArgumentsDeltaEventType {
+    #[default]
+    #[serde(rename = "response.function_call_arguments.delta")]
+    ResponseFunctionCallArgumentsDelta,
+}
 #[doc = "Emitted when there is a partial function-call arguments delta."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ResponseFunctionCallArgumentsDeltaEvent {
+    #[doc = "The type of the event. Always `response.function_call_arguments.delta`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ResponseFunctionCallArgumentsDeltaEventType,
     #[doc = "The ID of the output item that the function-call arguments delta is added to.\n"]
     #[serde(rename = "item_id")]
     pub item_id: String,
@@ -14889,11 +15971,20 @@ pub struct ResponseFunctionCallArgumentsDeltaEvent {
     #[serde(rename = "delta")]
     pub delta: String,
 }
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ResponseFunctionCallArgumentsDoneEventType {
+    #[default]
+    #[serde(rename = "response.function_call_arguments.done")]
+    ResponseFunctionCallArgumentsDone,
+}
 #[doc = "Emitted when function-call arguments are finalized."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ResponseFunctionCallArgumentsDoneEvent {
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ResponseFunctionCallArgumentsDoneEventType,
     #[doc = "The ID of the item."]
     #[serde(rename = "item_id")]
     pub item_id: String,
@@ -14904,27 +15995,48 @@ pub struct ResponseFunctionCallArgumentsDoneEvent {
     #[serde(rename = "arguments")]
     pub arguments: String,
 }
+#[doc = "The type of the event. Always `response.in_progress`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ResponseInProgressEventType {
+    #[default]
+    #[serde(rename = "response.in_progress")]
+    ResponseInProgress,
+}
 #[doc = "Emitted when the response is in progress."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ResponseInProgressEvent {
+    #[doc = "The type of the event. Always `response.in_progress`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ResponseInProgressEventType,
     #[doc = "The response that is in progress.\n"]
     #[serde(rename = "response")]
     pub response: Response,
+}
+#[doc = "The type of the event. Always `response.incomplete`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ResponseIncompleteEventType {
+    #[default]
+    #[serde(rename = "response.incomplete")]
+    ResponseIncomplete,
 }
 #[doc = "An event that is emitted when a response finishes as incomplete.\n"]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ResponseIncompleteEvent {
+    #[doc = "The type of the event. Always `response.incomplete`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ResponseIncompleteEventType,
     #[doc = "The response that was incomplete.\n"]
     #[serde(rename = "response")]
     pub response: Response,
 }
 #[doc = "The type of object returned, must be `list`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ResponseItemListObject {
     #[default]
     #[serde(rename = "list")]
@@ -14953,7 +16065,6 @@ pub struct ResponseItemList {
     pub last_id: String,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum ResponseModality {
     #[serde(rename = "text")]
     Text,
@@ -14961,11 +16072,22 @@ pub enum ResponseModality {
     Audio,
 }
 pub type ResponseModalities = Vec<ResponseModality>;
+#[doc = "The type of the event. Always `response.output_item.added`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ResponseOutputItemAddedEventType {
+    #[default]
+    #[serde(rename = "response.output_item.added")]
+    ResponseOutputItemAdded,
+}
 #[doc = "Emitted when a new output item is added."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ResponseOutputItemAddedEvent {
+    #[doc = "The type of the event. Always `response.output_item.added`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ResponseOutputItemAddedEventType,
     #[doc = "The index of the output item that was added.\n"]
     #[serde(rename = "output_index")]
     pub output_index: u64,
@@ -14973,11 +16095,22 @@ pub struct ResponseOutputItemAddedEvent {
     #[serde(rename = "item")]
     pub item: OutputItem,
 }
+#[doc = "The type of the event. Always `response.output_item.done`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ResponseOutputItemDoneEventType {
+    #[default]
+    #[serde(rename = "response.output_item.done")]
+    ResponseOutputItemDone,
+}
 #[doc = "Emitted when an output item is marked done."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ResponseOutputItemDoneEvent {
+    #[doc = "The type of the event. Always `response.output_item.done`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ResponseOutputItemDoneEventType,
     #[doc = "The index of the output item that was marked done.\n"]
     #[serde(rename = "output_index")]
     pub output_index: u64,
@@ -15012,7 +16145,6 @@ pub enum ResponsePropertiesToolChoice {
 }
 #[doc = "The truncation strategy to use for the model response.\n- `auto`: If the context of this response and previous ones exceeds\n  the model's context window size, the model will truncate the \n  response to fit the context window by dropping input items in the\n  middle of the conversation. \n- `disabled` (default): If a model response will exceed the context window \n  size for a model, the request will fail with a 400 error.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ResponsePropertiesTruncation {
     #[serde(rename = "auto")]
     Auto,
@@ -15075,9 +16207,15 @@ pub struct ResponseProperties {
     #[serde(rename = "truncation")]
     pub truncation: Option<ResponsePropertiesTruncation>,
 }
+#[doc = "The type of the event. Always `response.reasoning_summary_part.added`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ResponseReasoningSummaryPartAddedEventType {
+    #[default]
+    #[serde(rename = "response.reasoning_summary_part.added")]
+    ResponseReasoningSummaryPartAdded,
+}
 #[doc = "The type of the summary part. Always `summary_text`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ResponseReasoningSummaryPartAddedEventPartType {
     #[default]
     #[serde(rename = "summary_text")]
@@ -15101,6 +16239,10 @@ pub struct ResponseReasoningSummaryPartAddedEventPart {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ResponseReasoningSummaryPartAddedEvent {
+    #[doc = "The type of the event. Always `response.reasoning_summary_part.added`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ResponseReasoningSummaryPartAddedEventType,
     #[doc = "The ID of the item this summary part is associated with.\n"]
     #[serde(rename = "item_id")]
     pub item_id: String,
@@ -15114,9 +16256,15 @@ pub struct ResponseReasoningSummaryPartAddedEvent {
     #[serde(rename = "part")]
     pub part: ResponseReasoningSummaryPartAddedEventPart,
 }
+#[doc = "The type of the event. Always `response.reasoning_summary_part.done`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ResponseReasoningSummaryPartDoneEventType {
+    #[default]
+    #[serde(rename = "response.reasoning_summary_part.done")]
+    ResponseReasoningSummaryPartDone,
+}
 #[doc = "The type of the summary part. Always `summary_text`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ResponseReasoningSummaryPartDoneEventPartType {
     #[default]
     #[serde(rename = "summary_text")]
@@ -15140,6 +16288,10 @@ pub struct ResponseReasoningSummaryPartDoneEventPart {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ResponseReasoningSummaryPartDoneEvent {
+    #[doc = "The type of the event. Always `response.reasoning_summary_part.done`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ResponseReasoningSummaryPartDoneEventType,
     #[doc = "The ID of the item this summary part is associated with.\n"]
     #[serde(rename = "item_id")]
     pub item_id: String,
@@ -15153,11 +16305,22 @@ pub struct ResponseReasoningSummaryPartDoneEvent {
     #[serde(rename = "part")]
     pub part: ResponseReasoningSummaryPartDoneEventPart,
 }
+#[doc = "The type of the event. Always `response.reasoning_summary_text.delta`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ResponseReasoningSummaryTextDeltaEventType {
+    #[default]
+    #[serde(rename = "response.reasoning_summary_text.delta")]
+    ResponseReasoningSummaryTextDelta,
+}
 #[doc = "Emitted when a delta is added to a reasoning summary text."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ResponseReasoningSummaryTextDeltaEvent {
+    #[doc = "The type of the event. Always `response.reasoning_summary_text.delta`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ResponseReasoningSummaryTextDeltaEventType,
     #[doc = "The ID of the item this summary text delta is associated with.\n"]
     #[serde(rename = "item_id")]
     pub item_id: String,
@@ -15171,11 +16334,22 @@ pub struct ResponseReasoningSummaryTextDeltaEvent {
     #[serde(rename = "delta")]
     pub delta: String,
 }
+#[doc = "The type of the event. Always `response.reasoning_summary_text.done`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ResponseReasoningSummaryTextDoneEventType {
+    #[default]
+    #[serde(rename = "response.reasoning_summary_text.done")]
+    ResponseReasoningSummaryTextDone,
+}
 #[doc = "Emitted when a reasoning summary text is completed."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ResponseReasoningSummaryTextDoneEvent {
+    #[doc = "The type of the event. Always `response.reasoning_summary_text.done`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ResponseReasoningSummaryTextDoneEventType,
     #[doc = "The ID of the item this summary text is associated with.\n"]
     #[serde(rename = "item_id")]
     pub item_id: String,
@@ -15189,11 +16363,22 @@ pub struct ResponseReasoningSummaryTextDoneEvent {
     #[serde(rename = "text")]
     pub text: String,
 }
+#[doc = "The type of the event. Always `response.refusal.delta`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ResponseRefusalDeltaEventType {
+    #[default]
+    #[serde(rename = "response.refusal.delta")]
+    ResponseRefusalDelta,
+}
 #[doc = "Emitted when there is a partial refusal text."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ResponseRefusalDeltaEvent {
+    #[doc = "The type of the event. Always `response.refusal.delta`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ResponseRefusalDeltaEventType,
     #[doc = "The ID of the output item that the refusal text is added to.\n"]
     #[serde(rename = "item_id")]
     pub item_id: String,
@@ -15207,11 +16392,22 @@ pub struct ResponseRefusalDeltaEvent {
     #[serde(rename = "delta")]
     pub delta: String,
 }
+#[doc = "The type of the event. Always `response.refusal.done`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ResponseRefusalDoneEventType {
+    #[default]
+    #[serde(rename = "response.refusal.done")]
+    ResponseRefusalDone,
+}
 #[doc = "Emitted when refusal text is finalized."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ResponseRefusalDoneEvent {
+    #[doc = "The type of the event. Always `response.refusal.done`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ResponseRefusalDoneEventType,
     #[doc = "The ID of the output item that the refusal text is finalized.\n"]
     #[serde(rename = "item_id")]
     pub item_id: String,
@@ -15226,87 +16422,62 @@ pub struct ResponseRefusalDoneEvent {
     pub refusal: String,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum ResponseStreamEvent {
-    #[serde(rename = "response.audio.delta")]
     ResponseAudioDelta(ResponseAudioDeltaEvent),
-    #[serde(rename = "response.audio.done")]
     ResponseAudioDone(ResponseAudioDoneEvent),
-    #[serde(rename = "response.audio.transcript.delta")]
     ResponseAudioTranscriptDelta(ResponseAudioTranscriptDeltaEvent),
-    #[serde(rename = "response.audio.transcript.done")]
     ResponseAudioTranscriptDone(ResponseAudioTranscriptDoneEvent),
-    #[serde(rename = "response.code_interpreter_call.code.delta")]
     ResponseCodeInterpreterCallCodeDelta(ResponseCodeInterpreterCallCodeDeltaEvent),
-    #[serde(rename = "response.code_interpreter_call.code.done")]
     ResponseCodeInterpreterCallCodeDone(ResponseCodeInterpreterCallCodeDoneEvent),
-    #[serde(rename = "response.code_interpreter_call.completed")]
     ResponseCodeInterpreterCallCompleted(ResponseCodeInterpreterCallCompletedEvent),
-    #[serde(rename = "response.code_interpreter_call.in_progress")]
     ResponseCodeInterpreterCallInProgress(ResponseCodeInterpreterCallInProgressEvent),
-    #[serde(rename = "response.code_interpreter_call.interpreting")]
     ResponseCodeInterpreterCallInterpreting(ResponseCodeInterpreterCallInterpretingEvent),
-    #[serde(rename = "response.completed")]
     ResponseCompleted(ResponseCompletedEvent),
-    #[serde(rename = "response.content_part.added")]
     ResponseContentPartAdded(ResponseContentPartAddedEvent),
-    #[serde(rename = "response.content_part.done")]
     ResponseContentPartDone(ResponseContentPartDoneEvent),
-    #[serde(rename = "response.created")]
     ResponseCreated(ResponseCreatedEvent),
-    #[serde(rename = "error")]
     Error(ResponseErrorEvent),
-    #[serde(rename = "response.file_search_call.completed")]
     ResponseFileSearchCallCompleted(ResponseFileSearchCallCompletedEvent),
-    #[serde(rename = "response.file_search_call.in_progress")]
     ResponseFileSearchCallInProgress(ResponseFileSearchCallInProgressEvent),
-    #[serde(rename = "response.file_search_call.searching")]
     ResponseFileSearchCallSearching(ResponseFileSearchCallSearchingEvent),
-    #[serde(rename = "response.function_call_arguments.delta")]
     ResponseFunctionCallArgumentsDelta(ResponseFunctionCallArgumentsDeltaEvent),
-    #[serde(rename = "response.function_call_arguments.done")]
     ResponseFunctionCallArgumentsDone(ResponseFunctionCallArgumentsDoneEvent),
-    #[serde(rename = "response.in_progress")]
     ResponseInProgress(ResponseInProgressEvent),
-    #[serde(rename = "response.failed")]
     ResponseFailed(ResponseFailedEvent),
-    #[serde(rename = "response.incomplete")]
     ResponseIncomplete(ResponseIncompleteEvent),
-    #[serde(rename = "response.output_item.added")]
     ResponseOutputItemAdded(ResponseOutputItemAddedEvent),
-    #[serde(rename = "response.output_item.done")]
     ResponseOutputItemDone(ResponseOutputItemDoneEvent),
-    #[serde(rename = "response.reasoning_summary_part.added")]
     ResponseReasoningSummaryPartAdded(ResponseReasoningSummaryPartAddedEvent),
-    #[serde(rename = "response.reasoning_summary_part.done")]
     ResponseReasoningSummaryPartDone(ResponseReasoningSummaryPartDoneEvent),
-    #[serde(rename = "response.reasoning_summary_text.delta")]
     ResponseReasoningSummaryTextDelta(ResponseReasoningSummaryTextDeltaEvent),
-    #[serde(rename = "response.reasoning_summary_text.done")]
     ResponseReasoningSummaryTextDone(ResponseReasoningSummaryTextDoneEvent),
-    #[serde(rename = "response.refusal.delta")]
     ResponseRefusalDelta(ResponseRefusalDeltaEvent),
-    #[serde(rename = "response.refusal.done")]
     ResponseRefusalDone(ResponseRefusalDoneEvent),
-    #[serde(rename = "response.output_text.annotation.added")]
     ResponseOutputTextAnnotationAdded(ResponseTextAnnotationDeltaEvent),
-    #[serde(rename = "response.output_text.delta")]
     ResponseOutputTextDelta(ResponseTextDeltaEvent),
-    #[serde(rename = "response.output_text.done")]
     ResponseOutputTextDone(ResponseTextDoneEvent),
-    #[serde(rename = "response.web_search_call.completed")]
     ResponseWebSearchCallCompleted(ResponseWebSearchCallCompletedEvent),
-    #[serde(rename = "response.web_search_call.in_progress")]
     ResponseWebSearchCallInProgress(ResponseWebSearchCallInProgressEvent),
-    #[serde(rename = "response.web_search_call.searching")]
     ResponseWebSearchCallSearching(ResponseWebSearchCallSearchingEvent),
+}
+#[doc = "The type of the event. Always `response.output_text.annotation.added`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ResponseTextAnnotationDeltaEventType {
+    #[default]
+    #[serde(rename = "response.output_text.annotation.added")]
+    ResponseOutputTextAnnotationAdded,
 }
 #[doc = "Emitted when a text annotation is added."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ResponseTextAnnotationDeltaEvent {
+    #[doc = "The type of the event. Always `response.output_text.annotation.added`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ResponseTextAnnotationDeltaEventType,
     #[doc = "The ID of the output item that the text annotation was added to.\n"]
     #[serde(rename = "item_id")]
     pub item_id: String,
@@ -15322,11 +16493,22 @@ pub struct ResponseTextAnnotationDeltaEvent {
     #[serde(rename = "annotation")]
     pub annotation: Annotation,
 }
+#[doc = "The type of the event. Always `response.output_text.delta`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ResponseTextDeltaEventType {
+    #[default]
+    #[serde(rename = "response.output_text.delta")]
+    ResponseOutputTextDelta,
+}
 #[doc = "Emitted when there is an additional text delta."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ResponseTextDeltaEvent {
+    #[doc = "The type of the event. Always `response.output_text.delta`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ResponseTextDeltaEventType,
     #[doc = "The ID of the output item that the text delta was added to.\n"]
     #[serde(rename = "item_id")]
     pub item_id: String,
@@ -15340,11 +16522,22 @@ pub struct ResponseTextDeltaEvent {
     #[serde(rename = "delta")]
     pub delta: String,
 }
+#[doc = "The type of the event. Always `response.output_text.done`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ResponseTextDoneEventType {
+    #[default]
+    #[serde(rename = "response.output_text.done")]
+    ResponseOutputTextDone,
+}
 #[doc = "Emitted when text content is finalized."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ResponseTextDoneEvent {
+    #[doc = "The type of the event. Always `response.output_text.done`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ResponseTextDoneEventType,
     #[doc = "The ID of the output item that the text content is finalized.\n"]
     #[serde(rename = "item_id")]
     pub item_id: String,
@@ -15397,23 +16590,45 @@ pub struct ResponseUsage {
     #[serde(rename = "total_tokens")]
     pub total_tokens: u64,
 }
+#[doc = "The type of the event. Always `response.web_search_call.completed`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ResponseWebSearchCallCompletedEventType {
+    #[default]
+    #[serde(rename = "response.web_search_call.completed")]
+    ResponseWebSearchCallCompleted,
+}
 #[doc = "Emitted when a web search call is completed."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ResponseWebSearchCallCompletedEvent {
+    #[doc = "The type of the event. Always `response.web_search_call.completed`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ResponseWebSearchCallCompletedEventType,
     #[doc = "The index of the output item that the web search call is associated with.\n"]
     #[serde(rename = "output_index")]
     pub output_index: u64,
     #[doc = "Unique ID for the output item associated with the web search call.\n"]
     #[serde(rename = "item_id")]
     pub item_id: String,
+}
+#[doc = "The type of the event. Always `response.web_search_call.in_progress`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ResponseWebSearchCallInProgressEventType {
+    #[default]
+    #[serde(rename = "response.web_search_call.in_progress")]
+    ResponseWebSearchCallInProgress,
 }
 #[doc = "Emitted when a web search call is initiated."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ResponseWebSearchCallInProgressEvent {
+    #[doc = "The type of the event. Always `response.web_search_call.in_progress`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ResponseWebSearchCallInProgressEventType,
     #[doc = "The index of the output item that the web search call is associated with.\n"]
     #[serde(rename = "output_index")]
     pub output_index: u64,
@@ -15421,11 +16636,22 @@ pub struct ResponseWebSearchCallInProgressEvent {
     #[serde(rename = "item_id")]
     pub item_id: String,
 }
+#[doc = "The type of the event. Always `response.web_search_call.searching`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ResponseWebSearchCallSearchingEventType {
+    #[default]
+    #[serde(rename = "response.web_search_call.searching")]
+    ResponseWebSearchCallSearching,
+}
 #[doc = "Emitted when a web search call is executing."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ResponseWebSearchCallSearchingEvent {
+    #[doc = "The type of the event. Always `response.web_search_call.searching`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ResponseWebSearchCallSearchingEventType,
     #[doc = "The index of the output item that the web search call is associated with.\n"]
     #[serde(rename = "output_index")]
     pub output_index: u64,
@@ -15450,7 +16676,6 @@ pub struct RunCompletionUsage {
 }
 #[doc = "The object type, which is always `thread.run`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum RunObjectObject {
     #[default]
     #[serde(rename = "thread.run")]
@@ -15458,7 +16683,6 @@ pub enum RunObjectObject {
 }
 #[doc = "The status of the run, which can be either `queued`, `in_progress`, `requires_action`, `cancelling`, `cancelled`, `failed`, `completed`, `incomplete`, or `expired`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum RunObjectStatus {
     #[serde(rename = "queued")]
     Queued,
@@ -15481,7 +16705,6 @@ pub enum RunObjectStatus {
 }
 #[doc = "For now, this is always `submit_tool_outputs`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum RunObjectRequiredActionType {
     #[default]
     #[serde(rename = "submit_tool_outputs")]
@@ -15511,7 +16734,6 @@ pub struct RunObjectRequiredAction {
 }
 #[doc = "One of `server_error`, `rate_limit_exceeded`, or `invalid_prompt`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum RunObjectLastErrorCode {
     #[serde(rename = "server_error")]
     ServerError,
@@ -15534,7 +16756,6 @@ pub struct RunObjectLastError {
 }
 #[doc = "The reason why the run is incomplete. This will point to which specific token limit was reached over the course of the run."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum RunObjectIncompleteDetailsReason {
     #[serde(rename = "max_completion_tokens")]
     MaxCompletionTokens,
@@ -15559,14 +16780,11 @@ pub struct RunObjectIncompleteDetails {
     pub reason: Option<RunObjectIncompleteDetailsReason>,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum RunObjectTool {
-    #[serde(rename = "code_interpreter")]
     CodeInterpreter(AssistantToolsCode),
-    #[serde(rename = "file_search")]
     FileSearch(AssistantToolsFileSearch),
-    #[serde(rename = "function")]
     Function(AssistantToolsFunction),
 }
 #[doc = "Represents an execution run on a [thread](/docs/api-reference/threads)."]
@@ -15698,7 +16916,6 @@ pub struct RunStepCompletionUsage {
 }
 #[doc = "The object type, which is always `thread.run.step.delta`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum RunStepDeltaObjectObject {
     #[default]
     #[serde(rename = "thread.run.step.delta")]
@@ -15706,12 +16923,10 @@ pub enum RunStepDeltaObjectObject {
 }
 #[doc = "The details of the run step."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum RunStepDeltaObjectDeltaStepDetails {
-    #[serde(rename = "message_creation")]
     MessageCreation(RunStepDeltaStepDetailsMessageCreationObject),
-    #[serde(rename = "tool_calls")]
     ToolCalls(RunStepDeltaStepDetailsToolCallsObject),
 }
 #[doc = "The delta containing the fields that have changed on the run step."]
@@ -15748,6 +16963,13 @@ pub struct RunStepDeltaObject {
     #[serde(rename = "delta")]
     pub delta: RunStepDeltaObjectDelta,
 }
+#[doc = "Always `message_creation`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RunStepDeltaStepDetailsMessageCreationObjectType {
+    #[default]
+    #[serde(rename = "message_creation")]
+    MessageCreation,
+}
 #[derive(
     Clone,
     Debug,
@@ -15775,18 +16997,27 @@ pub struct RunStepDeltaStepDetailsMessageCreationObjectMessageCreation {
     typed_builder :: TypedBuilder,
 )]
 pub struct RunStepDeltaStepDetailsMessageCreationObject {
+    #[doc = "Always `message_creation`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RunStepDeltaStepDetailsMessageCreationObjectType,
     #[builder(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "message_creation")]
     pub message_creation: Option<RunStepDeltaStepDetailsMessageCreationObjectMessageCreation>,
 }
+#[doc = "The type of tool call. This is always going to be `code_interpreter` for this type of tool call."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RunStepDeltaStepDetailsToolCallsCodeObjectType {
+    #[default]
+    #[serde(rename = "code_interpreter")]
+    CodeInterpreter,
+}
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterOutputs {
-    #[serde(rename = "logs")]
     Logs(RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject),
-    #[serde(rename = "image")]
     Image(RunStepDeltaStepDetailsToolCallsCodeOutputImageObject),
 }
 #[doc = "The Code Interpreter tool call definition."]
@@ -15824,11 +17055,22 @@ pub struct RunStepDeltaStepDetailsToolCallsCodeObject {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
+    #[doc = "The type of tool call. This is always going to be `code_interpreter` for this type of tool call."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RunStepDeltaStepDetailsToolCallsCodeObjectType,
     #[doc = "The Code Interpreter tool call definition."]
     #[builder(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "code_interpreter")]
     pub code_interpreter: Option<RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter>,
+}
+#[doc = "Always `image`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectType {
+    #[default]
+    #[serde(rename = "image")]
+    Image,
 }
 #[derive(
     Clone,
@@ -15853,10 +17095,21 @@ pub struct RunStepDeltaStepDetailsToolCallsCodeOutputImageObject {
     #[doc = "The index of the output in the outputs array."]
     #[serde(rename = "index")]
     pub index: u64,
+    #[doc = "Always `image`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectType,
     #[builder(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "image")]
     pub image: Option<RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImage>,
+}
+#[doc = "Always `logs`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectType {
+    #[default]
+    #[serde(rename = "logs")]
+    Logs,
 }
 #[doc = "Text output from the Code Interpreter tool call as part of a run step."]
 #[derive(
@@ -15866,11 +17119,22 @@ pub struct RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject {
     #[doc = "The index of the output in the outputs array."]
     #[serde(rename = "index")]
     pub index: u64,
+    #[doc = "Always `logs`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectType,
     #[doc = "The text output from the Code Interpreter tool call."]
     #[builder(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "logs")]
     pub logs: Option<String>,
+}
+#[doc = "The type of tool call. This is always going to be `file_search` for this type of tool call."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RunStepDeltaStepDetailsToolCallsFileSearchObjectType {
+    #[default]
+    #[serde(rename = "file_search")]
+    FileSearch,
 }
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
@@ -15884,9 +17148,20 @@ pub struct RunStepDeltaStepDetailsToolCallsFileSearchObject {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
+    #[doc = "The type of tool call. This is always going to be `file_search` for this type of tool call."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RunStepDeltaStepDetailsToolCallsFileSearchObjectType,
     #[doc = "For now, this is always going to be an empty object."]
     #[serde(rename = "file_search")]
     pub file_search: std::collections::HashMap<String, serde_json::Value>,
+}
+#[doc = "The type of tool call. This is always going to be `function` for this type of tool call."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RunStepDeltaStepDetailsToolCallsFunctionObjectType {
+    #[default]
+    #[serde(rename = "function")]
+    Function,
 }
 #[doc = "The definition of the function that was called."]
 #[derive(
@@ -15927,21 +17202,29 @@ pub struct RunStepDeltaStepDetailsToolCallsFunctionObject {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
+    #[doc = "The type of tool call. This is always going to be `function` for this type of tool call."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RunStepDeltaStepDetailsToolCallsFunctionObjectType,
     #[doc = "The definition of the function that was called."]
     #[builder(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "function")]
     pub function: Option<RunStepDeltaStepDetailsToolCallsFunctionObjectFunction>,
 }
+#[doc = "Always `tool_calls`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RunStepDeltaStepDetailsToolCallsObjectType {
+    #[default]
+    #[serde(rename = "tool_calls")]
+    ToolCalls,
+}
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum RunStepDeltaStepDetailsToolCallsObjectToolCalls {
-    #[serde(rename = "code_interpreter")]
     CodeInterpreter(RunStepDeltaStepDetailsToolCallsCodeObject),
-    #[serde(rename = "file_search")]
     FileSearch(RunStepDeltaStepDetailsToolCallsFileSearchObject),
-    #[serde(rename = "function")]
     Function(RunStepDeltaStepDetailsToolCallsFunctionObject),
 }
 #[doc = "Details of the tool call."]
@@ -15955,11 +17238,22 @@ pub enum RunStepDeltaStepDetailsToolCallsObjectToolCalls {
     typed_builder :: TypedBuilder,
 )]
 pub struct RunStepDeltaStepDetailsToolCallsObject {
+    #[doc = "Always `tool_calls`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RunStepDeltaStepDetailsToolCallsObjectType,
     #[doc = "An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `file_search`, or `function`.\n"]
     #[builder(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "tool_calls")]
     pub tool_calls: Option<Vec<RunStepDeltaStepDetailsToolCallsObjectToolCalls>>,
+}
+#[doc = "Always `message_creation`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RunStepDetailsMessageCreationObjectType {
+    #[default]
+    #[serde(rename = "message_creation")]
+    MessageCreation,
 }
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
@@ -15974,16 +17268,25 @@ pub struct RunStepDetailsMessageCreationObjectMessageCreation {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct RunStepDetailsMessageCreationObject {
+    #[doc = "Always `message_creation`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RunStepDetailsMessageCreationObjectType,
     #[serde(rename = "message_creation")]
     pub message_creation: RunStepDetailsMessageCreationObjectMessageCreation,
 }
+#[doc = "The type of tool call. This is always going to be `code_interpreter` for this type of tool call."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RunStepDetailsToolCallsCodeObjectType {
+    #[default]
+    #[serde(rename = "code_interpreter")]
+    CodeInterpreter,
+}
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum RunStepDetailsToolCallsCodeObjectCodeInterpreterOutputs {
-    #[serde(rename = "logs")]
     Logs(RunStepDetailsToolCallsCodeOutputLogsObject),
-    #[serde(rename = "image")]
     Image(RunStepDetailsToolCallsCodeOutputImageObject),
 }
 #[doc = "The Code Interpreter tool call definition."]
@@ -16006,9 +17309,20 @@ pub struct RunStepDetailsToolCallsCodeObject {
     #[doc = "The ID of the tool call."]
     #[serde(rename = "id")]
     pub id: String,
+    #[doc = "The type of tool call. This is always going to be `code_interpreter` for this type of tool call."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RunStepDetailsToolCallsCodeObjectType,
     #[doc = "The Code Interpreter tool call definition."]
     #[serde(rename = "code_interpreter")]
     pub code_interpreter: RunStepDetailsToolCallsCodeObjectCodeInterpreter,
+}
+#[doc = "Always `image`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RunStepDetailsToolCallsCodeOutputImageObjectType {
+    #[default]
+    #[serde(rename = "image")]
+    Image,
 }
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
@@ -16022,17 +17336,39 @@ pub struct RunStepDetailsToolCallsCodeOutputImageObjectImage {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct RunStepDetailsToolCallsCodeOutputImageObject {
+    #[doc = "Always `image`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RunStepDetailsToolCallsCodeOutputImageObjectType,
     #[serde(rename = "image")]
     pub image: RunStepDetailsToolCallsCodeOutputImageObjectImage,
+}
+#[doc = "Always `logs`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RunStepDetailsToolCallsCodeOutputLogsObjectType {
+    #[default]
+    #[serde(rename = "logs")]
+    Logs,
 }
 #[doc = "Text output from the Code Interpreter tool call as part of a run step."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct RunStepDetailsToolCallsCodeOutputLogsObject {
+    #[doc = "Always `logs`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RunStepDetailsToolCallsCodeOutputLogsObjectType,
     #[doc = "The text output from the Code Interpreter tool call."]
     #[serde(rename = "logs")]
     pub logs: String,
+}
+#[doc = "The type of tool call. This is always going to be `file_search` for this type of tool call."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RunStepDetailsToolCallsFileSearchObjectType {
+    #[default]
+    #[serde(rename = "file_search")]
+    FileSearch,
 }
 #[doc = "For now, this is always going to be an empty object."]
 #[derive(
@@ -16062,6 +17398,10 @@ pub struct RunStepDetailsToolCallsFileSearchObject {
     #[doc = "The ID of the tool call object."]
     #[serde(rename = "id")]
     pub id: String,
+    #[doc = "The type of tool call. This is always going to be `file_search` for this type of tool call."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RunStepDetailsToolCallsFileSearchObjectType,
     #[doc = "For now, this is always going to be an empty object."]
     #[builder(default)]
     #[serde(rename = "file_search")]
@@ -16080,7 +17420,6 @@ pub struct RunStepDetailsToolCallsFileSearchRankingOptionsObject {
 }
 #[doc = "The type of the content."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum RunStepDetailsToolCallsFileSearchResultObjectContentType {
     #[default]
     #[serde(rename = "text")]
@@ -16127,6 +17466,13 @@ pub struct RunStepDetailsToolCallsFileSearchResultObject {
     #[serde(rename = "content")]
     pub content: Option<Vec<RunStepDetailsToolCallsFileSearchResultObjectContent>>,
 }
+#[doc = "The type of tool call. This is always going to be `function` for this type of tool call."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RunStepDetailsToolCallsFunctionObjectType {
+    #[default]
+    #[serde(rename = "function")]
+    Function,
+}
 #[doc = "The definition of the function that was called."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
@@ -16151,19 +17497,27 @@ pub struct RunStepDetailsToolCallsFunctionObject {
     #[doc = "The ID of the tool call object."]
     #[serde(rename = "id")]
     pub id: String,
+    #[doc = "The type of tool call. This is always going to be `function` for this type of tool call."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RunStepDetailsToolCallsFunctionObjectType,
     #[doc = "The definition of the function that was called."]
     #[serde(rename = "function")]
     pub function: RunStepDetailsToolCallsFunctionObjectFunction,
 }
+#[doc = "Always `tool_calls`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RunStepDetailsToolCallsObjectType {
+    #[default]
+    #[serde(rename = "tool_calls")]
+    ToolCalls,
+}
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum RunStepDetailsToolCallsObjectToolCalls {
-    #[serde(rename = "code_interpreter")]
     CodeInterpreter(RunStepDetailsToolCallsCodeObject),
-    #[serde(rename = "file_search")]
     FileSearch(RunStepDetailsToolCallsFileSearchObject),
-    #[serde(rename = "function")]
     Function(RunStepDetailsToolCallsFunctionObject),
 }
 #[doc = "Details of the tool call."]
@@ -16171,13 +17525,16 @@ pub enum RunStepDetailsToolCallsObjectToolCalls {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct RunStepDetailsToolCallsObject {
+    #[doc = "Always `tool_calls`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RunStepDetailsToolCallsObjectType,
     #[doc = "An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `file_search`, or `function`.\n"]
     #[serde(rename = "tool_calls")]
     pub tool_calls: Vec<RunStepDetailsToolCallsObjectToolCalls>,
 }
 #[doc = "The object type, which is always `thread.run.step`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum RunStepObjectObject {
     #[default]
     #[serde(rename = "thread.run.step")]
@@ -16185,7 +17542,6 @@ pub enum RunStepObjectObject {
 }
 #[doc = "The type of run step, which can be either `message_creation` or `tool_calls`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum RunStepObjectType {
     #[serde(rename = "message_creation")]
     MessageCreation,
@@ -16194,7 +17550,6 @@ pub enum RunStepObjectType {
 }
 #[doc = "The status of the run step, which can be either `in_progress`, `cancelled`, `failed`, `completed`, or `expired`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum RunStepObjectStatus {
     #[serde(rename = "in_progress")]
     InProgress,
@@ -16209,17 +17564,14 @@ pub enum RunStepObjectStatus {
 }
 #[doc = "The details of the run step."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum RunStepObjectStepDetails {
-    #[serde(rename = "message_creation")]
     MessageCreation(RunStepDetailsMessageCreationObject),
-    #[serde(rename = "tool_calls")]
     ToolCalls(RunStepDetailsToolCallsObject),
 }
 #[doc = "One of `server_error` or `rate_limit_exceeded`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum RunStepObjectLastErrorCode {
     #[serde(rename = "server_error")]
     ServerError,
@@ -16301,189 +17653,324 @@ pub struct RunStepObject {
     #[serde(rename = "usage")]
     pub usage: RunStepCompletionUsage,
 }
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RunStepStreamEventThreadRunStepCreatedEvent {
+    #[default]
+    #[serde(rename = "thread.run.step.created")]
+    ThreadRunStepCreated,
+}
 #[doc = "Occurs when a [run step](/docs/api-reference/run-steps/step-object) is created."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct RunStepStreamEventThreadRunStepCreated {
+    #[builder(default)]
+    #[serde(rename = "event")]
+    pub event: RunStepStreamEventThreadRunStepCreatedEvent,
     #[serde(rename = "data")]
     pub data: RunStepObject,
+}
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RunStepStreamEventThreadRunStepInProgressEvent {
+    #[default]
+    #[serde(rename = "thread.run.step.in_progress")]
+    ThreadRunStepInProgress,
 }
 #[doc = "Occurs when a [run step](/docs/api-reference/run-steps/step-object) moves to an `in_progress` state."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct RunStepStreamEventThreadRunStepInProgress {
+    #[builder(default)]
+    #[serde(rename = "event")]
+    pub event: RunStepStreamEventThreadRunStepInProgressEvent,
     #[serde(rename = "data")]
     pub data: RunStepObject,
+}
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RunStepStreamEventThreadRunStepDeltaEvent {
+    #[default]
+    #[serde(rename = "thread.run.step.delta")]
+    ThreadRunStepDelta,
 }
 #[doc = "Occurs when parts of a [run step](/docs/api-reference/run-steps/step-object) are being streamed."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct RunStepStreamEventThreadRunStepDelta {
+    #[builder(default)]
+    #[serde(rename = "event")]
+    pub event: RunStepStreamEventThreadRunStepDeltaEvent,
     #[serde(rename = "data")]
     pub data: RunStepDeltaObject,
+}
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RunStepStreamEventThreadRunStepCompletedEvent {
+    #[default]
+    #[serde(rename = "thread.run.step.completed")]
+    ThreadRunStepCompleted,
 }
 #[doc = "Occurs when a [run step](/docs/api-reference/run-steps/step-object) is completed."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct RunStepStreamEventThreadRunStepCompleted {
+    #[builder(default)]
+    #[serde(rename = "event")]
+    pub event: RunStepStreamEventThreadRunStepCompletedEvent,
     #[serde(rename = "data")]
     pub data: RunStepObject,
+}
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RunStepStreamEventThreadRunStepFailedEvent {
+    #[default]
+    #[serde(rename = "thread.run.step.failed")]
+    ThreadRunStepFailed,
 }
 #[doc = "Occurs when a [run step](/docs/api-reference/run-steps/step-object) fails."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct RunStepStreamEventThreadRunStepFailed {
+    #[builder(default)]
+    #[serde(rename = "event")]
+    pub event: RunStepStreamEventThreadRunStepFailedEvent,
     #[serde(rename = "data")]
     pub data: RunStepObject,
+}
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RunStepStreamEventThreadRunStepCancelledEvent {
+    #[default]
+    #[serde(rename = "thread.run.step.cancelled")]
+    ThreadRunStepCancelled,
 }
 #[doc = "Occurs when a [run step](/docs/api-reference/run-steps/step-object) is cancelled."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct RunStepStreamEventThreadRunStepCancelled {
+    #[builder(default)]
+    #[serde(rename = "event")]
+    pub event: RunStepStreamEventThreadRunStepCancelledEvent,
     #[serde(rename = "data")]
     pub data: RunStepObject,
+}
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RunStepStreamEventThreadRunStepExpiredEvent {
+    #[default]
+    #[serde(rename = "thread.run.step.expired")]
+    ThreadRunStepExpired,
 }
 #[doc = "Occurs when a [run step](/docs/api-reference/run-steps/step-object) expires."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct RunStepStreamEventThreadRunStepExpired {
+    #[builder(default)]
+    #[serde(rename = "event")]
+    pub event: RunStepStreamEventThreadRunStepExpiredEvent,
     #[serde(rename = "data")]
     pub data: RunStepObject,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "event")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum RunStepStreamEvent {
-    #[serde(rename = "thread.run.step.created")]
     ThreadRunStepCreated(RunStepStreamEventThreadRunStepCreated),
-    #[serde(rename = "thread.run.step.in_progress")]
     ThreadRunStepInProgress(RunStepStreamEventThreadRunStepInProgress),
-    #[serde(rename = "thread.run.step.delta")]
     ThreadRunStepDelta(RunStepStreamEventThreadRunStepDelta),
-    #[serde(rename = "thread.run.step.completed")]
     ThreadRunStepCompleted(RunStepStreamEventThreadRunStepCompleted),
-    #[serde(rename = "thread.run.step.failed")]
     ThreadRunStepFailed(RunStepStreamEventThreadRunStepFailed),
-    #[serde(rename = "thread.run.step.cancelled")]
     ThreadRunStepCancelled(RunStepStreamEventThreadRunStepCancelled),
-    #[serde(rename = "thread.run.step.expired")]
     ThreadRunStepExpired(RunStepStreamEventThreadRunStepExpired),
+}
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RunStreamEventThreadRunCreatedEvent {
+    #[default]
+    #[serde(rename = "thread.run.created")]
+    ThreadRunCreated,
 }
 #[doc = "Occurs when a new [run](/docs/api-reference/runs/object) is created."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct RunStreamEventThreadRunCreated {
+    #[builder(default)]
+    #[serde(rename = "event")]
+    pub event: RunStreamEventThreadRunCreatedEvent,
     #[serde(rename = "data")]
     pub data: RunObject,
+}
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RunStreamEventThreadRunQueuedEvent {
+    #[default]
+    #[serde(rename = "thread.run.queued")]
+    ThreadRunQueued,
 }
 #[doc = "Occurs when a [run](/docs/api-reference/runs/object) moves to a `queued` status."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct RunStreamEventThreadRunQueued {
+    #[builder(default)]
+    #[serde(rename = "event")]
+    pub event: RunStreamEventThreadRunQueuedEvent,
     #[serde(rename = "data")]
     pub data: RunObject,
+}
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RunStreamEventThreadRunInProgressEvent {
+    #[default]
+    #[serde(rename = "thread.run.in_progress")]
+    ThreadRunInProgress,
 }
 #[doc = "Occurs when a [run](/docs/api-reference/runs/object) moves to an `in_progress` status."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct RunStreamEventThreadRunInProgress {
+    #[builder(default)]
+    #[serde(rename = "event")]
+    pub event: RunStreamEventThreadRunInProgressEvent,
     #[serde(rename = "data")]
     pub data: RunObject,
+}
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RunStreamEventThreadRunRequiresActionEvent {
+    #[default]
+    #[serde(rename = "thread.run.requires_action")]
+    ThreadRunRequiresAction,
 }
 #[doc = "Occurs when a [run](/docs/api-reference/runs/object) moves to a `requires_action` status."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct RunStreamEventThreadRunRequiresAction {
+    #[builder(default)]
+    #[serde(rename = "event")]
+    pub event: RunStreamEventThreadRunRequiresActionEvent,
     #[serde(rename = "data")]
     pub data: RunObject,
+}
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RunStreamEventThreadRunCompletedEvent {
+    #[default]
+    #[serde(rename = "thread.run.completed")]
+    ThreadRunCompleted,
 }
 #[doc = "Occurs when a [run](/docs/api-reference/runs/object) is completed."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct RunStreamEventThreadRunCompleted {
+    #[builder(default)]
+    #[serde(rename = "event")]
+    pub event: RunStreamEventThreadRunCompletedEvent,
     #[serde(rename = "data")]
     pub data: RunObject,
+}
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RunStreamEventThreadRunIncompleteEvent {
+    #[default]
+    #[serde(rename = "thread.run.incomplete")]
+    ThreadRunIncomplete,
 }
 #[doc = "Occurs when a [run](/docs/api-reference/runs/object) ends with status `incomplete`."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct RunStreamEventThreadRunIncomplete {
+    #[builder(default)]
+    #[serde(rename = "event")]
+    pub event: RunStreamEventThreadRunIncompleteEvent,
     #[serde(rename = "data")]
     pub data: RunObject,
+}
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RunStreamEventThreadRunFailedEvent {
+    #[default]
+    #[serde(rename = "thread.run.failed")]
+    ThreadRunFailed,
 }
 #[doc = "Occurs when a [run](/docs/api-reference/runs/object) fails."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct RunStreamEventThreadRunFailed {
+    #[builder(default)]
+    #[serde(rename = "event")]
+    pub event: RunStreamEventThreadRunFailedEvent,
     #[serde(rename = "data")]
     pub data: RunObject,
+}
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RunStreamEventThreadRunCancellingEvent {
+    #[default]
+    #[serde(rename = "thread.run.cancelling")]
+    ThreadRunCancelling,
 }
 #[doc = "Occurs when a [run](/docs/api-reference/runs/object) moves to a `cancelling` status."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct RunStreamEventThreadRunCancelling {
+    #[builder(default)]
+    #[serde(rename = "event")]
+    pub event: RunStreamEventThreadRunCancellingEvent,
     #[serde(rename = "data")]
     pub data: RunObject,
+}
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RunStreamEventThreadRunCancelledEvent {
+    #[default]
+    #[serde(rename = "thread.run.cancelled")]
+    ThreadRunCancelled,
 }
 #[doc = "Occurs when a [run](/docs/api-reference/runs/object) is cancelled."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct RunStreamEventThreadRunCancelled {
+    #[builder(default)]
+    #[serde(rename = "event")]
+    pub event: RunStreamEventThreadRunCancelledEvent,
     #[serde(rename = "data")]
     pub data: RunObject,
+}
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RunStreamEventThreadRunExpiredEvent {
+    #[default]
+    #[serde(rename = "thread.run.expired")]
+    ThreadRunExpired,
 }
 #[doc = "Occurs when a [run](/docs/api-reference/runs/object) expires."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct RunStreamEventThreadRunExpired {
+    #[builder(default)]
+    #[serde(rename = "event")]
+    pub event: RunStreamEventThreadRunExpiredEvent,
     #[serde(rename = "data")]
     pub data: RunObject,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "event")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum RunStreamEvent {
-    #[serde(rename = "thread.run.created")]
     ThreadRunCreated(RunStreamEventThreadRunCreated),
-    #[serde(rename = "thread.run.queued")]
     ThreadRunQueued(RunStreamEventThreadRunQueued),
-    #[serde(rename = "thread.run.in_progress")]
     ThreadRunInProgress(RunStreamEventThreadRunInProgress),
-    #[serde(rename = "thread.run.requires_action")]
     ThreadRunRequiresAction(RunStreamEventThreadRunRequiresAction),
-    #[serde(rename = "thread.run.completed")]
     ThreadRunCompleted(RunStreamEventThreadRunCompleted),
-    #[serde(rename = "thread.run.incomplete")]
     ThreadRunIncomplete(RunStreamEventThreadRunIncomplete),
-    #[serde(rename = "thread.run.failed")]
     ThreadRunFailed(RunStreamEventThreadRunFailed),
-    #[serde(rename = "thread.run.cancelling")]
     ThreadRunCancelling(RunStreamEventThreadRunCancelling),
-    #[serde(rename = "thread.run.cancelled")]
     ThreadRunCancelled(RunStreamEventThreadRunCancelled),
-    #[serde(rename = "thread.run.expired")]
     ThreadRunExpired(RunStreamEventThreadRunExpired),
 }
 #[doc = "The type of tool call the output is required for. For now, this is always `function`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum RunToolCallObjectType {
     #[default]
     #[serde(rename = "function")]
@@ -16517,6 +18004,13 @@ pub struct RunToolCallObject {
     #[serde(rename = "function")]
     pub function: RunToolCallObjectFunction,
 }
+#[doc = "Specifies the event type. For a screenshot action, this property is \nalways set to `screenshot`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ScreenshotType {
+    #[default]
+    #[serde(rename = "screenshot")]
+    Screenshot,
+}
 #[doc = "A screenshot action.\n"]
 #[derive(
     Clone,
@@ -16527,12 +18021,28 @@ pub struct RunToolCallObject {
     Default,
     typed_builder :: TypedBuilder,
 )]
-pub struct Screenshot {}
+pub struct Screenshot {
+    #[doc = "Specifies the event type. For a screenshot action, this property is \nalways set to `screenshot`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ScreenshotType,
+}
+#[doc = "Specifies the event type. For a scroll action, this property is \nalways set to `scroll`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ScrollType {
+    #[default]
+    #[serde(rename = "scroll")]
+    Scroll,
+}
 #[doc = "A scroll action.\n"]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct Scroll {
+    #[doc = "Specifies the event type. For a scroll action, this property is \nalways set to `scroll`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ScrollType,
     #[doc = "The x-coordinate where the scroll occurred.\n"]
     #[serde(rename = "x")]
     pub x: u64,
@@ -16548,7 +18058,6 @@ pub struct Scroll {
 }
 #[doc = "Specifies the latency tier to use for processing the request. This parameter is relevant for customers subscribed to the scale tier service:\n  - If set to 'auto', and the Project is Scale tier enabled, the system\n    will utilize scale tier credits until they are exhausted.\n  - If set to 'auto', and the Project is not Scale tier enabled, the request will be processed using the default service tier with a lower uptime SLA and no latency guarentee.\n  - If set to 'default', the request will be processed using the default service tier with a lower uptime SLA and no latency guarentee.\n  - If set to 'flex', the request will be processed with the Flex Processing service tier. [Learn more](/docs/guides/flex-processing).\n  - When not set, the default behavior is 'auto'.\n\n  When this parameter is set, the response body will include the `service_tier` utilized.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ServiceTier {
     #[default]
     #[serde(rename = "auto")]
@@ -16569,18 +18078,40 @@ pub struct StaticChunkingStrategy {
     #[serde(rename = "chunk_overlap_tokens")]
     pub chunk_overlap_tokens: u64,
 }
+#[doc = "Always `static`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum StaticChunkingStrategyRequestParamType {
+    #[default]
+    #[serde(rename = "static")]
+    Static,
+}
 #[doc = "Customize your own chunking strategy by setting chunk size and chunk overlap."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct StaticChunkingStrategyRequestParam {
+    #[doc = "Always `static`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: StaticChunkingStrategyRequestParamType,
     #[serde(rename = "static")]
     pub static_: StaticChunkingStrategy,
+}
+#[doc = "Always `static`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum StaticChunkingStrategyResponseParamType {
+    #[default]
+    #[serde(rename = "static")]
+    Static,
 }
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct StaticChunkingStrategyResponseParam {
+    #[doc = "Always `static`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: StaticChunkingStrategyResponseParamType,
     #[serde(rename = "static")]
     pub static_: StaticChunkingStrategy,
 }
@@ -16628,21 +18159,29 @@ pub struct SubmitToolOutputsRunRequest {
 }
 #[doc = "An object specifying the format that the model must output.\n\nConfiguring `{ \"type\": \"json_schema\" }` enables Structured Outputs, \nwhich ensures the model will match your supplied JSON schema. Learn more in the \n[Structured Outputs guide](/docs/guides/structured-outputs).\n\nThe default format is `{ \"type\": \"text\" }` with no additional options.\n\n**Not recommended for gpt-4o and newer models:**\n\nSetting to `{ \"type\": \"json_object\" }` enables the older JSON mode, which\nensures the message the model generates is valid JSON. Using `json_schema`\nis preferred for models that support it.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum TextResponseFormatConfiguration {
-    #[serde(rename = "text")]
     Text(ResponseFormatText),
-    #[serde(rename = "json_schema")]
     JsonSchema(TextResponseFormatJsonSchema),
-    #[serde(rename = "json_object")]
     JsonObject(ResponseFormatJsonObject),
+}
+#[doc = "The type of response format being defined. Always `json_schema`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum TextResponseFormatJsonSchemaType {
+    #[default]
+    #[serde(rename = "json_schema")]
+    JsonSchema,
 }
 #[doc = "JSON Schema response format. Used to generate structured JSON responses.\nLearn more about [Structured Outputs](/docs/guides/structured-outputs).\n"]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct TextResponseFormatJsonSchema {
+    #[doc = "The type of response format being defined. Always `json_schema`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: TextResponseFormatJsonSchemaType,
     #[doc = "A description of what the response format is for, used by the model to\ndetermine how to respond in the format.\n"]
     #[builder(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -16661,7 +18200,6 @@ pub struct TextResponseFormatJsonSchema {
 }
 #[doc = "The object type, which is always `thread`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ThreadObjectObject {
     #[default]
     #[serde(rename = "thread")]
@@ -16742,25 +18280,33 @@ pub struct ThreadObject {
     #[serde(rename = "metadata")]
     pub metadata: Metadata,
 }
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ThreadStreamEvent0Event {
+    #[default]
+    #[serde(rename = "thread.created")]
+    ThreadCreated,
+}
 #[doc = "Occurs when a new [thread](/docs/api-reference/threads/object) is created."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
-pub struct ThreadStreamEventThreadCreated {
+pub struct ThreadStreamEvent0 {
     #[doc = "Whether to enable input audio transcription."]
     #[builder(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "enabled")]
     pub enabled: Option<bool>,
+    #[builder(default)]
+    #[serde(rename = "event")]
+    pub event: ThreadStreamEvent0Event,
     #[serde(rename = "data")]
     pub data: ThreadObject,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "event")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum ThreadStreamEvent {
-    #[serde(rename = "thread.created")]
-    ThreadCreated(ThreadStreamEventThreadCreated),
+    _0(ThreadStreamEvent0),
 }
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
@@ -16771,7 +18317,6 @@ pub struct ToggleCertificatesRequest {
 }
 #[doc = "For function calling, the type is always `function`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ToolChoiceFunctionType {
     #[default]
     #[serde(rename = "function")]
@@ -16792,7 +18337,6 @@ pub struct ToolChoiceFunction {
 }
 #[doc = "Controls which (if any) tool is called by the model.\n\n`none` means the model will not call any tool and instead generates a message.\n\n`auto` means the model can pick between generating a message or calling one or\nmore tools.\n\n`required` means the model must call one or more tools.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum ToolChoiceOptions {
     #[serde(rename = "none")]
     None,
@@ -16803,7 +18347,6 @@ pub enum ToolChoiceOptions {
 }
 #[doc = "The type of hosted tool the model should to use. Learn more about\n[built-in tools](/docs/guides/tools).\n\nAllowed values are:\n- `file_search`\n- `web_search_preview`\n- `computer_use_preview`\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum ToolChoiceTypesType {
     #[serde(rename = "file_search")]
     FileSearch,
@@ -16822,6 +18365,13 @@ pub struct ToolChoiceTypes {
     #[doc = "The type of hosted tool the model should to use. Learn more about\n[built-in tools](/docs/guides/tools).\n\nAllowed values are:\n- `file_search`\n- `web_search_preview`\n- `computer_use_preview`\n"]
     #[serde(rename = "type")]
     pub type_: ToolChoiceTypesType,
+}
+#[doc = "The type of the event. Always `transcript.text.delta`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum TranscriptTextDeltaEventType {
+    #[default]
+    #[serde(rename = "transcript.text.delta")]
+    TranscriptTextDelta,
 }
 #[derive(
     Clone,
@@ -16854,6 +18404,10 @@ pub struct TranscriptTextDeltaEventLogprob {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct TranscriptTextDeltaEvent {
+    #[doc = "The type of the event. Always `transcript.text.delta`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: TranscriptTextDeltaEventType,
     #[doc = "The text delta that was additionally transcribed.\n"]
     #[serde(rename = "delta")]
     pub delta: String,
@@ -16862,6 +18416,13 @@ pub struct TranscriptTextDeltaEvent {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "logprobs")]
     pub logprobs: Option<Vec<TranscriptTextDeltaEventLogprob>>,
+}
+#[doc = "The type of the event. Always `transcript.text.done`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum TranscriptTextDoneEventType {
+    #[default]
+    #[serde(rename = "transcript.text.done")]
+    TranscriptTextDone,
 }
 #[derive(
     Clone,
@@ -16894,6 +18455,10 @@ pub struct TranscriptTextDoneEventLogprob {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct TranscriptTextDoneEvent {
+    #[doc = "The type of the event. Always `transcript.text.done`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: TranscriptTextDoneEventType,
     #[doc = "The text that was transcribed.\n"]
     #[serde(rename = "text")]
     pub text: String,
@@ -16904,7 +18469,6 @@ pub struct TranscriptTextDoneEvent {
     pub logprobs: Option<Vec<TranscriptTextDoneEventLogprob>>,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum TranscriptionInclude {
     #[serde(rename = "logprobs")]
     Logprobs,
@@ -16960,7 +18524,6 @@ pub struct TranscriptionWord {
 }
 #[doc = "The truncation strategy to use for the thread. The default is `auto`. If set to `last_messages`, the thread will be truncated to the n most recent messages in the thread. When set to `auto`, messages in the middle of the thread will be dropped to fit the context length of the model, `max_prompt_tokens`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum TruncationObjectType {
     #[serde(rename = "auto")]
     Auto,
@@ -16981,11 +18544,22 @@ pub struct TruncationObject {
     #[serde(rename = "last_messages")]
     pub last_messages: Option<u64>,
 }
+#[doc = "Specifies the event type. For a type action, this property is \nalways set to `type`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum TypeType {
+    #[default]
+    #[serde(rename = "type")]
+    Type,
+}
 #[doc = "An action to type in text.\n"]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct Type {
+    #[doc = "Specifies the event type. For a type action, this property is \nalways set to `type`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: TypeType,
     #[doc = "The text to type.\n"]
     #[serde(rename = "text")]
     pub text: String,
@@ -17023,7 +18597,6 @@ pub struct UpdateVectorStoreRequest {
 }
 #[doc = "The status of the Upload."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum UploadStatus {
     #[serde(rename = "pending")]
     Pending,
@@ -17036,7 +18609,6 @@ pub enum UploadStatus {
 }
 #[doc = "The object type, which is always \"upload\"."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum UploadObject {
     #[default]
     #[serde(rename = "upload")]
@@ -17094,7 +18666,6 @@ pub struct UploadCertificateRequest {
 }
 #[doc = "The object type, which is always `upload.part`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum UploadPartObject {
     #[default]
     #[serde(rename = "upload.part")]
@@ -17119,11 +18690,20 @@ pub struct UploadPart {
     #[serde(rename = "object")]
     pub object: UploadPartObject,
 }
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum UsageAudioSpeechesResultObject {
+    #[default]
+    #[serde(rename = "organization.usage.audio_speeches.result")]
+    OrganizationUsageAudioSpeechesResult,
+}
 #[doc = "The aggregated audio speeches usage details of the specific time bucket."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct UsageAudioSpeechesResult {
+    #[builder(default)]
+    #[serde(rename = "object")]
+    pub object: UsageAudioSpeechesResultObject,
     #[doc = "The number of characters processed."]
     #[serde(rename = "characters")]
     pub characters: u64,
@@ -17151,11 +18731,20 @@ pub struct UsageAudioSpeechesResult {
     #[serde(rename = "model")]
     pub model: Option<String>,
 }
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum UsageAudioTranscriptionsResultObject {
+    #[default]
+    #[serde(rename = "organization.usage.audio_transcriptions.result")]
+    OrganizationUsageAudioTranscriptionsResult,
+}
 #[doc = "The aggregated audio transcriptions usage details of the specific time bucket."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct UsageAudioTranscriptionsResult {
+    #[builder(default)]
+    #[serde(rename = "object")]
+    pub object: UsageAudioTranscriptionsResultObject,
     #[doc = "The number of seconds processed."]
     #[serde(rename = "seconds")]
     pub seconds: u64,
@@ -17183,6 +18772,12 @@ pub struct UsageAudioTranscriptionsResult {
     #[serde(rename = "model")]
     pub model: Option<String>,
 }
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum UsageCodeInterpreterSessionsResultObject {
+    #[default]
+    #[serde(rename = "organization.usage.code_interpreter_sessions.result")]
+    OrganizationUsageCodeInterpreterSessionsResult,
+}
 #[doc = "The aggregated code interpreter sessions usage details of the specific time bucket."]
 #[derive(
     Clone,
@@ -17194,6 +18789,9 @@ pub struct UsageAudioTranscriptionsResult {
     typed_builder :: TypedBuilder,
 )]
 pub struct UsageCodeInterpreterSessionsResult {
+    #[builder(default)]
+    #[serde(rename = "object")]
+    pub object: UsageCodeInterpreterSessionsResultObject,
     #[doc = "The number of code interpreter sessions."]
     #[builder(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -17205,11 +18803,20 @@ pub struct UsageCodeInterpreterSessionsResult {
     #[serde(rename = "project_id")]
     pub project_id: Option<String>,
 }
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum UsageCompletionsResultObject {
+    #[default]
+    #[serde(rename = "organization.usage.completions.result")]
+    OrganizationUsageCompletionsResult,
+}
 #[doc = "The aggregated completions usage details of the specific time bucket."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct UsageCompletionsResult {
+    #[builder(default)]
+    #[serde(rename = "object")]
+    pub object: UsageCompletionsResultObject,
     #[doc = "The aggregated number of text input tokens used, including cached tokens. For customers subscribe to scale tier, this includes scale tier tokens."]
     #[serde(rename = "input_tokens")]
     pub input_tokens: u64,
@@ -17260,11 +18867,20 @@ pub struct UsageCompletionsResult {
     #[serde(rename = "batch")]
     pub batch: Option<bool>,
 }
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum UsageEmbeddingsResultObject {
+    #[default]
+    #[serde(rename = "organization.usage.embeddings.result")]
+    OrganizationUsageEmbeddingsResult,
+}
 #[doc = "The aggregated embeddings usage details of the specific time bucket."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct UsageEmbeddingsResult {
+    #[builder(default)]
+    #[serde(rename = "object")]
+    pub object: UsageEmbeddingsResultObject,
     #[doc = "The aggregated number of input tokens used."]
     #[serde(rename = "input_tokens")]
     pub input_tokens: u64,
@@ -17292,11 +18908,20 @@ pub struct UsageEmbeddingsResult {
     #[serde(rename = "model")]
     pub model: Option<String>,
 }
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum UsageImagesResultObject {
+    #[default]
+    #[serde(rename = "organization.usage.images.result")]
+    OrganizationUsageImagesResult,
+}
 #[doc = "The aggregated images usage details of the specific time bucket."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct UsageImagesResult {
+    #[builder(default)]
+    #[serde(rename = "object")]
+    pub object: UsageImagesResultObject,
     #[doc = "The number of images processed."]
     #[serde(rename = "images")]
     pub images: u64,
@@ -17334,11 +18959,20 @@ pub struct UsageImagesResult {
     #[serde(rename = "model")]
     pub model: Option<String>,
 }
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum UsageModerationsResultObject {
+    #[default]
+    #[serde(rename = "organization.usage.moderations.result")]
+    OrganizationUsageModerationsResult,
+}
 #[doc = "The aggregated moderations usage details of the specific time bucket."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct UsageModerationsResult {
+    #[builder(default)]
+    #[serde(rename = "object")]
+    pub object: UsageModerationsResultObject,
     #[doc = "The aggregated number of input tokens used."]
     #[serde(rename = "input_tokens")]
     pub input_tokens: u64,
@@ -17367,7 +19001,6 @@ pub struct UsageModerationsResult {
     pub model: Option<String>,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum UsageResponseObject {
     #[default]
     #[serde(rename = "page")]
@@ -17388,33 +19021,23 @@ pub struct UsageResponse {
     pub next_page: String,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum UsageTimeBucketObject {
     #[default]
     #[serde(rename = "bucket")]
     Bucket,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "object")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum UsageTimeBucketResult {
-    #[serde(rename = "organization.usage.completions.result")]
     OrganizationUsageCompletionsResult(UsageCompletionsResult),
-    #[serde(rename = "organization.usage.embeddings.result")]
     OrganizationUsageEmbeddingsResult(UsageEmbeddingsResult),
-    #[serde(rename = "organization.usage.moderations.result")]
     OrganizationUsageModerationsResult(UsageModerationsResult),
-    #[serde(rename = "organization.usage.images.result")]
     OrganizationUsageImagesResult(UsageImagesResult),
-    #[serde(rename = "organization.usage.audio_speeches.result")]
     OrganizationUsageAudioSpeechesResult(UsageAudioSpeechesResult),
-    #[serde(rename = "organization.usage.audio_transcriptions.result")]
     OrganizationUsageAudioTranscriptionsResult(UsageAudioTranscriptionsResult),
-    #[serde(rename = "organization.usage.vector_stores.result")]
     OrganizationUsageVectorStoresResult(UsageVectorStoresResult),
-    #[serde(rename = "organization.usage.code_interpreter_sessions.result")]
     OrganizationUsageCodeInterpreterSessionsResult(UsageCodeInterpreterSessionsResult),
-    #[serde(rename = "organization.costs.result")]
     OrganizationCostsResult(CostsResult),
 }
 #[derive(
@@ -17431,11 +19054,20 @@ pub struct UsageTimeBucket {
     #[serde(rename = "result")]
     pub result: Vec<UsageTimeBucketResult>,
 }
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum UsageVectorStoresResultObject {
+    #[default]
+    #[serde(rename = "organization.usage.vector_stores.result")]
+    OrganizationUsageVectorStoresResult,
+}
 #[doc = "The aggregated vector stores usage details of the specific time bucket."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct UsageVectorStoresResult {
+    #[builder(default)]
+    #[serde(rename = "object")]
+    pub object: UsageVectorStoresResultObject,
     #[doc = "The vector stores usage in bytes."]
     #[serde(rename = "usage_bytes")]
     pub usage_bytes: u64,
@@ -17447,7 +19079,6 @@ pub struct UsageVectorStoresResult {
 }
 #[doc = "The object type, which is always `organization.user`"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum UserObject {
     #[default]
     #[serde(rename = "organization.user")]
@@ -17455,7 +19086,6 @@ pub enum UserObject {
 }
 #[doc = "`owner` or `reader`"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum UserRole {
     #[serde(rename = "owner")]
     Owner,
@@ -17488,7 +19118,6 @@ pub struct User {
     pub added_at: u64,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum UserDeleteResponseObject {
     #[default]
     #[serde(rename = "organization.user.deleted")]
@@ -17507,7 +19136,6 @@ pub struct UserDeleteResponse {
     pub deleted: bool,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum UserListResponseObject {
     #[default]
     #[serde(rename = "list")]
@@ -17531,7 +19159,6 @@ pub struct UserListResponse {
 }
 #[doc = "`owner` or `reader`"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum UserRoleUpdateRequestRole {
     #[serde(rename = "owner")]
     Owner,
@@ -17548,7 +19175,6 @@ pub struct UserRoleUpdateRequest {
 }
 #[doc = "Anchor timestamp after which the expiration policy applies. Supported anchors: `last_active_at`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum VectorStoreExpirationAfterAnchor {
     #[default]
     #[serde(rename = "last_active_at")]
@@ -17578,7 +19204,6 @@ pub enum VectorStoreFileAttribute {
 pub type VectorStoreFileAttributes = Vec<VectorStoreFileAttribute>;
 #[doc = "The object type, which is always `vector_store.file_batch`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum VectorStoreFileBatchObjectObject {
     #[default]
     #[serde(rename = "vector_store.files_batch")]
@@ -17586,7 +19211,6 @@ pub enum VectorStoreFileBatchObjectObject {
 }
 #[doc = "The status of the vector store files batch, which can be either `in_progress`, `completed`, `cancelled` or `failed`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum VectorStoreFileBatchObjectStatus {
     #[serde(rename = "in_progress")]
     InProgress,
@@ -17643,7 +19267,6 @@ pub struct VectorStoreFileBatchObject {
 }
 #[doc = "The object type, which is always `vector_store.file_content.page`"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum VectorStoreFileContentResponseObject {
     #[default]
     #[serde(rename = "vector_store.file_content.page")]
@@ -17693,7 +19316,6 @@ pub struct VectorStoreFileContentResponse {
 }
 #[doc = "The object type, which is always `vector_store.file`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum VectorStoreFileObjectObject {
     #[default]
     #[serde(rename = "vector_store.file")]
@@ -17701,7 +19323,6 @@ pub enum VectorStoreFileObjectObject {
 }
 #[doc = "The status of the vector store file, which can be either `in_progress`, `completed`, `cancelled`, or `failed`. The status `completed` indicates that the vector store file is ready for use."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum VectorStoreFileObjectStatus {
     #[serde(rename = "in_progress")]
     InProgress,
@@ -17714,7 +19335,6 @@ pub enum VectorStoreFileObjectStatus {
 }
 #[doc = "One of `server_error` or `rate_limit_exceeded`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum VectorStoreFileObjectLastErrorCode {
     #[serde(rename = "server_error")]
     ServerError,
@@ -17737,12 +19357,10 @@ pub struct VectorStoreFileObjectLastError {
 }
 #[doc = "The strategy used to chunk the file."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum VectorStoreFileObjectChunkingStrategy {
-    #[serde(rename = "static")]
     Static(StaticChunkingStrategyResponseParam),
-    #[serde(rename = "other")]
     Other(OtherChunkingStrategyResponseParam),
 }
 #[doc = "A list of files attached to a vector store."]
@@ -17786,7 +19404,6 @@ pub struct VectorStoreFileObject {
 }
 #[doc = "The object type, which is always `vector_store`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum VectorStoreObjectObject {
     #[default]
     #[serde(rename = "vector_store")]
@@ -17814,7 +19431,6 @@ pub struct VectorStoreObjectFileCounts {
 }
 #[doc = "The status of the vector store, which can be either `expired`, `in_progress`, or `completed`. A status of `completed` indicates that the vector store is ready for use."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum VectorStoreObjectStatus {
     #[serde(rename = "expired")]
     Expired,
@@ -17883,7 +19499,6 @@ pub enum VectorStoreSearchRequestFilters {
     CompoundFilter(CompoundFilter),
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum VectorStoreSearchRequestRankingOptionsRanker {
     #[default]
     #[serde(rename = "auto")]
@@ -17941,7 +19556,6 @@ pub struct VectorStoreSearchRequest {
 }
 #[doc = "The type of content."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum VectorStoreSearchResultContentObjectType {
     #[serde(rename = "text")]
     Text,
@@ -17978,7 +19592,6 @@ pub struct VectorStoreSearchResultItem {
 }
 #[doc = "The object type, which is always `vector_store.search_results.page`"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum VectorStoreSearchResultsPageObject {
     #[default]
     #[serde(rename = "vector_store.search_results.page")]
@@ -18007,6 +19620,13 @@ pub struct VectorStoreSearchResultsPage {
     pub next_page: Option<String>,
 }
 pub type VoiceIdsShared = String;
+#[doc = "Specifies the event type. For a wait action, this property is \nalways set to `wait`.\n"]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum WaitType {
+    #[default]
+    #[serde(rename = "wait")]
+    Wait,
+}
 #[doc = "A wait action.\n"]
 #[derive(
     Clone,
@@ -18017,10 +19637,14 @@ pub type VoiceIdsShared = String;
     Default,
     typed_builder :: TypedBuilder,
 )]
-pub struct Wait {}
+pub struct Wait {
+    #[doc = "Specifies the event type. For a wait action, this property is \nalways set to `wait`.\n"]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: WaitType,
+}
 #[doc = "High level guidance for the amount of context window space to use for the \nsearch. One of `low`, `medium`, or `high`. `medium` is the default.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum WebSearchContextSize {
     #[serde(rename = "low")]
     Low,
@@ -18064,7 +19688,6 @@ pub struct WebSearchLocation {
 }
 #[doc = "The type of the web search tool call. Always `web_search_call`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum WebSearchToolCallType {
     #[default]
     #[serde(rename = "web_search_call")]
@@ -18072,7 +19695,6 @@ pub enum WebSearchToolCallType {
 }
 #[doc = "The status of the web search tool call.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum WebSearchToolCallStatus {
     #[serde(rename = "in_progress")]
     InProgress,
@@ -18099,18 +19721,35 @@ pub struct WebSearchToolCall {
     #[serde(rename = "status")]
     pub status: WebSearchToolCallStatus,
 }
+#[doc = "The type of the input item. Always `input_text`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum InputTextContentType {
+    #[default]
+    #[serde(rename = "input_text")]
+    InputText,
+}
 #[doc = "A text input to the model."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct InputTextContent {
+    #[doc = "The type of the input item. Always `input_text`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: InputTextContentType,
     #[doc = "The text input to the model."]
     #[serde(rename = "text")]
     pub text: String,
 }
+#[doc = "The type of the input item. Always `input_image`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum InputImageContentType {
+    #[default]
+    #[serde(rename = "input_image")]
+    InputImage,
+}
 #[doc = "The detail level of the image to be sent to the model. One of `high`, `low`, or `auto`. Defaults to `auto`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum InputImageContentDetail {
     #[serde(rename = "low")]
     Low,
@@ -18124,6 +19763,10 @@ pub enum InputImageContentDetail {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct InputImageContent {
+    #[doc = "The type of the input item. Always `input_image`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: InputImageContentType,
     #[doc = "The URL of the image to be sent to the model. A fully qualified URL or base64 encoded image in a data URL."]
     #[builder(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -18138,6 +19781,13 @@ pub struct InputImageContent {
     #[serde(rename = "detail")]
     pub detail: InputImageContentDetail,
 }
+#[doc = "The type of the input item. Always `input_file`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum InputFileContentType {
+    #[default]
+    #[serde(rename = "input_file")]
+    InputFile,
+}
 #[doc = "A file input to the model."]
 #[derive(
     Clone,
@@ -18149,6 +19799,10 @@ pub struct InputImageContent {
     typed_builder :: TypedBuilder,
 )]
 pub struct InputFileContent {
+    #[doc = "The type of the input item. Always `input_file`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: InputFileContentType,
     #[doc = "The ID of the file to be sent to the model."]
     #[builder(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -18167,7 +19821,6 @@ pub struct InputFileContent {
 }
 #[doc = "The ranker to use for the file search."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum RankingOptionsRanker {
     #[serde(rename = "auto")]
     Auto,
@@ -18202,11 +19855,22 @@ pub enum Filters {
     ComparisonFilter(ComparisonFilter),
     CompoundFilter(CompoundFilter),
 }
+#[doc = "The type of the file search tool. Always `file_search`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum FileSearchToolType {
+    #[default]
+    #[serde(rename = "file_search")]
+    FileSearch,
+}
 #[doc = "A tool that searches for relevant content from uploaded files. Learn more about the [file search tool](https://platform.openai.com/docs/guides/tools-file-search)."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct FileSearchTool {
+    #[doc = "The type of the file search tool. Always `file_search`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: FileSearchToolType,
     #[doc = "The IDs of the vector stores to search."]
     #[serde(rename = "vector_store_ids")]
     pub vector_store_ids: Vec<String>,
@@ -18226,11 +19890,22 @@ pub struct FileSearchTool {
     #[serde(rename = "filters")]
     pub filters: Option<Filters>,
 }
+#[doc = "The type of the function tool. Always `function`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum FunctionToolType {
+    #[default]
+    #[serde(rename = "function")]
+    Function,
+}
 #[doc = "Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling)."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct FunctionTool {
+    #[doc = "The type of the function tool. Always `function`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: FunctionToolType,
     #[doc = "The name of the function to call."]
     #[serde(rename = "name")]
     pub name: String,
@@ -18252,7 +19927,6 @@ pub struct FunctionTool {
 }
 #[doc = "The type of location approximation. Always `approximate`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ApproximateLocationType {
     #[default]
     #[serde(rename = "approximate")]
@@ -18293,9 +19967,17 @@ pub struct ApproximateLocation {
     #[serde(rename = "timezone")]
     pub timezone: Option<String>,
 }
+#[doc = "The type of the web search tool. One of `web_search_preview` or `web_search_preview_2025_03_11`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum WebSearchPreviewToolType {
+    #[default]
+    #[serde(rename = "web_search_preview")]
+    WebSearchPreview,
+    #[serde(rename = "web_search_preview_2025_03_11")]
+    WebSearchPreview20250311,
+}
 #[doc = "High level guidance for the amount of context window space to use for the search. One of `low`, `medium`, or `high`. `medium` is the default."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum WebSearchPreviewToolSearchContextSize {
     #[serde(rename = "low")]
     Low,
@@ -18315,6 +19997,10 @@ pub enum WebSearchPreviewToolSearchContextSize {
     typed_builder :: TypedBuilder,
 )]
 pub struct WebSearchPreviewTool {
+    #[doc = "The type of the web search tool. One of `web_search_preview` or `web_search_preview_2025_03_11`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: WebSearchPreviewToolType,
     #[doc = "The user's location."]
     #[builder(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -18326,9 +20012,15 @@ pub struct WebSearchPreviewTool {
     #[serde(rename = "search_context_size")]
     pub search_context_size: Option<WebSearchPreviewToolSearchContextSize>,
 }
+#[doc = "The type of the computer use tool. Always `computer_use_preview`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum ComputerUsePreviewToolType {
+    #[default]
+    #[serde(rename = "computer_use_preview")]
+    ComputerUsePreview,
+}
 #[doc = "The type of computer environment to control."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum ComputerUsePreviewToolEnvironment {
     #[serde(rename = "windows")]
     Windows,
@@ -18346,6 +20038,10 @@ pub enum ComputerUsePreviewToolEnvironment {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ComputerUsePreviewTool {
+    #[doc = "The type of the computer use tool. Always `computer_use_preview`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: ComputerUsePreviewToolType,
     #[doc = "The type of computer environment to control."]
     #[serde(rename = "environment")]
     pub environment: ComputerUsePreviewToolEnvironment,
@@ -18357,23 +20053,30 @@ pub struct ComputerUsePreviewTool {
     pub display_height: u64,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum Tool {
-    #[serde(rename = "file_search")]
     FileSearch(FileSearchTool),
-    #[serde(rename = "function")]
     Function(FunctionTool),
-    #[serde(rename = "web_search_preview", alias = "web_search_preview_2025_03_11")]
     WebSearchPreview(WebSearchPreviewTool),
-    #[serde(rename = "computer_use_preview")]
     ComputerUsePreview(ComputerUsePreviewTool),
+}
+#[doc = "The type of the file citation. Always `file_citation`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum FileCitationBodyType {
+    #[default]
+    #[serde(rename = "file_citation")]
+    FileCitation,
 }
 #[doc = "A citation to a file."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct FileCitationBody {
+    #[doc = "The type of the file citation. Always `file_citation`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: FileCitationBodyType,
     #[doc = "The ID of the file."]
     #[serde(rename = "file_id")]
     pub file_id: String,
@@ -18381,11 +20084,22 @@ pub struct FileCitationBody {
     #[serde(rename = "index")]
     pub index: u64,
 }
+#[doc = "The type of the URL citation. Always `url_citation`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum UrlCitationBodyType {
+    #[default]
+    #[serde(rename = "url_citation")]
+    UrlCitation,
+}
 #[doc = "A citation for a web resource used to generate a model response."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct UrlCitationBody {
+    #[doc = "The type of the URL citation. Always `url_citation`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: UrlCitationBodyType,
     #[doc = "The URL of the web resource."]
     #[serde(rename = "url")]
     pub url: String,
@@ -18400,21 +20114,29 @@ pub struct UrlCitationBody {
     pub title: String,
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[serde(tag = "type")]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum Annotation {
-    #[serde(rename = "file_citation")]
     FileCitation(FileCitationBody),
-    #[serde(rename = "url_citation")]
     UrlCitation(UrlCitationBody),
-    #[serde(rename = "file_path")]
     FilePath(FilePath),
+}
+#[doc = "The type of the output text. Always `output_text`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum OutputTextContentType {
+    #[default]
+    #[serde(rename = "output_text")]
+    OutputText,
 }
 #[doc = "A text output from the model."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct OutputTextContent {
+    #[doc = "The type of the output text. Always `output_text`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: OutputTextContentType,
     #[doc = "The text output from the model."]
     #[serde(rename = "text")]
     pub text: String,
@@ -18422,11 +20144,22 @@ pub struct OutputTextContent {
     #[serde(rename = "annotations")]
     pub annotations: Vec<Annotation>,
 }
+#[doc = "The type of the refusal. Always `refusal`."]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
+pub enum RefusalContentType {
+    #[default]
+    #[serde(rename = "refusal")]
+    Refusal,
+}
 #[doc = "A refusal from the model."]
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct RefusalContent {
+    #[doc = "The type of the refusal. Always `refusal`."]
+    #[builder(default)]
+    #[serde(rename = "type")]
+    pub type_: RefusalContentType,
     #[doc = "The refusal explanationfrom the model."]
     #[serde(rename = "refusal")]
     pub refusal: String,
@@ -18452,7 +20185,6 @@ pub struct ComputerCallSafetyCheckParam {
 }
 #[doc = "The type of the computer tool call output. Always `computer_call_output`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ComputerCallOutputItemParamType {
     #[default]
     #[serde(rename = "computer_call_output")]
@@ -18460,7 +20192,6 @@ pub enum ComputerCallOutputItemParamType {
 }
 #[doc = "The status of the message input. One of `in_progress`, `completed`, or `incomplete`. Populated when input items are returned via API."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum ComputerCallOutputItemParamStatus {
     #[serde(rename = "in_progress")]
     InProgress,
@@ -18502,7 +20233,6 @@ pub struct ComputerCallOutputItemParam {
 }
 #[doc = "The type of the function tool call output. Always `function_call_output`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum FunctionCallOutputItemParamType {
     #[default]
     #[serde(rename = "function_call_output")]
@@ -18510,7 +20240,6 @@ pub enum FunctionCallOutputItemParamType {
 }
 #[doc = "The status of the item. One of `in_progress`, `completed`, or `incomplete`. Populated when items are returned via API."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-#[allow(clippy::large_enum_variant)]
 pub enum FunctionCallOutputItemParamStatus {
     #[serde(rename = "in_progress")]
     InProgress,
@@ -18547,7 +20276,6 @@ pub struct FunctionCallOutputItemParam {
 }
 #[doc = "The type of item to reference. Always `item_reference`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
-#[allow(clippy::large_enum_variant)]
 pub enum ItemReferenceParamType {
     #[default]
     #[serde(rename = "item_reference")]

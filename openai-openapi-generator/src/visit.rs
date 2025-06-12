@@ -55,5 +55,5 @@ macro_rules! iter {
         }
     };
 }
-iter!(iter, &openapi::Schema, as_ref);
+// iter!(iter, &openapi::Schema, as_ref);
 iter!(iter_mut, &mut openapi::Schema, as_mut);

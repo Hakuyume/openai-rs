@@ -1,28 +1,24 @@
-use crate::discriminator::Discriminator;
 use crate::openapi;
 use anyhow::Context;
 use indexmap::IndexMap;
-use std::ptr;
 
 type Schemas<'a> = &'a IndexMap<String, openapi::Schema>;
-type Discriminators<'a> = &'a [(&'a openapi::Schema, Discriminator<'a>)];
 
 pub fn convert<'a>(
     schema: &'a openapi::Schema,
     schemas: Schemas<'a>,
-    discriminators: Discriminators<'a>,
 ) -> anyhow::Result<crate::Schema<'a>> {
-    if let Some(schema) = convert_primitive(schema, schemas, discriminators) {
+    if let Some(schema) = convert_primitive(schema, schemas) {
         Ok(schema)
-    } else if let Some(schema) = convert_array(schema, schemas, discriminators)? {
+    } else if let Some(schema) = convert_array(schema, schemas)? {
         Ok(schema)
-    } else if let Some(schema) = convert_map(schema, schemas, discriminators)? {
+    } else if let Some(schema) = convert_map(schema, schemas)? {
         Ok(schema)
-    } else if let Some(schema) = convert_ref(schema, schemas, discriminators)? {
+    } else if let Some(schema) = convert_ref(schema, schemas)? {
         Ok(schema)
-    } else if let Some(schema) = convert_enum(schema, schemas, discriminators)? {
+    } else if let Some(schema) = convert_enum(schema, schemas)? {
         Ok(schema)
-    } else if let Some(schema) = convert_struct(schema, schemas, discriminators)? {
+    } else if let Some(schema) = convert_struct(schema, schemas)? {
         Ok(schema)
     } else {
         Err(anyhow::format_err!("unhandled: {schema:#?}"))
@@ -30,11 +26,7 @@ pub fn convert<'a>(
 }
 
 #[openai_openapi_generator_macros::strict(openapi::Schema)]
-fn convert_primitive<'a>(
-    schema: &'a openapi::Schema,
-    _: Schemas<'a>,
-    _: Discriminators<'a>,
-) -> Option<crate::Schema<'a>> {
+fn convert_primitive<'a>(schema: &'a openapi::Schema, _: Schemas<'a>) -> Option<crate::Schema<'a>> {
     if let openapi::Schema { description } = schema {
         Some(crate::Schema {
             description: description.as_deref(),
@@ -184,7 +176,6 @@ fn convert_primitive<'a>(
 fn convert_array<'a>(
     schema: &'a openapi::Schema,
     schemas: Schemas<'a>,
-    discriminators: Discriminators<'a>,
 ) -> anyhow::Result<Option<crate::Schema<'a>>> {
     if let openapi::Schema {
         default: _,
@@ -197,9 +188,7 @@ fn convert_array<'a>(
         Ok(Some(crate::Schema {
             description: description.as_deref(),
             nullable: nullable.unwrap_or_default(),
-            type_: crate::Type::Array(Box::new(
-                convert(items, schemas, discriminators).context("items")?,
-            )),
+            type_: crate::Type::Array(Box::new(convert(items, schemas).context("items")?)),
         }))
     } else {
         Ok(None)
@@ -210,7 +199,6 @@ fn convert_array<'a>(
 fn convert_map<'a>(
     schema: &'a openapi::Schema,
     schemas: Schemas<'a>,
-    discriminators: Discriminators<'a>,
 ) -> anyhow::Result<Option<crate::Schema<'a>>> {
     if let openapi::Schema {
         additional_properties: Some(openapi::AdditionalProperties::Schema(additional_properties)),
@@ -224,8 +212,7 @@ fn convert_map<'a>(
             description: description.as_deref(),
             nullable: nullable.unwrap_or_default(),
             type_: crate::Type::Array(Box::new(
-                convert(additional_properties, schemas, discriminators)
-                    .context("additionalProperties")?,
+                convert(additional_properties, schemas).context("additionalProperties")?,
             )),
         }))
     } else {
@@ -237,7 +224,6 @@ fn convert_map<'a>(
 fn convert_ref<'a>(
     schema: &'a openapi::Schema,
     schemas: Schemas<'a>,
-    _: Discriminators<'a>,
 ) -> anyhow::Result<Option<crate::Schema<'a>>> {
     if let Some((description, nullable, ref_)) = if let openapi::Schema {
         description,
@@ -266,40 +252,8 @@ fn convert_ref<'a>(
 fn convert_enum<'a>(
     schema: &'a openapi::Schema,
     schemas: Schemas<'a>,
-    discriminators: Discriminators<'a>,
 ) -> anyhow::Result<Option<crate::Schema<'a>>> {
-    if let openapi::Schema {
-        default,
-        description,
-        enum_: Some(enum_),
-        nullable,
-        type_: None | Some(openapi::Type::String),
-        x_stainless_const,
-    } = schema
-    {
-        Ok(Some(crate::Schema {
-            description: description.as_deref(),
-            nullable: nullable.unwrap_or_default(),
-            type_: crate::Type::Enum {
-                variants: enum_
-                    .iter()
-                    .enumerate()
-                    .map(|(i, enum_)| crate::Variant {
-                        schema: None,
-                        default: if let Some(serde_json::Value::String(default)) = default {
-                            enum_ == default
-                        } else if *x_stainless_const == Some(true) {
-                            i == 0
-                        } else {
-                            false
-                        },
-                        tag: Some((enum_, Vec::new())),
-                    })
-                    .collect(),
-                tag: None,
-            },
-        }))
-    } else if let Some((description, nullable, of, context)) = if let openapi::Schema {
+    if let Some((description, nullable, of, context)) = if let openapi::Schema {
         any_of: Some(any_of),
         description,
         discriminator: _,
@@ -319,50 +273,46 @@ fn convert_enum<'a>(
     } else {
         None
     } {
-        if let Some((_, discriminator)) = discriminators.iter().find(|(s, _)| ptr::eq(*s, schema)) {
-            Ok(Some(crate::Schema {
-                description: description.as_deref(),
-                nullable: nullable.unwrap_or_default(),
-                type_: crate::Type::Enum {
-                    variants: of
-                        .iter()
-                        .zip(&discriminator.mapping)
-                        .enumerate()
-                        .map(|(i, (of, (_, tag, aliases)))| {
-                            convert(of, schemas, discriminators)
-                                .with_context(|| format!("{context}[{i}]"))
-                                .map(|schema| crate::Variant {
-                                    schema: Some(schema),
-                                    default: false,
-                                    tag: Some((tag, aliases.clone())),
-                                })
-                        })
-                        .collect::<Result<_, _>>()?,
-                    tag: Some(discriminator.property_name),
-                },
-            }))
-        } else {
-            Ok(Some(crate::Schema {
-                description: description.as_deref(),
-                nullable: nullable.unwrap_or_default(),
-                type_: crate::Type::Enum {
-                    variants: of
-                        .iter()
-                        .enumerate()
-                        .map(|(i, of)| {
-                            convert(of, schemas, discriminators)
-                                .with_context(|| format!("{context}[{i}]"))
-                                .map(|schema| crate::Variant {
-                                    schema: Some(schema),
-                                    default: false,
-                                    tag: None,
-                                })
-                        })
-                        .collect::<Result<_, _>>()?,
-                    tag: None,
-                },
-            }))
-        }
+        let variants = of
+            .iter()
+            .enumerate()
+            .map(|(i, of)| convert(of, schemas).with_context(|| format!("{context}[{i}]")))
+            .collect::<Result<_, _>>()?;
+        Ok(Some(crate::Schema {
+            description: description.as_deref(),
+            nullable: nullable.unwrap_or_default(),
+            type_: crate::Type::EnumOf(variants),
+        }))
+    } else if let openapi::Schema {
+        default,
+        description,
+        enum_: Some(enum_),
+        nullable,
+        type_: None | Some(openapi::Type::String),
+        x_stainless_const,
+    } = schema
+    {
+        let variants = enum_
+            .iter()
+            .enumerate()
+            .map(|(i, enum_)| {
+                (
+                    enum_.as_str(),
+                    if let Some(serde_json::Value::String(default)) = default {
+                        enum_ == default
+                    } else if *x_stainless_const == Some(true) {
+                        i == 0
+                    } else {
+                        false
+                    },
+                )
+            })
+            .collect();
+        Ok(Some(crate::Schema {
+            description: description.as_deref(),
+            nullable: nullable.unwrap_or_default(),
+            type_: crate::Type::EnumString(variants),
+        }))
     } else {
         Ok(None)
     }
@@ -372,7 +322,6 @@ fn convert_enum<'a>(
 fn convert_struct<'a>(
     schema: &'a openapi::Schema,
     schemas: Schemas<'a>,
-    discriminators: Discriminators<'a>,
 ) -> anyhow::Result<Option<crate::Schema<'a>>> {
     if let Some((description, nullable, fields)) = if let openapi::Schema {
         all_of: Some(all_of),
@@ -454,32 +403,16 @@ fn convert_struct<'a>(
     } else {
         None
     } {
-        let discriminator = discriminators.iter().find_map(|(_, discriminator)| {
-            discriminator
-                .mapping
-                .iter()
-                .any(|(s, _, _)| ptr::eq(*s, schema))
-                .then_some(discriminator)
-        });
         let fields = fields
             .into_iter()
-            .filter(|(field, _)| {
-                if let either::Left((property_name, _, _)) = field {
-                    Some(property_name.as_str())
-                        != discriminator.map(|discriminator| discriminator.property_name)
-                } else {
-                    true
-                }
-            })
             .map(|(field, contexts)| {
                 field.either(
                     |(property_name, property, required)| {
                         contexts
                             .into_iter()
-                            .fold(
-                                convert(property, schemas, discriminators),
-                                |output, context| output.context(context),
-                            )
+                            .fold(convert(property, schemas), |output, context| {
+                                output.context(context)
+                            })
                             .map(|schema| crate::Field::Property {
                                 name: property_name,
                                 schema,
@@ -496,7 +429,7 @@ fn convert_struct<'a>(
         Ok(Some(crate::Schema {
             description: description.as_deref(),
             nullable: nullable.unwrap_or_default(),
-            type_: crate::Type::Struct { fields },
+            type_: crate::Type::Struct(fields),
         }))
     } else {
         Ok(None)

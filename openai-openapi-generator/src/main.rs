@@ -1,6 +1,4 @@
 mod convert;
-mod discriminator;
-mod misc;
 mod openapi;
 mod patch;
 mod visit;
@@ -9,7 +7,8 @@ use anyhow::Context;
 use heck::{ToPascalCase, ToSnakeCase};
 use indexmap::IndexMap;
 use quote::ToTokens;
-use std::io;
+use std::fmt::Write;
+use std::{collections::HashMap, io};
 
 fn main() -> anyhow::Result<()> {
     let mut document = serde_yaml::from_reader::<_, openapi::Document>(io::stdin().lock())?;
@@ -18,17 +17,12 @@ fn main() -> anyhow::Result<()> {
         patch::patch(name, schema);
     }
 
-    let mut discriminators = Vec::new();
-    for schema in document.components.schemas.values() {
-        discriminator::collect(schema, &document.components.schemas, &mut discriminators);
-    }
-
     let schemas = document
         .components
         .schemas
         .iter()
         .map(|(name, schema)| {
-            convert::convert(schema, &document.components.schemas, &discriminators)
+            convert::convert(schema, &document.components.schemas)
                 .with_context(|| name.clone())
                 .map(|schema| (name.as_str(), schema))
         })
@@ -68,25 +62,14 @@ enum Type<'a> {
     Array(Box<Schema<'a>>),
     Binary,
     Boolean,
-    Enum {
-        variants: Vec<Variant<'a>>,
-        tag: Option<&'a str>,
-    },
+    EnumOf(Vec<Schema<'a>>),
+    EnumString(Vec<(&'a str, bool)>),
     Float,
     Integer,
     Map(Box<Schema<'a>>),
     Ref(&'a str),
     String,
-    Struct {
-        fields: Vec<Field<'a>>,
-    },
-}
-
-#[derive(Debug)]
-struct Variant<'a> {
-    schema: Option<Schema<'a>>,
-    default: bool,
-    tag: Option<(&'a str, Vec<&'a str>)>,
+    Struct(Vec<Field<'a>>),
 }
 
 #[derive(Debug)]
@@ -155,15 +138,16 @@ fn to_type(
             let name = vocab
                 .iter()
                 .find_map(|(singular, plural)| {
-                    if let Some(name) = name.strip_suffix(&plural.to_pascal_case()) {
-                        Some(format!("{name}{}", singular.to_pascal_case()))
-                    } else if let Some(name) = name.strip_suffix(&format!("_{plural}")) {
-                        Some(format!("{name}_{singular}"))
-                    } else if let Some(name) = name.strip_suffix(&format!(".{plural}")) {
-                        Some(format!("{name}.{singular}"))
-                    } else {
-                        None
-                    }
+                    name.strip_suffix(&plural.to_pascal_case())
+                        .map(|name| format!("{name}{}", singular.to_pascal_case()))
+                        .or_else(|| {
+                            name.strip_suffix(&format!("_{plural}"))
+                                .map(|name| format!("{name}_{singular}"))
+                        })
+                        .or_else(|| {
+                            name.strip_suffix(&format!(".{plural}"))
+                                .map(|name| format!("{name}.{singular}"))
+                        })
                 })
                 .unwrap_or_else(|| name.to_owned());
             let type_ = to_type(&name, item, schemas, inline);
@@ -203,57 +187,136 @@ fn to_item(
     let derive_default = is_default(schema, schemas).then_some(quote::quote!(#[derive(Default)]));
     let ident = to_ident_pascal(name);
     match &schema.type_ {
-        Type::Enum { variants, tag } => {
-            let attr_serde = tag
-                .as_ref()
-                .map(|tag| quote::quote!(#[serde(tag = #tag)]))
-                .or(variants
+        Type::EnumOf(variants) => {
+            let variant_names = {
+                let tags = variants
                     .iter()
-                    .all(|variant| variant.tag.is_none())
-                    .then_some(quote::quote!(#[serde(untagged)])));
-            let variants = variants.iter().enumerate().map(|(i, variant)| {
-                let attr_default = variant.default.then_some(quote::quote!(#[default]));
-                let attr_serde = variant.tag.as_ref().map(
-                    |(tag, aliases)| quote::quote!(#[serde(rename = #tag, #(alias = #aliases),*)]),
-                );
-                let (ident, name) = if let Some((tag, _)) = &variant.tag {
-                    (to_ident_pascal(tag), format!("{name}.{tag}"))
-                } else if let Some(Schema {
-                    type_: Type::Ref(ref_),
-                    ..
-                }) = &variant.schema
-                {
-                    (to_ident_pascal(ref_), format!("{name}.{ref_}"))
-                } else {
-                    (to_ident_pascal(&i.to_string()), format!("{name}.{i}"))
-                };
-                if let Some(schema) = &variant.schema {
-                    let type_ = to_type(&name, schema, schemas, inline);
-                    quote::quote! {
-                        #attr_default
-                        #attr_serde
-                        #ident(#type_)
-                    }
-                } else {
-                    quote::quote! {
-                        #attr_default
-                        #attr_serde
-                        #ident
+                    .map(|variant| {
+                        let fields = if let Type::Ref(ref_) = &variant.type_ {
+                            if let Type::Struct(fields) = &schemas.get(ref_).unwrap().type_ {
+                                Some(fields)
+                            } else {
+                                None
+                            }
+                        } else if let Type::Struct(fields) = &variant.type_ {
+                            Some(fields)
+                        } else {
+                            None
+                        };
+                        fields
+                            .into_iter()
+                            .flatten()
+                            .filter_map(|field| {
+                                if let Field::Property {
+                                    name,
+                                    schema,
+                                    required: true,
+                                } = field
+                                {
+                                    if let Type::EnumString(variants) = &schema.type_ {
+                                        variants.iter().find_map(|(value, default)| {
+                                            default.then_some((*name, *value))
+                                        })
+                                    } else {
+                                        None
+                                    }
+                                } else {
+                                    None
+                                }
+                            })
+                            .collect()
+                    })
+                    .collect::<Vec<HashMap<_, _>>>();
+                let key = tags
+                    .iter()
+                    .flatten()
+                    .fold(HashMap::<_, usize>::new(), |mut counts, (key, _)| {
+                        *counts.entry(*key).or_default() += 1;
+                        counts
+                    })
+                    .into_iter()
+                    .filter(|(_, count)| *count > 1)
+                    .max_by_key(|(_, count)| *count)
+                    .map(|(key, _)| key);
+
+                let mut names = variants
+                    .iter()
+                    .zip(tags)
+                    .enumerate()
+                    .map(|(i, (variant, mut tags))| {
+                        if let Some(tag) = key.and_then(|key| tags.remove(key)) {
+                            tag.to_owned()
+                        } else if let Schema {
+                            type_: Type::Ref(ref_),
+                            ..
+                        } = variant
+                        {
+                            (*ref_).to_owned()
+                        } else {
+                            i.to_string()
+                        }
+                    })
+                    .collect::<Vec<_>>();
+
+                let mut i = 0;
+                while i < names.len() {
+                    let conflicts = (i..names.len())
+                        .filter(|j| names[i] == names[*j])
+                        .collect::<Vec<_>>();
+                    if conflicts.len() > 1 {
+                        for (i, j) in conflicts.into_iter().enumerate() {
+                            write!(&mut names[j], ".{i}").unwrap();
+                        }
+                    } else {
+                        i += 1;
                     }
                 }
-            });
+
+                names
+            };
+
+            let variants = variants
+                .iter()
+                .zip(variant_names)
+                .map(|(variant, variant_name)| {
+                    let ident = to_ident_pascal(&variant_name);
+                    let type_ =
+                        to_type(&format!("{name}.{variant_name}"), variant, schemas, inline);
+                    quote::quote! {
+                        #ident(#type_)
+                    }
+                });
             syn::parse_quote! {
                 #description
                 #derive
                 #derive_default
-                #attr_serde
+                #[serde(untagged)]
                 #[allow(clippy::large_enum_variant)]
                 pub enum #ident {
                     #(#variants),*
                 }
             }
         }
-        Type::Struct { fields } => {
+        Type::EnumString(variants) => {
+            let variants = variants.iter().map(|(value, default)| {
+                let attr_default = default.then_some(quote::quote!(#[default]));
+                let ident = to_ident_pascal(value);
+                quote::quote! {
+                    #attr_default
+                    #[serde(rename = #value)]
+                    #ident
+                }
+            });
+            syn::parse_quote! {
+                #description
+                #derive
+                #derive_default
+                pub enum #ident {
+                    #(#variants),*
+                }
+            }
+        }
+        Type::Struct(fields) => {
             let fields = fields.iter().map(|field| match field {
                 Field::Property {
                     name: field_name,
@@ -313,9 +376,9 @@ fn to_item(
 
 fn is_default(schema: &Schema<'_>, schemas: &IndexMap<&str, Schema<'_>>) -> bool {
     match &schema.type_ {
-        Type::Enum { variants, .. } => variants.iter().any(|variant| variant.default),
+        Type::EnumString(variants) => variants.iter().any(|(_, default)| *default),
         Type::Ref(ref_) => is_default(schemas.get(ref_).unwrap(), schemas),
-        Type::Struct { fields } => fields.iter().all(|field| match field {
+        Type::Struct(fields) => fields.iter().all(|field| match field {
             Field::Property {
                 schema, required, ..
             } => is_default(schema, schemas) || schema.nullable || !required,
