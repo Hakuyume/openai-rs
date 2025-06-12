@@ -3,25 +3,25 @@ use indexmap::IndexMap;
 use std::collections::HashMap;
 use std::iter;
 
-pub(super) struct Discriminator<'a> {
-    pub(super) property_name: &'a String,
-    pub(super) mapping: Vec<(&'a openapi::Schema, &'a String, Vec<&'a String>)>,
+pub struct Discriminator<'a> {
+    pub property_name: &'a str,
+    pub mapping: Vec<(&'a openapi::Schema, &'a str, Vec<&'a str>)>,
 }
 
-pub(super) fn collect_discriminator<'a>(
+pub fn collect<'a>(
     schema: &'a openapi::Schema,
     schemas: &'a IndexMap<String, openapi::Schema>,
     discriminators: &mut Vec<(&'a openapi::Schema, Discriminator<'a>)>,
 ) {
-    if let Some(discriminator) = extract_discriminator(schema, schemas) {
+    if let Some(discriminator) = extract(schema, schemas) {
         discriminators.push((schema, discriminator));
     }
     for (_, schema) in visit::iter(schema) {
-        collect_discriminator(schema, schemas, discriminators);
+        collect(schema, schemas, discriminators);
     }
 }
 
-fn extract_discriminator<'a>(
+fn extract<'a>(
     schema: &'a openapi::Schema,
     schemas: &'a IndexMap<String, openapi::Schema>,
 ) -> Option<Discriminator<'a>> {
@@ -91,7 +91,7 @@ fn extract_discriminator<'a>(
 }
 
 #[openai_openapi_generator_macros::strict(openapi::Schema)]
-fn extract_const(schema: &openapi::Schema) -> Option<(&String, Vec<&String>)> {
+fn extract_const(schema: &openapi::Schema) -> Option<(&str, Vec<&str>)> {
     if let openapi::Schema {
         description: _,
         default,
@@ -105,7 +105,11 @@ fn extract_const(schema: &openapi::Schema) -> Option<(&String, Vec<&String>)> {
         } else if let Some(serde_json::Value::String(default)) = default {
             Some((
                 default,
-                enum_.iter().filter(|enum_| *enum_ != default).collect(),
+                enum_
+                    .iter()
+                    .filter(|enum_| *enum_ != default)
+                    .map(String::as_str)
+                    .collect(),
             ))
         } else {
             None

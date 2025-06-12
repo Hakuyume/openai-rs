@@ -1,8 +1,28 @@
 // https://platform.openai.com/docs/api-reference/chat/create
 #[test]
 fn test_create_chat_completion_request_default() {
-    serde_json::from_str::<crate::CreateChatCompletionRequest>(
-        r#"{
+    assert_eq!(
+        crate::CreateChatCompletionRequest::builder()
+            .model("gpt-4.1".to_owned())
+            .messages(vec![
+                crate::ChatCompletionRequestMessage::Developer(
+                    crate::ChatCompletionRequestDeveloperMessage::builder()
+                        .content(crate::ChatCompletionRequestDeveloperMessageContent::_0(
+                            "You are a helpful assistant.".to_owned()
+                        ))
+                        .build()
+                ),
+                crate::ChatCompletionRequestMessage::User(
+                    crate::ChatCompletionRequestUserMessage::builder()
+                        .content(crate::ChatCompletionRequestUserMessageContent::_0(
+                            "Hello!".to_owned()
+                        ))
+                        .build()
+                ),
+            ])
+            .build(),
+        serde_json::from_str(
+            r#"{
   "model": "gpt-4.1",
   "messages": [
     {
@@ -15,8 +35,9 @@ fn test_create_chat_completion_request_default() {
     }
   ]
 }"#,
-    )
-    .unwrap();
+        )
+        .unwrap()
+    );
 }
 
 // https://platform.openai.com/docs/api-reference/chat/create

@@ -1,0 +1,501 @@
+use crate::discriminator::Discriminator;
+use crate::openapi;
+use anyhow::Context;
+use indexmap::IndexMap;
+use std::ptr;
+
+type Schemas<'a> = &'a IndexMap<String, openapi::Schema>;
+type Discriminators<'a> = &'a [(&'a openapi::Schema, Discriminator<'a>)];
+
+pub fn convert<'a>(
+    schema: &'a openapi::Schema,
+    schemas: Schemas<'a>,
+    discriminators: Discriminators<'a>,
+) -> anyhow::Result<crate::Schema<'a>> {
+    if let Some(schema) = convert_primitive(schema, schemas, discriminators) {
+        Ok(schema)
+    } else if let Some(schema) = convert_array(schema, schemas, discriminators)? {
+        Ok(schema)
+    } else if let Some(schema) = convert_map(schema, schemas, discriminators)? {
+        Ok(schema)
+    } else if let Some(schema) = convert_ref(schema, schemas, discriminators)? {
+        Ok(schema)
+    } else if let Some(schema) = convert_enum(schema, schemas, discriminators)? {
+        Ok(schema)
+    } else if let Some(schema) = convert_struct(schema, schemas, discriminators)? {
+        Ok(schema)
+    } else {
+        Err(anyhow::format_err!("unhandled: {schema:#?}"))
+    }
+}
+
+#[openai_openapi_generator_macros::strict(openapi::Schema)]
+fn convert_primitive<'a>(
+    schema: &'a openapi::Schema,
+    _: Schemas<'a>,
+    _: Discriminators<'a>,
+) -> Option<crate::Schema<'a>> {
+    if let openapi::Schema { description } = schema {
+        Some(crate::Schema {
+            description: description.as_deref(),
+            nullable: false,
+            type_: crate::Type::Any,
+        })
+    } else if let openapi::Schema {
+        description,
+        type_: Some(openapi::Type::Array),
+    } = schema
+    {
+        Some(crate::Schema {
+            description: description.as_deref(),
+            nullable: false,
+            type_: crate::Type::Array(Box::new(crate::Schema {
+                description: None,
+                nullable: false,
+                type_: crate::Type::Any,
+            })),
+        })
+    } else if let openapi::Schema {
+        description,
+        format: Some(openapi::Format::Binary),
+        type_: Some(openapi::Type::String),
+        x_oai_type_label: None | Some(openapi::XOaiTypeLabel::File),
+    } = schema
+    {
+        Some(crate::Schema {
+            description: description.as_deref(),
+            nullable: false,
+            type_: crate::Type::Binary,
+        })
+    } else if let openapi::Schema {
+        default: _,
+        description,
+        nullable,
+        type_: Some(openapi::Type::Boolean),
+    } = schema
+    {
+        Some(crate::Schema {
+            description: description.as_deref(),
+            nullable: nullable.unwrap_or_default(),
+            type_: crate::Type::Boolean,
+        })
+    } else if let openapi::Schema {
+        default: _,
+        description,
+        format: None | Some(openapi::Format::Float),
+        nullable,
+        type_: Some(openapi::Type::Number),
+    } = schema
+    {
+        Some(crate::Schema {
+            description: description.as_deref(),
+            nullable: nullable.unwrap_or_default(),
+            type_: crate::Type::Float,
+        })
+    } else if let openapi::Schema {
+        default: _,
+        description,
+        enum_: _,
+        format: None | Some(openapi::Format::Int64),
+        nullable,
+        type_: Some(openapi::Type::Integer),
+    } = schema
+    {
+        Some(crate::Schema {
+            description: description.as_deref(),
+            nullable: nullable.unwrap_or_default(),
+            type_: crate::Type::Integer,
+        })
+    } else if let openapi::Schema {
+        additional_properties: None | Some(openapi::AdditionalProperties::Bool(true)),
+        description,
+        nullable,
+        type_: Some(openapi::Type::Object),
+    }
+    | openapi::Schema {
+        description,
+        nullable,
+        type_: Some(openapi::Type::Object),
+        x_oai_type_label: Some(openapi::XOaiTypeLabel::Map),
+    } = schema
+    {
+        Some(crate::Schema {
+            description: description.as_deref(),
+            nullable: nullable.unwrap_or_default(),
+            type_: crate::Type::Map(Box::new(crate::Schema {
+                description: None,
+                nullable: false,
+                type_: crate::Type::Any,
+            })),
+        })
+    } else if let Some((description, nullable)) = if let openapi::Schema {
+        default: _,
+        description,
+        format: None | Some(openapi::Format::Uri),
+        nullable,
+        type_: Some(openapi::Type::String),
+        x_stainless_const: _,
+    } = schema
+    {
+        Some((description, nullable))
+    } else if let openapi::Schema {
+        any_of: Some(_),
+        default: _,
+        description,
+        nullable,
+        x_oai_type_label: Some(openapi::XOaiTypeLabel::String),
+    } = schema
+    {
+        Some((description, nullable))
+    } else if let openapi::Schema {
+        any_of: Some(any_of),
+        description,
+        nullable,
+    } = schema
+    {
+        if let [
+            openapi::Schema {
+                type_: Some(openapi::Type::String),
+            },
+            openapi::Schema {
+                enum_: Some(_),
+                type_: Some(openapi::Type::String),
+            },
+        ] = &any_of[..]
+        {
+            Some((description, nullable))
+        } else {
+            None
+        }
+    } else {
+        None
+    } {
+        Some(crate::Schema {
+            description: description.as_deref(),
+            nullable: nullable.unwrap_or_default(),
+            type_: crate::Type::String,
+        })
+    } else {
+        None
+    }
+}
+
+#[openai_openapi_generator_macros::strict(openapi::Schema)]
+fn convert_array<'a>(
+    schema: &'a openapi::Schema,
+    schemas: Schemas<'a>,
+    discriminators: Discriminators<'a>,
+) -> anyhow::Result<Option<crate::Schema<'a>>> {
+    if let openapi::Schema {
+        default: _,
+        description,
+        items: Some(items),
+        nullable,
+        type_: None | Some(openapi::Type::Array),
+    } = schema
+    {
+        Ok(Some(crate::Schema {
+            description: description.as_deref(),
+            nullable: nullable.unwrap_or_default(),
+            type_: crate::Type::Array(Box::new(
+                convert(items, schemas, discriminators).context("items")?,
+            )),
+        }))
+    } else {
+        Ok(None)
+    }
+}
+
+#[openai_openapi_generator_macros::strict(openapi::Schema)]
+fn convert_map<'a>(
+    schema: &'a openapi::Schema,
+    schemas: Schemas<'a>,
+    discriminators: Discriminators<'a>,
+) -> anyhow::Result<Option<crate::Schema<'a>>> {
+    if let openapi::Schema {
+        additional_properties: Some(openapi::AdditionalProperties::Schema(additional_properties)),
+        description,
+        nullable,
+        type_: Some(openapi::Type::Object),
+        x_oai_type_label: None | Some(openapi::XOaiTypeLabel::Map),
+    } = schema
+    {
+        Ok(Some(crate::Schema {
+            description: description.as_deref(),
+            nullable: nullable.unwrap_or_default(),
+            type_: crate::Type::Array(Box::new(
+                convert(additional_properties, schemas, discriminators)
+                    .context("additionalProperties")?,
+            )),
+        }))
+    } else {
+        Ok(None)
+    }
+}
+
+#[openai_openapi_generator_macros::strict(openapi::Schema)]
+fn convert_ref<'a>(
+    schema: &'a openapi::Schema,
+    schemas: Schemas<'a>,
+    _: Discriminators<'a>,
+) -> anyhow::Result<Option<crate::Schema<'a>>> {
+    if let Some((description, nullable, ref_)) = if let openapi::Schema {
+        description,
+        nullable,
+        ref_: Some(ref_),
+        type_: _,
+    } = schema
+    {
+        ref_.strip_prefix("#/components/schemas/")
+            .map(|ref_| (description, nullable, ref_))
+    } else {
+        None
+    } {
+        anyhow::ensure!(schemas.contains_key(ref_));
+        Ok(Some(crate::Schema {
+            description: description.as_deref(),
+            nullable: nullable.unwrap_or_default(),
+            type_: crate::Type::Ref(ref_),
+        }))
+    } else {
+        Ok(None)
+    }
+}
+
+#[openai_openapi_generator_macros::strict(openapi::Schema)]
+fn convert_enum<'a>(
+    schema: &'a openapi::Schema,
+    schemas: Schemas<'a>,
+    discriminators: Discriminators<'a>,
+) -> anyhow::Result<Option<crate::Schema<'a>>> {
+    if let openapi::Schema {
+        default,
+        description,
+        enum_: Some(enum_),
+        nullable,
+        type_: None | Some(openapi::Type::String),
+        x_stainless_const: _,
+    } = schema
+    {
+        Ok(Some(crate::Schema {
+            description: description.as_deref(),
+            nullable: nullable.unwrap_or_default(),
+            type_: crate::Type::Enum {
+                variants: enum_
+                    .iter()
+                    .map(|enum_| crate::Variant {
+                        schema: None,
+                        default: if let Some(serde_json::Value::String(default)) = default {
+                            enum_ == default
+                        } else {
+                            false
+                        },
+                        tag: Some((enum_, Vec::new())),
+                    })
+                    .collect(),
+                tag: None,
+            },
+        }))
+    } else if let Some((description, nullable, of, context)) = if let openapi::Schema {
+        any_of: Some(any_of),
+        description,
+        discriminator: _,
+        nullable,
+    } = schema
+    {
+        Some((description, nullable, any_of, "anyOf"))
+    } else if let openapi::Schema {
+        default: _,
+        description,
+        discriminator: _,
+        nullable,
+        one_of: Some(one_of),
+    } = schema
+    {
+        Some((description, nullable, one_of, "oneOf"))
+    } else {
+        None
+    } {
+        if let Some((_, discriminator)) = discriminators.iter().find(|(s, _)| ptr::eq(*s, schema)) {
+            Ok(Some(crate::Schema {
+                description: description.as_deref(),
+                nullable: nullable.unwrap_or_default(),
+                type_: crate::Type::Enum {
+                    variants: of
+                        .iter()
+                        .zip(&discriminator.mapping)
+                        .enumerate()
+                        .map(|(i, (of, (_, tag, aliases)))| {
+                            convert(of, schemas, discriminators)
+                                .with_context(|| format!("{context}[{i}]"))
+                                .map(|schema| crate::Variant {
+                                    schema: Some(schema),
+                                    default: false,
+                                    tag: Some((tag, aliases.clone())),
+                                })
+                        })
+                        .collect::<Result<_, _>>()?,
+                    tag: Some(discriminator.property_name),
+                },
+            }))
+        } else {
+            Ok(Some(crate::Schema {
+                description: description.as_deref(),
+                nullable: nullable.unwrap_or_default(),
+                type_: crate::Type::Enum {
+                    variants: of
+                        .iter()
+                        .enumerate()
+                        .map(|(i, of)| {
+                            convert(of, schemas, discriminators)
+                                .with_context(|| format!("{context}[{i}]"))
+                                .map(|schema| crate::Variant {
+                                    schema: Some(schema),
+                                    default: false,
+                                    tag: None,
+                                })
+                        })
+                        .collect::<Result<_, _>>()?,
+                    tag: None,
+                },
+            }))
+        }
+    } else {
+        Ok(None)
+    }
+}
+
+#[openai_openapi_generator_macros::strict(openapi::Schema)]
+fn convert_struct<'a>(
+    schema: &'a openapi::Schema,
+    schemas: Schemas<'a>,
+    discriminators: Discriminators<'a>,
+) -> anyhow::Result<Option<crate::Schema<'a>>> {
+    if let Some((description, nullable, fields)) = if let openapi::Schema {
+        all_of: Some(all_of),
+        description,
+        nullable,
+        required: required_outer,
+    } = schema
+    {
+        all_of
+            .iter()
+            .enumerate()
+            .try_fold(Vec::new(), |mut fields, (i, all_of)| {
+                if let openapi::Schema {
+                    properties: Some(properties),
+                    required: required_inner,
+                    type_: Some(openapi::Type::Object),
+                } = all_of
+                {
+                    for (property_name, property) in properties {
+                        fields.push((
+                            either::Left((
+                                property_name,
+                                property,
+                                required_outer
+                                    .as_ref()
+                                    .is_some_and(|required| required.contains(property_name))
+                                    || required_inner
+                                        .as_ref()
+                                        .is_some_and(|required| required.contains(property_name)),
+                            )),
+                            vec![
+                                format!("properties[{property_name:?}]"),
+                                format!("allOf[{i}]"),
+                            ],
+                        ));
+                    }
+                    Some(fields)
+                } else if let Some(ref_) = if let openapi::Schema { ref_: Some(ref_) } = all_of {
+                    ref_.strip_prefix("#/components/schemas/")
+                } else {
+                    None
+                } {
+                    fields.push((
+                        either::Right(ref_),
+                        vec!["ref".to_owned(), format!("allOf[{i}]")],
+                    ));
+                    Some(fields)
+                } else {
+                    None
+                }
+            })
+            .map(|fields| (description, nullable, fields))
+    } else if let openapi::Schema {
+        additional_properties: None | Some(openapi::AdditionalProperties::Bool(false)),
+        description,
+        nullable,
+        properties: Some(properties),
+        required,
+        type_: None | Some(openapi::Type::Object),
+        x_oai_type_label: None | Some(openapi::XOaiTypeLabel::Map),
+    } = schema
+    {
+        let fields = properties
+            .iter()
+            .map(|(property_name, property)| {
+                (
+                    either::Left((
+                        property_name,
+                        property,
+                        required
+                            .as_ref()
+                            .is_some_and(|required| required.contains(property_name)),
+                    )),
+                    vec![format!("properties[{property_name:?}]")],
+                )
+            })
+            .collect();
+        Some((description, nullable, fields))
+    } else {
+        None
+    } {
+        let discriminator = discriminators.iter().find_map(|(_, discriminator)| {
+            discriminator
+                .mapping
+                .iter()
+                .any(|(s, _, _)| ptr::eq(*s, schema))
+                .then_some(discriminator)
+        });
+        let fields = fields
+            .into_iter()
+            .filter(|(field, _)| {
+                if let either::Left((property_name, _, _)) = field {
+                    Some(property_name.as_str())
+                        != discriminator.map(|discriminator| discriminator.property_name)
+                } else {
+                    true
+                }
+            })
+            .map(|(field, contexts)| {
+                field.either(
+                    |(property_name, property, required)| {
+                        contexts
+                            .into_iter()
+                            .fold(
+                                convert(property, schemas, discriminators),
+                                |output, context| output.context(context),
+                            )
+                            .map(|schema| crate::Field::Property {
+                                name: property_name,
+                                schema,
+                                required,
+                            })
+                    },
+                    |ref_| {
+                        anyhow::ensure!(schemas.contains_key(ref_));
+                        Ok(crate::Field::Ref(ref_))
+                    },
+                )
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+        Ok(Some(crate::Schema {
+            description: description.as_deref(),
+            nullable: nullable.unwrap_or_default(),
+            type_: crate::Type::Struct { fields },
+        }))
+    } else {
+        Ok(None)
+    }
+}
