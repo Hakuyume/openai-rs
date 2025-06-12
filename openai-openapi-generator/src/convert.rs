@@ -71,6 +71,37 @@ fn convert_primitive<'a>(schema: &'a openapi::Schema, _: Schemas<'a>) -> Option<
             nullable: nullable.unwrap_or_default(),
             type_: crate::Type::Boolean,
         })
+    } else if let Some((description, value)) = if let openapi::Schema {
+        enum_: Some(enum_),
+        default: _,
+        description,
+        type_: Some(openapi::Type::String),
+        x_stainless_const: _,
+    } = schema
+    {
+        if let [value] = &enum_[..] {
+            Some((description.as_deref(), value.as_str()))
+        } else {
+            None
+        }
+    } else if let openapi::Schema {
+        description: Some(description),
+        type_: Some(openapi::Type::String),
+        x_stainless_const: Some(true),
+    } = schema
+    {
+        description
+            .strip_prefix("The object type, which is always `")
+            .and_then(|description| description.strip_suffix('`'))
+            .map(|value| (Some(description.as_str()), value))
+    } else {
+        None
+    } {
+        Some(crate::Schema {
+            description,
+            nullable: false,
+            type_: crate::Type::Const(value),
+        })
     } else if let openapi::Schema {
         default: _,
         description,
@@ -126,7 +157,6 @@ fn convert_primitive<'a>(schema: &'a openapi::Schema, _: Schemas<'a>) -> Option<
         format: None | Some(openapi::Format::Uri),
         nullable,
         type_: Some(openapi::Type::String),
-        x_stainless_const: _,
     } = schema
     {
         Some((description, nullable))
@@ -289,19 +319,16 @@ fn convert_enum<'a>(
         enum_: Some(enum_),
         nullable,
         type_: None | Some(openapi::Type::String),
-        x_stainless_const,
+        x_stainless_const: _,
     } = schema
     {
         let variants = enum_
             .iter()
-            .enumerate()
-            .map(|(i, enum_)| {
+            .map(|enum_| {
                 (
                     enum_.as_str(),
                     if let Some(serde_json::Value::String(default)) = default {
                         enum_ == default
-                    } else if *x_stainless_const == Some(true) {
-                        i == 0
                     } else {
                         false
                     },
