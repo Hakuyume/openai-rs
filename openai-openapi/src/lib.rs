@@ -18,26 +18,32 @@ pub struct AddUploadPartRequest {
 pub struct AdminApiKeyOwner {
     #[doc = "Always `user`"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "type")]
     pub type_: Option<String>,
     #[doc = "The object type, which is always organization.user"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "object")]
     pub object: Option<String>,
     #[doc = "The identifier, which can be referenced in API endpoints"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "The name of the user"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "name")]
     pub name: Option<String>,
     #[doc = "The Unix timestamp (in seconds) of when the user was created"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "created_at")]
     pub created_at: Option<u64>,
     #[doc = "Always `owner`"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "role")]
     pub role: Option<String>,
 }
@@ -60,6 +66,7 @@ pub struct AdminApiKey {
     pub redacted_value: String,
     #[doc = "The value of the API key. Only shown on create."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "value")]
     pub value: Option<String>,
     #[doc = "The Unix timestamp (in seconds) of when the API key was created"]
@@ -67,6 +74,7 @@ pub struct AdminApiKey {
     pub created_at: u64,
     #[doc = "The Unix timestamp (in seconds) of when the API key was last used"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "last_used_at")]
     pub last_used_at: Option<u64>,
     #[builder(default)]
@@ -84,25 +92,31 @@ pub struct AdminApiKey {
 )]
 pub struct ApiKeyList {
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "object")]
     pub object: Option<String>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "data")]
     pub data: Option<Vec<AdminApiKey>>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "has_more")]
     pub has_more: Option<bool>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "first_id")]
     pub first_id: Option<String>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "last_id")]
     pub last_id: Option<String>,
 }
 #[doc = "The object type, which is always `assistant`."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum AssistantObjectObject {
+    #[default]
     #[serde(rename = "assistant")]
     Assistant,
 }
@@ -129,6 +143,7 @@ pub enum AssistantObjectToolsItem {
 pub struct AssistantObjectToolResourcesCodeInterpreter {
     #[doc = "A list of [file](/docs/api-reference/files) IDs made available to the `code_interpreter`` tool. There can be a maximum of 20 files associated with the tool.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "file_ids")]
     pub file_ids: Option<Vec<String>>,
 }
@@ -144,6 +159,7 @@ pub struct AssistantObjectToolResourcesCodeInterpreter {
 pub struct AssistantObjectToolResourcesFileSearch {
     #[doc = "The ID of the [vector store](/docs/api-reference/vector-stores/object) attached to this assistant. There can be a maximum of 1 vector store attached to the assistant.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "vector_store_ids")]
     pub vector_store_ids: Option<Vec<String>>,
 }
@@ -159,9 +175,11 @@ pub struct AssistantObjectToolResourcesFileSearch {
 )]
 pub struct AssistantObjectToolResources {
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "code_interpreter")]
     pub code_interpreter: Option<AssistantObjectToolResourcesCodeInterpreter>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "file_search")]
     pub file_search: Option<AssistantObjectToolResourcesFileSearch>,
 }
@@ -174,6 +192,7 @@ pub struct AssistantObject {
     #[serde(rename = "id")]
     pub id: String,
     #[doc = "The object type, which is always `assistant`."]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: AssistantObjectObject,
     #[doc = "The Unix timestamp (in seconds) for when the assistant was created."]
@@ -181,10 +200,12 @@ pub struct AssistantObject {
     pub created_at: u64,
     #[doc = "The name of the assistant. The maximum length is 256 characters.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "name")]
     pub name: Option<String>,
     #[doc = "The description of the assistant. The maximum length is 512 characters.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "description")]
     pub description: Option<String>,
     #[doc = "ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models) for descriptions of them.\n"]
@@ -192,6 +213,7 @@ pub struct AssistantObject {
     pub model: String,
     #[doc = "The system instructions that the assistant uses. The maximum length is 256,000 characters.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "instructions")]
     pub instructions: Option<String>,
     #[doc = "A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `file_search`, or `function`.\n"]
@@ -199,19 +221,23 @@ pub struct AssistantObject {
     pub tools: Vec<AssistantObjectToolsItem>,
     #[doc = "A set of resources that are used by the assistant's tools. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "tool_resources")]
     pub tool_resources: Option<AssistantObjectToolResources>,
     #[serde(rename = "metadata")]
     pub metadata: Metadata,
     #[doc = "What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "temperature")]
     pub temperature: Option<f64>,
     #[doc = "An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.\n\nWe generally recommend altering this or temperature but not both.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "top_p")]
     pub top_p: Option<f64>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "response_format")]
     pub response_format: Option<AssistantsApiResponseFormatOption>,
 }
@@ -326,9 +352,11 @@ pub struct AssistantToolsCode {}
 pub struct AssistantToolsFileSearchFileSearch {
     #[doc = "The maximum number of results the file search tool should output. The default is 20 for `gpt-4*` models and 5 for `gpt-3.5-turbo`. This number should be between 1 and 50 inclusive.\n\nNote that the file search tool may output fewer than `max_num_results` results. See the [file search tool documentation](/docs/assistants/tools/file-search#customizing-file-search-settings) for more information.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "max_num_results")]
     pub max_num_results: Option<u64>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "ranking_options")]
     pub ranking_options: Option<FileSearchRankingOptions>,
 }
@@ -344,6 +372,7 @@ pub struct AssistantToolsFileSearchFileSearch {
 pub struct AssistantToolsFileSearch {
     #[doc = "Overrides for the file search tool."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "file_search")]
     pub file_search: Option<AssistantToolsFileSearchFileSearch>,
 }
@@ -365,9 +394,10 @@ pub struct AssistantToolsFunction {
     pub function: FunctionObject,
 }
 #[doc = "`auto` is the default value\n"]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum AssistantsApiResponseFormatOption0 {
+    #[default]
     #[serde(rename = "auto")]
     Auto,
 }
@@ -428,6 +458,7 @@ pub struct AssistantsNamedToolChoice {
     #[serde(rename = "type")]
     pub type_: AssistantsNamedToolChoiceType,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "function")]
     pub function: Option<AssistantsNamedToolChoiceFunction>,
 }
@@ -460,10 +491,12 @@ pub enum AudioResponseFormat {
 pub struct AuditLogProject {
     #[doc = "The project ID."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "The project title."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "name")]
     pub name: Option<String>,
 }
@@ -480,6 +513,7 @@ pub struct AuditLogProject {
 pub struct AuditLogApiKeyCreatedData {
     #[doc = "A list of scopes allowed for the API key, e.g. `[\"api.model.request\"]`"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "scopes")]
     pub scopes: Option<Vec<String>>,
 }
@@ -496,10 +530,12 @@ pub struct AuditLogApiKeyCreatedData {
 pub struct AuditLogApiKeyCreated {
     #[doc = "The tracking ID of the API key."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "The payload used to create the API key."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "data")]
     pub data: Option<AuditLogApiKeyCreatedData>,
 }
@@ -516,6 +552,7 @@ pub struct AuditLogApiKeyCreated {
 pub struct AuditLogApiKeyUpdatedChangesRequested {
     #[doc = "A list of scopes allowed for the API key, e.g. `[\"api.model.request\"]`"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "scopes")]
     pub scopes: Option<Vec<String>>,
 }
@@ -532,10 +569,12 @@ pub struct AuditLogApiKeyUpdatedChangesRequested {
 pub struct AuditLogApiKeyUpdated {
     #[doc = "The tracking ID of the API key."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "The payload used to update the API key."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "changes_requested")]
     pub changes_requested: Option<AuditLogApiKeyUpdatedChangesRequested>,
 }
@@ -552,6 +591,7 @@ pub struct AuditLogApiKeyUpdated {
 pub struct AuditLogApiKeyDeleted {
     #[doc = "The tracking ID of the API key."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
 }
@@ -568,10 +608,12 @@ pub struct AuditLogApiKeyDeleted {
 pub struct AuditLogCheckpointPermissionCreatedData {
     #[doc = "The ID of the project that the checkpoint permission was created for."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "project_id")]
     pub project_id: Option<String>,
     #[doc = "The ID of the fine-tuned model checkpoint."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "fine_tuned_model_checkpoint")]
     pub fine_tuned_model_checkpoint: Option<String>,
 }
@@ -588,10 +630,12 @@ pub struct AuditLogCheckpointPermissionCreatedData {
 pub struct AuditLogCheckpointPermissionCreated {
     #[doc = "The ID of the checkpoint permission."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "The payload used to create the checkpoint permission."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "data")]
     pub data: Option<AuditLogCheckpointPermissionCreatedData>,
 }
@@ -608,6 +652,7 @@ pub struct AuditLogCheckpointPermissionCreated {
 pub struct AuditLogCheckpointPermissionDeleted {
     #[doc = "The ID of the checkpoint permission."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
 }
@@ -624,10 +669,12 @@ pub struct AuditLogCheckpointPermissionDeleted {
 pub struct AuditLogInviteSentData {
     #[doc = "The email invited to the organization."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "email")]
     pub email: Option<String>,
     #[doc = "The role the email was invited to be. Is either `owner` or `member`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "role")]
     pub role: Option<String>,
 }
@@ -644,10 +691,12 @@ pub struct AuditLogInviteSentData {
 pub struct AuditLogInviteSent {
     #[doc = "The ID of the invite."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "The payload used to create the invite."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "data")]
     pub data: Option<AuditLogInviteSentData>,
 }
@@ -664,6 +713,7 @@ pub struct AuditLogInviteSent {
 pub struct AuditLogInviteAccepted {
     #[doc = "The ID of the invite."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
 }
@@ -680,6 +730,7 @@ pub struct AuditLogInviteAccepted {
 pub struct AuditLogInviteDeleted {
     #[doc = "The ID of the invite."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
 }
@@ -696,10 +747,12 @@ pub struct AuditLogInviteDeleted {
 pub struct AuditLogLoginFailed {
     #[doc = "The error code of the failure."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "error_code")]
     pub error_code: Option<String>,
     #[doc = "The error message of the failure."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "error_message")]
     pub error_message: Option<String>,
 }
@@ -716,10 +769,12 @@ pub struct AuditLogLoginFailed {
 pub struct AuditLogLogoutFailed {
     #[doc = "The error code of the failure."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "error_code")]
     pub error_code: Option<String>,
     #[doc = "The error message of the failure."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "error_message")]
     pub error_message: Option<String>,
 }
@@ -735,10 +790,12 @@ pub struct AuditLogLogoutFailed {
 pub struct AuditLogOrganizationUpdatedChangesRequestedSettings {
     #[doc = "Visibility of the threads page which shows messages created with the Assistants API and Playground. One of `ANY_ROLE`, `OWNERS`, or `NONE`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "threads_ui_visibility")]
     pub threads_ui_visibility: Option<String>,
     #[doc = "Visibility of the usage dashboard which shows activity and costs for your organization. One of `ANY_ROLE` or `OWNERS`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "usage_dashboard_visibility")]
     pub usage_dashboard_visibility: Option<String>,
 }
@@ -755,17 +812,21 @@ pub struct AuditLogOrganizationUpdatedChangesRequestedSettings {
 pub struct AuditLogOrganizationUpdatedChangesRequested {
     #[doc = "The organization title."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "title")]
     pub title: Option<String>,
     #[doc = "The organization description."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "description")]
     pub description: Option<String>,
     #[doc = "The organization name."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "name")]
     pub name: Option<String>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "settings")]
     pub settings: Option<AuditLogOrganizationUpdatedChangesRequestedSettings>,
 }
@@ -782,10 +843,12 @@ pub struct AuditLogOrganizationUpdatedChangesRequested {
 pub struct AuditLogOrganizationUpdated {
     #[doc = "The organization ID."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "The payload used to update the organization settings."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "changes_requested")]
     pub changes_requested: Option<AuditLogOrganizationUpdatedChangesRequested>,
 }
@@ -802,10 +865,12 @@ pub struct AuditLogOrganizationUpdated {
 pub struct AuditLogProjectCreatedData {
     #[doc = "The project name."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "name")]
     pub name: Option<String>,
     #[doc = "The title of the project as seen on the dashboard."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "title")]
     pub title: Option<String>,
 }
@@ -822,10 +887,12 @@ pub struct AuditLogProjectCreatedData {
 pub struct AuditLogProjectCreated {
     #[doc = "The project ID."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "The payload used to create the project."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "data")]
     pub data: Option<AuditLogProjectCreatedData>,
 }
@@ -842,6 +909,7 @@ pub struct AuditLogProjectCreated {
 pub struct AuditLogProjectUpdatedChangesRequested {
     #[doc = "The title of the project as seen on the dashboard."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "title")]
     pub title: Option<String>,
 }
@@ -858,10 +926,12 @@ pub struct AuditLogProjectUpdatedChangesRequested {
 pub struct AuditLogProjectUpdated {
     #[doc = "The project ID."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "The payload used to update the project."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "changes_requested")]
     pub changes_requested: Option<AuditLogProjectUpdatedChangesRequested>,
 }
@@ -878,6 +948,7 @@ pub struct AuditLogProjectUpdated {
 pub struct AuditLogProjectArchived {
     #[doc = "The project ID."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
 }
@@ -894,26 +965,32 @@ pub struct AuditLogProjectArchived {
 pub struct AuditLogRateLimitUpdatedChangesRequested {
     #[doc = "The maximum requests per minute."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "max_requests_per_1_minute")]
     pub max_requests_per_1_minute: Option<u64>,
     #[doc = "The maximum tokens per minute."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "max_tokens_per_1_minute")]
     pub max_tokens_per_1_minute: Option<u64>,
     #[doc = "The maximum images per minute. Only relevant for certain models."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "max_images_per_1_minute")]
     pub max_images_per_1_minute: Option<u64>,
     #[doc = "The maximum audio megabytes per minute. Only relevant for certain models."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "max_audio_megabytes_per_1_minute")]
     pub max_audio_megabytes_per_1_minute: Option<u64>,
     #[doc = "The maximum requests per day. Only relevant for certain models."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "max_requests_per_1_day")]
     pub max_requests_per_1_day: Option<u64>,
     #[doc = "The maximum batch input tokens per day. Only relevant for certain models."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "batch_1_day_max_input_tokens")]
     pub batch_1_day_max_input_tokens: Option<u64>,
 }
@@ -930,10 +1007,12 @@ pub struct AuditLogRateLimitUpdatedChangesRequested {
 pub struct AuditLogRateLimitUpdated {
     #[doc = "The rate limit ID"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "The payload used to update the rate limits."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "changes_requested")]
     pub changes_requested: Option<AuditLogRateLimitUpdatedChangesRequested>,
 }
@@ -950,6 +1029,7 @@ pub struct AuditLogRateLimitUpdated {
 pub struct AuditLogRateLimitDeleted {
     #[doc = "The rate limit ID"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
 }
@@ -966,6 +1046,7 @@ pub struct AuditLogRateLimitDeleted {
 pub struct AuditLogServiceAccountCreatedData {
     #[doc = "The role of the service account. Is either `owner` or `member`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "role")]
     pub role: Option<String>,
 }
@@ -982,10 +1063,12 @@ pub struct AuditLogServiceAccountCreatedData {
 pub struct AuditLogServiceAccountCreated {
     #[doc = "The service account ID."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "The payload used to create the service account."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "data")]
     pub data: Option<AuditLogServiceAccountCreatedData>,
 }
@@ -1002,6 +1085,7 @@ pub struct AuditLogServiceAccountCreated {
 pub struct AuditLogServiceAccountUpdatedChangesRequested {
     #[doc = "The role of the service account. Is either `owner` or `member`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "role")]
     pub role: Option<String>,
 }
@@ -1018,10 +1102,12 @@ pub struct AuditLogServiceAccountUpdatedChangesRequested {
 pub struct AuditLogServiceAccountUpdated {
     #[doc = "The service account ID."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "The payload used to updated the service account."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "changes_requested")]
     pub changes_requested: Option<AuditLogServiceAccountUpdatedChangesRequested>,
 }
@@ -1038,6 +1124,7 @@ pub struct AuditLogServiceAccountUpdated {
 pub struct AuditLogServiceAccountDeleted {
     #[doc = "The service account ID."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
 }
@@ -1054,6 +1141,7 @@ pub struct AuditLogServiceAccountDeleted {
 pub struct AuditLogUserAddedData {
     #[doc = "The role of the user. Is either `owner` or `member`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "role")]
     pub role: Option<String>,
 }
@@ -1070,10 +1158,12 @@ pub struct AuditLogUserAddedData {
 pub struct AuditLogUserAdded {
     #[doc = "The user ID."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "The payload used to add the user to the project."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "data")]
     pub data: Option<AuditLogUserAddedData>,
 }
@@ -1090,6 +1180,7 @@ pub struct AuditLogUserAdded {
 pub struct AuditLogUserUpdatedChangesRequested {
     #[doc = "The role of the user. Is either `owner` or `member`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "role")]
     pub role: Option<String>,
 }
@@ -1106,10 +1197,12 @@ pub struct AuditLogUserUpdatedChangesRequested {
 pub struct AuditLogUserUpdated {
     #[doc = "The project ID."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "The payload used to update the user."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "changes_requested")]
     pub changes_requested: Option<AuditLogUserUpdatedChangesRequested>,
 }
@@ -1126,6 +1219,7 @@ pub struct AuditLogUserUpdated {
 pub struct AuditLogUserDeleted {
     #[doc = "The user ID."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
 }
@@ -1142,10 +1236,12 @@ pub struct AuditLogUserDeleted {
 pub struct AuditLogCertificateCreated {
     #[doc = "The certificate ID."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "The name of the certificate."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "name")]
     pub name: Option<String>,
 }
@@ -1162,10 +1258,12 @@ pub struct AuditLogCertificateCreated {
 pub struct AuditLogCertificateUpdated {
     #[doc = "The certificate ID."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "The name of the certificate."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "name")]
     pub name: Option<String>,
 }
@@ -1182,14 +1280,17 @@ pub struct AuditLogCertificateUpdated {
 pub struct AuditLogCertificateDeleted {
     #[doc = "The certificate ID."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "The name of the certificate."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "name")]
     pub name: Option<String>,
     #[doc = "The certificate content in PEM format."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "certificate")]
     pub certificate: Option<String>,
 }
@@ -1205,10 +1306,12 @@ pub struct AuditLogCertificateDeleted {
 pub struct AuditLogCertificatesActivatedCertificatesItem {
     #[doc = "The certificate ID."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "The name of the certificate."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "name")]
     pub name: Option<String>,
 }
@@ -1224,6 +1327,7 @@ pub struct AuditLogCertificatesActivatedCertificatesItem {
 )]
 pub struct AuditLogCertificatesActivated {
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "certificates")]
     pub certificates: Option<Vec<AuditLogCertificatesActivatedCertificatesItem>>,
 }
@@ -1239,10 +1343,12 @@ pub struct AuditLogCertificatesActivated {
 pub struct AuditLogCertificatesDeactivatedCertificatesItem {
     #[doc = "The certificate ID."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "The name of the certificate."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "name")]
     pub name: Option<String>,
 }
@@ -1258,6 +1364,7 @@ pub struct AuditLogCertificatesDeactivatedCertificatesItem {
 )]
 pub struct AuditLogCertificatesDeactivated {
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "certificates")]
     pub certificates: Option<Vec<AuditLogCertificatesDeactivatedCertificatesItem>>,
 }
@@ -1276,6 +1383,7 @@ pub struct AuditLog {
     pub effective_at: u64,
     #[doc = "The project that the action was scoped to. Absent for actions not scoped to projects."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "project")]
     pub project: Option<AuditLogProject>,
     #[builder(default)]
@@ -1283,110 +1391,137 @@ pub struct AuditLog {
     pub actor: AuditLogActor,
     #[doc = "The details for events with this `type`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "api_key.created")]
     pub api_key_created: Option<AuditLogApiKeyCreated>,
     #[doc = "The details for events with this `type`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "api_key.updated")]
     pub api_key_updated: Option<AuditLogApiKeyUpdated>,
     #[doc = "The details for events with this `type`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "api_key.deleted")]
     pub api_key_deleted: Option<AuditLogApiKeyDeleted>,
     #[doc = "The project and fine-tuned model checkpoint that the checkpoint permission was created for."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "checkpoint_permission.created")]
     pub checkpoint_permission_created: Option<AuditLogCheckpointPermissionCreated>,
     #[doc = "The details for events with this `type`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "checkpoint_permission.deleted")]
     pub checkpoint_permission_deleted: Option<AuditLogCheckpointPermissionDeleted>,
     #[doc = "The details for events with this `type`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "invite.sent")]
     pub invite_sent: Option<AuditLogInviteSent>,
     #[doc = "The details for events with this `type`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "invite.accepted")]
     pub invite_accepted: Option<AuditLogInviteAccepted>,
     #[doc = "The details for events with this `type`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "invite.deleted")]
     pub invite_deleted: Option<AuditLogInviteDeleted>,
     #[doc = "The details for events with this `type`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "login.failed")]
     pub login_failed: Option<AuditLogLoginFailed>,
     #[doc = "The details for events with this `type`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "logout.failed")]
     pub logout_failed: Option<AuditLogLogoutFailed>,
     #[doc = "The details for events with this `type`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "organization.updated")]
     pub organization_updated: Option<AuditLogOrganizationUpdated>,
     #[doc = "The details for events with this `type`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "project.created")]
     pub project_created: Option<AuditLogProjectCreated>,
     #[doc = "The details for events with this `type`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "project.updated")]
     pub project_updated: Option<AuditLogProjectUpdated>,
     #[doc = "The details for events with this `type`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "project.archived")]
     pub project_archived: Option<AuditLogProjectArchived>,
     #[doc = "The details for events with this `type`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "rate_limit.updated")]
     pub rate_limit_updated: Option<AuditLogRateLimitUpdated>,
     #[doc = "The details for events with this `type`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "rate_limit.deleted")]
     pub rate_limit_deleted: Option<AuditLogRateLimitDeleted>,
     #[doc = "The details for events with this `type`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "service_account.created")]
     pub service_account_created: Option<AuditLogServiceAccountCreated>,
     #[doc = "The details for events with this `type`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "service_account.updated")]
     pub service_account_updated: Option<AuditLogServiceAccountUpdated>,
     #[doc = "The details for events with this `type`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "service_account.deleted")]
     pub service_account_deleted: Option<AuditLogServiceAccountDeleted>,
     #[doc = "The details for events with this `type`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "user.added")]
     pub user_added: Option<AuditLogUserAdded>,
     #[doc = "The details for events with this `type`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "user.updated")]
     pub user_updated: Option<AuditLogUserUpdated>,
     #[doc = "The details for events with this `type`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "user.deleted")]
     pub user_deleted: Option<AuditLogUserDeleted>,
     #[doc = "The details for events with this `type`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "certificate.created")]
     pub certificate_created: Option<AuditLogCertificateCreated>,
     #[doc = "The details for events with this `type`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "certificate.updated")]
     pub certificate_updated: Option<AuditLogCertificateUpdated>,
     #[doc = "The details for events with this `type`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "certificate.deleted")]
     pub certificate_deleted: Option<AuditLogCertificateDeleted>,
     #[doc = "The details for events with this `type`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "certificates.activated")]
     pub certificates_activated: Option<AuditLogCertificatesActivated>,
     #[doc = "The details for events with this `type`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "certificates.deactivated")]
     pub certificates_deactivated: Option<AuditLogCertificatesDeactivated>,
 }
@@ -1412,12 +1547,15 @@ pub enum AuditLogActorType {
 pub struct AuditLogActor {
     #[doc = "The type of actor. Is either `session` or `api_key`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "type")]
     pub type_: Option<AuditLogActorType>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "session")]
     pub session: Option<AuditLogActorSession>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "api_key")]
     pub api_key: Option<AuditLogActorApiKey>,
 }
@@ -1443,16 +1581,20 @@ pub enum AuditLogActorApiKeyType {
 pub struct AuditLogActorApiKey {
     #[doc = "The tracking id of the API key."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "The type of API key. Can be either `user` or `service_account`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "type")]
     pub type_: Option<AuditLogActorApiKeyType>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "user")]
     pub user: Option<AuditLogActorUser>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "service_account")]
     pub service_account: Option<AuditLogActorServiceAccount>,
 }
@@ -1469,6 +1611,7 @@ pub struct AuditLogActorApiKey {
 pub struct AuditLogActorServiceAccount {
     #[doc = "The service account id."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
 }
@@ -1484,10 +1627,12 @@ pub struct AuditLogActorServiceAccount {
 )]
 pub struct AuditLogActorSession {
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "user")]
     pub user: Option<AuditLogActorUser>,
     #[doc = "The IP address from which the action was performed."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "ip_address")]
     pub ip_address: Option<String>,
 }
@@ -1504,10 +1649,12 @@ pub struct AuditLogActorSession {
 pub struct AuditLogActorUser {
     #[doc = "The user id."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "The user email."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "email")]
     pub email: Option<String>,
 }
@@ -1576,9 +1723,10 @@ pub enum AuditLogEventType {
 )]
 pub struct AutoChunkingStrategyRequestParam {}
 #[doc = "The object type, which is always `batch`."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum BatchObject {
+    #[default]
     #[serde(rename = "batch")]
     Batch,
 }
@@ -1594,18 +1742,22 @@ pub enum BatchObject {
 pub struct BatchErrorsDataItem {
     #[doc = "An error code identifying the error type."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "code")]
     pub code: Option<String>,
     #[doc = "A human-readable message providing more details about the error."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "message")]
     pub message: Option<String>,
     #[doc = "The name of the parameter that caused the error, if applicable."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "param")]
     pub param: Option<String>,
     #[doc = "The line number of the input file where the error occurred, if applicable."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "line")]
     pub line: Option<u64>,
 }
@@ -1621,9 +1773,11 @@ pub struct BatchErrorsDataItem {
 pub struct BatchErrors {
     #[doc = "The object type, which is always `list`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "object")]
     pub object: Option<String>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "data")]
     pub data: Option<Vec<BatchErrorsDataItem>>,
 }
@@ -1670,12 +1824,14 @@ pub struct Batch {
     #[serde(rename = "id")]
     pub id: String,
     #[doc = "The object type, which is always `batch`."]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: BatchObject,
     #[doc = "The OpenAI API endpoint used by the batch."]
     #[serde(rename = "endpoint")]
     pub endpoint: String,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "errors")]
     pub errors: Option<BatchErrors>,
     #[doc = "The ID of the input file for the batch."]
@@ -1689,10 +1845,12 @@ pub struct Batch {
     pub status: BatchStatus,
     #[doc = "The ID of the file containing the outputs of successfully executed requests."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "output_file_id")]
     pub output_file_id: Option<String>,
     #[doc = "The ID of the file containing the outputs of requests with errors."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "error_file_id")]
     pub error_file_id: Option<String>,
     #[doc = "The Unix timestamp (in seconds) for when the batch was created."]
@@ -1700,48 +1858,59 @@ pub struct Batch {
     pub created_at: u64,
     #[doc = "The Unix timestamp (in seconds) for when the batch started processing."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "in_progress_at")]
     pub in_progress_at: Option<u64>,
     #[doc = "The Unix timestamp (in seconds) for when the batch will expire."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "expires_at")]
     pub expires_at: Option<u64>,
     #[doc = "The Unix timestamp (in seconds) for when the batch started finalizing."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "finalizing_at")]
     pub finalizing_at: Option<u64>,
     #[doc = "The Unix timestamp (in seconds) for when the batch was completed."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "completed_at")]
     pub completed_at: Option<u64>,
     #[doc = "The Unix timestamp (in seconds) for when the batch failed."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "failed_at")]
     pub failed_at: Option<u64>,
     #[doc = "The Unix timestamp (in seconds) for when the batch expired."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "expired_at")]
     pub expired_at: Option<u64>,
     #[doc = "The Unix timestamp (in seconds) for when the batch started cancelling."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "cancelling_at")]
     pub cancelling_at: Option<u64>,
     #[doc = "The Unix timestamp (in seconds) for when the batch was cancelled."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "cancelled_at")]
     pub cancelled_at: Option<u64>,
     #[doc = "The request counts for different statuses within the batch."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "request_counts")]
     pub request_counts: Option<BatchRequestCounts>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "metadata")]
     pub metadata: Option<Metadata>,
 }
 #[doc = "The HTTP method to be used for the request. Currently only `POST` is supported."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum BatchRequestInputMethod {
+    #[default]
     #[serde(rename = "POST")]
     Post,
 }
@@ -1758,14 +1927,17 @@ pub enum BatchRequestInputMethod {
 pub struct BatchRequestInput {
     #[doc = "A developer-provided per-request id that will be used to match outputs to inputs. Must be unique for each request in a batch."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "custom_id")]
     pub custom_id: Option<String>,
     #[doc = "The HTTP method to be used for the request. Currently only `POST` is supported."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "method")]
     pub method: Option<BatchRequestInputMethod>,
     #[doc = "The OpenAI API relative URL to be used for the request. Currently `/v1/chat/completions`, `/v1/embeddings`, and `/v1/completions` are supported."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "url")]
     pub url: Option<String>,
 }
@@ -1781,14 +1953,17 @@ pub struct BatchRequestInput {
 pub struct BatchRequestOutputResponse {
     #[doc = "The HTTP status code of the response"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "status_code")]
     pub status_code: Option<u64>,
     #[doc = "An unique identifier for the OpenAI API request. Please include this request ID when contacting support."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "request_id")]
     pub request_id: Option<String>,
     #[doc = "The JSON body of the response"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "body")]
     pub body: Option<std::collections::HashMap<String, serde_json::Value>>,
 }
@@ -1805,10 +1980,12 @@ pub struct BatchRequestOutputResponse {
 pub struct BatchRequestOutputError {
     #[doc = "A machine-readable error code."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "code")]
     pub code: Option<String>,
     #[doc = "A human-readable error message."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "message")]
     pub message: Option<String>,
 }
@@ -1824,24 +2001,29 @@ pub struct BatchRequestOutputError {
 )]
 pub struct BatchRequestOutput {
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "A developer-provided per-request id that will be used to match outputs to inputs."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "custom_id")]
     pub custom_id: Option<String>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "response")]
     pub response: Option<BatchRequestOutputResponse>,
     #[doc = "For requests that failed with a non-HTTP error, this will contain more information on the cause of the failure."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "error")]
     pub error: Option<BatchRequestOutputError>,
 }
 #[doc = "The object type.\n\n- If creating, updating, or getting a specific certificate, the object type is `certificate`.\n- If listing, activating, or deactivating certificates for the organization, the object type is `organization.certificate`.\n- If listing, activating, or deactivating certificates for a project, the object type is `organization.project.certificate`.\n"]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum CertificateObject {
+    #[default]
     #[serde(rename = "certificate")]
     Certificate,
     #[serde(rename = "organization.certificate")]
@@ -1861,14 +2043,17 @@ pub enum CertificateObject {
 pub struct CertificateCertificateDetails {
     #[doc = "The Unix timestamp (in seconds) of when the certificate becomes valid."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "valid_at")]
     pub valid_at: Option<u64>,
     #[doc = "The Unix timestamp (in seconds) of when the certificate expires."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "expires_at")]
     pub expires_at: Option<u64>,
     #[doc = "The content of the certificate in PEM format."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "content")]
     pub content: Option<String>,
 }
@@ -1878,6 +2063,7 @@ pub struct CertificateCertificateDetails {
 )]
 pub struct Certificate {
     #[doc = "The object type.\n\n- If creating, updating, or getting a specific certificate, the object type is `certificate`.\n- If listing, activating, or deactivating certificates for the organization, the object type is `organization.certificate`.\n- If listing, activating, or deactivating certificates for a project, the object type is `organization.project.certificate`.\n"]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: CertificateObject,
     #[doc = "The identifier, which can be referenced in API endpoints"]
@@ -1894,13 +2080,15 @@ pub struct Certificate {
     pub certificate_details: CertificateCertificateDetails,
     #[doc = "Whether the certificate is currently active at the specified scope. Not returned when getting details for a specific certificate."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "active")]
     pub active: Option<bool>,
 }
 #[doc = "The type of object being deleted."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionDeletedObject {
+    #[default]
     #[serde(rename = "chat.completion.deleted")]
     ChatCompletionDeleted,
 }
@@ -1909,6 +2097,7 @@ pub enum ChatCompletionDeletedObject {
 )]
 pub struct ChatCompletionDeleted {
     #[doc = "The type of object being deleted."]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: ChatCompletionDeletedObject,
     #[doc = "The ID of the chat completion that was deleted."]
@@ -1933,12 +2122,14 @@ pub struct ChatCompletionFunctionCallOption {
 pub struct ChatCompletionFunctions {
     #[doc = "A description of what the function does, used by the model to choose when and how to call the function."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "description")]
     pub description: Option<String>,
     #[doc = "The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64."]
     #[serde(rename = "name")]
     pub name: String,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "parameters")]
     pub parameters: Option<FunctionParameters>,
 }
@@ -1984,6 +2175,7 @@ pub enum ChatCompletionMessageListObject {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ChatCompletionMessageListDataItem {
+    #[builder(default)]
     #[serde(flatten)]
     pub chat_completion_response_message: ChatCompletionResponseMessage,
     #[doc = "The identifier of the chat message."]
@@ -2013,9 +2205,10 @@ pub struct ChatCompletionMessageList {
     pub has_more: bool,
 }
 #[doc = "The type of the tool. Currently, only `function` is supported."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionMessageToolCallType {
+    #[default]
     #[serde(rename = "function")]
     Function,
 }
@@ -2039,6 +2232,7 @@ pub struct ChatCompletionMessageToolCall {
     #[serde(rename = "id")]
     pub id: String,
     #[doc = "The type of the tool. Currently, only `function` is supported."]
+    #[builder(default)]
     #[serde(rename = "type")]
     pub type_: ChatCompletionMessageToolCallType,
     #[doc = "The function that the model called."]
@@ -2046,9 +2240,10 @@ pub struct ChatCompletionMessageToolCall {
     pub function: ChatCompletionMessageToolCallFunction,
 }
 #[doc = "The type of the tool. Currently, only `function` is supported."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionMessageToolCallChunkType {
+    #[default]
     #[serde(rename = "function")]
     Function,
 }
@@ -2064,10 +2259,12 @@ pub enum ChatCompletionMessageToolCallChunkType {
 pub struct ChatCompletionMessageToolCallChunkFunction {
     #[doc = "The name of the function to call."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "name")]
     pub name: Option<String>,
     #[doc = "The arguments to call the function with, as generated by the model in JSON format. Note that the model does not always generate valid JSON, and may hallucinate parameters not defined by your function schema. Validate the arguments in your code before calling your function."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "arguments")]
     pub arguments: Option<String>,
 }
@@ -2079,13 +2276,16 @@ pub struct ChatCompletionMessageToolCallChunk {
     pub index: u64,
     #[doc = "The ID of the tool call."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "The type of the tool. Currently, only `function` is supported."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "type")]
     pub type_: Option<ChatCompletionMessageToolCallChunkType>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "function")]
     pub function: Option<ChatCompletionMessageToolCallChunkFunction>,
 }
@@ -2100,9 +2300,10 @@ pub enum ChatCompletionModalitiesItem {
 }
 pub type ChatCompletionModalities = Vec<ChatCompletionModalitiesItem>;
 #[doc = "The type of the tool. Currently, only `function` is supported."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionNamedToolChoiceType {
+    #[default]
     #[serde(rename = "function")]
     Function,
 }
@@ -2120,6 +2321,7 @@ pub struct ChatCompletionNamedToolChoiceFunction {
 )]
 pub struct ChatCompletionNamedToolChoice {
     #[doc = "The type of the tool. Currently, only `function` is supported."]
+    #[builder(default)]
     #[serde(rename = "type")]
     pub type_: ChatCompletionNamedToolChoiceType,
     #[serde(rename = "function")]
@@ -2167,25 +2369,31 @@ pub struct ChatCompletionRequestAssistantMessageFunctionCall {
 pub struct ChatCompletionRequestAssistantMessage {
     #[doc = "The contents of the assistant message. Required unless `tool_calls` or `function_call` is specified.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "content")]
     pub content: Option<ChatCompletionRequestAssistantMessageContent>,
     #[doc = "The refusal message by the assistant."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "refusal")]
     pub refusal: Option<String>,
     #[doc = "An optional name for the participant. Provides the model information to differentiate between participants of the same role."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "name")]
     pub name: Option<String>,
     #[doc = "Data about a previous audio response from the model. \n[Learn more](/docs/guides/audio).\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "audio")]
     pub audio: Option<ChatCompletionRequestAssistantMessageAudio>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "tool_calls")]
     pub tool_calls: Option<ChatCompletionMessageToolCalls>,
     #[doc = "Deprecated and replaced by `tool_calls`. The name and arguments of a function that should be called, as generated by the model."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "function_call")]
     pub function_call: Option<ChatCompletionRequestAssistantMessageFunctionCall>,
 }
@@ -2216,6 +2424,7 @@ pub struct ChatCompletionRequestDeveloperMessage {
     pub content: ChatCompletionRequestDeveloperMessageContent,
     #[doc = "An optional name for the participant. Provides the model information to differentiate between participants of the same role."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "name")]
     pub name: Option<String>,
 }
@@ -2225,6 +2434,7 @@ pub struct ChatCompletionRequestDeveloperMessage {
 pub struct ChatCompletionRequestFunctionMessage {
     #[doc = "The contents of the function message."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "content")]
     pub content: Option<String>,
     #[doc = "The name of the function to call."]
@@ -2288,14 +2498,17 @@ pub struct ChatCompletionRequestMessageContentPartAudio {
 pub struct ChatCompletionRequestMessageContentPartFileFile {
     #[doc = "The name of the file, used when passing the file to the model as a \nstring.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "filename")]
     pub filename: Option<String>,
     #[doc = "The base64 encoded file data, used when passing the file to the model \nas a string.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "file_data")]
     pub file_data: Option<String>,
     #[doc = "The ID of an uploaded file to use as input.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "file_id")]
     pub file_id: Option<String>,
 }
@@ -2335,6 +2548,7 @@ pub struct ChatCompletionRequestMessageContentPartImageImageUrl {
     pub url: String,
     #[doc = "Specifies the detail level of the image. Learn more in the [Vision guide](/docs/guides/vision#low-or-high-fidelity-image-understanding)."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "detail")]
     pub detail: Option<ChatCompletionRequestMessageContentPartImageImageUrlDetail>,
 }
@@ -2381,6 +2595,7 @@ pub struct ChatCompletionRequestSystemMessage {
     pub content: ChatCompletionRequestSystemMessageContent,
     #[doc = "An optional name for the participant. Provides the model information to differentiate between participants of the same role."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "name")]
     pub name: Option<String>,
 }
@@ -2435,6 +2650,7 @@ pub struct ChatCompletionRequestUserMessage {
     pub content: ChatCompletionRequestUserMessageContent,
     #[doc = "An optional name for the participant. Provides the model information to differentiate between participants of the same role."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "name")]
     pub name: Option<String>,
 }
@@ -2452,9 +2668,10 @@ pub enum ChatCompletionRequestUserMessageContentPart {
     File(ChatCompletionRequestMessageContentPartFile),
 }
 #[doc = "The type of the URL citation. Always `url_citation`."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionResponseMessageAnnotationsItemType {
+    #[default]
     #[serde(rename = "url_citation")]
     UrlCitation,
 }
@@ -2482,6 +2699,7 @@ pub struct ChatCompletionResponseMessageAnnotationsItemUrlCitation {
 )]
 pub struct ChatCompletionResponseMessageAnnotationsItem {
     #[doc = "The type of the URL citation. Always `url_citation`."]
+    #[builder(default)]
     #[serde(rename = "type")]
     pub type_: ChatCompletionResponseMessageAnnotationsItemType,
     #[doc = "A URL citation when using web search."]
@@ -2489,9 +2707,10 @@ pub struct ChatCompletionResponseMessageAnnotationsItem {
     pub url_citation: ChatCompletionResponseMessageAnnotationsItemUrlCitation,
 }
 #[doc = "The role of the author of this message."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionResponseMessageRole {
+    #[default]
     #[serde(rename = "assistant")]
     Assistant,
 }
@@ -2527,33 +2746,46 @@ pub struct ChatCompletionResponseMessageAudio {
 }
 #[doc = "A chat completion message generated by the model."]
 #[derive(
-    Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
+    Clone,
+    Debug,
+    PartialEq,
+    serde :: Deserialize,
+    serde :: Serialize,
+    Default,
+    typed_builder :: TypedBuilder,
 )]
 pub struct ChatCompletionResponseMessage {
     #[doc = "The contents of the message."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "content")]
     pub content: Option<String>,
     #[doc = "The refusal message generated by the model."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "refusal")]
     pub refusal: Option<String>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "tool_calls")]
     pub tool_calls: Option<ChatCompletionMessageToolCalls>,
     #[doc = "Annotations for the message, when applicable, as when using the\n[web search tool](/docs/guides/tools-web-search?api-mode=chat).\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "annotations")]
     pub annotations: Option<Vec<ChatCompletionResponseMessageAnnotationsItem>>,
     #[doc = "The role of the author of this message."]
+    #[builder(default)]
     #[serde(rename = "role")]
     pub role: ChatCompletionResponseMessageRole,
     #[doc = "Deprecated and replaced by `tool_calls`. The name and arguments of a function that should be called, as generated by the model."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "function_call")]
     pub function_call: Option<ChatCompletionResponseMessageFunctionCall>,
     #[doc = "If the audio output modality is requested, this object contains data\nabout the audio response from the model. [Learn more](/docs/guides/audio).\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "audio")]
     pub audio: Option<ChatCompletionResponseMessageAudio>,
 }
@@ -2587,6 +2819,7 @@ pub enum ChatCompletionRole {
 pub struct ChatCompletionStreamOptions {
     #[doc = "If set, an additional chunk will be streamed before the `data: [DONE]`\nmessage. The `usage` field on this chunk shows the token usage statistics\nfor the entire request, and the `choices` field will always be an empty\narray. \n\nAll other chunks will also include a `usage` field, but with a null\nvalue. **NOTE:** If the stream is interrupted, you may not receive the\nfinal usage chunk which contains the total token usage for the request.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "include_usage")]
     pub include_usage: Option<bool>,
 }
@@ -2603,10 +2836,12 @@ pub struct ChatCompletionStreamOptions {
 pub struct ChatCompletionStreamResponseDeltaFunctionCall {
     #[doc = "The arguments to call the function with, as generated by the model in JSON format. Note that the model does not always generate valid JSON, and may hallucinate parameters not defined by your function schema. Validate the arguments in your code before calling your function."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "arguments")]
     pub arguments: Option<String>,
     #[doc = "The name of the function to call."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "name")]
     pub name: Option<String>,
 }
@@ -2638,21 +2873,26 @@ pub enum ChatCompletionStreamResponseDeltaRole {
 pub struct ChatCompletionStreamResponseDelta {
     #[doc = "The contents of the chunk message."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "content")]
     pub content: Option<String>,
     #[doc = "Deprecated and replaced by `tool_calls`. The name and arguments of a function that should be called, as generated by the model."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "function_call")]
     pub function_call: Option<ChatCompletionStreamResponseDeltaFunctionCall>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "tool_calls")]
     pub tool_calls: Option<Vec<ChatCompletionMessageToolCallChunk>>,
     #[doc = "The role of the author of this message."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "role")]
     pub role: Option<ChatCompletionStreamResponseDeltaRole>,
     #[doc = "The refusal message generated by the model."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "refusal")]
     pub refusal: Option<String>,
 }
@@ -2668,6 +2908,7 @@ pub struct ChatCompletionTokenLogprobTopLogprobsItem {
     pub logprob: f64,
     #[doc = "A list of integers representing the UTF-8 bytes representation of the token. Useful in instances where characters are represented by multiple tokens and their byte representations must be combined to generate the correct text representation. Can be `null` if there is no bytes representation for the token."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "bytes")]
     pub bytes: Option<Vec<u64>>,
 }
@@ -2683,6 +2924,7 @@ pub struct ChatCompletionTokenLogprob {
     pub logprob: f64,
     #[doc = "A list of integers representing the UTF-8 bytes representation of the token. Useful in instances where characters are represented by multiple tokens and their byte representations must be combined to generate the correct text representation. Can be `null` if there is no bytes representation for the token."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "bytes")]
     pub bytes: Option<Vec<u64>>,
     #[doc = "List of the most likely tokens and their log probability, at this token position. In rare cases, there may be fewer than the number of requested `top_logprobs` returned."]
@@ -2690,9 +2932,10 @@ pub struct ChatCompletionTokenLogprob {
     pub top_logprobs: Vec<ChatCompletionTokenLogprobTopLogprobsItem>,
 }
 #[doc = "The type of the tool. Currently, only `function` is supported."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionToolType {
+    #[default]
     #[serde(rename = "function")]
     Function,
 }
@@ -2701,6 +2944,7 @@ pub enum ChatCompletionToolType {
 )]
 pub struct ChatCompletionTool {
     #[doc = "The type of the tool. Currently, only `function` is supported."]
+    #[builder(default)]
     #[serde(rename = "type")]
     pub type_: ChatCompletionToolType,
     #[serde(rename = "function")]
@@ -2794,9 +3038,10 @@ pub struct CodeInterpreterTextOutput {
     pub logs: String,
 }
 #[doc = "The type of the code interpreter tool call. Always `code_interpreter_call`.\n"]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum CodeInterpreterToolCallType {
+    #[default]
     #[serde(rename = "code_interpreter_call")]
     CodeInterpreterCall,
 }
@@ -2820,6 +3065,7 @@ pub struct CodeInterpreterToolCall {
     #[serde(rename = "id")]
     pub id: String,
     #[doc = "The type of the code interpreter tool call. Always `code_interpreter_call`.\n"]
+    #[builder(default)]
     #[serde(rename = "type")]
     pub type_: CodeInterpreterToolCallType,
     #[doc = "The code to run.\n"]
@@ -2893,6 +3139,7 @@ pub struct CompleteUploadRequest {
     pub part_ids: Vec<String>,
     #[doc = "The optional md5 checksum for the file contents to verify if the bytes uploaded matches what you expect.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "md5")]
     pub md5: Option<String>,
 }
@@ -2909,18 +3156,22 @@ pub struct CompleteUploadRequest {
 pub struct CompletionUsageCompletionTokensDetails {
     #[doc = "When using Predicted Outputs, the number of tokens in the\nprediction that appeared in the completion.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "accepted_prediction_tokens")]
     pub accepted_prediction_tokens: Option<u64>,
     #[doc = "Audio input tokens generated by the model."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "audio_tokens")]
     pub audio_tokens: Option<u64>,
     #[doc = "Tokens generated by the model for reasoning."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "reasoning_tokens")]
     pub reasoning_tokens: Option<u64>,
     #[doc = "When using Predicted Outputs, the number of tokens in the\nprediction that did not appear in the completion. However, like\nreasoning tokens, these tokens are still counted in the total\ncompletion tokens for purposes of billing, output, and context window\nlimits.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "rejected_prediction_tokens")]
     pub rejected_prediction_tokens: Option<u64>,
 }
@@ -2937,10 +3188,12 @@ pub struct CompletionUsageCompletionTokensDetails {
 pub struct CompletionUsagePromptTokensDetails {
     #[doc = "Audio input tokens present in the prompt."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "audio_tokens")]
     pub audio_tokens: Option<u64>,
     #[doc = "Cached tokens present in the prompt."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "cached_tokens")]
     pub cached_tokens: Option<u64>,
 }
@@ -2960,10 +3213,12 @@ pub struct CompletionUsage {
     pub total_tokens: u64,
     #[doc = "Breakdown of tokens used in a completion."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "completion_tokens_details")]
     pub completion_tokens_details: Option<CompletionUsageCompletionTokensDetails>,
     #[doc = "Breakdown of tokens used in the prompt."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "prompt_tokens_details")]
     pub prompt_tokens_details: Option<CompletionUsagePromptTokensDetails>,
 }
@@ -3043,10 +3298,12 @@ pub struct ComputerScreenshotImage {
     pub type_: ComputerScreenshotImageType,
     #[doc = "The URL of the screenshot image."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "image_url")]
     pub image_url: Option<String>,
     #[doc = "The identifier of an uploaded file that contains the screenshot."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "file_id")]
     pub file_id: Option<String>,
 }
@@ -3123,6 +3380,7 @@ pub struct ComputerToolCallOutput {
     pub type_: ComputerToolCallOutputType,
     #[doc = "The ID of the computer tool call output.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "The ID of the computer tool call that produced the output.\n"]
@@ -3130,6 +3388,7 @@ pub struct ComputerToolCallOutput {
     pub call_id: String,
     #[doc = "The safety checks reported by the API that have been acknowledged by the \ndeveloper.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "acknowledged_safety_checks")]
     pub acknowledged_safety_checks: Option<Vec<ComputerToolCallSafetyCheck>>,
     #[builder(default)]
@@ -3137,6 +3396,7 @@ pub struct ComputerToolCallOutput {
     pub output: ComputerScreenshotImage,
     #[doc = "The status of the message input. One of `in_progress`, `completed`, or\n`incomplete`. Populated when input items are returned via API.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "status")]
     pub status: Option<ComputerToolCallOutputStatus>,
 }
@@ -3198,10 +3458,12 @@ pub struct Coordinate {
 pub struct CostsResultAmount {
     #[doc = "The numeric value of the cost."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "value")]
     pub value: Option<f64>,
     #[doc = "Lowercase ISO-4217 currency e.g. \"usd\""]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "currency")]
     pub currency: Option<String>,
 }
@@ -3218,14 +3480,17 @@ pub struct CostsResultAmount {
 pub struct CostsResult {
     #[doc = "The monetary value in its associated currency."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "amount")]
     pub amount: Option<CostsResultAmount>,
     #[doc = "When `group_by=line_item`, this field provides the line item of the grouped costs result."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "line_item")]
     pub line_item: Option<String>,
     #[doc = "When `group_by=project_id`, this field provides the project ID of the grouped costs result."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "project_id")]
     pub project_id: Option<String>,
 }
@@ -3252,6 +3517,7 @@ pub enum CreateAssistantRequestToolsItem {
 pub struct CreateAssistantRequestToolResourcesCodeInterpreter {
     #[doc = "A list of [file](/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "file_ids")]
     pub file_ids: Option<Vec<String>>,
 }
@@ -3308,14 +3574,17 @@ pub enum CreateAssistantRequestToolResourcesFileSearch0VectorStoresItemChunkingS
 pub struct CreateAssistantRequestToolResourcesFileSearch0VectorStoresItem {
     #[doc = "A list of [file](/docs/api-reference/files) IDs to add to the vector store. There can be a maximum of 10000 files in a vector store.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "file_ids")]
     pub file_ids: Option<Vec<String>>,
     #[doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "chunking_strategy")]
     pub chunking_strategy:
         Option<CreateAssistantRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategy>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "metadata")]
     pub metadata: Option<Metadata>,
 }
@@ -3328,6 +3597,7 @@ pub struct CreateAssistantRequestToolResourcesFileSearch0 {
     pub vector_store_ids: Vec<String>,
     #[doc = "A helper to create a [vector store](/docs/api-reference/vector-stores/object) with file_ids and attach it to this assistant. There can be a maximum of 1 vector store attached to the assistant.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "vector_stores")]
     pub vector_stores: Option<Vec<CreateAssistantRequestToolResourcesFileSearch0VectorStoresItem>>,
 }
@@ -3384,14 +3654,17 @@ pub enum CreateAssistantRequestToolResourcesFileSearch1VectorStoresItemChunkingS
 pub struct CreateAssistantRequestToolResourcesFileSearch1VectorStoresItem {
     #[doc = "A list of [file](/docs/api-reference/files) IDs to add to the vector store. There can be a maximum of 10000 files in a vector store.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "file_ids")]
     pub file_ids: Option<Vec<String>>,
     #[doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "chunking_strategy")]
     pub chunking_strategy:
         Option<CreateAssistantRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategy>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "metadata")]
     pub metadata: Option<Metadata>,
 }
@@ -3401,6 +3674,7 @@ pub struct CreateAssistantRequestToolResourcesFileSearch1VectorStoresItem {
 pub struct CreateAssistantRequestToolResourcesFileSearch1 {
     #[doc = "The [vector store](/docs/api-reference/vector-stores/object) attached to this assistant. There can be a maximum of 1 vector store attached to the assistant.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "vector_store_ids")]
     pub vector_store_ids: Option<Vec<String>>,
     #[doc = "A helper to create a [vector store](/docs/api-reference/vector-stores/object) with file_ids and attach it to this assistant. There can be a maximum of 1 vector store attached to the assistant.\n"]
@@ -3426,9 +3700,11 @@ pub enum CreateAssistantRequestToolResourcesFileSearch {
 )]
 pub struct CreateAssistantRequestToolResources {
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "code_interpreter")]
     pub code_interpreter: Option<CreateAssistantRequestToolResourcesCodeInterpreter>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "file_search")]
     pub file_search: Option<CreateAssistantRequestToolResourcesFileSearch>,
 }
@@ -3441,55 +3717,73 @@ pub struct CreateAssistantRequest {
     pub model: String,
     #[doc = "The name of the assistant. The maximum length is 256 characters.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "name")]
     pub name: Option<String>,
     #[doc = "The description of the assistant. The maximum length is 512 characters.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "description")]
     pub description: Option<String>,
     #[doc = "The system instructions that the assistant uses. The maximum length is 256,000 characters.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "instructions")]
     pub instructions: Option<String>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "reasoning_effort")]
     pub reasoning_effort: Option<ReasoningEffort>,
     #[doc = "A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `file_search`, or `function`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "tools")]
     pub tools: Option<Vec<CreateAssistantRequestToolsItem>>,
     #[doc = "A set of resources that are used by the assistant's tools. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "tool_resources")]
     pub tool_resources: Option<CreateAssistantRequestToolResources>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "metadata")]
     pub metadata: Option<Metadata>,
     #[doc = "What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "temperature")]
     pub temperature: Option<f64>,
     #[doc = "An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.\n\nWe generally recommend altering this or temperature but not both.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "top_p")]
     pub top_p: Option<f64>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "response_format")]
     pub response_format: Option<AssistantsApiResponseFormatOption>,
 }
 #[doc = "The type of location approximation. Always `approximate`.\n"]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateChatCompletionRequestWebSearchOptionsUserLocationType {
+    #[default]
     #[serde(rename = "approximate")]
     Approximate,
 }
 #[doc = "Approximate location parameters for the search.\n"]
 #[derive(
-    Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
+    Clone,
+    Debug,
+    PartialEq,
+    serde :: Deserialize,
+    serde :: Serialize,
+    Default,
+    typed_builder :: TypedBuilder,
 )]
 pub struct CreateChatCompletionRequestWebSearchOptionsUserLocation {
     #[doc = "The type of location approximation. Always `approximate`.\n"]
+    #[builder(default)]
     #[serde(rename = "type")]
     pub type_: CreateChatCompletionRequestWebSearchOptionsUserLocationType,
     #[builder(default)]
@@ -3509,9 +3803,11 @@ pub struct CreateChatCompletionRequestWebSearchOptionsUserLocation {
 pub struct CreateChatCompletionRequestWebSearchOptions {
     #[doc = "Approximate location parameters for the search.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "user_location")]
     pub user_location: Option<CreateChatCompletionRequestWebSearchOptionsUserLocation>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "search_context_size")]
     pub search_context_size: Option<WebSearchContextSize>,
 }
@@ -3595,93 +3891,117 @@ pub struct CreateChatCompletionRequest {
     #[serde(rename = "model")]
     pub model: ModelIdsShared,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "modalities")]
     pub modalities: Option<ResponseModalities>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "reasoning_effort")]
     pub reasoning_effort: Option<ReasoningEffort>,
     #[doc = "An upper bound for the number of tokens that can be generated for a completion, including visible output tokens and [reasoning tokens](/docs/guides/reasoning).\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "max_completion_tokens")]
     pub max_completion_tokens: Option<u64>,
     #[doc = "Number between -2.0 and 2.0. Positive values penalize new tokens based on\ntheir existing frequency in the text so far, decreasing the model's\nlikelihood to repeat the same line verbatim.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "frequency_penalty")]
     pub frequency_penalty: Option<f64>,
     #[doc = "Number between -2.0 and 2.0. Positive values penalize new tokens based on\nwhether they appear in the text so far, increasing the model's likelihood\nto talk about new topics.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "presence_penalty")]
     pub presence_penalty: Option<f64>,
     #[doc = "This tool searches the web for relevant results to use in a response.\nLearn more about the [web search tool](/docs/guides/tools-web-search?api-mode=chat).\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "web_search_options")]
     pub web_search_options: Option<CreateChatCompletionRequestWebSearchOptions>,
     #[doc = "An integer between 0 and 20 specifying the number of most likely tokens to\nreturn at each token position, each with an associated log probability.\n`logprobs` must be set to `true` if this parameter is used.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "top_logprobs")]
     pub top_logprobs: Option<u64>,
     #[doc = "An object specifying the format that the model must output.\n\nSetting to `{ \"type\": \"json_schema\", \"json_schema\": {...} }` enables\nStructured Outputs which ensures the model will match your supplied JSON\nschema. Learn more in the [Structured Outputs\nguide](/docs/guides/structured-outputs).\n\nSetting to `{ \"type\": \"json_object\" }` enables the older JSON mode, which\nensures the message the model generates is valid JSON. Using `json_schema`\nis preferred for models that support it.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "response_format")]
     pub response_format: Option<CreateChatCompletionRequestResponseFormat>,
     #[doc = "Parameters for audio output. Required when audio output is requested with\n`modalities: [\"audio\"]`. [Learn more](/docs/guides/audio).\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "audio")]
     pub audio: Option<CreateChatCompletionRequestAudio>,
     #[doc = "Whether or not to store the output of this chat completion request for \nuse in our [model distillation](/docs/guides/distillation) or\n[evals](/docs/guides/evals) products.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "store")]
     pub store: Option<bool>,
     #[doc = "If set to true, the model response data will be streamed to the client\nas it is generated using [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format).\nSee the [Streaming section below](/docs/api-reference/chat/streaming)\nfor more information, along with the [streaming responses](/docs/guides/streaming-responses)\nguide for more information on how to handle the streaming events.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "stream")]
     pub stream: Option<bool>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "stop")]
     pub stop: Option<StopConfiguration>,
     #[doc = "Modify the likelihood of specified tokens appearing in the completion.\n\nAccepts a JSON object that maps tokens (specified by their token ID in the\ntokenizer) to an associated bias value from -100 to 100. Mathematically,\nthe bias is added to the logits generated by the model prior to sampling.\nThe exact effect will vary per model, but values between -1 and 1 should\ndecrease or increase likelihood of selection; values like -100 or 100\nshould result in a ban or exclusive selection of the relevant token.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "logit_bias")]
     pub logit_bias: Option<Vec<u64>>,
     #[doc = "Whether to return log probabilities of the output tokens or not. If true,\nreturns the log probabilities of each output token returned in the\n`content` of `message`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "logprobs")]
     pub logprobs: Option<bool>,
     #[doc = "The maximum number of [tokens](/tokenizer) that can be generated in the\nchat completion. This value can be used to control\n[costs](https://openai.com/api/pricing/) for text generated via API.\n\nThis value is now deprecated in favor of `max_completion_tokens`, and is\nnot compatible with [o-series models](/docs/guides/reasoning).\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "max_tokens")]
     pub max_tokens: Option<u64>,
     #[doc = "How many chat completion choices to generate for each input message. Note that you will be charged based on the number of generated tokens across all of the choices. Keep `n` as `1` to minimize costs."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "n")]
     pub n: Option<u64>,
     #[doc = "Configuration for a [Predicted Output](/docs/guides/predicted-outputs),\nwhich can greatly improve response times when large parts of the model\nresponse are known ahead of time. This is most common when you are\nregenerating a file with only minor changes to most of the content.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "prediction")]
     pub prediction: Option<CreateChatCompletionRequestPrediction>,
     #[doc = "This feature is in Beta.\nIf specified, our system will make a best effort to sample deterministically, such that repeated requests with the same `seed` and parameters should return the same result.\nDeterminism is not guaranteed, and you should refer to the `system_fingerprint` response parameter to monitor changes in the backend.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "seed")]
     pub seed: Option<u64>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "stream_options")]
     pub stream_options: Option<ChatCompletionStreamOptions>,
     #[doc = "A list of tools the model may call. Currently, only functions are supported as a tool. Use this to provide a list of functions the model may generate JSON inputs for. A max of 128 functions are supported.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "tools")]
     pub tools: Option<Vec<ChatCompletionTool>>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "tool_choice")]
     pub tool_choice: Option<ChatCompletionToolChoiceOption>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "parallel_tool_calls")]
     pub parallel_tool_calls: Option<ParallelToolCalls>,
     #[doc = "Deprecated in favor of `tool_choice`.\n\nControls which (if any) function is called by the model.\n\n`none` means the model will not call a function and instead generates a\nmessage.\n\n`auto` means the model can pick between generating a message or calling a\nfunction.\n\nSpecifying a particular function via `{\"name\": \"my_function\"}` forces the\nmodel to call that function.\n\n`none` is the default when no functions are present. `auto` is the default\nif functions are present.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "function_call")]
     pub function_call: Option<CreateChatCompletionRequestFunctionCall>,
     #[doc = "Deprecated in favor of `tools`.\n\nA list of functions the model may generate JSON inputs for.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "functions")]
     pub functions: Option<Vec<ChatCompletionFunctions>>,
 }
@@ -3713,10 +4033,12 @@ pub enum CreateChatCompletionResponseChoicesItemFinishReason {
 pub struct CreateChatCompletionResponseChoicesItemLogprobs {
     #[doc = "A list of message content tokens with log probability information."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "content")]
     pub content: Option<Vec<ChatCompletionTokenLogprob>>,
     #[doc = "A list of message refusal tokens with log probability information."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "refusal")]
     pub refusal: Option<Vec<ChatCompletionTokenLogprob>>,
 }
@@ -3730,17 +4052,20 @@ pub struct CreateChatCompletionResponseChoicesItem {
     #[doc = "The index of the choice in the list of choices."]
     #[serde(rename = "index")]
     pub index: u64,
+    #[builder(default)]
     #[serde(rename = "message")]
     pub message: ChatCompletionResponseMessage,
     #[doc = "Log probability information for the choice."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "logprobs")]
     pub logprobs: Option<CreateChatCompletionResponseChoicesItemLogprobs>,
 }
 #[doc = "The object type, which is always `chat.completion`."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateChatCompletionResponseObject {
+    #[default]
     #[serde(rename = "chat.completion")]
     ChatCompletion,
 }
@@ -3762,16 +4087,20 @@ pub struct CreateChatCompletionResponse {
     #[serde(rename = "model")]
     pub model: String,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "service_tier")]
     pub service_tier: Option<ServiceTier>,
     #[doc = "This fingerprint represents the backend configuration that the model runs with.\n\nCan be used in conjunction with the `seed` request parameter to understand when backend changes have been made that might impact determinism.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "system_fingerprint")]
     pub system_fingerprint: Option<String>,
     #[doc = "The object type, which is always `chat.completion`."]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: CreateChatCompletionResponseObject,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "usage")]
     pub usage: Option<CompletionUsage>,
 }
@@ -3788,10 +4117,12 @@ pub struct CreateChatCompletionResponse {
 pub struct CreateChatCompletionStreamResponseChoicesItemLogprobs {
     #[doc = "A list of message content tokens with log probability information."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "content")]
     pub content: Option<Vec<ChatCompletionTokenLogprob>>,
     #[doc = "A list of message refusal tokens with log probability information."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "refusal")]
     pub refusal: Option<Vec<ChatCompletionTokenLogprob>>,
 }
@@ -3819,10 +4150,12 @@ pub struct CreateChatCompletionStreamResponseChoicesItem {
     pub delta: ChatCompletionStreamResponseDelta,
     #[doc = "Log probability information for the choice."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "logprobs")]
     pub logprobs: Option<CreateChatCompletionStreamResponseChoicesItemLogprobs>,
     #[doc = "The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,\n`length` if the maximum number of tokens specified in the request was reached,\n`content_filter` if content was omitted due to a flag from our content filters,\n`tool_calls` if the model called a tool, or `function_call` (deprecated) if the model called a function.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "finish_reason")]
     pub finish_reason: Option<CreateChatCompletionStreamResponseChoicesItemFinishReason>,
     #[doc = "The index of the choice in the list of choices."]
@@ -3830,9 +4163,10 @@ pub struct CreateChatCompletionStreamResponseChoicesItem {
     pub index: u64,
 }
 #[doc = "The object type, which is always `chat.completion.chunk`."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateChatCompletionStreamResponseObject {
+    #[default]
     #[serde(rename = "chat.completion.chunk")]
     ChatCompletionChunk,
 }
@@ -3854,17 +4188,21 @@ pub struct CreateChatCompletionStreamResponse {
     #[serde(rename = "model")]
     pub model: String,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "service_tier")]
     pub service_tier: Option<ServiceTier>,
     #[doc = "This fingerprint represents the backend configuration that the model runs with.\nCan be used in conjunction with the `seed` request parameter to understand when backend changes have been made that might impact determinism.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "system_fingerprint")]
     pub system_fingerprint: Option<String>,
     #[doc = "The object type, which is always `chat.completion.chunk`."]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: CreateChatCompletionStreamResponseObject,
     #[doc = "An optional field that will only be present when you set\n`stream_options: {\"include_usage\": true}` in your request. When present, it\ncontains a null value **except for the last chunk** which contains the\ntoken usage statistics for the entire request.\n\n**NOTE:** If the stream is interrupted or cancelled, you may not\nreceive the final usage chunk which contains the total token usage for\nthe request.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "usage")]
     pub usage: Option<CompletionUsage>,
 }
@@ -3887,68 +4225,85 @@ pub struct CreateCompletionRequest {
     pub model: String,
     #[doc = "The prompt(s) to generate completions for, encoded as a string, array of strings, array of tokens, or array of token arrays.\n\nNote that <|endoftext|> is the document separator that the model sees during training, so if a prompt is not specified the model will generate as if from the beginning of a new document.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "prompt")]
     pub prompt: Option<CreateCompletionRequestPrompt>,
     #[doc = "Generates `best_of` completions server-side and returns the \"best\" (the one with the highest log probability per token). Results cannot be streamed.\n\nWhen used with `n`, `best_of` controls the number of candidate completions and `n` specifies how many to return – `best_of` must be greater than `n`.\n\n**Note:** Because this parameter generates many completions, it can quickly consume your token quota. Use carefully and ensure that you have reasonable settings for `max_tokens` and `stop`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "best_of")]
     pub best_of: Option<u64>,
     #[doc = "Echo back the prompt in addition to the completion\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "echo")]
     pub echo: Option<bool>,
     #[doc = "Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.\n\n[See more information about frequency and presence penalties.](/docs/guides/text-generation)\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "frequency_penalty")]
     pub frequency_penalty: Option<f64>,
     #[doc = "Modify the likelihood of specified tokens appearing in the completion.\n\nAccepts a JSON object that maps tokens (specified by their token ID in the GPT tokenizer) to an associated bias value from -100 to 100. You can use this [tokenizer tool](/tokenizer?view=bpe) to convert text to token IDs. Mathematically, the bias is added to the logits generated by the model prior to sampling. The exact effect will vary per model, but values between -1 and 1 should decrease or increase likelihood of selection; values like -100 or 100 should result in a ban or exclusive selection of the relevant token.\n\nAs an example, you can pass `{\"50256\": -100}` to prevent the <|endoftext|> token from being generated.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "logit_bias")]
     pub logit_bias: Option<Vec<u64>>,
     #[doc = "Include the log probabilities on the `logprobs` most likely output tokens, as well the chosen tokens. For example, if `logprobs` is 5, the API will return a list of the 5 most likely tokens. The API will always return the `logprob` of the sampled token, so there may be up to `logprobs+1` elements in the response.\n\nThe maximum value for `logprobs` is 5.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "logprobs")]
     pub logprobs: Option<u64>,
     #[doc = "The maximum number of [tokens](/tokenizer) that can be generated in the completion.\n\nThe token count of your prompt plus `max_tokens` cannot exceed the model's context length. [Example Python code](https://cookbook.openai.com/examples/how_to_count_tokens_with_tiktoken) for counting tokens.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "max_tokens")]
     pub max_tokens: Option<u64>,
     #[doc = "How many completions to generate for each prompt.\n\n**Note:** Because this parameter generates many completions, it can quickly consume your token quota. Use carefully and ensure that you have reasonable settings for `max_tokens` and `stop`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "n")]
     pub n: Option<u64>,
     #[doc = "Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.\n\n[See more information about frequency and presence penalties.](/docs/guides/text-generation)\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "presence_penalty")]
     pub presence_penalty: Option<f64>,
     #[doc = "If specified, our system will make a best effort to sample deterministically, such that repeated requests with the same `seed` and parameters should return the same result.\n\nDeterminism is not guaranteed, and you should refer to the `system_fingerprint` response parameter to monitor changes in the backend.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "seed")]
     pub seed: Option<u64>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "stop")]
     pub stop: Option<StopConfiguration>,
     #[doc = "Whether to stream back partial progress. If set, tokens will be sent as data-only [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format) as they become available, with the stream terminated by a `data: [DONE]` message. [Example Python code](https://cookbook.openai.com/examples/how_to_stream_completions).\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "stream")]
     pub stream: Option<bool>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "stream_options")]
     pub stream_options: Option<ChatCompletionStreamOptions>,
     #[doc = "The suffix that comes after a completion of inserted text.\n\nThis parameter is only supported for `gpt-3.5-turbo-instruct`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "suffix")]
     pub suffix: Option<String>,
     #[doc = "What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.\n\nWe generally recommend altering this or `top_p` but not both.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "temperature")]
     pub temperature: Option<f64>,
     #[doc = "An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.\n\nWe generally recommend altering this or `temperature` but not both.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "top_p")]
     pub top_p: Option<f64>,
     #[doc = "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices#end-user-ids).\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "user")]
     pub user: Option<String>,
 }
@@ -3974,15 +4329,19 @@ pub enum CreateCompletionResponseChoicesItemFinishReason {
 )]
 pub struct CreateCompletionResponseChoicesItemLogprobs {
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "text_offset")]
     pub text_offset: Option<Vec<u64>>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "token_logprobs")]
     pub token_logprobs: Option<Vec<f64>>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "tokens")]
     pub tokens: Option<Vec<String>>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "top_logprobs")]
     pub top_logprobs: Option<Vec<Vec<f64>>>,
 }
@@ -3996,15 +4355,17 @@ pub struct CreateCompletionResponseChoicesItem {
     #[serde(rename = "index")]
     pub index: u64,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "logprobs")]
     pub logprobs: Option<CreateCompletionResponseChoicesItemLogprobs>,
     #[serde(rename = "text")]
     pub text: String,
 }
 #[doc = "The object type, which is always \"text_completion\""]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateCompletionResponseObject {
+    #[default]
     #[serde(rename = "text_completion")]
     TextCompletion,
 }
@@ -4027,12 +4388,15 @@ pub struct CreateCompletionResponse {
     pub model: String,
     #[doc = "This fingerprint represents the backend configuration that the model runs with.\n\nCan be used in conjunction with the `seed` request parameter to understand when backend changes have been made that might impact determinism.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "system_fingerprint")]
     pub system_fingerprint: Option<String>,
     #[doc = "The object type, which is always \"text_completion\""]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: CreateCompletionResponseObject,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "usage")]
     pub usage: Option<CompletionUsage>,
 }
@@ -4068,21 +4432,25 @@ pub struct CreateEmbeddingRequest {
     pub model: String,
     #[doc = "The format to return the embeddings in. Can be either `float` or [`base64`](https://pypi.org/project/pybase64/)."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "encoding_format")]
     pub encoding_format: Option<CreateEmbeddingRequestEncodingFormat>,
     #[doc = "The number of dimensions the resulting output embeddings should have. Only supported in `text-embedding-3` and later models.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "dimensions")]
     pub dimensions: Option<u64>,
     #[doc = "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices#end-user-ids).\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "user")]
     pub user: Option<String>,
 }
 #[doc = "The object type, which is always \"list\"."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateEmbeddingResponseObject {
+    #[default]
     #[serde(rename = "list")]
     List,
 }
@@ -4109,6 +4477,7 @@ pub struct CreateEmbeddingResponse {
     #[serde(rename = "model")]
     pub model: String,
     #[doc = "The object type, which is always \"list\"."]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: CreateEmbeddingResponseObject,
     #[doc = "The usage information for the request."]
@@ -4185,18 +4554,22 @@ pub enum CreateEvalCompletionsRunDataSourceInputMessages {
 pub struct CreateEvalCompletionsRunDataSourceSamplingParams {
     #[doc = "A higher temperature increases randomness in the outputs."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "temperature")]
     pub temperature: Option<f64>,
     #[doc = "The maximum number of tokens in the generated output."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "max_completion_tokens")]
     pub max_completion_tokens: Option<u64>,
     #[doc = "An alternative to temperature for nucleus sampling; 1.0 includes all tokens."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "top_p")]
     pub top_p: Option<f64>,
     #[doc = "A seed value to initialize the randomness, during sampling."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "seed")]
     pub seed: Option<u64>,
 }
@@ -4221,13 +4594,16 @@ pub struct CreateEvalCompletionsRunDataSource {
     #[serde(rename = "type")]
     pub type_: CreateEvalCompletionsRunDataSourceType,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "input_messages")]
     pub input_messages: Option<CreateEvalCompletionsRunDataSourceInputMessages>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "sampling_params")]
     pub sampling_params: Option<CreateEvalCompletionsRunDataSourceSamplingParams>,
     #[doc = "The name of the model to use for generating completions (e.g. \"o3-mini\")."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "model")]
     pub model: Option<String>,
     #[serde(rename = "source")]
@@ -4243,6 +4619,7 @@ pub struct CreateEvalCustomDataSourceConfig {
     pub item_schema: std::collections::HashMap<String, serde_json::Value>,
     #[doc = "Whether the eval should expect you to populate the sample namespace (ie, by generating responses off of your data source)"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "include_sample_schema")]
     pub include_sample_schema: Option<bool>,
 }
@@ -4328,6 +4705,7 @@ pub struct CreateEvalLabelModelGrader {
 pub struct CreateEvalLogsDataSourceConfig {
     #[doc = "Metadata filters for the logs data source."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "metadata")]
     pub metadata: Option<std::collections::HashMap<String, serde_json::Value>>,
 }
@@ -4362,9 +4740,11 @@ pub enum CreateEvalRequestTestingCriteriaItem {
 pub struct CreateEvalRequest {
     #[doc = "The name of the evaluation."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "name")]
     pub name: Option<String>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "metadata")]
     pub metadata: Option<Metadata>,
     #[doc = "The configuration for the data source used for the evaluation runs."]
@@ -4455,18 +4835,22 @@ pub enum CreateEvalResponsesRunDataSourceInputMessages {
 pub struct CreateEvalResponsesRunDataSourceSamplingParams {
     #[doc = "A higher temperature increases randomness in the outputs."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "temperature")]
     pub temperature: Option<f64>,
     #[doc = "The maximum number of tokens in the generated output."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "max_completion_tokens")]
     pub max_completion_tokens: Option<u64>,
     #[doc = "An alternative to temperature for nucleus sampling; 1.0 includes all tokens."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "top_p")]
     pub top_p: Option<f64>,
     #[doc = "A seed value to initialize the randomness, during sampling."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "seed")]
     pub seed: Option<u64>,
 }
@@ -4488,13 +4872,16 @@ pub struct CreateEvalResponsesRunDataSource {
     #[serde(rename = "type")]
     pub type_: CreateEvalResponsesRunDataSourceType,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "input_messages")]
     pub input_messages: Option<CreateEvalResponsesRunDataSourceInputMessages>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "sampling_params")]
     pub sampling_params: Option<CreateEvalResponsesRunDataSourceSamplingParams>,
     #[doc = "The name of the model to use for generating completions (e.g. \"o3-mini\")."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "model")]
     pub model: Option<String>,
     #[serde(rename = "source")]
@@ -4515,9 +4902,11 @@ pub enum CreateEvalRunRequestDataSource {
 pub struct CreateEvalRunRequest {
     #[doc = "The name of the run."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "name")]
     pub name: Option<String>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "metadata")]
     pub metadata: Option<Metadata>,
     #[doc = "Details about the run's data source."]
@@ -4560,9 +4949,10 @@ pub struct CreateFineTuningCheckpointPermissionRequest {
     #[serde(rename = "project_ids")]
     pub project_ids: Vec<String>,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateFineTuningJobRequestHyperparametersBatchSize0 {
+    #[default]
     #[serde(rename = "auto")]
     Auto,
 }
@@ -4574,9 +4964,10 @@ pub enum CreateFineTuningJobRequestHyperparametersBatchSize {
     _0(CreateFineTuningJobRequestHyperparametersBatchSize0),
     _1(u64),
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateFineTuningJobRequestHyperparametersLearningRateMultiplier0 {
+    #[default]
     #[serde(rename = "auto")]
     Auto,
 }
@@ -4588,9 +4979,10 @@ pub enum CreateFineTuningJobRequestHyperparametersLearningRateMultiplier {
     _0(CreateFineTuningJobRequestHyperparametersLearningRateMultiplier0),
     _1(f64),
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateFineTuningJobRequestHyperparametersNEpochs0 {
+    #[default]
     #[serde(rename = "auto")]
     Auto,
 }
@@ -4615,21 +5007,25 @@ pub enum CreateFineTuningJobRequestHyperparametersNEpochs {
 pub struct CreateFineTuningJobRequestHyperparameters {
     #[doc = "Number of examples in each batch. A larger batch size means that model parameters\nare updated less frequently, but with lower variance.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "batch_size")]
     pub batch_size: Option<CreateFineTuningJobRequestHyperparametersBatchSize>,
     #[doc = "Scaling factor for the learning rate. A smaller learning rate may be useful to avoid\noverfitting.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "learning_rate_multiplier")]
     pub learning_rate_multiplier:
         Option<CreateFineTuningJobRequestHyperparametersLearningRateMultiplier>,
     #[doc = "The number of epochs to train the model for. An epoch refers to one full cycle\nthrough the training dataset.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "n_epochs")]
     pub n_epochs: Option<CreateFineTuningJobRequestHyperparametersNEpochs>,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateFineTuningJobRequestIntegrationsItemType0 {
+    #[default]
     #[serde(rename = "wandb")]
     Wandb,
 }
@@ -4650,14 +5046,17 @@ pub struct CreateFineTuningJobRequestIntegrationsItemWandb {
     pub project: String,
     #[doc = "A display name to set for the run. If not set, we will use the Job ID as the name.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "name")]
     pub name: Option<String>,
     #[doc = "The entity to use for the run. This allows you to set the team or username of the WandB user that you would\nlike associated with the run. If not set, the default entity for the registered WandB API key is used.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "entity")]
     pub entity: Option<String>,
     #[doc = "A list of tags to be attached to the newly created run. These tags are passed through directly to WandB. Some\ndefault tags are generated by OpenAI: \"openai/finetune\", \"openai/{base-model}\", \"openai/{ftjob-abcdef}\".\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "tags")]
     pub tags: Option<Vec<String>>,
 }
@@ -4684,28 +5083,35 @@ pub struct CreateFineTuningJobRequest {
     pub training_file: String,
     #[doc = "The hyperparameters used for the fine-tuning job.\nThis value is now deprecated in favor of `method`, and should be passed in under the `method` parameter.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "hyperparameters")]
     pub hyperparameters: Option<CreateFineTuningJobRequestHyperparameters>,
     #[doc = "A string of up to 64 characters that will be added to your fine-tuned model name.\n\nFor example, a `suffix` of \"custom-model-name\" would produce a model name like `ft:gpt-4o-mini:openai:custom-model-name:7p4lURel`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "suffix")]
     pub suffix: Option<String>,
     #[doc = "The ID of an uploaded file that contains validation data.\n\nIf you provide this file, the data is used to generate validation\nmetrics periodically during fine-tuning. These metrics can be viewed in\nthe fine-tuning results file.\nThe same data should not be present in both train and validation files.\n\nYour dataset must be formatted as a JSONL file. You must upload your file with the purpose `fine-tune`.\n\nSee the [fine-tuning guide](/docs/guides/fine-tuning) for more details.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "validation_file")]
     pub validation_file: Option<String>,
     #[doc = "A list of integrations to enable for your fine-tuning job."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "integrations")]
     pub integrations: Option<Vec<CreateFineTuningJobRequestIntegrationsItem>>,
     #[doc = "The seed controls the reproducibility of the job. Passing in the same seed and job parameters should produce the same results, but may differ in rare cases.\nIf a seed is not specified, one will be generated for you.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "seed")]
     pub seed: Option<u64>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "method")]
     pub method: Option<FineTuneMethod>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "metadata")]
     pub metadata: Option<Metadata>,
 }
@@ -4773,30 +5179,37 @@ pub struct CreateImageEditRequest {
     pub prompt: String,
     #[doc = "An additional image whose fully transparent areas (e.g. where alpha is zero) indicate where `image` should be edited. If there are multiple images provided, the mask will be applied on the first image. Must be a valid PNG file, less than 4MB, and have the same dimensions as `image`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "mask")]
     pub mask: Option<Vec<u8>>,
     #[doc = "The model to use for image generation. Only `dall-e-2` and `gpt-image-1` are supported. Defaults to `dall-e-2` unless a parameter specific to `gpt-image-1` is used."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "model")]
     pub model: Option<String>,
     #[doc = "The number of images to generate. Must be between 1 and 10."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "n")]
     pub n: Option<u64>,
     #[doc = "The size of the generated images. Must be one of `1024x1024`, `1536x1024` (landscape), `1024x1536` (portrait), or `auto` (default value) for `gpt-image-1`, and one of `256x256`, `512x512`, or `1024x1024` for `dall-e-2`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "size")]
     pub size: Option<CreateImageEditRequestSize>,
     #[doc = "The format in which the generated images are returned. Must be one of `url` or `b64_json`. URLs are only valid for 60 minutes after the image has been generated. This parameter is only supported for `dall-e-2`, as `gpt-image-1` will always return base64-encoded images."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "response_format")]
     pub response_format: Option<CreateImageEditRequestResponseFormat>,
     #[doc = "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices#end-user-ids).\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "user")]
     pub user: Option<String>,
     #[doc = "The quality of the image that will be generated. `high`, `medium` and `low` are only supported for `gpt-image-1`. `dall-e-2` only supports `standard` quality. Defaults to `auto`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "quality")]
     pub quality: Option<CreateImageEditRequestQuality>,
 }
@@ -4903,46 +5316,57 @@ pub struct CreateImageRequest {
     pub prompt: String,
     #[doc = "The model to use for image generation. One of `dall-e-2`, `dall-e-3`, or `gpt-image-1`. Defaults to `dall-e-2` unless a parameter specific to `gpt-image-1` is used."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "model")]
     pub model: Option<String>,
     #[doc = "The number of images to generate. Must be between 1 and 10. For `dall-e-3`, only `n=1` is supported."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "n")]
     pub n: Option<u64>,
     #[doc = "The quality of the image that will be generated. \n\n- `auto` (default value) will automatically select the best quality for the given model.\n- `high`, `medium` and `low` are supported for `gpt-image-1`.\n- `hd` and `standard` are supported for `dall-e-3`.\n- `standard` is the only option for `dall-e-2`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "quality")]
     pub quality: Option<CreateImageRequestQuality>,
     #[doc = "The format in which generated images with `dall-e-2` and `dall-e-3` are returned. Must be one of `url` or `b64_json`. URLs are only valid for 60 minutes after the image has been generated. This parameter isn't supported for `gpt-image-1` which will always return base64-encoded images."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "response_format")]
     pub response_format: Option<CreateImageRequestResponseFormat>,
     #[doc = "The format in which the generated images are returned. This parameter is only supported for `gpt-image-1`. Must be one of `png`, `jpeg`, or `webp`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "output_format")]
     pub output_format: Option<CreateImageRequestOutputFormat>,
     #[doc = "The compression level (0-100%) for the generated images. This parameter is only supported for `gpt-image-1` with the `webp` or `jpeg` output formats, and defaults to 100."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "output_compression")]
     pub output_compression: Option<u64>,
     #[doc = "The size of the generated images. Must be one of `1024x1024`, `1536x1024` (landscape), `1024x1536` (portrait), or `auto` (default value) for `gpt-image-1`, one of `256x256`, `512x512`, or `1024x1024` for `dall-e-2`, and one of `1024x1024`, `1792x1024`, or `1024x1792` for `dall-e-3`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "size")]
     pub size: Option<CreateImageRequestSize>,
     #[doc = "Control the content-moderation level for images generated by `gpt-image-1`. Must be either `low` for less restrictive filtering or `auto` (default value)."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "moderation")]
     pub moderation: Option<CreateImageRequestModeration>,
     #[doc = "Allows to set transparency for the background of the generated image(s). \nThis parameter is only supported for `gpt-image-1`. Must be one of \n`transparent`, `opaque` or `auto` (default value). When `auto` is used, the \nmodel will automatically determine the best background for the image.\n\nIf `transparent`, the output format needs to support transparency, so it \nshould be set to either `png` (default value) or `webp`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "background")]
     pub background: Option<CreateImageRequestBackground>,
     #[doc = "The style of the generated images. This parameter is only supported for `dall-e-3`. Must be one of `vivid` or `natural`. Vivid causes the model to lean towards generating hyper-real and dramatic images. Natural causes the model to produce more natural, less hyper-real looking images."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "style")]
     pub style: Option<CreateImageRequestStyle>,
     #[doc = "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices#end-user-ids).\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "user")]
     pub user: Option<String>,
 }
@@ -4977,22 +5401,27 @@ pub struct CreateImageVariationRequest {
     pub image: Vec<u8>,
     #[doc = "The model to use for image generation. Only `dall-e-2` is supported at this time."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "model")]
     pub model: Option<String>,
     #[doc = "The number of images to generate. Must be between 1 and 10."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "n")]
     pub n: Option<u64>,
     #[doc = "The format in which the generated images are returned. Must be one of `url` or `b64_json`. URLs are only valid for 60 minutes after the image has been generated."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "response_format")]
     pub response_format: Option<CreateImageVariationRequestResponseFormat>,
     #[doc = "The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "size")]
     pub size: Option<CreateImageVariationRequestSize>,
     #[doc = "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices#end-user-ids).\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "user")]
     pub user: Option<String>,
 }
@@ -5054,9 +5483,11 @@ pub struct CreateMessageRequest {
     pub content: CreateMessageRequestContent,
     #[doc = "A list of files attached to the message, and the tools they should be added to."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "attachments")]
     pub attachments: Option<Vec<CreateMessageRequestAttachmentsItem>>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "metadata")]
     pub metadata: Option<Metadata>,
 }
@@ -5115,6 +5546,7 @@ pub struct CreateModerationRequest {
     pub input: CreateModerationRequestInput,
     #[doc = "The content moderation model you would like to use. Learn more in\n[the moderation guide](/docs/guides/moderation), and learn about\navailable models [here](/docs/models#moderation).\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "model")]
     pub model: Option<String>,
 }
@@ -5137,10 +5569,12 @@ pub struct CreateModerationResponseResultsItemCategories {
     pub harassment_threatening: bool,
     #[doc = "Content that includes instructions or advice that facilitate the planning or execution of wrongdoing, or that gives advice or instruction on how to commit illicit acts. For example, \"how to shoplift\" would fit this category."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "illicit")]
     pub illicit: Option<bool>,
     #[doc = "Content that includes instructions or advice that facilitate the planning or execution of wrongdoing that also includes violence, or that gives advice or instruction on the procurement of any weapon."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "illicit/violent")]
     pub illicit_violent: Option<bool>,
     #[doc = "Content that promotes, encourages, or depicts acts of self-harm, such as suicide, cutting, and eating disorders."]
@@ -5210,39 +5644,45 @@ pub struct CreateModerationResponseResultsItemCategoryScores {
     #[serde(rename = "violence/graphic")]
     pub violence_graphic: f64,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateModerationResponseResultsItemCategoryAppliedInputTypesHateItem {
+    #[default]
     #[serde(rename = "text")]
     Text,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateModerationResponseResultsItemCategoryAppliedInputTypesHateThreateningItem {
+    #[default]
     #[serde(rename = "text")]
     Text,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateModerationResponseResultsItemCategoryAppliedInputTypesHarassmentItem {
+    #[default]
     #[serde(rename = "text")]
     Text,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateModerationResponseResultsItemCategoryAppliedInputTypesHarassmentThreateningItem {
+    #[default]
     #[serde(rename = "text")]
     Text,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateModerationResponseResultsItemCategoryAppliedInputTypesIllicitItem {
+    #[default]
     #[serde(rename = "text")]
     Text,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateModerationResponseResultsItemCategoryAppliedInputTypesIllicitViolentItem {
+    #[default]
     #[serde(rename = "text")]
     Text,
 }
@@ -5278,9 +5718,10 @@ pub enum CreateModerationResponseResultsItemCategoryAppliedInputTypesSexualItem 
     #[serde(rename = "image")]
     Image,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateModerationResponseResultsItemCategoryAppliedInputTypesSexualMinorsItem {
+    #[default]
     #[serde(rename = "text")]
     Text,
 }
@@ -5407,18 +5848,22 @@ pub struct CreateResponse {
     pub input: CreateResponseInput,
     #[doc = "Specify additional output data to include in the model response. Currently\nsupported values are:\n- `file_search_call.results`: Include the search results of\n  the file search tool call.\n- `message.input_image.image_url`: Include image urls from the input message.\n- `computer_call_output.output.image_url`: Include image urls from the computer call output.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "include")]
     pub include: Option<Vec<Includable>>,
     #[doc = "Whether to allow the model to run tool calls in parallel.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "parallel_tool_calls")]
     pub parallel_tool_calls: Option<bool>,
     #[doc = "Whether to store the generated model response for later retrieval via\nAPI.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "store")]
     pub store: Option<bool>,
     #[doc = "If set to true, the model response data will be streamed to the client\nas it is generated using [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format).\nSee the [Streaming section below](/docs/api-reference/responses-streaming)\nfor more information.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "stream")]
     pub stream: Option<bool>,
 }
@@ -5442,60 +5887,76 @@ pub struct CreateRunRequest {
     pub assistant_id: String,
     #[doc = "The ID of the [Model](/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "model")]
     pub model: Option<String>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "reasoning_effort")]
     pub reasoning_effort: Option<ReasoningEffort>,
     #[doc = "Overrides the [instructions](/docs/api-reference/assistants/createAssistant) of the assistant. This is useful for modifying the behavior on a per-run basis."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "instructions")]
     pub instructions: Option<String>,
     #[doc = "Appends additional instructions at the end of the instructions for the run. This is useful for modifying the behavior on a per-run basis without overriding other instructions."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "additional_instructions")]
     pub additional_instructions: Option<String>,
     #[doc = "Adds additional messages to the thread before creating the run."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "additional_messages")]
     pub additional_messages: Option<Vec<CreateMessageRequest>>,
     #[doc = "Override the tools the assistant can use for this run. This is useful for modifying the behavior on a per-run basis."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "tools")]
     pub tools: Option<Vec<CreateRunRequestToolsItem>>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "metadata")]
     pub metadata: Option<Metadata>,
     #[doc = "What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "temperature")]
     pub temperature: Option<f64>,
     #[doc = "An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.\n\nWe generally recommend altering this or temperature but not both.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "top_p")]
     pub top_p: Option<f64>,
     #[doc = "If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "stream")]
     pub stream: Option<bool>,
     #[doc = "The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "max_prompt_tokens")]
     pub max_prompt_tokens: Option<u64>,
     #[doc = "The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "max_completion_tokens")]
     pub max_completion_tokens: Option<u64>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "truncation_strategy")]
     pub truncation_strategy: Option<TruncationObject>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "tool_choice")]
     pub tool_choice: Option<AssistantsApiToolChoiceOption>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "parallel_tool_calls")]
     pub parallel_tool_calls: Option<ParallelToolCalls>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "response_format")]
     pub response_format: Option<AssistantsApiResponseFormatOption>,
 }
@@ -5529,6 +5990,7 @@ pub struct CreateSpeechRequest {
     pub input: String,
     #[doc = "Control the voice of your generated audio with additional instructions. Does not work with `tts-1` or `tts-1-hd`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "instructions")]
     pub instructions: Option<String>,
     #[doc = "The voice to use when generating the audio. Supported voices are `alloy`, `ash`, `ballad`, `coral`, `echo`, `fable`, `onyx`, `nova`, `sage`, `shimmer`, and `verse`. Previews of the voices are available in the [Text to speech guide](/docs/guides/text-to-speech#voice-options)."]
@@ -5536,10 +5998,12 @@ pub struct CreateSpeechRequest {
     pub voice: VoiceIdsShared,
     #[doc = "The format to audio in. Supported formats are `mp3`, `opus`, `aac`, `flac`, `wav`, and `pcm`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "response_format")]
     pub response_format: Option<CreateSpeechRequestResponseFormat>,
     #[doc = "The speed of the generated audio. Select a value from `0.25` to `4.0`. `1.0` is the default."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "speed")]
     pub speed: Option<f64>,
 }
@@ -5566,6 +6030,7 @@ pub enum CreateThreadAndRunRequestToolsItem {
 pub struct CreateThreadAndRunRequestToolResourcesCodeInterpreter {
     #[doc = "A list of [file](/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "file_ids")]
     pub file_ids: Option<Vec<String>>,
 }
@@ -5581,6 +6046,7 @@ pub struct CreateThreadAndRunRequestToolResourcesCodeInterpreter {
 pub struct CreateThreadAndRunRequestToolResourcesFileSearch {
     #[doc = "The ID of the [vector store](/docs/api-reference/vector-stores/object) attached to this assistant. There can be a maximum of 1 vector store attached to the assistant.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "vector_store_ids")]
     pub vector_store_ids: Option<Vec<String>>,
 }
@@ -5596,9 +6062,11 @@ pub struct CreateThreadAndRunRequestToolResourcesFileSearch {
 )]
 pub struct CreateThreadAndRunRequestToolResources {
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "code_interpreter")]
     pub code_interpreter: Option<CreateThreadAndRunRequestToolResourcesCodeInterpreter>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "file_search")]
     pub file_search: Option<CreateThreadAndRunRequestToolResourcesFileSearch>,
 }
@@ -5610,57 +6078,72 @@ pub struct CreateThreadAndRunRequest {
     #[serde(rename = "assistant_id")]
     pub assistant_id: String,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "thread")]
     pub thread: Option<CreateThreadRequest>,
     #[doc = "The ID of the [Model](/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "model")]
     pub model: Option<String>,
     #[doc = "Override the default system message of the assistant. This is useful for modifying the behavior on a per-run basis."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "instructions")]
     pub instructions: Option<String>,
     #[doc = "Override the tools the assistant can use for this run. This is useful for modifying the behavior on a per-run basis."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "tools")]
     pub tools: Option<Vec<CreateThreadAndRunRequestToolsItem>>,
     #[doc = "A set of resources that are used by the assistant's tools. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "tool_resources")]
     pub tool_resources: Option<CreateThreadAndRunRequestToolResources>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "metadata")]
     pub metadata: Option<Metadata>,
     #[doc = "What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "temperature")]
     pub temperature: Option<f64>,
     #[doc = "An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.\n\nWe generally recommend altering this or temperature but not both.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "top_p")]
     pub top_p: Option<f64>,
     #[doc = "If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "stream")]
     pub stream: Option<bool>,
     #[doc = "The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "max_prompt_tokens")]
     pub max_prompt_tokens: Option<u64>,
     #[doc = "The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "max_completion_tokens")]
     pub max_completion_tokens: Option<u64>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "truncation_strategy")]
     pub truncation_strategy: Option<TruncationObject>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "tool_choice")]
     pub tool_choice: Option<AssistantsApiToolChoiceOption>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "parallel_tool_calls")]
     pub parallel_tool_calls: Option<ParallelToolCalls>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "response_format")]
     pub response_format: Option<AssistantsApiResponseFormatOption>,
 }
@@ -5676,6 +6159,7 @@ pub struct CreateThreadAndRunRequest {
 pub struct CreateThreadRequestToolResourcesCodeInterpreter {
     #[doc = "A list of [file](/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "file_ids")]
     pub file_ids: Option<Vec<String>>,
 }
@@ -5731,14 +6215,17 @@ pub enum CreateThreadRequestToolResourcesFileSearch0VectorStoresItemChunkingStra
 pub struct CreateThreadRequestToolResourcesFileSearch0VectorStoresItem {
     #[doc = "A list of [file](/docs/api-reference/files) IDs to add to the vector store. There can be a maximum of 10000 files in a vector store.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "file_ids")]
     pub file_ids: Option<Vec<String>>,
     #[doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "chunking_strategy")]
     pub chunking_strategy:
         Option<CreateThreadRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategy>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "metadata")]
     pub metadata: Option<Metadata>,
 }
@@ -5751,6 +6238,7 @@ pub struct CreateThreadRequestToolResourcesFileSearch0 {
     pub vector_store_ids: Vec<String>,
     #[doc = "A helper to create a [vector store](/docs/api-reference/vector-stores/object) with file_ids and attach it to this thread. There can be a maximum of 1 vector store attached to the thread.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "vector_stores")]
     pub vector_stores: Option<Vec<CreateThreadRequestToolResourcesFileSearch0VectorStoresItem>>,
 }
@@ -5806,14 +6294,17 @@ pub enum CreateThreadRequestToolResourcesFileSearch1VectorStoresItemChunkingStra
 pub struct CreateThreadRequestToolResourcesFileSearch1VectorStoresItem {
     #[doc = "A list of [file](/docs/api-reference/files) IDs to add to the vector store. There can be a maximum of 10000 files in a vector store.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "file_ids")]
     pub file_ids: Option<Vec<String>>,
     #[doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "chunking_strategy")]
     pub chunking_strategy:
         Option<CreateThreadRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategy>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "metadata")]
     pub metadata: Option<Metadata>,
 }
@@ -5823,6 +6314,7 @@ pub struct CreateThreadRequestToolResourcesFileSearch1VectorStoresItem {
 pub struct CreateThreadRequestToolResourcesFileSearch1 {
     #[doc = "The [vector store](/docs/api-reference/vector-stores/object) attached to this thread. There can be a maximum of 1 vector store attached to the thread.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "vector_store_ids")]
     pub vector_store_ids: Option<Vec<String>>,
     #[doc = "A helper to create a [vector store](/docs/api-reference/vector-stores/object) with file_ids and attach it to this thread. There can be a maximum of 1 vector store attached to the thread.\n"]
@@ -5848,9 +6340,11 @@ pub enum CreateThreadRequestToolResourcesFileSearch {
 )]
 pub struct CreateThreadRequestToolResources {
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "code_interpreter")]
     pub code_interpreter: Option<CreateThreadRequestToolResourcesCodeInterpreter>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "file_search")]
     pub file_search: Option<CreateThreadRequestToolResourcesFileSearch>,
 }
@@ -5867,13 +6361,16 @@ pub struct CreateThreadRequestToolResources {
 pub struct CreateThreadRequest {
     #[doc = "A list of [messages](/docs/api-reference/messages) to start the thread with."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "messages")]
     pub messages: Option<Vec<CreateMessageRequest>>,
     #[doc = "A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "tool_resources")]
     pub tool_resources: Option<CreateThreadRequestToolResources>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "metadata")]
     pub metadata: Option<Metadata>,
 }
@@ -5897,29 +6394,36 @@ pub struct CreateTranscriptionRequest {
     pub model: String,
     #[doc = "The language of the input audio. Supplying the input language in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) (e.g. `en`) format will improve accuracy and latency.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "language")]
     pub language: Option<String>,
     #[doc = "An optional text to guide the model's style or continue a previous audio segment. The [prompt](/docs/guides/speech-to-text#prompting) should match the audio language.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "prompt")]
     pub prompt: Option<String>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "response_format")]
     pub response_format: Option<AudioResponseFormat>,
     #[doc = "The sampling temperature, between 0 and 1. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. If set to 0, the model will use [log probability](https://en.wikipedia.org/wiki/Log_probability) to automatically increase the temperature until certain thresholds are hit.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "temperature")]
     pub temperature: Option<f64>,
     #[doc = "Additional information to include in the transcription response. \n`logprobs` will return the log probabilities of the tokens in the \nresponse to understand the model's confidence in the transcription. \n`logprobs` only works with response_format set to `json` and only with \nthe models `gpt-4o-transcribe` and `gpt-4o-mini-transcribe`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "include[]")]
     pub include: Option<Vec<TranscriptionInclude>>,
     #[doc = "The timestamp granularities to populate for this transcription. `response_format` must be set `verbose_json` to use timestamp granularities. Either or both of these options are supported: `word`, or `segment`. Note: There is no additional latency for segment timestamps, but generating word timestamps incurs additional latency.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "timestamp_granularities[]")]
     pub timestamp_granularities: Option<Vec<CreateTranscriptionRequestTimestampGranularitiesItem>>,
     #[doc = "If set to true, the model response data will be streamed to the client\nas it is generated using [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format). \nSee the [Streaming section of the Speech-to-Text guide](/docs/guides/speech-to-text?lang=curl#streaming-transcriptions)\nfor more information.\n\nNote: Streaming is not supported for the `whisper-1` model and will be ignored.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "stream")]
     pub stream: Option<bool>,
 }
@@ -5935,14 +6439,17 @@ pub struct CreateTranscriptionRequest {
 pub struct CreateTranscriptionResponseJsonLogprobsItem {
     #[doc = "The token in the transcription."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "token")]
     pub token: Option<String>,
     #[doc = "The log probability of the token."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "logprob")]
     pub logprob: Option<f64>,
     #[doc = "The bytes of the token."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "bytes")]
     pub bytes: Option<Vec<f64>>,
 }
@@ -5956,6 +6463,7 @@ pub struct CreateTranscriptionResponseJson {
     pub text: String,
     #[doc = "The log probabilities of the tokens in the transcription. Only returned with the models `gpt-4o-transcribe` and `gpt-4o-mini-transcribe` if `logprobs` is added to the `include` array.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "logprobs")]
     pub logprobs: Option<Vec<CreateTranscriptionResponseJsonLogprobsItem>>,
 }
@@ -5984,10 +6492,12 @@ pub struct CreateTranscriptionResponseVerboseJson {
     pub text: String,
     #[doc = "Extracted words and their corresponding timestamps."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "words")]
     pub words: Option<Vec<TranscriptionWord>>,
     #[doc = "Segments of the transcribed text and their corresponding details."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "segments")]
     pub segments: Option<Vec<TranscriptionSegment>>,
 }
@@ -6019,14 +6529,17 @@ pub struct CreateTranslationRequest {
     pub model: String,
     #[doc = "An optional text to guide the model's style or continue a previous audio segment. The [prompt](/docs/guides/speech-to-text#prompting) should be in English.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "prompt")]
     pub prompt: Option<String>,
     #[doc = "The format of the output, in one of these options: `json`, `text`, `srt`, `verbose_json`, or `vtt`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "response_format")]
     pub response_format: Option<CreateTranslationRequestResponseFormat>,
     #[doc = "The sampling temperature, between 0 and 1. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. If set to 0, the model will use [log probability](https://en.wikipedia.org/wiki/Log_probability) to automatically increase the temperature until certain thresholds are hit.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "temperature")]
     pub temperature: Option<f64>,
 }
@@ -6052,6 +6565,7 @@ pub struct CreateTranslationResponseVerboseJson {
     pub text: String,
     #[doc = "Segments of the translated text and their corresponding details."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "segments")]
     pub segments: Option<Vec<TranscriptionSegment>>,
 }
@@ -6093,9 +6607,11 @@ pub struct CreateVectorStoreFileBatchRequest {
     #[serde(rename = "file_ids")]
     pub file_ids: Vec<String>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "chunking_strategy")]
     pub chunking_strategy: Option<ChunkingStrategyRequestParam>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "attributes")]
     pub attributes: Option<VectorStoreFileAttributes>,
 }
@@ -6107,9 +6623,11 @@ pub struct CreateVectorStoreFileRequest {
     #[serde(rename = "file_id")]
     pub file_id: String,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "chunking_strategy")]
     pub chunking_strategy: Option<ChunkingStrategyRequestParam>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "attributes")]
     pub attributes: Option<VectorStoreFileAttributes>,
 }
@@ -6135,26 +6653,32 @@ pub enum CreateVectorStoreRequestChunkingStrategy {
 pub struct CreateVectorStoreRequest {
     #[doc = "A list of [File](/docs/api-reference/files) IDs that the vector store should use. Useful for tools like `file_search` that can access files."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "file_ids")]
     pub file_ids: Option<Vec<String>>,
     #[doc = "The name of the vector store."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "name")]
     pub name: Option<String>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "expires_after")]
     pub expires_after: Option<VectorStoreExpirationAfter>,
     #[doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy. Only applicable if `file_ids` is non-empty."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "chunking_strategy")]
     pub chunking_strategy: Option<CreateVectorStoreRequestChunkingStrategy>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "metadata")]
     pub metadata: Option<Metadata>,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum DeleteAssistantResponseObject {
+    #[default]
     #[serde(rename = "assistant.deleted")]
     AssistantDeleted,
 }
@@ -6166,13 +6690,15 @@ pub struct DeleteAssistantResponse {
     pub id: String,
     #[serde(rename = "deleted")]
     pub deleted: bool,
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: DeleteAssistantResponseObject,
 }
 #[doc = "The object type, must be `certificate.deleted`."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum DeleteCertificateResponseObject {
+    #[default]
     #[serde(rename = "certificate.deleted")]
     CertificateDeleted,
 }
@@ -6181,15 +6707,17 @@ pub enum DeleteCertificateResponseObject {
 )]
 pub struct DeleteCertificateResponse {
     #[doc = "The object type, must be `certificate.deleted`."]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: DeleteCertificateResponseObject,
     #[doc = "The ID of the certificate that was deleted."]
     #[serde(rename = "id")]
     pub id: String,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum DeleteFileResponseObject {
+    #[default]
     #[serde(rename = "file")]
     File,
 }
@@ -6199,15 +6727,17 @@ pub enum DeleteFileResponseObject {
 pub struct DeleteFileResponse {
     #[serde(rename = "id")]
     pub id: String,
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: DeleteFileResponseObject,
     #[serde(rename = "deleted")]
     pub deleted: bool,
 }
 #[doc = "The object type, which is always \"checkpoint.permission\"."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum DeleteFineTuningCheckpointPermissionResponseObject {
+    #[default]
     #[serde(rename = "checkpoint.permission")]
     CheckpointPermission,
 }
@@ -6219,15 +6749,17 @@ pub struct DeleteFineTuningCheckpointPermissionResponse {
     #[serde(rename = "id")]
     pub id: String,
     #[doc = "The object type, which is always \"checkpoint.permission\"."]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: DeleteFineTuningCheckpointPermissionResponseObject,
     #[doc = "Whether the fine-tuned model checkpoint permission was successfully deleted."]
     #[serde(rename = "deleted")]
     pub deleted: bool,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum DeleteMessageResponseObject {
+    #[default]
     #[serde(rename = "thread.message.deleted")]
     ThreadMessageDeleted,
 }
@@ -6239,6 +6771,7 @@ pub struct DeleteMessageResponse {
     pub id: String,
     #[serde(rename = "deleted")]
     pub deleted: bool,
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: DeleteMessageResponseObject,
 }
@@ -6253,9 +6786,10 @@ pub struct DeleteModelResponse {
     #[serde(rename = "object")]
     pub object: String,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum DeleteThreadResponseObject {
+    #[default]
     #[serde(rename = "thread.deleted")]
     ThreadDeleted,
 }
@@ -6267,12 +6801,14 @@ pub struct DeleteThreadResponse {
     pub id: String,
     #[serde(rename = "deleted")]
     pub deleted: bool,
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: DeleteThreadResponseObject,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum DeleteVectorStoreFileResponseObject {
+    #[default]
     #[serde(rename = "vector_store.file.deleted")]
     VectorStoreFileDeleted,
 }
@@ -6284,12 +6820,14 @@ pub struct DeleteVectorStoreFileResponse {
     pub id: String,
     #[serde(rename = "deleted")]
     pub deleted: bool,
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: DeleteVectorStoreFileResponseObject,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum DeleteVectorStoreResponseObject {
+    #[default]
     #[serde(rename = "vector_store.deleted")]
     VectorStoreDeleted,
 }
@@ -6301,28 +6839,39 @@ pub struct DeleteVectorStoreResponse {
     pub id: String,
     #[serde(rename = "deleted")]
     pub deleted: bool,
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: DeleteVectorStoreResponseObject,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum DoneEventEvent {
+    #[default]
     #[serde(rename = "done")]
     Done,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum DoneEventData {
+    #[default]
     #[serde(rename = "[DONE]")]
     Done,
 }
 #[doc = "Occurs when a stream ends."]
 #[derive(
-    Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
+    Clone,
+    Debug,
+    PartialEq,
+    serde :: Deserialize,
+    serde :: Serialize,
+    Default,
+    typed_builder :: TypedBuilder,
 )]
 pub struct DoneEvent {
+    #[builder(default)]
     #[serde(rename = "event")]
     pub event: DoneEventEvent,
+    #[builder(default)]
     #[serde(rename = "data")]
     pub data: DoneEventData,
 }
@@ -6369,9 +6918,10 @@ pub enum EasyInputMessageContent {
     _1(InputMessageContentList),
 }
 #[doc = "The type of the message input. Always `message`.\n"]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum EasyInputMessageType {
+    #[default]
     #[serde(rename = "message")]
     Message,
 }
@@ -6388,13 +6938,15 @@ pub struct EasyInputMessage {
     pub content: EasyInputMessageContent,
     #[doc = "The type of the message input. Always `message`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "type")]
     pub type_: Option<EasyInputMessageType>,
 }
 #[doc = "The object type, which is always \"embedding\"."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum EmbeddingObject {
+    #[default]
     #[serde(rename = "embedding")]
     Embedding,
 }
@@ -6410,6 +6962,7 @@ pub struct Embedding {
     #[serde(rename = "embedding")]
     pub embedding: Vec<f64>,
     #[doc = "The object type, which is always \"embedding\"."]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: EmbeddingObject,
 }
@@ -6418,19 +6971,22 @@ pub struct Embedding {
 )]
 pub struct Error {
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "code")]
     pub code: Option<String>,
     #[serde(rename = "message")]
     pub message: String,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "param")]
     pub param: Option<String>,
     #[serde(rename = "type")]
     pub type_: String,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ErrorEventEvent {
+    #[default]
     #[serde(rename = "error")]
     Error,
 }
@@ -6439,6 +6995,7 @@ pub enum ErrorEventEvent {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ErrorEvent {
+    #[builder(default)]
     #[serde(rename = "event")]
     pub event: ErrorEventEvent,
     #[serde(rename = "data")]
@@ -6546,9 +7103,10 @@ pub enum EvalItemRole {
     Developer,
 }
 #[doc = "The type of the output text. Always `output_text`.\n"]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum EvalItemContent2Type {
+    #[default]
     #[serde(rename = "output_text")]
     OutputText,
 }
@@ -6558,6 +7116,7 @@ pub enum EvalItemContent2Type {
 )]
 pub struct EvalItemContent2 {
     #[doc = "The type of the output text. Always `output_text`.\n"]
+    #[builder(default)]
     #[serde(rename = "type")]
     pub type_: EvalItemContent2Type,
     #[doc = "The text output from the model.\n"]
@@ -6574,9 +7133,10 @@ pub enum EvalItemContent {
     _2(EvalItemContent2),
 }
 #[doc = "The type of the message input. Always `message`.\n"]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum EvalItemType {
+    #[default]
     #[serde(rename = "message")]
     Message,
 }
@@ -6593,6 +7153,7 @@ pub struct EvalItem {
     pub content: EvalItemContent,
     #[doc = "The type of the message input. Always `message`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "type")]
     pub type_: Option<EvalItemType>,
 }
@@ -6603,6 +7164,7 @@ pub struct EvalJsonlFileContentSourceContentItem {
     #[serde(rename = "item")]
     pub item: std::collections::HashMap<String, serde_json::Value>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "sample")]
     pub sample: Option<std::collections::HashMap<String, serde_json::Value>>,
 }
@@ -6685,10 +7247,12 @@ pub struct EvalPythonGrader {
     pub source: String,
     #[doc = "The threshold for the score."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "pass_threshold")]
     pub pass_threshold: Option<f64>,
     #[doc = "The image tag to use for the python script."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "image_tag")]
     pub image_tag: Option<String>,
 }
@@ -6709,46 +7273,57 @@ pub struct EvalResponsesSource {
     pub type_: EvalResponsesSourceType,
     #[doc = "Metadata filter for the responses. This is a query parameter used to select responses."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "metadata")]
     pub metadata: Option<std::collections::HashMap<String, serde_json::Value>>,
     #[doc = "The name of the model to find responses for. This is a query parameter used to select responses."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "model")]
     pub model: Option<String>,
     #[doc = "Optional search string for instructions. This is a query parameter used to select responses."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "instructions_search")]
     pub instructions_search: Option<String>,
     #[doc = "Only include items created after this timestamp (inclusive). This is a query parameter used to select responses."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "created_after")]
     pub created_after: Option<u64>,
     #[doc = "Only include items created before this timestamp (inclusive). This is a query parameter used to select responses."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "created_before")]
     pub created_before: Option<u64>,
     #[doc = "Whether the response has tool calls. This is a query parameter used to select responses."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "has_tool_calls")]
     pub has_tool_calls: Option<bool>,
     #[doc = "Optional reasoning effort parameter. This is a query parameter used to select responses."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "reasoning_effort")]
     pub reasoning_effort: Option<ReasoningEffort>,
     #[doc = "Sampling temperature. This is a query parameter used to select responses."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "temperature")]
     pub temperature: Option<f64>,
     #[doc = "Nucleus sampling parameter. This is a query parameter used to select responses."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "top_p")]
     pub top_p: Option<f64>,
     #[doc = "List of user identifiers. This is a query parameter used to select responses."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "users")]
     pub users: Option<Vec<String>>,
     #[doc = "Whether to allow parallel tool calls. This is a query parameter used to select responses."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "allow_parallel_tool_calls")]
     pub allow_parallel_tool_calls: Option<bool>,
 }
@@ -6933,10 +7508,12 @@ pub struct EvalRunOutputItemSampleInputItem {
 pub struct EvalRunOutputItemSampleOutputItem {
     #[doc = "The role of the message (e.g. \"system\", \"assistant\", \"user\")."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "role")]
     pub role: Option<String>,
     #[doc = "The content of the message."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "content")]
     pub content: Option<String>,
 }
@@ -7073,6 +7650,7 @@ pub struct EvalScoreModelGrader {
     pub model: String,
     #[doc = "The sampling parameters for the model."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "sampling_params")]
     pub sampling_params: Option<std::collections::HashMap<String, serde_json::Value>>,
     #[doc = "The input text. This may include template strings."]
@@ -7080,10 +7658,12 @@ pub struct EvalScoreModelGrader {
     pub input: Vec<EvalItem>,
     #[doc = "The threshold for the score."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "pass_threshold")]
     pub pass_threshold: Option<f64>,
     #[doc = "The range of the score. Defaults to `[0, 1]`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "range")]
     pub range: Option<Vec<f64>>,
 }
@@ -7093,6 +7673,7 @@ pub struct EvalScoreModelGrader {
 )]
 pub struct EvalStoredCompletionsDataSourceConfig {
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "metadata")]
     pub metadata: Option<Metadata>,
     #[doc = "The json schema for the run data source items.\nLearn how to build JSON schemas [here](https://json-schema.org/).\n"]
@@ -7111,22 +7692,27 @@ pub struct EvalStoredCompletionsDataSourceConfig {
 )]
 pub struct EvalStoredCompletionsSource {
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "metadata")]
     pub metadata: Option<Metadata>,
     #[doc = "An optional model to filter by (e.g., 'gpt-4o')."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "model")]
     pub model: Option<String>,
     #[doc = "An optional Unix timestamp to filter items created after this time."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "created_after")]
     pub created_after: Option<u64>,
     #[doc = "An optional Unix timestamp to filter items created before this time."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "created_before")]
     pub created_before: Option<u64>,
     #[doc = "An optional maximum number of items to return."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "limit")]
     pub limit: Option<u64>,
 }
@@ -7193,6 +7779,7 @@ pub enum EvalTextSimilarityGraderEvaluationMetric {
 pub struct EvalTextSimilarityGrader {
     #[doc = "The name of the grader."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "name")]
     pub name: Option<String>,
     #[doc = "The text being graded."]
@@ -7235,6 +7822,7 @@ pub enum FileSearchRanker {
 )]
 pub struct FileSearchRankingOptions {
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "ranker")]
     pub ranker: Option<FileSearchRanker>,
     #[doc = "The score threshold for the file search. All values must be a floating point number between 0 and 1."]
@@ -7242,9 +7830,10 @@ pub struct FileSearchRankingOptions {
     pub score_threshold: f64,
 }
 #[doc = "The type of the file search tool call. Always `file_search_call`.\n"]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum FileSearchToolCallType {
+    #[default]
     #[serde(rename = "file_search_call")]
     FileSearchCall,
 }
@@ -7275,21 +7864,26 @@ pub enum FileSearchToolCallStatus {
 pub struct FileSearchToolCallResultsItem {
     #[doc = "The unique ID of the file.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "file_id")]
     pub file_id: Option<String>,
     #[doc = "The text that was retrieved from the file.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "text")]
     pub text: Option<String>,
     #[doc = "The name of the file.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "filename")]
     pub filename: Option<String>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "attributes")]
     pub attributes: Option<VectorStoreFileAttributes>,
     #[doc = "The relevance score of the file - a value between 0 and 1.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "score")]
     pub score: Option<f64>,
 }
@@ -7302,6 +7896,7 @@ pub struct FileSearchToolCall {
     #[serde(rename = "id")]
     pub id: String,
     #[doc = "The type of the file search tool call. Always `file_search_call`.\n"]
+    #[builder(default)]
     #[serde(rename = "type")]
     pub type_: FileSearchToolCallType,
     #[doc = "The status of the file search tool call. One of `in_progress`, \n`searching`, `incomplete` or `failed`,\n"]
@@ -7312,6 +7907,7 @@ pub struct FileSearchToolCall {
     pub queries: Vec<String>,
     #[doc = "The results of the file search tool call.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "results")]
     pub results: Option<Vec<FileSearchToolCallResultsItem>>,
 }
@@ -7327,6 +7923,7 @@ pub struct FileSearchToolCall {
 pub struct FineTuneChatCompletionRequestAssistantMessage {
     #[doc = "Controls whether the assistant message is trained against (0 or 1)"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "weight")]
     pub weight: Option<u64>,
     #[builder(default)]
@@ -7355,17 +7952,21 @@ pub enum FineTuneChatRequestInputMessagesItem {
 )]
 pub struct FineTuneChatRequestInput {
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "messages")]
     pub messages: Option<Vec<FineTuneChatRequestInputMessagesItem>>,
     #[doc = "A list of tools the model may generate JSON inputs for."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "tools")]
     pub tools: Option<Vec<ChatCompletionTool>>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "parallel_tool_calls")]
     pub parallel_tool_calls: Option<ParallelToolCalls>,
     #[doc = "A list of functions the model may generate JSON inputs for."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "functions")]
     pub functions: Option<Vec<ChatCompletionFunctions>>,
 }
@@ -7382,16 +7983,19 @@ pub struct FineTuneChatRequestInput {
 pub struct FineTuneCompletionRequestInput {
     #[doc = "The input prompt for this training example."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "prompt")]
     pub prompt: Option<String>,
     #[doc = "The desired completion for this training example."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "completion")]
     pub completion: Option<String>,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuneDpoMethodHyperparametersBeta0 {
+    #[default]
     #[serde(rename = "auto")]
     Auto,
 }
@@ -7403,9 +8007,10 @@ pub enum FineTuneDpoMethodHyperparametersBeta {
     _0(FineTuneDpoMethodHyperparametersBeta0),
     _1(f64),
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuneDpoMethodHyperparametersBatchSize0 {
+    #[default]
     #[serde(rename = "auto")]
     Auto,
 }
@@ -7417,9 +8022,10 @@ pub enum FineTuneDpoMethodHyperparametersBatchSize {
     _0(FineTuneDpoMethodHyperparametersBatchSize0),
     _1(u64),
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuneDpoMethodHyperparametersLearningRateMultiplier0 {
+    #[default]
     #[serde(rename = "auto")]
     Auto,
 }
@@ -7431,9 +8037,10 @@ pub enum FineTuneDpoMethodHyperparametersLearningRateMultiplier {
     _0(FineTuneDpoMethodHyperparametersLearningRateMultiplier0),
     _1(f64),
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuneDpoMethodHyperparametersNEpochs0 {
+    #[default]
     #[serde(rename = "auto")]
     Auto,
 }
@@ -7458,18 +8065,22 @@ pub enum FineTuneDpoMethodHyperparametersNEpochs {
 pub struct FineTuneDpoMethodHyperparameters {
     #[doc = "The beta value for the DPO method. A higher beta value will increase the weight of the penalty between the policy and reference model.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "beta")]
     pub beta: Option<FineTuneDpoMethodHyperparametersBeta>,
     #[doc = "Number of examples in each batch. A larger batch size means that model parameters are updated less frequently, but with lower variance.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "batch_size")]
     pub batch_size: Option<FineTuneDpoMethodHyperparametersBatchSize>,
     #[doc = "Scaling factor for the learning rate. A smaller learning rate may be useful to avoid overfitting.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "learning_rate_multiplier")]
     pub learning_rate_multiplier: Option<FineTuneDpoMethodHyperparametersLearningRateMultiplier>,
     #[doc = "The number of epochs to train the model for. An epoch refers to one full cycle through the training dataset.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "n_epochs")]
     pub n_epochs: Option<FineTuneDpoMethodHyperparametersNEpochs>,
 }
@@ -7486,6 +8097,7 @@ pub struct FineTuneDpoMethodHyperparameters {
 pub struct FineTuneDpoMethod {
     #[doc = "The hyperparameters used for the fine-tuning job."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "hyperparameters")]
     pub hyperparameters: Option<FineTuneDpoMethodHyperparameters>,
 }
@@ -7511,12 +8123,15 @@ pub enum FineTuneMethodType {
 pub struct FineTuneMethod {
     #[doc = "The type of method. Is either `supervised` or `dpo`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "type")]
     pub type_: Option<FineTuneMethodType>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "supervised")]
     pub supervised: Option<FineTuneSupervisedMethod>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "dpo")]
     pub dpo: Option<FineTuneDpoMethod>,
 }
@@ -7541,13 +8156,16 @@ pub enum FineTunePreferenceRequestInputInputMessagesItem {
 )]
 pub struct FineTunePreferenceRequestInputInput {
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "messages")]
     pub messages: Option<Vec<FineTunePreferenceRequestInputInputMessagesItem>>,
     #[doc = "A list of tools the model may generate JSON inputs for."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "tools")]
     pub tools: Option<Vec<ChatCompletionTool>>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "parallel_tool_calls")]
     pub parallel_tool_calls: Option<ParallelToolCalls>,
 }
@@ -7577,21 +8195,25 @@ pub enum FineTunePreferenceRequestInputNonPreferredCompletionItem {
 )]
 pub struct FineTunePreferenceRequestInput {
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "input")]
     pub input: Option<FineTunePreferenceRequestInputInput>,
     #[doc = "The preferred completion message for the output."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "preferred_completion")]
     pub preferred_completion: Option<Vec<FineTunePreferenceRequestInputPreferredCompletionItem>>,
     #[doc = "The non-preferred completion message for the output."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "non_preferred_completion")]
     pub non_preferred_completion:
         Option<Vec<FineTunePreferenceRequestInputNonPreferredCompletionItem>>,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuneSupervisedMethodHyperparametersBatchSize0 {
+    #[default]
     #[serde(rename = "auto")]
     Auto,
 }
@@ -7603,9 +8225,10 @@ pub enum FineTuneSupervisedMethodHyperparametersBatchSize {
     _0(FineTuneSupervisedMethodHyperparametersBatchSize0),
     _1(u64),
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuneSupervisedMethodHyperparametersLearningRateMultiplier0 {
+    #[default]
     #[serde(rename = "auto")]
     Auto,
 }
@@ -7617,9 +8240,10 @@ pub enum FineTuneSupervisedMethodHyperparametersLearningRateMultiplier {
     _0(FineTuneSupervisedMethodHyperparametersLearningRateMultiplier0),
     _1(f64),
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuneSupervisedMethodHyperparametersNEpochs0 {
+    #[default]
     #[serde(rename = "auto")]
     Auto,
 }
@@ -7644,15 +8268,18 @@ pub enum FineTuneSupervisedMethodHyperparametersNEpochs {
 pub struct FineTuneSupervisedMethodHyperparameters {
     #[doc = "Number of examples in each batch. A larger batch size means that model parameters are updated less frequently, but with lower variance.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "batch_size")]
     pub batch_size: Option<FineTuneSupervisedMethodHyperparametersBatchSize>,
     #[doc = "Scaling factor for the learning rate. A smaller learning rate may be useful to avoid overfitting.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "learning_rate_multiplier")]
     pub learning_rate_multiplier:
         Option<FineTuneSupervisedMethodHyperparametersLearningRateMultiplier>,
     #[doc = "The number of epochs to train the model for. An epoch refers to one full cycle through the training dataset.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "n_epochs")]
     pub n_epochs: Option<FineTuneSupervisedMethodHyperparametersNEpochs>,
 }
@@ -7669,13 +8296,15 @@ pub struct FineTuneSupervisedMethodHyperparameters {
 pub struct FineTuneSupervisedMethod {
     #[doc = "The hyperparameters used for the fine-tuning job."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "hyperparameters")]
     pub hyperparameters: Option<FineTuneSupervisedMethodHyperparameters>,
 }
 #[doc = "The object type, which is always \"checkpoint.permission\"."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuningCheckpointPermissionObject {
+    #[default]
     #[serde(rename = "checkpoint.permission")]
     CheckpointPermission,
 }
@@ -7694,6 +8323,7 @@ pub struct FineTuningCheckpointPermission {
     #[serde(rename = "project_id")]
     pub project_id: String,
     #[doc = "The object type, which is always \"checkpoint.permission\"."]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: FineTuningCheckpointPermissionObject,
 }
@@ -7707,14 +8337,17 @@ pub struct FineTuningIntegrationWandb {
     pub project: String,
     #[doc = "A display name to set for the run. If not set, we will use the Job ID as the name.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "name")]
     pub name: Option<String>,
     #[doc = "The entity to use for the run. This allows you to set the team or username of the WandB user that you would\nlike associated with the run. If not set, the default entity for the registered WandB API key is used.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "entity")]
     pub entity: Option<String>,
     #[doc = "A list of tags to be attached to the newly created run. These tags are passed through directly to WandB. Some\ndefault tags are generated by OpenAI: \"openai/finetune\", \"openai/{base-model}\", \"openai/{ftjob-abcdef}\".\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "tags")]
     pub tags: Option<Vec<String>>,
 }
@@ -7739,12 +8372,14 @@ pub struct FineTuningJobError {
     pub message: String,
     #[doc = "The parameter that was invalid, usually `training_file` or `validation_file`. This field will be null if the failure was not parameter-specific."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "param")]
     pub param: Option<String>,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuningJobHyperparametersBatchSize0 {
+    #[default]
     #[serde(rename = "auto")]
     Auto,
 }
@@ -7756,9 +8391,10 @@ pub enum FineTuningJobHyperparametersBatchSize {
     _0(FineTuningJobHyperparametersBatchSize0),
     _1(u64),
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuningJobHyperparametersLearningRateMultiplier0 {
+    #[default]
     #[serde(rename = "auto")]
     Auto,
 }
@@ -7770,9 +8406,10 @@ pub enum FineTuningJobHyperparametersLearningRateMultiplier {
     _0(FineTuningJobHyperparametersLearningRateMultiplier0),
     _1(f64),
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuningJobHyperparametersNEpochs0 {
+    #[default]
     #[serde(rename = "auto")]
     Auto,
 }
@@ -7797,21 +8434,25 @@ pub enum FineTuningJobHyperparametersNEpochs {
 pub struct FineTuningJobHyperparameters {
     #[doc = "Number of examples in each batch. A larger batch size means that model parameters\nare updated less frequently, but with lower variance.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "batch_size")]
     pub batch_size: Option<FineTuningJobHyperparametersBatchSize>,
     #[doc = "Scaling factor for the learning rate. A smaller learning rate may be useful to avoid\noverfitting.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "learning_rate_multiplier")]
     pub learning_rate_multiplier: Option<FineTuningJobHyperparametersLearningRateMultiplier>,
     #[doc = "The number of epochs to train the model for. An epoch refers to one full cycle\nthrough the training dataset.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "n_epochs")]
     pub n_epochs: Option<FineTuningJobHyperparametersNEpochs>,
 }
 #[doc = "The object type, which is always \"fine_tuning.job\"."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuningJobObject {
+    #[default]
     #[serde(rename = "fine_tuning.job")]
     FineTuningJob,
 }
@@ -7852,14 +8493,17 @@ pub struct FineTuningJob {
     pub created_at: u64,
     #[doc = "For fine-tuning jobs that have `failed`, this will contain more information on the cause of the failure."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "error")]
     pub error: Option<FineTuningJobError>,
     #[doc = "The name of the fine-tuned model that is being created. The value will be null if the fine-tuning job is still running."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "fine_tuned_model")]
     pub fine_tuned_model: Option<String>,
     #[doc = "The Unix timestamp (in seconds) for when the fine-tuning job was finished. The value will be null if the fine-tuning job is still running."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "finished_at")]
     pub finished_at: Option<u64>,
     #[doc = "The hyperparameters used for the fine-tuning job. This value will only be returned when running `supervised` jobs."]
@@ -7870,6 +8514,7 @@ pub struct FineTuningJob {
     #[serde(rename = "model")]
     pub model: String,
     #[doc = "The object type, which is always \"fine_tuning.job\"."]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: FineTuningJobObject,
     #[doc = "The organization that owns the fine-tuning job."]
@@ -7883,6 +8528,7 @@ pub struct FineTuningJob {
     pub status: FineTuningJobStatus,
     #[doc = "The total number of billable tokens processed by this fine-tuning job. The value will be null if the fine-tuning job is still running."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "trained_tokens")]
     pub trained_tokens: Option<u64>,
     #[doc = "The file ID used for training. You can retrieve the training data with the [Files API](/docs/api-reference/files/retrieve-contents)."]
@@ -7890,10 +8536,12 @@ pub struct FineTuningJob {
     pub training_file: String,
     #[doc = "The file ID used for validation. You can retrieve the validation results with the [Files API](/docs/api-reference/files/retrieve-contents)."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "validation_file")]
     pub validation_file: Option<String>,
     #[doc = "A list of integrations to enable for this fine-tuning job."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "integrations")]
     pub integrations: Option<Vec<FineTuningJobIntegrationsItem>>,
     #[doc = "The seed used for the fine-tuning job."]
@@ -7901,12 +8549,15 @@ pub struct FineTuningJob {
     pub seed: u64,
     #[doc = "The Unix timestamp (in seconds) for when the fine-tuning job is estimated to finish. The value will be null if the fine-tuning job is not running."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "estimated_finish")]
     pub estimated_finish: Option<u64>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "method")]
     pub method: Option<FineTuneMethod>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "metadata")]
     pub metadata: Option<Metadata>,
 }
@@ -7922,31 +8573,39 @@ pub struct FineTuningJob {
 )]
 pub struct FineTuningJobCheckpointMetrics {
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "step")]
     pub step: Option<f64>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "train_loss")]
     pub train_loss: Option<f64>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "train_mean_token_accuracy")]
     pub train_mean_token_accuracy: Option<f64>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "valid_loss")]
     pub valid_loss: Option<f64>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "valid_mean_token_accuracy")]
     pub valid_mean_token_accuracy: Option<f64>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "full_valid_loss")]
     pub full_valid_loss: Option<f64>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "full_valid_mean_token_accuracy")]
     pub full_valid_mean_token_accuracy: Option<f64>,
 }
 #[doc = "The object type, which is always \"fine_tuning.job.checkpoint\"."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuningJobCheckpointObject {
+    #[default]
     #[serde(rename = "fine_tuning.job.checkpoint")]
     FineTuningJobCheckpoint,
 }
@@ -7975,13 +8634,15 @@ pub struct FineTuningJobCheckpoint {
     #[serde(rename = "fine_tuning_job_id")]
     pub fine_tuning_job_id: String,
     #[doc = "The object type, which is always \"fine_tuning.job.checkpoint\"."]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: FineTuningJobCheckpointObject,
 }
 #[doc = "The object type, which is always \"fine_tuning.job.event\"."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuningJobEventObject {
+    #[default]
     #[serde(rename = "fine_tuning.job.event")]
     FineTuningJobEvent,
 }
@@ -8011,6 +8672,7 @@ pub enum FineTuningJobEventType {
 )]
 pub struct FineTuningJobEvent {
     #[doc = "The object type, which is always \"fine_tuning.job.event\"."]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: FineTuningJobEventObject,
     #[doc = "The object identifier."]
@@ -8027,10 +8689,12 @@ pub struct FineTuningJobEvent {
     pub message: String,
     #[doc = "The type of event."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "type")]
     pub type_: Option<FineTuningJobEventType>,
     #[doc = "The data associated with the event."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "data")]
     pub data: Option<std::collections::HashMap<String, serde_json::Value>>,
 }
@@ -8040,24 +8704,28 @@ pub struct FineTuningJobEvent {
 pub struct FunctionObject {
     #[doc = "A description of what the function does, used by the model to choose when and how to call the function."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "description")]
     pub description: Option<String>,
     #[doc = "The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64."]
     #[serde(rename = "name")]
     pub name: String,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "parameters")]
     pub parameters: Option<FunctionParameters>,
     #[doc = "Whether to enable strict schema adherence when generating the function call. If set to true, the model will follow the exact schema defined in the `parameters` field. Only a subset of JSON Schema is supported when `strict` is `true`. Learn more about Structured Outputs in the [function calling guide](docs/guides/function-calling)."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "strict")]
     pub strict: Option<bool>,
 }
 pub type FunctionParameters = std::collections::HashMap<String, serde_json::Value>;
 #[doc = "The type of the function tool call. Always `function_call`.\n"]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum FunctionToolCallType {
+    #[default]
     #[serde(rename = "function_call")]
     FunctionCall,
 }
@@ -8079,9 +8747,11 @@ pub enum FunctionToolCallStatus {
 pub struct FunctionToolCall {
     #[doc = "The unique ID of the function tool call.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "The type of the function tool call. Always `function_call`.\n"]
+    #[builder(default)]
     #[serde(rename = "type")]
     pub type_: FunctionToolCallType,
     #[doc = "The unique ID of the function tool call generated by the model.\n"]
@@ -8095,13 +8765,15 @@ pub struct FunctionToolCall {
     pub arguments: String,
     #[doc = "The status of the item. One of `in_progress`, `completed`, or\n`incomplete`. Populated when items are returned via API.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "status")]
     pub status: Option<FunctionToolCallStatus>,
 }
 #[doc = "The type of the function tool call output. Always `function_call_output`.\n"]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum FunctionToolCallOutputType {
+    #[default]
     #[serde(rename = "function_call_output")]
     FunctionCallOutput,
 }
@@ -8123,9 +8795,11 @@ pub enum FunctionToolCallOutputStatus {
 pub struct FunctionToolCallOutput {
     #[doc = "The unique ID of the function tool call output. Populated when this item\nis returned via API.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "The type of the function tool call output. Always `function_call_output`.\n"]
+    #[builder(default)]
     #[serde(rename = "type")]
     pub type_: FunctionToolCallOutputType,
     #[doc = "The unique ID of the function tool call generated by the model.\n"]
@@ -8136,6 +8810,7 @@ pub struct FunctionToolCallOutput {
     pub output: String,
     #[doc = "The status of the item. One of `in_progress`, `completed`, or\n`incomplete`. Populated when items are returned via API.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "status")]
     pub status: Option<FunctionToolCallOutputStatus>,
 }
@@ -8172,14 +8847,17 @@ pub struct FunctionToolCallResource {
 pub struct Image {
     #[doc = "The base64-encoded JSON of the generated image. Default value for `gpt-image-1`, and only present if `response_format` is set to `b64_json` for `dall-e-2` and `dall-e-3`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "b64_json")]
     pub b64_json: Option<String>,
     #[doc = "When using `dall-e-2` or `dall-e-3`, the URL of the generated image if `response_format` is set to `url` (default value). Unsupported for `gpt-image-1`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "url")]
     pub url: Option<String>,
     #[doc = "For `dall-e-3` only, the revised prompt that was used to generate the image."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "revised_prompt")]
     pub revised_prompt: Option<String>,
 }
@@ -8223,10 +8901,12 @@ pub struct ImagesResponse {
     pub created: u64,
     #[doc = "The list of generated images."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "data")]
     pub data: Option<Vec<Image>>,
     #[doc = "For `gpt-image-1` only, the token usage information for the image generation.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "usage")]
     pub usage: Option<ImagesResponseUsage>,
 }
@@ -8242,9 +8922,10 @@ pub enum Includable {
     ComputerCallOutputOutputImageUrl,
 }
 #[doc = "The type of the input item. Always `input_audio`.\n"]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum InputAudioType {
+    #[default]
     #[serde(rename = "input_audio")]
     InputAudio,
 }
@@ -8263,6 +8944,7 @@ pub enum InputAudioFormat {
 )]
 pub struct InputAudio {
     #[doc = "The type of the input item. Always `input_audio`.\n"]
+    #[builder(default)]
     #[serde(rename = "type")]
     pub type_: InputAudioType,
     #[doc = "Base64-encoded audio data.\n"]
@@ -8292,9 +8974,10 @@ pub enum InputItem {
     _2(ItemReferenceParam),
 }
 #[doc = "The type of the message input. Always set to `message`.\n"]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum InputMessageType {
+    #[default]
     #[serde(rename = "message")]
     Message,
 }
@@ -8327,6 +9010,7 @@ pub enum InputMessageStatus {
 pub struct InputMessage {
     #[doc = "The type of the message input. Always set to `message`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "type")]
     pub type_: Option<InputMessageType>,
     #[doc = "The role of the message input. One of `user`, `system`, or `developer`.\n"]
@@ -8334,6 +9018,7 @@ pub struct InputMessage {
     pub role: InputMessageRole,
     #[doc = "The status of item. One of `in_progress`, `completed`, or\n`incomplete`. Populated when items are returned via API.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "status")]
     pub status: Option<InputMessageStatus>,
     #[serde(rename = "content")]
@@ -8351,9 +9036,10 @@ pub struct InputMessageResource {
     pub id: String,
 }
 #[doc = "The object type, which is always `organization.invite`"]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum InviteObject {
+    #[default]
     #[serde(rename = "organization.invite")]
     OrganizationInvite,
 }
@@ -8398,10 +9084,12 @@ pub enum InviteProjectsItemRole {
 pub struct InviteProjectsItem {
     #[doc = "Project's public ID"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "Project membership role"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "role")]
     pub role: Option<InviteProjectsItemRole>,
 }
@@ -8411,6 +9099,7 @@ pub struct InviteProjectsItem {
 )]
 pub struct Invite {
     #[doc = "The object type, which is always `organization.invite`"]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: InviteObject,
     #[doc = "The identifier, which can be referenced in API endpoints"]
@@ -8433,17 +9122,20 @@ pub struct Invite {
     pub expires_at: u64,
     #[doc = "The Unix timestamp (in seconds) of when the invite was accepted."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "accepted_at")]
     pub accepted_at: Option<u64>,
     #[doc = "The projects that were granted membership upon acceptance of the invite."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "projects")]
     pub projects: Option<Vec<InviteProjectsItem>>,
 }
 #[doc = "The object type, which is always `organization.invite.deleted`"]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum InviteDeleteResponseObject {
+    #[default]
     #[serde(rename = "organization.invite.deleted")]
     OrganizationInviteDeleted,
 }
@@ -8452,6 +9144,7 @@ pub enum InviteDeleteResponseObject {
 )]
 pub struct InviteDeleteResponse {
     #[doc = "The object type, which is always `organization.invite.deleted`"]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: InviteDeleteResponseObject,
     #[serde(rename = "id")]
@@ -8460,9 +9153,10 @@ pub struct InviteDeleteResponse {
     pub deleted: bool,
 }
 #[doc = "The object type, which is always `list`"]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum InviteListResponseObject {
+    #[default]
     #[serde(rename = "list")]
     List,
 }
@@ -8471,20 +9165,24 @@ pub enum InviteListResponseObject {
 )]
 pub struct InviteListResponse {
     #[doc = "The object type, which is always `list`"]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: InviteListResponseObject,
     #[serde(rename = "data")]
     pub data: Vec<Invite>,
     #[doc = "The first `invite_id` in the retrieved `list`"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "first_id")]
     pub first_id: Option<String>,
     #[doc = "The last `invite_id` in the retrieved `list`"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "last_id")]
     pub last_id: Option<String>,
     #[doc = "The `has_more` property is used for pagination to indicate there are additional results."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "has_more")]
     pub has_more: Option<bool>,
 }
@@ -8529,6 +9227,7 @@ pub struct InviteRequest {
     pub role: InviteRequestRole,
     #[doc = "An array of projects to which membership is granted at the same time the org invite is accepted. If omitted, the user will be invited to the default project for compatibility with legacy behavior."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "projects")]
     pub projects: Option<Vec<InviteRequestProjectsItem>>,
 }
@@ -8585,9 +9284,10 @@ pub struct ListAssistantsResponse {
     #[serde(rename = "has_more")]
     pub has_more: bool,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ListAuditLogsResponseObject {
+    #[default]
     #[serde(rename = "list")]
     List,
 }
@@ -8595,6 +9295,7 @@ pub enum ListAuditLogsResponseObject {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ListAuditLogsResponse {
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: ListAuditLogsResponseObject,
     #[serde(rename = "data")]
@@ -8606,9 +9307,10 @@ pub struct ListAuditLogsResponse {
     #[serde(rename = "has_more")]
     pub has_more: bool,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ListBatchesResponseObject {
+    #[default]
     #[serde(rename = "list")]
     List,
 }
@@ -8619,19 +9321,23 @@ pub struct ListBatchesResponse {
     #[serde(rename = "data")]
     pub data: Vec<Batch>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "first_id")]
     pub first_id: Option<String>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "last_id")]
     pub last_id: Option<String>,
     #[serde(rename = "has_more")]
     pub has_more: bool,
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: ListBatchesResponseObject,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ListCertificatesResponseObject {
+    #[default]
     #[serde(rename = "list")]
     List,
 }
@@ -8642,13 +9348,16 @@ pub struct ListCertificatesResponse {
     #[serde(rename = "data")]
     pub data: Vec<Certificate>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "first_id")]
     pub first_id: Option<String>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "last_id")]
     pub last_id: Option<String>,
     #[serde(rename = "has_more")]
     pub has_more: bool,
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: ListCertificatesResponseObject,
 }
@@ -8667,9 +9376,10 @@ pub struct ListFilesResponse {
     #[serde(rename = "has_more")]
     pub has_more: bool,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ListFineTuningCheckpointPermissionResponseObject {
+    #[default]
     #[serde(rename = "list")]
     List,
 }
@@ -8679,20 +9389,24 @@ pub enum ListFineTuningCheckpointPermissionResponseObject {
 pub struct ListFineTuningCheckpointPermissionResponse {
     #[serde(rename = "data")]
     pub data: Vec<FineTuningCheckpointPermission>,
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: ListFineTuningCheckpointPermissionResponseObject,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "first_id")]
     pub first_id: Option<String>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "last_id")]
     pub last_id: Option<String>,
     #[serde(rename = "has_more")]
     pub has_more: bool,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ListFineTuningJobCheckpointsResponseObject {
+    #[default]
     #[serde(rename = "list")]
     List,
 }
@@ -8702,20 +9416,24 @@ pub enum ListFineTuningJobCheckpointsResponseObject {
 pub struct ListFineTuningJobCheckpointsResponse {
     #[serde(rename = "data")]
     pub data: Vec<FineTuningJobCheckpoint>,
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: ListFineTuningJobCheckpointsResponseObject,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "first_id")]
     pub first_id: Option<String>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "last_id")]
     pub last_id: Option<String>,
     #[serde(rename = "has_more")]
     pub has_more: bool,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ListFineTuningJobEventsResponseObject {
+    #[default]
     #[serde(rename = "list")]
     List,
 }
@@ -8725,6 +9443,7 @@ pub enum ListFineTuningJobEventsResponseObject {
 pub struct ListFineTuningJobEventsResponse {
     #[serde(rename = "data")]
     pub data: Vec<FineTuningJobEvent>,
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: ListFineTuningJobEventsResponseObject,
     #[serde(rename = "has_more")]
@@ -8745,9 +9464,10 @@ pub struct ListMessagesResponse {
     #[serde(rename = "has_more")]
     pub has_more: bool,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ListModelsResponseObject {
+    #[default]
     #[serde(rename = "list")]
     List,
 }
@@ -8755,14 +9475,16 @@ pub enum ListModelsResponseObject {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ListModelsResponse {
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: ListModelsResponseObject,
     #[serde(rename = "data")]
     pub data: Vec<Model>,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ListPaginatedFineTuningJobsResponseObject {
+    #[default]
     #[serde(rename = "list")]
     List,
 }
@@ -8774,6 +9496,7 @@ pub struct ListPaginatedFineTuningJobsResponse {
     pub data: Vec<FineTuningJob>,
     #[serde(rename = "has_more")]
     pub has_more: bool,
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: ListPaginatedFineTuningJobsResponseObject,
 }
@@ -8873,6 +9596,7 @@ pub struct MessageContentImageFileObjectImageFile {
     pub file_id: String,
     #[doc = "Specifies the detail level of the image if specified by the user. `low` uses fewer tokens, you can opt in to high resolution using `high`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "detail")]
     pub detail: Option<MessageContentImageFileObjectImageFileDetail>,
 }
@@ -8905,6 +9629,7 @@ pub struct MessageContentImageUrlObjectImageUrl {
     pub url: String,
     #[doc = "Specifies the detail level of the image. `low` uses fewer tokens, you can opt in to high resolution using `high`. Default value is `auto`"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "detail")]
     pub detail: Option<MessageContentImageUrlObjectImageUrlDetail>,
 }
@@ -9021,10 +9746,12 @@ pub enum MessageDeltaContentImageFileObjectImageFileDetail {
 pub struct MessageDeltaContentImageFileObjectImageFile {
     #[doc = "The [File](/docs/api-reference/files) ID of the image in the message content. Set `purpose=\"vision\"` when uploading the File if you need to later display the file content."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "file_id")]
     pub file_id: Option<String>,
     #[doc = "Specifies the detail level of the image if specified by the user. `low` uses fewer tokens, you can opt in to high resolution using `high`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "detail")]
     pub detail: Option<MessageDeltaContentImageFileObjectImageFileDetail>,
 }
@@ -9037,6 +9764,7 @@ pub struct MessageDeltaContentImageFileObject {
     #[serde(rename = "index")]
     pub index: u64,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "image_file")]
     pub image_file: Option<MessageDeltaContentImageFileObjectImageFile>,
 }
@@ -9064,10 +9792,12 @@ pub enum MessageDeltaContentImageUrlObjectImageUrlDetail {
 pub struct MessageDeltaContentImageUrlObjectImageUrl {
     #[doc = "The URL of the image, must be a supported image types: jpeg, jpg, png, gif, webp."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "url")]
     pub url: Option<String>,
     #[doc = "Specifies the detail level of the image. `low` uses fewer tokens, you can opt in to high resolution using `high`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "detail")]
     pub detail: Option<MessageDeltaContentImageUrlObjectImageUrlDetail>,
 }
@@ -9080,6 +9810,7 @@ pub struct MessageDeltaContentImageUrlObject {
     #[serde(rename = "index")]
     pub index: u64,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "image_url")]
     pub image_url: Option<MessageDeltaContentImageUrlObjectImageUrl>,
 }
@@ -9092,6 +9823,7 @@ pub struct MessageDeltaContentRefusalObject {
     #[serde(rename = "index")]
     pub index: u64,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "refusal")]
     pub refusal: Option<String>,
 }
@@ -9107,10 +9839,12 @@ pub struct MessageDeltaContentRefusalObject {
 pub struct MessageDeltaContentTextAnnotationsFileCitationObjectFileCitation {
     #[doc = "The ID of the specific File the citation is from."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "file_id")]
     pub file_id: Option<String>,
     #[doc = "The specific quote in the file."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "quote")]
     pub quote: Option<String>,
 }
@@ -9124,15 +9858,19 @@ pub struct MessageDeltaContentTextAnnotationsFileCitationObject {
     pub index: u64,
     #[doc = "The text in the message content that needs to be replaced."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "text")]
     pub text: Option<String>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "file_citation")]
     pub file_citation: Option<MessageDeltaContentTextAnnotationsFileCitationObjectFileCitation>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "start_index")]
     pub start_index: Option<u64>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "end_index")]
     pub end_index: Option<u64>,
 }
@@ -9148,6 +9886,7 @@ pub struct MessageDeltaContentTextAnnotationsFileCitationObject {
 pub struct MessageDeltaContentTextAnnotationsFilePathObjectFilePath {
     #[doc = "The ID of the file that was generated."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "file_id")]
     pub file_id: Option<String>,
 }
@@ -9161,15 +9900,19 @@ pub struct MessageDeltaContentTextAnnotationsFilePathObject {
     pub index: u64,
     #[doc = "The text in the message content that needs to be replaced."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "text")]
     pub text: Option<String>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "file_path")]
     pub file_path: Option<MessageDeltaContentTextAnnotationsFilePathObjectFilePath>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "start_index")]
     pub start_index: Option<u64>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "end_index")]
     pub end_index: Option<u64>,
 }
@@ -9194,9 +9937,11 @@ pub enum MessageDeltaContentTextObjectTextAnnotationsItem {
 pub struct MessageDeltaContentTextObjectText {
     #[doc = "The data that makes up the text."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "value")]
     pub value: Option<String>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "annotations")]
     pub annotations: Option<Vec<MessageDeltaContentTextObjectTextAnnotationsItem>>,
 }
@@ -9209,13 +9954,15 @@ pub struct MessageDeltaContentTextObject {
     #[serde(rename = "index")]
     pub index: u64,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "text")]
     pub text: Option<MessageDeltaContentTextObjectText>,
 }
 #[doc = "The object type, which is always `thread.message.delta`."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum MessageDeltaObjectObject {
+    #[default]
     #[serde(rename = "thread.message.delta")]
     ThreadMessageDelta,
 }
@@ -9254,10 +10001,12 @@ pub enum MessageDeltaObjectDeltaContentItem {
 pub struct MessageDeltaObjectDelta {
     #[doc = "The entity that produced the message. One of `user` or `assistant`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "role")]
     pub role: Option<MessageDeltaObjectDeltaRole>,
     #[doc = "The content of the message in array of text and/or images."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "content")]
     pub content: Option<Vec<MessageDeltaObjectDeltaContentItem>>,
 }
@@ -9270,6 +10019,7 @@ pub struct MessageDeltaObject {
     #[serde(rename = "id")]
     pub id: String,
     #[doc = "The object type, which is always `thread.message.delta`."]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: MessageDeltaObjectObject,
     #[doc = "The delta containing the fields that have changed on the Message."]
@@ -9278,9 +10028,10 @@ pub struct MessageDeltaObject {
     pub delta: MessageDeltaObjectDelta,
 }
 #[doc = "The object type, which is always `thread.message`."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum MessageObjectObject {
+    #[default]
     #[serde(rename = "thread.message")]
     ThreadMessage,
 }
@@ -9362,10 +10113,12 @@ pub enum MessageObjectAttachmentsItemToolsItem {
 pub struct MessageObjectAttachmentsItem {
     #[doc = "The ID of the file to attach to the message."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "file_id")]
     pub file_id: Option<String>,
     #[doc = "The tools to add this file to."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "tools")]
     pub tools: Option<Vec<MessageObjectAttachmentsItemToolsItem>>,
 }
@@ -9378,6 +10131,7 @@ pub struct MessageObject {
     #[serde(rename = "id")]
     pub id: String,
     #[doc = "The object type, which is always `thread.message`."]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: MessageObjectObject,
     #[doc = "The Unix timestamp (in seconds) for when the message was created."]
@@ -9391,14 +10145,17 @@ pub struct MessageObject {
     pub status: MessageObjectStatus,
     #[doc = "On an incomplete message, details about why the message is incomplete."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "incomplete_details")]
     pub incomplete_details: Option<MessageObjectIncompleteDetails>,
     #[doc = "The Unix timestamp (in seconds) for when the message was completed."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "completed_at")]
     pub completed_at: Option<u64>,
     #[doc = "The Unix timestamp (in seconds) for when the message was marked as incomplete."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "incomplete_at")]
     pub incomplete_at: Option<u64>,
     #[doc = "The entity that produced the message. One of `user` or `assistant`."]
@@ -9409,14 +10166,17 @@ pub struct MessageObject {
     pub content: Vec<MessageObjectContentItem>,
     #[doc = "If applicable, the ID of the [assistant](/docs/api-reference/assistants) that authored this message."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "assistant_id")]
     pub assistant_id: Option<String>,
     #[doc = "The ID of the [run](/docs/api-reference/runs) associated with the creation of this message. Value is `null` when messages are created manually using the create message or create thread endpoints."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "run_id")]
     pub run_id: Option<String>,
     #[doc = "A list of files attached to the message, and the tools they were added to."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "attachments")]
     pub attachments: Option<Vec<MessageObjectAttachmentsItem>>,
     #[serde(rename = "metadata")]
@@ -9488,9 +10248,10 @@ pub enum MessageStreamEvent {
 }
 pub type Metadata = Vec<String>;
 #[doc = "The object type, which is always \"model\"."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ModelObject {
+    #[default]
     #[serde(rename = "model")]
     Model,
 }
@@ -9506,6 +10267,7 @@ pub struct Model {
     #[serde(rename = "created")]
     pub created: u64,
     #[doc = "The object type, which is always \"model\"."]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: ModelObject,
     #[doc = "The organization that owns the model."]
@@ -9550,21 +10312,26 @@ pub type ModelIdsShared = String;
 )]
 pub struct ModelResponseProperties {
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "metadata")]
     pub metadata: Option<Metadata>,
     #[doc = "What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.\nWe generally recommend altering this or `top_p` but not both.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "temperature")]
     pub temperature: Option<f64>,
     #[doc = "An alternative to sampling with temperature, called nucleus sampling,\nwhere the model considers the results of the tokens with top_p probability\nmass. So 0.1 means only the tokens comprising the top 10% probability mass\nare considered.\n\nWe generally recommend altering this or `temperature` but not both.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "top_p")]
     pub top_p: Option<f64>,
     #[doc = "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices#end-user-ids).\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "user")]
     pub user: Option<String>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "service_tier")]
     pub service_tier: Option<ServiceTier>,
 }
@@ -9599,6 +10366,7 @@ pub enum ModifyAssistantRequestToolsItem {
 pub struct ModifyAssistantRequestToolResourcesCodeInterpreter {
     #[doc = "Overrides the list of [file](/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "file_ids")]
     pub file_ids: Option<Vec<String>>,
 }
@@ -9614,6 +10382,7 @@ pub struct ModifyAssistantRequestToolResourcesCodeInterpreter {
 pub struct ModifyAssistantRequestToolResourcesFileSearch {
     #[doc = "Overrides the [vector store](/docs/api-reference/vector-stores/object) attached to this assistant. There can be a maximum of 1 vector store attached to the assistant.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "vector_store_ids")]
     pub vector_store_ids: Option<Vec<String>>,
 }
@@ -9629,9 +10398,11 @@ pub struct ModifyAssistantRequestToolResourcesFileSearch {
 )]
 pub struct ModifyAssistantRequestToolResources {
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "code_interpreter")]
     pub code_interpreter: Option<ModifyAssistantRequestToolResourcesCodeInterpreter>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "file_search")]
     pub file_search: Option<ModifyAssistantRequestToolResourcesFileSearch>,
 }
@@ -9647,43 +10418,54 @@ pub struct ModifyAssistantRequestToolResources {
 pub struct ModifyAssistantRequest {
     #[doc = "ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models) for descriptions of them.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "model")]
     pub model: Option<ModifyAssistantRequestModel>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "reasoning_effort")]
     pub reasoning_effort: Option<ReasoningEffort>,
     #[doc = "The name of the assistant. The maximum length is 256 characters.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "name")]
     pub name: Option<String>,
     #[doc = "The description of the assistant. The maximum length is 512 characters.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "description")]
     pub description: Option<String>,
     #[doc = "The system instructions that the assistant uses. The maximum length is 256,000 characters.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "instructions")]
     pub instructions: Option<String>,
     #[doc = "A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `file_search`, or `function`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "tools")]
     pub tools: Option<Vec<ModifyAssistantRequestToolsItem>>,
     #[doc = "A set of resources that are used by the assistant's tools. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "tool_resources")]
     pub tool_resources: Option<ModifyAssistantRequestToolResources>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "metadata")]
     pub metadata: Option<Metadata>,
     #[doc = "What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "temperature")]
     pub temperature: Option<f64>,
     #[doc = "An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.\n\nWe generally recommend altering this or temperature but not both.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "top_p")]
     pub top_p: Option<f64>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "response_format")]
     pub response_format: Option<AssistantsApiResponseFormatOption>,
 }
@@ -9706,6 +10488,7 @@ pub struct ModifyCertificateRequest {
 )]
 pub struct ModifyMessageRequest {
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "metadata")]
     pub metadata: Option<Metadata>,
 }
@@ -9720,6 +10503,7 @@ pub struct ModifyMessageRequest {
 )]
 pub struct ModifyRunRequest {
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "metadata")]
     pub metadata: Option<Metadata>,
 }
@@ -9735,6 +10519,7 @@ pub struct ModifyRunRequest {
 pub struct ModifyThreadRequestToolResourcesCodeInterpreter {
     #[doc = "A list of [file](/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "file_ids")]
     pub file_ids: Option<Vec<String>>,
 }
@@ -9750,6 +10535,7 @@ pub struct ModifyThreadRequestToolResourcesCodeInterpreter {
 pub struct ModifyThreadRequestToolResourcesFileSearch {
     #[doc = "The [vector store](/docs/api-reference/vector-stores/object) attached to this thread. There can be a maximum of 1 vector store attached to the thread.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "vector_store_ids")]
     pub vector_store_ids: Option<Vec<String>>,
 }
@@ -9765,9 +10551,11 @@ pub struct ModifyThreadRequestToolResourcesFileSearch {
 )]
 pub struct ModifyThreadRequestToolResources {
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "code_interpreter")]
     pub code_interpreter: Option<ModifyThreadRequestToolResourcesCodeInterpreter>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "file_search")]
     pub file_search: Option<ModifyThreadRequestToolResourcesFileSearch>,
 }
@@ -9783,9 +10571,11 @@ pub struct ModifyThreadRequestToolResources {
 pub struct ModifyThreadRequest {
     #[doc = "A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "tool_resources")]
     pub tool_resources: Option<ModifyThreadRequestToolResources>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "metadata")]
     pub metadata: Option<Metadata>,
 }
@@ -9802,9 +10592,10 @@ pub struct Move {
     pub y: u64,
 }
 #[doc = "The object type, which is always `file`."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum OpenAiFileObject {
+    #[default]
     #[serde(rename = "file")]
     File,
 }
@@ -9854,12 +10645,14 @@ pub struct OpenAiFile {
     pub created_at: u64,
     #[doc = "The Unix timestamp (in seconds) for when the file will expire."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "expires_at")]
     pub expires_at: Option<u64>,
     #[doc = "The name of the file."]
     #[serde(rename = "filename")]
     pub filename: String,
     #[doc = "The object type, which is always `file`."]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: OpenAiFileObject,
     #[doc = "The intended purpose of the file. Supported values are `assistants`, `assistants_output`, `batch`, `batch_output`, `fine-tune`, `fine-tune-results` and `vision`."]
@@ -9870,6 +10663,7 @@ pub struct OpenAiFile {
     pub status: OpenAiFileStatus,
     #[doc = "Deprecated. For details on why a fine-tuning training file failed validation, see the `error` field on `fine_tuning.job`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "status_details")]
     pub status_details: Option<String>,
 }
@@ -9885,9 +10679,10 @@ pub struct OpenAiFile {
 )]
 pub struct OtherChunkingStrategyResponseParam {}
 #[doc = "The type of the output audio. Always `output_audio`.\n"]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum OutputAudioType {
+    #[default]
     #[serde(rename = "output_audio")]
     OutputAudio,
 }
@@ -9897,6 +10692,7 @@ pub enum OutputAudioType {
 )]
 pub struct OutputAudio {
     #[doc = "The type of the output audio. Always `output_audio`.\n"]
+    #[builder(default)]
     #[serde(rename = "type")]
     pub type_: OutputAudioType,
     #[doc = "Base64-encoded audio data from the model.\n"]
@@ -9927,16 +10723,18 @@ pub enum OutputItem {
     _5(ReasoningItem),
 }
 #[doc = "The type of the output message. Always `message`.\n"]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum OutputMessageType {
+    #[default]
     #[serde(rename = "message")]
     Message,
 }
 #[doc = "The role of the output message. Always `assistant`.\n"]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum OutputMessageRole {
+    #[default]
     #[serde(rename = "assistant")]
     Assistant,
 }
@@ -9960,9 +10758,11 @@ pub struct OutputMessage {
     #[serde(rename = "id")]
     pub id: String,
     #[doc = "The type of the output message. Always `message`.\n"]
+    #[builder(default)]
     #[serde(rename = "type")]
     pub type_: OutputMessageType,
     #[doc = "The role of the output message. Always `assistant`.\n"]
+    #[builder(default)]
     #[serde(rename = "role")]
     pub role: OutputMessageRole,
     #[doc = "The content of the output message.\n"]
@@ -9991,9 +10791,10 @@ pub struct PredictionContent {
     pub content: PredictionContentContent,
 }
 #[doc = "The object type, which is always `organization.project`"]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ProjectObject {
+    #[default]
     #[serde(rename = "organization.project")]
     OrganizationProject,
 }
@@ -10015,6 +10816,7 @@ pub struct Project {
     #[serde(rename = "id")]
     pub id: String,
     #[doc = "The object type, which is always `organization.project`"]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: ProjectObject,
     #[doc = "The name of the project. This appears in reporting."]
@@ -10025,6 +10827,7 @@ pub struct Project {
     pub created_at: u64,
     #[doc = "The Unix timestamp (in seconds) of when the project was archived or `null`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "archived_at")]
     pub archived_at: Option<u64>,
     #[doc = "`active` or `archived`"]
@@ -10032,9 +10835,10 @@ pub struct Project {
     pub status: ProjectStatus,
 }
 #[doc = "The object type, which is always `organization.project.api_key`"]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ProjectApiKeyObject {
+    #[default]
     #[serde(rename = "organization.project.api_key")]
     OrganizationProjectApiKey,
 }
@@ -10059,12 +10863,15 @@ pub enum ProjectApiKeyOwnerType {
 pub struct ProjectApiKeyOwner {
     #[doc = "`user` or `service_account`"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "type")]
     pub type_: Option<ProjectApiKeyOwnerType>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "user")]
     pub user: Option<ProjectUser>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "service_account")]
     pub service_account: Option<ProjectServiceAccount>,
 }
@@ -10074,6 +10881,7 @@ pub struct ProjectApiKeyOwner {
 )]
 pub struct ProjectApiKey {
     #[doc = "The object type, which is always `organization.project.api_key`"]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: ProjectApiKeyObject,
     #[doc = "The redacted value of the API key"]
@@ -10095,9 +10903,10 @@ pub struct ProjectApiKey {
     #[serde(rename = "owner")]
     pub owner: ProjectApiKeyOwner,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ProjectApiKeyDeleteResponseObject {
+    #[default]
     #[serde(rename = "organization.project.api_key.deleted")]
     OrganizationProjectApiKeyDeleted,
 }
@@ -10105,6 +10914,7 @@ pub enum ProjectApiKeyDeleteResponseObject {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ProjectApiKeyDeleteResponse {
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: ProjectApiKeyDeleteResponseObject,
     #[serde(rename = "id")]
@@ -10112,9 +10922,10 @@ pub struct ProjectApiKeyDeleteResponse {
     #[serde(rename = "deleted")]
     pub deleted: bool,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ProjectApiKeyListResponseObject {
+    #[default]
     #[serde(rename = "list")]
     List,
 }
@@ -10122,6 +10933,7 @@ pub enum ProjectApiKeyListResponseObject {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ProjectApiKeyListResponse {
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: ProjectApiKeyListResponseObject,
     #[serde(rename = "data")]
@@ -10141,9 +10953,10 @@ pub struct ProjectCreateRequest {
     #[serde(rename = "name")]
     pub name: String,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ProjectListResponseObject {
+    #[default]
     #[serde(rename = "list")]
     List,
 }
@@ -10151,6 +10964,7 @@ pub enum ProjectListResponseObject {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ProjectListResponse {
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: ProjectListResponseObject,
     #[serde(rename = "data")]
@@ -10163,9 +10977,10 @@ pub struct ProjectListResponse {
     pub has_more: bool,
 }
 #[doc = "The object type, which is always `project.rate_limit`"]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ProjectRateLimitObject {
+    #[default]
     #[serde(rename = "project.rate_limit")]
     ProjectRateLimit,
 }
@@ -10175,6 +10990,7 @@ pub enum ProjectRateLimitObject {
 )]
 pub struct ProjectRateLimit {
     #[doc = "The object type, which is always `project.rate_limit`"]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: ProjectRateLimitObject,
     #[doc = "The identifier, which can be referenced in API endpoints."]
@@ -10191,24 +11007,29 @@ pub struct ProjectRateLimit {
     pub max_tokens_per_1_minute: u64,
     #[doc = "The maximum images per minute. Only present for relevant models."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "max_images_per_1_minute")]
     pub max_images_per_1_minute: Option<u64>,
     #[doc = "The maximum audio megabytes per minute. Only present for relevant models."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "max_audio_megabytes_per_1_minute")]
     pub max_audio_megabytes_per_1_minute: Option<u64>,
     #[doc = "The maximum requests per day. Only present for relevant models."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "max_requests_per_1_day")]
     pub max_requests_per_1_day: Option<u64>,
     #[doc = "The maximum batch input tokens per day. Only present for relevant models."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "batch_1_day_max_input_tokens")]
     pub batch_1_day_max_input_tokens: Option<u64>,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ProjectRateLimitListResponseObject {
+    #[default]
     #[serde(rename = "list")]
     List,
 }
@@ -10216,6 +11037,7 @@ pub enum ProjectRateLimitListResponseObject {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ProjectRateLimitListResponse {
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: ProjectRateLimitListResponseObject,
     #[serde(rename = "data")]
@@ -10239,33 +11061,40 @@ pub struct ProjectRateLimitListResponse {
 pub struct ProjectRateLimitUpdateRequest {
     #[doc = "The maximum requests per minute."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "max_requests_per_1_minute")]
     pub max_requests_per_1_minute: Option<u64>,
     #[doc = "The maximum tokens per minute."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "max_tokens_per_1_minute")]
     pub max_tokens_per_1_minute: Option<u64>,
     #[doc = "The maximum images per minute. Only relevant for certain models."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "max_images_per_1_minute")]
     pub max_images_per_1_minute: Option<u64>,
     #[doc = "The maximum audio megabytes per minute. Only relevant for certain models."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "max_audio_megabytes_per_1_minute")]
     pub max_audio_megabytes_per_1_minute: Option<u64>,
     #[doc = "The maximum requests per day. Only relevant for certain models."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "max_requests_per_1_day")]
     pub max_requests_per_1_day: Option<u64>,
     #[doc = "The maximum batch input tokens per day. Only relevant for certain models."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "batch_1_day_max_input_tokens")]
     pub batch_1_day_max_input_tokens: Option<u64>,
 }
 #[doc = "The object type, which is always `organization.project.service_account`"]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ProjectServiceAccountObject {
+    #[default]
     #[serde(rename = "organization.project.service_account")]
     OrganizationProjectServiceAccount,
 }
@@ -10284,6 +11113,7 @@ pub enum ProjectServiceAccountRole {
 )]
 pub struct ProjectServiceAccount {
     #[doc = "The object type, which is always `organization.project.service_account`"]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: ProjectServiceAccountObject,
     #[doc = "The identifier, which can be referenced in API endpoints"]
@@ -10300,9 +11130,10 @@ pub struct ProjectServiceAccount {
     pub created_at: u64,
 }
 #[doc = "The object type, which is always `organization.project.service_account.api_key`"]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ProjectServiceAccountApiKeyObject {
+    #[default]
     #[serde(rename = "organization.project.service_account.api_key")]
     OrganizationProjectServiceAccountApiKey,
 }
@@ -10311,6 +11142,7 @@ pub enum ProjectServiceAccountApiKeyObject {
 )]
 pub struct ProjectServiceAccountApiKey {
     #[doc = "The object type, which is always `organization.project.service_account.api_key`"]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: ProjectServiceAccountApiKeyObject,
     #[serde(rename = "value")]
@@ -10330,16 +11162,18 @@ pub struct ProjectServiceAccountCreateRequest {
     #[serde(rename = "name")]
     pub name: String,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ProjectServiceAccountCreateResponseObject {
+    #[default]
     #[serde(rename = "organization.project.service_account")]
     OrganizationProjectServiceAccount,
 }
 #[doc = "Service accounts can only have one role of type `member`"]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ProjectServiceAccountCreateResponseRole {
+    #[default]
     #[serde(rename = "member")]
     Member,
 }
@@ -10347,6 +11181,7 @@ pub enum ProjectServiceAccountCreateResponseRole {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ProjectServiceAccountCreateResponse {
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: ProjectServiceAccountCreateResponseObject,
     #[serde(rename = "id")]
@@ -10354,6 +11189,7 @@ pub struct ProjectServiceAccountCreateResponse {
     #[serde(rename = "name")]
     pub name: String,
     #[doc = "Service accounts can only have one role of type `member`"]
+    #[builder(default)]
     #[serde(rename = "role")]
     pub role: ProjectServiceAccountCreateResponseRole,
     #[serde(rename = "created_at")]
@@ -10361,9 +11197,10 @@ pub struct ProjectServiceAccountCreateResponse {
     #[serde(rename = "api_key")]
     pub api_key: ProjectServiceAccountApiKey,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ProjectServiceAccountDeleteResponseObject {
+    #[default]
     #[serde(rename = "organization.project.service_account.deleted")]
     OrganizationProjectServiceAccountDeleted,
 }
@@ -10371,6 +11208,7 @@ pub enum ProjectServiceAccountDeleteResponseObject {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ProjectServiceAccountDeleteResponse {
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: ProjectServiceAccountDeleteResponseObject,
     #[serde(rename = "id")]
@@ -10378,9 +11216,10 @@ pub struct ProjectServiceAccountDeleteResponse {
     #[serde(rename = "deleted")]
     pub deleted: bool,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ProjectServiceAccountListResponseObject {
+    #[default]
     #[serde(rename = "list")]
     List,
 }
@@ -10388,6 +11227,7 @@ pub enum ProjectServiceAccountListResponseObject {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ProjectServiceAccountListResponse {
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: ProjectServiceAccountListResponseObject,
     #[serde(rename = "data")]
@@ -10408,9 +11248,10 @@ pub struct ProjectUpdateRequest {
     pub name: String,
 }
 #[doc = "The object type, which is always `organization.project.user`"]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ProjectUserObject {
+    #[default]
     #[serde(rename = "organization.project.user")]
     OrganizationProjectUser,
 }
@@ -10429,6 +11270,7 @@ pub enum ProjectUserRole {
 )]
 pub struct ProjectUser {
     #[doc = "The object type, which is always `organization.project.user`"]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: ProjectUserObject,
     #[doc = "The identifier, which can be referenced in API endpoints"]
@@ -10467,9 +11309,10 @@ pub struct ProjectUserCreateRequest {
     #[serde(rename = "role")]
     pub role: ProjectUserCreateRequestRole,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ProjectUserDeleteResponseObject {
+    #[default]
     #[serde(rename = "organization.project.user.deleted")]
     OrganizationProjectUserDeleted,
 }
@@ -10477,6 +11320,7 @@ pub enum ProjectUserDeleteResponseObject {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct ProjectUserDeleteResponse {
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: ProjectUserDeleteResponseObject,
     #[serde(rename = "id")]
@@ -10559,10 +11403,12 @@ pub enum RealtimeClientEvent {
 pub struct RealtimeClientEventConversationItemCreate {
     #[doc = "Optional client-generated ID used to identify this event."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "event_id")]
     pub event_id: Option<String>,
     #[doc = "The ID of the preceding item after which the new item will be inserted. \nIf not set, the new item will be appended to the end of the conversation.\nIf set to `root`, the new item will be added to the beginning of the conversation.\nIf set to an existing ID, it allows an item to be inserted mid-conversation. If the\nID cannot be found, an error will be returned and the item will not be added.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "previous_item_id")]
     pub previous_item_id: Option<String>,
     #[builder(default)]
@@ -10576,6 +11422,7 @@ pub struct RealtimeClientEventConversationItemCreate {
 pub struct RealtimeClientEventConversationItemDelete {
     #[doc = "Optional client-generated ID used to identify this event."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "event_id")]
     pub event_id: Option<String>,
     #[doc = "The ID of the item to delete."]
@@ -10589,6 +11436,7 @@ pub struct RealtimeClientEventConversationItemDelete {
 pub struct RealtimeClientEventConversationItemRetrieve {
     #[doc = "Optional client-generated ID used to identify this event."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "event_id")]
     pub event_id: Option<String>,
     #[doc = "The ID of the item to retrieve."]
@@ -10602,6 +11450,7 @@ pub struct RealtimeClientEventConversationItemRetrieve {
 pub struct RealtimeClientEventConversationItemTruncate {
     #[doc = "Optional client-generated ID used to identify this event."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "event_id")]
     pub event_id: Option<String>,
     #[doc = "The ID of the assistant message item to truncate. Only assistant message \nitems can be truncated.\n"]
@@ -10621,6 +11470,7 @@ pub struct RealtimeClientEventConversationItemTruncate {
 pub struct RealtimeClientEventInputAudioBufferAppend {
     #[doc = "Optional client-generated ID used to identify this event."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "event_id")]
     pub event_id: Option<String>,
     #[doc = "Base64-encoded audio bytes. This must be in the format specified by the \n`input_audio_format` field in the session configuration.\n"]
@@ -10640,6 +11490,7 @@ pub struct RealtimeClientEventInputAudioBufferAppend {
 pub struct RealtimeClientEventInputAudioBufferClear {
     #[doc = "Optional client-generated ID used to identify this event."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "event_id")]
     pub event_id: Option<String>,
 }
@@ -10656,6 +11507,7 @@ pub struct RealtimeClientEventInputAudioBufferClear {
 pub struct RealtimeClientEventInputAudioBufferCommit {
     #[doc = "Optional client-generated ID used to identify this event."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "event_id")]
     pub event_id: Option<String>,
 }
@@ -10672,6 +11524,7 @@ pub struct RealtimeClientEventInputAudioBufferCommit {
 pub struct RealtimeClientEventOutputAudioBufferClear {
     #[doc = "The unique ID of the client event used for error handling."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "event_id")]
     pub event_id: Option<String>,
 }
@@ -10688,10 +11541,12 @@ pub struct RealtimeClientEventOutputAudioBufferClear {
 pub struct RealtimeClientEventResponseCancel {
     #[doc = "Optional client-generated ID used to identify this event."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "event_id")]
     pub event_id: Option<String>,
     #[doc = "A specific response ID to cancel - if not provided, will cancel an \nin-progress response in the default conversation.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "response_id")]
     pub response_id: Option<String>,
 }
@@ -10708,9 +11563,11 @@ pub struct RealtimeClientEventResponseCancel {
 pub struct RealtimeClientEventResponseCreate {
     #[doc = "Optional client-generated ID used to identify this event."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "event_id")]
     pub event_id: Option<String>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "response")]
     pub response: Option<RealtimeResponseCreateParams>,
 }
@@ -10727,6 +11584,7 @@ pub struct RealtimeClientEventResponseCreate {
 pub struct RealtimeClientEventSessionUpdate {
     #[doc = "Optional client-generated ID used to identify this event."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "event_id")]
     pub event_id: Option<String>,
     #[builder(default)]
@@ -10746,6 +11604,7 @@ pub struct RealtimeClientEventSessionUpdate {
 pub struct RealtimeClientEventTranscriptionSessionUpdate {
     #[doc = "Optional client-generated ID used to identify this event."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "event_id")]
     pub event_id: Option<String>,
     #[builder(default)]
@@ -10764,9 +11623,10 @@ pub enum RealtimeConversationItemType {
     FunctionCallOutput,
 }
 #[doc = "Identifier for the API object being returned - always `realtime.item`.\n"]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeConversationItemObject {
+    #[default]
     #[serde(rename = "realtime.item")]
     RealtimeItem,
 }
@@ -10815,22 +11675,27 @@ pub enum RealtimeConversationItemContentItemType {
 pub struct RealtimeConversationItemContentItem {
     #[doc = "The content type (`input_text`, `input_audio`, `item_reference`, `text`).\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "type")]
     pub type_: Option<RealtimeConversationItemContentItemType>,
     #[doc = "The text content, used for `input_text` and `text` content types.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "text")]
     pub text: Option<String>,
     #[doc = "ID of a previous conversation item to reference (for `item_reference`\ncontent types in `response.create` events). These can reference both\nclient and server created items.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "Base64-encoded audio bytes, used for `input_audio` content type.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "audio")]
     pub audio: Option<String>,
     #[doc = "The transcript of the audio, used for `input_audio` content type.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "transcript")]
     pub transcript: Option<String>,
 }
@@ -10847,42 +11712,52 @@ pub struct RealtimeConversationItemContentItem {
 pub struct RealtimeConversationItem {
     #[doc = "The unique ID of the item, this can be generated by the client to help \nmanage server-side context, but is not required because the server will \ngenerate one if not provided.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "The type of the item (`message`, `function_call`, `function_call_output`).\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "type")]
     pub type_: Option<RealtimeConversationItemType>,
     #[doc = "Identifier for the API object being returned - always `realtime.item`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "object")]
     pub object: Option<RealtimeConversationItemObject>,
     #[doc = "The status of the item (`completed`, `incomplete`). These have no effect \non the conversation, but are accepted for consistency with the \n`conversation.item.created` event.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "status")]
     pub status: Option<RealtimeConversationItemStatus>,
     #[doc = "The role of the message sender (`user`, `assistant`, `system`), only \napplicable for `message` items.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "role")]
     pub role: Option<RealtimeConversationItemRole>,
     #[doc = "The content of the message, applicable for `message` items. \n- Message items of role `system` support only `input_text` content\n- Message items of role `user` support `input_text` and `input_audio` \n  content\n- Message items of role `assistant` support `text` content.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "content")]
     pub content: Option<Vec<RealtimeConversationItemContentItem>>,
     #[doc = "The ID of the function call (for `function_call` and \n`function_call_output` items). If passed on a `function_call_output` \nitem, the server will check that a `function_call` item with the same \nID exists in the conversation history.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "call_id")]
     pub call_id: Option<String>,
     #[doc = "The name of the function being called (for `function_call` items).\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "name")]
     pub name: Option<String>,
     #[doc = "The arguments of the function call (for `function_call` items).\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "arguments")]
     pub arguments: Option<String>,
     #[doc = "The output of the function call (for `function_call_output` items).\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "output")]
     pub output: Option<String>,
 }
@@ -10898,9 +11773,10 @@ pub enum RealtimeConversationItemWithReferenceType {
     FunctionCallOutput,
 }
 #[doc = "Identifier for the API object being returned - always `realtime.item`.\n"]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeConversationItemWithReferenceObject {
+    #[default]
     #[serde(rename = "realtime.item")]
     RealtimeItem,
 }
@@ -10949,22 +11825,27 @@ pub enum RealtimeConversationItemWithReferenceContentItemType {
 pub struct RealtimeConversationItemWithReferenceContentItem {
     #[doc = "The content type (`input_text`, `input_audio`, `item_reference`, `text`).\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "type")]
     pub type_: Option<RealtimeConversationItemWithReferenceContentItemType>,
     #[doc = "The text content, used for `input_text` and `text` content types.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "text")]
     pub text: Option<String>,
     #[doc = "ID of a previous conversation item to reference (for `item_reference`\ncontent types in `response.create` events). These can reference both\nclient and server created items.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "Base64-encoded audio bytes, used for `input_audio` content type.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "audio")]
     pub audio: Option<String>,
     #[doc = "The transcript of the audio, used for `input_audio` content type.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "transcript")]
     pub transcript: Option<String>,
 }
@@ -10981,49 +11862,60 @@ pub struct RealtimeConversationItemWithReferenceContentItem {
 pub struct RealtimeConversationItemWithReference {
     #[doc = "For an item of type (`message` | `function_call` | `function_call_output`)\nthis field allows the client to assign the unique ID of the item. It is\nnot required because the server will generate one if not provided.\n\nFor an item of type `item_reference`, this field is required and is a\nreference to any item that has previously existed in the conversation.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "The type of the item (`message`, `function_call`, `function_call_output`, `item_reference`).\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "type")]
     pub type_: Option<RealtimeConversationItemWithReferenceType>,
     #[doc = "Identifier for the API object being returned - always `realtime.item`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "object")]
     pub object: Option<RealtimeConversationItemWithReferenceObject>,
     #[doc = "The status of the item (`completed`, `incomplete`). These have no effect \non the conversation, but are accepted for consistency with the \n`conversation.item.created` event.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "status")]
     pub status: Option<RealtimeConversationItemWithReferenceStatus>,
     #[doc = "The role of the message sender (`user`, `assistant`, `system`), only \napplicable for `message` items.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "role")]
     pub role: Option<RealtimeConversationItemWithReferenceRole>,
     #[doc = "The content of the message, applicable for `message` items. \n- Message items of role `system` support only `input_text` content\n- Message items of role `user` support `input_text` and `input_audio` \n  content\n- Message items of role `assistant` support `text` content.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "content")]
     pub content: Option<Vec<RealtimeConversationItemWithReferenceContentItem>>,
     #[doc = "The ID of the function call (for `function_call` and \n`function_call_output` items). If passed on a `function_call_output` \nitem, the server will check that a `function_call` item with the same \nID exists in the conversation history.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "call_id")]
     pub call_id: Option<String>,
     #[doc = "The name of the function being called (for `function_call` items).\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "name")]
     pub name: Option<String>,
     #[doc = "The arguments of the function call (for `function_call` items).\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "arguments")]
     pub arguments: Option<String>,
     #[doc = "The output of the function call (for `function_call_output` items).\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "output")]
     pub output: Option<String>,
 }
 #[doc = "The object type, must be `realtime.response`."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeResponseObject {
+    #[default]
     #[serde(rename = "realtime.response")]
     RealtimeResponse,
 }
@@ -11079,10 +11971,12 @@ pub enum RealtimeResponseStatusDetailsReason {
 pub struct RealtimeResponseStatusDetailsError {
     #[doc = "The type of error."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "type")]
     pub type_: Option<String>,
     #[doc = "Error code, if any."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "code")]
     pub code: Option<String>,
 }
@@ -11099,14 +11993,17 @@ pub struct RealtimeResponseStatusDetailsError {
 pub struct RealtimeResponseStatusDetails {
     #[doc = "The type of error that caused the response to fail, corresponding \nwith the `status` field (`completed`, `cancelled`, `incomplete`, \n`failed`).\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "type")]
     pub type_: Option<RealtimeResponseStatusDetailsType>,
     #[doc = "The reason the Response did not complete. For a `cancelled` Response, \none of `turn_detected` (the server VAD detected a new start of speech) \nor `client_cancelled` (the client sent a cancel event). For an \n`incomplete` Response, one of `max_output_tokens` or `content_filter` \n(the server-side safety filter activated and cut off the response).\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "reason")]
     pub reason: Option<RealtimeResponseStatusDetailsReason>,
     #[doc = "A description of the error that caused the response to fail, \npopulated when the `status` is `failed`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "error")]
     pub error: Option<RealtimeResponseStatusDetailsError>,
 }
@@ -11123,14 +12020,17 @@ pub struct RealtimeResponseStatusDetails {
 pub struct RealtimeResponseUsageInputTokenDetails {
     #[doc = "The number of cached tokens used in the Response."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "cached_tokens")]
     pub cached_tokens: Option<u64>,
     #[doc = "The number of text tokens used in the Response."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "text_tokens")]
     pub text_tokens: Option<u64>,
     #[doc = "The number of audio tokens used in the Response."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "audio_tokens")]
     pub audio_tokens: Option<u64>,
 }
@@ -11147,10 +12047,12 @@ pub struct RealtimeResponseUsageInputTokenDetails {
 pub struct RealtimeResponseUsageOutputTokenDetails {
     #[doc = "The number of text tokens used in the Response."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "text_tokens")]
     pub text_tokens: Option<u64>,
     #[doc = "The number of audio tokens used in the Response."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "audio_tokens")]
     pub audio_tokens: Option<u64>,
 }
@@ -11167,22 +12069,27 @@ pub struct RealtimeResponseUsageOutputTokenDetails {
 pub struct RealtimeResponseUsage {
     #[doc = "The total number of tokens in the Response including input and output \ntext and audio tokens.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "total_tokens")]
     pub total_tokens: Option<u64>,
     #[doc = "The number of input tokens used in the Response, including text and \naudio tokens.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "input_tokens")]
     pub input_tokens: Option<u64>,
     #[doc = "The number of output tokens sent in the Response, including text and \naudio tokens.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "output_tokens")]
     pub output_tokens: Option<u64>,
     #[doc = "Details about the input tokens used in the Response."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "input_token_details")]
     pub input_token_details: Option<RealtimeResponseUsageInputTokenDetails>,
     #[doc = "Details about the output tokens used in the Response."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "output_token_details")]
     pub output_token_details: Option<RealtimeResponseUsageOutputTokenDetails>,
 }
@@ -11205,9 +12112,10 @@ pub enum RealtimeResponseOutputAudioFormat {
     #[serde(rename = "g711_alaw")]
     G711Alaw,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeResponseMaxOutputTokens1 {
+    #[default]
     #[serde(rename = "inf")]
     Inf,
 }
@@ -11232,53 +12140,66 @@ pub enum RealtimeResponseMaxOutputTokens {
 pub struct RealtimeResponse {
     #[doc = "The unique ID of the response."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "The object type, must be `realtime.response`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "object")]
     pub object: Option<RealtimeResponseObject>,
     #[doc = "The final status of the response (`completed`, `cancelled`, `failed`, or \n`incomplete`).\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "status")]
     pub status: Option<RealtimeResponseStatus>,
     #[doc = "Additional details about the status."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "status_details")]
     pub status_details: Option<RealtimeResponseStatusDetails>,
     #[doc = "The list of output items generated by the response."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "output")]
     pub output: Option<Vec<RealtimeConversationItem>>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "metadata")]
     pub metadata: Option<Metadata>,
     #[doc = "Usage statistics for the Response, this will correspond to billing. A \nRealtime API session will maintain a conversation context and append new \nItems to the Conversation, thus output from previous turns (text and \naudio tokens) will become the input for later turns.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "usage")]
     pub usage: Option<RealtimeResponseUsage>,
     #[doc = "Which conversation the response is added to, determined by the `conversation`\nfield in the `response.create` event. If `auto`, the response will be added to\nthe default conversation and the value of `conversation_id` will be an id like\n`conv_1234`. If `none`, the response will not be added to any conversation and\nthe value of `conversation_id` will be `null`. If responses are being triggered\nby server VAD, the response will be added to the default conversation, thus\nthe `conversation_id` will be an id like `conv_1234`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "conversation_id")]
     pub conversation_id: Option<String>,
     #[doc = "The voice the model used to respond.\nCurrent voice options are `alloy`, `ash`, `ballad`, `coral`, `echo`, `fable`,\n`onyx`, `nova`, `sage`, `shimmer`, and `verse`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "voice")]
     pub voice: Option<VoiceIdsShared>,
     #[doc = "The set of modalities the model used to respond. If there are multiple modalities,\nthe model will pick one, for example if `modalities` is `[\"text\", \"audio\"]`, the model\ncould be responding in either text or audio.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "modalities")]
     pub modalities: Option<Vec<RealtimeResponseModalitiesItem>>,
     #[doc = "The format of output audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "output_audio_format")]
     pub output_audio_format: Option<RealtimeResponseOutputAudioFormat>,
     #[doc = "Sampling temperature for the model, limited to [0.6, 1.2]. Defaults to 0.8.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "temperature")]
     pub temperature: Option<f64>,
     #[doc = "Maximum number of output tokens for a single assistant response,\ninclusive of tool calls, that was used in this response.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "max_output_tokens")]
     pub max_output_tokens: Option<RealtimeResponseMaxOutputTokens>,
 }
@@ -11302,9 +12223,10 @@ pub enum RealtimeResponseCreateParamsOutputAudioFormat {
     G711Alaw,
 }
 #[doc = "The type of the tool, i.e. `function`."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeResponseCreateParamsToolsItemType {
+    #[default]
     #[serde(rename = "function")]
     Function,
 }
@@ -11320,24 +12242,29 @@ pub enum RealtimeResponseCreateParamsToolsItemType {
 pub struct RealtimeResponseCreateParamsToolsItem {
     #[doc = "The type of the tool, i.e. `function`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "type")]
     pub type_: Option<RealtimeResponseCreateParamsToolsItemType>,
     #[doc = "The name of the function."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "name")]
     pub name: Option<String>,
     #[doc = "The description of the function, including guidance on when and how \nto call it, and guidance about what to tell the user when calling \n(if anything).\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "description")]
     pub description: Option<String>,
     #[doc = "Parameters of the function in JSON Schema."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "parameters")]
     pub parameters: Option<std::collections::HashMap<String, serde_json::Value>>,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeResponseCreateParamsMaxResponseOutputTokens1 {
+    #[default]
     #[serde(rename = "inf")]
     Inf,
 }
@@ -11379,45 +12306,56 @@ pub enum RealtimeResponseCreateParamsConversation {
 pub struct RealtimeResponseCreateParams {
     #[doc = "The set of modalities the model can respond with. To disable audio,\nset this to [\"text\"].\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "modalities")]
     pub modalities: Option<Vec<RealtimeResponseCreateParamsModalitiesItem>>,
     #[doc = "The default system instructions (i.e. system message) prepended to model \ncalls. This field allows the client to guide the model on desired \nresponses. The model can be instructed on response content and format, \n(e.g. \"be extremely succinct\", \"act friendly\", \"here are examples of good \nresponses\") and on audio behavior (e.g. \"talk quickly\", \"inject emotion \ninto your voice\", \"laugh frequently\"). The instructions are not guaranteed \nto be followed by the model, but they provide guidance to the model on the \ndesired behavior.\n\nNote that the server sets default instructions which will be used if this \nfield is not set and are visible in the `session.created` event at the \nstart of the session.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "instructions")]
     pub instructions: Option<String>,
     #[doc = "The voice the model uses to respond. Voice cannot be changed during the \nsession once the model has responded with audio at least once. Current \nvoice options are `alloy`, `ash`, `ballad`, `coral`, `echo`, `fable`,\n`onyx`, `nova`, `sage`, `shimmer`, and `verse`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "voice")]
     pub voice: Option<VoiceIdsShared>,
     #[doc = "The format of output audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "output_audio_format")]
     pub output_audio_format: Option<RealtimeResponseCreateParamsOutputAudioFormat>,
     #[doc = "Tools (functions) available to the model."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "tools")]
     pub tools: Option<Vec<RealtimeResponseCreateParamsToolsItem>>,
     #[doc = "How the model chooses tools. Options are `auto`, `none`, `required`, or \nspecify a function, like `{\"type\": \"function\", \"function\": {\"name\": \"my_function\"}}`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "tool_choice")]
     pub tool_choice: Option<String>,
     #[doc = "Sampling temperature for the model, limited to [0.6, 1.2]. Defaults to 0.8.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "temperature")]
     pub temperature: Option<f64>,
     #[doc = "Maximum number of output tokens for a single assistant response,\ninclusive of tool calls. Provide an integer between 1 and 4096 to\nlimit output tokens, or `inf` for the maximum available tokens for a\ngiven model. Defaults to `inf`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "max_response_output_tokens")]
     pub max_response_output_tokens: Option<RealtimeResponseCreateParamsMaxResponseOutputTokens>,
     #[doc = "Controls which conversation the response is added to. Currently supports\n`auto` and `none`, with `auto` as the default value. The `auto` value\nmeans that the contents of the response will be added to the default\nconversation. Set this to `none` to create an out-of-band response which \nwill not add items to default conversation.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "conversation")]
     pub conversation: Option<RealtimeResponseCreateParamsConversation>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "metadata")]
     pub metadata: Option<Metadata>,
     #[doc = "Input items to include in the prompt for the model. Using this field\ncreates a new context for this Response instead of using the default\nconversation. An empty array `[]` will clear the context for this Response.\nNote that this can include references to items from the default conversation.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "input")]
     pub input: Option<Vec<RealtimeConversationItemWithReference>>,
 }
@@ -11514,10 +12452,12 @@ pub enum RealtimeServerEvent {
 pub struct RealtimeServerEventConversationCreatedConversation {
     #[doc = "The unique ID of the conversation."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "The object type, must be `realtime.conversation`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "object")]
     pub object: Option<String>,
 }
@@ -11580,6 +12520,7 @@ pub struct RealtimeServerEventConversationItemInputAudioTranscriptionCompleted {
     pub transcript: String,
     #[doc = "The log probabilities of the transcription."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "logprobs")]
     pub logprobs: Option<Vec<LogProbProperties>>,
 }
@@ -11596,14 +12537,17 @@ pub struct RealtimeServerEventConversationItemInputAudioTranscriptionDelta {
     pub item_id: String,
     #[doc = "The index of the content part in the item's content array."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "content_index")]
     pub content_index: Option<u64>,
     #[doc = "The text delta."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "delta")]
     pub delta: Option<String>,
     #[doc = "The log probabilities of the transcription."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "logprobs")]
     pub logprobs: Option<Vec<LogProbProperties>>,
 }
@@ -11620,18 +12564,22 @@ pub struct RealtimeServerEventConversationItemInputAudioTranscriptionDelta {
 pub struct RealtimeServerEventConversationItemInputAudioTranscriptionFailedError {
     #[doc = "The type of error."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "type")]
     pub type_: Option<String>,
     #[doc = "Error code, if any."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "code")]
     pub code: Option<String>,
     #[doc = "A human-readable error message."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "message")]
     pub message: Option<String>,
     #[doc = "Parameter related to the error, if any."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "param")]
     pub param: Option<String>,
 }
@@ -11694,6 +12642,7 @@ pub struct RealtimeServerEventErrorError {
     pub type_: String,
     #[doc = "Error code, if any."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "code")]
     pub code: Option<String>,
     #[doc = "A human-readable error message."]
@@ -11701,10 +12650,12 @@ pub struct RealtimeServerEventErrorError {
     pub message: String,
     #[doc = "Parameter related to the error, if any."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "param")]
     pub param: Option<String>,
     #[doc = "The event_id of the client event that caused the error, if applicable.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "event_id")]
     pub event_id: Option<String>,
 }
@@ -11831,18 +12782,22 @@ pub enum RealtimeServerEventRateLimitsUpdatedRateLimitsItemName {
 pub struct RealtimeServerEventRateLimitsUpdatedRateLimitsItem {
     #[doc = "The name of the rate limit (`requests`, `tokens`).\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "name")]
     pub name: Option<RealtimeServerEventRateLimitsUpdatedRateLimitsItemName>,
     #[doc = "The maximum allowed value for the rate limit."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "limit")]
     pub limit: Option<u64>,
     #[doc = "The remaining value before the limit is reached."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "remaining")]
     pub remaining: Option<u64>,
     #[doc = "Seconds until the rate limit resets."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "reset_seconds")]
     pub reset_seconds: Option<f64>,
 }
@@ -11973,18 +12928,22 @@ pub enum RealtimeServerEventResponseContentPartAddedPartType {
 pub struct RealtimeServerEventResponseContentPartAddedPart {
     #[doc = "The content type (\"text\", \"audio\")."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "type")]
     pub type_: Option<RealtimeServerEventResponseContentPartAddedPartType>,
     #[doc = "The text content (if type is \"text\")."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "text")]
     pub text: Option<String>,
     #[doc = "Base64-encoded audio data (if type is \"audio\")."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "audio")]
     pub audio: Option<String>,
     #[doc = "The transcript of the audio (if type is \"audio\")."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "transcript")]
     pub transcript: Option<String>,
 }
@@ -12035,18 +12994,22 @@ pub enum RealtimeServerEventResponseContentPartDonePartType {
 pub struct RealtimeServerEventResponseContentPartDonePart {
     #[doc = "The content type (\"text\", \"audio\")."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "type")]
     pub type_: Option<RealtimeServerEventResponseContentPartDonePartType>,
     #[doc = "The text content (if type is \"text\")."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "text")]
     pub text: Option<String>,
     #[doc = "Base64-encoded audio data (if type is \"audio\")."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "audio")]
     pub audio: Option<String>,
     #[doc = "The transcript of the audio (if type is \"audio\")."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "transcript")]
     pub transcript: Option<String>,
 }
@@ -12326,14 +13289,17 @@ pub enum RealtimeSessionOutputAudioFormat {
 pub struct RealtimeSessionInputAudioTranscription {
     #[doc = "The model to use for transcription, current options are `gpt-4o-transcribe`, `gpt-4o-mini-transcribe`, and `whisper-1`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "model")]
     pub model: Option<String>,
     #[doc = "The language of the input audio. Supplying the input language in\n[ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) (e.g. `en`) format\nwill improve accuracy and latency.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "language")]
     pub language: Option<String>,
     #[doc = "An optional text to guide the model's style or continue a previous audio\nsegment.\nFor `whisper-1`, the [prompt is a list of keywords](/docs/guides/speech-to-text#prompting).\nFor `gpt-4o-transcribe` models, the prompt is a free text string, for example \"expect words related to technology\".\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "prompt")]
     pub prompt: Option<String>,
 }
@@ -12374,30 +13340,37 @@ pub enum RealtimeSessionTurnDetectionEagerness {
 pub struct RealtimeSessionTurnDetection {
     #[doc = "Type of turn detection.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "type")]
     pub type_: Option<RealtimeSessionTurnDetectionType>,
     #[doc = "Used only for `semantic_vad` mode. The eagerness of the model to respond. `low` will wait longer for the user to continue speaking, `high` will respond more quickly. `auto` is the default and is equivalent to `medium`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "eagerness")]
     pub eagerness: Option<RealtimeSessionTurnDetectionEagerness>,
     #[doc = "Used only for `server_vad` mode. Activation threshold for VAD (0.0 to 1.0), this defaults to 0.5. A \nhigher threshold will require louder audio to activate the model, and \nthus might perform better in noisy environments.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "threshold")]
     pub threshold: Option<f64>,
     #[doc = "Used only for `server_vad` mode. Amount of audio to include before the VAD detected speech (in \nmilliseconds). Defaults to 300ms.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "prefix_padding_ms")]
     pub prefix_padding_ms: Option<u64>,
     #[doc = "Used only for `server_vad` mode. Duration of silence to detect speech stop (in milliseconds). Defaults \nto 500ms. With shorter values the model will respond more quickly, \nbut may jump in on short pauses from the user.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "silence_duration_ms")]
     pub silence_duration_ms: Option<u64>,
     #[doc = "Whether or not to automatically generate a response when a VAD stop event occurs.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "create_response")]
     pub create_response: Option<bool>,
     #[doc = "Whether or not to automatically interrupt any ongoing response with output to the default\nconversation (i.e. `conversation` of `auto`) when a VAD start event occurs.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "interrupt_response")]
     pub interrupt_response: Option<bool>,
 }
@@ -12423,13 +13396,15 @@ pub enum RealtimeSessionInputAudioNoiseReductionType {
 pub struct RealtimeSessionInputAudioNoiseReduction {
     #[doc = "Type of noise reduction. `near_field` is for close-talking microphones such as headphones, `far_field` is for far-field microphones such as laptop or conference room microphones.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "type")]
     pub type_: Option<RealtimeSessionInputAudioNoiseReductionType>,
 }
 #[doc = "The type of the tool, i.e. `function`."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionToolsItemType {
+    #[default]
     #[serde(rename = "function")]
     Function,
 }
@@ -12445,24 +13420,29 @@ pub enum RealtimeSessionToolsItemType {
 pub struct RealtimeSessionToolsItem {
     #[doc = "The type of the tool, i.e. `function`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "type")]
     pub type_: Option<RealtimeSessionToolsItemType>,
     #[doc = "The name of the function."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "name")]
     pub name: Option<String>,
     #[doc = "The description of the function, including guidance on when and how \nto call it, and guidance about what to tell the user when calling \n(if anything).\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "description")]
     pub description: Option<String>,
     #[doc = "Parameters of the function in JSON Schema."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "parameters")]
     pub parameters: Option<std::collections::HashMap<String, serde_json::Value>>,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionMaxResponseOutputTokens1 {
+    #[default]
     #[serde(rename = "inf")]
     Inf,
 }
@@ -12487,58 +13467,72 @@ pub enum RealtimeSessionMaxResponseOutputTokens {
 pub struct RealtimeSession {
     #[doc = "Unique identifier for the session that looks like `sess_1234567890abcdef`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "The set of modalities the model can respond with. To disable audio,\nset this to [\"text\"].\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "modalities")]
     pub modalities: Option<Vec<RealtimeSessionModalitiesItem>>,
     #[doc = "The Realtime model used for this session.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "model")]
     pub model: Option<RealtimeSessionModel>,
     #[doc = "The default system instructions (i.e. system message) prepended to model  calls. This field allows the client to guide the model on desired  responses. The model can be instructed on response content and format,  (e.g. \"be extremely succinct\", \"act friendly\", \"here are examples of good  responses\") and on audio behavior (e.g. \"talk quickly\", \"inject emotion  into your voice\", \"laugh frequently\"). The instructions are not guaranteed  to be followed by the model, but they provide guidance to the model on the desired behavior.\n\nNote that the server sets default instructions which will be used if this  field is not set and are visible in the `session.created` event at the  start of the session.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "instructions")]
     pub instructions: Option<String>,
     #[doc = "The voice the model uses to respond. Voice cannot be changed during the \nsession once the model has responded with audio at least once. Current \nvoice options are `alloy`, `ash`, `ballad`, `coral`, `echo` `sage`, \n`shimmer` and `verse`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "voice")]
     pub voice: Option<VoiceIdsShared>,
     #[doc = "The format of input audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.\nFor `pcm16`, input audio must be 16-bit PCM at a 24kHz sample rate, \nsingle channel (mono), and little-endian byte order.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "input_audio_format")]
     pub input_audio_format: Option<RealtimeSessionInputAudioFormat>,
     #[doc = "The format of output audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.\nFor `pcm16`, output audio is sampled at a rate of 24kHz.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "output_audio_format")]
     pub output_audio_format: Option<RealtimeSessionOutputAudioFormat>,
     #[doc = "Configuration for input audio transcription, defaults to off and can be  set to `null` to turn off once on. Input audio transcription is not native to the model, since the model consumes audio directly. Transcription runs  asynchronously through [the /audio/transcriptions endpoint](https://platform.openai.com/docs/api-reference/audio/createTranscription) and should be treated as guidance of input audio content rather than precisely what the model heard. The client can optionally set the language and prompt for transcription, these offer additional guidance to the transcription service.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "input_audio_transcription")]
     pub input_audio_transcription: Option<RealtimeSessionInputAudioTranscription>,
     #[doc = "Configuration for turn detection, ether Server VAD or Semantic VAD. This can be set to `null` to turn off, in which case the client must manually trigger model response.\nServer VAD means that the model will detect the start and end of speech based on audio volume and respond at the end of user speech.\nSemantic VAD is more advanced and uses a turn detection model (in conjuction with VAD) to semantically estimate whether the user has finished speaking, then dynamically sets a timeout based on this probability. For example, if user audio trails off with \"uhhm\", the model will score a low probability of turn end and wait longer for the user to continue speaking. This can be useful for more natural conversations, but may have a higher latency.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "turn_detection")]
     pub turn_detection: Option<RealtimeSessionTurnDetection>,
     #[doc = "Configuration for input audio noise reduction. This can be set to `null` to turn off.\nNoise reduction filters audio added to the input audio buffer before it is sent to VAD and the model.\nFiltering the audio can improve VAD and turn detection accuracy (reducing false positives) and model performance by improving perception of the input audio.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "input_audio_noise_reduction")]
     pub input_audio_noise_reduction: Option<RealtimeSessionInputAudioNoiseReduction>,
     #[doc = "Tools (functions) available to the model."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "tools")]
     pub tools: Option<Vec<RealtimeSessionToolsItem>>,
     #[doc = "How the model chooses tools. Options are `auto`, `none`, `required`, or \nspecify a function.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "tool_choice")]
     pub tool_choice: Option<String>,
     #[doc = "Sampling temperature for the model, limited to [0.6, 1.2]. For audio models a temperature of 0.8 is highly recommended for best performance.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "temperature")]
     pub temperature: Option<f64>,
     #[doc = "Maximum number of output tokens for a single assistant response,\ninclusive of tool calls. Provide an integer between 1 and 4096 to\nlimit output tokens, or `inf` for the maximum available tokens for a\ngiven model. Defaults to `inf`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "max_response_output_tokens")]
     pub max_response_output_tokens: Option<RealtimeSessionMaxResponseOutputTokens>,
 }
@@ -12602,14 +13596,17 @@ pub enum RealtimeSessionCreateRequestOutputAudioFormat {
 pub struct RealtimeSessionCreateRequestInputAudioTranscription {
     #[doc = "The model to use for transcription, current options are `gpt-4o-transcribe`, `gpt-4o-mini-transcribe`, and `whisper-1`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "model")]
     pub model: Option<String>,
     #[doc = "The language of the input audio. Supplying the input language in\n[ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) (e.g. `en`) format\nwill improve accuracy and latency.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "language")]
     pub language: Option<String>,
     #[doc = "An optional text to guide the model's style or continue a previous audio\nsegment.\nFor `whisper-1`, the [prompt is a list of keywords](/docs/guides/speech-to-text#prompting).\nFor `gpt-4o-transcribe` models, the prompt is a free text string, for example \"expect words related to technology\".\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "prompt")]
     pub prompt: Option<String>,
 }
@@ -12650,30 +13647,37 @@ pub enum RealtimeSessionCreateRequestTurnDetectionEagerness {
 pub struct RealtimeSessionCreateRequestTurnDetection {
     #[doc = "Type of turn detection.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "type")]
     pub type_: Option<RealtimeSessionCreateRequestTurnDetectionType>,
     #[doc = "Used only for `semantic_vad` mode. The eagerness of the model to respond. `low` will wait longer for the user to continue speaking, `high` will respond more quickly. `auto` is the default and is equivalent to `medium`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "eagerness")]
     pub eagerness: Option<RealtimeSessionCreateRequestTurnDetectionEagerness>,
     #[doc = "Used only for `server_vad` mode. Activation threshold for VAD (0.0 to 1.0), this defaults to 0.5. A \nhigher threshold will require louder audio to activate the model, and \nthus might perform better in noisy environments.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "threshold")]
     pub threshold: Option<f64>,
     #[doc = "Used only for `server_vad` mode. Amount of audio to include before the VAD detected speech (in \nmilliseconds). Defaults to 300ms.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "prefix_padding_ms")]
     pub prefix_padding_ms: Option<u64>,
     #[doc = "Used only for `server_vad` mode. Duration of silence to detect speech stop (in milliseconds). Defaults \nto 500ms. With shorter values the model will respond more quickly, \nbut may jump in on short pauses from the user.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "silence_duration_ms")]
     pub silence_duration_ms: Option<u64>,
     #[doc = "Whether or not to automatically generate a response when a VAD stop event occurs.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "create_response")]
     pub create_response: Option<bool>,
     #[doc = "Whether or not to automatically interrupt any ongoing response with output to the default\nconversation (i.e. `conversation` of `auto`) when a VAD start event occurs.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "interrupt_response")]
     pub interrupt_response: Option<bool>,
 }
@@ -12699,13 +13703,15 @@ pub enum RealtimeSessionCreateRequestInputAudioNoiseReductionType {
 pub struct RealtimeSessionCreateRequestInputAudioNoiseReduction {
     #[doc = "Type of noise reduction. `near_field` is for close-talking microphones such as headphones, `far_field` is for far-field microphones such as laptop or conference room microphones.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "type")]
     pub type_: Option<RealtimeSessionCreateRequestInputAudioNoiseReductionType>,
 }
 #[doc = "The type of the tool, i.e. `function`."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionCreateRequestToolsItemType {
+    #[default]
     #[serde(rename = "function")]
     Function,
 }
@@ -12721,24 +13727,29 @@ pub enum RealtimeSessionCreateRequestToolsItemType {
 pub struct RealtimeSessionCreateRequestToolsItem {
     #[doc = "The type of the tool, i.e. `function`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "type")]
     pub type_: Option<RealtimeSessionCreateRequestToolsItemType>,
     #[doc = "The name of the function."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "name")]
     pub name: Option<String>,
     #[doc = "The description of the function, including guidance on when and how \nto call it, and guidance about what to tell the user when calling \n(if anything).\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "description")]
     pub description: Option<String>,
     #[doc = "Parameters of the function in JSON Schema."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "parameters")]
     pub parameters: Option<std::collections::HashMap<String, serde_json::Value>>,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionCreateRequestMaxResponseOutputTokens1 {
+    #[default]
     #[serde(rename = "inf")]
     Inf,
 }
@@ -12763,54 +13774,67 @@ pub enum RealtimeSessionCreateRequestMaxResponseOutputTokens {
 pub struct RealtimeSessionCreateRequest {
     #[doc = "The set of modalities the model can respond with. To disable audio,\nset this to [\"text\"].\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "modalities")]
     pub modalities: Option<Vec<RealtimeSessionCreateRequestModalitiesItem>>,
     #[doc = "The Realtime model used for this session.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "model")]
     pub model: Option<RealtimeSessionCreateRequestModel>,
     #[doc = "The default system instructions (i.e. system message) prepended to model  calls. This field allows the client to guide the model on desired  responses. The model can be instructed on response content and format,  (e.g. \"be extremely succinct\", \"act friendly\", \"here are examples of good  responses\") and on audio behavior (e.g. \"talk quickly\", \"inject emotion  into your voice\", \"laugh frequently\"). The instructions are not guaranteed  to be followed by the model, but they provide guidance to the model on the desired behavior.\n\nNote that the server sets default instructions which will be used if this  field is not set and are visible in the `session.created` event at the  start of the session.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "instructions")]
     pub instructions: Option<String>,
     #[doc = "The voice the model uses to respond. Voice cannot be changed during the \nsession once the model has responded with audio at least once. Current \nvoice options are `alloy`, `ash`, `ballad`, `coral`, `echo`, `fable`,\n`onyx`, `nova`, `sage`, `shimmer`, and `verse`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "voice")]
     pub voice: Option<VoiceIdsShared>,
     #[doc = "The format of input audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.\nFor `pcm16`, input audio must be 16-bit PCM at a 24kHz sample rate, \nsingle channel (mono), and little-endian byte order.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "input_audio_format")]
     pub input_audio_format: Option<RealtimeSessionCreateRequestInputAudioFormat>,
     #[doc = "The format of output audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.\nFor `pcm16`, output audio is sampled at a rate of 24kHz.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "output_audio_format")]
     pub output_audio_format: Option<RealtimeSessionCreateRequestOutputAudioFormat>,
     #[doc = "Configuration for input audio transcription, defaults to off and can be  set to `null` to turn off once on. Input audio transcription is not native to the model, since the model consumes audio directly. Transcription runs  asynchronously through [the /audio/transcriptions endpoint](https://platform.openai.com/docs/api-reference/audio/createTranscription) and should be treated as guidance of input audio content rather than precisely what the model heard. The client can optionally set the language and prompt for transcription, these offer additional guidance to the transcription service.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "input_audio_transcription")]
     pub input_audio_transcription: Option<RealtimeSessionCreateRequestInputAudioTranscription>,
     #[doc = "Configuration for turn detection, ether Server VAD or Semantic VAD. This can be set to `null` to turn off, in which case the client must manually trigger model response.\nServer VAD means that the model will detect the start and end of speech based on audio volume and respond at the end of user speech.\nSemantic VAD is more advanced and uses a turn detection model (in conjuction with VAD) to semantically estimate whether the user has finished speaking, then dynamically sets a timeout based on this probability. For example, if user audio trails off with \"uhhm\", the model will score a low probability of turn end and wait longer for the user to continue speaking. This can be useful for more natural conversations, but may have a higher latency.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "turn_detection")]
     pub turn_detection: Option<RealtimeSessionCreateRequestTurnDetection>,
     #[doc = "Configuration for input audio noise reduction. This can be set to `null` to turn off.\nNoise reduction filters audio added to the input audio buffer before it is sent to VAD and the model.\nFiltering the audio can improve VAD and turn detection accuracy (reducing false positives) and model performance by improving perception of the input audio.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "input_audio_noise_reduction")]
     pub input_audio_noise_reduction: Option<RealtimeSessionCreateRequestInputAudioNoiseReduction>,
     #[doc = "Tools (functions) available to the model."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "tools")]
     pub tools: Option<Vec<RealtimeSessionCreateRequestToolsItem>>,
     #[doc = "How the model chooses tools. Options are `auto`, `none`, `required`, or \nspecify a function.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "tool_choice")]
     pub tool_choice: Option<String>,
     #[doc = "Sampling temperature for the model, limited to [0.6, 1.2]. For audio models a temperature of 0.8 is highly recommended for best performance.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "temperature")]
     pub temperature: Option<f64>,
     #[doc = "Maximum number of output tokens for a single assistant response,\ninclusive of tool calls. Provide an integer between 1 and 4096 to\nlimit output tokens, or `inf` for the maximum available tokens for a\ngiven model. Defaults to `inf`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "max_response_output_tokens")]
     pub max_response_output_tokens: Option<RealtimeSessionCreateRequestMaxResponseOutputTokens>,
 }
@@ -12847,6 +13871,7 @@ pub enum RealtimeSessionCreateResponseModalitiesItem {
 pub struct RealtimeSessionCreateResponseInputAudioTranscription {
     #[doc = "The model to use for transcription, `whisper-1` is the only currently \nsupported model.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "model")]
     pub model: Option<String>,
 }
@@ -12863,25 +13888,30 @@ pub struct RealtimeSessionCreateResponseInputAudioTranscription {
 pub struct RealtimeSessionCreateResponseTurnDetection {
     #[doc = "Type of turn detection, only `server_vad` is currently supported.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "type")]
     pub type_: Option<String>,
     #[doc = "Activation threshold for VAD (0.0 to 1.0), this defaults to 0.5. A \nhigher threshold will require louder audio to activate the model, and \nthus might perform better in noisy environments.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "threshold")]
     pub threshold: Option<f64>,
     #[doc = "Amount of audio to include before the VAD detected speech (in \nmilliseconds). Defaults to 300ms.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "prefix_padding_ms")]
     pub prefix_padding_ms: Option<u64>,
     #[doc = "Duration of silence to detect speech stop (in milliseconds). Defaults \nto 500ms. With shorter values the model will respond more quickly, \nbut may jump in on short pauses from the user.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "silence_duration_ms")]
     pub silence_duration_ms: Option<u64>,
 }
 #[doc = "The type of the tool, i.e. `function`."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionCreateResponseToolsItemType {
+    #[default]
     #[serde(rename = "function")]
     Function,
 }
@@ -12897,24 +13927,29 @@ pub enum RealtimeSessionCreateResponseToolsItemType {
 pub struct RealtimeSessionCreateResponseToolsItem {
     #[doc = "The type of the tool, i.e. `function`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "type")]
     pub type_: Option<RealtimeSessionCreateResponseToolsItemType>,
     #[doc = "The name of the function."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "name")]
     pub name: Option<String>,
     #[doc = "The description of the function, including guidance on when and how \nto call it, and guidance about what to tell the user when calling \n(if anything).\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "description")]
     pub description: Option<String>,
     #[doc = "Parameters of the function in JSON Schema."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "parameters")]
     pub parameters: Option<std::collections::HashMap<String, serde_json::Value>>,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionCreateResponseMaxResponseOutputTokens1 {
+    #[default]
     #[serde(rename = "inf")]
     Inf,
 }
@@ -12936,46 +13971,57 @@ pub struct RealtimeSessionCreateResponse {
     pub client_secret: RealtimeSessionCreateResponseClientSecret,
     #[doc = "The set of modalities the model can respond with. To disable audio,\nset this to [\"text\"].\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "modalities")]
     pub modalities: Option<Vec<RealtimeSessionCreateResponseModalitiesItem>>,
     #[doc = "The default system instructions (i.e. system message) prepended to model \ncalls. This field allows the client to guide the model on desired \nresponses. The model can be instructed on response content and format, \n(e.g. \"be extremely succinct\", \"act friendly\", \"here are examples of good \nresponses\") and on audio behavior (e.g. \"talk quickly\", \"inject emotion \ninto your voice\", \"laugh frequently\"). The instructions are not guaranteed \nto be followed by the model, but they provide guidance to the model on the \ndesired behavior.\n\nNote that the server sets default instructions which will be used if this \nfield is not set and are visible in the `session.created` event at the \nstart of the session.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "instructions")]
     pub instructions: Option<String>,
     #[doc = "The voice the model uses to respond. Voice cannot be changed during the \nsession once the model has responded with audio at least once. Current \nvoice options are `alloy`, `ash`, `ballad`, `coral`, `echo` `sage`, \n`shimmer` and `verse`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "voice")]
     pub voice: Option<VoiceIdsShared>,
     #[doc = "The format of input audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "input_audio_format")]
     pub input_audio_format: Option<String>,
     #[doc = "The format of output audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "output_audio_format")]
     pub output_audio_format: Option<String>,
     #[doc = "Configuration for input audio transcription, defaults to off and can be \nset to `null` to turn off once on. Input audio transcription is not native \nto the model, since the model consumes audio directly. Transcription runs \nasynchronously through Whisper and should be treated as rough guidance \nrather than the representation understood by the model.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "input_audio_transcription")]
     pub input_audio_transcription: Option<RealtimeSessionCreateResponseInputAudioTranscription>,
     #[doc = "Configuration for turn detection. Can be set to `null` to turn off. Server \nVAD means that the model will detect the start and end of speech based on \naudio volume and respond at the end of user speech.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "turn_detection")]
     pub turn_detection: Option<RealtimeSessionCreateResponseTurnDetection>,
     #[doc = "Tools (functions) available to the model."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "tools")]
     pub tools: Option<Vec<RealtimeSessionCreateResponseToolsItem>>,
     #[doc = "How the model chooses tools. Options are `auto`, `none`, `required`, or \nspecify a function.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "tool_choice")]
     pub tool_choice: Option<String>,
     #[doc = "Sampling temperature for the model, limited to [0.6, 1.2]. Defaults to 0.8.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "temperature")]
     pub temperature: Option<f64>,
     #[doc = "Maximum number of output tokens for a single assistant response,\ninclusive of tool calls. Provide an integer between 1 and 4096 to\nlimit output tokens, or `inf` for the maximum available tokens for a\ngiven model. Defaults to `inf`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "max_response_output_tokens")]
     pub max_response_output_tokens: Option<RealtimeSessionCreateResponseMaxResponseOutputTokens>,
 }
@@ -13023,14 +14069,17 @@ pub enum RealtimeTranscriptionSessionCreateRequestInputAudioTranscriptionModel {
 pub struct RealtimeTranscriptionSessionCreateRequestInputAudioTranscription {
     #[doc = "The model to use for transcription, current options are `gpt-4o-transcribe`, `gpt-4o-mini-transcribe`, and `whisper-1`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "model")]
     pub model: Option<RealtimeTranscriptionSessionCreateRequestInputAudioTranscriptionModel>,
     #[doc = "The language of the input audio. Supplying the input language in\n[ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) (e.g. `en`) format\nwill improve accuracy and latency.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "language")]
     pub language: Option<String>,
     #[doc = "An optional text to guide the model's style or continue a previous audio\nsegment.\nFor `whisper-1`, the [prompt is a list of keywords](/docs/guides/speech-to-text#prompting).\nFor `gpt-4o-transcribe` models, the prompt is a free text string, for example \"expect words related to technology\".\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "prompt")]
     pub prompt: Option<String>,
 }
@@ -13071,30 +14120,37 @@ pub enum RealtimeTranscriptionSessionCreateRequestTurnDetectionEagerness {
 pub struct RealtimeTranscriptionSessionCreateRequestTurnDetection {
     #[doc = "Type of turn detection.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "type")]
     pub type_: Option<RealtimeTranscriptionSessionCreateRequestTurnDetectionType>,
     #[doc = "Used only for `semantic_vad` mode. The eagerness of the model to respond. `low` will wait longer for the user to continue speaking, `high` will respond more quickly. `auto` is the default and is equivalent to `medium`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "eagerness")]
     pub eagerness: Option<RealtimeTranscriptionSessionCreateRequestTurnDetectionEagerness>,
     #[doc = "Used only for `server_vad` mode. Activation threshold for VAD (0.0 to 1.0), this defaults to 0.5. A \nhigher threshold will require louder audio to activate the model, and \nthus might perform better in noisy environments.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "threshold")]
     pub threshold: Option<f64>,
     #[doc = "Used only for `server_vad` mode. Amount of audio to include before the VAD detected speech (in \nmilliseconds). Defaults to 300ms.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "prefix_padding_ms")]
     pub prefix_padding_ms: Option<u64>,
     #[doc = "Used only for `server_vad` mode. Duration of silence to detect speech stop (in milliseconds). Defaults \nto 500ms. With shorter values the model will respond more quickly, \nbut may jump in on short pauses from the user.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "silence_duration_ms")]
     pub silence_duration_ms: Option<u64>,
     #[doc = "Whether or not to automatically generate a response when a VAD stop event occurs. Not available for transcription sessions.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "create_response")]
     pub create_response: Option<bool>,
     #[doc = "Whether or not to automatically interrupt any ongoing response with output to the default\nconversation (i.e. `conversation` of `auto`) when a VAD start event occurs. Not available for transcription sessions.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "interrupt_response")]
     pub interrupt_response: Option<bool>,
 }
@@ -13120,6 +14176,7 @@ pub enum RealtimeTranscriptionSessionCreateRequestInputAudioNoiseReductionType {
 pub struct RealtimeTranscriptionSessionCreateRequestInputAudioNoiseReduction {
     #[doc = "Type of noise reduction. `near_field` is for close-talking microphones such as headphones, `far_field` is for far-field microphones such as laptop or conference room microphones.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "type")]
     pub type_: Option<RealtimeTranscriptionSessionCreateRequestInputAudioNoiseReductionType>,
 }
@@ -13136,28 +14193,34 @@ pub struct RealtimeTranscriptionSessionCreateRequestInputAudioNoiseReduction {
 pub struct RealtimeTranscriptionSessionCreateRequest {
     #[doc = "The set of modalities the model can respond with. To disable audio,\nset this to [\"text\"].\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "modalities")]
     pub modalities: Option<Vec<RealtimeTranscriptionSessionCreateRequestModalitiesItem>>,
     #[doc = "The format of input audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.\nFor `pcm16`, input audio must be 16-bit PCM at a 24kHz sample rate, \nsingle channel (mono), and little-endian byte order.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "input_audio_format")]
     pub input_audio_format: Option<RealtimeTranscriptionSessionCreateRequestInputAudioFormat>,
     #[doc = "Configuration for input audio transcription. The client can optionally set the language and prompt for transcription, these offer additional guidance to the transcription service.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "input_audio_transcription")]
     pub input_audio_transcription:
         Option<RealtimeTranscriptionSessionCreateRequestInputAudioTranscription>,
     #[doc = "Configuration for turn detection, ether Server VAD or Semantic VAD. This can be set to `null` to turn off, in which case the client must manually trigger model response.\nServer VAD means that the model will detect the start and end of speech based on audio volume and respond at the end of user speech.\nSemantic VAD is more advanced and uses a turn detection model (in conjuction with VAD) to semantically estimate whether the user has finished speaking, then dynamically sets a timeout based on this probability. For example, if user audio trails off with \"uhhm\", the model will score a low probability of turn end and wait longer for the user to continue speaking. This can be useful for more natural conversations, but may have a higher latency.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "turn_detection")]
     pub turn_detection: Option<RealtimeTranscriptionSessionCreateRequestTurnDetection>,
     #[doc = "Configuration for input audio noise reduction. This can be set to `null` to turn off.\nNoise reduction filters audio added to the input audio buffer before it is sent to VAD and the model.\nFiltering the audio can improve VAD and turn detection accuracy (reducing false positives) and model performance by improving perception of the input audio.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "input_audio_noise_reduction")]
     pub input_audio_noise_reduction:
         Option<RealtimeTranscriptionSessionCreateRequestInputAudioNoiseReduction>,
     #[doc = "The set of items to include in the transcription. Current available items are:\n- `item.input_audio_transcription.logprobs`\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "include")]
     pub include: Option<Vec<String>>,
 }
@@ -13205,14 +14268,17 @@ pub enum RealtimeTranscriptionSessionCreateResponseInputAudioTranscriptionModel 
 pub struct RealtimeTranscriptionSessionCreateResponseInputAudioTranscription {
     #[doc = "The model to use for transcription. Can be `gpt-4o-transcribe`, `gpt-4o-mini-transcribe`, or `whisper-1`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "model")]
     pub model: Option<RealtimeTranscriptionSessionCreateResponseInputAudioTranscriptionModel>,
     #[doc = "The language of the input audio. Supplying the input language in\n[ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) (e.g. `en`) format\nwill improve accuracy and latency.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "language")]
     pub language: Option<String>,
     #[doc = "An optional text to guide the model's style or continue a previous audio\nsegment. The [prompt](/docs/guides/speech-to-text#prompting) should match\nthe audio language.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "prompt")]
     pub prompt: Option<String>,
 }
@@ -13229,18 +14295,22 @@ pub struct RealtimeTranscriptionSessionCreateResponseInputAudioTranscription {
 pub struct RealtimeTranscriptionSessionCreateResponseTurnDetection {
     #[doc = "Type of turn detection, only `server_vad` is currently supported.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "type")]
     pub type_: Option<String>,
     #[doc = "Activation threshold for VAD (0.0 to 1.0), this defaults to 0.5. A \nhigher threshold will require louder audio to activate the model, and \nthus might perform better in noisy environments.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "threshold")]
     pub threshold: Option<f64>,
     #[doc = "Amount of audio to include before the VAD detected speech (in \nmilliseconds). Defaults to 300ms.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "prefix_padding_ms")]
     pub prefix_padding_ms: Option<u64>,
     #[doc = "Duration of silence to detect speech stop (in milliseconds). Defaults \nto 500ms. With shorter values the model will respond more quickly, \nbut may jump in on short pauses from the user.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "silence_duration_ms")]
     pub silence_duration_ms: Option<u64>,
 }
@@ -13254,19 +14324,23 @@ pub struct RealtimeTranscriptionSessionCreateResponse {
     pub client_secret: RealtimeTranscriptionSessionCreateResponseClientSecret,
     #[doc = "The set of modalities the model can respond with. To disable audio,\nset this to [\"text\"].\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "modalities")]
     pub modalities: Option<Vec<RealtimeTranscriptionSessionCreateResponseModalitiesItem>>,
     #[doc = "The format of input audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "input_audio_format")]
     pub input_audio_format: Option<String>,
     #[doc = "Configuration of the transcription model.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "input_audio_transcription")]
     pub input_audio_transcription:
         Option<RealtimeTranscriptionSessionCreateResponseInputAudioTranscription>,
     #[doc = "Configuration for turn detection. Can be set to `null` to turn off. Server \nVAD means that the model will detect the start and end of speech based on \naudio volume and respond at the end of user speech.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "turn_detection")]
     pub turn_detection: Option<RealtimeTranscriptionSessionCreateResponseTurnDetection>,
 }
@@ -13304,14 +14378,17 @@ pub enum ReasoningGenerateSummary {
 )]
 pub struct Reasoning {
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "effort")]
     pub effort: Option<ReasoningEffort>,
     #[doc = "A summary of the reasoning performed by the model. This can be\nuseful for debugging and understanding the model's reasoning process.\nOne of `auto`, `concise`, or `detailed`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "summary")]
     pub summary: Option<ReasoningSummary>,
     #[doc = "**Deprecated:** use `summary` instead.\n\nA summary of the reasoning performed by the model. This can be\nuseful for debugging and understanding the model's reasoning process.\nOne of `auto`, `concise`, or `detailed`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "generate_summary")]
     pub generate_summary: Option<ReasoningGenerateSummary>,
 }
@@ -13328,16 +14405,18 @@ pub enum ReasoningEffort {
     High,
 }
 #[doc = "The type of the object. Always `reasoning`.\n"]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ReasoningItemType {
+    #[default]
     #[serde(rename = "reasoning")]
     Reasoning,
 }
 #[doc = "The type of the object. Always `summary_text`.\n"]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ReasoningItemSummaryItemType {
+    #[default]
     #[serde(rename = "summary_text")]
     SummaryText,
 }
@@ -13346,6 +14425,7 @@ pub enum ReasoningItemSummaryItemType {
 )]
 pub struct ReasoningItemSummaryItem {
     #[doc = "The type of the object. Always `summary_text`.\n"]
+    #[builder(default)]
     #[serde(rename = "type")]
     pub type_: ReasoningItemSummaryItemType,
     #[doc = "A short summary of the reasoning used by the model when generating\nthe response.\n"]
@@ -13369,6 +14449,7 @@ pub enum ReasoningItemStatus {
 )]
 pub struct ReasoningItem {
     #[doc = "The type of the object. Always `reasoning`.\n"]
+    #[builder(default)]
     #[serde(rename = "type")]
     pub type_: ReasoningItemType,
     #[doc = "The unique identifier of the reasoning content.\n"]
@@ -13379,13 +14460,15 @@ pub struct ReasoningItem {
     pub summary: Vec<ReasoningItemSummaryItem>,
     #[doc = "The status of the item. One of `in_progress`, `completed`, or\n`incomplete`. Populated when items are returned via API.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "status")]
     pub status: Option<ReasoningItemStatus>,
 }
 #[doc = "The object type of this resource - always set to `response`.\n"]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ResponseObject {
+    #[default]
     #[serde(rename = "response")]
     Response,
 }
@@ -13424,6 +14507,7 @@ pub enum ResponseIncompleteDetailsReason {
 pub struct ResponseIncompleteDetails {
     #[doc = "The reason why the response is incomplete."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "reason")]
     pub reason: Option<ResponseIncompleteDetailsReason>,
 }
@@ -13441,10 +14525,12 @@ pub struct Response {
     #[serde(rename = "id")]
     pub id: String,
     #[doc = "The object type of this resource - always set to `response`.\n"]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: ResponseObject,
     #[doc = "The status of the response generation. One of `completed`, `failed`, \n`in_progress`, or `incomplete`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "status")]
     pub status: Option<ResponseStatus>,
     #[doc = "Unix timestamp (in seconds) of when this Response was created.\n"]
@@ -13454,6 +14540,7 @@ pub struct Response {
     pub error: ResponseError,
     #[doc = "Details about why the response is incomplete.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "incomplete_details")]
     pub incomplete_details: Option<ResponseIncompleteDetails>,
     #[doc = "An array of content items generated by the model.\n\n- The length and order of items in the `output` array is dependent\n  on the model's response.\n- Rather than accessing the first item in the `output` array and \n  assuming it's an `assistant` message with the content generated by\n  the model, you might consider using the `output_text` property where\n  supported in SDKs.\n"]
@@ -13461,9 +14548,11 @@ pub struct Response {
     pub output: Vec<OutputItem>,
     #[doc = "SDK-only convenience property that contains the aggregated text output \nfrom all `output_text` items in the `output` array, if any are present. \nSupported in the Python and JavaScript SDKs.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "output_text")]
     pub output_text: Option<String>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "usage")]
     pub usage: Option<ResponseUsage>,
     #[doc = "Whether to allow the model to run tool calls in parallel.\n"]
@@ -13680,6 +14769,7 @@ pub enum ResponseErrorCode {
 pub struct ResponseErrorEvent {
     #[doc = "The error code.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "code")]
     pub code: Option<String>,
     #[doc = "The error message.\n"]
@@ -13687,6 +14777,7 @@ pub struct ResponseErrorEvent {
     pub message: String,
     #[doc = "The error parameter.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "param")]
     pub param: Option<String>,
 }
@@ -13753,16 +14844,19 @@ pub struct ResponseFormatJsonObject {}
 pub struct ResponseFormatJsonSchemaJsonSchema {
     #[doc = "A description of what the response format is for, used by the model to\ndetermine how to respond in the format.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "description")]
     pub description: Option<String>,
     #[doc = "The name of the response format. Must be a-z, A-Z, 0-9, or contain\nunderscores and dashes, with a maximum length of 64.\n"]
     #[serde(rename = "name")]
     pub name: String,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "schema")]
     pub schema: Option<ResponseFormatJsonSchemaSchema>,
     #[doc = "Whether to enable strict schema adherence when generating the output.\nIf set to true, the model will always follow the exact schema defined\nin the `schema` field. Only a subset of JSON Schema is supported when\n`strict` is `true`. To learn more, read the [Structured Outputs\nguide](/docs/guides/structured-outputs).\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "strict")]
     pub strict: Option<bool>,
 }
@@ -13836,9 +14930,10 @@ pub struct ResponseIncompleteEvent {
     pub response: Response,
 }
 #[doc = "The type of object returned, must be `list`."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ResponseItemListObject {
+    #[default]
     #[serde(rename = "list")]
     List,
 }
@@ -13848,6 +14943,7 @@ pub enum ResponseItemListObject {
 )]
 pub struct ResponseItemList {
     #[doc = "The type of object returned, must be `list`."]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: ResponseItemListObject,
     #[doc = "A list of items used to generate this response."]
@@ -13908,6 +15004,7 @@ pub struct ResponseOutputItemDoneEvent {
 )]
 pub struct ResponsePropertiesText {
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "format")]
     pub format: Option<TextResponseFormatConfiguration>,
 }
@@ -13942,44 +15039,54 @@ pub enum ResponsePropertiesTruncation {
 pub struct ResponseProperties {
     #[doc = "The unique ID of the previous response to the model. Use this to\ncreate multi-turn conversations. Learn more about \n[conversation state](/docs/guides/conversation-state).\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "previous_response_id")]
     pub previous_response_id: Option<String>,
     #[doc = "Model ID used to generate the response, like `gpt-4o` or `o3`. OpenAI\noffers a wide range of models with different capabilities, performance\ncharacteristics, and price points. Refer to the [model guide](/docs/models)\nto browse and compare available models.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "model")]
     pub model: Option<ModelIdsResponses>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "reasoning")]
     pub reasoning: Option<Reasoning>,
     #[doc = "An upper bound for the number of tokens that can be generated for a response, including visible output tokens and [reasoning tokens](/docs/guides/reasoning).\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "max_output_tokens")]
     pub max_output_tokens: Option<u64>,
     #[doc = "Inserts a system (or developer) message as the first item in the model's context.\n\nWhen using along with `previous_response_id`, the instructions from a previous\nresponse will not be carried over to the next response. This makes it simple\nto swap out system (or developer) messages in new responses.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "instructions")]
     pub instructions: Option<String>,
     #[doc = "Configuration options for a text response from the model. Can be plain\ntext or structured JSON data. Learn more:\n- [Text inputs and outputs](/docs/guides/text)\n- [Structured Outputs](/docs/guides/structured-outputs)\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "text")]
     pub text: Option<ResponsePropertiesText>,
     #[doc = "An array of tools the model may call while generating a response. You \ncan specify which tool to use by setting the `tool_choice` parameter.\n\nThe two categories of tools you can provide the model are:\n\n- **Built-in tools**: Tools that are provided by OpenAI that extend the\n  model's capabilities, like [web search](/docs/guides/tools-web-search)\n  or [file search](/docs/guides/tools-file-search). Learn more about\n  [built-in tools](/docs/guides/tools).\n- **Function calls (custom tools)**: Functions that are defined by you,\n  enabling the model to call your own code. Learn more about\n  [function calling](/docs/guides/function-calling).\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "tools")]
     pub tools: Option<Vec<Tool>>,
     #[doc = "How the model should select which tool (or tools) to use when generating\na response. See the `tools` parameter to see how to specify which tools\nthe model can call.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "tool_choice")]
     pub tool_choice: Option<ResponsePropertiesToolChoice>,
     #[doc = "The truncation strategy to use for the model response.\n- `auto`: If the context of this response and previous ones exceeds\n  the model's context window size, the model will truncate the \n  response to fit the context window by dropping input items in the\n  middle of the conversation. \n- `disabled` (default): If a model response will exceed the context window \n  size for a model, the request will fail with a 400 error.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "truncation")]
     pub truncation: Option<ResponsePropertiesTruncation>,
 }
 #[doc = "The type of the summary part. Always `summary_text`."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ResponseReasoningSummaryPartAddedEventPartType {
+    #[default]
     #[serde(rename = "summary_text")]
     SummaryText,
 }
@@ -13989,6 +15096,7 @@ pub enum ResponseReasoningSummaryPartAddedEventPartType {
 )]
 pub struct ResponseReasoningSummaryPartAddedEventPart {
     #[doc = "The type of the summary part. Always `summary_text`."]
+    #[builder(default)]
     #[serde(rename = "type")]
     pub type_: ResponseReasoningSummaryPartAddedEventPartType,
     #[doc = "The text of the summary part."]
@@ -14014,9 +15122,10 @@ pub struct ResponseReasoningSummaryPartAddedEvent {
     pub part: ResponseReasoningSummaryPartAddedEventPart,
 }
 #[doc = "The type of the summary part. Always `summary_text`."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ResponseReasoningSummaryPartDoneEventPartType {
+    #[default]
     #[serde(rename = "summary_text")]
     SummaryText,
 }
@@ -14026,6 +15135,7 @@ pub enum ResponseReasoningSummaryPartDoneEventPartType {
 )]
 pub struct ResponseReasoningSummaryPartDoneEventPart {
     #[doc = "The type of the summary part. Always `summary_text`."]
+    #[builder(default)]
     #[serde(rename = "type")]
     pub type_: ResponseReasoningSummaryPartDoneEventPartType,
     #[doc = "The text of the summary part."]
@@ -14346,9 +15456,10 @@ pub struct RunCompletionUsage {
     pub total_tokens: u64,
 }
 #[doc = "The object type, which is always `thread.run`."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum RunObjectObject {
+    #[default]
     #[serde(rename = "thread.run")]
     ThreadRun,
 }
@@ -14376,9 +15487,10 @@ pub enum RunObjectStatus {
     Expired,
 }
 #[doc = "For now, this is always `submit_tool_outputs`."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum RunObjectRequiredActionType {
+    #[default]
     #[serde(rename = "submit_tool_outputs")]
     SubmitToolOutputs,
 }
@@ -14397,6 +15509,7 @@ pub struct RunObjectRequiredActionSubmitToolOutputs {
 )]
 pub struct RunObjectRequiredAction {
     #[doc = "For now, this is always `submit_tool_outputs`."]
+    #[builder(default)]
     #[serde(rename = "type")]
     pub type_: RunObjectRequiredActionType,
     #[doc = "Details on the tool outputs needed for this run to continue."]
@@ -14448,6 +15561,7 @@ pub enum RunObjectIncompleteDetailsReason {
 pub struct RunObjectIncompleteDetails {
     #[doc = "The reason why the run is incomplete. This will point to which specific token limit was reached over the course of the run."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "reason")]
     pub reason: Option<RunObjectIncompleteDetailsReason>,
 }
@@ -14471,6 +15585,7 @@ pub struct RunObject {
     #[serde(rename = "id")]
     pub id: String,
     #[doc = "The object type, which is always `thread.run`."]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: RunObjectObject,
     #[doc = "The Unix timestamp (in seconds) for when the run was created."]
@@ -14487,34 +15602,42 @@ pub struct RunObject {
     pub status: RunObjectStatus,
     #[doc = "Details on the action required to continue the run. Will be `null` if no action is required."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "required_action")]
     pub required_action: Option<RunObjectRequiredAction>,
     #[doc = "The last error associated with this run. Will be `null` if there are no errors."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "last_error")]
     pub last_error: Option<RunObjectLastError>,
     #[doc = "The Unix timestamp (in seconds) for when the run will expire."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "expires_at")]
     pub expires_at: Option<u64>,
     #[doc = "The Unix timestamp (in seconds) for when the run was started."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "started_at")]
     pub started_at: Option<u64>,
     #[doc = "The Unix timestamp (in seconds) for when the run was cancelled."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "cancelled_at")]
     pub cancelled_at: Option<u64>,
     #[doc = "The Unix timestamp (in seconds) for when the run failed."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "failed_at")]
     pub failed_at: Option<u64>,
     #[doc = "The Unix timestamp (in seconds) for when the run was completed."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "completed_at")]
     pub completed_at: Option<u64>,
     #[doc = "Details on why the run is incomplete. Will be `null` if the run is not incomplete."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "incomplete_details")]
     pub incomplete_details: Option<RunObjectIncompleteDetails>,
     #[doc = "The model that the [assistant](/docs/api-reference/assistants) used for this run."]
@@ -14532,29 +15655,36 @@ pub struct RunObject {
     pub usage: RunCompletionUsage,
     #[doc = "The sampling temperature used for this run. If not set, defaults to 1."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "temperature")]
     pub temperature: Option<f64>,
     #[doc = "The nucleus sampling value used for this run. If not set, defaults to 1."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "top_p")]
     pub top_p: Option<f64>,
     #[doc = "The maximum number of prompt tokens specified to have been used over the course of the run.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "max_prompt_tokens")]
     pub max_prompt_tokens: Option<u64>,
     #[doc = "The maximum number of completion tokens specified to have been used over the course of the run.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "max_completion_tokens")]
     pub max_completion_tokens: Option<u64>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "truncation_strategy")]
     pub truncation_strategy: Option<TruncationObject>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "tool_choice")]
     pub tool_choice: Option<AssistantsApiToolChoiceOption>,
     #[serde(rename = "parallel_tool_calls")]
     pub parallel_tool_calls: ParallelToolCalls,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "response_format")]
     pub response_format: Option<AssistantsApiResponseFormatOption>,
 }
@@ -14574,9 +15704,10 @@ pub struct RunStepCompletionUsage {
     pub total_tokens: u64,
 }
 #[doc = "The object type, which is always `thread.run.step.delta`."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum RunStepDeltaObjectObject {
+    #[default]
     #[serde(rename = "thread.run.step.delta")]
     ThreadRunStepDelta,
 }
@@ -14603,6 +15734,7 @@ pub enum RunStepDeltaObjectDeltaStepDetails {
 pub struct RunStepDeltaObjectDelta {
     #[doc = "The details of the run step."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "step_details")]
     pub step_details: Option<RunStepDeltaObjectDeltaStepDetails>,
 }
@@ -14615,6 +15747,7 @@ pub struct RunStepDeltaObject {
     #[serde(rename = "id")]
     pub id: String,
     #[doc = "The object type, which is always `thread.run.step.delta`."]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: RunStepDeltaObjectObject,
     #[doc = "The delta containing the fields that have changed on the run step."]
@@ -14634,6 +15767,7 @@ pub struct RunStepDeltaObject {
 pub struct RunStepDeltaStepDetailsMessageCreationObjectMessageCreation {
     #[doc = "The ID of the message that was created by this run step."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "message_id")]
     pub message_id: Option<String>,
 }
@@ -14649,6 +15783,7 @@ pub struct RunStepDeltaStepDetailsMessageCreationObjectMessageCreation {
 )]
 pub struct RunStepDeltaStepDetailsMessageCreationObject {
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "message_creation")]
     pub message_creation: Option<RunStepDeltaStepDetailsMessageCreationObjectMessageCreation>,
 }
@@ -14674,10 +15809,12 @@ pub enum RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterOutputsItem {
 pub struct RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter {
     #[doc = "The input to the Code Interpreter tool call."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "input")]
     pub input: Option<String>,
     #[doc = "The outputs from the Code Interpreter tool call. Code Interpreter can output one or more items, including text (`logs`) or images (`image`). Each of these are represented by a different object type."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "outputs")]
     pub outputs: Option<Vec<RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterOutputsItem>>,
 }
@@ -14691,10 +15828,12 @@ pub struct RunStepDeltaStepDetailsToolCallsCodeObject {
     pub index: u64,
     #[doc = "The ID of the tool call."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "The Code Interpreter tool call definition."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "code_interpreter")]
     pub code_interpreter: Option<RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter>,
 }
@@ -14710,6 +15849,7 @@ pub struct RunStepDeltaStepDetailsToolCallsCodeObject {
 pub struct RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImage {
     #[doc = "The [file](/docs/api-reference/files) ID of the image."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "file_id")]
     pub file_id: Option<String>,
 }
@@ -14721,6 +15861,7 @@ pub struct RunStepDeltaStepDetailsToolCallsCodeOutputImageObject {
     #[serde(rename = "index")]
     pub index: u64,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "image")]
     pub image: Option<RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImage>,
 }
@@ -14734,6 +15875,7 @@ pub struct RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject {
     pub index: u64,
     #[doc = "The text output from the Code Interpreter tool call."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "logs")]
     pub logs: Option<String>,
 }
@@ -14746,6 +15888,7 @@ pub struct RunStepDeltaStepDetailsToolCallsFileSearchObject {
     pub index: u64,
     #[doc = "The ID of the tool call object."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "For now, this is always going to be an empty object."]
@@ -14765,14 +15908,17 @@ pub struct RunStepDeltaStepDetailsToolCallsFileSearchObject {
 pub struct RunStepDeltaStepDetailsToolCallsFunctionObjectFunction {
     #[doc = "The name of the function."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "name")]
     pub name: Option<String>,
     #[doc = "The arguments passed to the function."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "arguments")]
     pub arguments: Option<String>,
     #[doc = "The output of the function. This will be `null` if the outputs have not been [submitted](/docs/api-reference/runs/submitToolOutputs) yet."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "output")]
     pub output: Option<String>,
 }
@@ -14785,10 +15931,12 @@ pub struct RunStepDeltaStepDetailsToolCallsFunctionObject {
     pub index: u64,
     #[doc = "The ID of the tool call object."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "The definition of the function that was called."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "function")]
     pub function: Option<RunStepDeltaStepDetailsToolCallsFunctionObjectFunction>,
 }
@@ -14816,6 +15964,7 @@ pub enum RunStepDeltaStepDetailsToolCallsObjectToolCallsItem {
 pub struct RunStepDeltaStepDetailsToolCallsObject {
     #[doc = "An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `file_search`, or `function`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "tool_calls")]
     pub tool_calls: Option<Vec<RunStepDeltaStepDetailsToolCallsObjectToolCallsItem>>,
 }
@@ -14904,10 +16053,12 @@ pub struct RunStepDetailsToolCallsCodeOutputLogsObject {
 )]
 pub struct RunStepDetailsToolCallsFileSearchObjectFileSearch {
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "ranking_options")]
     pub ranking_options: Option<RunStepDetailsToolCallsFileSearchRankingOptionsObject>,
     #[doc = "The results of the file search."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "results")]
     pub results: Option<Vec<RunStepDetailsToolCallsFileSearchResultObject>>,
 }
@@ -14935,9 +16086,10 @@ pub struct RunStepDetailsToolCallsFileSearchRankingOptionsObject {
     pub score_threshold: f64,
 }
 #[doc = "The type of the content."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum RunStepDetailsToolCallsFileSearchResultObjectContentItemType {
+    #[default]
     #[serde(rename = "text")]
     Text,
 }
@@ -14953,10 +16105,12 @@ pub enum RunStepDetailsToolCallsFileSearchResultObjectContentItemType {
 pub struct RunStepDetailsToolCallsFileSearchResultObjectContentItem {
     #[doc = "The type of the content."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "type")]
     pub type_: Option<RunStepDetailsToolCallsFileSearchResultObjectContentItemType>,
     #[doc = "The text content of the file."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "text")]
     pub text: Option<String>,
 }
@@ -14976,6 +16130,7 @@ pub struct RunStepDetailsToolCallsFileSearchResultObject {
     pub score: f64,
     #[doc = "The content of the result that was found. The content is only included if requested via the include query parameter."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "content")]
     pub content: Option<Vec<RunStepDetailsToolCallsFileSearchResultObjectContentItem>>,
 }
@@ -14992,6 +16147,7 @@ pub struct RunStepDetailsToolCallsFunctionObjectFunction {
     pub arguments: String,
     #[doc = "The output of the function. This will be `null` if the outputs have not been [submitted](/docs/api-reference/runs/submitToolOutputs) yet."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "output")]
     pub output: Option<String>,
 }
@@ -15027,9 +16183,10 @@ pub struct RunStepDetailsToolCallsObject {
     pub tool_calls: Vec<RunStepDetailsToolCallsObjectToolCallsItem>,
 }
 #[doc = "The object type, which is always `thread.run.step`."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum RunStepObjectObject {
+    #[default]
     #[serde(rename = "thread.run.step")]
     ThreadRunStep,
 }
@@ -15097,6 +16254,7 @@ pub struct RunStepObject {
     #[serde(rename = "id")]
     pub id: String,
     #[doc = "The object type, which is always `thread.run.step`."]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: RunStepObjectObject,
     #[doc = "The Unix timestamp (in seconds) for when the run step was created."]
@@ -15122,22 +16280,27 @@ pub struct RunStepObject {
     pub step_details: RunStepObjectStepDetails,
     #[doc = "The last error associated with this run step. Will be `null` if there are no errors."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "last_error")]
     pub last_error: Option<RunStepObjectLastError>,
     #[doc = "The Unix timestamp (in seconds) for when the run step expired. A step is considered expired if the parent run is expired."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "expired_at")]
     pub expired_at: Option<u64>,
     #[doc = "The Unix timestamp (in seconds) for when the run step was cancelled."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "cancelled_at")]
     pub cancelled_at: Option<u64>,
     #[doc = "The Unix timestamp (in seconds) for when the run step failed."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "failed_at")]
     pub failed_at: Option<u64>,
     #[doc = "The Unix timestamp (in seconds) for when the run step completed."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "completed_at")]
     pub completed_at: Option<u64>,
     #[serde(rename = "metadata")]
@@ -15326,9 +16489,10 @@ pub enum RunStreamEvent {
     ThreadRunExpired(RunStreamEventThreadRunExpired),
 }
 #[doc = "The type of tool call the output is required for. For now, this is always `function`."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum RunToolCallObjectType {
+    #[default]
     #[serde(rename = "function")]
     Function,
 }
@@ -15353,6 +16517,7 @@ pub struct RunToolCallObject {
     #[serde(rename = "id")]
     pub id: String,
     #[doc = "The type of tool call the output is required for. For now, this is always `function`."]
+    #[builder(default)]
     #[serde(rename = "type")]
     pub type_: RunToolCallObjectType,
     #[doc = "The function definition."]
@@ -15446,10 +16611,12 @@ pub enum StopConfiguration {
 pub struct SubmitToolOutputsRunRequestToolOutputsItem {
     #[doc = "The ID of the tool call in the `required_action` object within the run object the output is being submitted for."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "tool_call_id")]
     pub tool_call_id: Option<String>,
     #[doc = "The output of the tool call to be submitted to continue the run."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "output")]
     pub output: Option<String>,
 }
@@ -15462,6 +16629,7 @@ pub struct SubmitToolOutputsRunRequest {
     pub tool_outputs: Vec<SubmitToolOutputsRunRequestToolOutputsItem>,
     #[doc = "If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "stream")]
     pub stream: Option<bool>,
 }
@@ -15484,6 +16652,7 @@ pub enum TextResponseFormatConfiguration {
 pub struct TextResponseFormatJsonSchema {
     #[doc = "A description of what the response format is for, used by the model to\ndetermine how to respond in the format.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "description")]
     pub description: Option<String>,
     #[doc = "The name of the response format. Must be a-z, A-Z, 0-9, or contain\nunderscores and dashes, with a maximum length of 64.\n"]
@@ -15493,13 +16662,15 @@ pub struct TextResponseFormatJsonSchema {
     pub schema: ResponseFormatJsonSchemaSchema,
     #[doc = "Whether to enable strict schema adherence when generating the output.\nIf set to true, the model will always follow the exact schema defined\nin the `schema` field. Only a subset of JSON Schema is supported when\n`strict` is `true`. To learn more, read the [Structured Outputs\nguide](/docs/guides/structured-outputs).\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "strict")]
     pub strict: Option<bool>,
 }
 #[doc = "The object type, which is always `thread`."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ThreadObjectObject {
+    #[default]
     #[serde(rename = "thread")]
     Thread,
 }
@@ -15515,6 +16686,7 @@ pub enum ThreadObjectObject {
 pub struct ThreadObjectToolResourcesCodeInterpreter {
     #[doc = "A list of [file](/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "file_ids")]
     pub file_ids: Option<Vec<String>>,
 }
@@ -15530,6 +16702,7 @@ pub struct ThreadObjectToolResourcesCodeInterpreter {
 pub struct ThreadObjectToolResourcesFileSearch {
     #[doc = "The [vector store](/docs/api-reference/vector-stores/object) attached to this thread. There can be a maximum of 1 vector store attached to the thread.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "vector_store_ids")]
     pub vector_store_ids: Option<Vec<String>>,
 }
@@ -15545,9 +16718,11 @@ pub struct ThreadObjectToolResourcesFileSearch {
 )]
 pub struct ThreadObjectToolResources {
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "code_interpreter")]
     pub code_interpreter: Option<ThreadObjectToolResourcesCodeInterpreter>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "file_search")]
     pub file_search: Option<ThreadObjectToolResourcesFileSearch>,
 }
@@ -15560,6 +16735,7 @@ pub struct ThreadObject {
     #[serde(rename = "id")]
     pub id: String,
     #[doc = "The object type, which is always `thread`."]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: ThreadObjectObject,
     #[doc = "The Unix timestamp (in seconds) for when the thread was created."]
@@ -15567,6 +16743,7 @@ pub struct ThreadObject {
     pub created_at: u64,
     #[doc = "A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "tool_resources")]
     pub tool_resources: Option<ThreadObjectToolResources>,
     #[serde(rename = "metadata")]
@@ -15579,6 +16756,7 @@ pub struct ThreadObject {
 pub struct ThreadStreamEventThreadCreated {
     #[doc = "Whether to enable input audio transcription."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "enabled")]
     pub enabled: Option<bool>,
     #[serde(rename = "data")]
@@ -15599,9 +16777,10 @@ pub struct ToggleCertificatesRequest {
     pub certificate_ids: Vec<String>,
 }
 #[doc = "For function calling, the type is always `function`."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ToolChoiceFunctionType {
+    #[default]
     #[serde(rename = "function")]
     Function,
 }
@@ -15611,6 +16790,7 @@ pub enum ToolChoiceFunctionType {
 )]
 pub struct ToolChoiceFunction {
     #[doc = "For function calling, the type is always `function`."]
+    #[builder(default)]
     #[serde(rename = "type")]
     pub type_: ToolChoiceFunctionType,
     #[doc = "The name of the function to call."]
@@ -15662,14 +16842,17 @@ pub struct ToolChoiceTypes {
 pub struct TranscriptTextDeltaEventLogprobsItem {
     #[doc = "The token that was used to generate the log probability.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "token")]
     pub token: Option<String>,
     #[doc = "The log probability of the token.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "logprob")]
     pub logprob: Option<f64>,
     #[doc = "The bytes that were used to generate the log probability.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "bytes")]
     pub bytes: Option<Vec<serde_json::Value>>,
 }
@@ -15683,6 +16866,7 @@ pub struct TranscriptTextDeltaEvent {
     pub delta: String,
     #[doc = "The log probabilities of the delta. Only included if you [create a transcription](/docs/api-reference/audio/create-transcription) with the `include[]` parameter set to `logprobs`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "logprobs")]
     pub logprobs: Option<Vec<TranscriptTextDeltaEventLogprobsItem>>,
 }
@@ -15698,14 +16882,17 @@ pub struct TranscriptTextDeltaEvent {
 pub struct TranscriptTextDoneEventLogprobsItem {
     #[doc = "The token that was used to generate the log probability.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "token")]
     pub token: Option<String>,
     #[doc = "The log probability of the token.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "logprob")]
     pub logprob: Option<f64>,
     #[doc = "The bytes that were used to generate the log probability.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "bytes")]
     pub bytes: Option<Vec<serde_json::Value>>,
 }
@@ -15719,6 +16906,7 @@ pub struct TranscriptTextDoneEvent {
     pub text: String,
     #[doc = "The log probabilities of the individual tokens in the transcription. Only included if you [create a transcription](/docs/api-reference/audio/create-transcription) with the `include[]` parameter set to `logprobs`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "logprobs")]
     pub logprobs: Option<Vec<TranscriptTextDoneEventLogprobsItem>>,
 }
@@ -15796,6 +16984,7 @@ pub struct TruncationObject {
     pub type_: TruncationObjectType,
     #[doc = "The number of most recent messages from the thread when constructing the context for the run."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "last_messages")]
     pub last_messages: Option<u64>,
 }
@@ -15827,12 +17016,15 @@ pub struct UpdateVectorStoreFileAttributesRequest {
 pub struct UpdateVectorStoreRequest {
     #[doc = "The name of the vector store."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "name")]
     pub name: Option<String>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "expires_after")]
     pub expires_after: Option<VectorStoreExpirationAfter>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "metadata")]
     pub metadata: Option<Metadata>,
 }
@@ -15850,9 +17042,10 @@ pub enum UploadStatus {
     Expired,
 }
 #[doc = "The object type, which is always \"upload\"."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum UploadObject {
+    #[default]
     #[serde(rename = "upload")]
     Upload,
 }
@@ -15884,10 +17077,12 @@ pub struct Upload {
     pub expires_at: u64,
     #[doc = "The object type, which is always \"upload\"."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "object")]
     pub object: Option<UploadObject>,
     #[doc = "The ready File object after the Upload is completed."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "file")]
     pub file: Option<OpenAiFile>,
 }
@@ -15897,6 +17092,7 @@ pub struct Upload {
 pub struct UploadCertificateRequest {
     #[doc = "An optional name for the certificate"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "name")]
     pub name: Option<String>,
     #[doc = "The certificate content in PEM format"]
@@ -15904,9 +17100,10 @@ pub struct UploadCertificateRequest {
     pub content: String,
 }
 #[doc = "The object type, which is always `upload.part`."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum UploadPartObject {
+    #[default]
     #[serde(rename = "upload.part")]
     UploadPart,
 }
@@ -15925,6 +17122,7 @@ pub struct UploadPart {
     #[serde(rename = "upload_id")]
     pub upload_id: String,
     #[doc = "The object type, which is always `upload.part`."]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: UploadPartObject,
 }
@@ -15941,18 +17139,22 @@ pub struct UsageAudioSpeechesResult {
     pub num_model_requests: u64,
     #[doc = "When `group_by=project_id`, this field provides the project ID of the grouped usage result."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "project_id")]
     pub project_id: Option<String>,
     #[doc = "When `group_by=user_id`, this field provides the user ID of the grouped usage result."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "user_id")]
     pub user_id: Option<String>,
     #[doc = "When `group_by=api_key_id`, this field provides the API key ID of the grouped usage result."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "api_key_id")]
     pub api_key_id: Option<String>,
     #[doc = "When `group_by=model`, this field provides the model name of the grouped usage result."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "model")]
     pub model: Option<String>,
 }
@@ -15969,18 +17171,22 @@ pub struct UsageAudioTranscriptionsResult {
     pub num_model_requests: u64,
     #[doc = "When `group_by=project_id`, this field provides the project ID of the grouped usage result."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "project_id")]
     pub project_id: Option<String>,
     #[doc = "When `group_by=user_id`, this field provides the user ID of the grouped usage result."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "user_id")]
     pub user_id: Option<String>,
     #[doc = "When `group_by=api_key_id`, this field provides the API key ID of the grouped usage result."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "api_key_id")]
     pub api_key_id: Option<String>,
     #[doc = "When `group_by=model`, this field provides the model name of the grouped usage result."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "model")]
     pub model: Option<String>,
 }
@@ -15997,10 +17203,12 @@ pub struct UsageAudioTranscriptionsResult {
 pub struct UsageCodeInterpreterSessionsResult {
     #[doc = "The number of code interpreter sessions."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "num_sessions")]
     pub num_sessions: Option<u64>,
     #[doc = "When `group_by=project_id`, this field provides the project ID of the grouped usage result."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "project_id")]
     pub project_id: Option<String>,
 }
@@ -16014,6 +17222,7 @@ pub struct UsageCompletionsResult {
     pub input_tokens: u64,
     #[doc = "The aggregated number of text input tokens that has been cached from previous requests. For customers subscribe to scale tier, this includes scale tier tokens."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "input_cached_tokens")]
     pub input_cached_tokens: Option<u64>,
     #[doc = "The aggregated number of text output tokens used. For customers subscribe to scale tier, this includes scale tier tokens."]
@@ -16021,10 +17230,12 @@ pub struct UsageCompletionsResult {
     pub output_tokens: u64,
     #[doc = "The aggregated number of audio input tokens used, including cached tokens."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "input_audio_tokens")]
     pub input_audio_tokens: Option<u64>,
     #[doc = "The aggregated number of audio output tokens used."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "output_audio_tokens")]
     pub output_audio_tokens: Option<u64>,
     #[doc = "The count of requests made to the model."]
@@ -16032,22 +17243,27 @@ pub struct UsageCompletionsResult {
     pub num_model_requests: u64,
     #[doc = "When `group_by=project_id`, this field provides the project ID of the grouped usage result."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "project_id")]
     pub project_id: Option<String>,
     #[doc = "When `group_by=user_id`, this field provides the user ID of the grouped usage result."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "user_id")]
     pub user_id: Option<String>,
     #[doc = "When `group_by=api_key_id`, this field provides the API key ID of the grouped usage result."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "api_key_id")]
     pub api_key_id: Option<String>,
     #[doc = "When `group_by=model`, this field provides the model name of the grouped usage result."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "model")]
     pub model: Option<String>,
     #[doc = "When `group_by=batch`, this field tells whether the grouped usage result is batch or not."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "batch")]
     pub batch: Option<bool>,
 }
@@ -16064,18 +17280,22 @@ pub struct UsageEmbeddingsResult {
     pub num_model_requests: u64,
     #[doc = "When `group_by=project_id`, this field provides the project ID of the grouped usage result."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "project_id")]
     pub project_id: Option<String>,
     #[doc = "When `group_by=user_id`, this field provides the user ID of the grouped usage result."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "user_id")]
     pub user_id: Option<String>,
     #[doc = "When `group_by=api_key_id`, this field provides the API key ID of the grouped usage result."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "api_key_id")]
     pub api_key_id: Option<String>,
     #[doc = "When `group_by=model`, this field provides the model name of the grouped usage result."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "model")]
     pub model: Option<String>,
 }
@@ -16092,26 +17312,32 @@ pub struct UsageImagesResult {
     pub num_model_requests: u64,
     #[doc = "When `group_by=source`, this field provides the source of the grouped usage result, possible values are `image.generation`, `image.edit`, `image.variation`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "source")]
     pub source: Option<String>,
     #[doc = "When `group_by=size`, this field provides the image size of the grouped usage result."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "size")]
     pub size: Option<String>,
     #[doc = "When `group_by=project_id`, this field provides the project ID of the grouped usage result."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "project_id")]
     pub project_id: Option<String>,
     #[doc = "When `group_by=user_id`, this field provides the user ID of the grouped usage result."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "user_id")]
     pub user_id: Option<String>,
     #[doc = "When `group_by=api_key_id`, this field provides the API key ID of the grouped usage result."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "api_key_id")]
     pub api_key_id: Option<String>,
     #[doc = "When `group_by=model`, this field provides the model name of the grouped usage result."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "model")]
     pub model: Option<String>,
 }
@@ -16128,24 +17354,29 @@ pub struct UsageModerationsResult {
     pub num_model_requests: u64,
     #[doc = "When `group_by=project_id`, this field provides the project ID of the grouped usage result."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "project_id")]
     pub project_id: Option<String>,
     #[doc = "When `group_by=user_id`, this field provides the user ID of the grouped usage result."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "user_id")]
     pub user_id: Option<String>,
     #[doc = "When `group_by=api_key_id`, this field provides the API key ID of the grouped usage result."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "api_key_id")]
     pub api_key_id: Option<String>,
     #[doc = "When `group_by=model`, this field provides the model name of the grouped usage result."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "model")]
     pub model: Option<String>,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum UsageResponseObject {
+    #[default]
     #[serde(rename = "page")]
     Page,
 }
@@ -16153,6 +17384,7 @@ pub enum UsageResponseObject {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct UsageResponse {
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: UsageResponseObject,
     #[serde(rename = "data")]
@@ -16162,9 +17394,10 @@ pub struct UsageResponse {
     #[serde(rename = "next_page")]
     pub next_page: String,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum UsageTimeBucketObject {
+    #[default]
     #[serde(rename = "bucket")]
     Bucket,
 }
@@ -16195,6 +17428,7 @@ pub enum UsageTimeBucketResultItem {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct UsageTimeBucket {
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: UsageTimeBucketObject,
     #[serde(rename = "start_time")]
@@ -16214,13 +17448,15 @@ pub struct UsageVectorStoresResult {
     pub usage_bytes: u64,
     #[doc = "When `group_by=project_id`, this field provides the project ID of the grouped usage result."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "project_id")]
     pub project_id: Option<String>,
 }
 #[doc = "The object type, which is always `organization.user`"]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum UserObject {
+    #[default]
     #[serde(rename = "organization.user")]
     OrganizationUser,
 }
@@ -16239,6 +17475,7 @@ pub enum UserRole {
 )]
 pub struct User {
     #[doc = "The object type, which is always `organization.user`"]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: UserObject,
     #[doc = "The identifier, which can be referenced in API endpoints"]
@@ -16257,9 +17494,10 @@ pub struct User {
     #[serde(rename = "added_at")]
     pub added_at: u64,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum UserDeleteResponseObject {
+    #[default]
     #[serde(rename = "organization.user.deleted")]
     OrganizationUserDeleted,
 }
@@ -16267,6 +17505,7 @@ pub enum UserDeleteResponseObject {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct UserDeleteResponse {
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: UserDeleteResponseObject,
     #[serde(rename = "id")]
@@ -16274,9 +17513,10 @@ pub struct UserDeleteResponse {
     #[serde(rename = "deleted")]
     pub deleted: bool,
 }
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum UserListResponseObject {
+    #[default]
     #[serde(rename = "list")]
     List,
 }
@@ -16284,6 +17524,7 @@ pub enum UserListResponseObject {
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
 )]
 pub struct UserListResponse {
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: UserListResponseObject,
     #[serde(rename = "data")]
@@ -16313,9 +17554,10 @@ pub struct UserRoleUpdateRequest {
     pub role: UserRoleUpdateRequestRole,
 }
 #[doc = "Anchor timestamp after which the expiration policy applies. Supported anchors: `last_active_at`."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum VectorStoreExpirationAfterAnchor {
+    #[default]
     #[serde(rename = "last_active_at")]
     LastActiveAt,
 }
@@ -16325,6 +17567,7 @@ pub enum VectorStoreExpirationAfterAnchor {
 )]
 pub struct VectorStoreExpirationAfter {
     #[doc = "Anchor timestamp after which the expiration policy applies. Supported anchors: `last_active_at`."]
+    #[builder(default)]
     #[serde(rename = "anchor")]
     pub anchor: VectorStoreExpirationAfterAnchor,
     #[doc = "The number of days after the anchor time that the vector store will expire."]
@@ -16341,9 +17584,10 @@ pub enum VectorStoreFileAttributesItem {
 }
 pub type VectorStoreFileAttributes = Vec<VectorStoreFileAttributesItem>;
 #[doc = "The object type, which is always `vector_store.file_batch`."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum VectorStoreFileBatchObjectObject {
+    #[default]
     #[serde(rename = "vector_store.files_batch")]
     VectorStoreFilesBatch,
 }
@@ -16389,6 +17633,7 @@ pub struct VectorStoreFileBatchObject {
     #[serde(rename = "id")]
     pub id: String,
     #[doc = "The object type, which is always `vector_store.file_batch`."]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: VectorStoreFileBatchObjectObject,
     #[doc = "The Unix timestamp (in seconds) for when the vector store files batch was created."]
@@ -16404,9 +17649,10 @@ pub struct VectorStoreFileBatchObject {
     pub file_counts: VectorStoreFileBatchObjectFileCounts,
 }
 #[doc = "The object type, which is always `vector_store.file_content.page`"]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum VectorStoreFileContentResponseObject {
+    #[default]
     #[serde(rename = "vector_store.file_content.page")]
     VectorStoreFileContentPage,
 }
@@ -16422,10 +17668,12 @@ pub enum VectorStoreFileContentResponseObject {
 pub struct VectorStoreFileContentResponseDataItem {
     #[doc = "The content type (currently only `\"text\"`)"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "type")]
     pub type_: Option<String>,
     #[doc = "The text content"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "text")]
     pub text: Option<String>,
 }
@@ -16435,6 +17683,7 @@ pub struct VectorStoreFileContentResponseDataItem {
 )]
 pub struct VectorStoreFileContentResponse {
     #[doc = "The object type, which is always `vector_store.file_content.page`"]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: VectorStoreFileContentResponseObject,
     #[doc = "Parsed content of the file."]
@@ -16445,13 +17694,15 @@ pub struct VectorStoreFileContentResponse {
     pub has_more: bool,
     #[doc = "The token for the next page, if any."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "next_page")]
     pub next_page: Option<String>,
 }
 #[doc = "The object type, which is always `vector_store.file`."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum VectorStoreFileObjectObject {
+    #[default]
     #[serde(rename = "vector_store.file")]
     VectorStoreFile,
 }
@@ -16510,6 +17761,7 @@ pub struct VectorStoreFileObject {
     #[serde(rename = "id")]
     pub id: String,
     #[doc = "The object type, which is always `vector_store.file`."]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: VectorStoreFileObjectObject,
     #[doc = "The total vector store usage in bytes. Note that this may be different from the original file size."]
@@ -16526,20 +17778,24 @@ pub struct VectorStoreFileObject {
     pub status: VectorStoreFileObjectStatus,
     #[doc = "The last error associated with this vector store file. Will be `null` if there are no errors."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "last_error")]
     pub last_error: Option<VectorStoreFileObjectLastError>,
     #[doc = "The strategy used to chunk the file."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "chunking_strategy")]
     pub chunking_strategy: Option<VectorStoreFileObjectChunkingStrategy>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "attributes")]
     pub attributes: Option<VectorStoreFileAttributes>,
 }
 #[doc = "The object type, which is always `vector_store`."]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum VectorStoreObjectObject {
+    #[default]
     #[serde(rename = "vector_store")]
     VectorStore,
 }
@@ -16583,6 +17839,7 @@ pub struct VectorStoreObject {
     #[serde(rename = "id")]
     pub id: String,
     #[doc = "The object type, which is always `vector_store`."]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: VectorStoreObjectObject,
     #[doc = "The Unix timestamp (in seconds) for when the vector store was created."]
@@ -16600,14 +17857,17 @@ pub struct VectorStoreObject {
     #[serde(rename = "status")]
     pub status: VectorStoreObjectStatus,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "expires_after")]
     pub expires_after: Option<VectorStoreExpirationAfter>,
     #[doc = "The Unix timestamp (in seconds) for when the vector store will expire."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "expires_at")]
     pub expires_at: Option<u64>,
     #[doc = "The Unix timestamp (in seconds) for when the vector store was last active."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "last_active_at")]
     pub last_active_at: Option<u64>,
     #[serde(rename = "metadata")]
@@ -16650,9 +17910,11 @@ pub enum VectorStoreSearchRequestRankingOptionsRanker {
 )]
 pub struct VectorStoreSearchRequestRankingOptions {
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "ranker")]
     pub ranker: Option<VectorStoreSearchRequestRankingOptionsRanker>,
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "score_threshold")]
     pub score_threshold: Option<f64>,
 }
@@ -16665,18 +17927,22 @@ pub struct VectorStoreSearchRequest {
     pub query: VectorStoreSearchRequestQuery,
     #[doc = "Whether to rewrite the natural language query for vector search."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "rewrite_query")]
     pub rewrite_query: Option<bool>,
     #[doc = "The maximum number of results to return. This number should be between 1 and 50 inclusive."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "max_num_results")]
     pub max_num_results: Option<u64>,
     #[doc = "A filter to apply based on file attributes."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "filters")]
     pub filters: Option<VectorStoreSearchRequestFilters>,
     #[doc = "Ranking options for search."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "ranking_options")]
     pub ranking_options: Option<VectorStoreSearchRequestRankingOptions>,
 }
@@ -16718,9 +17984,10 @@ pub struct VectorStoreSearchResultItem {
     pub content: Vec<VectorStoreSearchResultContentObject>,
 }
 #[doc = "The object type, which is always `vector_store.search_results.page`"]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum VectorStoreSearchResultsPageObject {
+    #[default]
     #[serde(rename = "vector_store.search_results.page")]
     VectorStoreSearchResultsPage,
 }
@@ -16729,6 +17996,7 @@ pub enum VectorStoreSearchResultsPageObject {
 )]
 pub struct VectorStoreSearchResultsPage {
     #[doc = "The object type, which is always `vector_store.search_results.page`"]
+    #[builder(default)]
     #[serde(rename = "object")]
     pub object: VectorStoreSearchResultsPageObject,
     #[serde(rename = "search_query")]
@@ -16741,6 +18009,7 @@ pub struct VectorStoreSearchResultsPage {
     pub has_more: bool,
     #[doc = "The token for the next page, if any."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "next_page")]
     pub next_page: Option<String>,
 }
@@ -16781,25 +18050,30 @@ pub enum WebSearchContextSize {
 pub struct WebSearchLocation {
     #[doc = "The two-letter \n[ISO country code](https://en.wikipedia.org/wiki/ISO_3166-1) of the user,\ne.g. `US`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "country")]
     pub country: Option<String>,
     #[doc = "Free text input for the region of the user, e.g. `California`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "region")]
     pub region: Option<String>,
     #[doc = "Free text input for the city of the user, e.g. `San Francisco`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "city")]
     pub city: Option<String>,
     #[doc = "The [IANA timezone](https://timeapi.io/documentation/iana-timezones) \nof the user, e.g. `America/Los_Angeles`.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "timezone")]
     pub timezone: Option<String>,
 }
 #[doc = "The type of the web search tool call. Always `web_search_call`.\n"]
-#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum WebSearchToolCallType {
+    #[default]
     #[serde(rename = "web_search_call")]
     WebSearchCall,
 }
@@ -16825,6 +18099,7 @@ pub struct WebSearchToolCall {
     #[serde(rename = "id")]
     pub id: String,
     #[doc = "The type of the web search tool call. Always `web_search_call`.\n"]
+    #[builder(default)]
     #[serde(rename = "type")]
     pub type_: WebSearchToolCallType,
     #[doc = "The status of the web search tool call.\n"]
@@ -16858,10 +18133,12 @@ pub enum InputImageContentDetail {
 pub struct InputImageContent {
     #[doc = "The URL of the image to be sent to the model. A fully qualified URL or base64 encoded image in a data URL."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "image_url")]
     pub image_url: Option<String>,
     #[doc = "The ID of the file to be sent to the model."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "file_id")]
     pub file_id: Option<String>,
     #[doc = "The detail level of the image to be sent to the model. One of `high`, `low`, or `auto`. Defaults to `auto`."]
@@ -16881,14 +18158,17 @@ pub struct InputImageContent {
 pub struct InputFileContent {
     #[doc = "The ID of the file to be sent to the model."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "file_id")]
     pub file_id: Option<String>,
     #[doc = "The name of the file to be sent to the model."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "filename")]
     pub filename: Option<String>,
     #[doc = "The content of the file to be sent to the model.\n"]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "file_data")]
     pub file_data: Option<String>,
 }
@@ -16913,10 +18193,12 @@ pub enum RankingOptionsRanker {
 pub struct RankingOptions {
     #[doc = "The ranker to use for the file search."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "ranker")]
     pub ranker: Option<RankingOptionsRanker>,
     #[doc = "The score threshold for the file search, a number between 0 and 1. Numbers closer to 1 will attempt to return only the most relevant results, but may return fewer results."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "score_threshold")]
     pub score_threshold: Option<f64>,
 }
@@ -16937,14 +18219,17 @@ pub struct FileSearchTool {
     pub vector_store_ids: Vec<String>,
     #[doc = "The maximum number of results to return. This number should be between 1 and 50 inclusive."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "max_num_results")]
     pub max_num_results: Option<u64>,
     #[doc = "Ranking options for search."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "ranking_options")]
     pub ranking_options: Option<RankingOptions>,
     #[doc = "A filter to apply."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "filters")]
     pub filters: Option<Filters>,
 }
@@ -16958,14 +18243,17 @@ pub struct FunctionTool {
     pub name: String,
     #[doc = "A description of the function. Used by the model to determine whether or not to call the function."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "description")]
     pub description: Option<String>,
     #[doc = "A JSON schema object describing the parameters of the function."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "parameters")]
     pub parameters: Option<Vec<serde_json::Value>>,
     #[doc = "Whether to enforce strict parameter validation. Default `true`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "strict")]
     pub strict: Option<bool>,
 }
@@ -16993,18 +18281,22 @@ pub struct ApproximateLocation {
     pub type_: ApproximateLocationType,
     #[doc = "The two-letter [ISO country code](https://en.wikipedia.org/wiki/ISO_3166-1) of the user, e.g. `US`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "country")]
     pub country: Option<String>,
     #[doc = "Free text input for the region of the user, e.g. `California`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "region")]
     pub region: Option<String>,
     #[doc = "Free text input for the city of the user, e.g. `San Francisco`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "city")]
     pub city: Option<String>,
     #[doc = "The [IANA timezone](https://timeapi.io/documentation/iana-timezones) of the user, e.g. `America/Los_Angeles`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "timezone")]
     pub timezone: Option<String>,
 }
@@ -17032,10 +18324,12 @@ pub enum WebSearchPreviewToolSearchContextSize {
 pub struct WebSearchPreviewTool {
     #[doc = "The user's location."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "user_location")]
     pub user_location: Option<ApproximateLocation>,
     #[doc = "High level guidance for the amount of context window space to use for the search. One of `low`, `medium`, or `high`. `medium` is the default."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "search_context_size")]
     pub search_context_size: Option<WebSearchPreviewToolSearchContextSize>,
 }
@@ -17154,10 +18448,12 @@ pub struct ComputerCallSafetyCheckParam {
     pub id: String,
     #[doc = "The type of the pending safety check."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "code")]
     pub code: Option<String>,
     #[doc = "Details about the pending safety check."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "message")]
     pub message: Option<String>,
 }
@@ -17187,6 +18483,7 @@ pub enum ComputerCallOutputItemParamStatus {
 pub struct ComputerCallOutputItemParam {
     #[doc = "The ID of the computer tool call output."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "The ID of the computer tool call that produced the output."]
@@ -17201,10 +18498,12 @@ pub struct ComputerCallOutputItemParam {
     pub output: ComputerScreenshotImage,
     #[doc = "The safety checks reported by the API that have been acknowledged by the developer."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "acknowledged_safety_checks")]
     pub acknowledged_safety_checks: Option<Vec<ComputerCallSafetyCheckParam>>,
     #[doc = "The status of the message input. One of `in_progress`, `completed`, or `incomplete`. Populated when input items are returned via API."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "status")]
     pub status: Option<ComputerCallOutputItemParamStatus>,
 }
@@ -17234,6 +18533,7 @@ pub enum FunctionCallOutputItemParamStatus {
 pub struct FunctionCallOutputItemParam {
     #[doc = "The unique ID of the function tool call output. Populated when this item is returned via API."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "id")]
     pub id: Option<String>,
     #[doc = "The unique ID of the function tool call generated by the model."]
@@ -17248,6 +18548,7 @@ pub struct FunctionCallOutputItemParam {
     pub output: String,
     #[doc = "The status of the item. One of `in_progress`, `completed`, or `incomplete`. Populated when items are returned via API."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "status")]
     pub status: Option<FunctionCallOutputItemParamStatus>,
 }
@@ -17266,6 +18567,7 @@ pub enum ItemReferenceParamType {
 pub struct ItemReferenceParam {
     #[doc = "The type of item to reference. Always `item_reference`."]
     #[builder(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(rename = "type")]
     pub type_: Option<ItemReferenceParamType>,
     #[doc = "The ID of the item to reference."]

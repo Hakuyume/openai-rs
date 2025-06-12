@@ -274,7 +274,7 @@ fn convert_enum<'a>(
         enum_: Some(enum_),
         nullable,
         type_: None | Some(openapi::Type::String),
-        x_stainless_const: _,
+        x_stainless_const,
     } = schema
     {
         Ok(Some(crate::Schema {
@@ -283,10 +283,13 @@ fn convert_enum<'a>(
             type_: crate::Type::Enum {
                 variants: enum_
                     .iter()
-                    .map(|enum_| crate::Variant {
+                    .enumerate()
+                    .map(|(i, enum_)| crate::Variant {
                         schema: None,
                         default: if let Some(serde_json::Value::String(default)) = default {
                             enum_ == default
+                        } else if *x_stainless_const == Some(true) {
+                            i == 0
                         } else {
                             false
                         },

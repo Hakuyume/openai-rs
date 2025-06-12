@@ -229,6 +229,9 @@ fn to_item(
                     let attr_builder =
                         (is_default(schema, schemas) || schema.nullable || !required)
                             .then_some(quote::quote!(#[builder(default)]));
+                    let attr_serde = (schema.nullable || !required).then_some(
+                        quote::quote!(#[serde(skip_serializing_if = "Option::is_none")]),
+                    );
                     let ident = to_ident_snake(field_name);
                     let type_ = to_type(&format!("{name}.{field_name}"), schema, schemas, inline);
                     let type_ = if !schema.nullable && *required {
@@ -239,6 +242,7 @@ fn to_item(
                     quote::quote! {
                         #description
                         #attr_builder
+                        #attr_serde
                         #[serde(rename = #field_name)]
                         pub #ident: #type_
                     }
