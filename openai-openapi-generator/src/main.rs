@@ -218,6 +218,12 @@ fn to_item(
                 );
                 let (ident, name) = if let Some((tag, _)) = &variant.tag {
                     (to_ident_pascal(tag), format!("{name}.{tag}"))
+                } else if let Some(Schema {
+                    type_: Type::Ref(ref_),
+                    ..
+                }) = &variant.schema
+                {
+                    (to_ident_pascal(ref_), format!("{name}.{ref_}"))
                 } else {
                     (to_ident_pascal(&i.to_string()), format!("{name}.{i}"))
                 };

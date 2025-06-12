@@ -246,12 +246,12 @@ pub struct AssistantObject {
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum AssistantStreamEvent {
-    _0(ThreadStreamEvent),
-    _1(RunStreamEvent),
-    _2(RunStepStreamEvent),
-    _3(MessageStreamEvent),
-    _4(ErrorEvent),
-    _5(DoneEvent),
+    ThreadStreamEvent(ThreadStreamEvent),
+    RunStreamEvent(RunStreamEvent),
+    RunStepStreamEvent(RunStepStreamEvent),
+    MessageStreamEvent(MessageStreamEvent),
+    ErrorEvent(ErrorEvent),
+    DoneEvent(DoneEvent),
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 #[allow(clippy::large_enum_variant)]
@@ -407,9 +407,9 @@ pub enum AssistantsApiResponseFormatOption0 {
 #[allow(clippy::large_enum_variant)]
 pub enum AssistantsApiResponseFormatOption {
     _0(AssistantsApiResponseFormatOption0),
-    _1(ResponseFormatText),
-    _2(ResponseFormatJsonObject),
-    _3(ResponseFormatJsonSchema),
+    ResponseFormatText(ResponseFormatText),
+    ResponseFormatJsonObject(ResponseFormatJsonObject),
+    ResponseFormatJsonSchema(ResponseFormatJsonSchema),
 }
 #[doc = "`none` means the model will not call any tools and instead generates a message. `auto` means the model can pick between generating a message or calling one or more tools. `required` means the model must call one or more tools before responding to the user.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
@@ -428,7 +428,7 @@ pub enum AssistantsApiToolChoiceOption0 {
 #[allow(clippy::large_enum_variant)]
 pub enum AssistantsApiToolChoiceOption {
     _0(AssistantsApiToolChoiceOption0),
-    _1(AssistantsNamedToolChoice),
+    AssistantsNamedToolChoice(AssistantsNamedToolChoice),
 }
 #[doc = "The type of the tool. If type is `function`, the function name must be set"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
@@ -2967,7 +2967,7 @@ pub enum ChatCompletionToolChoiceOption0 {
 #[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionToolChoiceOption {
     _0(ChatCompletionToolChoiceOption0),
-    _1(ChatCompletionNamedToolChoice),
+    ChatCompletionNamedToolChoice(ChatCompletionNamedToolChoice),
 }
 #[doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
@@ -3235,8 +3235,8 @@ pub enum CompoundFilterType {
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CompoundFilterFilter {
-    _0(ComparisonFilter),
-    _1(CompoundFilter),
+    ComparisonFilter(ComparisonFilter),
+    CompoundFilter(CompoundFilter),
 }
 #[doc = "Combine multiple filters using `and` or `or`."]
 #[derive(
@@ -3430,8 +3430,8 @@ pub struct ComputerToolCallSafetyCheck {
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum Content {
-    _0(InputContent),
-    _1(OutputContent),
+    InputContent(InputContent),
+    OutputContent(OutputContent),
 }
 #[doc = "An x/y coordinate pair, e.g. `{ x: 100, y: 200 }`.\n"]
 #[derive(
@@ -3873,7 +3873,7 @@ pub enum CreateChatCompletionRequestFunctionCall0 {
 #[allow(clippy::large_enum_variant)]
 pub enum CreateChatCompletionRequestFunctionCall {
     _0(CreateChatCompletionRequestFunctionCall0),
-    _1(ChatCompletionFunctionCallOption),
+    ChatCompletionFunctionCallOption(ChatCompletionFunctionCallOption),
 }
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
@@ -4501,8 +4501,8 @@ pub enum CreateEvalCompletionsRunDataSourceInputMessages0Type {
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateEvalCompletionsRunDataSourceInputMessages0Template {
-    _0(EasyInputMessage),
-    _1(EvalItem),
+    EasyInputMessage(EasyInputMessage),
+    EvalItem(EvalItem),
 }
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
@@ -4638,7 +4638,7 @@ pub struct CreateEvalItem0 {
 #[allow(clippy::large_enum_variant)]
 pub enum CreateEvalItem {
     _0(CreateEvalItem0),
-    _1(EvalItem),
+    EvalItem(EvalItem),
 }
 #[doc = "The type of data source. Always `jsonl`."]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
@@ -4783,7 +4783,7 @@ pub struct CreateEvalResponsesRunDataSourceInputMessages0Template0 {
 #[allow(clippy::large_enum_variant)]
 pub enum CreateEvalResponsesRunDataSourceInputMessages0Template {
     _0(CreateEvalResponsesRunDataSourceInputMessages0Template0),
-    _1(EvalItem),
+    EvalItem(EvalItem),
 }
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
@@ -4856,9 +4856,9 @@ pub struct CreateEvalResponsesRunDataSourceSamplingParams {
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateEvalResponsesRunDataSourceSource {
-    _0(EvalJsonlFileContentSource),
-    _1(EvalJsonlFileIdSource),
-    _2(EvalResponsesSource),
+    EvalJsonlFileContentSource(EvalJsonlFileContentSource),
+    EvalJsonlFileIdSource(EvalJsonlFileIdSource),
+    EvalResponsesSource(EvalResponsesSource),
 }
 #[doc = "A ResponsesRunDataSource object describing a model sampling configuration.\n"]
 #[derive(
@@ -4890,9 +4890,9 @@ pub struct CreateEvalResponsesRunDataSource {
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateEvalRunRequestDataSource {
-    _0(CreateEvalJsonlRunDataSource),
-    _1(CreateEvalCompletionsRunDataSource),
-    _2(CreateEvalResponsesRunDataSource),
+    CreateEvalJsonlRunDataSource(CreateEvalJsonlRunDataSource),
+    CreateEvalCompletionsRunDataSource(CreateEvalCompletionsRunDataSource),
+    CreateEvalResponsesRunDataSource(CreateEvalResponsesRunDataSource),
 }
 #[derive(
     Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder,
@@ -6909,7 +6909,7 @@ pub enum EasyInputMessageRole {
 #[allow(clippy::large_enum_variant)]
 pub enum EasyInputMessageContent {
     _0(String),
-    _1(InputMessageContentList),
+    InputMessageContentList(InputMessageContentList),
 }
 #[doc = "The type of the message input. Always `message`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
@@ -7123,7 +7123,7 @@ pub struct EvalItemContent2 {
 #[allow(clippy::large_enum_variant)]
 pub enum EvalItemContent {
     _0(String),
-    _1(InputTextContent),
+    InputTextContent(InputTextContent),
     _2(EvalItemContent2),
 }
 #[doc = "The type of the message input. Always `message`.\n"]
@@ -7389,9 +7389,9 @@ pub struct EvalRunPerTestingCriteriaResult {
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum EvalRunDataSource {
-    _0(CreateEvalJsonlRunDataSource),
-    _1(CreateEvalCompletionsRunDataSource),
-    _2(CreateEvalResponsesRunDataSource),
+    CreateEvalJsonlRunDataSource(CreateEvalJsonlRunDataSource),
+    CreateEvalCompletionsRunDataSource(CreateEvalCompletionsRunDataSource),
+    CreateEvalResponsesRunDataSource(CreateEvalResponsesRunDataSource),
 }
 #[doc = "A schema representing an evaluation run.\n"]
 #[derive(
@@ -7928,11 +7928,11 @@ pub struct FineTuneChatCompletionRequestAssistantMessage {
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuneChatRequestInputMessages {
-    _0(ChatCompletionRequestSystemMessage),
-    _1(ChatCompletionRequestUserMessage),
-    _2(FineTuneChatCompletionRequestAssistantMessage),
-    _3(ChatCompletionRequestToolMessage),
-    _4(ChatCompletionRequestFunctionMessage),
+    ChatCompletionRequestSystemMessage(ChatCompletionRequestSystemMessage),
+    ChatCompletionRequestUserMessage(ChatCompletionRequestUserMessage),
+    FineTuneChatCompletionRequestAssistantMessage(FineTuneChatCompletionRequestAssistantMessage),
+    ChatCompletionRequestToolMessage(ChatCompletionRequestToolMessage),
+    ChatCompletionRequestFunctionMessage(ChatCompletionRequestFunctionMessage),
 }
 #[doc = "The per-line training example of a fine-tuning input file for chat models using the supervised method."]
 #[derive(
@@ -8133,11 +8133,11 @@ pub struct FineTuneMethod {
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTunePreferenceRequestInputInputMessages {
-    _0(ChatCompletionRequestSystemMessage),
-    _1(ChatCompletionRequestUserMessage),
-    _2(FineTuneChatCompletionRequestAssistantMessage),
-    _3(ChatCompletionRequestToolMessage),
-    _4(ChatCompletionRequestFunctionMessage),
+    ChatCompletionRequestSystemMessage(ChatCompletionRequestSystemMessage),
+    ChatCompletionRequestUserMessage(ChatCompletionRequestUserMessage),
+    FineTuneChatCompletionRequestAssistantMessage(FineTuneChatCompletionRequestAssistantMessage),
+    ChatCompletionRequestToolMessage(ChatCompletionRequestToolMessage),
+    ChatCompletionRequestFunctionMessage(ChatCompletionRequestFunctionMessage),
 }
 #[derive(
     Clone,
@@ -8962,9 +8962,9 @@ pub enum InputContent {
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum InputItem {
-    _0(EasyInputMessage),
-    _1(Item),
-    _2(ItemReferenceParam),
+    EasyInputMessage(EasyInputMessage),
+    Item(Item),
+    ItemReferenceParam(ItemReferenceParam),
 }
 #[doc = "The type of the message input. Always set to `message`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
@@ -9229,29 +9229,29 @@ pub struct InviteRequest {
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum Item {
-    _0(InputMessage),
-    _1(OutputMessage),
-    _2(FileSearchToolCall),
-    _3(ComputerToolCall),
-    _4(ComputerCallOutputItemParam),
-    _5(WebSearchToolCall),
-    _6(FunctionToolCall),
-    _7(FunctionCallOutputItemParam),
-    _8(ReasoningItem),
+    InputMessage(InputMessage),
+    OutputMessage(OutputMessage),
+    FileSearchToolCall(FileSearchToolCall),
+    ComputerToolCall(ComputerToolCall),
+    ComputerCallOutputItemParam(ComputerCallOutputItemParam),
+    WebSearchToolCall(WebSearchToolCall),
+    FunctionToolCall(FunctionToolCall),
+    FunctionCallOutputItemParam(FunctionCallOutputItemParam),
+    ReasoningItem(ReasoningItem),
 }
 #[doc = "Content item used to generate a response.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum ItemResource {
-    _0(InputMessageResource),
-    _1(OutputMessage),
-    _2(FileSearchToolCall),
-    _3(ComputerToolCall),
-    _4(ComputerToolCallOutputResource),
-    _5(WebSearchToolCall),
-    _6(FunctionToolCallResource),
-    _7(FunctionToolCallOutputResource),
+    InputMessageResource(InputMessageResource),
+    OutputMessage(OutputMessage),
+    FileSearchToolCall(FileSearchToolCall),
+    ComputerToolCall(ComputerToolCall),
+    ComputerToolCallOutputResource(ComputerToolCallOutputResource),
+    WebSearchToolCall(WebSearchToolCall),
+    FunctionToolCallResource(FunctionToolCallResource),
+    FunctionToolCallOutputResource(FunctionToolCallOutputResource),
 }
 #[doc = "A collection of keypresses the model would like to perform.\n"]
 #[derive(
@@ -10271,8 +10271,8 @@ pub struct Model {
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum ModelIds {
-    _0(ModelIdsShared),
-    _1(ModelIdsResponses),
+    ModelIdsShared(ModelIdsShared),
+    ModelIdsResponses(ModelIdsResponses),
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 #[allow(clippy::large_enum_variant)]
@@ -10290,7 +10290,7 @@ pub enum ModelIdsResponses1 {
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum ModelIdsResponses {
-    _0(ModelIdsShared),
+    ModelIdsShared(ModelIdsShared),
     _1(ModelIdsResponses1),
 }
 pub type ModelIdsShared = String;
@@ -10334,7 +10334,7 @@ pub struct ModelResponseProperties {
 #[allow(clippy::large_enum_variant)]
 pub enum ModifyAssistantRequestModel {
     _0(String),
-    _1(AssistantSupportedModels),
+    AssistantSupportedModels(AssistantSupportedModels),
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 #[serde(tag = "type")]
@@ -10708,12 +10708,12 @@ pub enum OutputContent {
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum OutputItem {
-    _0(OutputMessage),
-    _1(FileSearchToolCall),
-    _2(FunctionToolCall),
-    _3(WebSearchToolCall),
-    _4(ComputerToolCall),
-    _5(ReasoningItem),
+    OutputMessage(OutputMessage),
+    FileSearchToolCall(FileSearchToolCall),
+    FunctionToolCall(FunctionToolCall),
+    WebSearchToolCall(WebSearchToolCall),
+    ComputerToolCall(ComputerToolCall),
+    ReasoningItem(ReasoningItem),
 }
 #[doc = "The type of the output message. Always `message`.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
@@ -15006,9 +15006,9 @@ pub struct ResponsePropertiesText {
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum ResponsePropertiesToolChoice {
-    _0(ToolChoiceOptions),
-    _1(ToolChoiceTypes),
-    _2(ToolChoiceFunction),
+    ToolChoiceOptions(ToolChoiceOptions),
+    ToolChoiceTypes(ToolChoiceTypes),
+    ToolChoiceFunction(ToolChoiceFunction),
 }
 #[doc = "The truncation strategy to use for the model response.\n- `auto`: If the context of this response and previous ones exceeds\n  the model's context window size, the model will truncate the \n  response to fit the context window by dropping input items in the\n  middle of the conversation. \n- `disabled` (default): If a model response will exceed the context window \n  size for a model, the request will fail with a 400 error.\n"]
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
@@ -17879,8 +17879,8 @@ pub enum VectorStoreSearchRequestQuery {
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum VectorStoreSearchRequestFilters {
-    _0(ComparisonFilter),
-    _1(CompoundFilter),
+    ComparisonFilter(ComparisonFilter),
+    CompoundFilter(CompoundFilter),
 }
 #[derive(Clone, Debug, PartialEq, serde :: Deserialize, serde :: Serialize, Default)]
 #[allow(clippy::large_enum_variant)]
@@ -18199,8 +18199,8 @@ pub struct RankingOptions {
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum Filters {
-    _0(ComparisonFilter),
-    _1(CompoundFilter),
+    ComparisonFilter(ComparisonFilter),
+    CompoundFilter(CompoundFilter),
 }
 #[doc = "A tool that searches for relevant content from uploaded files. Learn more about the [file search tool](https://platform.openai.com/docs/guides/tools-file-search)."]
 #[derive(
