@@ -1,5 +1,5 @@
 [package]
-name = "openai-openapi"
+name = "openai-openapi-alt"
 version = "0.1.0"
 edition = "2024"
 
@@ -7,7 +7,11 @@ description = "OpenAI API schemas generated from OpenAPI spec"
 license = "MIT"
 repository = "https://github.com/Hakuyume/openai-rs"
 
+[lib]
+name = "openai_openapi"
+
 [dependencies]
 serde = { workspace = true, features = ["derive"] }
 serde_json.workspace = true
+serde_with = { workspace = true, features = ["base64"] }
 typed-builder.workspace = true
