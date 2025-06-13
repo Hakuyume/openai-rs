@@ -399,7 +399,11 @@ fn to_item_enum(
         .iter()
         .zip(variant_names)
         .map(|((variant, default), variant_name)| {
-            let public = !matches!(&variant.type_, Type::Const(_));
+            let (public, description) = if let Type::Const(value) = &variant.type_ {
+                (false, Some(*value))
+            } else {
+                (true, variant.description)
+            };
             let ident = to_ident_pascal(&variant_name);
             let type_ = to_type(
                 &format!("{name}.{variant_name}"),
@@ -408,7 +412,7 @@ fn to_item_enum(
                 public,
                 if public { items } else { &mut items_inner },
             );
-            (ident, type_, public, variant.description, default)
+            (ident, type_, public, description, default)
         })
         .collect::<Vec<_>>();
 

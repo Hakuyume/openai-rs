@@ -1684,41 +1684,77 @@ impl serde::Serialize for AssistantSupportedModels {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum AssistantSupportedModels {
+    #[doc = "gpt-4.1"]
     Gpt4_1,
+    #[doc = "gpt-4.1-mini"]
     Gpt4_1Mini,
+    #[doc = "gpt-4.1-nano"]
     Gpt4_1Nano,
+    #[doc = "gpt-4.1-2025-04-14"]
     Gpt4_1_2025_04_14,
+    #[doc = "gpt-4.1-mini-2025-04-14"]
     Gpt4_1Mini2025_04_14,
+    #[doc = "gpt-4.1-nano-2025-04-14"]
     Gpt4_1Nano2025_04_14,
+    #[doc = "o3-mini"]
     O3Mini,
+    #[doc = "o3-mini-2025-01-31"]
     O3Mini2025_01_31,
+    #[doc = "o1"]
     O1,
+    #[doc = "o1-2024-12-17"]
     O1_2024_12_17,
+    #[doc = "gpt-4o"]
     Gpt4o,
+    #[doc = "gpt-4o-2024-11-20"]
     Gpt4o2024_11_20,
+    #[doc = "gpt-4o-2024-08-06"]
     Gpt4o2024_08_06,
+    #[doc = "gpt-4o-2024-05-13"]
     Gpt4o2024_05_13,
+    #[doc = "gpt-4o-mini"]
     Gpt4oMini,
+    #[doc = "gpt-4o-mini-2024-07-18"]
     Gpt4oMini2024_07_18,
+    #[doc = "gpt-4.5-preview"]
     Gpt4_5Preview,
+    #[doc = "gpt-4.5-preview-2025-02-27"]
     Gpt4_5Preview2025_02_27,
+    #[doc = "gpt-4-turbo"]
     Gpt4Turbo,
+    #[doc = "gpt-4-turbo-2024-04-09"]
     Gpt4Turbo2024_04_09,
+    #[doc = "gpt-4-0125-preview"]
     Gpt4_0125Preview,
+    #[doc = "gpt-4-turbo-preview"]
     Gpt4TurboPreview,
+    #[doc = "gpt-4-1106-preview"]
     Gpt4_1106Preview,
+    #[doc = "gpt-4-vision-preview"]
     Gpt4VisionPreview,
+    #[doc = "gpt-4"]
     Gpt4,
+    #[doc = "gpt-4-0314"]
     Gpt4_0314,
+    #[doc = "gpt-4-0613"]
     Gpt4_0613,
+    #[doc = "gpt-4-32k"]
     Gpt4_32k,
+    #[doc = "gpt-4-32k-0314"]
     Gpt4_32k0314,
+    #[doc = "gpt-4-32k-0613"]
     Gpt4_32k0613,
+    #[doc = "gpt-3.5-turbo"]
     Gpt3_5Turbo,
+    #[doc = "gpt-3.5-turbo-16k"]
     Gpt3_5Turbo16k,
+    #[doc = "gpt-3.5-turbo-0613"]
     Gpt3_5Turbo0613,
+    #[doc = "gpt-3.5-turbo-1106"]
     Gpt3_5Turbo1106,
+    #[doc = "gpt-3.5-turbo-0125"]
     Gpt3_5Turbo0125,
+    #[doc = "gpt-3.5-turbo-16k-0613"]
     Gpt3_5Turbo16k0613,
 }
 impl<'de> serde::Deserialize<'de> for AssistantToolsCode {
@@ -2081,7 +2117,7 @@ impl serde::Serialize for AssistantsApiResponseFormatOption {
 #[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum AssistantsApiResponseFormatOption {
-    #[doc = "`auto` is the default value\n"]
+    #[doc = "auto"]
     Auto,
     Text(ResponseFormatText),
     JsonObject(ResponseFormatJsonObject),
@@ -2193,8 +2229,11 @@ impl serde::Serialize for AssistantsApiToolChoiceOption {
 #[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum AssistantsApiToolChoiceOption {
+    #[doc = "none"]
     None,
+    #[doc = "auto"]
     Auto,
+    #[doc = "required"]
     Required,
     AssistantsNamedToolChoice(AssistantsNamedToolChoice),
 }
@@ -2296,8 +2335,11 @@ impl serde::Serialize for AssistantsNamedToolChoiceType {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum AssistantsNamedToolChoiceType {
+    #[doc = "function"]
     Function,
+    #[doc = "code_interpreter"]
     CodeInterpreter,
+    #[doc = "file_search"]
     FileSearch,
 }
 impl<'de> serde::Deserialize<'de> for AssistantsNamedToolChoiceFunction {
@@ -2521,11 +2563,16 @@ impl serde::Serialize for AudioResponseFormat {
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum AudioResponseFormat {
+    #[doc = "json"]
     #[default]
     Json,
+    #[doc = "text"]
     Text,
+    #[doc = "srt"]
     Srt,
+    #[doc = "verbose_json"]
     VerboseJson,
+    #[doc = "vtt"]
     Vtt,
 }
 impl<'de> serde::Deserialize<'de> for AuditLogProject {
@@ -5137,7 +5184,9 @@ impl serde::Serialize for AuditLogActorType {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum AuditLogActorType {
+    #[doc = "session"]
     Session,
+    #[doc = "api_key"]
     ApiKey,
 }
 impl<'de> serde::Deserialize<'de> for AuditLogActor {
@@ -5287,7 +5336,9 @@ impl serde::Serialize for AuditLogActorApiKeyType {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum AuditLogActorApiKeyType {
+    #[doc = "user"]
     User,
+    #[doc = "service_account"]
     ServiceAccount,
 }
 impl<'de> serde::Deserialize<'de> for AuditLogActorApiKey {
@@ -6080,29 +6131,53 @@ impl serde::Serialize for AuditLogEventType {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum AuditLogEventType {
+    #[doc = "api_key.created"]
     ApiKeyCreated,
+    #[doc = "api_key.updated"]
     ApiKeyUpdated,
+    #[doc = "api_key.deleted"]
     ApiKeyDeleted,
+    #[doc = "checkpoint_permission.created"]
     CheckpointPermissionCreated,
+    #[doc = "checkpoint_permission.deleted"]
     CheckpointPermissionDeleted,
+    #[doc = "invite.sent"]
     InviteSent,
+    #[doc = "invite.accepted"]
     InviteAccepted,
+    #[doc = "invite.deleted"]
     InviteDeleted,
+    #[doc = "login.succeeded"]
     LoginSucceeded,
+    #[doc = "login.failed"]
     LoginFailed,
+    #[doc = "logout.succeeded"]
     LogoutSucceeded,
+    #[doc = "logout.failed"]
     LogoutFailed,
+    #[doc = "organization.updated"]
     OrganizationUpdated,
+    #[doc = "project.created"]
     ProjectCreated,
+    #[doc = "project.updated"]
     ProjectUpdated,
+    #[doc = "project.archived"]
     ProjectArchived,
+    #[doc = "service_account.created"]
     ServiceAccountCreated,
+    #[doc = "service_account.updated"]
     ServiceAccountUpdated,
+    #[doc = "service_account.deleted"]
     ServiceAccountDeleted,
+    #[doc = "rate_limit.updated"]
     RateLimitUpdated,
+    #[doc = "rate_limit.deleted"]
     RateLimitDeleted,
+    #[doc = "user.added"]
     UserAdded,
+    #[doc = "user.updated"]
     UserUpdated,
+    #[doc = "user.deleted"]
     UserDeleted,
 }
 impl<'de> serde::Deserialize<'de> for AutoChunkingStrategyRequestParam {
@@ -6495,13 +6570,21 @@ impl serde::Serialize for BatchStatus {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum BatchStatus {
+    #[doc = "validating"]
     Validating,
+    #[doc = "failed"]
     Failed,
+    #[doc = "in_progress"]
     InProgress,
+    #[doc = "finalizing"]
     Finalizing,
+    #[doc = "completed"]
     Completed,
+    #[doc = "expired"]
     Expired,
+    #[doc = "cancelling"]
     Cancelling,
+    #[doc = "cancelled"]
     Cancelled,
 }
 impl<'de> serde::Deserialize<'de> for BatchRequestCounts {
@@ -7244,8 +7327,11 @@ impl serde::Serialize for CertificateObject {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum CertificateObject {
+    #[doc = "certificate"]
     Certificate,
+    #[doc = "organization.certificate"]
     OrganizationCertificate,
+    #[doc = "organization.project.certificate"]
     OrganizationProjectCertificate,
 }
 impl<'de> serde::Deserialize<'de> for CertificateCertificateDetails {
@@ -8179,7 +8265,9 @@ impl serde::Serialize for ChatCompletionModality {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionModality {
+    #[doc = "text"]
     Text,
+    #[doc = "audio"]
     Audio,
 }
 #[doc = "Output types that you would like the model to generate for this request.\nMost models are capable of generating text, which is the default:\n\n`[\"text\"]`\n\nThe `gpt-4o-audio-preview` model can also be used to [generate audio](/docs/guides/audio). To\nrequest that this model generate both text and audio responses, you can\nuse:\n\n`[\"text\", \"audio\"]`\n"]
@@ -8930,7 +9018,9 @@ impl serde::Serialize for ChatCompletionRequestMessageContentPartAudioInputAudio
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionRequestMessageContentPartAudioInputAudioFormat {
+    #[doc = "wav"]
     Wav,
+    #[doc = "mp3"]
     Mp3,
 }
 impl<'de> serde::Deserialize<'de> for ChatCompletionRequestMessageContentPartAudioInputAudio {
@@ -9267,9 +9357,12 @@ impl serde::Serialize for ChatCompletionRequestMessageContentPartImageImageUrlDe
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionRequestMessageContentPartImageImageUrlDetail {
+    #[doc = "auto"]
     #[default]
     Auto,
+    #[doc = "low"]
     Low,
+    #[doc = "high"]
     High,
 }
 impl<'de> serde::Deserialize<'de> for ChatCompletionRequestMessageContentPartImageImageUrl {
@@ -10584,11 +10677,17 @@ impl serde::Serialize for ChatCompletionRole {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionRole {
+    #[doc = "developer"]
     Developer,
+    #[doc = "system"]
     System,
+    #[doc = "user"]
     User,
+    #[doc = "assistant"]
     Assistant,
+    #[doc = "tool"]
     Tool,
+    #[doc = "function"]
     Function,
 }
 impl<'de> serde::Deserialize<'de> for ChatCompletionStreamOptions {
@@ -10818,10 +10917,15 @@ impl serde::Serialize for ChatCompletionStreamResponseDeltaRole {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionStreamResponseDeltaRole {
+    #[doc = "developer"]
     Developer,
+    #[doc = "system"]
     System,
+    #[doc = "user"]
     User,
+    #[doc = "assistant"]
     Assistant,
+    #[doc = "tool"]
     Tool,
 }
 impl<'de> serde::Deserialize<'de> for ChatCompletionStreamResponseDelta {
@@ -11235,8 +11339,11 @@ impl serde::Serialize for ChatCompletionToolChoiceOption {
 #[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionToolChoiceOption {
+    #[doc = "none"]
     None,
+    #[doc = "auto"]
     Auto,
+    #[doc = "required"]
     Required,
     ChatCompletionNamedToolChoice(ChatCompletionNamedToolChoice),
 }
@@ -11429,10 +11536,15 @@ impl serde::Serialize for ClickButton {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum ClickButton {
+    #[doc = "left"]
     Left,
+    #[doc = "right"]
     Right,
+    #[doc = "wheel"]
     Wheel,
+    #[doc = "back"]
     Back,
+    #[doc = "forward"]
     Forward,
 }
 impl<'de> serde::Deserialize<'de> for Click {
@@ -11777,8 +11889,11 @@ impl serde::Serialize for CodeInterpreterToolCallStatus {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum CodeInterpreterToolCallStatus {
+    #[doc = "in_progress"]
     InProgress,
+    #[doc = "interpreting"]
     Interpreting,
+    #[doc = "completed"]
     Completed,
 }
 impl<'de> serde::Deserialize<'de> for CodeInterpreterToolCall {
@@ -12093,12 +12208,18 @@ impl serde::Serialize for ComparisonFilterType {
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ComparisonFilterType {
+    #[doc = "eq"]
     #[default]
     Eq,
+    #[doc = "ne"]
     Ne,
+    #[doc = "gt"]
     Gt,
+    #[doc = "gte"]
     Gte,
+    #[doc = "lt"]
     Lt,
+    #[doc = "lte"]
     Lte,
 }
 impl<'de> serde::Deserialize<'de> for ComparisonFilterValue {
@@ -12565,7 +12686,9 @@ impl serde::Serialize for CompoundFilterType {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum CompoundFilterType {
+    #[doc = "and"]
     And,
+    #[doc = "or"]
     Or,
 }
 impl<'de> serde::Deserialize<'de> for CompoundFilterFilter {
@@ -12925,8 +13048,11 @@ impl serde::Serialize for ComputerToolCallStatus {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum ComputerToolCallStatus {
+    #[doc = "in_progress"]
     InProgress,
+    #[doc = "completed"]
     Completed,
+    #[doc = "incomplete"]
     Incomplete,
 }
 impl<'de> serde::Deserialize<'de> for ComputerToolCall {
@@ -13139,8 +13265,11 @@ impl serde::Serialize for ComputerToolCallOutputStatus {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum ComputerToolCallOutputStatus {
+    #[doc = "in_progress"]
     InProgress,
+    #[doc = "completed"]
     Completed,
+    #[doc = "incomplete"]
     Incomplete,
 }
 impl<'de> serde::Deserialize<'de> for ComputerToolCallOutput {
@@ -15025,11 +15154,17 @@ impl serde::Serialize for CreateChatCompletionRequestAudioFormat {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateChatCompletionRequestAudioFormat {
+    #[doc = "wav"]
     Wav,
+    #[doc = "aac"]
     Aac,
+    #[doc = "mp3"]
     Mp3,
+    #[doc = "flac"]
     Flac,
+    #[doc = "opus"]
     Opus,
+    #[doc = "pcm16"]
     Pcm16,
 }
 impl<'de> serde::Deserialize<'de> for CreateChatCompletionRequestAudio {
@@ -15198,7 +15333,9 @@ impl serde::Serialize for CreateChatCompletionRequestFunctionCall {
 #[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateChatCompletionRequestFunctionCall {
+    #[doc = "none"]
     None,
+    #[doc = "auto"]
     Auto,
     ChatCompletionFunctionCallOption(ChatCompletionFunctionCallOption),
 }
@@ -15716,10 +15853,15 @@ impl serde::Serialize for CreateChatCompletionResponseChoiceFinishReason {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateChatCompletionResponseChoiceFinishReason {
+    #[doc = "stop"]
     Stop,
+    #[doc = "length"]
     Length,
+    #[doc = "tool_calls"]
     ToolCalls,
+    #[doc = "content_filter"]
     ContentFilter,
+    #[doc = "function_call"]
     FunctionCall,
 }
 impl<'de> serde::Deserialize<'de> for CreateChatCompletionResponseChoiceLogprobs {
@@ -16178,10 +16320,15 @@ impl serde::Serialize for CreateChatCompletionStreamResponseChoiceFinishReason {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateChatCompletionStreamResponseChoiceFinishReason {
+    #[doc = "stop"]
     Stop,
+    #[doc = "length"]
     Length,
+    #[doc = "tool_calls"]
     ToolCalls,
+    #[doc = "content_filter"]
     ContentFilter,
+    #[doc = "function_call"]
     FunctionCall,
 }
 impl<'de> serde::Deserialize<'de> for CreateChatCompletionStreamResponseChoice {
@@ -16827,8 +16974,11 @@ impl serde::Serialize for CreateCompletionResponseChoiceFinishReason {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateCompletionResponseChoiceFinishReason {
+    #[doc = "stop"]
     Stop,
+    #[doc = "length"]
     Length,
+    #[doc = "content_filter"]
     ContentFilter,
 }
 impl<'de> serde::Deserialize<'de> for CreateCompletionResponseChoiceLogprobs {
@@ -17256,8 +17406,10 @@ impl serde::Serialize for CreateEmbeddingRequestEncodingFormat {
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateEmbeddingRequestEncodingFormat {
+    #[doc = "float"]
     #[default]
     Float,
+    #[doc = "base64"]
     Base64,
 }
 impl<'de> serde::Deserialize<'de> for CreateEmbeddingRequest {
@@ -19391,11 +19543,17 @@ impl serde::Serialize for CreateFileRequestPurpose {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateFileRequestPurpose {
+    #[doc = "assistants"]
     Assistants,
+    #[doc = "batch"]
     Batch,
+    #[doc = "fine-tune"]
     FineTune,
+    #[doc = "vision"]
     Vision,
+    #[doc = "user_data"]
     UserData,
+    #[doc = "evals"]
     Evals,
 }
 impl<'de> serde::Deserialize<'de> for CreateFileRequest {
@@ -19533,6 +19691,7 @@ impl serde::Serialize for CreateFineTuningJobRequestHyperparametersBatchSize {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateFineTuningJobRequestHyperparametersBatchSize {
+    #[doc = "auto"]
     Auto,
     Integer(u64),
 }
@@ -19598,6 +19757,7 @@ impl serde::Serialize for CreateFineTuningJobRequestHyperparametersLearningRateM
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateFineTuningJobRequestHyperparametersLearningRateMultiplier {
+    #[doc = "auto"]
     Auto,
     Float(f64),
 }
@@ -19661,6 +19821,7 @@ impl serde::Serialize for CreateFineTuningJobRequestHyperparametersNEpochs {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateFineTuningJobRequestHyperparametersNEpochs {
+    #[doc = "auto"]
     Auto,
     Integer(u64),
 }
@@ -19794,6 +19955,7 @@ impl serde::Serialize for CreateFineTuningJobRequestIntegrationType {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateFineTuningJobRequestIntegrationType {
+    #[doc = "wandb"]
     Wandb,
 }
 impl<'de> serde::Deserialize<'de> for CreateFineTuningJobRequestIntegrationWandb {
@@ -20276,12 +20438,18 @@ impl serde::Serialize for CreateImageEditRequestSize {
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateImageEditRequestSize {
+    #[doc = "256x256"]
     _256x256,
+    #[doc = "512x512"]
     _512x512,
+    #[doc = "1024x1024"]
     #[default]
     _1024x1024,
+    #[doc = "1536x1024"]
     _1536x1024,
+    #[doc = "1024x1536"]
     _1024x1536,
+    #[doc = "auto"]
     Auto,
 }
 impl<'de> serde::Deserialize<'de> for CreateImageEditRequestResponseFormat {
@@ -20360,8 +20528,10 @@ impl serde::Serialize for CreateImageEditRequestResponseFormat {
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateImageEditRequestResponseFormat {
+    #[doc = "url"]
     #[default]
     Url,
+    #[doc = "b64_json"]
     B64Json,
 }
 impl<'de> serde::Deserialize<'de> for CreateImageEditRequestQuality {
@@ -20506,10 +20676,15 @@ impl serde::Serialize for CreateImageEditRequestQuality {
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateImageEditRequestQuality {
+    #[doc = "standard"]
     Standard,
+    #[doc = "low"]
     Low,
+    #[doc = "medium"]
     Medium,
+    #[doc = "high"]
     High,
+    #[doc = "auto"]
     #[default]
     Auto,
 }
@@ -20823,11 +20998,17 @@ impl serde::Serialize for CreateImageRequestQuality {
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateImageRequestQuality {
+    #[doc = "standard"]
     Standard,
+    #[doc = "hd"]
     Hd,
+    #[doc = "low"]
     Low,
+    #[doc = "medium"]
     Medium,
+    #[doc = "high"]
     High,
+    #[doc = "auto"]
     #[default]
     Auto,
 }
@@ -20907,8 +21088,10 @@ impl serde::Serialize for CreateImageRequestResponseFormat {
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateImageRequestResponseFormat {
+    #[doc = "url"]
     #[default]
     Url,
+    #[doc = "b64_json"]
     B64Json,
 }
 impl<'de> serde::Deserialize<'de> for CreateImageRequestOutputFormat {
@@ -21009,9 +21192,12 @@ impl serde::Serialize for CreateImageRequestOutputFormat {
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateImageRequestOutputFormat {
+    #[doc = "png"]
     #[default]
     Png,
+    #[doc = "jpeg"]
     Jpeg,
+    #[doc = "webp"]
     Webp,
 }
 impl<'de> serde::Deserialize<'de> for CreateImageRequestSize {
@@ -21222,14 +21408,22 @@ impl serde::Serialize for CreateImageRequestSize {
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateImageRequestSize {
+    #[doc = "auto"]
     #[default]
     Auto,
+    #[doc = "1024x1024"]
     _1024x1024,
+    #[doc = "1536x1024"]
     _1536x1024,
+    #[doc = "1024x1536"]
     _1024x1536,
+    #[doc = "256x256"]
     _256x256,
+    #[doc = "512x512"]
     _512x512,
+    #[doc = "1792x1024"]
     _1792x1024,
+    #[doc = "1024x1792"]
     _1024x1792,
 }
 impl<'de> serde::Deserialize<'de> for CreateImageRequestModeration {
@@ -21308,7 +21502,9 @@ impl serde::Serialize for CreateImageRequestModeration {
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateImageRequestModeration {
+    #[doc = "low"]
     Low,
+    #[doc = "auto"]
     #[default]
     Auto,
 }
@@ -21410,8 +21606,11 @@ impl serde::Serialize for CreateImageRequestBackground {
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateImageRequestBackground {
+    #[doc = "transparent"]
     Transparent,
+    #[doc = "opaque"]
     Opaque,
+    #[doc = "auto"]
     #[default]
     Auto,
 }
@@ -21491,8 +21690,10 @@ impl serde::Serialize for CreateImageRequestStyle {
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateImageRequestStyle {
+    #[doc = "vivid"]
     #[default]
     Vivid,
+    #[doc = "natural"]
     Natural,
 }
 impl<'de> serde::Deserialize<'de> for CreateImageRequest {
@@ -21758,8 +21959,10 @@ impl serde::Serialize for CreateImageVariationRequestResponseFormat {
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateImageVariationRequestResponseFormat {
+    #[doc = "url"]
     #[default]
     Url,
+    #[doc = "b64_json"]
     B64Json,
 }
 impl<'de> serde::Deserialize<'de> for CreateImageVariationRequestSize {
@@ -21860,8 +22063,11 @@ impl serde::Serialize for CreateImageVariationRequestSize {
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateImageVariationRequestSize {
+    #[doc = "256x256"]
     _256x256,
+    #[doc = "512x512"]
     _512x512,
+    #[doc = "1024x1024"]
     #[default]
     _1024x1024,
 }
@@ -22050,7 +22256,9 @@ impl serde::Serialize for CreateMessageRequestRole {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateMessageRequestRole {
+    #[doc = "user"]
     User,
+    #[doc = "assistant"]
     Assistant,
 }
 impl<'de> serde::Deserialize<'de> for CreateMessageRequestContentArray {
@@ -23099,7 +23307,9 @@ impl serde::Serialize for CreateModerationResponseResultCategoryAppliedInputType
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateModerationResponseResultCategoryAppliedInputTypesSelfHarm {
+    #[doc = "text"]
     Text,
+    #[doc = "image"]
     Image,
 }
 impl<'de> serde::Deserialize<'de>
@@ -23179,7 +23389,9 @@ impl serde::Serialize for CreateModerationResponseResultCategoryAppliedInputType
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateModerationResponseResultCategoryAppliedInputTypesSelfHarmIntent {
+    #[doc = "text"]
     Text,
+    #[doc = "image"]
     Image,
 }
 impl<'de> serde::Deserialize<'de>
@@ -23257,7 +23469,9 @@ impl serde::Serialize
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateModerationResponseResultCategoryAppliedInputTypesSelfHarmInstructions {
+    #[doc = "text"]
     Text,
+    #[doc = "image"]
     Image,
 }
 impl<'de> serde::Deserialize<'de>
@@ -23337,7 +23551,9 @@ impl serde::Serialize for CreateModerationResponseResultCategoryAppliedInputType
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateModerationResponseResultCategoryAppliedInputTypesSexual {
+    #[doc = "text"]
     Text,
+    #[doc = "image"]
     Image,
 }
 #[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
@@ -23423,7 +23639,9 @@ impl serde::Serialize for CreateModerationResponseResultCategoryAppliedInputType
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateModerationResponseResultCategoryAppliedInputTypesViolence {
+    #[doc = "text"]
     Text,
+    #[doc = "image"]
     Image,
 }
 impl<'de> serde::Deserialize<'de>
@@ -23503,7 +23721,9 @@ impl serde::Serialize for CreateModerationResponseResultCategoryAppliedInputType
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateModerationResponseResultCategoryAppliedInputTypesViolenceGraphic {
+    #[doc = "text"]
     Text,
+    #[doc = "image"]
     Image,
 }
 impl<'de> serde::Deserialize<'de> for CreateModerationResponseResultCategoryAppliedInputTypes {
@@ -24462,12 +24682,18 @@ impl serde::Serialize for CreateSpeechRequestResponseFormat {
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateSpeechRequestResponseFormat {
+    #[doc = "mp3"]
     #[default]
     Mp3,
+    #[doc = "opus"]
     Opus,
+    #[doc = "aac"]
     Aac,
+    #[doc = "flac"]
     Flac,
+    #[doc = "wav"]
     Wav,
+    #[doc = "pcm"]
     Pcm,
 }
 impl<'de> serde::Deserialize<'de> for CreateSpeechRequest {
@@ -26016,7 +26242,9 @@ impl serde::Serialize for CreateTranscriptionRequestTimestampGranularities {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateTranscriptionRequestTimestampGranularities {
+    #[doc = "word"]
     Word,
+    #[doc = "segment"]
     Segment,
 }
 impl<'de> serde::Deserialize<'de> for CreateTranscriptionRequest {
@@ -26562,11 +26790,16 @@ impl serde::Serialize for CreateTranslationRequestResponseFormat {
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateTranslationRequestResponseFormat {
+    #[doc = "json"]
     #[default]
     Json,
+    #[doc = "text"]
     Text,
+    #[doc = "srt"]
     Srt,
+    #[doc = "verbose_json"]
     VerboseJson,
+    #[doc = "vtt"]
     Vtt,
 }
 impl<'de> serde::Deserialize<'de> for CreateTranslationRequest {
@@ -26895,9 +27128,13 @@ impl serde::Serialize for CreateUploadRequestPurpose {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateUploadRequestPurpose {
+    #[doc = "assistants"]
     Assistants,
+    #[doc = "batch"]
     Batch,
+    #[doc = "fine-tune"]
     FineTune,
+    #[doc = "vision"]
     Vision,
 }
 impl<'de> serde::Deserialize<'de> for CreateUploadRequest {
@@ -28164,9 +28401,13 @@ impl serde::Serialize for EasyInputMessageRole {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum EasyInputMessageRole {
+    #[doc = "user"]
     User,
+    #[doc = "assistant"]
     Assistant,
+    #[doc = "system"]
     System,
+    #[doc = "developer"]
     Developer,
 }
 impl<'de> serde::Deserialize<'de> for EasyInputMessageContent {
@@ -28997,9 +29238,13 @@ impl serde::Serialize for EvalItemRole {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum EvalItemRole {
+    #[doc = "user"]
     User,
+    #[doc = "assistant"]
     Assistant,
+    #[doc = "system"]
     System,
+    #[doc = "developer"]
     Developer,
 }
 impl<'de> serde::Deserialize<'de> for EvalItemContentOutputText {
@@ -31496,9 +31741,13 @@ impl serde::Serialize for EvalStringCheckGraderOperation {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum EvalStringCheckGraderOperation {
+    #[doc = "eq"]
     Eq,
+    #[doc = "ne"]
     Ne,
+    #[doc = "like"]
     Like,
+    #[doc = "ilike"]
     Ilike,
 }
 impl<'de> serde::Deserialize<'de> for EvalStringCheckGrader {
@@ -31855,15 +32104,25 @@ impl serde::Serialize for EvalTextSimilarityGraderEvaluationMetric {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum EvalTextSimilarityGraderEvaluationMetric {
+    #[doc = "fuzzy_match"]
     FuzzyMatch,
+    #[doc = "bleu"]
     Bleu,
+    #[doc = "gleu"]
     Gleu,
+    #[doc = "meteor"]
     Meteor,
+    #[doc = "rouge_1"]
     Rouge1,
+    #[doc = "rouge_2"]
     Rouge2,
+    #[doc = "rouge_3"]
     Rouge3,
+    #[doc = "rouge_4"]
     Rouge4,
+    #[doc = "rouge_5"]
     Rouge5,
+    #[doc = "rouge_l"]
     RougeL,
 }
 impl<'de> serde::Deserialize<'de> for EvalTextSimilarityGrader {
@@ -32129,7 +32388,9 @@ impl serde::Serialize for FileSearchRanker {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum FileSearchRanker {
+    #[doc = "auto"]
     Auto,
+    #[doc = "default_2024_08_21"]
     Default2024_08_21,
 }
 impl<'de> serde::Deserialize<'de> for FileSearchRankingOptions {
@@ -32331,10 +32592,15 @@ impl serde::Serialize for FileSearchToolCallStatus {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum FileSearchToolCallStatus {
+    #[doc = "in_progress"]
     InProgress,
+    #[doc = "searching"]
     Searching,
+    #[doc = "completed"]
     Completed,
+    #[doc = "incomplete"]
     Incomplete,
+    #[doc = "failed"]
     Failed,
 }
 impl<'de> serde::Deserialize<'de> for FileSearchToolCallResult {
@@ -32854,6 +33120,7 @@ impl serde::Serialize for FineTuneDpoMethodHyperparametersBeta {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuneDpoMethodHyperparametersBeta {
+    #[doc = "auto"]
     Auto,
     Float(f64),
 }
@@ -32917,6 +33184,7 @@ impl serde::Serialize for FineTuneDpoMethodHyperparametersBatchSize {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuneDpoMethodHyperparametersBatchSize {
+    #[doc = "auto"]
     Auto,
     Integer(u64),
 }
@@ -32980,6 +33248,7 @@ impl serde::Serialize for FineTuneDpoMethodHyperparametersLearningRateMultiplier
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuneDpoMethodHyperparametersLearningRateMultiplier {
+    #[doc = "auto"]
     Auto,
     Float(f64),
 }
@@ -33043,6 +33312,7 @@ impl serde::Serialize for FineTuneDpoMethodHyperparametersNEpochs {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuneDpoMethodHyperparametersNEpochs {
+    #[doc = "auto"]
     Auto,
     Integer(u64),
 }
@@ -33249,7 +33519,9 @@ impl serde::Serialize for FineTuneMethodType {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuneMethodType {
+    #[doc = "supervised"]
     Supervised,
+    #[doc = "dpo"]
     Dpo,
 }
 impl<'de> serde::Deserialize<'de> for FineTuneMethod {
@@ -33681,6 +33953,7 @@ impl serde::Serialize for FineTuneSupervisedMethodHyperparametersBatchSize {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuneSupervisedMethodHyperparametersBatchSize {
+    #[doc = "auto"]
     Auto,
     Integer(u64),
 }
@@ -33746,6 +34019,7 @@ impl serde::Serialize for FineTuneSupervisedMethodHyperparametersLearningRateMul
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuneSupervisedMethodHyperparametersLearningRateMultiplier {
+    #[doc = "auto"]
     Auto,
     Float(f64),
 }
@@ -33809,6 +34083,7 @@ impl serde::Serialize for FineTuneSupervisedMethodHyperparametersNEpochs {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuneSupervisedMethodHyperparametersNEpochs {
+    #[doc = "auto"]
     Auto,
     Integer(u64),
 }
@@ -34292,6 +34567,7 @@ impl serde::Serialize for FineTuningJobHyperparametersBatchSize {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuningJobHyperparametersBatchSize {
+    #[doc = "auto"]
     Auto,
     Integer(u64),
 }
@@ -34355,6 +34631,7 @@ impl serde::Serialize for FineTuningJobHyperparametersLearningRateMultiplier {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuningJobHyperparametersLearningRateMultiplier {
+    #[doc = "auto"]
     Auto,
     Float(f64),
 }
@@ -34418,6 +34695,7 @@ impl serde::Serialize for FineTuningJobHyperparametersNEpochs {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuningJobHyperparametersNEpochs {
+    #[doc = "auto"]
     Auto,
     Integer(u64),
 }
@@ -34659,11 +34937,17 @@ impl serde::Serialize for FineTuningJobStatus {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuningJobStatus {
+    #[doc = "validating_files"]
     ValidatingFiles,
+    #[doc = "queued"]
     Queued,
+    #[doc = "running"]
     Running,
+    #[doc = "succeeded"]
     Succeeded,
+    #[doc = "failed"]
     Failed,
+    #[doc = "cancelled"]
     Cancelled,
 }
 impl<'de> serde::Deserialize<'de> for FineTuningJobIntegration {
@@ -35319,8 +35603,11 @@ impl serde::Serialize for FineTuningJobEventLevel {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuningJobEventLevel {
+    #[doc = "info"]
     Info,
+    #[doc = "warn"]
     Warn,
+    #[doc = "error"]
     Error,
 }
 impl<'de> serde::Deserialize<'de> for FineTuningJobEventType {
@@ -35399,7 +35686,9 @@ impl serde::Serialize for FineTuningJobEventType {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuningJobEventType {
+    #[doc = "message"]
     Message,
+    #[doc = "metrics"]
     Metrics,
 }
 impl<'de> serde::Deserialize<'de> for FineTuningJobEvent {
@@ -35712,8 +36001,11 @@ impl serde::Serialize for FunctionToolCallStatus {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum FunctionToolCallStatus {
+    #[doc = "in_progress"]
     InProgress,
+    #[doc = "completed"]
     Completed,
+    #[doc = "incomplete"]
     Incomplete,
 }
 impl<'de> serde::Deserialize<'de> for FunctionToolCall {
@@ -35931,8 +36223,11 @@ impl serde::Serialize for FunctionToolCallOutputStatus {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum FunctionToolCallOutputStatus {
+    #[doc = "in_progress"]
     InProgress,
+    #[doc = "completed"]
     Completed,
+    #[doc = "incomplete"]
     Incomplete,
 }
 impl<'de> serde::Deserialize<'de> for FunctionToolCallOutput {
@@ -36531,8 +36826,11 @@ impl serde::Serialize for Includable {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum Includable {
+    #[doc = "file_search_call.results"]
     FileSearchCallResults,
+    #[doc = "message.input_image.image_url"]
     MessageInputImageImageUrl,
+    #[doc = "computer_call_output.output.image_url"]
     ComputerCallOutputOutputImageUrl,
 }
 impl<'de> serde::Deserialize<'de> for InputAudioFormat {
@@ -36611,7 +36909,9 @@ impl serde::Serialize for InputAudioFormat {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum InputAudioFormat {
+    #[doc = "mp3"]
     Mp3,
+    #[doc = "wav"]
     Wav,
 }
 impl<'de> serde::Deserialize<'de> for InputAudio {
@@ -36896,8 +37196,11 @@ impl serde::Serialize for InputMessageRole {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum InputMessageRole {
+    #[doc = "user"]
     User,
+    #[doc = "system"]
     System,
+    #[doc = "developer"]
     Developer,
 }
 impl<'de> serde::Deserialize<'de> for InputMessageStatus {
@@ -36998,8 +37301,11 @@ impl serde::Serialize for InputMessageStatus {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum InputMessageStatus {
+    #[doc = "in_progress"]
     InProgress,
+    #[doc = "completed"]
     Completed,
+    #[doc = "incomplete"]
     Incomplete,
 }
 impl<'de> serde::Deserialize<'de> for InputMessage {
@@ -37203,7 +37509,9 @@ impl serde::Serialize for InviteRole {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum InviteRole {
+    #[doc = "owner"]
     Owner,
+    #[doc = "reader"]
     Reader,
 }
 impl<'de> serde::Deserialize<'de> for InviteStatus {
@@ -37304,8 +37612,11 @@ impl serde::Serialize for InviteStatus {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum InviteStatus {
+    #[doc = "accepted"]
     Accepted,
+    #[doc = "expired"]
     Expired,
+    #[doc = "pending"]
     Pending,
 }
 impl<'de> serde::Deserialize<'de> for InviteProjectsRole {
@@ -37384,7 +37695,9 @@ impl serde::Serialize for InviteProjectsRole {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum InviteProjectsRole {
+    #[doc = "member"]
     Member,
+    #[doc = "owner"]
     Owner,
 }
 impl<'de> serde::Deserialize<'de> for InviteProjects {
@@ -37831,7 +38144,9 @@ impl serde::Serialize for InviteRequestRole {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum InviteRequestRole {
+    #[doc = "reader"]
     Reader,
+    #[doc = "owner"]
     Owner,
 }
 impl<'de> serde::Deserialize<'de> for InviteRequestProjectsRole {
@@ -37910,7 +38225,9 @@ impl serde::Serialize for InviteRequestProjectsRole {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum InviteRequestProjectsRole {
+    #[doc = "member"]
     Member,
+    #[doc = "owner"]
     Owner,
 }
 impl<'de> serde::Deserialize<'de> for InviteRequestProjects {
@@ -39704,9 +40021,12 @@ impl serde::Serialize for MessageContentImageFileObjectImageFileDetail {
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum MessageContentImageFileObjectImageFileDetail {
+    #[doc = "auto"]
     #[default]
     Auto,
+    #[doc = "low"]
     Low,
+    #[doc = "high"]
     High,
 }
 impl<'de> serde::Deserialize<'de> for MessageContentImageFileObjectImageFile {
@@ -39913,9 +40233,12 @@ impl serde::Serialize for MessageContentImageUrlObjectImageUrlDetail {
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum MessageContentImageUrlObjectImageUrlDetail {
+    #[doc = "auto"]
     #[default]
     Auto,
+    #[doc = "low"]
     Low,
+    #[doc = "high"]
     High,
 }
 impl<'de> serde::Deserialize<'de> for MessageContentImageUrlObjectImageUrl {
@@ -40596,9 +40919,12 @@ impl serde::Serialize for MessageDeltaContentImageFileObjectImageFileDetail {
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum MessageDeltaContentImageFileObjectImageFileDetail {
+    #[doc = "auto"]
     #[default]
     Auto,
+    #[doc = "low"]
     Low,
+    #[doc = "high"]
     High,
 }
 impl<'de> serde::Deserialize<'de> for MessageDeltaContentImageFileObjectImageFile {
@@ -40819,9 +41145,12 @@ impl serde::Serialize for MessageDeltaContentImageUrlObjectImageUrlDetail {
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum MessageDeltaContentImageUrlObjectImageUrlDetail {
+    #[doc = "auto"]
     #[default]
     Auto,
+    #[doc = "low"]
     Low,
+    #[doc = "high"]
     High,
 }
 impl<'de> serde::Deserialize<'de> for MessageDeltaContentImageUrlObjectImageUrl {
@@ -41573,7 +41902,9 @@ impl serde::Serialize for MessageDeltaObjectDeltaRole {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum MessageDeltaObjectDeltaRole {
+    #[doc = "user"]
     User,
+    #[doc = "assistant"]
     Assistant,
 }
 impl<'de> serde::Deserialize<'de> for MessageDeltaObjectDeltaContent {
@@ -41851,8 +42182,11 @@ impl serde::Serialize for MessageObjectStatus {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum MessageObjectStatus {
+    #[doc = "in_progress"]
     InProgress,
+    #[doc = "incomplete"]
     Incomplete,
+    #[doc = "completed"]
     Completed,
 }
 impl<'de> serde::Deserialize<'de> for MessageObjectIncompleteDetailsReason {
@@ -41997,10 +42331,15 @@ impl serde::Serialize for MessageObjectIncompleteDetailsReason {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum MessageObjectIncompleteDetailsReason {
+    #[doc = "content_filter"]
     ContentFilter,
+    #[doc = "max_tokens"]
     MaxTokens,
+    #[doc = "run_cancelled"]
     RunCancelled,
+    #[doc = "run_expired"]
     RunExpired,
+    #[doc = "run_failed"]
     RunFailed,
 }
 impl<'de> serde::Deserialize<'de> for MessageObjectIncompleteDetails {
@@ -42114,7 +42453,9 @@ impl serde::Serialize for MessageObjectRole {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum MessageObjectRole {
+    #[doc = "user"]
     User,
+    #[doc = "assistant"]
     Assistant,
 }
 impl<'de> serde::Deserialize<'de> for MessageObjectContent {
@@ -43184,9 +43525,13 @@ impl serde::Serialize for ModelIdsResponses {
 #[allow(clippy::large_enum_variant)]
 pub enum ModelIdsResponses {
     ModelIdsShared(ModelIdsShared),
+    #[doc = "o1-pro"]
     O1Pro,
+    #[doc = "o1-pro-2025-03-19"]
     O1Pro2025_03_19,
+    #[doc = "computer-use-preview"]
     ComputerUsePreview,
+    #[doc = "computer-use-preview-2025-03-11"]
     ComputerUsePreview2025_03_11,
 }
 impl<'de> serde::Deserialize<'de> for ModelIdsShared {
@@ -44438,58 +44783,111 @@ impl serde::Serialize for ModelIdsShared {
 #[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum ModelIdsShared {
+    #[doc = "gpt-4.1"]
     Gpt4_1,
+    #[doc = "gpt-4.1-mini"]
     Gpt4_1Mini,
+    #[doc = "gpt-4.1-nano"]
     Gpt4_1Nano,
+    #[doc = "gpt-4.1-2025-04-14"]
     Gpt4_1_2025_04_14,
+    #[doc = "gpt-4.1-mini-2025-04-14"]
     Gpt4_1Mini2025_04_14,
+    #[doc = "gpt-4.1-nano-2025-04-14"]
     Gpt4_1Nano2025_04_14,
+    #[doc = "o4-mini"]
     O4Mini,
+    #[doc = "o4-mini-2025-04-16"]
     O4Mini2025_04_16,
+    #[doc = "o3"]
     O3,
+    #[doc = "o3-2025-04-16"]
     O3_2025_04_16,
+    #[doc = "o3-mini"]
     O3Mini,
+    #[doc = "o3-mini-2025-01-31"]
     O3Mini2025_01_31,
+    #[doc = "o1"]
     O1,
+    #[doc = "o1-2024-12-17"]
     O1_2024_12_17,
+    #[doc = "o1-preview"]
     O1Preview,
+    #[doc = "o1-preview-2024-09-12"]
     O1Preview2024_09_12,
+    #[doc = "o1-mini"]
     O1Mini,
+    #[doc = "o1-mini-2024-09-12"]
     O1Mini2024_09_12,
+    #[doc = "gpt-4o"]
     Gpt4o,
+    #[doc = "gpt-4o-2024-11-20"]
     Gpt4o2024_11_20,
+    #[doc = "gpt-4o-2024-08-06"]
     Gpt4o2024_08_06,
+    #[doc = "gpt-4o-2024-05-13"]
     Gpt4o2024_05_13,
+    #[doc = "gpt-4o-audio-preview"]
     Gpt4oAudioPreview,
+    #[doc = "gpt-4o-audio-preview-2024-10-01"]
     Gpt4oAudioPreview2024_10_01,
+    #[doc = "gpt-4o-audio-preview-2024-12-17"]
     Gpt4oAudioPreview2024_12_17,
+    #[doc = "gpt-4o-mini-audio-preview"]
     Gpt4oMiniAudioPreview,
+    #[doc = "gpt-4o-mini-audio-preview-2024-12-17"]
     Gpt4oMiniAudioPreview2024_12_17,
+    #[doc = "gpt-4o-search-preview"]
     Gpt4oSearchPreview,
+    #[doc = "gpt-4o-mini-search-preview"]
     Gpt4oMiniSearchPreview,
+    #[doc = "gpt-4o-search-preview-2025-03-11"]
     Gpt4oSearchPreview2025_03_11,
+    #[doc = "gpt-4o-mini-search-preview-2025-03-11"]
     Gpt4oMiniSearchPreview2025_03_11,
+    #[doc = "chatgpt-4o-latest"]
     Chatgpt4oLatest,
+    #[doc = "gpt-4o-mini"]
     Gpt4oMini,
+    #[doc = "gpt-4o-mini-2024-07-18"]
     Gpt4oMini2024_07_18,
+    #[doc = "gpt-4-turbo"]
     Gpt4Turbo,
+    #[doc = "gpt-4-turbo-2024-04-09"]
     Gpt4Turbo2024_04_09,
+    #[doc = "gpt-4-0125-preview"]
     Gpt4_0125Preview,
+    #[doc = "gpt-4-turbo-preview"]
     Gpt4TurboPreview,
+    #[doc = "gpt-4-1106-preview"]
     Gpt4_1106Preview,
+    #[doc = "gpt-4-vision-preview"]
     Gpt4VisionPreview,
+    #[doc = "gpt-4"]
     Gpt4,
+    #[doc = "gpt-4-0314"]
     Gpt4_0314,
+    #[doc = "gpt-4-0613"]
     Gpt4_0613,
+    #[doc = "gpt-4-32k"]
     Gpt4_32k,
+    #[doc = "gpt-4-32k-0314"]
     Gpt4_32k0314,
+    #[doc = "gpt-4-32k-0613"]
     Gpt4_32k0613,
+    #[doc = "gpt-3.5-turbo"]
     Gpt3_5Turbo,
+    #[doc = "gpt-3.5-turbo-16k"]
     Gpt3_5Turbo16k,
+    #[doc = "gpt-3.5-turbo-0301"]
     Gpt3_5Turbo0301,
+    #[doc = "gpt-3.5-turbo-0613"]
     Gpt3_5Turbo0613,
+    #[doc = "gpt-3.5-turbo-1106"]
     Gpt3_5Turbo1106,
+    #[doc = "gpt-3.5-turbo-0125"]
     Gpt3_5Turbo0125,
+    #[doc = "gpt-3.5-turbo-16k-0613"]
     Gpt3_5Turbo16k0613,
     Other(String),
 }
@@ -45548,12 +45946,19 @@ impl serde::Serialize for OpenAiFilePurpose {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum OpenAiFilePurpose {
+    #[doc = "assistants"]
     Assistants,
+    #[doc = "assistants_output"]
     AssistantsOutput,
+    #[doc = "batch"]
     Batch,
+    #[doc = "batch_output"]
     BatchOutput,
+    #[doc = "fine-tune"]
     FineTune,
+    #[doc = "fine-tune-results"]
     FineTuneResults,
+    #[doc = "vision"]
     Vision,
 }
 impl<'de> serde::Deserialize<'de> for OpenAiFileStatus {
@@ -45654,8 +46059,11 @@ impl serde::Serialize for OpenAiFileStatus {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum OpenAiFileStatus {
+    #[doc = "uploaded"]
     Uploaded,
+    #[doc = "processed"]
     Processed,
+    #[doc = "error"]
     Error,
 }
 impl<'de> serde::Deserialize<'de> for OpenAiFile {
@@ -46151,8 +46559,11 @@ impl serde::Serialize for OutputMessageStatus {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum OutputMessageStatus {
+    #[doc = "in_progress"]
     InProgress,
+    #[doc = "completed"]
     Completed,
+    #[doc = "incomplete"]
     Incomplete,
 }
 impl<'de> serde::Deserialize<'de> for OutputMessage {
@@ -46459,7 +46870,9 @@ impl serde::Serialize for ProjectStatus {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum ProjectStatus {
+    #[doc = "active"]
     Active,
+    #[doc = "archived"]
     Archived,
 }
 impl<'de> serde::Deserialize<'de> for Project {
@@ -46653,7 +47066,9 @@ impl serde::Serialize for ProjectApiKeyOwnerType {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum ProjectApiKeyOwnerType {
+    #[doc = "user"]
     User,
+    #[doc = "service_account"]
     ServiceAccount,
 }
 impl<'de> serde::Deserialize<'de> for ProjectApiKeyOwner {
@@ -47575,7 +47990,9 @@ impl serde::Serialize for ProjectServiceAccountRole {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum ProjectServiceAccountRole {
+    #[doc = "owner"]
     Owner,
+    #[doc = "member"]
     Member,
 }
 impl<'de> serde::Deserialize<'de> for ProjectServiceAccount {
@@ -48200,7 +48617,9 @@ impl serde::Serialize for ProjectUserRole {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum ProjectUserRole {
+    #[doc = "owner"]
     Owner,
+    #[doc = "member"]
     Member,
 }
 impl<'de> serde::Deserialize<'de> for ProjectUser {
@@ -48392,7 +48811,9 @@ impl serde::Serialize for ProjectUserCreateRequestRole {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum ProjectUserCreateRequestRole {
+    #[doc = "owner"]
     Owner,
+    #[doc = "member"]
     Member,
 }
 impl<'de> serde::Deserialize<'de> for ProjectUserCreateRequest {
@@ -48660,7 +49081,9 @@ impl serde::Serialize for ProjectUserUpdateRequestRole {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum ProjectUserUpdateRequestRole {
+    #[doc = "owner"]
     Owner,
+    #[doc = "member"]
     Member,
 }
 impl<'de> serde::Deserialize<'de> for ProjectUserUpdateRequest {
@@ -49850,8 +50273,11 @@ impl serde::Serialize for RealtimeConversationItemType {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeConversationItemType {
+    #[doc = "message"]
     Message,
+    #[doc = "function_call"]
     FunctionCall,
+    #[doc = "function_call_output"]
     FunctionCallOutput,
 }
 #[doc = "Identifier for the API object being returned - always `realtime.item`.\n"]
@@ -49937,7 +50363,9 @@ impl serde::Serialize for RealtimeConversationItemStatus {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeConversationItemStatus {
+    #[doc = "completed"]
     Completed,
+    #[doc = "incomplete"]
     Incomplete,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeConversationItemRole {
@@ -50038,8 +50466,11 @@ impl serde::Serialize for RealtimeConversationItemRole {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeConversationItemRole {
+    #[doc = "user"]
     User,
+    #[doc = "assistant"]
     Assistant,
+    #[doc = "system"]
     System,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeConversationItemContentType {
@@ -50162,9 +50593,13 @@ impl serde::Serialize for RealtimeConversationItemContentType {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeConversationItemContentType {
+    #[doc = "input_audio"]
     InputAudio,
+    #[doc = "input_text"]
     InputText,
+    #[doc = "item_reference"]
     ItemReference,
+    #[doc = "text"]
     Text,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeConversationItemContent {
@@ -50529,8 +50964,11 @@ impl serde::Serialize for RealtimeConversationItemWithReferenceType {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeConversationItemWithReferenceType {
+    #[doc = "message"]
     Message,
+    #[doc = "function_call"]
     FunctionCall,
+    #[doc = "function_call_output"]
     FunctionCallOutput,
 }
 #[doc = "Identifier for the API object being returned - always `realtime.item`.\n"]
@@ -50616,7 +51054,9 @@ impl serde::Serialize for RealtimeConversationItemWithReferenceStatus {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeConversationItemWithReferenceStatus {
+    #[doc = "completed"]
     Completed,
+    #[doc = "incomplete"]
     Incomplete,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeConversationItemWithReferenceRole {
@@ -50717,8 +51157,11 @@ impl serde::Serialize for RealtimeConversationItemWithReferenceRole {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeConversationItemWithReferenceRole {
+    #[doc = "user"]
     User,
+    #[doc = "assistant"]
     Assistant,
+    #[doc = "system"]
     System,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeConversationItemWithReferenceContentType {
@@ -50841,9 +51284,13 @@ impl serde::Serialize for RealtimeConversationItemWithReferenceContentType {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeConversationItemWithReferenceContentType {
+    #[doc = "input_audio"]
     InputAudio,
+    #[doc = "input_text"]
     InputText,
+    #[doc = "item_reference"]
     ItemReference,
+    #[doc = "text"]
     Text,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeConversationItemWithReferenceContent {
@@ -51235,9 +51682,13 @@ impl serde::Serialize for RealtimeResponseStatus {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeResponseStatus {
+    #[doc = "completed"]
     Completed,
+    #[doc = "cancelled"]
     Cancelled,
+    #[doc = "failed"]
     Failed,
+    #[doc = "incomplete"]
     Incomplete,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeResponseStatusDetailsType {
@@ -51360,9 +51811,13 @@ impl serde::Serialize for RealtimeResponseStatusDetailsType {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeResponseStatusDetailsType {
+    #[doc = "completed"]
     Completed,
+    #[doc = "cancelled"]
     Cancelled,
+    #[doc = "failed"]
     Failed,
+    #[doc = "incomplete"]
     Incomplete,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeResponseStatusDetailsReason {
@@ -51485,9 +51940,13 @@ impl serde::Serialize for RealtimeResponseStatusDetailsReason {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeResponseStatusDetailsReason {
+    #[doc = "turn_detected"]
     TurnDetected,
+    #[doc = "client_cancelled"]
     ClientCancelled,
+    #[doc = "max_output_tokens"]
     MaxOutputTokens,
+    #[doc = "content_filter"]
     ContentFilter,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeResponseStatusDetailsError {
@@ -51916,7 +52375,9 @@ impl serde::Serialize for RealtimeResponseModality {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeResponseModality {
+    #[doc = "text"]
     Text,
+    #[doc = "audio"]
     Audio,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeResponseOutputAudioFormat {
@@ -52017,8 +52478,11 @@ impl serde::Serialize for RealtimeResponseOutputAudioFormat {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeResponseOutputAudioFormat {
+    #[doc = "pcm16"]
     Pcm16,
+    #[doc = "g711_ulaw"]
     G711Ulaw,
+    #[doc = "g711_alaw"]
     G711Alaw,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeResponseMaxOutputTokens {
@@ -52082,6 +52546,7 @@ impl serde::Serialize for RealtimeResponseMaxOutputTokens {
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeResponseMaxOutputTokens {
     Integer(u64),
+    #[doc = "inf"]
     Inf,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeResponse {
@@ -52361,7 +52826,9 @@ impl serde::Serialize for RealtimeResponseCreateParamsModality {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeResponseCreateParamsModality {
+    #[doc = "text"]
     Text,
+    #[doc = "audio"]
     Audio,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeResponseCreateParamsOutputAudioFormat {
@@ -52462,8 +52929,11 @@ impl serde::Serialize for RealtimeResponseCreateParamsOutputAudioFormat {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeResponseCreateParamsOutputAudioFormat {
+    #[doc = "pcm16"]
     Pcm16,
+    #[doc = "g711_ulaw"]
     G711Ulaw,
+    #[doc = "g711_alaw"]
     G711Alaw,
 }
 #[doc = "The type of the tool, i.e. `function`."]
@@ -52619,6 +53089,7 @@ impl serde::Serialize for RealtimeResponseCreateParamsMaxResponseOutputTokens {
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeResponseCreateParamsMaxResponseOutputTokens {
     Integer(u64),
+    #[doc = "inf"]
     Inf,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeResponseCreateParamsConversation {
@@ -52703,7 +53174,9 @@ impl serde::Serialize for RealtimeResponseCreateParamsConversation {
 #[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeResponseCreateParamsConversation {
+    #[doc = "auto"]
     Auto,
+    #[doc = "none"]
     None,
     Other(String),
 }
@@ -54954,7 +55427,9 @@ impl serde::Serialize for RealtimeServerEventRateLimitsUpdatedRateLimitsName {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeServerEventRateLimitsUpdatedRateLimitsName {
+    #[doc = "requests"]
     Requests,
+    #[doc = "tokens"]
     Tokens,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeServerEventRateLimitsUpdatedRateLimits {
@@ -55683,7 +56158,9 @@ impl serde::Serialize for RealtimeServerEventResponseContentPartAddedPartType {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeServerEventResponseContentPartAddedPartType {
+    #[doc = "audio"]
     Audio,
+    #[doc = "text"]
     Text,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseContentPartAddedPart {
@@ -55973,7 +56450,9 @@ impl serde::Serialize for RealtimeServerEventResponseContentPartDonePartType {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeServerEventResponseContentPartDonePartType {
+    #[doc = "audio"]
     Audio,
+    #[doc = "text"]
     Text,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseContentPartDonePart {
@@ -57321,7 +57800,9 @@ impl serde::Serialize for RealtimeSessionModality {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionModality {
+    #[doc = "text"]
     Text,
+    #[doc = "audio"]
     Audio,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeSessionModel {
@@ -57480,10 +57961,15 @@ impl serde::Serialize for RealtimeSessionModel {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionModel {
+    #[doc = "gpt-4o-realtime-preview"]
     Gpt4oRealtimePreview,
+    #[doc = "gpt-4o-realtime-preview-2024-10-01"]
     Gpt4oRealtimePreview2024_10_01,
+    #[doc = "gpt-4o-realtime-preview-2024-12-17"]
     Gpt4oRealtimePreview2024_12_17,
+    #[doc = "gpt-4o-mini-realtime-preview"]
     Gpt4oMiniRealtimePreview,
+    #[doc = "gpt-4o-mini-realtime-preview-2024-12-17"]
     Gpt4oMiniRealtimePreview2024_12_17,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeSessionInputAudioFormat {
@@ -57584,9 +58070,12 @@ impl serde::Serialize for RealtimeSessionInputAudioFormat {
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionInputAudioFormat {
+    #[doc = "pcm16"]
     #[default]
     Pcm16,
+    #[doc = "g711_ulaw"]
     G711Ulaw,
+    #[doc = "g711_alaw"]
     G711Alaw,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeSessionOutputAudioFormat {
@@ -57687,9 +58176,12 @@ impl serde::Serialize for RealtimeSessionOutputAudioFormat {
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionOutputAudioFormat {
+    #[doc = "pcm16"]
     #[default]
     Pcm16,
+    #[doc = "g711_ulaw"]
     G711Ulaw,
+    #[doc = "g711_alaw"]
     G711Alaw,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeSessionInputAudioTranscription {
@@ -57841,8 +58333,10 @@ impl serde::Serialize for RealtimeSessionTurnDetectionType {
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionTurnDetectionType {
+    #[doc = "server_vad"]
     #[default]
     ServerVad,
+    #[doc = "semantic_vad"]
     SemanticVad,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeSessionTurnDetectionEagerness {
@@ -57965,9 +58459,13 @@ impl serde::Serialize for RealtimeSessionTurnDetectionEagerness {
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionTurnDetectionEagerness {
+    #[doc = "low"]
     Low,
+    #[doc = "medium"]
     Medium,
+    #[doc = "high"]
     High,
+    #[doc = "auto"]
     #[default]
     Auto,
 }
@@ -58172,7 +58670,9 @@ impl serde::Serialize for RealtimeSessionInputAudioNoiseReductionType {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionInputAudioNoiseReductionType {
+    #[doc = "near_field"]
     NearField,
+    #[doc = "far_field"]
     FarField,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeSessionInputAudioNoiseReduction {
@@ -58365,6 +58865,7 @@ impl serde::Serialize for RealtimeSessionMaxResponseOutputTokens {
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionMaxResponseOutputTokens {
     Integer(u64),
+    #[doc = "inf"]
     Inf,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeSession {
@@ -58658,7 +59159,9 @@ impl serde::Serialize for RealtimeSessionCreateRequestModality {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionCreateRequestModality {
+    #[doc = "text"]
     Text,
+    #[doc = "audio"]
     Audio,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateRequestModel {
@@ -58825,10 +59328,15 @@ impl serde::Serialize for RealtimeSessionCreateRequestModel {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionCreateRequestModel {
+    #[doc = "gpt-4o-realtime-preview"]
     Gpt4oRealtimePreview,
+    #[doc = "gpt-4o-realtime-preview-2024-10-01"]
     Gpt4oRealtimePreview2024_10_01,
+    #[doc = "gpt-4o-realtime-preview-2024-12-17"]
     Gpt4oRealtimePreview2024_12_17,
+    #[doc = "gpt-4o-mini-realtime-preview"]
     Gpt4oMiniRealtimePreview,
+    #[doc = "gpt-4o-mini-realtime-preview-2024-12-17"]
     Gpt4oMiniRealtimePreview2024_12_17,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateRequestInputAudioFormat {
@@ -58929,9 +59437,12 @@ impl serde::Serialize for RealtimeSessionCreateRequestInputAudioFormat {
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionCreateRequestInputAudioFormat {
+    #[doc = "pcm16"]
     #[default]
     Pcm16,
+    #[doc = "g711_ulaw"]
     G711Ulaw,
+    #[doc = "g711_alaw"]
     G711Alaw,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateRequestOutputAudioFormat {
@@ -59032,9 +59543,12 @@ impl serde::Serialize for RealtimeSessionCreateRequestOutputAudioFormat {
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionCreateRequestOutputAudioFormat {
+    #[doc = "pcm16"]
     #[default]
     Pcm16,
+    #[doc = "g711_ulaw"]
     G711Ulaw,
+    #[doc = "g711_alaw"]
     G711Alaw,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateRequestInputAudioTranscription {
@@ -59186,8 +59700,10 @@ impl serde::Serialize for RealtimeSessionCreateRequestTurnDetectionType {
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionCreateRequestTurnDetectionType {
+    #[doc = "server_vad"]
     #[default]
     ServerVad,
+    #[doc = "semantic_vad"]
     SemanticVad,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateRequestTurnDetectionEagerness {
@@ -59310,9 +59826,13 @@ impl serde::Serialize for RealtimeSessionCreateRequestTurnDetectionEagerness {
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionCreateRequestTurnDetectionEagerness {
+    #[doc = "low"]
     Low,
+    #[doc = "medium"]
     Medium,
+    #[doc = "high"]
     High,
+    #[doc = "auto"]
     #[default]
     Auto,
 }
@@ -59517,7 +60037,9 @@ impl serde::Serialize for RealtimeSessionCreateRequestInputAudioNoiseReductionTy
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionCreateRequestInputAudioNoiseReductionType {
+    #[doc = "near_field"]
     NearField,
+    #[doc = "far_field"]
     FarField,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateRequestInputAudioNoiseReduction {
@@ -59710,6 +60232,7 @@ impl serde::Serialize for RealtimeSessionCreateRequestMaxResponseOutputTokens {
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionCreateRequestMaxResponseOutputTokens {
     Integer(u64),
+    #[doc = "inf"]
     Inf,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateRequest {
@@ -60038,7 +60561,9 @@ impl serde::Serialize for RealtimeSessionCreateResponseModality {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionCreateResponseModality {
+    #[doc = "text"]
     Text,
+    #[doc = "audio"]
     Audio,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateResponseInputAudioTranscription {
@@ -60317,6 +60842,7 @@ impl serde::Serialize for RealtimeSessionCreateResponseMaxResponseOutputTokens {
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionCreateResponseMaxResponseOutputTokens {
     Integer(u64),
+    #[doc = "inf"]
     Inf,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateResponse {
@@ -60585,7 +61111,9 @@ impl serde::Serialize for RealtimeTranscriptionSessionCreateRequestModality {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeTranscriptionSessionCreateRequestModality {
+    #[doc = "text"]
     Text,
+    #[doc = "audio"]
     Audio,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeTranscriptionSessionCreateRequestInputAudioFormat {
@@ -60686,9 +61214,12 @@ impl serde::Serialize for RealtimeTranscriptionSessionCreateRequestInputAudioFor
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeTranscriptionSessionCreateRequestInputAudioFormat {
+    #[doc = "pcm16"]
     #[default]
     Pcm16,
+    #[doc = "g711_ulaw"]
     G711Ulaw,
+    #[doc = "g711_alaw"]
     G711Alaw,
 }
 impl<'de> serde::Deserialize<'de>
@@ -60781,8 +61312,11 @@ impl serde::Serialize for RealtimeTranscriptionSessionCreateRequestInputAudioTra
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeTranscriptionSessionCreateRequestInputAudioTranscriptionModel {
+    #[doc = "gpt-4o-transcribe"]
     Gpt4oTranscribe,
+    #[doc = "gpt-4o-mini-transcribe"]
     Gpt4oMiniTranscribe,
+    #[doc = "whisper-1"]
     Whisper1,
 }
 impl<'de> serde::Deserialize<'de>
@@ -60939,8 +61473,10 @@ impl serde::Serialize for RealtimeTranscriptionSessionCreateRequestTurnDetection
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeTranscriptionSessionCreateRequestTurnDetectionType {
+    #[doc = "server_vad"]
     #[default]
     ServerVad,
+    #[doc = "semantic_vad"]
     SemanticVad,
 }
 impl<'de> serde::Deserialize<'de>
@@ -61065,9 +61601,13 @@ impl serde::Serialize for RealtimeTranscriptionSessionCreateRequestTurnDetection
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeTranscriptionSessionCreateRequestTurnDetectionEagerness {
+    #[doc = "low"]
     Low,
+    #[doc = "medium"]
     Medium,
+    #[doc = "high"]
     High,
+    #[doc = "auto"]
     #[default]
     Auto,
 }
@@ -61280,7 +61820,9 @@ impl serde::Serialize for RealtimeTranscriptionSessionCreateRequestInputAudioNoi
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeTranscriptionSessionCreateRequestInputAudioNoiseReductionType {
+    #[doc = "near_field"]
     NearField,
+    #[doc = "far_field"]
     FarField,
 }
 impl<'de> serde::Deserialize<'de>
@@ -61561,7 +62103,9 @@ impl serde::Serialize for RealtimeTranscriptionSessionCreateResponseModality {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeTranscriptionSessionCreateResponseModality {
+    #[doc = "text"]
     Text,
+    #[doc = "audio"]
     Audio,
 }
 impl<'de> serde::Deserialize<'de>
@@ -61654,8 +62198,11 @@ impl serde::Serialize for RealtimeTranscriptionSessionCreateResponseInputAudioTr
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeTranscriptionSessionCreateResponseInputAudioTranscriptionModel {
+    #[doc = "gpt-4o-transcribe"]
     Gpt4oTranscribe,
+    #[doc = "gpt-4o-mini-transcribe"]
     Gpt4oMiniTranscribe,
+    #[doc = "whisper-1"]
     Whisper1,
 }
 impl<'de> serde::Deserialize<'de>
@@ -62020,8 +62567,11 @@ impl serde::Serialize for ReasoningSummary {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum ReasoningSummary {
+    #[doc = "auto"]
     Auto,
+    #[doc = "concise"]
     Concise,
+    #[doc = "detailed"]
     Detailed,
 }
 impl<'de> serde::Deserialize<'de> for ReasoningGenerateSummary {
@@ -62122,8 +62672,11 @@ impl serde::Serialize for ReasoningGenerateSummary {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum ReasoningGenerateSummary {
+    #[doc = "auto"]
     Auto,
+    #[doc = "concise"]
     Concise,
+    #[doc = "detailed"]
     Detailed,
 }
 impl<'de> serde::Deserialize<'de> for Reasoning {
@@ -62296,9 +62849,12 @@ impl serde::Serialize for ReasoningEffort {
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ReasoningEffort {
+    #[doc = "low"]
     Low,
+    #[doc = "medium"]
     #[default]
     Medium,
+    #[doc = "high"]
     High,
 }
 impl<'de> serde::Deserialize<'de> for ReasoningItemSummary {
@@ -62460,8 +63016,11 @@ impl serde::Serialize for ReasoningItemStatus {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum ReasoningItemStatus {
+    #[doc = "in_progress"]
     InProgress,
+    #[doc = "completed"]
     Completed,
+    #[doc = "incomplete"]
     Incomplete,
 }
 impl<'de> serde::Deserialize<'de> for ReasoningItem {
@@ -62677,9 +63236,13 @@ impl serde::Serialize for ResponseStatus {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum ResponseStatus {
+    #[doc = "completed"]
     Completed,
+    #[doc = "failed"]
     Failed,
+    #[doc = "in_progress"]
     InProgress,
+    #[doc = "incomplete"]
     Incomplete,
 }
 impl<'de> serde::Deserialize<'de> for ResponseIncompleteDetailsReason {
@@ -62758,7 +63321,9 @@ impl serde::Serialize for ResponseIncompleteDetailsReason {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum ResponseIncompleteDetailsReason {
+    #[doc = "max_output_tokens"]
     MaxOutputTokens,
+    #[doc = "content_filter"]
     ContentFilter,
 }
 impl<'de> serde::Deserialize<'de> for ResponseIncompleteDetails {
@@ -64418,23 +64983,41 @@ impl serde::Serialize for ResponseErrorCode {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum ResponseErrorCode {
+    #[doc = "server_error"]
     ServerError,
+    #[doc = "rate_limit_exceeded"]
     RateLimitExceeded,
+    #[doc = "invalid_prompt"]
     InvalidPrompt,
+    #[doc = "vector_store_timeout"]
     VectorStoreTimeout,
+    #[doc = "invalid_image"]
     InvalidImage,
+    #[doc = "invalid_image_format"]
     InvalidImageFormat,
+    #[doc = "invalid_base64_image"]
     InvalidBase64Image,
+    #[doc = "invalid_image_url"]
     InvalidImageUrl,
+    #[doc = "image_too_large"]
     ImageTooLarge,
+    #[doc = "image_too_small"]
     ImageTooSmall,
+    #[doc = "image_parse_error"]
     ImageParseError,
+    #[doc = "image_content_policy_violation"]
     ImageContentPolicyViolation,
+    #[doc = "invalid_image_mode"]
     InvalidImageMode,
+    #[doc = "image_file_too_large"]
     ImageFileTooLarge,
+    #[doc = "unsupported_image_media_type"]
     UnsupportedImageMediaType,
+    #[doc = "empty_image_file"]
     EmptyImageFile,
+    #[doc = "failed_to_download_image"]
     FailedToDownloadImage,
+    #[doc = "image_file_not_found"]
     ImageFileNotFound,
 }
 impl<'de> serde::Deserialize<'de> for ResponseErrorEvent {
@@ -65568,7 +66151,9 @@ impl serde::Serialize for ResponseModality {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum ResponseModality {
+    #[doc = "text"]
     Text,
+    #[doc = "audio"]
     Audio,
 }
 #[doc = "Output types that you would like the model to generate.\nMost models are capable of generating text, which is the default:\n\n`[\"text\"]`\n\nThe `gpt-4o-audio-preview` model can also be used to \n[generate audio](/docs/guides/audio). To request that this model generate \nboth text and audio responses, you can use:\n\n`[\"text\", \"audio\"]`\n"]
@@ -65883,7 +66468,9 @@ impl serde::Serialize for ResponsePropertiesTruncation {
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ResponsePropertiesTruncation {
+    #[doc = "auto"]
     Auto,
+    #[doc = "disabled"]
     #[default]
     Disabled,
 }
@@ -68144,14 +68731,23 @@ impl serde::Serialize for RunObjectStatus {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum RunObjectStatus {
+    #[doc = "queued"]
     Queued,
+    #[doc = "in_progress"]
     InProgress,
+    #[doc = "requires_action"]
     RequiresAction,
+    #[doc = "cancelling"]
     Cancelling,
+    #[doc = "cancelled"]
     Cancelled,
+    #[doc = "failed"]
     Failed,
+    #[doc = "completed"]
     Completed,
+    #[doc = "incomplete"]
     Incomplete,
+    #[doc = "expired"]
     Expired,
 }
 impl<'de> serde::Deserialize<'de> for RunObjectRequiredActionSubmitToolOutputs {
@@ -68358,8 +68954,11 @@ impl serde::Serialize for RunObjectLastErrorCode {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum RunObjectLastErrorCode {
+    #[doc = "server_error"]
     ServerError,
+    #[doc = "rate_limit_exceeded"]
     RateLimitExceeded,
+    #[doc = "invalid_prompt"]
     InvalidPrompt,
 }
 impl<'de> serde::Deserialize<'de> for RunObjectLastError {
@@ -68482,7 +69081,9 @@ impl serde::Serialize for RunObjectIncompleteDetailsReason {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum RunObjectIncompleteDetailsReason {
+    #[doc = "max_completion_tokens"]
     MaxCompletionTokens,
+    #[doc = "max_prompt_tokens"]
     MaxPromptTokens,
 }
 impl<'de> serde::Deserialize<'de> for RunObjectIncompleteDetails {
@@ -71079,7 +71680,9 @@ impl serde::Serialize for RunStepObjectType {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum RunStepObjectType {
+    #[doc = "message_creation"]
     MessageCreation,
+    #[doc = "tool_calls"]
     ToolCalls,
 }
 impl<'de> serde::Deserialize<'de> for RunStepObjectStatus {
@@ -71224,10 +71827,15 @@ impl serde::Serialize for RunStepObjectStatus {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum RunStepObjectStatus {
+    #[doc = "in_progress"]
     InProgress,
+    #[doc = "cancelled"]
     Cancelled,
+    #[doc = "failed"]
     Failed,
+    #[doc = "completed"]
     Completed,
+    #[doc = "expired"]
     Expired,
 }
 impl<'de> serde::Deserialize<'de> for RunStepObjectStepDetails {
@@ -71355,7 +71963,9 @@ impl serde::Serialize for RunStepObjectLastErrorCode {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum RunStepObjectLastErrorCode {
+    #[doc = "server_error"]
     ServerError,
+    #[doc = "rate_limit_exceeded"]
     RateLimitExceeded,
 }
 impl<'de> serde::Deserialize<'de> for RunStepObjectLastError {
@@ -73209,9 +73819,12 @@ impl serde::Serialize for ServiceTier {
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ServiceTier {
+    #[doc = "auto"]
     #[default]
     Auto,
+    #[doc = "default"]
     Default,
+    #[doc = "flex"]
     Flex,
 }
 impl<'de> serde::Deserialize<'de> for StaticChunkingStrategy {
@@ -74211,8 +74824,11 @@ impl serde::Serialize for ToolChoiceOptions {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum ToolChoiceOptions {
+    #[doc = "none"]
     None,
+    #[doc = "auto"]
     Auto,
+    #[doc = "required"]
     Required,
 }
 impl<'de> serde::Deserialize<'de> for ToolChoiceTypesType {
@@ -74341,9 +74957,13 @@ impl serde::Serialize for ToolChoiceTypesType {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum ToolChoiceTypesType {
+    #[doc = "file_search"]
     FileSearch,
+    #[doc = "web_search_preview"]
     WebSearchPreview,
+    #[doc = "computer_use_preview"]
     ComputerUsePreview,
+    #[doc = "web_search_preview_2025_03_11"]
     WebSearchPreview2025_03_11,
 }
 impl<'de> serde::Deserialize<'de> for ToolChoiceTypes {
@@ -74946,7 +75566,9 @@ impl serde::Serialize for TruncationObjectType {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum TruncationObjectType {
+    #[doc = "auto"]
     Auto,
+    #[doc = "last_messages"]
     LastMessages,
 }
 impl<'de> serde::Deserialize<'de> for TruncationObject {
@@ -75292,9 +75914,13 @@ impl serde::Serialize for UploadStatus {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum UploadStatus {
+    #[doc = "pending"]
     Pending,
+    #[doc = "completed"]
     Completed,
+    #[doc = "cancelled"]
     Cancelled,
+    #[doc = "expired"]
     Expired,
 }
 #[doc = "The object type, which is always \"upload\"."]
@@ -76979,7 +77605,9 @@ impl serde::Serialize for UserRole {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum UserRole {
+    #[doc = "owner"]
     Owner,
+    #[doc = "reader"]
     Reader,
 }
 impl<'de> serde::Deserialize<'de> for User {
@@ -77331,7 +77959,9 @@ impl serde::Serialize for UserRoleUpdateRequestRole {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum UserRoleUpdateRequestRole {
+    #[doc = "owner"]
     Owner,
+    #[doc = "reader"]
     Reader,
 }
 impl<'de> serde::Deserialize<'de> for UserRoleUpdateRequest {
@@ -77605,9 +78235,13 @@ impl serde::Serialize for VectorStoreFileBatchObjectStatus {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum VectorStoreFileBatchObjectStatus {
+    #[doc = "in_progress"]
     InProgress,
+    #[doc = "completed"]
     Completed,
+    #[doc = "cancelled"]
     Cancelled,
+    #[doc = "failed"]
     Failed,
 }
 impl<'de> serde::Deserialize<'de> for VectorStoreFileBatchObjectFileCounts {
@@ -78068,9 +78702,13 @@ impl serde::Serialize for VectorStoreFileObjectStatus {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum VectorStoreFileObjectStatus {
+    #[doc = "in_progress"]
     InProgress,
+    #[doc = "completed"]
     Completed,
+    #[doc = "cancelled"]
     Cancelled,
+    #[doc = "failed"]
     Failed,
 }
 impl<'de> serde::Deserialize<'de> for VectorStoreFileObjectLastErrorCode {
@@ -78171,8 +78809,11 @@ impl serde::Serialize for VectorStoreFileObjectLastErrorCode {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum VectorStoreFileObjectLastErrorCode {
+    #[doc = "server_error"]
     ServerError,
+    #[doc = "unsupported_file"]
     UnsupportedFile,
+    #[doc = "invalid_file"]
     InvalidFile,
 }
 impl<'de> serde::Deserialize<'de> for VectorStoreFileObjectLastError {
@@ -78601,8 +79242,11 @@ impl serde::Serialize for VectorStoreObjectStatus {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum VectorStoreObjectStatus {
+    #[doc = "expired"]
     Expired,
+    #[doc = "in_progress"]
     InProgress,
+    #[doc = "completed"]
     Completed,
 }
 impl<'de> serde::Deserialize<'de> for VectorStoreObject {
@@ -78947,8 +79591,10 @@ impl serde::Serialize for VectorStoreSearchRequestRankingOptionsRanker {
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum VectorStoreSearchRequestRankingOptionsRanker {
+    #[doc = "auto"]
     #[default]
     Auto,
+    #[doc = "default-2024-11-15"]
     Default2024_11_15,
 }
 impl<'de> serde::Deserialize<'de> for VectorStoreSearchRequestRankingOptions {
@@ -79634,16 +80280,27 @@ impl serde::Serialize for VoiceIdsShared {
 #[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum VoiceIdsShared {
+    #[doc = "alloy"]
     Alloy,
+    #[doc = "ash"]
     Ash,
+    #[doc = "ballad"]
     Ballad,
+    #[doc = "coral"]
     Coral,
+    #[doc = "echo"]
     Echo,
+    #[doc = "fable"]
     Fable,
+    #[doc = "onyx"]
     Onyx,
+    #[doc = "nova"]
     Nova,
+    #[doc = "sage"]
     Sage,
+    #[doc = "shimmer"]
     Shimmer,
+    #[doc = "verse"]
     Verse,
     Other(String),
 }
@@ -79798,9 +80455,12 @@ impl serde::Serialize for WebSearchContextSize {
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum WebSearchContextSize {
+    #[doc = "low"]
     Low,
+    #[doc = "medium"]
     #[default]
     Medium,
+    #[doc = "high"]
     High,
 }
 impl<'de> serde::Deserialize<'de> for WebSearchLocation {
@@ -80009,9 +80669,13 @@ impl serde::Serialize for WebSearchToolCallStatus {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum WebSearchToolCallStatus {
+    #[doc = "in_progress"]
     InProgress,
+    #[doc = "searching"]
     Searching,
+    #[doc = "completed"]
     Completed,
+    #[doc = "failed"]
     Failed,
 }
 impl<'de> serde::Deserialize<'de> for WebSearchToolCall {
@@ -80244,8 +80908,11 @@ impl serde::Serialize for InputImageContentDetail {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum InputImageContentDetail {
+    #[doc = "low"]
     Low,
+    #[doc = "high"]
     High,
+    #[doc = "auto"]
     Auto,
 }
 impl<'de> serde::Deserialize<'de> for InputImageContent {
@@ -80518,7 +81185,9 @@ impl serde::Serialize for RankingOptionsRanker {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum RankingOptionsRanker {
+    #[doc = "auto"]
     Auto,
+    #[doc = "default-2024-11-15"]
     Default2024_11_15,
 }
 impl<'de> serde::Deserialize<'de> for RankingOptions {
@@ -81031,8 +81700,10 @@ impl serde::Serialize for WebSearchPreviewToolType {
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum WebSearchPreviewToolType {
+    #[doc = "web_search_preview"]
     #[default]
     WebSearchPreview,
+    #[doc = "web_search_preview_2025_03_11"]
     WebSearchPreview2025_03_11,
 }
 impl<'de> serde::Deserialize<'de> for WebSearchPreviewToolSearchContextSize {
@@ -81133,8 +81804,11 @@ impl serde::Serialize for WebSearchPreviewToolSearchContextSize {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum WebSearchPreviewToolSearchContextSize {
+    #[doc = "low"]
     Low,
+    #[doc = "medium"]
     Medium,
+    #[doc = "high"]
     High,
 }
 impl<'de> serde::Deserialize<'de> for WebSearchPreviewTool {
@@ -81351,10 +82025,15 @@ impl serde::Serialize for ComputerUsePreviewToolEnvironment {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum ComputerUsePreviewToolEnvironment {
+    #[doc = "windows"]
     Windows,
+    #[doc = "mac"]
     Mac,
+    #[doc = "linux"]
     Linux,
+    #[doc = "ubuntu"]
     Ubuntu,
+    #[doc = "browser"]
     Browser,
 }
 impl<'de> serde::Deserialize<'de> for ComputerUsePreviewTool {
@@ -82022,8 +82701,11 @@ impl serde::Serialize for ComputerCallOutputItemParamStatus {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum ComputerCallOutputItemParamStatus {
+    #[doc = "in_progress"]
     InProgress,
+    #[doc = "completed"]
     Completed,
+    #[doc = "incomplete"]
     Incomplete,
 }
 impl<'de> serde::Deserialize<'de> for ComputerCallOutputItemParam {
@@ -82243,8 +82925,11 @@ impl serde::Serialize for FunctionCallOutputItemParamStatus {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum FunctionCallOutputItemParamStatus {
+    #[doc = "in_progress"]
     InProgress,
+    #[doc = "completed"]
     Completed,
+    #[doc = "incomplete"]
     Incomplete,
 }
 impl<'de> serde::Deserialize<'de> for FunctionCallOutputItemParam {
@@ -82407,6 +83092,7 @@ impl serde::Serialize for ItemReferenceParamType {
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ItemReferenceParamType {
+    #[doc = "item_reference"]
     #[default]
     ItemReference,
 }
