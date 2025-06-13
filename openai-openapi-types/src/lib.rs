@@ -756,7 +756,7 @@ pub struct AssistantObject {
     #[doc = "The description of the assistant. The maximum length is 512 characters.\n"]
     #[builder(default)]
     pub description: Option<String>,
-    #[doc = "ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models) for descriptions of them.\n"]
+    #[doc = "ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models) for descriptions of them.\n"]
     pub model: String,
     #[doc = "The system instructions that the assistant uses. The maximum length is 256,000 characters.\n"]
     #[builder(default)]
@@ -830,7 +830,7 @@ impl serde::Serialize for AssistantStreamEvent {
         }
     }
 }
-#[doc = "Represents an event emitted when streaming a Run.\n\nEach event in a server-sent events stream has an `event` and `data` property:\n\n```\nevent: thread.created\ndata: {\"id\": \"thread_123\", \"object\": \"thread\", ...}\n```\n\nWe emit events whenever a new object is created, transitions to a new state, or is being\nstreamed in parts (deltas). For example, we emit `thread.run.created` when a new run\nis created, `thread.run.completed` when a run completes, and so on. When an Assistant chooses\nto create a message during a run, we emit a `thread.message.created event`, a\n`thread.message.in_progress` event, many `thread.message.delta` events, and finally a\n`thread.message.completed` event.\n\nWe may add additional events over time, so we recommend handling unknown events gracefully\nin your code. See the [Assistants API quickstart](/docs/assistants/overview) to learn how to\nintegrate the Assistants API with streaming.\n"]
+#[doc = "Represents an event emitted when streaming a Run.\n\nEach event in a server-sent events stream has an `event` and `data` property:\n\n```\nevent: thread.created\ndata: {\"id\": \"thread_123\", \"object\": \"thread\", ...}\n```\n\nWe emit events whenever a new object is created, transitions to a new state, or is being\nstreamed in parts (deltas). For example, we emit `thread.run.created` when a new run\nis created, `thread.run.completed` when a run completes, and so on. When an Assistant chooses\nto create a message during a run, we emit a `thread.message.created event`, a\n`thread.message.in_progress` event, many `thread.message.delta` events, and finally a\n`thread.message.completed` event.\n\nWe may add additional events over time, so we recommend handling unknown events gracefully\nin your code. See the [Assistants API quickstart](https://platform.openai.com/docs/assistants/overview) to learn how to\nintegrate the Assistants API with streaming.\n"]
 #[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum AssistantStreamEvent {
@@ -1812,7 +1812,7 @@ impl serde::Serialize for AssistantToolsFileSearchFileSearch {
 #[doc = "Overrides for the file search tool."]
 #[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
 pub struct AssistantToolsFileSearchFileSearch {
-    #[doc = "The maximum number of results the file search tool should output. The default is 20 for `gpt-4*` models and 5 for `gpt-3.5-turbo`. This number should be between 1 and 50 inclusive.\n\nNote that the file search tool may output fewer than `max_num_results` results. See the [file search tool documentation](/docs/assistants/tools/file-search#customizing-file-search-settings) for more information.\n"]
+    #[doc = "The maximum number of results the file search tool should output. The default is 20 for `gpt-4*` models and 5 for `gpt-3.5-turbo`. This number should be between 1 and 50 inclusive.\n\nNote that the file search tool may output fewer than `max_num_results` results. See the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search#customizing-file-search-settings) for more information.\n"]
     #[builder(default)]
     pub max_num_results: Option<u64>,
     #[builder(default)]
@@ -2063,7 +2063,7 @@ impl serde::Serialize for AssistantsApiResponseFormatOption {
         }
     }
 }
-#[doc = "Specifies the format that the model must output. Compatible with [GPT-4o](/docs/models#gpt-4o), [GPT-4 Turbo](/docs/models#gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.\n\nSetting to `{ \"type\": \"json_schema\", \"json_schema\": {...} }` enables Structured Outputs which ensures the model will match your supplied JSON schema. Learn more in the [Structured Outputs guide](/docs/guides/structured-outputs).\n\nSetting to `{ \"type\": \"json_object\" }` enables JSON mode, which ensures the message the model generates is valid JSON.\n\n**Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly \"stuck\" request. Also note that the message content may be partially cut off if `finish_reason=\"length\"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.\n"]
+#[doc = "Specifies the format that the model must output. Compatible with [GPT-4o](https://platform.openai.com/docs/models#gpt-4o), [GPT-4 Turbo](https://platform.openai.com/docs/models#gpt-4-turbo-and-gpt-4), and all GPT-3.5 Turbo models since `gpt-3.5-turbo-1106`.\n\nSetting to `{ \"type\": \"json_schema\", \"json_schema\": {...} }` enables Structured Outputs which ensures the model will match your supplied JSON schema. Learn more in the [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).\n\nSetting to `{ \"type\": \"json_object\" }` enables JSON mode, which ensures the message the model generates is valid JSON.\n\n**Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly \"stuck\" request. Also note that the message content may be partially cut off if `finish_reason=\"length\"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length.\n"]
 #[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum AssistantsApiResponseFormatOption {
@@ -8290,7 +8290,7 @@ pub enum ChatCompletionModality {
     #[doc = "audio"]
     Audio,
 }
-#[doc = "Output types that you would like the model to generate for this request.\nMost models are capable of generating text, which is the default:\n\n`[\"text\"]`\n\nThe `gpt-4o-audio-preview` model can also be used to [generate audio](/docs/guides/audio). To\nrequest that this model generate both text and audio responses, you can\nuse:\n\n`[\"text\", \"audio\"]`\n"]
+#[doc = "Output types that you would like the model to generate for this request.\nMost models are capable of generating text, which is the default:\n\n`[\"text\"]`\n\nThe `gpt-4o-audio-preview` model can also be used to [generate audio](https://platform.openai.com/docs/guides/audio). To\nrequest that this model generate both text and audio responses, you can\nuse:\n\n`[\"text\", \"audio\"]`\n"]
 pub type ChatCompletionModalities = Vec<ChatCompletionModality>;
 impl<'de> serde::Deserialize<'de> for ChatCompletionNamedToolChoiceFunction {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -8469,7 +8469,7 @@ impl serde::Serialize for ChatCompletionRequestAssistantMessageAudio {
         _S { id }.serialize(serializer)
     }
 }
-#[doc = "Data about a previous audio response from the model. \n[Learn more](/docs/guides/audio).\n"]
+#[doc = "Data about a previous audio response from the model. \n[Learn more](https://platform.openai.com/docs/guides/audio).\n"]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ChatCompletionRequestAssistantMessageAudio {
     #[doc = "Unique identifier for a previous audio response from the model.\n"]
@@ -8649,7 +8649,7 @@ pub struct ChatCompletionRequestAssistantMessage {
     #[doc = "An optional name for the participant. Provides the model information to differentiate between participants of the same role."]
     #[builder(default)]
     pub name: Option<String>,
-    #[doc = "Data about a previous audio response from the model. \n[Learn more](/docs/guides/audio).\n"]
+    #[doc = "Data about a previous audio response from the model. \n[Learn more](https://platform.openai.com/docs/guides/audio).\n"]
     #[builder(default)]
     pub audio: Option<ChatCompletionRequestAssistantMessageAudio>,
     #[builder(default)]
@@ -9150,7 +9150,7 @@ impl serde::Serialize for ChatCompletionRequestMessageContentPartAudio {
         .serialize(serializer)
     }
 }
-#[doc = "Learn about [audio inputs](/docs/guides/audio).\n"]
+#[doc = "Learn about [audio inputs](https://platform.openai.com/docs/guides/audio).\n"]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ChatCompletionRequestMessageContentPartAudio {
     pub input_audio: ChatCompletionRequestMessageContentPartAudioInputAudio,
@@ -9287,7 +9287,7 @@ impl serde::Serialize for ChatCompletionRequestMessageContentPartFile {
         .serialize(serializer)
     }
 }
-#[doc = "Learn about [file inputs](/docs/guides/text) for text generation.\n"]
+#[doc = "Learn about [file inputs](https://platform.openai.com/docs/guides/text) for text generation.\n"]
 #[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
 pub struct ChatCompletionRequestMessageContentPartFile {
     #[builder(default)]
@@ -9396,7 +9396,7 @@ impl serde::Serialize for ChatCompletionRequestMessageContentPartImageImageUrlDe
         }
     }
 }
-#[doc = "Specifies the detail level of the image. Learn more in the [Vision guide](/docs/guides/vision#low-or-high-fidelity-image-understanding)."]
+#[doc = "Specifies the detail level of the image. Learn more in the [Vision guide](https://platform.openai.com/docs/guides/vision#low-or-high-fidelity-image-understanding)."]
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionRequestMessageContentPartImageImageUrlDetail {
@@ -9449,7 +9449,7 @@ impl serde::Serialize for ChatCompletionRequestMessageContentPartImageImageUrl {
 pub struct ChatCompletionRequestMessageContentPartImageImageUrl {
     #[doc = "Either a URL of the image or the base64 encoded image data."]
     pub url: String,
-    #[doc = "Specifies the detail level of the image. Learn more in the [Vision guide](/docs/guides/vision#low-or-high-fidelity-image-understanding)."]
+    #[doc = "Specifies the detail level of the image. Learn more in the [Vision guide](https://platform.openai.com/docs/guides/vision#low-or-high-fidelity-image-understanding)."]
     #[builder(default)]
     pub detail: Option<ChatCompletionRequestMessageContentPartImageImageUrlDetail>,
 }
@@ -9511,7 +9511,7 @@ impl serde::Serialize for ChatCompletionRequestMessageContentPartImage {
         .serialize(serializer)
     }
 }
-#[doc = "Learn about [image inputs](/docs/guides/vision).\n"]
+#[doc = "Learn about [image inputs](https://platform.openai.com/docs/guides/vision).\n"]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ChatCompletionRequestMessageContentPartImage {
     pub image_url: ChatCompletionRequestMessageContentPartImageImageUrl,
@@ -9637,7 +9637,7 @@ impl serde::Serialize for ChatCompletionRequestMessageContentPartText {
         .serialize(serializer)
     }
 }
-#[doc = "Learn about [text inputs](/docs/guides/text-generation).\n"]
+#[doc = "Learn about [text inputs](https://platform.openai.com/docs/guides/text-generation).\n"]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ChatCompletionRequestMessageContentPartText {
     #[doc = "The text content."]
@@ -10030,7 +10030,7 @@ impl serde::Serialize for ChatCompletionRequestUserMessageContent {
 pub enum ChatCompletionRequestUserMessageContent {
     #[doc = "The text contents of the message."]
     String(String),
-    #[doc = "An array of content parts with a defined type. Supported options differ based on the [model](/docs/models) being used to generate the response. Can contain text, image, or audio inputs."]
+    #[doc = "An array of content parts with a defined type. Supported options differ based on the [model](https://platform.openai.com/docs/models) being used to generate the response. Can contain text, image, or audio inputs."]
     Array(Vec<ChatCompletionRequestUserMessageContentPart>),
 }
 impl<'de> serde::Deserialize<'de> for ChatCompletionRequestUserMessage {
@@ -10419,7 +10419,7 @@ impl serde::Serialize for ChatCompletionResponseMessageAudio {
         .serialize(serializer)
     }
 }
-#[doc = "If the audio output modality is requested, this object contains data\nabout the audio response from the model. [Learn more](/docs/guides/audio).\n"]
+#[doc = "If the audio output modality is requested, this object contains data\nabout the audio response from the model. [Learn more](https://platform.openai.com/docs/guides/audio).\n"]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ChatCompletionResponseMessageAudio {
     #[doc = "Unique identifier for this audio response."]
@@ -10558,13 +10558,13 @@ pub struct ChatCompletionResponseMessage {
     pub refusal: Option<String>,
     #[builder(default)]
     pub tool_calls: Option<ChatCompletionMessageToolCalls>,
-    #[doc = "Annotations for the message, when applicable, as when using the\n[web search tool](/docs/guides/tools-web-search?api-mode=chat).\n"]
+    #[doc = "Annotations for the message, when applicable, as when using the\n[web search tool](https://platform.openai.com/docs/guides/tools-web-search?api-mode=chat).\n"]
     #[builder(default)]
     pub annotations: Option<Vec<ChatCompletionResponseMessageAnnotation>>,
     #[doc = "Deprecated and replaced by `tool_calls`. The name and arguments of a function that should be called, as generated by the model."]
     #[builder(default)]
     pub function_call: Option<ChatCompletionResponseMessageFunctionCall>,
-    #[doc = "If the audio output modality is requested, this object contains data\nabout the audio response from the model. [Learn more](/docs/guides/audio).\n"]
+    #[doc = "If the audio output modality is requested, this object contains data\nabout the audio response from the model. [Learn more](https://platform.openai.com/docs/guides/audio).\n"]
     #[builder(default)]
     pub audio: Option<ChatCompletionResponseMessageAudio>,
 }
@@ -13169,7 +13169,7 @@ impl serde::Serialize for ComputerToolCall {
         .serialize(serializer)
     }
 }
-#[doc = "A tool call to a computer use tool. See the \n[computer use guide](/docs/guides/tools-computer-use) for more information.\n"]
+#[doc = "A tool call to a computer use tool. See the \n[computer use guide](https://platform.openai.com/docs/guides/tools-computer-use) for more information.\n"]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ComputerToolCall {
     #[doc = "The unique ID of the computer call."]
@@ -14826,7 +14826,7 @@ impl serde::Serialize for CreateAssistantRequest {
 }
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateAssistantRequest {
-    #[doc = "ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models) for descriptions of them.\n"]
+    #[doc = "ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models) for descriptions of them.\n"]
     pub model: String,
     #[doc = "The name of the assistant. The maximum length is 256 characters.\n"]
     #[builder(default)]
@@ -14972,7 +14972,7 @@ impl serde::Serialize for CreateChatCompletionRequestWebSearchOptions {
         .serialize(serializer)
     }
 }
-#[doc = "This tool searches the web for relevant results to use in a response.\nLearn more about the [web search tool](/docs/guides/tools-web-search?api-mode=chat).\n"]
+#[doc = "This tool searches the web for relevant results to use in a response.\nLearn more about the [web search tool](https://platform.openai.com/docs/guides/tools-web-search?api-mode=chat).\n"]
 #[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
 pub struct CreateChatCompletionRequestWebSearchOptions {
     #[doc = "Approximate location parameters for the search.\n"]
@@ -15023,7 +15023,7 @@ impl serde::Serialize for CreateChatCompletionRequestResponseFormat {
         }
     }
 }
-#[doc = "An object specifying the format that the model must output.\n\nSetting to `{ \"type\": \"json_schema\", \"json_schema\": {...} }` enables\nStructured Outputs which ensures the model will match your supplied JSON\nschema. Learn more in the [Structured Outputs\nguide](/docs/guides/structured-outputs).\n\nSetting to `{ \"type\": \"json_object\" }` enables the older JSON mode, which\nensures the message the model generates is valid JSON. Using `json_schema`\nis preferred for models that support it.\n"]
+#[doc = "An object specifying the format that the model must output.\n\nSetting to `{ \"type\": \"json_schema\", \"json_schema\": {...} }` enables\nStructured Outputs which ensures the model will match your supplied JSON\nschema. Learn more in the [Structured Outputs\nguide](https://platform.openai.com/docs/guides/structured-outputs).\n\nSetting to `{ \"type\": \"json_object\" }` enables the older JSON mode, which\nensures the message the model generates is valid JSON. Using `json_schema`\nis preferred for models that support it.\n"]
 #[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateChatCompletionRequestResponseFormat {
@@ -15234,7 +15234,7 @@ impl serde::Serialize for CreateChatCompletionRequestAudio {
         _S { voice, format }.serialize(serializer)
     }
 }
-#[doc = "Parameters for audio output. Required when audio output is requested with\n`modalities: [\"audio\"]`. [Learn more](/docs/guides/audio).\n"]
+#[doc = "Parameters for audio output. Required when audio output is requested with\n`modalities: [\"audio\"]`. [Learn more](https://platform.openai.com/docs/guides/audio).\n"]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateChatCompletionRequestAudio {
     #[doc = "The voice the model uses to respond. Supported voices are \n`alloy`, `ash`, `ballad`, `coral`, `echo`, `fable`, `nova`, `onyx`, `sage`, and `shimmer`.\n"]
@@ -15276,7 +15276,7 @@ impl serde::Serialize for CreateChatCompletionRequestPrediction {
         }
     }
 }
-#[doc = "Configuration for a [Predicted Output](/docs/guides/predicted-outputs),\nwhich can greatly improve response times when large parts of the model\nresponse are known ahead of time. This is most common when you are\nregenerating a file with only minor changes to most of the content.\n"]
+#[doc = "Configuration for a [Predicted Output](https://platform.openai.com/docs/guides/predicted-outputs),\nwhich can greatly improve response times when large parts of the model\nresponse are known ahead of time. This is most common when you are\nregenerating a file with only minor changes to most of the content.\n"]
 #[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateChatCompletionRequestPrediction {
@@ -15673,15 +15673,15 @@ impl serde::Serialize for CreateChatCompletionRequest {
 pub struct CreateChatCompletionRequest {
     #[builder(default)]
     pub create_model_response_properties: CreateModelResponseProperties,
-    #[doc = "A list of messages comprising the conversation so far. Depending on the\n[model](/docs/models) you use, different message types (modalities) are\nsupported, like [text](/docs/guides/text-generation),\n[images](/docs/guides/vision), and [audio](/docs/guides/audio).\n"]
+    #[doc = "A list of messages comprising the conversation so far. Depending on the\n[model](https://platform.openai.com/docs/models) you use, different message types (modalities) are\nsupported, like [text](https://platform.openai.com/docs/guides/text-generation),\n[images](https://platform.openai.com/docs/guides/vision), and [audio](https://platform.openai.com/docs/guides/audio).\n"]
     pub messages: Vec<ChatCompletionRequestMessage>,
-    #[doc = "Model ID used to generate the response, like `gpt-4o` or `o3`. OpenAI\noffers a wide range of models with different capabilities, performance\ncharacteristics, and price points. Refer to the [model guide](/docs/models)\nto browse and compare available models.\n"]
+    #[doc = "Model ID used to generate the response, like `gpt-4o` or `o3`. OpenAI\noffers a wide range of models with different capabilities, performance\ncharacteristics, and price points. Refer to the [model guide](https://platform.openai.com/docs/models)\nto browse and compare available models.\n"]
     pub model: ModelIdsShared,
     #[builder(default)]
     pub modalities: Option<ResponseModalities>,
     #[builder(default)]
     pub reasoning_effort: Option<ReasoningEffort>,
-    #[doc = "An upper bound for the number of tokens that can be generated for a completion, including visible output tokens and [reasoning tokens](/docs/guides/reasoning).\n"]
+    #[doc = "An upper bound for the number of tokens that can be generated for a completion, including visible output tokens and [reasoning tokens](https://platform.openai.com/docs/guides/reasoning).\n"]
     #[builder(default)]
     pub max_completion_tokens: Option<u64>,
     #[doc = "Number between -2.0 and 2.0. Positive values penalize new tokens based on\ntheir existing frequency in the text so far, decreasing the model's\nlikelihood to repeat the same line verbatim.\n"]
@@ -15690,22 +15690,22 @@ pub struct CreateChatCompletionRequest {
     #[doc = "Number between -2.0 and 2.0. Positive values penalize new tokens based on\nwhether they appear in the text so far, increasing the model's likelihood\nto talk about new topics.\n"]
     #[builder(default)]
     pub presence_penalty: Option<f64>,
-    #[doc = "This tool searches the web for relevant results to use in a response.\nLearn more about the [web search tool](/docs/guides/tools-web-search?api-mode=chat).\n"]
+    #[doc = "This tool searches the web for relevant results to use in a response.\nLearn more about the [web search tool](https://platform.openai.com/docs/guides/tools-web-search?api-mode=chat).\n"]
     #[builder(default)]
     pub web_search_options: Option<CreateChatCompletionRequestWebSearchOptions>,
     #[doc = "An integer between 0 and 20 specifying the number of most likely tokens to\nreturn at each token position, each with an associated log probability.\n`logprobs` must be set to `true` if this parameter is used.\n"]
     #[builder(default)]
     pub top_logprobs: Option<u64>,
-    #[doc = "An object specifying the format that the model must output.\n\nSetting to `{ \"type\": \"json_schema\", \"json_schema\": {...} }` enables\nStructured Outputs which ensures the model will match your supplied JSON\nschema. Learn more in the [Structured Outputs\nguide](/docs/guides/structured-outputs).\n\nSetting to `{ \"type\": \"json_object\" }` enables the older JSON mode, which\nensures the message the model generates is valid JSON. Using `json_schema`\nis preferred for models that support it.\n"]
+    #[doc = "An object specifying the format that the model must output.\n\nSetting to `{ \"type\": \"json_schema\", \"json_schema\": {...} }` enables\nStructured Outputs which ensures the model will match your supplied JSON\nschema. Learn more in the [Structured Outputs\nguide](https://platform.openai.com/docs/guides/structured-outputs).\n\nSetting to `{ \"type\": \"json_object\" }` enables the older JSON mode, which\nensures the message the model generates is valid JSON. Using `json_schema`\nis preferred for models that support it.\n"]
     #[builder(default)]
     pub response_format: Option<CreateChatCompletionRequestResponseFormat>,
-    #[doc = "Parameters for audio output. Required when audio output is requested with\n`modalities: [\"audio\"]`. [Learn more](/docs/guides/audio).\n"]
+    #[doc = "Parameters for audio output. Required when audio output is requested with\n`modalities: [\"audio\"]`. [Learn more](https://platform.openai.com/docs/guides/audio).\n"]
     #[builder(default)]
     pub audio: Option<CreateChatCompletionRequestAudio>,
-    #[doc = "Whether or not to store the output of this chat completion request for \nuse in our [model distillation](/docs/guides/distillation) or\n[evals](/docs/guides/evals) products.\n"]
+    #[doc = "Whether or not to store the output of this chat completion request for \nuse in our [model distillation](https://platform.openai.com/docs/guides/distillation) or\n[evals](https://platform.openai.com/docs/guides/evals) products.\n"]
     #[builder(default)]
     pub store: Option<bool>,
-    #[doc = "If set to true, the model response data will be streamed to the client\nas it is generated using [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format).\nSee the [Streaming section below](https://platform.openai.com/docs/api-reference/chat/streaming)\nfor more information, along with the [streaming responses](/docs/guides/streaming-responses)\nguide for more information on how to handle the streaming events.\n"]
+    #[doc = "If set to true, the model response data will be streamed to the client\nas it is generated using [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format).\nSee the [Streaming section below](https://platform.openai.com/docs/api-reference/chat/streaming)\nfor more information, along with the [streaming responses](https://platform.openai.com/docs/guides/streaming-responses)\nguide for more information on how to handle the streaming events.\n"]
     #[builder(default)]
     pub stream: Option<bool>,
     #[builder(default)]
@@ -15716,13 +15716,13 @@ pub struct CreateChatCompletionRequest {
     #[doc = "Whether to return log probabilities of the output tokens or not. If true,\nreturns the log probabilities of each output token returned in the\n`content` of `message`.\n"]
     #[builder(default)]
     pub logprobs: Option<bool>,
-    #[doc = "The maximum number of [tokens](/tokenizer) that can be generated in the\nchat completion. This value can be used to control\n[costs](https://openai.com/api/pricing/) for text generated via API.\n\nThis value is now deprecated in favor of `max_completion_tokens`, and is\nnot compatible with [o-series models](/docs/guides/reasoning).\n"]
+    #[doc = "The maximum number of [tokens](/tokenizer) that can be generated in the\nchat completion. This value can be used to control\n[costs](https://openai.com/api/pricing/) for text generated via API.\n\nThis value is now deprecated in favor of `max_completion_tokens`, and is\nnot compatible with [o-series models](https://platform.openai.com/docs/guides/reasoning).\n"]
     #[builder(default)]
     pub max_tokens: Option<u64>,
     #[doc = "How many chat completion choices to generate for each input message. Note that you will be charged based on the number of generated tokens across all of the choices. Keep `n` as `1` to minimize costs."]
     #[builder(default)]
     pub n: Option<u64>,
-    #[doc = "Configuration for a [Predicted Output](/docs/guides/predicted-outputs),\nwhich can greatly improve response times when large parts of the model\nresponse are known ahead of time. This is most common when you are\nregenerating a file with only minor changes to most of the content.\n"]
+    #[doc = "Configuration for a [Predicted Output](https://platform.openai.com/docs/guides/predicted-outputs),\nwhich can greatly improve response times when large parts of the model\nresponse are known ahead of time. This is most common when you are\nregenerating a file with only minor changes to most of the content.\n"]
     #[builder(default)]
     pub prediction: Option<CreateChatCompletionRequestPrediction>,
     #[doc = "This feature is in Beta.\nIf specified, our system will make a best effort to sample deterministically, such that repeated requests with the same `seed` and parameters should return the same result.\nDeterminism is not guaranteed, and you should refer to the `system_fingerprint` response parameter to monitor changes in the backend.\n"]
@@ -16590,7 +16590,7 @@ impl serde::Serialize for CreateChatCompletionStreamResponse {
         .serialize(serializer)
     }
 }
-#[doc = "Represents a streamed chunk of a chat completion response returned\nby the model, based on the provided input. \n[Learn more](/docs/guides/streaming-responses).\n"]
+#[doc = "Represents a streamed chunk of a chat completion response returned\nby the model, based on the provided input. \n[Learn more](https://platform.openai.com/docs/guides/streaming-responses).\n"]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateChatCompletionStreamResponse {
     #[doc = "A unique identifier for the chat completion. Each chunk has the same ID."]
@@ -16878,7 +16878,7 @@ impl serde::Serialize for CreateCompletionRequest {
 }
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateCompletionRequest {
-    #[doc = "ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models) for descriptions of them.\n"]
+    #[doc = "ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models) for descriptions of them.\n"]
     pub model: String,
     #[doc = "The prompt(s) to generate completions for, encoded as a string, array of strings, array of tokens, or array of token arrays.\n\nNote that <|endoftext|> is the document separator that the model sees during training, so if a prompt is not specified the model will generate as if from the beginning of a new document.\n"]
     #[builder(default)]
@@ -16889,7 +16889,7 @@ pub struct CreateCompletionRequest {
     #[doc = "Echo back the prompt in addition to the completion\n"]
     #[builder(default)]
     pub echo: Option<bool>,
-    #[doc = "Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.\n\n[See more information about frequency and presence penalties.](/docs/guides/text-generation)\n"]
+    #[doc = "Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.\n\n[See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation)\n"]
     #[builder(default)]
     pub frequency_penalty: Option<f64>,
     #[doc = "Modify the likelihood of specified tokens appearing in the completion.\n\nAccepts a JSON object that maps tokens (specified by their token ID in the GPT tokenizer) to an associated bias value from -100 to 100. You can use this [tokenizer tool](/tokenizer?view=bpe) to convert text to token IDs. Mathematically, the bias is added to the logits generated by the model prior to sampling. The exact effect will vary per model, but values between -1 and 1 should decrease or increase likelihood of selection; values like -100 or 100 should result in a ban or exclusive selection of the relevant token.\n\nAs an example, you can pass `{\"50256\": -100}` to prevent the <|endoftext|> token from being generated.\n"]
@@ -16904,7 +16904,7 @@ pub struct CreateCompletionRequest {
     #[doc = "How many completions to generate for each prompt.\n\n**Note:** Because this parameter generates many completions, it can quickly consume your token quota. Use carefully and ensure that you have reasonable settings for `max_tokens` and `stop`.\n"]
     #[builder(default)]
     pub n: Option<u64>,
-    #[doc = "Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.\n\n[See more information about frequency and presence penalties.](/docs/guides/text-generation)\n"]
+    #[doc = "Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.\n\n[See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation)\n"]
     #[builder(default)]
     pub presence_penalty: Option<f64>,
     #[doc = "If specified, our system will make a best effort to sample deterministically, such that repeated requests with the same `seed` and parameters should return the same result.\n\nDeterminism is not guaranteed, and you should refer to the `system_fingerprint` response parameter to monitor changes in the backend.\n"]
@@ -16926,7 +16926,7 @@ pub struct CreateCompletionRequest {
     #[doc = "An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.\n\nWe generally recommend altering this or `temperature` but not both.\n"]
     #[builder(default)]
     pub top_p: Option<f64>,
-    #[doc = "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices#end-user-ids).\n"]
+    #[doc = "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#end-user-ids).\n"]
     #[builder(default)]
     pub user: Option<String>,
 }
@@ -17548,7 +17548,7 @@ impl serde::Serialize for CreateEmbeddingRequest {
 pub struct CreateEmbeddingRequest {
     #[doc = "Input text to embed, encoded as a string or array of tokens. To embed multiple inputs in a single request, pass an array of strings or array of token arrays. The input must not exceed the max input tokens for the model (8192 tokens for `text-embedding-ada-002`), cannot be an empty string, and any array must be 2048 dimensions or less. [Example Python code](https://cookbook.openai.com/examples/how_to_count_tokens_with_tiktoken) for counting tokens. Some models may also impose a limit on total number of tokens summed across inputs.\n"]
     pub input: CreateEmbeddingRequestInput,
-    #[doc = "ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models) for descriptions of them.\n"]
+    #[doc = "ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models) for descriptions of them.\n"]
     pub model: String,
     #[doc = "The format to return the embeddings in. Can be either `float` or [`base64`](https://pypi.org/project/pybase64/)."]
     #[builder(default)]
@@ -17556,7 +17556,7 @@ pub struct CreateEmbeddingRequest {
     #[doc = "The number of dimensions the resulting output embeddings should have. Only supported in `text-embedding-3` and later models.\n"]
     #[builder(default)]
     pub dimensions: Option<u64>,
-    #[doc = "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices#end-user-ids).\n"]
+    #[doc = "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#end-user-ids).\n"]
     #[builder(default)]
     pub user: Option<String>,
 }
@@ -20283,9 +20283,9 @@ impl serde::Serialize for CreateFineTuningJobRequest {
 }
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateFineTuningJobRequest {
-    #[doc = "The name of the model to fine-tune. You can select one of the\n[supported models](/docs/guides/fine-tuning#which-models-can-be-fine-tuned).\n"]
+    #[doc = "The name of the model to fine-tune. You can select one of the\n[supported models](https://platform.openai.com/docs/guides/fine-tuning#which-models-can-be-fine-tuned).\n"]
     pub model: String,
-    #[doc = "The ID of an uploaded file that contains training data.\n\nSee [upload file](https://platform.openai.com/docs/api-reference/files/create) for how to upload a file.\n\nYour dataset must be formatted as a JSONL file. Additionally, you must upload your file with the purpose `fine-tune`.\n\nThe contents of the file should differ depending on if the model uses the [chat](https://platform.openai.com/docs/api-reference/fine-tuning/chat-input), [completions](https://platform.openai.com/docs/api-reference/fine-tuning/completions-input) format, or if the fine-tuning method uses the [preference](https://platform.openai.com/docs/api-reference/fine-tuning/preference-input) format.\n\nSee the [fine-tuning guide](/docs/guides/fine-tuning) for more details.\n"]
+    #[doc = "The ID of an uploaded file that contains training data.\n\nSee [upload file](https://platform.openai.com/docs/api-reference/files/create) for how to upload a file.\n\nYour dataset must be formatted as a JSONL file. Additionally, you must upload your file with the purpose `fine-tune`.\n\nThe contents of the file should differ depending on if the model uses the [chat](https://platform.openai.com/docs/api-reference/fine-tuning/chat-input), [completions](https://platform.openai.com/docs/api-reference/fine-tuning/completions-input) format, or if the fine-tuning method uses the [preference](https://platform.openai.com/docs/api-reference/fine-tuning/preference-input) format.\n\nSee the [fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning) for more details.\n"]
     pub training_file: String,
     #[doc = "The hyperparameters used for the fine-tuning job.\nThis value is now deprecated in favor of `method`, and should be passed in under the `method` parameter.\n"]
     #[builder(default)]
@@ -20293,7 +20293,7 @@ pub struct CreateFineTuningJobRequest {
     #[doc = "A string of up to 64 characters that will be added to your fine-tuned model name.\n\nFor example, a `suffix` of \"custom-model-name\" would produce a model name like `ft:gpt-4o-mini:openai:custom-model-name:7p4lURel`.\n"]
     #[builder(default)]
     pub suffix: Option<String>,
-    #[doc = "The ID of an uploaded file that contains validation data.\n\nIf you provide this file, the data is used to generate validation\nmetrics periodically during fine-tuning. These metrics can be viewed in\nthe fine-tuning results file.\nThe same data should not be present in both train and validation files.\n\nYour dataset must be formatted as a JSONL file. You must upload your file with the purpose `fine-tune`.\n\nSee the [fine-tuning guide](/docs/guides/fine-tuning) for more details.\n"]
+    #[doc = "The ID of an uploaded file that contains validation data.\n\nIf you provide this file, the data is used to generate validation\nmetrics periodically during fine-tuning. These metrics can be viewed in\nthe fine-tuning results file.\nThe same data should not be present in both train and validation files.\n\nYour dataset must be formatted as a JSONL file. You must upload your file with the purpose `fine-tune`.\n\nSee the [fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning) for more details.\n"]
     #[builder(default)]
     pub validation_file: Option<String>,
     #[doc = "A list of integrations to enable for your fine-tuning job."]
@@ -20905,7 +20905,7 @@ pub struct CreateImageEditRequest {
     #[doc = "The format in which the generated images are returned. Must be one of `url` or `b64_json`. URLs are only valid for 60 minutes after the image has been generated. This parameter is only supported for `dall-e-2`, as `gpt-image-1` will always return base64-encoded images."]
     #[builder(default)]
     pub response_format: Option<CreateImageEditRequestResponseFormat>,
-    #[doc = "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices#end-user-ids).\n"]
+    #[doc = "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#end-user-ids).\n"]
     #[builder(default)]
     pub user: Option<String>,
     #[doc = "The quality of the image that will be generated. `high`, `medium` and `low` are only supported for `gpt-image-1`. `dall-e-2` only supports `standard` quality. Defaults to `auto`.\n"]
@@ -21921,7 +21921,7 @@ pub struct CreateImageRequest {
     #[doc = "The style of the generated images. This parameter is only supported for `dall-e-3`. Must be one of `vivid` or `natural`. Vivid causes the model to lean towards generating hyper-real and dramatic images. Natural causes the model to produce more natural, less hyper-real looking images."]
     #[builder(default)]
     pub style: Option<CreateImageRequestStyle>,
-    #[doc = "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices#end-user-ids).\n"]
+    #[doc = "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#end-user-ids).\n"]
     #[builder(default)]
     pub user: Option<String>,
 }
@@ -22216,7 +22216,7 @@ pub struct CreateImageVariationRequest {
     #[doc = "The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024`."]
     #[builder(default)]
     pub size: Option<CreateImageVariationRequestSize>,
-    #[doc = "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices#end-user-ids).\n"]
+    #[doc = "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#end-user-ids).\n"]
     #[builder(default)]
     pub user: Option<String>,
 }
@@ -22391,7 +22391,7 @@ impl serde::Serialize for CreateMessageRequestContent {
 pub enum CreateMessageRequestContent {
     #[doc = "The text contents of the message."]
     String(String),
-    #[doc = "An array of content parts with a defined type, each can be of type `text` or images can be passed with `image_url` or `image_file`. Image types are only supported on [Vision-compatible models](/docs/models)."]
+    #[doc = "An array of content parts with a defined type, each can be of type `text` or images can be passed with `image_url` or `image_file`. Image types are only supported on [Vision-compatible models](https://platform.openai.com/docs/models)."]
     Array(Vec<CreateMessageRequestContentArray>),
 }
 impl<'de> serde::Deserialize<'de> for CreateMessageRequestAttachmentsTool {
@@ -22868,7 +22868,7 @@ impl serde::Serialize for CreateModerationRequest {
 pub struct CreateModerationRequest {
     #[doc = "Input (or inputs) to classify. Can be a single string, an array of strings, or\nan array of multi-modal input objects similar to other models.\n"]
     pub input: CreateModerationRequestInput,
-    #[doc = "The content moderation model you would like to use. Learn more in\n[the moderation guide](/docs/guides/moderation), and learn about\navailable models [here](/docs/models#moderation).\n"]
+    #[doc = "The content moderation model you would like to use. Learn more in\n[the moderation guide](https://platform.openai.com/docs/guides/moderation), and learn about\navailable models [here](https://platform.openai.com/docs/models#moderation).\n"]
     #[builder(default)]
     pub model: Option<String>,
 }
@@ -24192,7 +24192,7 @@ impl serde::Serialize for CreateResponseInput {
         }
     }
 }
-#[doc = "Text, image, or file inputs to the model, used to generate a response.\n\nLearn more:\n- [Text inputs and outputs](/docs/guides/text)\n- [Image inputs](/docs/guides/images)\n- [File inputs](/docs/guides/pdf-files)\n- [Conversation state](/docs/guides/conversation-state)\n- [Function calling](/docs/guides/function-calling)\n"]
+#[doc = "Text, image, or file inputs to the model, used to generate a response.\n\nLearn more:\n- [Text inputs and outputs](https://platform.openai.com/docs/guides/text)\n- [Image inputs](https://platform.openai.com/docs/guides/images)\n- [File inputs](https://platform.openai.com/docs/guides/pdf-files)\n- [Conversation state](https://platform.openai.com/docs/guides/conversation-state)\n- [Function calling](https://platform.openai.com/docs/guides/function-calling)\n"]
 #[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateResponseInput {
@@ -24306,7 +24306,7 @@ pub struct CreateResponse {
     pub create_model_response_properties: CreateModelResponseProperties,
     #[builder(default)]
     pub response_properties: ResponseProperties,
-    #[doc = "Text, image, or file inputs to the model, used to generate a response.\n\nLearn more:\n- [Text inputs and outputs](/docs/guides/text)\n- [Image inputs](/docs/guides/images)\n- [File inputs](/docs/guides/pdf-files)\n- [Conversation state](/docs/guides/conversation-state)\n- [Function calling](/docs/guides/function-calling)\n"]
+    #[doc = "Text, image, or file inputs to the model, used to generate a response.\n\nLearn more:\n- [Text inputs and outputs](https://platform.openai.com/docs/guides/text)\n- [Image inputs](https://platform.openai.com/docs/guides/images)\n- [File inputs](https://platform.openai.com/docs/guides/pdf-files)\n- [Conversation state](https://platform.openai.com/docs/guides/conversation-state)\n- [Function calling](https://platform.openai.com/docs/guides/function-calling)\n"]
     pub input: CreateResponseInput,
     #[doc = "Specify additional output data to include in the model response. Currently\nsupported values are:\n- `file_search_call.results`: Include the search results of\n  the file search tool call.\n- `message.input_image.image_url`: Include image urls from the input message.\n- `computer_call_output.output.image_url`: Include image urls from the computer call output.\n"]
     #[builder(default)]
@@ -24877,14 +24877,14 @@ impl serde::Serialize for CreateSpeechRequest {
 }
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateSpeechRequest {
-    #[doc = "One of the available [TTS models](/docs/models#tts): `tts-1`, `tts-1-hd` or `gpt-4o-mini-tts`.\n"]
+    #[doc = "One of the available [TTS models](https://platform.openai.com/docs/models#tts): `tts-1`, `tts-1-hd` or `gpt-4o-mini-tts`.\n"]
     pub model: String,
     #[doc = "The text to generate audio for. The maximum length is 4096 characters."]
     pub input: String,
     #[doc = "Control the voice of your generated audio with additional instructions. Does not work with `tts-1` or `tts-1-hd`."]
     #[builder(default)]
     pub instructions: Option<String>,
-    #[doc = "The voice to use when generating the audio. Supported voices are `alloy`, `ash`, `ballad`, `coral`, `echo`, `fable`, `onyx`, `nova`, `sage`, `shimmer`, and `verse`. Previews of the voices are available in the [Text to speech guide](/docs/guides/text-to-speech#voice-options)."]
+    #[doc = "The voice to use when generating the audio. Supported voices are `alloy`, `ash`, `ballad`, `coral`, `echo`, `fable`, `onyx`, `nova`, `sage`, `shimmer`, and `verse`. Previews of the voices are available in the [Text to speech guide](https://platform.openai.com/docs/guides/text-to-speech#voice-options)."]
     pub voice: VoiceIdsShared,
     #[doc = "The format to audio in. Supported formats are `mp3`, `opus`, `aac`, `flac`, `wav`, and `pcm`."]
     #[builder(default)]
@@ -26515,7 +26515,7 @@ pub struct CreateTranscriptionRequest {
     #[doc = "The language of the input audio. Supplying the input language in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) (e.g. `en`) format will improve accuracy and latency.\n"]
     #[builder(default)]
     pub language: Option<String>,
-    #[doc = "An optional text to guide the model's style or continue a previous audio segment. The [prompt](/docs/guides/speech-to-text#prompting) should match the audio language.\n"]
+    #[doc = "An optional text to guide the model's style or continue a previous audio segment. The [prompt](https://platform.openai.com/docs/guides/speech-to-text#prompting) should match the audio language.\n"]
     #[builder(default)]
     pub prompt: Option<String>,
     #[builder(default)]
@@ -26529,7 +26529,7 @@ pub struct CreateTranscriptionRequest {
     #[doc = "The timestamp granularities to populate for this transcription. `response_format` must be set `verbose_json` to use timestamp granularities. Either or both of these options are supported: `word`, or `segment`. Note: There is no additional latency for segment timestamps, but generating word timestamps incurs additional latency.\n"]
     #[builder(default)]
     pub timestamp_granularities: Option<Vec<CreateTranscriptionRequestTimestampGranularities>>,
-    #[doc = "If set to true, the model response data will be streamed to the client\nas it is generated using [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format). \nSee the [Streaming section of the Speech-to-Text guide](/docs/guides/speech-to-text?lang=curl#streaming-transcriptions)\nfor more information.\n\nNote: Streaming is not supported for the `whisper-1` model and will be ignored.\n"]
+    #[doc = "If set to true, the model response data will be streamed to the client\nas it is generated using [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format). \nSee the [Streaming section of the Speech-to-Text guide](https://platform.openai.com/docs/guides/speech-to-text?lang=curl#streaming-transcriptions)\nfor more information.\n\nNote: Streaming is not supported for the `whisper-1` model and will be ignored.\n"]
     #[builder(default)]
     pub stream: Option<bool>,
 }
@@ -27026,7 +27026,7 @@ pub struct CreateTranslationRequest {
     pub file: Vec<u8>,
     #[doc = "ID of the model to use. Only `whisper-1` (which is powered by our open source Whisper V2 model) is currently available.\n"]
     pub model: String,
-    #[doc = "An optional text to guide the model's style or continue a previous audio segment. The [prompt](/docs/guides/speech-to-text#prompting) should be in English.\n"]
+    #[doc = "An optional text to guide the model's style or continue a previous audio segment. The [prompt](https://platform.openai.com/docs/guides/speech-to-text#prompting) should be in English.\n"]
     #[builder(default)]
     pub prompt: Option<String>,
     #[doc = "The format of the output, in one of these options: `json`, `text`, `srt`, `verbose_json`, or `vtt`.\n"]
@@ -28769,7 +28769,7 @@ impl serde::Serialize for Embedding {
 pub struct Embedding {
     #[doc = "The index of the embedding in the list of embeddings."]
     pub index: u64,
-    #[doc = "The embedding vector, which is a list of floats. The length of vector depends on the model as listed in the [embedding guide](/docs/guides/embeddings).\n"]
+    #[doc = "The embedding vector, which is a list of floats. The length of vector depends on the model as listed in the [embedding guide](https://platform.openai.com/docs/guides/embeddings).\n"]
     pub embedding: Vec<f64>,
 }
 impl<'de> serde::Deserialize<'de> for Error {
@@ -28907,7 +28907,7 @@ impl serde::Serialize for ErrorEvent {
         .serialize(serializer)
     }
 }
-#[doc = "Occurs when an [error](/docs/guides/error-codes#api-errors) occurs. This can happen due to an internal server error or a timeout."]
+#[doc = "Occurs when an [error](https://platform.openai.com/docs/guides/error-codes#api-errors) occurs. This can happen due to an internal server error or a timeout."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ErrorEvent {
     pub data: Error,
@@ -32628,7 +32628,7 @@ impl serde::Serialize for FileSearchRankingOptions {
         .serialize(serializer)
     }
 }
-#[doc = "The ranking options for the file search. If not specified, the file search tool will use the `auto` ranker and a score_threshold of 0.\n\nSee the [file search tool documentation](/docs/assistants/tools/file-search#customizing-file-search-settings) for more information.\n"]
+#[doc = "The ranking options for the file search. If not specified, the file search tool will use the `auto` ranker and a score_threshold of 0.\n\nSee the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search#customizing-file-search-settings) for more information.\n"]
 #[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
 pub struct FileSearchRankingOptions {
     #[builder(default)]
@@ -32973,7 +32973,7 @@ impl serde::Serialize for FileSearchToolCall {
         .serialize(serializer)
     }
 }
-#[doc = "The results of a file search tool call. See the \n[file search guide](/docs/guides/tools-file-search) for more information.\n"]
+#[doc = "The results of a file search tool call. See the \n[file search guide](https://platform.openai.com/docs/guides/tools-file-search) for more information.\n"]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct FileSearchToolCall {
     #[doc = "The unique ID of the file search tool call.\n"]
@@ -36085,7 +36085,7 @@ pub struct FunctionObject {
     #[builder(default)]
     pub strict: Option<bool>,
 }
-#[doc = "The parameters the functions accepts, described as a JSON Schema object. See the [guide](/docs/guides/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format. \n\nOmitting `parameters` defines a function with an empty parameter list."]
+#[doc = "The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format. \n\nOmitting `parameters` defines a function with an empty parameter list."]
 pub type FunctionParameters = std::collections::HashMap<String, serde_json::Value>;
 impl<'de> serde::Deserialize<'de> for FunctionToolCallStatus {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -36291,7 +36291,7 @@ impl serde::Serialize for FunctionToolCall {
         .serialize(serializer)
     }
 }
-#[doc = "A tool call to run a function. See the \n[function calling guide](/docs/guides/function-calling) for more information.\n"]
+#[doc = "A tool call to run a function. See the \n[function calling guide](https://platform.openai.com/docs/guides/function-calling) for more information.\n"]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct FunctionToolCall {
     #[doc = "The unique ID of the function tool call.\n"]
@@ -45095,7 +45095,7 @@ pub struct ModelResponseProperties {
     #[doc = "An alternative to sampling with temperature, called nucleus sampling,\nwhere the model considers the results of the tokens with top_p probability\nmass. So 0.1 means only the tokens comprising the top 10% probability mass\nare considered.\n\nWe generally recommend altering this or `temperature` but not both.\n"]
     #[builder(default)]
     pub top_p: Option<f64>,
-    #[doc = "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices#end-user-ids).\n"]
+    #[doc = "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#end-user-ids).\n"]
     #[builder(default)]
     pub user: Option<String>,
     #[builder(default)]
@@ -45141,7 +45141,7 @@ impl serde::Serialize for ModifyAssistantRequestModel {
         }
     }
 }
-#[doc = "ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models) for descriptions of them.\n"]
+#[doc = "ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models) for descriptions of them.\n"]
 #[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum ModifyAssistantRequestModel {
@@ -45479,7 +45479,7 @@ impl serde::Serialize for ModifyAssistantRequest {
 }
 #[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
 pub struct ModifyAssistantRequest {
-    #[doc = "ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models) for descriptions of them.\n"]
+    #[doc = "ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models) for descriptions of them.\n"]
     #[builder(default)]
     pub model: Option<ModifyAssistantRequestModel>,
     #[builder(default)]
@@ -46789,7 +46789,7 @@ pub struct OutputMessage {
     #[doc = "The status of the message input. One of `in_progress`, `completed`, or\n`incomplete`. Populated when input items are returned via API.\n"]
     pub status: OutputMessageStatus,
 }
-#[doc = "Whether to enable [parallel function calling](/docs/guides/function-calling#configuring-parallel-function-calling) during tool use."]
+#[doc = "Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling#configuring-parallel-function-calling) during tool use."]
 pub type ParallelToolCalls = bool;
 impl<'de> serde::Deserialize<'de> for PredictionContentContent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -46835,7 +46835,7 @@ impl serde::Serialize for PredictionContentContent {
 pub enum PredictionContentContent {
     #[doc = "The content used for a Predicted Output. This is often the\ntext of a file you are regenerating with minor changes.\n"]
     String(String),
-    #[doc = "An array of content parts with a defined type. Supported options differ based on the [model](/docs/models) being used to generate the response. Can contain text inputs."]
+    #[doc = "An array of content parts with a defined type. Supported options differ based on the [model](https://platform.openai.com/docs/models) being used to generate the response. Can contain text inputs."]
     Array(Vec<ChatCompletionRequestMessageContentPartText>),
 }
 impl<'de> serde::Deserialize<'de> for PredictionContent {
@@ -50015,7 +50015,7 @@ impl serde::Serialize for RealtimeClientEventOutputAudioBufferClear {
         .serialize(serializer)
     }
 }
-#[doc = "**WebRTC Only:** Emit to cut off the current audio response. This will trigger the server to\nstop generating audio and emit a `output_audio_buffer.cleared` event. This \nevent should be preceded by a `response.cancel` client event to stop the \ngeneration of the current response.\n[Learn more](/docs/guides/realtime-model-capabilities#client-and-server-events-for-audio-in-webrtc).\n"]
+#[doc = "**WebRTC Only:** Emit to cut off the current audio response. This will trigger the server to\nstop generating audio and emit a `output_audio_buffer.cleared` event. This \nevent should be preceded by a `response.cancel` client event to stop the \ngeneration of the current response.\n[Learn more](https://platform.openai.com/docs/guides/realtime-model-capabilities#client-and-server-events-for-audio-in-webrtc).\n"]
 #[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
 pub struct RealtimeClientEventOutputAudioBufferClear {
     #[doc = "The unique ID of the client event used for error handling."]
@@ -55363,7 +55363,7 @@ impl serde::Serialize for RealtimeServerEventOutputAudioBufferCleared {
         .serialize(serializer)
     }
 }
-#[doc = "**WebRTC Only:** Emitted when the output audio buffer is cleared. This happens either in VAD\nmode when the user has interrupted (`input_audio_buffer.speech_started`),\nor when the client has emitted the `output_audio_buffer.clear` event to manually\ncut off the current audio response.\n[Learn more](/docs/guides/realtime-model-capabilities#client-and-server-events-for-audio-in-webrtc).\n"]
+#[doc = "**WebRTC Only:** Emitted when the output audio buffer is cleared. This happens either in VAD\nmode when the user has interrupted (`input_audio_buffer.speech_started`),\nor when the client has emitted the `output_audio_buffer.clear` event to manually\ncut off the current audio response.\n[Learn more](https://platform.openai.com/docs/guides/realtime-model-capabilities#client-and-server-events-for-audio-in-webrtc).\n"]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeServerEventOutputAudioBufferCleared {
     #[doc = "The unique ID of the server event."]
@@ -55445,7 +55445,7 @@ impl serde::Serialize for RealtimeServerEventOutputAudioBufferStarted {
         .serialize(serializer)
     }
 }
-#[doc = "**WebRTC Only:** Emitted when the server begins streaming audio to the client. This event is\nemitted after an audio content part has been added (`response.content_part.added`)\nto the response.\n[Learn more](/docs/guides/realtime-model-capabilities#client-and-server-events-for-audio-in-webrtc).\n"]
+#[doc = "**WebRTC Only:** Emitted when the server begins streaming audio to the client. This event is\nemitted after an audio content part has been added (`response.content_part.added`)\nto the response.\n[Learn more](https://platform.openai.com/docs/guides/realtime-model-capabilities#client-and-server-events-for-audio-in-webrtc).\n"]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeServerEventOutputAudioBufferStarted {
     #[doc = "The unique ID of the server event."]
@@ -55527,7 +55527,7 @@ impl serde::Serialize for RealtimeServerEventOutputAudioBufferStopped {
         .serialize(serializer)
     }
 }
-#[doc = "**WebRTC Only:** Emitted when the output audio buffer has been completely drained on the server,\nand no more audio is forthcoming. This event is emitted after the full response\ndata has been sent to the client (`response.done`).\n[Learn more](/docs/guides/realtime-model-capabilities#client-and-server-events-for-audio-in-webrtc).\n"]
+#[doc = "**WebRTC Only:** Emitted when the output audio buffer has been completely drained on the server,\nand no more audio is forthcoming. This event is emitted after the full response\ndata has been sent to the client (`response.done`).\n[Learn more](https://platform.openai.com/docs/guides/realtime-model-capabilities#client-and-server-events-for-audio-in-webrtc).\n"]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeServerEventOutputAudioBufferStopped {
     #[doc = "The unique ID of the server event."]
@@ -58475,7 +58475,7 @@ pub struct RealtimeSessionInputAudioTranscription {
     #[doc = "The language of the input audio. Supplying the input language in\n[ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) (e.g. `en`) format\nwill improve accuracy and latency.\n"]
     #[builder(default)]
     pub language: Option<String>,
-    #[doc = "An optional text to guide the model's style or continue a previous audio\nsegment.\nFor `whisper-1`, the [prompt is a list of keywords](/docs/guides/speech-to-text#prompting).\nFor `gpt-4o-transcribe` models, the prompt is a free text string, for example \"expect words related to technology\".\n"]
+    #[doc = "An optional text to guide the model's style or continue a previous audio\nsegment.\nFor `whisper-1`, the [prompt is a list of keywords](https://platform.openai.com/docs/guides/speech-to-text#prompting).\nFor `gpt-4o-transcribe` models, the prompt is a free text string, for example \"expect words related to technology\".\n"]
     #[builder(default)]
     pub prompt: Option<String>,
 }
@@ -59834,7 +59834,7 @@ pub struct RealtimeSessionCreateRequestInputAudioTranscription {
     #[doc = "The language of the input audio. Supplying the input language in\n[ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) (e.g. `en`) format\nwill improve accuracy and latency.\n"]
     #[builder(default)]
     pub language: Option<String>,
-    #[doc = "An optional text to guide the model's style or continue a previous audio\nsegment.\nFor `whisper-1`, the [prompt is a list of keywords](/docs/guides/speech-to-text#prompting).\nFor `gpt-4o-transcribe` models, the prompt is a free text string, for example \"expect words related to technology\".\n"]
+    #[doc = "An optional text to guide the model's style or continue a previous audio\nsegment.\nFor `whisper-1`, the [prompt is a list of keywords](https://platform.openai.com/docs/guides/speech-to-text#prompting).\nFor `gpt-4o-transcribe` models, the prompt is a free text string, for example \"expect words related to technology\".\n"]
     #[builder(default)]
     pub prompt: Option<String>,
 }
@@ -61644,7 +61644,7 @@ pub struct RealtimeTranscriptionSessionCreateRequestInputAudioTranscription {
     #[doc = "The language of the input audio. Supplying the input language in\n[ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) (e.g. `en`) format\nwill improve accuracy and latency.\n"]
     #[builder(default)]
     pub language: Option<String>,
-    #[doc = "An optional text to guide the model's style or continue a previous audio\nsegment.\nFor `whisper-1`, the [prompt is a list of keywords](/docs/guides/speech-to-text#prompting).\nFor `gpt-4o-transcribe` models, the prompt is a free text string, for example \"expect words related to technology\".\n"]
+    #[doc = "An optional text to guide the model's style or continue a previous audio\nsegment.\nFor `whisper-1`, the [prompt is a list of keywords](https://platform.openai.com/docs/guides/speech-to-text#prompting).\nFor `gpt-4o-transcribe` models, the prompt is a free text string, for example \"expect words related to technology\".\n"]
     #[builder(default)]
     pub prompt: Option<String>,
 }
@@ -62572,7 +62572,7 @@ pub struct RealtimeTranscriptionSessionCreateResponseInputAudioTranscription {
     #[doc = "The language of the input audio. Supplying the input language in\n[ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) (e.g. `en`) format\nwill improve accuracy and latency.\n"]
     #[builder(default)]
     pub language: Option<String>,
-    #[doc = "An optional text to guide the model's style or continue a previous audio\nsegment. The [prompt](/docs/guides/speech-to-text#prompting) should match\nthe audio language.\n"]
+    #[doc = "An optional text to guide the model's style or continue a previous audio\nsegment. The [prompt](https://platform.openai.com/docs/guides/speech-to-text#prompting) should match\nthe audio language.\n"]
     #[builder(default)]
     pub prompt: Option<String>,
 }
@@ -65848,7 +65848,7 @@ pub struct ResponseFormatJsonSchemaJsonSchema {
     pub name: String,
     #[builder(default)]
     pub schema: Option<ResponseFormatJsonSchemaSchema>,
-    #[doc = "Whether to enable strict schema adherence when generating the output.\nIf set to true, the model will always follow the exact schema defined\nin the `schema` field. Only a subset of JSON Schema is supported when\n`strict` is `true`. To learn more, read the [Structured Outputs\nguide](/docs/guides/structured-outputs).\n"]
+    #[doc = "Whether to enable strict schema adherence when generating the output.\nIf set to true, the model will always follow the exact schema defined\nin the `schema` field. Only a subset of JSON Schema is supported when\n`strict` is `true`. To learn more, read the [Structured Outputs\nguide](https://platform.openai.com/docs/guides/structured-outputs).\n"]
     #[builder(default)]
     pub strict: Option<bool>,
 }
@@ -65910,7 +65910,7 @@ impl serde::Serialize for ResponseFormatJsonSchema {
         .serialize(serializer)
     }
 }
-#[doc = "JSON Schema response format. Used to generate structured JSON responses.\nLearn more about [Structured Outputs](/docs/guides/structured-outputs).\n"]
+#[doc = "JSON Schema response format. Used to generate structured JSON responses.\nLearn more about [Structured Outputs](https://platform.openai.com/docs/guides/structured-outputs).\n"]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseFormatJsonSchema {
     #[doc = "Structured Outputs configuration options, including a JSON Schema.\n"]
@@ -66467,7 +66467,7 @@ pub enum ResponseModality {
     #[doc = "audio"]
     Audio,
 }
-#[doc = "Output types that you would like the model to generate.\nMost models are capable of generating text, which is the default:\n\n`[\"text\"]`\n\nThe `gpt-4o-audio-preview` model can also be used to \n[generate audio](/docs/guides/audio). To request that this model generate \nboth text and audio responses, you can use:\n\n`[\"text\", \"audio\"]`\n"]
+#[doc = "Output types that you would like the model to generate.\nMost models are capable of generating text, which is the default:\n\n`[\"text\"]`\n\nThe `gpt-4o-audio-preview` model can also be used to \n[generate audio](https://platform.openai.com/docs/guides/audio). To request that this model generate \nboth text and audio responses, you can use:\n\n`[\"text\", \"audio\"]`\n"]
 pub type ResponseModalities = Vec<ResponseModality>;
 impl<'de> serde::Deserialize<'de> for ResponseOutputItemAddedEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -66649,7 +66649,7 @@ impl serde::Serialize for ResponsePropertiesText {
         _S { format }.serialize(serializer)
     }
 }
-#[doc = "Configuration options for a text response from the model. Can be plain\ntext or structured JSON data. Learn more:\n- [Text inputs and outputs](/docs/guides/text)\n- [Structured Outputs](/docs/guides/structured-outputs)\n"]
+#[doc = "Configuration options for a text response from the model. Can be plain\ntext or structured JSON data. Learn more:\n- [Text inputs and outputs](https://platform.openai.com/docs/guides/text)\n- [Structured Outputs](https://platform.openai.com/docs/guides/structured-outputs)\n"]
 #[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
 pub struct ResponsePropertiesText {
     #[builder(default)]
@@ -66909,24 +66909,24 @@ impl serde::Serialize for ResponseProperties {
 }
 #[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
 pub struct ResponseProperties {
-    #[doc = "The unique ID of the previous response to the model. Use this to\ncreate multi-turn conversations. Learn more about \n[conversation state](/docs/guides/conversation-state).\n"]
+    #[doc = "The unique ID of the previous response to the model. Use this to\ncreate multi-turn conversations. Learn more about \n[conversation state](https://platform.openai.com/docs/guides/conversation-state).\n"]
     #[builder(default)]
     pub previous_response_id: Option<String>,
-    #[doc = "Model ID used to generate the response, like `gpt-4o` or `o3`. OpenAI\noffers a wide range of models with different capabilities, performance\ncharacteristics, and price points. Refer to the [model guide](/docs/models)\nto browse and compare available models.\n"]
+    #[doc = "Model ID used to generate the response, like `gpt-4o` or `o3`. OpenAI\noffers a wide range of models with different capabilities, performance\ncharacteristics, and price points. Refer to the [model guide](https://platform.openai.com/docs/models)\nto browse and compare available models.\n"]
     #[builder(default)]
     pub model: Option<ModelIdsResponses>,
     #[builder(default)]
     pub reasoning: Option<Reasoning>,
-    #[doc = "An upper bound for the number of tokens that can be generated for a response, including visible output tokens and [reasoning tokens](/docs/guides/reasoning).\n"]
+    #[doc = "An upper bound for the number of tokens that can be generated for a response, including visible output tokens and [reasoning tokens](https://platform.openai.com/docs/guides/reasoning).\n"]
     #[builder(default)]
     pub max_output_tokens: Option<u64>,
     #[doc = "Inserts a system (or developer) message as the first item in the model's context.\n\nWhen using along with `previous_response_id`, the instructions from a previous\nresponse will not be carried over to the next response. This makes it simple\nto swap out system (or developer) messages in new responses.\n"]
     #[builder(default)]
     pub instructions: Option<String>,
-    #[doc = "Configuration options for a text response from the model. Can be plain\ntext or structured JSON data. Learn more:\n- [Text inputs and outputs](/docs/guides/text)\n- [Structured Outputs](/docs/guides/structured-outputs)\n"]
+    #[doc = "Configuration options for a text response from the model. Can be plain\ntext or structured JSON data. Learn more:\n- [Text inputs and outputs](https://platform.openai.com/docs/guides/text)\n- [Structured Outputs](https://platform.openai.com/docs/guides/structured-outputs)\n"]
     #[builder(default)]
     pub text: Option<ResponsePropertiesText>,
-    #[doc = "An array of tools the model may call while generating a response. You \ncan specify which tool to use by setting the `tool_choice` parameter.\n\nThe two categories of tools you can provide the model are:\n\n- **Built-in tools**: Tools that are provided by OpenAI that extend the\n  model's capabilities, like [web search](/docs/guides/tools-web-search)\n  or [file search](/docs/guides/tools-file-search). Learn more about\n  [built-in tools](/docs/guides/tools).\n- **Function calls (custom tools)**: Functions that are defined by you,\n  enabling the model to call your own code. Learn more about\n  [function calling](/docs/guides/function-calling).\n"]
+    #[doc = "An array of tools the model may call while generating a response. You \ncan specify which tool to use by setting the `tool_choice` parameter.\n\nThe two categories of tools you can provide the model are:\n\n- **Built-in tools**: Tools that are provided by OpenAI that extend the\n  model's capabilities, like [web search](https://platform.openai.com/docs/guides/tools-web-search)\n  or [file search](https://platform.openai.com/docs/guides/tools-file-search). Learn more about\n  [built-in tools](https://platform.openai.com/docs/guides/tools).\n- **Function calls (custom tools)**: Functions that are defined by you,\n  enabling the model to call your own code. Learn more about\n  [function calling](https://platform.openai.com/docs/guides/function-calling).\n"]
     #[builder(default)]
     pub tools: Option<Vec<Tool>>,
     #[doc = "How the model should select which tool (or tools) to use when generating\na response. See the `tools` parameter to see how to specify which tools\nthe model can call.\n"]
@@ -68396,7 +68396,7 @@ impl serde::Serialize for ResponseUsageInputTokensDetails {
 #[doc = "A detailed breakdown of the input tokens."]
 #[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
 pub struct ResponseUsageInputTokensDetails {
-    #[doc = "The number of tokens that were retrieved from the cache. \n[More on prompt caching](/docs/guides/prompt-caching).\n"]
+    #[doc = "The number of tokens that were retrieved from the cache. \n[More on prompt caching](https://platform.openai.com/docs/guides/prompt-caching).\n"]
     pub cached_tokens: u64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseUsageOutputTokensDetails {
@@ -74196,7 +74196,7 @@ impl serde::Serialize for ServiceTier {
         }
     }
 }
-#[doc = "Specifies the latency tier to use for processing the request. This parameter is relevant for customers subscribed to the scale tier service:\n  - If set to 'auto', and the Project is Scale tier enabled, the system\n    will utilize scale tier credits until they are exhausted.\n  - If set to 'auto', and the Project is not Scale tier enabled, the request will be processed using the default service tier with a lower uptime SLA and no latency guarentee.\n  - If set to 'default', the request will be processed using the default service tier with a lower uptime SLA and no latency guarentee.\n  - If set to 'flex', the request will be processed with the Flex Processing service tier. [Learn more](/docs/guides/flex-processing).\n  - When not set, the default behavior is 'auto'.\n\n  When this parameter is set, the response body will include the `service_tier` utilized.\n"]
+#[doc = "Specifies the latency tier to use for processing the request. This parameter is relevant for customers subscribed to the scale tier service:\n  - If set to 'auto', and the Project is Scale tier enabled, the system\n    will utilize scale tier credits until they are exhausted.\n  - If set to 'auto', and the Project is not Scale tier enabled, the request will be processed using the default service tier with a lower uptime SLA and no latency guarentee.\n  - If set to 'default', the request will be processed using the default service tier with a lower uptime SLA and no latency guarentee.\n  - If set to 'flex', the request will be processed with the Flex Processing service tier. [Learn more](https://platform.openai.com/docs/guides/flex-processing).\n  - When not set, the default behavior is 'auto'.\n\n  When this parameter is set, the response body will include the `service_tier` utilized.\n"]
 #[derive(Clone, Debug, PartialEq, Copy, Default)]
 #[allow(clippy::large_enum_variant)]
 pub enum ServiceTier {
@@ -74597,7 +74597,7 @@ impl serde::Serialize for TextResponseFormatConfiguration {
         }
     }
 }
-#[doc = "An object specifying the format that the model must output.\n\nConfiguring `{ \"type\": \"json_schema\" }` enables Structured Outputs, \nwhich ensures the model will match your supplied JSON schema. Learn more in the \n[Structured Outputs guide](/docs/guides/structured-outputs).\n\nThe default format is `{ \"type\": \"text\" }` with no additional options.\n\n**Not recommended for gpt-4o and newer models:**\n\nSetting to `{ \"type\": \"json_object\" }` enables the older JSON mode, which\nensures the message the model generates is valid JSON. Using `json_schema`\nis preferred for models that support it.\n"]
+#[doc = "An object specifying the format that the model must output.\n\nConfiguring `{ \"type\": \"json_schema\" }` enables Structured Outputs, \nwhich ensures the model will match your supplied JSON schema. Learn more in the \n[Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).\n\nThe default format is `{ \"type\": \"text\" }` with no additional options.\n\n**Not recommended for gpt-4o and newer models:**\n\nSetting to `{ \"type\": \"json_object\" }` enables the older JSON mode, which\nensures the message the model generates is valid JSON. Using `json_schema`\nis preferred for models that support it.\n"]
 #[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum TextResponseFormatConfiguration {
@@ -74699,7 +74699,7 @@ impl serde::Serialize for TextResponseFormatJsonSchema {
         .serialize(serializer)
     }
 }
-#[doc = "JSON Schema response format. Used to generate structured JSON responses.\nLearn more about [Structured Outputs](/docs/guides/structured-outputs).\n"]
+#[doc = "JSON Schema response format. Used to generate structured JSON responses.\nLearn more about [Structured Outputs](https://platform.openai.com/docs/guides/structured-outputs).\n"]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct TextResponseFormatJsonSchema {
     #[doc = "A description of what the response format is for, used by the model to\ndetermine how to respond in the format.\n"]
@@ -74708,7 +74708,7 @@ pub struct TextResponseFormatJsonSchema {
     #[doc = "The name of the response format. Must be a-z, A-Z, 0-9, or contain\nunderscores and dashes, with a maximum length of 64.\n"]
     pub name: String,
     pub schema: ResponseFormatJsonSchemaSchema,
-    #[doc = "Whether to enable strict schema adherence when generating the output.\nIf set to true, the model will always follow the exact schema defined\nin the `schema` field. Only a subset of JSON Schema is supported when\n`strict` is `true`. To learn more, read the [Structured Outputs\nguide](/docs/guides/structured-outputs).\n"]
+    #[doc = "Whether to enable strict schema adherence when generating the output.\nIf set to true, the model will always follow the exact schema defined\nin the `schema` field. Only a subset of JSON Schema is supported when\n`strict` is `true`. To learn more, read the [Structured Outputs\nguide](https://platform.openai.com/docs/guides/structured-outputs).\n"]
     #[builder(default)]
     pub strict: Option<bool>,
 }
@@ -75348,7 +75348,7 @@ impl serde::Serialize for ToolChoiceTypesType {
         }
     }
 }
-#[doc = "The type of hosted tool the model should to use. Learn more about\n[built-in tools](/docs/guides/tools).\n\nAllowed values are:\n- `file_search`\n- `web_search_preview`\n- `computer_use_preview`\n"]
+#[doc = "The type of hosted tool the model should to use. Learn more about\n[built-in tools](https://platform.openai.com/docs/guides/tools).\n\nAllowed values are:\n- `file_search`\n- `web_search_preview`\n- `computer_use_preview`\n"]
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum ToolChoiceTypesType {
@@ -75392,10 +75392,10 @@ impl serde::Serialize for ToolChoiceTypes {
         _S { type_ }.serialize(serializer)
     }
 }
-#[doc = "Indicates that the model should use a built-in tool to generate a response.\n[Learn more about built-in tools](/docs/guides/tools).\n"]
+#[doc = "Indicates that the model should use a built-in tool to generate a response.\n[Learn more about built-in tools](https://platform.openai.com/docs/guides/tools).\n"]
 #[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
 pub struct ToolChoiceTypes {
-    #[doc = "The type of hosted tool the model should to use. Learn more about\n[built-in tools](/docs/guides/tools).\n\nAllowed values are:\n- `file_search`\n- `web_search_preview`\n- `computer_use_preview`\n"]
+    #[doc = "The type of hosted tool the model should to use. Learn more about\n[built-in tools](https://platform.openai.com/docs/guides/tools).\n\nAllowed values are:\n- `file_search`\n- `web_search_preview`\n- `computer_use_preview`\n"]
     pub type_: ToolChoiceTypesType,
 }
 impl<'de> serde::Deserialize<'de> for TranscriptTextDeltaEventLogprob {
@@ -81148,7 +81148,7 @@ impl serde::Serialize for WebSearchToolCall {
         .serialize(serializer)
     }
 }
-#[doc = "The results of a web search tool call. See the \n[web search guide](/docs/guides/tools-web-search) for more information.\n"]
+#[doc = "The results of a web search tool call. See the \n[web search guide](https://platform.openai.com/docs/guides/tools-web-search) for more information.\n"]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct WebSearchToolCall {
     #[doc = "The unique ID of the web search tool call.\n"]
@@ -81406,7 +81406,7 @@ impl serde::Serialize for InputImageContent {
         .serialize(serializer)
     }
 }
-#[doc = "An image input to the model. Learn about [image inputs](/docs/guides/vision)."]
+#[doc = "An image input to the model. Learn about [image inputs](https://platform.openai.com/docs/guides/vision)."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct InputImageContent {
     #[doc = "The URL of the image to be sent to the model. A fully qualified URL or base64 encoded image in a data URL."]
