@@ -270,12 +270,16 @@ fn convert_enum<'a>(
         let variants = of
             .iter()
             .enumerate()
-            .map(|(i, of)| convert(of, schemas).with_context(|| format!("{context}[{i}]")))
+            .map(|(i, of)| {
+                convert(of, schemas)
+                    .with_context(|| format!("{context}[{i}]"))
+                    .map(|of| (of, false))
+            })
             .collect::<Result<_, _>>()?;
         Ok(Some(crate::Schema {
             description: description.as_deref(),
             nullable: nullable.unwrap_or_default(),
-            type_: crate::Type::EnumOf(variants),
+            type_: crate::Type::Enum(variants),
         }))
     } else if let openapi::Schema {
         default,
@@ -290,7 +294,11 @@ fn convert_enum<'a>(
             .iter()
             .map(|enum_| {
                 (
-                    enum_.as_str(),
+                    crate::Schema {
+                        description: None,
+                        nullable: false,
+                        type_: crate::Type::Const(enum_),
+                    },
                     if let Some(serde_json::Value::String(default)) = default {
                         enum_ == default
                     } else {
@@ -302,7 +310,7 @@ fn convert_enum<'a>(
         Ok(Some(crate::Schema {
             description: description.as_deref(),
             nullable: nullable.unwrap_or_default(),
-            type_: crate::Type::EnumString(variants),
+            type_: crate::Type::Enum(variants),
         }))
     } else {
         Ok(None)

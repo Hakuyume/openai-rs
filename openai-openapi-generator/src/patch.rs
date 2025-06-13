@@ -6,7 +6,7 @@ pub fn patch(name: &str, schema: &mut openapi::Schema) {
         patch(name, schema)
     }
 
-    if let Some(ref_) = if let openapi::Schema {
+    if let openapi::Schema {
         all_of: Some(all_of),
     } = schema
     {
@@ -16,18 +16,12 @@ pub fn patch(name: &str, schema: &mut openapi::Schema) {
             },
         ] = &mut all_of[..]
         {
-            Some(ref_)
-        } else {
-            None
+            schema.ref_ = ref_.take();
+            schema.all_of = None;
         }
-    } else {
-        None
-    } {
-        schema.ref_ = ref_.take();
-        schema.all_of = None;
     }
 
-    if let Some((ref_, description, nullable)) = if let openapi::Schema {
+    if let openapi::Schema {
         all_of: Some(all_of),
     } = schema
     {
@@ -41,29 +35,14 @@ pub fn patch(name: &str, schema: &mut openapi::Schema) {
             },
         ] = &mut all_of[..]
         {
-            Some((ref_, description, nullable))
-        } else {
-            None
+            schema.ref_ = ref_.take();
+            schema.description = description.take();
+            schema.nullable = nullable.take();
+            schema.all_of = None;
         }
-    } else {
-        None
-    } {
-        schema.ref_ = ref_.take();
-        schema.description = description.take();
-        schema.nullable = nullable.take();
-        schema.all_of = None;
     }
 
-    if let Some((
-        additional_properties,
-        default,
-        description,
-        enum_,
-        items,
-        ref_,
-        type_,
-        x_stainless_const,
-    )) = if let openapi::Schema {
+    if let openapi::Schema {
         any_of: Some(any_of),
     } = schema
     {
@@ -83,32 +62,17 @@ pub fn patch(name: &str, schema: &mut openapi::Schema) {
             },
         ] = &mut any_of[..]
         {
-            Some((
-                additional_properties,
-                default,
-                description,
-                enum_,
-                items,
-                ref_,
-                type_,
-                x_stainless_const,
-            ))
-        } else {
-            None
+            schema.additional_properties = additional_properties.take();
+            schema.default = default.take();
+            schema.description = description.take();
+            schema.enum_ = enum_.take();
+            schema.items = items.take();
+            schema.nullable = Some(true);
+            schema.ref_ = ref_.take();
+            schema.type_ = type_.take();
+            schema.x_stainless_const = x_stainless_const.take();
+            schema.any_of = None;
         }
-    } else {
-        None
-    } {
-        schema.additional_properties = additional_properties.take();
-        schema.default = default.take();
-        schema.description = description.take();
-        schema.enum_ = enum_.take();
-        schema.items = items.take();
-        schema.nullable = Some(true);
-        schema.ref_ = ref_.take();
-        schema.type_ = type_.take();
-        schema.x_stainless_const = x_stainless_const.take();
-        schema.any_of = None;
     }
 
     if let openapi::Schema {
@@ -129,6 +93,27 @@ pub fn patch(name: &str, schema: &mut openapi::Schema) {
     if let Some(items) = &mut schema.items {
         if let Some(required) = schema.required.take() {
             items.required = Some(required.clone());
+        }
+    }
+
+    if let openapi::Schema {
+        one_of: Some(one_of),
+    } = schema
+    {
+        if let [
+            openapi::Schema {
+                description,
+                properties,
+                required,
+                type_,
+            },
+        ] = &mut one_of[..]
+        {
+            schema.description = description.take();
+            schema.properties = properties.take();
+            schema.required = required.take();
+            schema.type_ = type_.take();
+            schema.one_of = None;
         }
     }
 

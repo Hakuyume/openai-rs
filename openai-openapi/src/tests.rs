@@ -15,18 +15,18 @@ fn test_create_chat_completion_request_default() {
         ],
     });
     let b = crate::CreateChatCompletionRequest::builder()
-        .model("gpt-4.1".to_owned())
+        .model(crate::ModelIdsShared::Gpt41)
         .messages(vec![
             crate::ChatCompletionRequestMessage::Developer(
                 crate::ChatCompletionRequestDeveloperMessage::builder()
-                    .content(crate::ChatCompletionRequestDeveloperMessageContent::_0(
+                    .content(crate::ChatCompletionRequestDeveloperMessageContent::String(
                         "You are a helpful assistant.".to_owned(),
                     ))
                     .build(),
             ),
             crate::ChatCompletionRequestMessage::User(
                 crate::ChatCompletionRequestUserMessage::builder()
-                    .content(crate::ChatCompletionRequestUserMessageContent::_0(
+                    .content(crate::ChatCompletionRequestUserMessageContent::String(
                         "Hello!".to_owned(),
                     ))
                     .build(),
