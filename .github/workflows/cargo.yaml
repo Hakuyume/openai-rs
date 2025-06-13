@@ -24,3 +24,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: cargo test --locked --tests
+
+  openai-openapi-generator:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: curl -LO https://raw.githubusercontent.com/openai/openai-openapi/498c71ddf6f1c45b983f972ccabca795da211a3e/openapi.yaml
+      - run: cargo run --bin=openai-openapi-generator --locked < openapi.yaml | rustfmt > openai-openapi/src/lib.rs
+      - run: git diff --exit-code
