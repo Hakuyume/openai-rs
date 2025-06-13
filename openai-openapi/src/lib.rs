@@ -460,7 +460,7 @@ impl serde::Serialize for AssistantObjectToolResourcesCodeInterpreter {
 }
 #[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
 pub struct AssistantObjectToolResourcesCodeInterpreter {
-    #[doc = "A list of [file](/docs/api-reference/files) IDs made available to the `code_interpreter`` tool. There can be a maximum of 20 files associated with the tool.\n"]
+    #[doc = "A list of [file](https://platform.openai.com/docs/api-reference/files) IDs made available to the `code_interpreter`` tool. There can be a maximum of 20 files associated with the tool.\n"]
     #[builder(default)]
     pub file_ids: Option<Vec<String>>,
 }
@@ -498,7 +498,7 @@ impl serde::Serialize for AssistantObjectToolResourcesFileSearch {
 }
 #[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
 pub struct AssistantObjectToolResourcesFileSearch {
-    #[doc = "The ID of the [vector store](/docs/api-reference/vector-stores/object) attached to this assistant. There can be a maximum of 1 vector store attached to the assistant.\n"]
+    #[doc = "The ID of the [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) attached to this assistant. There can be a maximum of 1 vector store attached to the assistant.\n"]
     #[builder(default)]
     pub vector_store_ids: Option<Vec<String>>,
 }
@@ -742,7 +742,7 @@ pub struct AssistantObject {
     #[doc = "The description of the assistant. The maximum length is 512 characters.\n"]
     #[builder(default)]
     pub description: Option<String>,
-    #[doc = "ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models) for descriptions of them.\n"]
+    #[doc = "ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models) for descriptions of them.\n"]
     pub model: String,
     #[doc = "The system instructions that the assistant uses. The maximum length is 256,000 characters.\n"]
     #[builder(default)]
@@ -13813,7 +13813,7 @@ impl serde::Serialize for CreateAssistantRequestToolResourcesCodeInterpreter {
 }
 #[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
 pub struct CreateAssistantRequestToolResourcesCodeInterpreter {
-    #[doc = "A list of [file](/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.\n"]
+    #[doc = "A list of [file](https://platform.openai.com/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.\n"]
     #[builder(default)]
     pub file_ids: Option<Vec<String>>,
 }
@@ -14111,7 +14111,7 @@ impl serde::Serialize for CreateAssistantRequestToolResourcesFileSearch0VectorSt
 }
 #[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
 pub struct CreateAssistantRequestToolResourcesFileSearch0VectorStore {
-    #[doc = "A list of [file](/docs/api-reference/files) IDs to add to the vector store. There can be a maximum of 10000 files in a vector store.\n"]
+    #[doc = "A list of [file](https://platform.openai.com/docs/api-reference/files) IDs to add to the vector store. There can be a maximum of 10000 files in a vector store.\n"]
     #[builder(default)]
     pub file_ids: Option<Vec<String>>,
     #[doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy."]
@@ -14173,9 +14173,9 @@ impl serde::Serialize for CreateAssistantRequestToolResourcesFileSearch0 {
 }
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateAssistantRequestToolResourcesFileSearch0 {
-    #[doc = "The [vector store](/docs/api-reference/vector-stores/object) attached to this assistant. There can be a maximum of 1 vector store attached to the assistant.\n"]
+    #[doc = "The [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) attached to this assistant. There can be a maximum of 1 vector store attached to the assistant.\n"]
     pub vector_store_ids: Vec<String>,
-    #[doc = "A helper to create a [vector store](/docs/api-reference/vector-stores/object) with file_ids and attach it to this assistant. There can be a maximum of 1 vector store attached to the assistant.\n"]
+    #[doc = "A helper to create a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) with file_ids and attach it to this assistant. There can be a maximum of 1 vector store attached to the assistant.\n"]
     #[builder(default)]
     pub vector_stores: Option<Vec<CreateAssistantRequestToolResourcesFileSearch0VectorStore>>,
 }
@@ -14473,7 +14473,7 @@ impl serde::Serialize for CreateAssistantRequestToolResourcesFileSearch1VectorSt
 }
 #[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
 pub struct CreateAssistantRequestToolResourcesFileSearch1VectorStore {
-    #[doc = "A list of [file](/docs/api-reference/files) IDs to add to the vector store. There can be a maximum of 10000 files in a vector store.\n"]
+    #[doc = "A list of [file](https://platform.openai.com/docs/api-reference/files) IDs to add to the vector store. There can be a maximum of 10000 files in a vector store.\n"]
     #[builder(default)]
     pub file_ids: Option<Vec<String>>,
     #[doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy."]
@@ -14534,10 +14534,10 @@ impl serde::Serialize for CreateAssistantRequestToolResourcesFileSearch1 {
 }
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateAssistantRequestToolResourcesFileSearch1 {
-    #[doc = "The [vector store](/docs/api-reference/vector-stores/object) attached to this assistant. There can be a maximum of 1 vector store attached to the assistant.\n"]
+    #[doc = "The [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) attached to this assistant. There can be a maximum of 1 vector store attached to the assistant.\n"]
     #[builder(default)]
     pub vector_store_ids: Option<Vec<String>>,
-    #[doc = "A helper to create a [vector store](/docs/api-reference/vector-stores/object) with file_ids and attach it to this assistant. There can be a maximum of 1 vector store attached to the assistant.\n"]
+    #[doc = "A helper to create a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) with file_ids and attach it to this assistant. There can be a maximum of 1 vector store attached to the assistant.\n"]
     pub vector_stores: Vec<CreateAssistantRequestToolResourcesFileSearch1VectorStore>,
 }
 impl<'de> serde::Deserialize<'de> for CreateAssistantRequestToolResourcesFileSearch {
@@ -14785,7 +14785,7 @@ impl serde::Serialize for CreateAssistantRequest {
 }
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateAssistantRequest {
-    #[doc = "ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models) for descriptions of them.\n"]
+    #[doc = "ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models) for descriptions of them.\n"]
     pub model: String,
     #[doc = "The name of the assistant. The maximum length is 256 characters.\n"]
     #[builder(default)]
@@ -15672,7 +15672,7 @@ pub struct CreateChatCompletionRequest {
     #[doc = "Whether or not to store the output of this chat completion request for \nuse in our [model distillation](/docs/guides/distillation) or\n[evals](/docs/guides/evals) products.\n"]
     #[builder(default)]
     pub store: Option<bool>,
-    #[doc = "If set to true, the model response data will be streamed to the client\nas it is generated using [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format).\nSee the [Streaming section below](/docs/api-reference/chat/streaming)\nfor more information, along with the [streaming responses](/docs/guides/streaming-responses)\nguide for more information on how to handle the streaming events.\n"]
+    #[doc = "If set to true, the model response data will be streamed to the client\nas it is generated using [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format).\nSee the [Streaming section below](https://platform.openai.com/docs/api-reference/chat/streaming)\nfor more information, along with the [streaming responses](/docs/guides/streaming-responses)\nguide for more information on how to handle the streaming events.\n"]
     #[builder(default)]
     pub stream: Option<bool>,
     #[builder(default)]
@@ -16824,7 +16824,7 @@ impl serde::Serialize for CreateCompletionRequest {
 }
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateCompletionRequest {
-    #[doc = "ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models) for descriptions of them.\n"]
+    #[doc = "ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models) for descriptions of them.\n"]
     pub model: String,
     #[doc = "The prompt(s) to generate completions for, encoded as a string, array of strings, array of tokens, or array of token arrays.\n\nNote that <|endoftext|> is the document separator that the model sees during training, so if a prompt is not specified the model will generate as if from the beginning of a new document.\n"]
     #[builder(default)]
@@ -17494,7 +17494,7 @@ impl serde::Serialize for CreateEmbeddingRequest {
 pub struct CreateEmbeddingRequest {
     #[doc = "Input text to embed, encoded as a string or array of tokens. To embed multiple inputs in a single request, pass an array of strings or array of token arrays. The input must not exceed the max input tokens for the model (8192 tokens for `text-embedding-ada-002`), cannot be an empty string, and any array must be 2048 dimensions or less. [Example Python code](https://cookbook.openai.com/examples/how_to_count_tokens_with_tiktoken) for counting tokens. Some models may also impose a limit on total number of tokens summed across inputs.\n"]
     pub input: CreateEmbeddingRequestInput,
-    #[doc = "ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models) for descriptions of them.\n"]
+    #[doc = "ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models) for descriptions of them.\n"]
     pub model: String,
     #[doc = "The format to return the embeddings in. Can be either `float` or [`base64`](https://pypi.org/project/pybase64/)."]
     #[builder(default)]
@@ -20205,7 +20205,7 @@ impl serde::Serialize for CreateFineTuningJobRequest {
 pub struct CreateFineTuningJobRequest {
     #[doc = "The name of the model to fine-tune. You can select one of the\n[supported models](/docs/guides/fine-tuning#which-models-can-be-fine-tuned).\n"]
     pub model: String,
-    #[doc = "The ID of an uploaded file that contains training data.\n\nSee [upload file](/docs/api-reference/files/create) for how to upload a file.\n\nYour dataset must be formatted as a JSONL file. Additionally, you must upload your file with the purpose `fine-tune`.\n\nThe contents of the file should differ depending on if the model uses the [chat](/docs/api-reference/fine-tuning/chat-input), [completions](/docs/api-reference/fine-tuning/completions-input) format, or if the fine-tuning method uses the [preference](/docs/api-reference/fine-tuning/preference-input) format.\n\nSee the [fine-tuning guide](/docs/guides/fine-tuning) for more details.\n"]
+    #[doc = "The ID of an uploaded file that contains training data.\n\nSee [upload file](https://platform.openai.com/docs/api-reference/files/create) for how to upload a file.\n\nYour dataset must be formatted as a JSONL file. Additionally, you must upload your file with the purpose `fine-tune`.\n\nThe contents of the file should differ depending on if the model uses the [chat](https://platform.openai.com/docs/api-reference/fine-tuning/chat-input), [completions](https://platform.openai.com/docs/api-reference/fine-tuning/completions-input) format, or if the fine-tuning method uses the [preference](https://platform.openai.com/docs/api-reference/fine-tuning/preference-input) format.\n\nSee the [fine-tuning guide](/docs/guides/fine-tuning) for more details.\n"]
     pub training_file: String,
     #[doc = "The hyperparameters used for the fine-tuning job.\nThis value is now deprecated in favor of `method`, and should be passed in under the `method` parameter.\n"]
     #[builder(default)]
@@ -24215,7 +24215,7 @@ pub struct CreateResponse {
     #[doc = "Whether to store the generated model response for later retrieval via\nAPI.\n"]
     #[builder(default)]
     pub store: Option<bool>,
-    #[doc = "If set to true, the model response data will be streamed to the client\nas it is generated using [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format).\nSee the [Streaming section below](/docs/api-reference/responses-streaming)\nfor more information.\n"]
+    #[doc = "If set to true, the model response data will be streamed to the client\nas it is generated using [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format).\nSee the [Streaming section below](https://platform.openai.com/docs/api-reference/responses-streaming)\nfor more information.\n"]
     #[builder(default)]
     pub stream: Option<bool>,
 }
@@ -24473,14 +24473,14 @@ impl serde::Serialize for CreateRunRequest {
 }
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateRunRequest {
-    #[doc = "The ID of the [assistant](/docs/api-reference/assistants) to use to execute this run."]
+    #[doc = "The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) to use to execute this run."]
     pub assistant_id: String,
-    #[doc = "The ID of the [Model](/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used."]
+    #[doc = "The ID of the [Model](https://platform.openai.com/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used."]
     #[builder(default)]
     pub model: Option<String>,
     #[builder(default)]
     pub reasoning_effort: Option<ReasoningEffort>,
-    #[doc = "Overrides the [instructions](/docs/api-reference/assistants/createAssistant) of the assistant. This is useful for modifying the behavior on a per-run basis."]
+    #[doc = "Overrides the [instructions](https://platform.openai.com/docs/api-reference/assistants/createAssistant) of the assistant. This is useful for modifying the behavior on a per-run basis."]
     #[builder(default)]
     pub instructions: Option<String>,
     #[doc = "Appends additional instructions at the end of the instructions for the run. This is useful for modifying the behavior on a per-run basis without overriding other instructions."]
@@ -24886,7 +24886,7 @@ impl serde::Serialize for CreateThreadAndRunRequestToolResourcesCodeInterpreter 
 }
 #[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
 pub struct CreateThreadAndRunRequestToolResourcesCodeInterpreter {
-    #[doc = "A list of [file](/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.\n"]
+    #[doc = "A list of [file](https://platform.openai.com/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.\n"]
     #[builder(default)]
     pub file_ids: Option<Vec<String>>,
 }
@@ -24924,7 +24924,7 @@ impl serde::Serialize for CreateThreadAndRunRequestToolResourcesFileSearch {
 }
 #[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
 pub struct CreateThreadAndRunRequestToolResourcesFileSearch {
-    #[doc = "The ID of the [vector store](/docs/api-reference/vector-stores/object) attached to this assistant. There can be a maximum of 1 vector store attached to the assistant.\n"]
+    #[doc = "The ID of the [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) attached to this assistant. There can be a maximum of 1 vector store attached to the assistant.\n"]
     #[builder(default)]
     pub vector_store_ids: Option<Vec<String>>,
 }
@@ -25177,11 +25177,11 @@ impl serde::Serialize for CreateThreadAndRunRequest {
 }
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateThreadAndRunRequest {
-    #[doc = "The ID of the [assistant](/docs/api-reference/assistants) to use to execute this run."]
+    #[doc = "The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) to use to execute this run."]
     pub assistant_id: String,
     #[builder(default)]
     pub thread: Option<CreateThreadRequest>,
-    #[doc = "The ID of the [Model](/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used."]
+    #[doc = "The ID of the [Model](https://platform.openai.com/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used."]
     #[builder(default)]
     pub model: Option<String>,
     #[doc = "Override the default system message of the assistant. This is useful for modifying the behavior on a per-run basis."]
@@ -25251,7 +25251,7 @@ impl serde::Serialize for CreateThreadRequestToolResourcesCodeInterpreter {
 }
 #[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
 pub struct CreateThreadRequestToolResourcesCodeInterpreter {
-    #[doc = "A list of [file](/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.\n"]
+    #[doc = "A list of [file](https://platform.openai.com/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.\n"]
     #[builder(default)]
     pub file_ids: Option<Vec<String>>,
 }
@@ -25556,7 +25556,7 @@ impl serde::Serialize for CreateThreadRequestToolResourcesFileSearch0VectorStore
 }
 #[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
 pub struct CreateThreadRequestToolResourcesFileSearch0VectorStore {
-    #[doc = "A list of [file](/docs/api-reference/files) IDs to add to the vector store. There can be a maximum of 10000 files in a vector store.\n"]
+    #[doc = "A list of [file](https://platform.openai.com/docs/api-reference/files) IDs to add to the vector store. There can be a maximum of 10000 files in a vector store.\n"]
     #[builder(default)]
     pub file_ids: Option<Vec<String>>,
     #[doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy."]
@@ -25617,9 +25617,9 @@ impl serde::Serialize for CreateThreadRequestToolResourcesFileSearch0 {
 }
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateThreadRequestToolResourcesFileSearch0 {
-    #[doc = "The [vector store](/docs/api-reference/vector-stores/object) attached to this thread. There can be a maximum of 1 vector store attached to the thread.\n"]
+    #[doc = "The [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) attached to this thread. There can be a maximum of 1 vector store attached to the thread.\n"]
     pub vector_store_ids: Vec<String>,
-    #[doc = "A helper to create a [vector store](/docs/api-reference/vector-stores/object) with file_ids and attach it to this thread. There can be a maximum of 1 vector store attached to the thread.\n"]
+    #[doc = "A helper to create a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) with file_ids and attach it to this thread. There can be a maximum of 1 vector store attached to the thread.\n"]
     #[builder(default)]
     pub vector_stores: Option<Vec<CreateThreadRequestToolResourcesFileSearch0VectorStore>>,
 }
@@ -25924,7 +25924,7 @@ impl serde::Serialize for CreateThreadRequestToolResourcesFileSearch1VectorStore
 }
 #[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
 pub struct CreateThreadRequestToolResourcesFileSearch1VectorStore {
-    #[doc = "A list of [file](/docs/api-reference/files) IDs to add to the vector store. There can be a maximum of 10000 files in a vector store.\n"]
+    #[doc = "A list of [file](https://platform.openai.com/docs/api-reference/files) IDs to add to the vector store. There can be a maximum of 10000 files in a vector store.\n"]
     #[builder(default)]
     pub file_ids: Option<Vec<String>>,
     #[doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy."]
@@ -25985,10 +25985,10 @@ impl serde::Serialize for CreateThreadRequestToolResourcesFileSearch1 {
 }
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateThreadRequestToolResourcesFileSearch1 {
-    #[doc = "The [vector store](/docs/api-reference/vector-stores/object) attached to this thread. There can be a maximum of 1 vector store attached to the thread.\n"]
+    #[doc = "The [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) attached to this thread. There can be a maximum of 1 vector store attached to the thread.\n"]
     #[builder(default)]
     pub vector_store_ids: Option<Vec<String>>,
-    #[doc = "A helper to create a [vector store](/docs/api-reference/vector-stores/object) with file_ids and attach it to this thread. There can be a maximum of 1 vector store attached to the thread.\n"]
+    #[doc = "A helper to create a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) with file_ids and attach it to this thread. There can be a maximum of 1 vector store attached to the thread.\n"]
     pub vector_stores: Vec<CreateThreadRequestToolResourcesFileSearch1VectorStore>,
 }
 impl<'de> serde::Deserialize<'de> for CreateThreadRequestToolResourcesFileSearch {
@@ -26158,7 +26158,7 @@ impl serde::Serialize for CreateThreadRequest {
 #[doc = "Options to create a new thread. If no thread is provided when running a \nrequest, an empty thread will be created.\n"]
 #[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
 pub struct CreateThreadRequest {
-    #[doc = "A list of [messages](/docs/api-reference/messages) to start the thread with."]
+    #[doc = "A list of [messages](https://platform.openai.com/docs/api-reference/messages) to start the thread with."]
     #[builder(default)]
     pub messages: Option<Vec<CreateMessageRequest>>,
     #[doc = "A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.\n"]
@@ -27124,7 +27124,7 @@ impl serde::Serialize for CreateUploadRequestPurpose {
         }
     }
 }
-#[doc = "The intended purpose of the uploaded file.\n\nSee the [documentation on File purposes](/docs/api-reference/files/create#files-create-purpose).\n"]
+#[doc = "The intended purpose of the uploaded file.\n\nSee the [documentation on File purposes](https://platform.openai.com/docs/api-reference/files/create#files-create-purpose).\n"]
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateUploadRequestPurpose {
@@ -27207,7 +27207,7 @@ impl serde::Serialize for CreateUploadRequest {
 pub struct CreateUploadRequest {
     #[doc = "The name of the file to upload.\n"]
     pub filename: String,
-    #[doc = "The intended purpose of the uploaded file.\n\nSee the [documentation on File purposes](/docs/api-reference/files/create#files-create-purpose).\n"]
+    #[doc = "The intended purpose of the uploaded file.\n\nSee the [documentation on File purposes](https://platform.openai.com/docs/api-reference/files/create#files-create-purpose).\n"]
     pub purpose: CreateUploadRequestPurpose,
     #[doc = "The number of bytes in the file you are uploading.\n"]
     pub bytes: u64,
@@ -27275,7 +27275,7 @@ impl serde::Serialize for CreateVectorStoreFileBatchRequest {
 }
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateVectorStoreFileBatchRequest {
-    #[doc = "A list of [File](/docs/api-reference/files) IDs that the vector store should use. Useful for tools like `file_search` that can access files."]
+    #[doc = "A list of [File](https://platform.openai.com/docs/api-reference/files) IDs that the vector store should use. Useful for tools like `file_search` that can access files."]
     pub file_ids: Vec<String>,
     #[builder(default)]
     pub chunking_strategy: Option<ChunkingStrategyRequestParam>,
@@ -27343,7 +27343,7 @@ impl serde::Serialize for CreateVectorStoreFileRequest {
 }
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateVectorStoreFileRequest {
-    #[doc = "A [File](/docs/api-reference/files) ID that the vector store should use. Useful for tools like `file_search` that can access files."]
+    #[doc = "A [File](https://platform.openai.com/docs/api-reference/files) ID that the vector store should use. Useful for tools like `file_search` that can access files."]
     pub file_id: String,
     #[builder(default)]
     pub chunking_strategy: Option<ChunkingStrategyRequestParam>,
@@ -27479,7 +27479,7 @@ impl serde::Serialize for CreateVectorStoreRequest {
 }
 #[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
 pub struct CreateVectorStoreRequest {
-    #[doc = "A list of [File](/docs/api-reference/files) IDs that the vector store should use. Useful for tools like `file_search` that can access files."]
+    #[doc = "A list of [File](https://platform.openai.com/docs/api-reference/files) IDs that the vector store should use. Useful for tools like `file_search` that can access files."]
     #[builder(default)]
     pub file_ids: Option<Vec<String>>,
     #[doc = "The name of the vector store."]
@@ -35237,16 +35237,16 @@ pub struct FineTuningJob {
     pub model: String,
     #[doc = "The organization that owns the fine-tuning job."]
     pub organization_id: String,
-    #[doc = "The compiled results file ID(s) for the fine-tuning job. You can retrieve the results with the [Files API](/docs/api-reference/files/retrieve-contents)."]
+    #[doc = "The compiled results file ID(s) for the fine-tuning job. You can retrieve the results with the [Files API](https://platform.openai.com/docs/api-reference/files/retrieve-contents)."]
     pub result_files: Vec<String>,
     #[doc = "The current status of the fine-tuning job, which can be either `validating_files`, `queued`, `running`, `succeeded`, `failed`, or `cancelled`."]
     pub status: FineTuningJobStatus,
     #[doc = "The total number of billable tokens processed by this fine-tuning job. The value will be null if the fine-tuning job is still running."]
     #[builder(default)]
     pub trained_tokens: Option<u64>,
-    #[doc = "The file ID used for training. You can retrieve the training data with the [Files API](/docs/api-reference/files/retrieve-contents)."]
+    #[doc = "The file ID used for training. You can retrieve the training data with the [Files API](https://platform.openai.com/docs/api-reference/files/retrieve-contents)."]
     pub training_file: String,
-    #[doc = "The file ID used for validation. You can retrieve the validation results with the [Files API](/docs/api-reference/files/retrieve-contents)."]
+    #[doc = "The file ID used for validation. You can retrieve the validation results with the [Files API](https://platform.openai.com/docs/api-reference/files/retrieve-contents)."]
     #[builder(default)]
     pub validation_file: Option<String>,
     #[doc = "A list of integrations to enable for this fine-tuning job."]
@@ -40068,7 +40068,7 @@ impl serde::Serialize for MessageContentImageFileObjectImageFile {
 }
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct MessageContentImageFileObjectImageFile {
-    #[doc = "The [File](/docs/api-reference/files) ID of the image in the message content. Set `purpose=\"vision\"` when uploading the File if you need to later display the file content."]
+    #[doc = "The [File](https://platform.openai.com/docs/api-reference/files) ID of the image in the message content. Set `purpose=\"vision\"` when uploading the File if you need to later display the file content."]
     pub file_id: String,
     #[doc = "Specifies the detail level of the image if specified by the user. `low` uses fewer tokens, you can opt in to high resolution using `high`."]
     #[builder(default)]
@@ -40130,7 +40130,7 @@ impl serde::Serialize for MessageContentImageFileObject {
         .serialize(serializer)
     }
 }
-#[doc = "References an image [File](/docs/api-reference/files) in the content of a message."]
+#[doc = "References an image [File](https://platform.openai.com/docs/api-reference/files) in the content of a message."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct MessageContentImageFileObject {
     pub image_file: MessageContentImageFileObjectImageFile,
@@ -40967,7 +40967,7 @@ impl serde::Serialize for MessageDeltaContentImageFileObjectImageFile {
 }
 #[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
 pub struct MessageDeltaContentImageFileObjectImageFile {
-    #[doc = "The [File](/docs/api-reference/files) ID of the image in the message content. Set `purpose=\"vision\"` when uploading the File if you need to later display the file content."]
+    #[doc = "The [File](https://platform.openai.com/docs/api-reference/files) ID of the image in the message content. Set `purpose=\"vision\"` when uploading the File if you need to later display the file content."]
     #[builder(default)]
     pub file_id: Option<String>,
     #[doc = "Specifies the detail level of the image if specified by the user. `low` uses fewer tokens, you can opt in to high resolution using `high`."]
@@ -41039,7 +41039,7 @@ impl serde::Serialize for MessageDeltaContentImageFileObject {
         .serialize(serializer)
     }
 }
-#[doc = "References an image [File](/docs/api-reference/files) in the content of a message."]
+#[doc = "References an image [File](https://platform.openai.com/docs/api-reference/files) in the content of a message."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct MessageDeltaContentImageFileObject {
     #[doc = "The index of the content part in the message."]
@@ -42786,14 +42786,14 @@ impl serde::Serialize for MessageObject {
         .serialize(serializer)
     }
 }
-#[doc = "Represents a message within a [thread](/docs/api-reference/threads)."]
+#[doc = "Represents a message within a [thread](https://platform.openai.com/docs/api-reference/threads)."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct MessageObject {
     #[doc = "The identifier, which can be referenced in API endpoints."]
     pub id: String,
     #[doc = "The Unix timestamp (in seconds) for when the message was created."]
     pub created_at: u64,
-    #[doc = "The [thread](/docs/api-reference/threads) ID that this message belongs to."]
+    #[doc = "The [thread](https://platform.openai.com/docs/api-reference/threads) ID that this message belongs to."]
     pub thread_id: String,
     #[doc = "The status of the message, which can be either `in_progress`, `incomplete`, or `completed`."]
     pub status: MessageObjectStatus,
@@ -42810,10 +42810,10 @@ pub struct MessageObject {
     pub role: MessageObjectRole,
     #[doc = "The content of the message in array of text and/or images."]
     pub content: Vec<MessageObjectContent>,
-    #[doc = "If applicable, the ID of the [assistant](/docs/api-reference/assistants) that authored this message."]
+    #[doc = "If applicable, the ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) that authored this message."]
     #[builder(default)]
     pub assistant_id: Option<String>,
-    #[doc = "The ID of the [run](/docs/api-reference/runs) associated with the creation of this message. Value is `null` when messages are created manually using the create message or create thread endpoints."]
+    #[doc = "The ID of the [run](https://platform.openai.com/docs/api-reference/runs) associated with the creation of this message. Value is `null` when messages are created manually using the create message or create thread endpoints."]
     #[builder(default)]
     pub run_id: Option<String>,
     #[doc = "A list of files attached to the message, and the tools they were added to."]
@@ -42937,7 +42937,7 @@ impl serde::Serialize for MessageStreamEventThreadMessageCreated {
         .serialize(serializer)
     }
 }
-#[doc = "Occurs when a [message](/docs/api-reference/messages/object) is created."]
+#[doc = "Occurs when a [message](https://platform.openai.com/docs/api-reference/messages/object) is created."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct MessageStreamEventThreadMessageCreated {
     pub data: MessageObject,
@@ -42996,7 +42996,7 @@ impl serde::Serialize for MessageStreamEventThreadMessageInProgress {
         .serialize(serializer)
     }
 }
-#[doc = "Occurs when a [message](/docs/api-reference/messages/object) moves to an `in_progress` state."]
+#[doc = "Occurs when a [message](https://platform.openai.com/docs/api-reference/messages/object) moves to an `in_progress` state."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct MessageStreamEventThreadMessageInProgress {
     pub data: MessageObject,
@@ -43055,7 +43055,7 @@ impl serde::Serialize for MessageStreamEventThreadMessageDelta {
         .serialize(serializer)
     }
 }
-#[doc = "Occurs when parts of a [Message](/docs/api-reference/messages/object) are being streamed."]
+#[doc = "Occurs when parts of a [Message](https://platform.openai.com/docs/api-reference/messages/object) are being streamed."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct MessageStreamEventThreadMessageDelta {
     pub data: MessageDeltaObject,
@@ -43114,7 +43114,7 @@ impl serde::Serialize for MessageStreamEventThreadMessageCompleted {
         .serialize(serializer)
     }
 }
-#[doc = "Occurs when a [message](/docs/api-reference/messages/object) is completed."]
+#[doc = "Occurs when a [message](https://platform.openai.com/docs/api-reference/messages/object) is completed."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct MessageStreamEventThreadMessageCompleted {
     pub data: MessageObject,
@@ -43173,7 +43173,7 @@ impl serde::Serialize for MessageStreamEventThreadMessageIncomplete {
         .serialize(serializer)
     }
 }
-#[doc = "Occurs when a [message](/docs/api-reference/messages/object) ends before it is completed."]
+#[doc = "Occurs when a [message](https://platform.openai.com/docs/api-reference/messages/object) ends before it is completed."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct MessageStreamEventThreadMessageIncomplete {
     pub data: MessageObject,
@@ -43245,15 +43245,15 @@ impl serde::Serialize for MessageStreamEvent {
 #[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum MessageStreamEvent {
-    #[doc = "Occurs when a [message](/docs/api-reference/messages/object) is created."]
+    #[doc = "Occurs when a [message](https://platform.openai.com/docs/api-reference/messages/object) is created."]
     ThreadMessageCreated(MessageStreamEventThreadMessageCreated),
-    #[doc = "Occurs when a [message](/docs/api-reference/messages/object) moves to an `in_progress` state."]
+    #[doc = "Occurs when a [message](https://platform.openai.com/docs/api-reference/messages/object) moves to an `in_progress` state."]
     ThreadMessageInProgress(MessageStreamEventThreadMessageInProgress),
-    #[doc = "Occurs when parts of a [Message](/docs/api-reference/messages/object) are being streamed."]
+    #[doc = "Occurs when parts of a [Message](https://platform.openai.com/docs/api-reference/messages/object) are being streamed."]
     ThreadMessageDelta(MessageStreamEventThreadMessageDelta),
-    #[doc = "Occurs when a [message](/docs/api-reference/messages/object) is completed."]
+    #[doc = "Occurs when a [message](https://platform.openai.com/docs/api-reference/messages/object) is completed."]
     ThreadMessageCompleted(MessageStreamEventThreadMessageCompleted),
-    #[doc = "Occurs when a [message](/docs/api-reference/messages/object) ends before it is completed."]
+    #[doc = "Occurs when a [message](https://platform.openai.com/docs/api-reference/messages/object) ends before it is completed."]
     ThreadMessageIncomplete(MessageStreamEventThreadMessageIncomplete),
 }
 #[doc = "Set of 16 key-value pairs that can be attached to an object. This can be\nuseful for storing additional information about the object in a structured\nformat, and querying for objects via API or the dashboard. \n\nKeys are strings with a maximum length of 64 characters. Values are strings\nwith a maximum length of 512 characters.\n"]
@@ -45029,7 +45029,7 @@ impl serde::Serialize for ModifyAssistantRequestModel {
         }
     }
 }
-#[doc = "ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models) for descriptions of them.\n"]
+#[doc = "ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models) for descriptions of them.\n"]
 #[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum ModifyAssistantRequestModel {
@@ -45121,7 +45121,7 @@ impl serde::Serialize for ModifyAssistantRequestToolResourcesCodeInterpreter {
 }
 #[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
 pub struct ModifyAssistantRequestToolResourcesCodeInterpreter {
-    #[doc = "Overrides the list of [file](/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.\n"]
+    #[doc = "Overrides the list of [file](https://platform.openai.com/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.\n"]
     #[builder(default)]
     pub file_ids: Option<Vec<String>>,
 }
@@ -45159,7 +45159,7 @@ impl serde::Serialize for ModifyAssistantRequestToolResourcesFileSearch {
 }
 #[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
 pub struct ModifyAssistantRequestToolResourcesFileSearch {
-    #[doc = "Overrides the [vector store](/docs/api-reference/vector-stores/object) attached to this assistant. There can be a maximum of 1 vector store attached to the assistant.\n"]
+    #[doc = "Overrides the [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) attached to this assistant. There can be a maximum of 1 vector store attached to the assistant.\n"]
     #[builder(default)]
     pub vector_store_ids: Option<Vec<String>>,
 }
@@ -45363,7 +45363,7 @@ impl serde::Serialize for ModifyAssistantRequest {
 }
 #[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
 pub struct ModifyAssistantRequest {
-    #[doc = "ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models) for descriptions of them.\n"]
+    #[doc = "ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models) for descriptions of them.\n"]
     #[builder(default)]
     pub model: Option<ModifyAssistantRequestModel>,
     #[builder(default)]
@@ -45530,7 +45530,7 @@ impl serde::Serialize for ModifyThreadRequestToolResourcesCodeInterpreter {
 }
 #[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
 pub struct ModifyThreadRequestToolResourcesCodeInterpreter {
-    #[doc = "A list of [file](/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.\n"]
+    #[doc = "A list of [file](https://platform.openai.com/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.\n"]
     #[builder(default)]
     pub file_ids: Option<Vec<String>>,
 }
@@ -45568,7 +45568,7 @@ impl serde::Serialize for ModifyThreadRequestToolResourcesFileSearch {
 }
 #[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
 pub struct ModifyThreadRequestToolResourcesFileSearch {
-    #[doc = "The [vector store](/docs/api-reference/vector-stores/object) attached to this thread. There can be a maximum of 1 vector store attached to the thread.\n"]
+    #[doc = "The [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) attached to this thread. There can be a maximum of 1 vector store attached to the thread.\n"]
     #[builder(default)]
     pub vector_store_ids: Option<Vec<String>>,
 }
@@ -69479,16 +69479,16 @@ impl serde::Serialize for RunObject {
         .serialize(serializer)
     }
 }
-#[doc = "Represents an execution run on a [thread](/docs/api-reference/threads)."]
+#[doc = "Represents an execution run on a [thread](https://platform.openai.com/docs/api-reference/threads)."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunObject {
     #[doc = "The identifier, which can be referenced in API endpoints."]
     pub id: String,
     #[doc = "The Unix timestamp (in seconds) for when the run was created."]
     pub created_at: u64,
-    #[doc = "The ID of the [thread](/docs/api-reference/threads) that was executed on as a part of this run."]
+    #[doc = "The ID of the [thread](https://platform.openai.com/docs/api-reference/threads) that was executed on as a part of this run."]
     pub thread_id: String,
-    #[doc = "The ID of the [assistant](/docs/api-reference/assistants) used for execution of this run."]
+    #[doc = "The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for execution of this run."]
     pub assistant_id: String,
     #[doc = "The status of the run, which can be either `queued`, `in_progress`, `requires_action`, `cancelling`, `cancelled`, `failed`, `completed`, `incomplete`, or `expired`."]
     pub status: RunObjectStatus,
@@ -69516,11 +69516,11 @@ pub struct RunObject {
     #[doc = "Details on why the run is incomplete. Will be `null` if the run is not incomplete."]
     #[builder(default)]
     pub incomplete_details: Option<RunObjectIncompleteDetails>,
-    #[doc = "The model that the [assistant](/docs/api-reference/assistants) used for this run."]
+    #[doc = "The model that the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run."]
     pub model: String,
-    #[doc = "The instructions that the [assistant](/docs/api-reference/assistants) used for this run."]
+    #[doc = "The instructions that the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run."]
     pub instructions: String,
-    #[doc = "The list of tools that the [assistant](/docs/api-reference/assistants) used for this run."]
+    #[doc = "The list of tools that the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run."]
     pub tools: Vec<RunObjectTool>,
     pub metadata: Metadata,
     pub usage: RunCompletionUsage,
@@ -70090,7 +70090,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectI
 }
 #[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
 pub struct RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImage {
-    #[doc = "The [file](/docs/api-reference/files) ID of the image."]
+    #[doc = "The [file](https://platform.openai.com/docs/api-reference/files) ID of the image."]
     #[builder(default)]
     pub file_id: Option<String>,
 }
@@ -70397,7 +70397,7 @@ pub struct RunStepDeltaStepDetailsToolCallsFunctionObjectFunction {
     #[doc = "The arguments passed to the function."]
     #[builder(default)]
     pub arguments: Option<String>,
-    #[doc = "The output of the function. This will be `null` if the outputs have not been [submitted](/docs/api-reference/runs/submitToolOutputs) yet."]
+    #[doc = "The output of the function. This will be `null` if the outputs have not been [submitted](https://platform.openai.com/docs/api-reference/runs/submitToolOutputs) yet."]
     #[builder(default)]
     pub output: Option<String>,
 }
@@ -70908,7 +70908,7 @@ impl serde::Serialize for RunStepDetailsToolCallsCodeOutputImageObjectImage {
 }
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStepDetailsToolCallsCodeOutputImageObjectImage {
-    #[doc = "The [file](/docs/api-reference/files) ID of the image."]
+    #[doc = "The [file](https://platform.openai.com/docs/api-reference/files) ID of the image."]
     pub file_id: String,
 }
 impl<'de> serde::Deserialize<'de> for RunStepDetailsToolCallsCodeOutputImageObject {
@@ -71416,7 +71416,7 @@ pub struct RunStepDetailsToolCallsFunctionObjectFunction {
     pub name: String,
     #[doc = "The arguments passed to the function."]
     pub arguments: String,
-    #[doc = "The output of the function. This will be `null` if the outputs have not been [submitted](/docs/api-reference/runs/submitToolOutputs) yet."]
+    #[doc = "The output of the function. This will be `null` if the outputs have not been [submitted](https://platform.openai.com/docs/api-reference/runs/submitToolOutputs) yet."]
     #[builder(default)]
     pub output: Option<String>,
 }
@@ -72211,11 +72211,11 @@ pub struct RunStepObject {
     pub id: String,
     #[doc = "The Unix timestamp (in seconds) for when the run step was created."]
     pub created_at: u64,
-    #[doc = "The ID of the [assistant](/docs/api-reference/assistants) associated with the run step."]
+    #[doc = "The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) associated with the run step."]
     pub assistant_id: String,
-    #[doc = "The ID of the [thread](/docs/api-reference/threads) that was run."]
+    #[doc = "The ID of the [thread](https://platform.openai.com/docs/api-reference/threads) that was run."]
     pub thread_id: String,
-    #[doc = "The ID of the [run](/docs/api-reference/runs) that this run step is a part of."]
+    #[doc = "The ID of the [run](https://platform.openai.com/docs/api-reference/runs) that this run step is a part of."]
     pub run_id: String,
     #[doc = "The type of run step, which can be either `message_creation` or `tool_calls`."]
     pub type_: RunStepObjectType,
@@ -72295,7 +72295,7 @@ impl serde::Serialize for RunStepStreamEventThreadRunStepCreated {
         .serialize(serializer)
     }
 }
-#[doc = "Occurs when a [run step](/docs/api-reference/run-steps/step-object) is created."]
+#[doc = "Occurs when a [run step](https://platform.openai.com/docs/api-reference/run-steps/step-object) is created."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStepStreamEventThreadRunStepCreated {
     pub data: RunStepObject,
@@ -72354,7 +72354,7 @@ impl serde::Serialize for RunStepStreamEventThreadRunStepInProgress {
         .serialize(serializer)
     }
 }
-#[doc = "Occurs when a [run step](/docs/api-reference/run-steps/step-object) moves to an `in_progress` state."]
+#[doc = "Occurs when a [run step](https://platform.openai.com/docs/api-reference/run-steps/step-object) moves to an `in_progress` state."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStepStreamEventThreadRunStepInProgress {
     pub data: RunStepObject,
@@ -72413,7 +72413,7 @@ impl serde::Serialize for RunStepStreamEventThreadRunStepDelta {
         .serialize(serializer)
     }
 }
-#[doc = "Occurs when parts of a [run step](/docs/api-reference/run-steps/step-object) are being streamed."]
+#[doc = "Occurs when parts of a [run step](https://platform.openai.com/docs/api-reference/run-steps/step-object) are being streamed."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStepStreamEventThreadRunStepDelta {
     pub data: RunStepDeltaObject,
@@ -72472,7 +72472,7 @@ impl serde::Serialize for RunStepStreamEventThreadRunStepCompleted {
         .serialize(serializer)
     }
 }
-#[doc = "Occurs when a [run step](/docs/api-reference/run-steps/step-object) is completed."]
+#[doc = "Occurs when a [run step](https://platform.openai.com/docs/api-reference/run-steps/step-object) is completed."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStepStreamEventThreadRunStepCompleted {
     pub data: RunStepObject,
@@ -72531,7 +72531,7 @@ impl serde::Serialize for RunStepStreamEventThreadRunStepFailed {
         .serialize(serializer)
     }
 }
-#[doc = "Occurs when a [run step](/docs/api-reference/run-steps/step-object) fails."]
+#[doc = "Occurs when a [run step](https://platform.openai.com/docs/api-reference/run-steps/step-object) fails."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStepStreamEventThreadRunStepFailed {
     pub data: RunStepObject,
@@ -72590,7 +72590,7 @@ impl serde::Serialize for RunStepStreamEventThreadRunStepCancelled {
         .serialize(serializer)
     }
 }
-#[doc = "Occurs when a [run step](/docs/api-reference/run-steps/step-object) is cancelled."]
+#[doc = "Occurs when a [run step](https://platform.openai.com/docs/api-reference/run-steps/step-object) is cancelled."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStepStreamEventThreadRunStepCancelled {
     pub data: RunStepObject,
@@ -72649,7 +72649,7 @@ impl serde::Serialize for RunStepStreamEventThreadRunStepExpired {
         .serialize(serializer)
     }
 }
-#[doc = "Occurs when a [run step](/docs/api-reference/run-steps/step-object) expires."]
+#[doc = "Occurs when a [run step](https://platform.openai.com/docs/api-reference/run-steps/step-object) expires."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStepStreamEventThreadRunStepExpired {
     pub data: RunStepObject,
@@ -72733,19 +72733,19 @@ impl serde::Serialize for RunStepStreamEvent {
 #[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum RunStepStreamEvent {
-    #[doc = "Occurs when a [run step](/docs/api-reference/run-steps/step-object) is created."]
+    #[doc = "Occurs when a [run step](https://platform.openai.com/docs/api-reference/run-steps/step-object) is created."]
     ThreadRunStepCreated(RunStepStreamEventThreadRunStepCreated),
-    #[doc = "Occurs when a [run step](/docs/api-reference/run-steps/step-object) moves to an `in_progress` state."]
+    #[doc = "Occurs when a [run step](https://platform.openai.com/docs/api-reference/run-steps/step-object) moves to an `in_progress` state."]
     ThreadRunStepInProgress(RunStepStreamEventThreadRunStepInProgress),
-    #[doc = "Occurs when parts of a [run step](/docs/api-reference/run-steps/step-object) are being streamed."]
+    #[doc = "Occurs when parts of a [run step](https://platform.openai.com/docs/api-reference/run-steps/step-object) are being streamed."]
     ThreadRunStepDelta(RunStepStreamEventThreadRunStepDelta),
-    #[doc = "Occurs when a [run step](/docs/api-reference/run-steps/step-object) is completed."]
+    #[doc = "Occurs when a [run step](https://platform.openai.com/docs/api-reference/run-steps/step-object) is completed."]
     ThreadRunStepCompleted(RunStepStreamEventThreadRunStepCompleted),
-    #[doc = "Occurs when a [run step](/docs/api-reference/run-steps/step-object) fails."]
+    #[doc = "Occurs when a [run step](https://platform.openai.com/docs/api-reference/run-steps/step-object) fails."]
     ThreadRunStepFailed(RunStepStreamEventThreadRunStepFailed),
-    #[doc = "Occurs when a [run step](/docs/api-reference/run-steps/step-object) is cancelled."]
+    #[doc = "Occurs when a [run step](https://platform.openai.com/docs/api-reference/run-steps/step-object) is cancelled."]
     ThreadRunStepCancelled(RunStepStreamEventThreadRunStepCancelled),
-    #[doc = "Occurs when a [run step](/docs/api-reference/run-steps/step-object) expires."]
+    #[doc = "Occurs when a [run step](https://platform.openai.com/docs/api-reference/run-steps/step-object) expires."]
     ThreadRunStepExpired(RunStepStreamEventThreadRunStepExpired),
 }
 impl<'de> serde::Deserialize<'de> for RunStreamEventThreadRunCreated {
@@ -72802,7 +72802,7 @@ impl serde::Serialize for RunStreamEventThreadRunCreated {
         .serialize(serializer)
     }
 }
-#[doc = "Occurs when a new [run](/docs/api-reference/runs/object) is created."]
+#[doc = "Occurs when a new [run](https://platform.openai.com/docs/api-reference/runs/object) is created."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStreamEventThreadRunCreated {
     pub data: RunObject,
@@ -72861,7 +72861,7 @@ impl serde::Serialize for RunStreamEventThreadRunQueued {
         .serialize(serializer)
     }
 }
-#[doc = "Occurs when a [run](/docs/api-reference/runs/object) moves to a `queued` status."]
+#[doc = "Occurs when a [run](https://platform.openai.com/docs/api-reference/runs/object) moves to a `queued` status."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStreamEventThreadRunQueued {
     pub data: RunObject,
@@ -72920,7 +72920,7 @@ impl serde::Serialize for RunStreamEventThreadRunInProgress {
         .serialize(serializer)
     }
 }
-#[doc = "Occurs when a [run](/docs/api-reference/runs/object) moves to an `in_progress` status."]
+#[doc = "Occurs when a [run](https://platform.openai.com/docs/api-reference/runs/object) moves to an `in_progress` status."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStreamEventThreadRunInProgress {
     pub data: RunObject,
@@ -72979,7 +72979,7 @@ impl serde::Serialize for RunStreamEventThreadRunRequiresAction {
         .serialize(serializer)
     }
 }
-#[doc = "Occurs when a [run](/docs/api-reference/runs/object) moves to a `requires_action` status."]
+#[doc = "Occurs when a [run](https://platform.openai.com/docs/api-reference/runs/object) moves to a `requires_action` status."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStreamEventThreadRunRequiresAction {
     pub data: RunObject,
@@ -73038,7 +73038,7 @@ impl serde::Serialize for RunStreamEventThreadRunCompleted {
         .serialize(serializer)
     }
 }
-#[doc = "Occurs when a [run](/docs/api-reference/runs/object) is completed."]
+#[doc = "Occurs when a [run](https://platform.openai.com/docs/api-reference/runs/object) is completed."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStreamEventThreadRunCompleted {
     pub data: RunObject,
@@ -73097,7 +73097,7 @@ impl serde::Serialize for RunStreamEventThreadRunIncomplete {
         .serialize(serializer)
     }
 }
-#[doc = "Occurs when a [run](/docs/api-reference/runs/object) ends with status `incomplete`."]
+#[doc = "Occurs when a [run](https://platform.openai.com/docs/api-reference/runs/object) ends with status `incomplete`."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStreamEventThreadRunIncomplete {
     pub data: RunObject,
@@ -73156,7 +73156,7 @@ impl serde::Serialize for RunStreamEventThreadRunFailed {
         .serialize(serializer)
     }
 }
-#[doc = "Occurs when a [run](/docs/api-reference/runs/object) fails."]
+#[doc = "Occurs when a [run](https://platform.openai.com/docs/api-reference/runs/object) fails."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStreamEventThreadRunFailed {
     pub data: RunObject,
@@ -73215,7 +73215,7 @@ impl serde::Serialize for RunStreamEventThreadRunCancelling {
         .serialize(serializer)
     }
 }
-#[doc = "Occurs when a [run](/docs/api-reference/runs/object) moves to a `cancelling` status."]
+#[doc = "Occurs when a [run](https://platform.openai.com/docs/api-reference/runs/object) moves to a `cancelling` status."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStreamEventThreadRunCancelling {
     pub data: RunObject,
@@ -73274,7 +73274,7 @@ impl serde::Serialize for RunStreamEventThreadRunCancelled {
         .serialize(serializer)
     }
 }
-#[doc = "Occurs when a [run](/docs/api-reference/runs/object) is cancelled."]
+#[doc = "Occurs when a [run](https://platform.openai.com/docs/api-reference/runs/object) is cancelled."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStreamEventThreadRunCancelled {
     pub data: RunObject,
@@ -73333,7 +73333,7 @@ impl serde::Serialize for RunStreamEventThreadRunExpired {
         .serialize(serializer)
     }
 }
-#[doc = "Occurs when a [run](/docs/api-reference/runs/object) expires."]
+#[doc = "Occurs when a [run](https://platform.openai.com/docs/api-reference/runs/object) expires."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStreamEventThreadRunExpired {
     pub data: RunObject,
@@ -73431,25 +73431,25 @@ impl serde::Serialize for RunStreamEvent {
 #[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum RunStreamEvent {
-    #[doc = "Occurs when a new [run](/docs/api-reference/runs/object) is created."]
+    #[doc = "Occurs when a new [run](https://platform.openai.com/docs/api-reference/runs/object) is created."]
     ThreadRunCreated(RunStreamEventThreadRunCreated),
-    #[doc = "Occurs when a [run](/docs/api-reference/runs/object) moves to a `queued` status."]
+    #[doc = "Occurs when a [run](https://platform.openai.com/docs/api-reference/runs/object) moves to a `queued` status."]
     ThreadRunQueued(RunStreamEventThreadRunQueued),
-    #[doc = "Occurs when a [run](/docs/api-reference/runs/object) moves to an `in_progress` status."]
+    #[doc = "Occurs when a [run](https://platform.openai.com/docs/api-reference/runs/object) moves to an `in_progress` status."]
     ThreadRunInProgress(RunStreamEventThreadRunInProgress),
-    #[doc = "Occurs when a [run](/docs/api-reference/runs/object) moves to a `requires_action` status."]
+    #[doc = "Occurs when a [run](https://platform.openai.com/docs/api-reference/runs/object) moves to a `requires_action` status."]
     ThreadRunRequiresAction(RunStreamEventThreadRunRequiresAction),
-    #[doc = "Occurs when a [run](/docs/api-reference/runs/object) is completed."]
+    #[doc = "Occurs when a [run](https://platform.openai.com/docs/api-reference/runs/object) is completed."]
     ThreadRunCompleted(RunStreamEventThreadRunCompleted),
-    #[doc = "Occurs when a [run](/docs/api-reference/runs/object) ends with status `incomplete`."]
+    #[doc = "Occurs when a [run](https://platform.openai.com/docs/api-reference/runs/object) ends with status `incomplete`."]
     ThreadRunIncomplete(RunStreamEventThreadRunIncomplete),
-    #[doc = "Occurs when a [run](/docs/api-reference/runs/object) fails."]
+    #[doc = "Occurs when a [run](https://platform.openai.com/docs/api-reference/runs/object) fails."]
     ThreadRunFailed(RunStreamEventThreadRunFailed),
-    #[doc = "Occurs when a [run](/docs/api-reference/runs/object) moves to a `cancelling` status."]
+    #[doc = "Occurs when a [run](https://platform.openai.com/docs/api-reference/runs/object) moves to a `cancelling` status."]
     ThreadRunCancelling(RunStreamEventThreadRunCancelling),
-    #[doc = "Occurs when a [run](/docs/api-reference/runs/object) is cancelled."]
+    #[doc = "Occurs when a [run](https://platform.openai.com/docs/api-reference/runs/object) is cancelled."]
     ThreadRunCancelled(RunStreamEventThreadRunCancelled),
-    #[doc = "Occurs when a [run](/docs/api-reference/runs/object) expires."]
+    #[doc = "Occurs when a [run](https://platform.openai.com/docs/api-reference/runs/object) expires."]
     ThreadRunExpired(RunStreamEventThreadRunExpired),
 }
 impl<'de> serde::Deserialize<'de> for RunToolCallObjectFunction {
@@ -73561,7 +73561,7 @@ impl serde::Serialize for RunToolCallObject {
 #[doc = "Tool call objects"]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunToolCallObject {
-    #[doc = "The ID of the tool call. This ID must be referenced when you submit the tool outputs in using the [Submit tool outputs to run](/docs/api-reference/runs/submitToolOutputs) endpoint."]
+    #[doc = "The ID of the tool call. This ID must be referenced when you submit the tool outputs in using the [Submit tool outputs to run](https://platform.openai.com/docs/api-reference/runs/submitToolOutputs) endpoint."]
     pub id: String,
     #[doc = "The function definition."]
     pub function: RunToolCallObjectFunction,
@@ -74357,7 +74357,7 @@ impl serde::Serialize for ThreadObjectToolResourcesCodeInterpreter {
 }
 #[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
 pub struct ThreadObjectToolResourcesCodeInterpreter {
-    #[doc = "A list of [file](/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.\n"]
+    #[doc = "A list of [file](https://platform.openai.com/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.\n"]
     #[builder(default)]
     pub file_ids: Option<Vec<String>>,
 }
@@ -74395,7 +74395,7 @@ impl serde::Serialize for ThreadObjectToolResourcesFileSearch {
 }
 #[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
 pub struct ThreadObjectToolResourcesFileSearch {
-    #[doc = "The [vector store](/docs/api-reference/vector-stores/object) attached to this thread. There can be a maximum of 1 vector store attached to the thread.\n"]
+    #[doc = "The [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) attached to this thread. There can be a maximum of 1 vector store attached to the thread.\n"]
     #[builder(default)]
     pub vector_store_ids: Option<Vec<String>>,
 }
@@ -74548,7 +74548,7 @@ impl serde::Serialize for ThreadObject {
         .serialize(serializer)
     }
 }
-#[doc = "Represents a thread that contains [messages](/docs/api-reference/messages)."]
+#[doc = "Represents a thread that contains [messages](https://platform.openai.com/docs/api-reference/messages)."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ThreadObject {
     #[doc = "The identifier, which can be referenced in API endpoints."]
@@ -74621,7 +74621,7 @@ impl serde::Serialize for ThreadStreamEvent {
         .serialize(serializer)
     }
 }
-#[doc = "Occurs when a new [thread](/docs/api-reference/threads/object) is created."]
+#[doc = "Occurs when a new [thread](https://platform.openai.com/docs/api-reference/threads/object) is created."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ThreadStreamEvent {
     #[doc = "Whether to enable input audio transcription."]
@@ -75138,12 +75138,12 @@ impl serde::Serialize for TranscriptTextDeltaEvent {
         .serialize(serializer)
     }
 }
-#[doc = "Emitted when there is an additional text delta. This is also the first event emitted when the transcription starts. Only emitted when you [create a transcription](/docs/api-reference/audio/create-transcription) with the `Stream` parameter set to `true`."]
+#[doc = "Emitted when there is an additional text delta. This is also the first event emitted when the transcription starts. Only emitted when you [create a transcription](https://platform.openai.com/docs/api-reference/audio/create-transcription) with the `Stream` parameter set to `true`."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct TranscriptTextDeltaEvent {
     #[doc = "The text delta that was additionally transcribed.\n"]
     pub delta: String,
-    #[doc = "The log probabilities of the delta. Only included if you [create a transcription](/docs/api-reference/audio/create-transcription) with the `include[]` parameter set to `logprobs`.\n"]
+    #[doc = "The log probabilities of the delta. Only included if you [create a transcription](https://platform.openai.com/docs/api-reference/audio/create-transcription) with the `include[]` parameter set to `logprobs`.\n"]
     #[builder(default)]
     pub logprobs: Option<Vec<TranscriptTextDeltaEventLogprob>>,
 }
@@ -75282,12 +75282,12 @@ impl serde::Serialize for TranscriptTextDoneEvent {
         .serialize(serializer)
     }
 }
-#[doc = "Emitted when the transcription is complete. Contains the complete transcription text. Only emitted when you [create a transcription](/docs/api-reference/audio/create-transcription) with the `Stream` parameter set to `true`."]
+#[doc = "Emitted when the transcription is complete. Contains the complete transcription text. Only emitted when you [create a transcription](https://platform.openai.com/docs/api-reference/audio/create-transcription) with the `Stream` parameter set to `true`."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct TranscriptTextDoneEvent {
     #[doc = "The text that was transcribed.\n"]
     pub text: String,
-    #[doc = "The log probabilities of the individual tokens in the transcription. Only included if you [create a transcription](/docs/api-reference/audio/create-transcription) with the `include[]` parameter set to `logprobs`.\n"]
+    #[doc = "The log probabilities of the individual tokens in the transcription. Only included if you [create a transcription](https://platform.openai.com/docs/api-reference/audio/create-transcription) with the `include[]` parameter set to `logprobs`.\n"]
     #[builder(default)]
     pub logprobs: Option<Vec<TranscriptTextDoneEventLogprob>>,
 }
@@ -76054,7 +76054,7 @@ pub struct Upload {
     pub filename: String,
     #[doc = "The intended number of bytes to be uploaded."]
     pub bytes: u64,
-    #[doc = "The intended purpose of the file. [Please refer here](/docs/api-reference/files/object#files/object-purpose) for acceptable values."]
+    #[doc = "The intended purpose of the file. [Please refer here](https://platform.openai.com/docs/api-reference/files/object#files/object-purpose) for acceptable values."]
     pub purpose: String,
     #[doc = "The status of the Upload."]
     pub status: UploadStatus,
@@ -78438,7 +78438,7 @@ pub struct VectorStoreFileBatchObject {
     pub id: String,
     #[doc = "The Unix timestamp (in seconds) for when the vector store files batch was created."]
     pub created_at: u64,
-    #[doc = "The ID of the [vector store](/docs/api-reference/vector-stores/object) that the [File](/docs/api-reference/files) is attached to."]
+    #[doc = "The ID of the [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) that the [File](https://platform.openai.com/docs/api-reference/files) is attached to."]
     pub vector_store_id: String,
     #[doc = "The status of the vector store files batch, which can be either `in_progress`, `completed`, `cancelled` or `failed`."]
     pub status: VectorStoreFileBatchObjectStatus,
@@ -79043,7 +79043,7 @@ pub struct VectorStoreFileObject {
     pub usage_bytes: u64,
     #[doc = "The Unix timestamp (in seconds) for when the vector store file was created."]
     pub created_at: u64,
-    #[doc = "The ID of the [vector store](/docs/api-reference/vector-stores/object) that the [File](/docs/api-reference/files) is attached to."]
+    #[doc = "The ID of the [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) that the [File](https://platform.openai.com/docs/api-reference/files) is attached to."]
     pub vector_store_id: String,
     #[doc = "The status of the vector store file, which can be either `in_progress`, `completed`, `cancelled`, or `failed`. The status `completed` indicates that the vector store file is ready for use."]
     pub status: VectorStoreFileObjectStatus,

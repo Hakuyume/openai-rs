@@ -729,7 +729,13 @@ fn to_ident_snake(name: &str) -> syn::Ident {
 }
 
 fn to_description(description: Option<&str>) -> Option<syn::Attribute> {
-    description.map(|description| syn::parse_quote!(#[doc = #description]))
+    description.map(|description| {
+        let description = description.replace(
+            "](/docs/api-reference/",
+            "](https://platform.openai.com/docs/api-reference/",
+        );
+        syn::parse_quote!(#[doc = #description])
+    })
 }
 
 fn is_copy(schema: &Schema<'_>, schemas: &IndexMap<&str, Schema<'_>>) -> bool {
