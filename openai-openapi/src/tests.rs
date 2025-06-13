@@ -15,7 +15,7 @@ fn test_create_chat_completion_request_default() {
         ],
     });
     let b = crate::CreateChatCompletionRequest::builder()
-        .model(crate::ModelIdsShared::Gpt41)
+        .model(crate::ModelIdsShared::Gpt4_1)
         .messages(vec![
             crate::ChatCompletionRequestMessage::Developer(
                 crate::ChatCompletionRequestDeveloperMessage::builder()

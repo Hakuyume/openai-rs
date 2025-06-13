@@ -845,50 +845,50 @@ impl<'de> serde::Deserialize<'de> for AssistantSupportedModels {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt41 {
+        enum AssistantSupportedModelsGpt4_1 {
             #[default]
             #[serde(rename = "gpt-4.1")]
-            Gpt41,
+            Gpt4_1,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt41Mini {
+        enum AssistantSupportedModelsGpt4_1Mini {
             #[default]
             #[serde(rename = "gpt-4.1-mini")]
-            Gpt41Mini,
+            Gpt4_1Mini,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt41Nano {
+        enum AssistantSupportedModelsGpt4_1Nano {
             #[default]
             #[serde(rename = "gpt-4.1-nano")]
-            Gpt41Nano,
+            Gpt4_1Nano,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt4120250414 {
+        enum AssistantSupportedModelsGpt4_1_2025_04_14 {
             #[default]
             #[serde(rename = "gpt-4.1-2025-04-14")]
-            Gpt4120250414,
+            Gpt4_1_2025_04_14,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt41Mini20250414 {
+        enum AssistantSupportedModelsGpt4_1Mini2025_04_14 {
             #[default]
             #[serde(rename = "gpt-4.1-mini-2025-04-14")]
-            Gpt41Mini20250414,
+            Gpt4_1Mini2025_04_14,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt41Nano20250414 {
+        enum AssistantSupportedModelsGpt4_1Nano2025_04_14 {
             #[default]
             #[serde(rename = "gpt-4.1-nano-2025-04-14")]
-            Gpt41Nano20250414,
+            Gpt4_1Nano2025_04_14,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -901,10 +901,10 @@ impl<'de> serde::Deserialize<'de> for AssistantSupportedModels {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsO3Mini20250131 {
+        enum AssistantSupportedModelsO3Mini2025_01_31 {
             #[default]
             #[serde(rename = "o3-mini-2025-01-31")]
-            O3Mini20250131,
+            O3Mini2025_01_31,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -917,10 +917,10 @@ impl<'de> serde::Deserialize<'de> for AssistantSupportedModels {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsO120241217 {
+        enum AssistantSupportedModelsO1_2024_12_17 {
             #[default]
             #[serde(rename = "o1-2024-12-17")]
-            O120241217,
+            O1_2024_12_17,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -933,26 +933,26 @@ impl<'de> serde::Deserialize<'de> for AssistantSupportedModels {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt4o20241120 {
+        enum AssistantSupportedModelsGpt4o2024_11_20 {
             #[default]
             #[serde(rename = "gpt-4o-2024-11-20")]
-            Gpt4o20241120,
+            Gpt4o2024_11_20,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt4o20240806 {
+        enum AssistantSupportedModelsGpt4o2024_08_06 {
             #[default]
             #[serde(rename = "gpt-4o-2024-08-06")]
-            Gpt4o20240806,
+            Gpt4o2024_08_06,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt4o20240513 {
+        enum AssistantSupportedModelsGpt4o2024_05_13 {
             #[default]
             #[serde(rename = "gpt-4o-2024-05-13")]
-            Gpt4o20240513,
+            Gpt4o2024_05_13,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -965,26 +965,26 @@ impl<'de> serde::Deserialize<'de> for AssistantSupportedModels {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt4oMini20240718 {
+        enum AssistantSupportedModelsGpt4oMini2024_07_18 {
             #[default]
             #[serde(rename = "gpt-4o-mini-2024-07-18")]
-            Gpt4oMini20240718,
+            Gpt4oMini2024_07_18,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt45Preview {
+        enum AssistantSupportedModelsGpt4_5Preview {
             #[default]
             #[serde(rename = "gpt-4.5-preview")]
-            Gpt45Preview,
+            Gpt4_5Preview,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt45Preview20250227 {
+        enum AssistantSupportedModelsGpt4_5Preview2025_02_27 {
             #[default]
             #[serde(rename = "gpt-4.5-preview-2025-02-27")]
-            Gpt45Preview20250227,
+            Gpt4_5Preview2025_02_27,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -997,18 +997,18 @@ impl<'de> serde::Deserialize<'de> for AssistantSupportedModels {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt4Turbo20240409 {
+        enum AssistantSupportedModelsGpt4Turbo2024_04_09 {
             #[default]
             #[serde(rename = "gpt-4-turbo-2024-04-09")]
-            Gpt4Turbo20240409,
+            Gpt4Turbo2024_04_09,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt40125Preview {
+        enum AssistantSupportedModelsGpt4_0125Preview {
             #[default]
             #[serde(rename = "gpt-4-0125-preview")]
-            Gpt40125Preview,
+            Gpt4_0125Preview,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -1021,10 +1021,10 @@ impl<'de> serde::Deserialize<'de> for AssistantSupportedModels {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt41106Preview {
+        enum AssistantSupportedModelsGpt4_1106Preview {
             #[default]
             #[serde(rename = "gpt-4-1106-preview")]
-            Gpt41106Preview,
+            Gpt4_1106Preview,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -1045,205 +1045,205 @@ impl<'de> serde::Deserialize<'de> for AssistantSupportedModels {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt40314 {
+        enum AssistantSupportedModelsGpt4_0314 {
             #[default]
             #[serde(rename = "gpt-4-0314")]
-            Gpt40314,
+            Gpt4_0314,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt40613 {
+        enum AssistantSupportedModelsGpt4_0613 {
             #[default]
             #[serde(rename = "gpt-4-0613")]
-            Gpt40613,
+            Gpt4_0613,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt432k {
+        enum AssistantSupportedModelsGpt4_32k {
             #[default]
             #[serde(rename = "gpt-4-32k")]
-            Gpt432k,
+            Gpt4_32k,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt432k0314 {
+        enum AssistantSupportedModelsGpt4_32k0314 {
             #[default]
             #[serde(rename = "gpt-4-32k-0314")]
-            Gpt432k0314,
+            Gpt4_32k0314,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt432k0613 {
+        enum AssistantSupportedModelsGpt4_32k0613 {
             #[default]
             #[serde(rename = "gpt-4-32k-0613")]
-            Gpt432k0613,
+            Gpt4_32k0613,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt35Turbo {
+        enum AssistantSupportedModelsGpt3_5Turbo {
             #[default]
             #[serde(rename = "gpt-3.5-turbo")]
-            Gpt35Turbo,
+            Gpt3_5Turbo,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt35Turbo16k {
+        enum AssistantSupportedModelsGpt3_5Turbo16k {
             #[default]
             #[serde(rename = "gpt-3.5-turbo-16k")]
-            Gpt35Turbo16k,
+            Gpt3_5Turbo16k,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt35Turbo0613 {
+        enum AssistantSupportedModelsGpt3_5Turbo0613 {
             #[default]
             #[serde(rename = "gpt-3.5-turbo-0613")]
-            Gpt35Turbo0613,
+            Gpt3_5Turbo0613,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt35Turbo1106 {
+        enum AssistantSupportedModelsGpt3_5Turbo1106 {
             #[default]
             #[serde(rename = "gpt-3.5-turbo-1106")]
-            Gpt35Turbo1106,
+            Gpt3_5Turbo1106,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt35Turbo0125 {
+        enum AssistantSupportedModelsGpt3_5Turbo0125 {
             #[default]
             #[serde(rename = "gpt-3.5-turbo-0125")]
-            Gpt35Turbo0125,
+            Gpt3_5Turbo0125,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt35Turbo16k0613 {
+        enum AssistantSupportedModelsGpt3_5Turbo16k0613 {
             #[default]
             #[serde(rename = "gpt-3.5-turbo-16k-0613")]
-            Gpt35Turbo16k0613,
+            Gpt3_5Turbo16k0613,
         }
         #[derive(serde :: Deserialize)]
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum _D {
             #[allow(dead_code)]
-            Gpt41(AssistantSupportedModelsGpt41),
+            Gpt4_1(AssistantSupportedModelsGpt4_1),
             #[allow(dead_code)]
-            Gpt41Mini(AssistantSupportedModelsGpt41Mini),
+            Gpt4_1Mini(AssistantSupportedModelsGpt4_1Mini),
             #[allow(dead_code)]
-            Gpt41Nano(AssistantSupportedModelsGpt41Nano),
+            Gpt4_1Nano(AssistantSupportedModelsGpt4_1Nano),
             #[allow(dead_code)]
-            Gpt4120250414(AssistantSupportedModelsGpt4120250414),
+            Gpt4_1_2025_04_14(AssistantSupportedModelsGpt4_1_2025_04_14),
             #[allow(dead_code)]
-            Gpt41Mini20250414(AssistantSupportedModelsGpt41Mini20250414),
+            Gpt4_1Mini2025_04_14(AssistantSupportedModelsGpt4_1Mini2025_04_14),
             #[allow(dead_code)]
-            Gpt41Nano20250414(AssistantSupportedModelsGpt41Nano20250414),
+            Gpt4_1Nano2025_04_14(AssistantSupportedModelsGpt4_1Nano2025_04_14),
             #[allow(dead_code)]
             O3Mini(AssistantSupportedModelsO3Mini),
             #[allow(dead_code)]
-            O3Mini20250131(AssistantSupportedModelsO3Mini20250131),
+            O3Mini2025_01_31(AssistantSupportedModelsO3Mini2025_01_31),
             #[allow(dead_code)]
             O1(AssistantSupportedModelsO1),
             #[allow(dead_code)]
-            O120241217(AssistantSupportedModelsO120241217),
+            O1_2024_12_17(AssistantSupportedModelsO1_2024_12_17),
             #[allow(dead_code)]
             Gpt4o(AssistantSupportedModelsGpt4o),
             #[allow(dead_code)]
-            Gpt4o20241120(AssistantSupportedModelsGpt4o20241120),
+            Gpt4o2024_11_20(AssistantSupportedModelsGpt4o2024_11_20),
             #[allow(dead_code)]
-            Gpt4o20240806(AssistantSupportedModelsGpt4o20240806),
+            Gpt4o2024_08_06(AssistantSupportedModelsGpt4o2024_08_06),
             #[allow(dead_code)]
-            Gpt4o20240513(AssistantSupportedModelsGpt4o20240513),
+            Gpt4o2024_05_13(AssistantSupportedModelsGpt4o2024_05_13),
             #[allow(dead_code)]
             Gpt4oMini(AssistantSupportedModelsGpt4oMini),
             #[allow(dead_code)]
-            Gpt4oMini20240718(AssistantSupportedModelsGpt4oMini20240718),
+            Gpt4oMini2024_07_18(AssistantSupportedModelsGpt4oMini2024_07_18),
             #[allow(dead_code)]
-            Gpt45Preview(AssistantSupportedModelsGpt45Preview),
+            Gpt4_5Preview(AssistantSupportedModelsGpt4_5Preview),
             #[allow(dead_code)]
-            Gpt45Preview20250227(AssistantSupportedModelsGpt45Preview20250227),
+            Gpt4_5Preview2025_02_27(AssistantSupportedModelsGpt4_5Preview2025_02_27),
             #[allow(dead_code)]
             Gpt4Turbo(AssistantSupportedModelsGpt4Turbo),
             #[allow(dead_code)]
-            Gpt4Turbo20240409(AssistantSupportedModelsGpt4Turbo20240409),
+            Gpt4Turbo2024_04_09(AssistantSupportedModelsGpt4Turbo2024_04_09),
             #[allow(dead_code)]
-            Gpt40125Preview(AssistantSupportedModelsGpt40125Preview),
+            Gpt4_0125Preview(AssistantSupportedModelsGpt4_0125Preview),
             #[allow(dead_code)]
             Gpt4TurboPreview(AssistantSupportedModelsGpt4TurboPreview),
             #[allow(dead_code)]
-            Gpt41106Preview(AssistantSupportedModelsGpt41106Preview),
+            Gpt4_1106Preview(AssistantSupportedModelsGpt4_1106Preview),
             #[allow(dead_code)]
             Gpt4VisionPreview(AssistantSupportedModelsGpt4VisionPreview),
             #[allow(dead_code)]
             Gpt4(AssistantSupportedModelsGpt4),
             #[allow(dead_code)]
-            Gpt40314(AssistantSupportedModelsGpt40314),
+            Gpt4_0314(AssistantSupportedModelsGpt4_0314),
             #[allow(dead_code)]
-            Gpt40613(AssistantSupportedModelsGpt40613),
+            Gpt4_0613(AssistantSupportedModelsGpt4_0613),
             #[allow(dead_code)]
-            Gpt432k(AssistantSupportedModelsGpt432k),
+            Gpt4_32k(AssistantSupportedModelsGpt4_32k),
             #[allow(dead_code)]
-            Gpt432k0314(AssistantSupportedModelsGpt432k0314),
+            Gpt4_32k0314(AssistantSupportedModelsGpt4_32k0314),
             #[allow(dead_code)]
-            Gpt432k0613(AssistantSupportedModelsGpt432k0613),
+            Gpt4_32k0613(AssistantSupportedModelsGpt4_32k0613),
             #[allow(dead_code)]
-            Gpt35Turbo(AssistantSupportedModelsGpt35Turbo),
+            Gpt3_5Turbo(AssistantSupportedModelsGpt3_5Turbo),
             #[allow(dead_code)]
-            Gpt35Turbo16k(AssistantSupportedModelsGpt35Turbo16k),
+            Gpt3_5Turbo16k(AssistantSupportedModelsGpt3_5Turbo16k),
             #[allow(dead_code)]
-            Gpt35Turbo0613(AssistantSupportedModelsGpt35Turbo0613),
+            Gpt3_5Turbo0613(AssistantSupportedModelsGpt3_5Turbo0613),
             #[allow(dead_code)]
-            Gpt35Turbo1106(AssistantSupportedModelsGpt35Turbo1106),
+            Gpt3_5Turbo1106(AssistantSupportedModelsGpt3_5Turbo1106),
             #[allow(dead_code)]
-            Gpt35Turbo0125(AssistantSupportedModelsGpt35Turbo0125),
+            Gpt3_5Turbo0125(AssistantSupportedModelsGpt3_5Turbo0125),
             #[allow(dead_code)]
-            Gpt35Turbo16k0613(AssistantSupportedModelsGpt35Turbo16k0613),
+            Gpt3_5Turbo16k0613(AssistantSupportedModelsGpt3_5Turbo16k0613),
         }
         Ok(match _D::deserialize(deserializer)? {
-            _D::Gpt41(_) => Self::Gpt41,
-            _D::Gpt41Mini(_) => Self::Gpt41Mini,
-            _D::Gpt41Nano(_) => Self::Gpt41Nano,
-            _D::Gpt4120250414(_) => Self::Gpt4120250414,
-            _D::Gpt41Mini20250414(_) => Self::Gpt41Mini20250414,
-            _D::Gpt41Nano20250414(_) => Self::Gpt41Nano20250414,
+            _D::Gpt4_1(_) => Self::Gpt4_1,
+            _D::Gpt4_1Mini(_) => Self::Gpt4_1Mini,
+            _D::Gpt4_1Nano(_) => Self::Gpt4_1Nano,
+            _D::Gpt4_1_2025_04_14(_) => Self::Gpt4_1_2025_04_14,
+            _D::Gpt4_1Mini2025_04_14(_) => Self::Gpt4_1Mini2025_04_14,
+            _D::Gpt4_1Nano2025_04_14(_) => Self::Gpt4_1Nano2025_04_14,
             _D::O3Mini(_) => Self::O3Mini,
-            _D::O3Mini20250131(_) => Self::O3Mini20250131,
+            _D::O3Mini2025_01_31(_) => Self::O3Mini2025_01_31,
             _D::O1(_) => Self::O1,
-            _D::O120241217(_) => Self::O120241217,
+            _D::O1_2024_12_17(_) => Self::O1_2024_12_17,
             _D::Gpt4o(_) => Self::Gpt4o,
-            _D::Gpt4o20241120(_) => Self::Gpt4o20241120,
-            _D::Gpt4o20240806(_) => Self::Gpt4o20240806,
-            _D::Gpt4o20240513(_) => Self::Gpt4o20240513,
+            _D::Gpt4o2024_11_20(_) => Self::Gpt4o2024_11_20,
+            _D::Gpt4o2024_08_06(_) => Self::Gpt4o2024_08_06,
+            _D::Gpt4o2024_05_13(_) => Self::Gpt4o2024_05_13,
             _D::Gpt4oMini(_) => Self::Gpt4oMini,
-            _D::Gpt4oMini20240718(_) => Self::Gpt4oMini20240718,
-            _D::Gpt45Preview(_) => Self::Gpt45Preview,
-            _D::Gpt45Preview20250227(_) => Self::Gpt45Preview20250227,
+            _D::Gpt4oMini2024_07_18(_) => Self::Gpt4oMini2024_07_18,
+            _D::Gpt4_5Preview(_) => Self::Gpt4_5Preview,
+            _D::Gpt4_5Preview2025_02_27(_) => Self::Gpt4_5Preview2025_02_27,
             _D::Gpt4Turbo(_) => Self::Gpt4Turbo,
-            _D::Gpt4Turbo20240409(_) => Self::Gpt4Turbo20240409,
-            _D::Gpt40125Preview(_) => Self::Gpt40125Preview,
+            _D::Gpt4Turbo2024_04_09(_) => Self::Gpt4Turbo2024_04_09,
+            _D::Gpt4_0125Preview(_) => Self::Gpt4_0125Preview,
             _D::Gpt4TurboPreview(_) => Self::Gpt4TurboPreview,
-            _D::Gpt41106Preview(_) => Self::Gpt41106Preview,
+            _D::Gpt4_1106Preview(_) => Self::Gpt4_1106Preview,
             _D::Gpt4VisionPreview(_) => Self::Gpt4VisionPreview,
             _D::Gpt4(_) => Self::Gpt4,
-            _D::Gpt40314(_) => Self::Gpt40314,
-            _D::Gpt40613(_) => Self::Gpt40613,
-            _D::Gpt432k(_) => Self::Gpt432k,
-            _D::Gpt432k0314(_) => Self::Gpt432k0314,
-            _D::Gpt432k0613(_) => Self::Gpt432k0613,
-            _D::Gpt35Turbo(_) => Self::Gpt35Turbo,
-            _D::Gpt35Turbo16k(_) => Self::Gpt35Turbo16k,
-            _D::Gpt35Turbo0613(_) => Self::Gpt35Turbo0613,
-            _D::Gpt35Turbo1106(_) => Self::Gpt35Turbo1106,
-            _D::Gpt35Turbo0125(_) => Self::Gpt35Turbo0125,
-            _D::Gpt35Turbo16k0613(_) => Self::Gpt35Turbo16k0613,
+            _D::Gpt4_0314(_) => Self::Gpt4_0314,
+            _D::Gpt4_0613(_) => Self::Gpt4_0613,
+            _D::Gpt4_32k(_) => Self::Gpt4_32k,
+            _D::Gpt4_32k0314(_) => Self::Gpt4_32k0314,
+            _D::Gpt4_32k0613(_) => Self::Gpt4_32k0613,
+            _D::Gpt3_5Turbo(_) => Self::Gpt3_5Turbo,
+            _D::Gpt3_5Turbo16k(_) => Self::Gpt3_5Turbo16k,
+            _D::Gpt3_5Turbo0613(_) => Self::Gpt3_5Turbo0613,
+            _D::Gpt3_5Turbo1106(_) => Self::Gpt3_5Turbo1106,
+            _D::Gpt3_5Turbo0125(_) => Self::Gpt3_5Turbo0125,
+            _D::Gpt3_5Turbo16k0613(_) => Self::Gpt3_5Turbo16k0613,
         })
     }
 }
@@ -1255,50 +1255,50 @@ impl serde::Serialize for AssistantSupportedModels {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt41 {
+        enum AssistantSupportedModelsGpt4_1 {
             #[default]
             #[serde(rename = "gpt-4.1")]
-            Gpt41,
+            Gpt4_1,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt41Mini {
+        enum AssistantSupportedModelsGpt4_1Mini {
             #[default]
             #[serde(rename = "gpt-4.1-mini")]
-            Gpt41Mini,
+            Gpt4_1Mini,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt41Nano {
+        enum AssistantSupportedModelsGpt4_1Nano {
             #[default]
             #[serde(rename = "gpt-4.1-nano")]
-            Gpt41Nano,
+            Gpt4_1Nano,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt4120250414 {
+        enum AssistantSupportedModelsGpt4_1_2025_04_14 {
             #[default]
             #[serde(rename = "gpt-4.1-2025-04-14")]
-            Gpt4120250414,
+            Gpt4_1_2025_04_14,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt41Mini20250414 {
+        enum AssistantSupportedModelsGpt4_1Mini2025_04_14 {
             #[default]
             #[serde(rename = "gpt-4.1-mini-2025-04-14")]
-            Gpt41Mini20250414,
+            Gpt4_1Mini2025_04_14,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt41Nano20250414 {
+        enum AssistantSupportedModelsGpt4_1Nano2025_04_14 {
             #[default]
             #[serde(rename = "gpt-4.1-nano-2025-04-14")]
-            Gpt41Nano20250414,
+            Gpt4_1Nano2025_04_14,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -1311,10 +1311,10 @@ impl serde::Serialize for AssistantSupportedModels {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsO3Mini20250131 {
+        enum AssistantSupportedModelsO3Mini2025_01_31 {
             #[default]
             #[serde(rename = "o3-mini-2025-01-31")]
-            O3Mini20250131,
+            O3Mini2025_01_31,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -1327,10 +1327,10 @@ impl serde::Serialize for AssistantSupportedModels {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsO120241217 {
+        enum AssistantSupportedModelsO1_2024_12_17 {
             #[default]
             #[serde(rename = "o1-2024-12-17")]
-            O120241217,
+            O1_2024_12_17,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -1343,26 +1343,26 @@ impl serde::Serialize for AssistantSupportedModels {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt4o20241120 {
+        enum AssistantSupportedModelsGpt4o2024_11_20 {
             #[default]
             #[serde(rename = "gpt-4o-2024-11-20")]
-            Gpt4o20241120,
+            Gpt4o2024_11_20,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt4o20240806 {
+        enum AssistantSupportedModelsGpt4o2024_08_06 {
             #[default]
             #[serde(rename = "gpt-4o-2024-08-06")]
-            Gpt4o20240806,
+            Gpt4o2024_08_06,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt4o20240513 {
+        enum AssistantSupportedModelsGpt4o2024_05_13 {
             #[default]
             #[serde(rename = "gpt-4o-2024-05-13")]
-            Gpt4o20240513,
+            Gpt4o2024_05_13,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -1375,26 +1375,26 @@ impl serde::Serialize for AssistantSupportedModels {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt4oMini20240718 {
+        enum AssistantSupportedModelsGpt4oMini2024_07_18 {
             #[default]
             #[serde(rename = "gpt-4o-mini-2024-07-18")]
-            Gpt4oMini20240718,
+            Gpt4oMini2024_07_18,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt45Preview {
+        enum AssistantSupportedModelsGpt4_5Preview {
             #[default]
             #[serde(rename = "gpt-4.5-preview")]
-            Gpt45Preview,
+            Gpt4_5Preview,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt45Preview20250227 {
+        enum AssistantSupportedModelsGpt4_5Preview2025_02_27 {
             #[default]
             #[serde(rename = "gpt-4.5-preview-2025-02-27")]
-            Gpt45Preview20250227,
+            Gpt4_5Preview2025_02_27,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -1407,18 +1407,18 @@ impl serde::Serialize for AssistantSupportedModels {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt4Turbo20240409 {
+        enum AssistantSupportedModelsGpt4Turbo2024_04_09 {
             #[default]
             #[serde(rename = "gpt-4-turbo-2024-04-09")]
-            Gpt4Turbo20240409,
+            Gpt4Turbo2024_04_09,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt40125Preview {
+        enum AssistantSupportedModelsGpt4_0125Preview {
             #[default]
             #[serde(rename = "gpt-4-0125-preview")]
-            Gpt40125Preview,
+            Gpt4_0125Preview,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -1431,10 +1431,10 @@ impl serde::Serialize for AssistantSupportedModels {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt41106Preview {
+        enum AssistantSupportedModelsGpt4_1106Preview {
             #[default]
             #[serde(rename = "gpt-4-1106-preview")]
-            Gpt41106Preview,
+            Gpt4_1106Preview,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -1455,220 +1455,228 @@ impl serde::Serialize for AssistantSupportedModels {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt40314 {
+        enum AssistantSupportedModelsGpt4_0314 {
             #[default]
             #[serde(rename = "gpt-4-0314")]
-            Gpt40314,
+            Gpt4_0314,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt40613 {
+        enum AssistantSupportedModelsGpt4_0613 {
             #[default]
             #[serde(rename = "gpt-4-0613")]
-            Gpt40613,
+            Gpt4_0613,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt432k {
+        enum AssistantSupportedModelsGpt4_32k {
             #[default]
             #[serde(rename = "gpt-4-32k")]
-            Gpt432k,
+            Gpt4_32k,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt432k0314 {
+        enum AssistantSupportedModelsGpt4_32k0314 {
             #[default]
             #[serde(rename = "gpt-4-32k-0314")]
-            Gpt432k0314,
+            Gpt4_32k0314,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt432k0613 {
+        enum AssistantSupportedModelsGpt4_32k0613 {
             #[default]
             #[serde(rename = "gpt-4-32k-0613")]
-            Gpt432k0613,
+            Gpt4_32k0613,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt35Turbo {
+        enum AssistantSupportedModelsGpt3_5Turbo {
             #[default]
             #[serde(rename = "gpt-3.5-turbo")]
-            Gpt35Turbo,
+            Gpt3_5Turbo,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt35Turbo16k {
+        enum AssistantSupportedModelsGpt3_5Turbo16k {
             #[default]
             #[serde(rename = "gpt-3.5-turbo-16k")]
-            Gpt35Turbo16k,
+            Gpt3_5Turbo16k,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt35Turbo0613 {
+        enum AssistantSupportedModelsGpt3_5Turbo0613 {
             #[default]
             #[serde(rename = "gpt-3.5-turbo-0613")]
-            Gpt35Turbo0613,
+            Gpt3_5Turbo0613,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt35Turbo1106 {
+        enum AssistantSupportedModelsGpt3_5Turbo1106 {
             #[default]
             #[serde(rename = "gpt-3.5-turbo-1106")]
-            Gpt35Turbo1106,
+            Gpt3_5Turbo1106,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt35Turbo0125 {
+        enum AssistantSupportedModelsGpt3_5Turbo0125 {
             #[default]
             #[serde(rename = "gpt-3.5-turbo-0125")]
-            Gpt35Turbo0125,
+            Gpt3_5Turbo0125,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum AssistantSupportedModelsGpt35Turbo16k0613 {
+        enum AssistantSupportedModelsGpt3_5Turbo16k0613 {
             #[default]
             #[serde(rename = "gpt-3.5-turbo-16k-0613")]
-            Gpt35Turbo16k0613,
+            Gpt3_5Turbo16k0613,
         }
         #[derive(serde :: Serialize)]
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum _S<'a> {
             #[allow(dead_code)]
-            Gpt41(&'a AssistantSupportedModelsGpt41),
+            Gpt4_1(&'a AssistantSupportedModelsGpt4_1),
             #[allow(dead_code)]
-            Gpt41Mini(&'a AssistantSupportedModelsGpt41Mini),
+            Gpt4_1Mini(&'a AssistantSupportedModelsGpt4_1Mini),
             #[allow(dead_code)]
-            Gpt41Nano(&'a AssistantSupportedModelsGpt41Nano),
+            Gpt4_1Nano(&'a AssistantSupportedModelsGpt4_1Nano),
             #[allow(dead_code)]
-            Gpt4120250414(&'a AssistantSupportedModelsGpt4120250414),
+            Gpt4_1_2025_04_14(&'a AssistantSupportedModelsGpt4_1_2025_04_14),
             #[allow(dead_code)]
-            Gpt41Mini20250414(&'a AssistantSupportedModelsGpt41Mini20250414),
+            Gpt4_1Mini2025_04_14(&'a AssistantSupportedModelsGpt4_1Mini2025_04_14),
             #[allow(dead_code)]
-            Gpt41Nano20250414(&'a AssistantSupportedModelsGpt41Nano20250414),
+            Gpt4_1Nano2025_04_14(&'a AssistantSupportedModelsGpt4_1Nano2025_04_14),
             #[allow(dead_code)]
             O3Mini(&'a AssistantSupportedModelsO3Mini),
             #[allow(dead_code)]
-            O3Mini20250131(&'a AssistantSupportedModelsO3Mini20250131),
+            O3Mini2025_01_31(&'a AssistantSupportedModelsO3Mini2025_01_31),
             #[allow(dead_code)]
             O1(&'a AssistantSupportedModelsO1),
             #[allow(dead_code)]
-            O120241217(&'a AssistantSupportedModelsO120241217),
+            O1_2024_12_17(&'a AssistantSupportedModelsO1_2024_12_17),
             #[allow(dead_code)]
             Gpt4o(&'a AssistantSupportedModelsGpt4o),
             #[allow(dead_code)]
-            Gpt4o20241120(&'a AssistantSupportedModelsGpt4o20241120),
+            Gpt4o2024_11_20(&'a AssistantSupportedModelsGpt4o2024_11_20),
             #[allow(dead_code)]
-            Gpt4o20240806(&'a AssistantSupportedModelsGpt4o20240806),
+            Gpt4o2024_08_06(&'a AssistantSupportedModelsGpt4o2024_08_06),
             #[allow(dead_code)]
-            Gpt4o20240513(&'a AssistantSupportedModelsGpt4o20240513),
+            Gpt4o2024_05_13(&'a AssistantSupportedModelsGpt4o2024_05_13),
             #[allow(dead_code)]
             Gpt4oMini(&'a AssistantSupportedModelsGpt4oMini),
             #[allow(dead_code)]
-            Gpt4oMini20240718(&'a AssistantSupportedModelsGpt4oMini20240718),
+            Gpt4oMini2024_07_18(&'a AssistantSupportedModelsGpt4oMini2024_07_18),
             #[allow(dead_code)]
-            Gpt45Preview(&'a AssistantSupportedModelsGpt45Preview),
+            Gpt4_5Preview(&'a AssistantSupportedModelsGpt4_5Preview),
             #[allow(dead_code)]
-            Gpt45Preview20250227(&'a AssistantSupportedModelsGpt45Preview20250227),
+            Gpt4_5Preview2025_02_27(&'a AssistantSupportedModelsGpt4_5Preview2025_02_27),
             #[allow(dead_code)]
             Gpt4Turbo(&'a AssistantSupportedModelsGpt4Turbo),
             #[allow(dead_code)]
-            Gpt4Turbo20240409(&'a AssistantSupportedModelsGpt4Turbo20240409),
+            Gpt4Turbo2024_04_09(&'a AssistantSupportedModelsGpt4Turbo2024_04_09),
             #[allow(dead_code)]
-            Gpt40125Preview(&'a AssistantSupportedModelsGpt40125Preview),
+            Gpt4_0125Preview(&'a AssistantSupportedModelsGpt4_0125Preview),
             #[allow(dead_code)]
             Gpt4TurboPreview(&'a AssistantSupportedModelsGpt4TurboPreview),
             #[allow(dead_code)]
-            Gpt41106Preview(&'a AssistantSupportedModelsGpt41106Preview),
+            Gpt4_1106Preview(&'a AssistantSupportedModelsGpt4_1106Preview),
             #[allow(dead_code)]
             Gpt4VisionPreview(&'a AssistantSupportedModelsGpt4VisionPreview),
             #[allow(dead_code)]
             Gpt4(&'a AssistantSupportedModelsGpt4),
             #[allow(dead_code)]
-            Gpt40314(&'a AssistantSupportedModelsGpt40314),
+            Gpt4_0314(&'a AssistantSupportedModelsGpt4_0314),
             #[allow(dead_code)]
-            Gpt40613(&'a AssistantSupportedModelsGpt40613),
+            Gpt4_0613(&'a AssistantSupportedModelsGpt4_0613),
             #[allow(dead_code)]
-            Gpt432k(&'a AssistantSupportedModelsGpt432k),
+            Gpt4_32k(&'a AssistantSupportedModelsGpt4_32k),
             #[allow(dead_code)]
-            Gpt432k0314(&'a AssistantSupportedModelsGpt432k0314),
+            Gpt4_32k0314(&'a AssistantSupportedModelsGpt4_32k0314),
             #[allow(dead_code)]
-            Gpt432k0613(&'a AssistantSupportedModelsGpt432k0613),
+            Gpt4_32k0613(&'a AssistantSupportedModelsGpt4_32k0613),
             #[allow(dead_code)]
-            Gpt35Turbo(&'a AssistantSupportedModelsGpt35Turbo),
+            Gpt3_5Turbo(&'a AssistantSupportedModelsGpt3_5Turbo),
             #[allow(dead_code)]
-            Gpt35Turbo16k(&'a AssistantSupportedModelsGpt35Turbo16k),
+            Gpt3_5Turbo16k(&'a AssistantSupportedModelsGpt3_5Turbo16k),
             #[allow(dead_code)]
-            Gpt35Turbo0613(&'a AssistantSupportedModelsGpt35Turbo0613),
+            Gpt3_5Turbo0613(&'a AssistantSupportedModelsGpt3_5Turbo0613),
             #[allow(dead_code)]
-            Gpt35Turbo1106(&'a AssistantSupportedModelsGpt35Turbo1106),
+            Gpt3_5Turbo1106(&'a AssistantSupportedModelsGpt3_5Turbo1106),
             #[allow(dead_code)]
-            Gpt35Turbo0125(&'a AssistantSupportedModelsGpt35Turbo0125),
+            Gpt3_5Turbo0125(&'a AssistantSupportedModelsGpt3_5Turbo0125),
             #[allow(dead_code)]
-            Gpt35Turbo16k0613(&'a AssistantSupportedModelsGpt35Turbo16k0613),
+            Gpt3_5Turbo16k0613(&'a AssistantSupportedModelsGpt3_5Turbo16k0613),
         }
         match self {
-            Self::Gpt41 => _S::Gpt41(&Default::default()).serialize(serializer),
-            Self::Gpt41Mini => _S::Gpt41Mini(&Default::default()).serialize(serializer),
-            Self::Gpt41Nano => _S::Gpt41Nano(&Default::default()).serialize(serializer),
-            Self::Gpt4120250414 => _S::Gpt4120250414(&Default::default()).serialize(serializer),
-            Self::Gpt41Mini20250414 => {
-                _S::Gpt41Mini20250414(&Default::default()).serialize(serializer)
+            Self::Gpt4_1 => _S::Gpt4_1(&Default::default()).serialize(serializer),
+            Self::Gpt4_1Mini => _S::Gpt4_1Mini(&Default::default()).serialize(serializer),
+            Self::Gpt4_1Nano => _S::Gpt4_1Nano(&Default::default()).serialize(serializer),
+            Self::Gpt4_1_2025_04_14 => {
+                _S::Gpt4_1_2025_04_14(&Default::default()).serialize(serializer)
             }
-            Self::Gpt41Nano20250414 => {
-                _S::Gpt41Nano20250414(&Default::default()).serialize(serializer)
+            Self::Gpt4_1Mini2025_04_14 => {
+                _S::Gpt4_1Mini2025_04_14(&Default::default()).serialize(serializer)
+            }
+            Self::Gpt4_1Nano2025_04_14 => {
+                _S::Gpt4_1Nano2025_04_14(&Default::default()).serialize(serializer)
             }
             Self::O3Mini => _S::O3Mini(&Default::default()).serialize(serializer),
-            Self::O3Mini20250131 => _S::O3Mini20250131(&Default::default()).serialize(serializer),
-            Self::O1 => _S::O1(&Default::default()).serialize(serializer),
-            Self::O120241217 => _S::O120241217(&Default::default()).serialize(serializer),
-            Self::Gpt4o => _S::Gpt4o(&Default::default()).serialize(serializer),
-            Self::Gpt4o20241120 => _S::Gpt4o20241120(&Default::default()).serialize(serializer),
-            Self::Gpt4o20240806 => _S::Gpt4o20240806(&Default::default()).serialize(serializer),
-            Self::Gpt4o20240513 => _S::Gpt4o20240513(&Default::default()).serialize(serializer),
-            Self::Gpt4oMini => _S::Gpt4oMini(&Default::default()).serialize(serializer),
-            Self::Gpt4oMini20240718 => {
-                _S::Gpt4oMini20240718(&Default::default()).serialize(serializer)
+            Self::O3Mini2025_01_31 => {
+                _S::O3Mini2025_01_31(&Default::default()).serialize(serializer)
             }
-            Self::Gpt45Preview => _S::Gpt45Preview(&Default::default()).serialize(serializer),
-            Self::Gpt45Preview20250227 => {
-                _S::Gpt45Preview20250227(&Default::default()).serialize(serializer)
+            Self::O1 => _S::O1(&Default::default()).serialize(serializer),
+            Self::O1_2024_12_17 => _S::O1_2024_12_17(&Default::default()).serialize(serializer),
+            Self::Gpt4o => _S::Gpt4o(&Default::default()).serialize(serializer),
+            Self::Gpt4o2024_11_20 => _S::Gpt4o2024_11_20(&Default::default()).serialize(serializer),
+            Self::Gpt4o2024_08_06 => _S::Gpt4o2024_08_06(&Default::default()).serialize(serializer),
+            Self::Gpt4o2024_05_13 => _S::Gpt4o2024_05_13(&Default::default()).serialize(serializer),
+            Self::Gpt4oMini => _S::Gpt4oMini(&Default::default()).serialize(serializer),
+            Self::Gpt4oMini2024_07_18 => {
+                _S::Gpt4oMini2024_07_18(&Default::default()).serialize(serializer)
+            }
+            Self::Gpt4_5Preview => _S::Gpt4_5Preview(&Default::default()).serialize(serializer),
+            Self::Gpt4_5Preview2025_02_27 => {
+                _S::Gpt4_5Preview2025_02_27(&Default::default()).serialize(serializer)
             }
             Self::Gpt4Turbo => _S::Gpt4Turbo(&Default::default()).serialize(serializer),
-            Self::Gpt4Turbo20240409 => {
-                _S::Gpt4Turbo20240409(&Default::default()).serialize(serializer)
+            Self::Gpt4Turbo2024_04_09 => {
+                _S::Gpt4Turbo2024_04_09(&Default::default()).serialize(serializer)
             }
-            Self::Gpt40125Preview => _S::Gpt40125Preview(&Default::default()).serialize(serializer),
+            Self::Gpt4_0125Preview => {
+                _S::Gpt4_0125Preview(&Default::default()).serialize(serializer)
+            }
             Self::Gpt4TurboPreview => {
                 _S::Gpt4TurboPreview(&Default::default()).serialize(serializer)
             }
-            Self::Gpt41106Preview => _S::Gpt41106Preview(&Default::default()).serialize(serializer),
+            Self::Gpt4_1106Preview => {
+                _S::Gpt4_1106Preview(&Default::default()).serialize(serializer)
+            }
             Self::Gpt4VisionPreview => {
                 _S::Gpt4VisionPreview(&Default::default()).serialize(serializer)
             }
             Self::Gpt4 => _S::Gpt4(&Default::default()).serialize(serializer),
-            Self::Gpt40314 => _S::Gpt40314(&Default::default()).serialize(serializer),
-            Self::Gpt40613 => _S::Gpt40613(&Default::default()).serialize(serializer),
-            Self::Gpt432k => _S::Gpt432k(&Default::default()).serialize(serializer),
-            Self::Gpt432k0314 => _S::Gpt432k0314(&Default::default()).serialize(serializer),
-            Self::Gpt432k0613 => _S::Gpt432k0613(&Default::default()).serialize(serializer),
-            Self::Gpt35Turbo => _S::Gpt35Turbo(&Default::default()).serialize(serializer),
-            Self::Gpt35Turbo16k => _S::Gpt35Turbo16k(&Default::default()).serialize(serializer),
-            Self::Gpt35Turbo0613 => _S::Gpt35Turbo0613(&Default::default()).serialize(serializer),
-            Self::Gpt35Turbo1106 => _S::Gpt35Turbo1106(&Default::default()).serialize(serializer),
-            Self::Gpt35Turbo0125 => _S::Gpt35Turbo0125(&Default::default()).serialize(serializer),
-            Self::Gpt35Turbo16k0613 => {
-                _S::Gpt35Turbo16k0613(&Default::default()).serialize(serializer)
+            Self::Gpt4_0314 => _S::Gpt4_0314(&Default::default()).serialize(serializer),
+            Self::Gpt4_0613 => _S::Gpt4_0613(&Default::default()).serialize(serializer),
+            Self::Gpt4_32k => _S::Gpt4_32k(&Default::default()).serialize(serializer),
+            Self::Gpt4_32k0314 => _S::Gpt4_32k0314(&Default::default()).serialize(serializer),
+            Self::Gpt4_32k0613 => _S::Gpt4_32k0613(&Default::default()).serialize(serializer),
+            Self::Gpt3_5Turbo => _S::Gpt3_5Turbo(&Default::default()).serialize(serializer),
+            Self::Gpt3_5Turbo16k => _S::Gpt3_5Turbo16k(&Default::default()).serialize(serializer),
+            Self::Gpt3_5Turbo0613 => _S::Gpt3_5Turbo0613(&Default::default()).serialize(serializer),
+            Self::Gpt3_5Turbo1106 => _S::Gpt3_5Turbo1106(&Default::default()).serialize(serializer),
+            Self::Gpt3_5Turbo0125 => _S::Gpt3_5Turbo0125(&Default::default()).serialize(serializer),
+            Self::Gpt3_5Turbo16k0613 => {
+                _S::Gpt3_5Turbo16k0613(&Default::default()).serialize(serializer)
             }
         }
     }
@@ -1676,42 +1684,42 @@ impl serde::Serialize for AssistantSupportedModels {
 #[derive(Clone, Debug, PartialEq, Copy)]
 #[allow(clippy::large_enum_variant)]
 pub enum AssistantSupportedModels {
-    Gpt41,
-    Gpt41Mini,
-    Gpt41Nano,
-    Gpt4120250414,
-    Gpt41Mini20250414,
-    Gpt41Nano20250414,
+    Gpt4_1,
+    Gpt4_1Mini,
+    Gpt4_1Nano,
+    Gpt4_1_2025_04_14,
+    Gpt4_1Mini2025_04_14,
+    Gpt4_1Nano2025_04_14,
     O3Mini,
-    O3Mini20250131,
+    O3Mini2025_01_31,
     O1,
-    O120241217,
+    O1_2024_12_17,
     Gpt4o,
-    Gpt4o20241120,
-    Gpt4o20240806,
-    Gpt4o20240513,
+    Gpt4o2024_11_20,
+    Gpt4o2024_08_06,
+    Gpt4o2024_05_13,
     Gpt4oMini,
-    Gpt4oMini20240718,
-    Gpt45Preview,
-    Gpt45Preview20250227,
+    Gpt4oMini2024_07_18,
+    Gpt4_5Preview,
+    Gpt4_5Preview2025_02_27,
     Gpt4Turbo,
-    Gpt4Turbo20240409,
-    Gpt40125Preview,
+    Gpt4Turbo2024_04_09,
+    Gpt4_0125Preview,
     Gpt4TurboPreview,
-    Gpt41106Preview,
+    Gpt4_1106Preview,
     Gpt4VisionPreview,
     Gpt4,
-    Gpt40314,
-    Gpt40613,
-    Gpt432k,
-    Gpt432k0314,
-    Gpt432k0613,
-    Gpt35Turbo,
-    Gpt35Turbo16k,
-    Gpt35Turbo0613,
-    Gpt35Turbo1106,
-    Gpt35Turbo0125,
-    Gpt35Turbo16k0613,
+    Gpt4_0314,
+    Gpt4_0613,
+    Gpt4_32k,
+    Gpt4_32k0314,
+    Gpt4_32k0613,
+    Gpt3_5Turbo,
+    Gpt3_5Turbo16k,
+    Gpt3_5Turbo0613,
+    Gpt3_5Turbo1106,
+    Gpt3_5Turbo0125,
+    Gpt3_5Turbo16k0613,
 }
 impl<'de> serde::Deserialize<'de> for AssistantToolsCode {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -32059,10 +32067,10 @@ impl<'de> serde::Deserialize<'de> for FileSearchRanker {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum FileSearchRankerDefault20240821 {
+        enum FileSearchRankerDefault2024_08_21 {
             #[default]
             #[serde(rename = "default_2024_08_21")]
-            Default20240821,
+            Default2024_08_21,
         }
         #[derive(serde :: Deserialize)]
         #[serde(untagged)]
@@ -32071,11 +32079,11 @@ impl<'de> serde::Deserialize<'de> for FileSearchRanker {
             #[allow(dead_code)]
             Auto(FileSearchRankerAuto),
             #[allow(dead_code)]
-            Default20240821(FileSearchRankerDefault20240821),
+            Default2024_08_21(FileSearchRankerDefault2024_08_21),
         }
         Ok(match _D::deserialize(deserializer)? {
             _D::Auto(_) => Self::Auto,
-            _D::Default20240821(_) => Self::Default20240821,
+            _D::Default2024_08_21(_) => Self::Default2024_08_21,
         })
     }
 }
@@ -32095,10 +32103,10 @@ impl serde::Serialize for FileSearchRanker {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum FileSearchRankerDefault20240821 {
+        enum FileSearchRankerDefault2024_08_21 {
             #[default]
             #[serde(rename = "default_2024_08_21")]
-            Default20240821,
+            Default2024_08_21,
         }
         #[derive(serde :: Serialize)]
         #[serde(untagged)]
@@ -32107,11 +32115,13 @@ impl serde::Serialize for FileSearchRanker {
             #[allow(dead_code)]
             Auto(&'a FileSearchRankerAuto),
             #[allow(dead_code)]
-            Default20240821(&'a FileSearchRankerDefault20240821),
+            Default2024_08_21(&'a FileSearchRankerDefault2024_08_21),
         }
         match self {
             Self::Auto => _S::Auto(&Default::default()).serialize(serializer),
-            Self::Default20240821 => _S::Default20240821(&Default::default()).serialize(serializer),
+            Self::Default2024_08_21 => {
+                _S::Default2024_08_21(&Default::default()).serialize(serializer)
+            }
         }
     }
 }
@@ -32120,7 +32130,7 @@ impl serde::Serialize for FileSearchRanker {
 #[allow(clippy::large_enum_variant)]
 pub enum FileSearchRanker {
     Auto,
-    Default20240821,
+    Default2024_08_21,
 }
 impl<'de> serde::Deserialize<'de> for FileSearchRankingOptions {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -43060,10 +43070,10 @@ impl<'de> serde::Deserialize<'de> for ModelIdsResponses {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsResponsesO1Pro20250319 {
+        enum ModelIdsResponsesO1Pro2025_03_19 {
             #[default]
             #[serde(rename = "o1-pro-2025-03-19")]
-            O1Pro20250319,
+            O1Pro2025_03_19,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -43076,10 +43086,10 @@ impl<'de> serde::Deserialize<'de> for ModelIdsResponses {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsResponsesComputerUsePreview20250311 {
+        enum ModelIdsResponsesComputerUsePreview2025_03_11 {
             #[default]
             #[serde(rename = "computer-use-preview-2025-03-11")]
-            ComputerUsePreview20250311,
+            ComputerUsePreview2025_03_11,
         }
         #[derive(serde :: Deserialize)]
         #[serde(untagged)]
@@ -43090,18 +43100,18 @@ impl<'de> serde::Deserialize<'de> for ModelIdsResponses {
             #[allow(dead_code)]
             O1Pro(ModelIdsResponsesO1Pro),
             #[allow(dead_code)]
-            O1Pro20250319(ModelIdsResponsesO1Pro20250319),
+            O1Pro2025_03_19(ModelIdsResponsesO1Pro2025_03_19),
             #[allow(dead_code)]
             ComputerUsePreview(ModelIdsResponsesComputerUsePreview),
             #[allow(dead_code)]
-            ComputerUsePreview20250311(ModelIdsResponsesComputerUsePreview20250311),
+            ComputerUsePreview2025_03_11(ModelIdsResponsesComputerUsePreview2025_03_11),
         }
         Ok(match _D::deserialize(deserializer)? {
             _D::ModelIdsShared(_v) => Self::ModelIdsShared(_v),
             _D::O1Pro(_) => Self::O1Pro,
-            _D::O1Pro20250319(_) => Self::O1Pro20250319,
+            _D::O1Pro2025_03_19(_) => Self::O1Pro2025_03_19,
             _D::ComputerUsePreview(_) => Self::ComputerUsePreview,
-            _D::ComputerUsePreview20250311(_) => Self::ComputerUsePreview20250311,
+            _D::ComputerUsePreview2025_03_11(_) => Self::ComputerUsePreview2025_03_11,
         })
     }
 }
@@ -43121,10 +43131,10 @@ impl serde::Serialize for ModelIdsResponses {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsResponsesO1Pro20250319 {
+        enum ModelIdsResponsesO1Pro2025_03_19 {
             #[default]
             #[serde(rename = "o1-pro-2025-03-19")]
-            O1Pro20250319,
+            O1Pro2025_03_19,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -43137,10 +43147,10 @@ impl serde::Serialize for ModelIdsResponses {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsResponsesComputerUsePreview20250311 {
+        enum ModelIdsResponsesComputerUsePreview2025_03_11 {
             #[default]
             #[serde(rename = "computer-use-preview-2025-03-11")]
-            ComputerUsePreview20250311,
+            ComputerUsePreview2025_03_11,
         }
         #[derive(serde :: Serialize)]
         #[serde(untagged)]
@@ -43151,21 +43161,21 @@ impl serde::Serialize for ModelIdsResponses {
             #[allow(dead_code)]
             O1Pro(&'a ModelIdsResponsesO1Pro),
             #[allow(dead_code)]
-            O1Pro20250319(&'a ModelIdsResponsesO1Pro20250319),
+            O1Pro2025_03_19(&'a ModelIdsResponsesO1Pro2025_03_19),
             #[allow(dead_code)]
             ComputerUsePreview(&'a ModelIdsResponsesComputerUsePreview),
             #[allow(dead_code)]
-            ComputerUsePreview20250311(&'a ModelIdsResponsesComputerUsePreview20250311),
+            ComputerUsePreview2025_03_11(&'a ModelIdsResponsesComputerUsePreview2025_03_11),
         }
         match self {
             Self::ModelIdsShared(_v) => _S::ModelIdsShared(_v).serialize(serializer),
             Self::O1Pro => _S::O1Pro(&Default::default()).serialize(serializer),
-            Self::O1Pro20250319 => _S::O1Pro20250319(&Default::default()).serialize(serializer),
+            Self::O1Pro2025_03_19 => _S::O1Pro2025_03_19(&Default::default()).serialize(serializer),
             Self::ComputerUsePreview => {
                 _S::ComputerUsePreview(&Default::default()).serialize(serializer)
             }
-            Self::ComputerUsePreview20250311 => {
-                _S::ComputerUsePreview20250311(&Default::default()).serialize(serializer)
+            Self::ComputerUsePreview2025_03_11 => {
+                _S::ComputerUsePreview2025_03_11(&Default::default()).serialize(serializer)
             }
         }
     }
@@ -43175,9 +43185,9 @@ impl serde::Serialize for ModelIdsResponses {
 pub enum ModelIdsResponses {
     ModelIdsShared(ModelIdsShared),
     O1Pro,
-    O1Pro20250319,
+    O1Pro2025_03_19,
     ComputerUsePreview,
-    ComputerUsePreview20250311,
+    ComputerUsePreview2025_03_11,
 }
 impl<'de> serde::Deserialize<'de> for ModelIdsShared {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -43187,50 +43197,50 @@ impl<'de> serde::Deserialize<'de> for ModelIdsShared {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt41 {
+        enum ModelIdsSharedGpt4_1 {
             #[default]
             #[serde(rename = "gpt-4.1")]
-            Gpt41,
+            Gpt4_1,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt41Mini {
+        enum ModelIdsSharedGpt4_1Mini {
             #[default]
             #[serde(rename = "gpt-4.1-mini")]
-            Gpt41Mini,
+            Gpt4_1Mini,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt41Nano {
+        enum ModelIdsSharedGpt4_1Nano {
             #[default]
             #[serde(rename = "gpt-4.1-nano")]
-            Gpt41Nano,
+            Gpt4_1Nano,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt4120250414 {
+        enum ModelIdsSharedGpt4_1_2025_04_14 {
             #[default]
             #[serde(rename = "gpt-4.1-2025-04-14")]
-            Gpt4120250414,
+            Gpt4_1_2025_04_14,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt41Mini20250414 {
+        enum ModelIdsSharedGpt4_1Mini2025_04_14 {
             #[default]
             #[serde(rename = "gpt-4.1-mini-2025-04-14")]
-            Gpt41Mini20250414,
+            Gpt4_1Mini2025_04_14,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt41Nano20250414 {
+        enum ModelIdsSharedGpt4_1Nano2025_04_14 {
             #[default]
             #[serde(rename = "gpt-4.1-nano-2025-04-14")]
-            Gpt41Nano20250414,
+            Gpt4_1Nano2025_04_14,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -43243,10 +43253,10 @@ impl<'de> serde::Deserialize<'de> for ModelIdsShared {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedO4Mini20250416 {
+        enum ModelIdsSharedO4Mini2025_04_16 {
             #[default]
             #[serde(rename = "o4-mini-2025-04-16")]
-            O4Mini20250416,
+            O4Mini2025_04_16,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -43259,10 +43269,10 @@ impl<'de> serde::Deserialize<'de> for ModelIdsShared {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedO320250416 {
+        enum ModelIdsSharedO3_2025_04_16 {
             #[default]
             #[serde(rename = "o3-2025-04-16")]
-            O320250416,
+            O3_2025_04_16,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -43275,10 +43285,10 @@ impl<'de> serde::Deserialize<'de> for ModelIdsShared {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedO3Mini20250131 {
+        enum ModelIdsSharedO3Mini2025_01_31 {
             #[default]
             #[serde(rename = "o3-mini-2025-01-31")]
-            O3Mini20250131,
+            O3Mini2025_01_31,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -43291,10 +43301,10 @@ impl<'de> serde::Deserialize<'de> for ModelIdsShared {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedO120241217 {
+        enum ModelIdsSharedO1_2024_12_17 {
             #[default]
             #[serde(rename = "o1-2024-12-17")]
-            O120241217,
+            O1_2024_12_17,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -43307,10 +43317,10 @@ impl<'de> serde::Deserialize<'de> for ModelIdsShared {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedO1Preview20240912 {
+        enum ModelIdsSharedO1Preview2024_09_12 {
             #[default]
             #[serde(rename = "o1-preview-2024-09-12")]
-            O1Preview20240912,
+            O1Preview2024_09_12,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -43323,10 +43333,10 @@ impl<'de> serde::Deserialize<'de> for ModelIdsShared {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedO1Mini20240912 {
+        enum ModelIdsSharedO1Mini2024_09_12 {
             #[default]
             #[serde(rename = "o1-mini-2024-09-12")]
-            O1Mini20240912,
+            O1Mini2024_09_12,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -43339,26 +43349,26 @@ impl<'de> serde::Deserialize<'de> for ModelIdsShared {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt4o20241120 {
+        enum ModelIdsSharedGpt4o2024_11_20 {
             #[default]
             #[serde(rename = "gpt-4o-2024-11-20")]
-            Gpt4o20241120,
+            Gpt4o2024_11_20,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt4o20240806 {
+        enum ModelIdsSharedGpt4o2024_08_06 {
             #[default]
             #[serde(rename = "gpt-4o-2024-08-06")]
-            Gpt4o20240806,
+            Gpt4o2024_08_06,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt4o20240513 {
+        enum ModelIdsSharedGpt4o2024_05_13 {
             #[default]
             #[serde(rename = "gpt-4o-2024-05-13")]
-            Gpt4o20240513,
+            Gpt4o2024_05_13,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -43371,18 +43381,18 @@ impl<'de> serde::Deserialize<'de> for ModelIdsShared {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt4oAudioPreview20241001 {
+        enum ModelIdsSharedGpt4oAudioPreview2024_10_01 {
             #[default]
             #[serde(rename = "gpt-4o-audio-preview-2024-10-01")]
-            Gpt4oAudioPreview20241001,
+            Gpt4oAudioPreview2024_10_01,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt4oAudioPreview20241217 {
+        enum ModelIdsSharedGpt4oAudioPreview2024_12_17 {
             #[default]
             #[serde(rename = "gpt-4o-audio-preview-2024-12-17")]
-            Gpt4oAudioPreview20241217,
+            Gpt4oAudioPreview2024_12_17,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -43395,10 +43405,10 @@ impl<'de> serde::Deserialize<'de> for ModelIdsShared {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt4oMiniAudioPreview20241217 {
+        enum ModelIdsSharedGpt4oMiniAudioPreview2024_12_17 {
             #[default]
             #[serde(rename = "gpt-4o-mini-audio-preview-2024-12-17")]
-            Gpt4oMiniAudioPreview20241217,
+            Gpt4oMiniAudioPreview2024_12_17,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -43419,18 +43429,18 @@ impl<'de> serde::Deserialize<'de> for ModelIdsShared {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt4oSearchPreview20250311 {
+        enum ModelIdsSharedGpt4oSearchPreview2025_03_11 {
             #[default]
             #[serde(rename = "gpt-4o-search-preview-2025-03-11")]
-            Gpt4oSearchPreview20250311,
+            Gpt4oSearchPreview2025_03_11,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt4oMiniSearchPreview20250311 {
+        enum ModelIdsSharedGpt4oMiniSearchPreview2025_03_11 {
             #[default]
             #[serde(rename = "gpt-4o-mini-search-preview-2025-03-11")]
-            Gpt4oMiniSearchPreview20250311,
+            Gpt4oMiniSearchPreview2025_03_11,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -43451,10 +43461,10 @@ impl<'de> serde::Deserialize<'de> for ModelIdsShared {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt4oMini20240718 {
+        enum ModelIdsSharedGpt4oMini2024_07_18 {
             #[default]
             #[serde(rename = "gpt-4o-mini-2024-07-18")]
-            Gpt4oMini20240718,
+            Gpt4oMini2024_07_18,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -43467,18 +43477,18 @@ impl<'de> serde::Deserialize<'de> for ModelIdsShared {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt4Turbo20240409 {
+        enum ModelIdsSharedGpt4Turbo2024_04_09 {
             #[default]
             #[serde(rename = "gpt-4-turbo-2024-04-09")]
-            Gpt4Turbo20240409,
+            Gpt4Turbo2024_04_09,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt40125Preview {
+        enum ModelIdsSharedGpt4_0125Preview {
             #[default]
             #[serde(rename = "gpt-4-0125-preview")]
-            Gpt40125Preview,
+            Gpt4_0125Preview,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -43491,10 +43501,10 @@ impl<'de> serde::Deserialize<'de> for ModelIdsShared {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt41106Preview {
+        enum ModelIdsSharedGpt4_1106Preview {
             #[default]
             #[serde(rename = "gpt-4-1106-preview")]
-            Gpt41106Preview,
+            Gpt4_1106Preview,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -43515,266 +43525,266 @@ impl<'de> serde::Deserialize<'de> for ModelIdsShared {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt40314 {
+        enum ModelIdsSharedGpt4_0314 {
             #[default]
             #[serde(rename = "gpt-4-0314")]
-            Gpt40314,
+            Gpt4_0314,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt40613 {
+        enum ModelIdsSharedGpt4_0613 {
             #[default]
             #[serde(rename = "gpt-4-0613")]
-            Gpt40613,
+            Gpt4_0613,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt432k {
+        enum ModelIdsSharedGpt4_32k {
             #[default]
             #[serde(rename = "gpt-4-32k")]
-            Gpt432k,
+            Gpt4_32k,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt432k0314 {
+        enum ModelIdsSharedGpt4_32k0314 {
             #[default]
             #[serde(rename = "gpt-4-32k-0314")]
-            Gpt432k0314,
+            Gpt4_32k0314,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt432k0613 {
+        enum ModelIdsSharedGpt4_32k0613 {
             #[default]
             #[serde(rename = "gpt-4-32k-0613")]
-            Gpt432k0613,
+            Gpt4_32k0613,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt35Turbo {
+        enum ModelIdsSharedGpt3_5Turbo {
             #[default]
             #[serde(rename = "gpt-3.5-turbo")]
-            Gpt35Turbo,
+            Gpt3_5Turbo,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt35Turbo16k {
+        enum ModelIdsSharedGpt3_5Turbo16k {
             #[default]
             #[serde(rename = "gpt-3.5-turbo-16k")]
-            Gpt35Turbo16k,
+            Gpt3_5Turbo16k,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt35Turbo0301 {
+        enum ModelIdsSharedGpt3_5Turbo0301 {
             #[default]
             #[serde(rename = "gpt-3.5-turbo-0301")]
-            Gpt35Turbo0301,
+            Gpt3_5Turbo0301,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt35Turbo0613 {
+        enum ModelIdsSharedGpt3_5Turbo0613 {
             #[default]
             #[serde(rename = "gpt-3.5-turbo-0613")]
-            Gpt35Turbo0613,
+            Gpt3_5Turbo0613,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt35Turbo1106 {
+        enum ModelIdsSharedGpt3_5Turbo1106 {
             #[default]
             #[serde(rename = "gpt-3.5-turbo-1106")]
-            Gpt35Turbo1106,
+            Gpt3_5Turbo1106,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt35Turbo0125 {
+        enum ModelIdsSharedGpt3_5Turbo0125 {
             #[default]
             #[serde(rename = "gpt-3.5-turbo-0125")]
-            Gpt35Turbo0125,
+            Gpt3_5Turbo0125,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt35Turbo16k0613 {
+        enum ModelIdsSharedGpt3_5Turbo16k0613 {
             #[default]
             #[serde(rename = "gpt-3.5-turbo-16k-0613")]
-            Gpt35Turbo16k0613,
+            Gpt3_5Turbo16k0613,
         }
         #[derive(serde :: Deserialize)]
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum _D {
             #[allow(dead_code)]
-            Gpt41(ModelIdsSharedGpt41),
+            Gpt4_1(ModelIdsSharedGpt4_1),
             #[allow(dead_code)]
-            Gpt41Mini(ModelIdsSharedGpt41Mini),
+            Gpt4_1Mini(ModelIdsSharedGpt4_1Mini),
             #[allow(dead_code)]
-            Gpt41Nano(ModelIdsSharedGpt41Nano),
+            Gpt4_1Nano(ModelIdsSharedGpt4_1Nano),
             #[allow(dead_code)]
-            Gpt4120250414(ModelIdsSharedGpt4120250414),
+            Gpt4_1_2025_04_14(ModelIdsSharedGpt4_1_2025_04_14),
             #[allow(dead_code)]
-            Gpt41Mini20250414(ModelIdsSharedGpt41Mini20250414),
+            Gpt4_1Mini2025_04_14(ModelIdsSharedGpt4_1Mini2025_04_14),
             #[allow(dead_code)]
-            Gpt41Nano20250414(ModelIdsSharedGpt41Nano20250414),
+            Gpt4_1Nano2025_04_14(ModelIdsSharedGpt4_1Nano2025_04_14),
             #[allow(dead_code)]
             O4Mini(ModelIdsSharedO4Mini),
             #[allow(dead_code)]
-            O4Mini20250416(ModelIdsSharedO4Mini20250416),
+            O4Mini2025_04_16(ModelIdsSharedO4Mini2025_04_16),
             #[allow(dead_code)]
             O3(ModelIdsSharedO3),
             #[allow(dead_code)]
-            O320250416(ModelIdsSharedO320250416),
+            O3_2025_04_16(ModelIdsSharedO3_2025_04_16),
             #[allow(dead_code)]
             O3Mini(ModelIdsSharedO3Mini),
             #[allow(dead_code)]
-            O3Mini20250131(ModelIdsSharedO3Mini20250131),
+            O3Mini2025_01_31(ModelIdsSharedO3Mini2025_01_31),
             #[allow(dead_code)]
             O1(ModelIdsSharedO1),
             #[allow(dead_code)]
-            O120241217(ModelIdsSharedO120241217),
+            O1_2024_12_17(ModelIdsSharedO1_2024_12_17),
             #[allow(dead_code)]
             O1Preview(ModelIdsSharedO1Preview),
             #[allow(dead_code)]
-            O1Preview20240912(ModelIdsSharedO1Preview20240912),
+            O1Preview2024_09_12(ModelIdsSharedO1Preview2024_09_12),
             #[allow(dead_code)]
             O1Mini(ModelIdsSharedO1Mini),
             #[allow(dead_code)]
-            O1Mini20240912(ModelIdsSharedO1Mini20240912),
+            O1Mini2024_09_12(ModelIdsSharedO1Mini2024_09_12),
             #[allow(dead_code)]
             Gpt4o(ModelIdsSharedGpt4o),
             #[allow(dead_code)]
-            Gpt4o20241120(ModelIdsSharedGpt4o20241120),
+            Gpt4o2024_11_20(ModelIdsSharedGpt4o2024_11_20),
             #[allow(dead_code)]
-            Gpt4o20240806(ModelIdsSharedGpt4o20240806),
+            Gpt4o2024_08_06(ModelIdsSharedGpt4o2024_08_06),
             #[allow(dead_code)]
-            Gpt4o20240513(ModelIdsSharedGpt4o20240513),
+            Gpt4o2024_05_13(ModelIdsSharedGpt4o2024_05_13),
             #[allow(dead_code)]
             Gpt4oAudioPreview(ModelIdsSharedGpt4oAudioPreview),
             #[allow(dead_code)]
-            Gpt4oAudioPreview20241001(ModelIdsSharedGpt4oAudioPreview20241001),
+            Gpt4oAudioPreview2024_10_01(ModelIdsSharedGpt4oAudioPreview2024_10_01),
             #[allow(dead_code)]
-            Gpt4oAudioPreview20241217(ModelIdsSharedGpt4oAudioPreview20241217),
+            Gpt4oAudioPreview2024_12_17(ModelIdsSharedGpt4oAudioPreview2024_12_17),
             #[allow(dead_code)]
             Gpt4oMiniAudioPreview(ModelIdsSharedGpt4oMiniAudioPreview),
             #[allow(dead_code)]
-            Gpt4oMiniAudioPreview20241217(ModelIdsSharedGpt4oMiniAudioPreview20241217),
+            Gpt4oMiniAudioPreview2024_12_17(ModelIdsSharedGpt4oMiniAudioPreview2024_12_17),
             #[allow(dead_code)]
             Gpt4oSearchPreview(ModelIdsSharedGpt4oSearchPreview),
             #[allow(dead_code)]
             Gpt4oMiniSearchPreview(ModelIdsSharedGpt4oMiniSearchPreview),
             #[allow(dead_code)]
-            Gpt4oSearchPreview20250311(ModelIdsSharedGpt4oSearchPreview20250311),
+            Gpt4oSearchPreview2025_03_11(ModelIdsSharedGpt4oSearchPreview2025_03_11),
             #[allow(dead_code)]
-            Gpt4oMiniSearchPreview20250311(ModelIdsSharedGpt4oMiniSearchPreview20250311),
+            Gpt4oMiniSearchPreview2025_03_11(ModelIdsSharedGpt4oMiniSearchPreview2025_03_11),
             #[allow(dead_code)]
             Chatgpt4oLatest(ModelIdsSharedChatgpt4oLatest),
             #[allow(dead_code)]
             Gpt4oMini(ModelIdsSharedGpt4oMini),
             #[allow(dead_code)]
-            Gpt4oMini20240718(ModelIdsSharedGpt4oMini20240718),
+            Gpt4oMini2024_07_18(ModelIdsSharedGpt4oMini2024_07_18),
             #[allow(dead_code)]
             Gpt4Turbo(ModelIdsSharedGpt4Turbo),
             #[allow(dead_code)]
-            Gpt4Turbo20240409(ModelIdsSharedGpt4Turbo20240409),
+            Gpt4Turbo2024_04_09(ModelIdsSharedGpt4Turbo2024_04_09),
             #[allow(dead_code)]
-            Gpt40125Preview(ModelIdsSharedGpt40125Preview),
+            Gpt4_0125Preview(ModelIdsSharedGpt4_0125Preview),
             #[allow(dead_code)]
             Gpt4TurboPreview(ModelIdsSharedGpt4TurboPreview),
             #[allow(dead_code)]
-            Gpt41106Preview(ModelIdsSharedGpt41106Preview),
+            Gpt4_1106Preview(ModelIdsSharedGpt4_1106Preview),
             #[allow(dead_code)]
             Gpt4VisionPreview(ModelIdsSharedGpt4VisionPreview),
             #[allow(dead_code)]
             Gpt4(ModelIdsSharedGpt4),
             #[allow(dead_code)]
-            Gpt40314(ModelIdsSharedGpt40314),
+            Gpt4_0314(ModelIdsSharedGpt4_0314),
             #[allow(dead_code)]
-            Gpt40613(ModelIdsSharedGpt40613),
+            Gpt4_0613(ModelIdsSharedGpt4_0613),
             #[allow(dead_code)]
-            Gpt432k(ModelIdsSharedGpt432k),
+            Gpt4_32k(ModelIdsSharedGpt4_32k),
             #[allow(dead_code)]
-            Gpt432k0314(ModelIdsSharedGpt432k0314),
+            Gpt4_32k0314(ModelIdsSharedGpt4_32k0314),
             #[allow(dead_code)]
-            Gpt432k0613(ModelIdsSharedGpt432k0613),
+            Gpt4_32k0613(ModelIdsSharedGpt4_32k0613),
             #[allow(dead_code)]
-            Gpt35Turbo(ModelIdsSharedGpt35Turbo),
+            Gpt3_5Turbo(ModelIdsSharedGpt3_5Turbo),
             #[allow(dead_code)]
-            Gpt35Turbo16k(ModelIdsSharedGpt35Turbo16k),
+            Gpt3_5Turbo16k(ModelIdsSharedGpt3_5Turbo16k),
             #[allow(dead_code)]
-            Gpt35Turbo0301(ModelIdsSharedGpt35Turbo0301),
+            Gpt3_5Turbo0301(ModelIdsSharedGpt3_5Turbo0301),
             #[allow(dead_code)]
-            Gpt35Turbo0613(ModelIdsSharedGpt35Turbo0613),
+            Gpt3_5Turbo0613(ModelIdsSharedGpt3_5Turbo0613),
             #[allow(dead_code)]
-            Gpt35Turbo1106(ModelIdsSharedGpt35Turbo1106),
+            Gpt3_5Turbo1106(ModelIdsSharedGpt3_5Turbo1106),
             #[allow(dead_code)]
-            Gpt35Turbo0125(ModelIdsSharedGpt35Turbo0125),
+            Gpt3_5Turbo0125(ModelIdsSharedGpt3_5Turbo0125),
             #[allow(dead_code)]
-            Gpt35Turbo16k0613(ModelIdsSharedGpt35Turbo16k0613),
+            Gpt3_5Turbo16k0613(ModelIdsSharedGpt3_5Turbo16k0613),
             #[allow(dead_code)]
             Other(String),
         }
         Ok(match _D::deserialize(deserializer)? {
-            _D::Gpt41(_) => Self::Gpt41,
-            _D::Gpt41Mini(_) => Self::Gpt41Mini,
-            _D::Gpt41Nano(_) => Self::Gpt41Nano,
-            _D::Gpt4120250414(_) => Self::Gpt4120250414,
-            _D::Gpt41Mini20250414(_) => Self::Gpt41Mini20250414,
-            _D::Gpt41Nano20250414(_) => Self::Gpt41Nano20250414,
+            _D::Gpt4_1(_) => Self::Gpt4_1,
+            _D::Gpt4_1Mini(_) => Self::Gpt4_1Mini,
+            _D::Gpt4_1Nano(_) => Self::Gpt4_1Nano,
+            _D::Gpt4_1_2025_04_14(_) => Self::Gpt4_1_2025_04_14,
+            _D::Gpt4_1Mini2025_04_14(_) => Self::Gpt4_1Mini2025_04_14,
+            _D::Gpt4_1Nano2025_04_14(_) => Self::Gpt4_1Nano2025_04_14,
             _D::O4Mini(_) => Self::O4Mini,
-            _D::O4Mini20250416(_) => Self::O4Mini20250416,
+            _D::O4Mini2025_04_16(_) => Self::O4Mini2025_04_16,
             _D::O3(_) => Self::O3,
-            _D::O320250416(_) => Self::O320250416,
+            _D::O3_2025_04_16(_) => Self::O3_2025_04_16,
             _D::O3Mini(_) => Self::O3Mini,
-            _D::O3Mini20250131(_) => Self::O3Mini20250131,
+            _D::O3Mini2025_01_31(_) => Self::O3Mini2025_01_31,
             _D::O1(_) => Self::O1,
-            _D::O120241217(_) => Self::O120241217,
+            _D::O1_2024_12_17(_) => Self::O1_2024_12_17,
             _D::O1Preview(_) => Self::O1Preview,
-            _D::O1Preview20240912(_) => Self::O1Preview20240912,
+            _D::O1Preview2024_09_12(_) => Self::O1Preview2024_09_12,
             _D::O1Mini(_) => Self::O1Mini,
-            _D::O1Mini20240912(_) => Self::O1Mini20240912,
+            _D::O1Mini2024_09_12(_) => Self::O1Mini2024_09_12,
             _D::Gpt4o(_) => Self::Gpt4o,
-            _D::Gpt4o20241120(_) => Self::Gpt4o20241120,
-            _D::Gpt4o20240806(_) => Self::Gpt4o20240806,
-            _D::Gpt4o20240513(_) => Self::Gpt4o20240513,
+            _D::Gpt4o2024_11_20(_) => Self::Gpt4o2024_11_20,
+            _D::Gpt4o2024_08_06(_) => Self::Gpt4o2024_08_06,
+            _D::Gpt4o2024_05_13(_) => Self::Gpt4o2024_05_13,
             _D::Gpt4oAudioPreview(_) => Self::Gpt4oAudioPreview,
-            _D::Gpt4oAudioPreview20241001(_) => Self::Gpt4oAudioPreview20241001,
-            _D::Gpt4oAudioPreview20241217(_) => Self::Gpt4oAudioPreview20241217,
+            _D::Gpt4oAudioPreview2024_10_01(_) => Self::Gpt4oAudioPreview2024_10_01,
+            _D::Gpt4oAudioPreview2024_12_17(_) => Self::Gpt4oAudioPreview2024_12_17,
             _D::Gpt4oMiniAudioPreview(_) => Self::Gpt4oMiniAudioPreview,
-            _D::Gpt4oMiniAudioPreview20241217(_) => Self::Gpt4oMiniAudioPreview20241217,
+            _D::Gpt4oMiniAudioPreview2024_12_17(_) => Self::Gpt4oMiniAudioPreview2024_12_17,
             _D::Gpt4oSearchPreview(_) => Self::Gpt4oSearchPreview,
             _D::Gpt4oMiniSearchPreview(_) => Self::Gpt4oMiniSearchPreview,
-            _D::Gpt4oSearchPreview20250311(_) => Self::Gpt4oSearchPreview20250311,
-            _D::Gpt4oMiniSearchPreview20250311(_) => Self::Gpt4oMiniSearchPreview20250311,
+            _D::Gpt4oSearchPreview2025_03_11(_) => Self::Gpt4oSearchPreview2025_03_11,
+            _D::Gpt4oMiniSearchPreview2025_03_11(_) => Self::Gpt4oMiniSearchPreview2025_03_11,
             _D::Chatgpt4oLatest(_) => Self::Chatgpt4oLatest,
             _D::Gpt4oMini(_) => Self::Gpt4oMini,
-            _D::Gpt4oMini20240718(_) => Self::Gpt4oMini20240718,
+            _D::Gpt4oMini2024_07_18(_) => Self::Gpt4oMini2024_07_18,
             _D::Gpt4Turbo(_) => Self::Gpt4Turbo,
-            _D::Gpt4Turbo20240409(_) => Self::Gpt4Turbo20240409,
-            _D::Gpt40125Preview(_) => Self::Gpt40125Preview,
+            _D::Gpt4Turbo2024_04_09(_) => Self::Gpt4Turbo2024_04_09,
+            _D::Gpt4_0125Preview(_) => Self::Gpt4_0125Preview,
             _D::Gpt4TurboPreview(_) => Self::Gpt4TurboPreview,
-            _D::Gpt41106Preview(_) => Self::Gpt41106Preview,
+            _D::Gpt4_1106Preview(_) => Self::Gpt4_1106Preview,
             _D::Gpt4VisionPreview(_) => Self::Gpt4VisionPreview,
             _D::Gpt4(_) => Self::Gpt4,
-            _D::Gpt40314(_) => Self::Gpt40314,
-            _D::Gpt40613(_) => Self::Gpt40613,
-            _D::Gpt432k(_) => Self::Gpt432k,
-            _D::Gpt432k0314(_) => Self::Gpt432k0314,
-            _D::Gpt432k0613(_) => Self::Gpt432k0613,
-            _D::Gpt35Turbo(_) => Self::Gpt35Turbo,
-            _D::Gpt35Turbo16k(_) => Self::Gpt35Turbo16k,
-            _D::Gpt35Turbo0301(_) => Self::Gpt35Turbo0301,
-            _D::Gpt35Turbo0613(_) => Self::Gpt35Turbo0613,
-            _D::Gpt35Turbo1106(_) => Self::Gpt35Turbo1106,
-            _D::Gpt35Turbo0125(_) => Self::Gpt35Turbo0125,
-            _D::Gpt35Turbo16k0613(_) => Self::Gpt35Turbo16k0613,
+            _D::Gpt4_0314(_) => Self::Gpt4_0314,
+            _D::Gpt4_0613(_) => Self::Gpt4_0613,
+            _D::Gpt4_32k(_) => Self::Gpt4_32k,
+            _D::Gpt4_32k0314(_) => Self::Gpt4_32k0314,
+            _D::Gpt4_32k0613(_) => Self::Gpt4_32k0613,
+            _D::Gpt3_5Turbo(_) => Self::Gpt3_5Turbo,
+            _D::Gpt3_5Turbo16k(_) => Self::Gpt3_5Turbo16k,
+            _D::Gpt3_5Turbo0301(_) => Self::Gpt3_5Turbo0301,
+            _D::Gpt3_5Turbo0613(_) => Self::Gpt3_5Turbo0613,
+            _D::Gpt3_5Turbo1106(_) => Self::Gpt3_5Turbo1106,
+            _D::Gpt3_5Turbo0125(_) => Self::Gpt3_5Turbo0125,
+            _D::Gpt3_5Turbo16k0613(_) => Self::Gpt3_5Turbo16k0613,
             _D::Other(_v) => Self::Other(_v),
         })
     }
@@ -43787,50 +43797,50 @@ impl serde::Serialize for ModelIdsShared {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt41 {
+        enum ModelIdsSharedGpt4_1 {
             #[default]
             #[serde(rename = "gpt-4.1")]
-            Gpt41,
+            Gpt4_1,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt41Mini {
+        enum ModelIdsSharedGpt4_1Mini {
             #[default]
             #[serde(rename = "gpt-4.1-mini")]
-            Gpt41Mini,
+            Gpt4_1Mini,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt41Nano {
+        enum ModelIdsSharedGpt4_1Nano {
             #[default]
             #[serde(rename = "gpt-4.1-nano")]
-            Gpt41Nano,
+            Gpt4_1Nano,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt4120250414 {
+        enum ModelIdsSharedGpt4_1_2025_04_14 {
             #[default]
             #[serde(rename = "gpt-4.1-2025-04-14")]
-            Gpt4120250414,
+            Gpt4_1_2025_04_14,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt41Mini20250414 {
+        enum ModelIdsSharedGpt4_1Mini2025_04_14 {
             #[default]
             #[serde(rename = "gpt-4.1-mini-2025-04-14")]
-            Gpt41Mini20250414,
+            Gpt4_1Mini2025_04_14,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt41Nano20250414 {
+        enum ModelIdsSharedGpt4_1Nano2025_04_14 {
             #[default]
             #[serde(rename = "gpt-4.1-nano-2025-04-14")]
-            Gpt41Nano20250414,
+            Gpt4_1Nano2025_04_14,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -43843,10 +43853,10 @@ impl serde::Serialize for ModelIdsShared {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedO4Mini20250416 {
+        enum ModelIdsSharedO4Mini2025_04_16 {
             #[default]
             #[serde(rename = "o4-mini-2025-04-16")]
-            O4Mini20250416,
+            O4Mini2025_04_16,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -43859,10 +43869,10 @@ impl serde::Serialize for ModelIdsShared {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedO320250416 {
+        enum ModelIdsSharedO3_2025_04_16 {
             #[default]
             #[serde(rename = "o3-2025-04-16")]
-            O320250416,
+            O3_2025_04_16,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -43875,10 +43885,10 @@ impl serde::Serialize for ModelIdsShared {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedO3Mini20250131 {
+        enum ModelIdsSharedO3Mini2025_01_31 {
             #[default]
             #[serde(rename = "o3-mini-2025-01-31")]
-            O3Mini20250131,
+            O3Mini2025_01_31,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -43891,10 +43901,10 @@ impl serde::Serialize for ModelIdsShared {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedO120241217 {
+        enum ModelIdsSharedO1_2024_12_17 {
             #[default]
             #[serde(rename = "o1-2024-12-17")]
-            O120241217,
+            O1_2024_12_17,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -43907,10 +43917,10 @@ impl serde::Serialize for ModelIdsShared {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedO1Preview20240912 {
+        enum ModelIdsSharedO1Preview2024_09_12 {
             #[default]
             #[serde(rename = "o1-preview-2024-09-12")]
-            O1Preview20240912,
+            O1Preview2024_09_12,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -43923,10 +43933,10 @@ impl serde::Serialize for ModelIdsShared {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedO1Mini20240912 {
+        enum ModelIdsSharedO1Mini2024_09_12 {
             #[default]
             #[serde(rename = "o1-mini-2024-09-12")]
-            O1Mini20240912,
+            O1Mini2024_09_12,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -43939,26 +43949,26 @@ impl serde::Serialize for ModelIdsShared {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt4o20241120 {
+        enum ModelIdsSharedGpt4o2024_11_20 {
             #[default]
             #[serde(rename = "gpt-4o-2024-11-20")]
-            Gpt4o20241120,
+            Gpt4o2024_11_20,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt4o20240806 {
+        enum ModelIdsSharedGpt4o2024_08_06 {
             #[default]
             #[serde(rename = "gpt-4o-2024-08-06")]
-            Gpt4o20240806,
+            Gpt4o2024_08_06,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt4o20240513 {
+        enum ModelIdsSharedGpt4o2024_05_13 {
             #[default]
             #[serde(rename = "gpt-4o-2024-05-13")]
-            Gpt4o20240513,
+            Gpt4o2024_05_13,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -43971,18 +43981,18 @@ impl serde::Serialize for ModelIdsShared {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt4oAudioPreview20241001 {
+        enum ModelIdsSharedGpt4oAudioPreview2024_10_01 {
             #[default]
             #[serde(rename = "gpt-4o-audio-preview-2024-10-01")]
-            Gpt4oAudioPreview20241001,
+            Gpt4oAudioPreview2024_10_01,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt4oAudioPreview20241217 {
+        enum ModelIdsSharedGpt4oAudioPreview2024_12_17 {
             #[default]
             #[serde(rename = "gpt-4o-audio-preview-2024-12-17")]
-            Gpt4oAudioPreview20241217,
+            Gpt4oAudioPreview2024_12_17,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -43995,10 +44005,10 @@ impl serde::Serialize for ModelIdsShared {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt4oMiniAudioPreview20241217 {
+        enum ModelIdsSharedGpt4oMiniAudioPreview2024_12_17 {
             #[default]
             #[serde(rename = "gpt-4o-mini-audio-preview-2024-12-17")]
-            Gpt4oMiniAudioPreview20241217,
+            Gpt4oMiniAudioPreview2024_12_17,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -44019,18 +44029,18 @@ impl serde::Serialize for ModelIdsShared {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt4oSearchPreview20250311 {
+        enum ModelIdsSharedGpt4oSearchPreview2025_03_11 {
             #[default]
             #[serde(rename = "gpt-4o-search-preview-2025-03-11")]
-            Gpt4oSearchPreview20250311,
+            Gpt4oSearchPreview2025_03_11,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt4oMiniSearchPreview20250311 {
+        enum ModelIdsSharedGpt4oMiniSearchPreview2025_03_11 {
             #[default]
             #[serde(rename = "gpt-4o-mini-search-preview-2025-03-11")]
-            Gpt4oMiniSearchPreview20250311,
+            Gpt4oMiniSearchPreview2025_03_11,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -44051,10 +44061,10 @@ impl serde::Serialize for ModelIdsShared {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt4oMini20240718 {
+        enum ModelIdsSharedGpt4oMini2024_07_18 {
             #[default]
             #[serde(rename = "gpt-4o-mini-2024-07-18")]
-            Gpt4oMini20240718,
+            Gpt4oMini2024_07_18,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -44067,18 +44077,18 @@ impl serde::Serialize for ModelIdsShared {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt4Turbo20240409 {
+        enum ModelIdsSharedGpt4Turbo2024_04_09 {
             #[default]
             #[serde(rename = "gpt-4-turbo-2024-04-09")]
-            Gpt4Turbo20240409,
+            Gpt4Turbo2024_04_09,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt40125Preview {
+        enum ModelIdsSharedGpt4_0125Preview {
             #[default]
             #[serde(rename = "gpt-4-0125-preview")]
-            Gpt40125Preview,
+            Gpt4_0125Preview,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -44091,10 +44101,10 @@ impl serde::Serialize for ModelIdsShared {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt41106Preview {
+        enum ModelIdsSharedGpt4_1106Preview {
             #[default]
             #[serde(rename = "gpt-4-1106-preview")]
-            Gpt41106Preview,
+            Gpt4_1106Preview,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -44115,255 +44125,263 @@ impl serde::Serialize for ModelIdsShared {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt40314 {
+        enum ModelIdsSharedGpt4_0314 {
             #[default]
             #[serde(rename = "gpt-4-0314")]
-            Gpt40314,
+            Gpt4_0314,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt40613 {
+        enum ModelIdsSharedGpt4_0613 {
             #[default]
             #[serde(rename = "gpt-4-0613")]
-            Gpt40613,
+            Gpt4_0613,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt432k {
+        enum ModelIdsSharedGpt4_32k {
             #[default]
             #[serde(rename = "gpt-4-32k")]
-            Gpt432k,
+            Gpt4_32k,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt432k0314 {
+        enum ModelIdsSharedGpt4_32k0314 {
             #[default]
             #[serde(rename = "gpt-4-32k-0314")]
-            Gpt432k0314,
+            Gpt4_32k0314,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt432k0613 {
+        enum ModelIdsSharedGpt4_32k0613 {
             #[default]
             #[serde(rename = "gpt-4-32k-0613")]
-            Gpt432k0613,
+            Gpt4_32k0613,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt35Turbo {
+        enum ModelIdsSharedGpt3_5Turbo {
             #[default]
             #[serde(rename = "gpt-3.5-turbo")]
-            Gpt35Turbo,
+            Gpt3_5Turbo,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt35Turbo16k {
+        enum ModelIdsSharedGpt3_5Turbo16k {
             #[default]
             #[serde(rename = "gpt-3.5-turbo-16k")]
-            Gpt35Turbo16k,
+            Gpt3_5Turbo16k,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt35Turbo0301 {
+        enum ModelIdsSharedGpt3_5Turbo0301 {
             #[default]
             #[serde(rename = "gpt-3.5-turbo-0301")]
-            Gpt35Turbo0301,
+            Gpt3_5Turbo0301,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt35Turbo0613 {
+        enum ModelIdsSharedGpt3_5Turbo0613 {
             #[default]
             #[serde(rename = "gpt-3.5-turbo-0613")]
-            Gpt35Turbo0613,
+            Gpt3_5Turbo0613,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt35Turbo1106 {
+        enum ModelIdsSharedGpt3_5Turbo1106 {
             #[default]
             #[serde(rename = "gpt-3.5-turbo-1106")]
-            Gpt35Turbo1106,
+            Gpt3_5Turbo1106,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt35Turbo0125 {
+        enum ModelIdsSharedGpt3_5Turbo0125 {
             #[default]
             #[serde(rename = "gpt-3.5-turbo-0125")]
-            Gpt35Turbo0125,
+            Gpt3_5Turbo0125,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ModelIdsSharedGpt35Turbo16k0613 {
+        enum ModelIdsSharedGpt3_5Turbo16k0613 {
             #[default]
             #[serde(rename = "gpt-3.5-turbo-16k-0613")]
-            Gpt35Turbo16k0613,
+            Gpt3_5Turbo16k0613,
         }
         #[derive(serde :: Serialize)]
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum _S<'a> {
             #[allow(dead_code)]
-            Gpt41(&'a ModelIdsSharedGpt41),
+            Gpt4_1(&'a ModelIdsSharedGpt4_1),
             #[allow(dead_code)]
-            Gpt41Mini(&'a ModelIdsSharedGpt41Mini),
+            Gpt4_1Mini(&'a ModelIdsSharedGpt4_1Mini),
             #[allow(dead_code)]
-            Gpt41Nano(&'a ModelIdsSharedGpt41Nano),
+            Gpt4_1Nano(&'a ModelIdsSharedGpt4_1Nano),
             #[allow(dead_code)]
-            Gpt4120250414(&'a ModelIdsSharedGpt4120250414),
+            Gpt4_1_2025_04_14(&'a ModelIdsSharedGpt4_1_2025_04_14),
             #[allow(dead_code)]
-            Gpt41Mini20250414(&'a ModelIdsSharedGpt41Mini20250414),
+            Gpt4_1Mini2025_04_14(&'a ModelIdsSharedGpt4_1Mini2025_04_14),
             #[allow(dead_code)]
-            Gpt41Nano20250414(&'a ModelIdsSharedGpt41Nano20250414),
+            Gpt4_1Nano2025_04_14(&'a ModelIdsSharedGpt4_1Nano2025_04_14),
             #[allow(dead_code)]
             O4Mini(&'a ModelIdsSharedO4Mini),
             #[allow(dead_code)]
-            O4Mini20250416(&'a ModelIdsSharedO4Mini20250416),
+            O4Mini2025_04_16(&'a ModelIdsSharedO4Mini2025_04_16),
             #[allow(dead_code)]
             O3(&'a ModelIdsSharedO3),
             #[allow(dead_code)]
-            O320250416(&'a ModelIdsSharedO320250416),
+            O3_2025_04_16(&'a ModelIdsSharedO3_2025_04_16),
             #[allow(dead_code)]
             O3Mini(&'a ModelIdsSharedO3Mini),
             #[allow(dead_code)]
-            O3Mini20250131(&'a ModelIdsSharedO3Mini20250131),
+            O3Mini2025_01_31(&'a ModelIdsSharedO3Mini2025_01_31),
             #[allow(dead_code)]
             O1(&'a ModelIdsSharedO1),
             #[allow(dead_code)]
-            O120241217(&'a ModelIdsSharedO120241217),
+            O1_2024_12_17(&'a ModelIdsSharedO1_2024_12_17),
             #[allow(dead_code)]
             O1Preview(&'a ModelIdsSharedO1Preview),
             #[allow(dead_code)]
-            O1Preview20240912(&'a ModelIdsSharedO1Preview20240912),
+            O1Preview2024_09_12(&'a ModelIdsSharedO1Preview2024_09_12),
             #[allow(dead_code)]
             O1Mini(&'a ModelIdsSharedO1Mini),
             #[allow(dead_code)]
-            O1Mini20240912(&'a ModelIdsSharedO1Mini20240912),
+            O1Mini2024_09_12(&'a ModelIdsSharedO1Mini2024_09_12),
             #[allow(dead_code)]
             Gpt4o(&'a ModelIdsSharedGpt4o),
             #[allow(dead_code)]
-            Gpt4o20241120(&'a ModelIdsSharedGpt4o20241120),
+            Gpt4o2024_11_20(&'a ModelIdsSharedGpt4o2024_11_20),
             #[allow(dead_code)]
-            Gpt4o20240806(&'a ModelIdsSharedGpt4o20240806),
+            Gpt4o2024_08_06(&'a ModelIdsSharedGpt4o2024_08_06),
             #[allow(dead_code)]
-            Gpt4o20240513(&'a ModelIdsSharedGpt4o20240513),
+            Gpt4o2024_05_13(&'a ModelIdsSharedGpt4o2024_05_13),
             #[allow(dead_code)]
             Gpt4oAudioPreview(&'a ModelIdsSharedGpt4oAudioPreview),
             #[allow(dead_code)]
-            Gpt4oAudioPreview20241001(&'a ModelIdsSharedGpt4oAudioPreview20241001),
+            Gpt4oAudioPreview2024_10_01(&'a ModelIdsSharedGpt4oAudioPreview2024_10_01),
             #[allow(dead_code)]
-            Gpt4oAudioPreview20241217(&'a ModelIdsSharedGpt4oAudioPreview20241217),
+            Gpt4oAudioPreview2024_12_17(&'a ModelIdsSharedGpt4oAudioPreview2024_12_17),
             #[allow(dead_code)]
             Gpt4oMiniAudioPreview(&'a ModelIdsSharedGpt4oMiniAudioPreview),
             #[allow(dead_code)]
-            Gpt4oMiniAudioPreview20241217(&'a ModelIdsSharedGpt4oMiniAudioPreview20241217),
+            Gpt4oMiniAudioPreview2024_12_17(&'a ModelIdsSharedGpt4oMiniAudioPreview2024_12_17),
             #[allow(dead_code)]
             Gpt4oSearchPreview(&'a ModelIdsSharedGpt4oSearchPreview),
             #[allow(dead_code)]
             Gpt4oMiniSearchPreview(&'a ModelIdsSharedGpt4oMiniSearchPreview),
             #[allow(dead_code)]
-            Gpt4oSearchPreview20250311(&'a ModelIdsSharedGpt4oSearchPreview20250311),
+            Gpt4oSearchPreview2025_03_11(&'a ModelIdsSharedGpt4oSearchPreview2025_03_11),
             #[allow(dead_code)]
-            Gpt4oMiniSearchPreview20250311(&'a ModelIdsSharedGpt4oMiniSearchPreview20250311),
+            Gpt4oMiniSearchPreview2025_03_11(&'a ModelIdsSharedGpt4oMiniSearchPreview2025_03_11),
             #[allow(dead_code)]
             Chatgpt4oLatest(&'a ModelIdsSharedChatgpt4oLatest),
             #[allow(dead_code)]
             Gpt4oMini(&'a ModelIdsSharedGpt4oMini),
             #[allow(dead_code)]
-            Gpt4oMini20240718(&'a ModelIdsSharedGpt4oMini20240718),
+            Gpt4oMini2024_07_18(&'a ModelIdsSharedGpt4oMini2024_07_18),
             #[allow(dead_code)]
             Gpt4Turbo(&'a ModelIdsSharedGpt4Turbo),
             #[allow(dead_code)]
-            Gpt4Turbo20240409(&'a ModelIdsSharedGpt4Turbo20240409),
+            Gpt4Turbo2024_04_09(&'a ModelIdsSharedGpt4Turbo2024_04_09),
             #[allow(dead_code)]
-            Gpt40125Preview(&'a ModelIdsSharedGpt40125Preview),
+            Gpt4_0125Preview(&'a ModelIdsSharedGpt4_0125Preview),
             #[allow(dead_code)]
             Gpt4TurboPreview(&'a ModelIdsSharedGpt4TurboPreview),
             #[allow(dead_code)]
-            Gpt41106Preview(&'a ModelIdsSharedGpt41106Preview),
+            Gpt4_1106Preview(&'a ModelIdsSharedGpt4_1106Preview),
             #[allow(dead_code)]
             Gpt4VisionPreview(&'a ModelIdsSharedGpt4VisionPreview),
             #[allow(dead_code)]
             Gpt4(&'a ModelIdsSharedGpt4),
             #[allow(dead_code)]
-            Gpt40314(&'a ModelIdsSharedGpt40314),
+            Gpt4_0314(&'a ModelIdsSharedGpt4_0314),
             #[allow(dead_code)]
-            Gpt40613(&'a ModelIdsSharedGpt40613),
+            Gpt4_0613(&'a ModelIdsSharedGpt4_0613),
             #[allow(dead_code)]
-            Gpt432k(&'a ModelIdsSharedGpt432k),
+            Gpt4_32k(&'a ModelIdsSharedGpt4_32k),
             #[allow(dead_code)]
-            Gpt432k0314(&'a ModelIdsSharedGpt432k0314),
+            Gpt4_32k0314(&'a ModelIdsSharedGpt4_32k0314),
             #[allow(dead_code)]
-            Gpt432k0613(&'a ModelIdsSharedGpt432k0613),
+            Gpt4_32k0613(&'a ModelIdsSharedGpt4_32k0613),
             #[allow(dead_code)]
-            Gpt35Turbo(&'a ModelIdsSharedGpt35Turbo),
+            Gpt3_5Turbo(&'a ModelIdsSharedGpt3_5Turbo),
             #[allow(dead_code)]
-            Gpt35Turbo16k(&'a ModelIdsSharedGpt35Turbo16k),
+            Gpt3_5Turbo16k(&'a ModelIdsSharedGpt3_5Turbo16k),
             #[allow(dead_code)]
-            Gpt35Turbo0301(&'a ModelIdsSharedGpt35Turbo0301),
+            Gpt3_5Turbo0301(&'a ModelIdsSharedGpt3_5Turbo0301),
             #[allow(dead_code)]
-            Gpt35Turbo0613(&'a ModelIdsSharedGpt35Turbo0613),
+            Gpt3_5Turbo0613(&'a ModelIdsSharedGpt3_5Turbo0613),
             #[allow(dead_code)]
-            Gpt35Turbo1106(&'a ModelIdsSharedGpt35Turbo1106),
+            Gpt3_5Turbo1106(&'a ModelIdsSharedGpt3_5Turbo1106),
             #[allow(dead_code)]
-            Gpt35Turbo0125(&'a ModelIdsSharedGpt35Turbo0125),
+            Gpt3_5Turbo0125(&'a ModelIdsSharedGpt3_5Turbo0125),
             #[allow(dead_code)]
-            Gpt35Turbo16k0613(&'a ModelIdsSharedGpt35Turbo16k0613),
+            Gpt3_5Turbo16k0613(&'a ModelIdsSharedGpt3_5Turbo16k0613),
             #[allow(dead_code)]
             Other(&'a String),
         }
         match self {
-            Self::Gpt41 => _S::Gpt41(&Default::default()).serialize(serializer),
-            Self::Gpt41Mini => _S::Gpt41Mini(&Default::default()).serialize(serializer),
-            Self::Gpt41Nano => _S::Gpt41Nano(&Default::default()).serialize(serializer),
-            Self::Gpt4120250414 => _S::Gpt4120250414(&Default::default()).serialize(serializer),
-            Self::Gpt41Mini20250414 => {
-                _S::Gpt41Mini20250414(&Default::default()).serialize(serializer)
+            Self::Gpt4_1 => _S::Gpt4_1(&Default::default()).serialize(serializer),
+            Self::Gpt4_1Mini => _S::Gpt4_1Mini(&Default::default()).serialize(serializer),
+            Self::Gpt4_1Nano => _S::Gpt4_1Nano(&Default::default()).serialize(serializer),
+            Self::Gpt4_1_2025_04_14 => {
+                _S::Gpt4_1_2025_04_14(&Default::default()).serialize(serializer)
             }
-            Self::Gpt41Nano20250414 => {
-                _S::Gpt41Nano20250414(&Default::default()).serialize(serializer)
+            Self::Gpt4_1Mini2025_04_14 => {
+                _S::Gpt4_1Mini2025_04_14(&Default::default()).serialize(serializer)
+            }
+            Self::Gpt4_1Nano2025_04_14 => {
+                _S::Gpt4_1Nano2025_04_14(&Default::default()).serialize(serializer)
             }
             Self::O4Mini => _S::O4Mini(&Default::default()).serialize(serializer),
-            Self::O4Mini20250416 => _S::O4Mini20250416(&Default::default()).serialize(serializer),
+            Self::O4Mini2025_04_16 => {
+                _S::O4Mini2025_04_16(&Default::default()).serialize(serializer)
+            }
             Self::O3 => _S::O3(&Default::default()).serialize(serializer),
-            Self::O320250416 => _S::O320250416(&Default::default()).serialize(serializer),
+            Self::O3_2025_04_16 => _S::O3_2025_04_16(&Default::default()).serialize(serializer),
             Self::O3Mini => _S::O3Mini(&Default::default()).serialize(serializer),
-            Self::O3Mini20250131 => _S::O3Mini20250131(&Default::default()).serialize(serializer),
+            Self::O3Mini2025_01_31 => {
+                _S::O3Mini2025_01_31(&Default::default()).serialize(serializer)
+            }
             Self::O1 => _S::O1(&Default::default()).serialize(serializer),
-            Self::O120241217 => _S::O120241217(&Default::default()).serialize(serializer),
+            Self::O1_2024_12_17 => _S::O1_2024_12_17(&Default::default()).serialize(serializer),
             Self::O1Preview => _S::O1Preview(&Default::default()).serialize(serializer),
-            Self::O1Preview20240912 => {
-                _S::O1Preview20240912(&Default::default()).serialize(serializer)
+            Self::O1Preview2024_09_12 => {
+                _S::O1Preview2024_09_12(&Default::default()).serialize(serializer)
             }
             Self::O1Mini => _S::O1Mini(&Default::default()).serialize(serializer),
-            Self::O1Mini20240912 => _S::O1Mini20240912(&Default::default()).serialize(serializer),
+            Self::O1Mini2024_09_12 => {
+                _S::O1Mini2024_09_12(&Default::default()).serialize(serializer)
+            }
             Self::Gpt4o => _S::Gpt4o(&Default::default()).serialize(serializer),
-            Self::Gpt4o20241120 => _S::Gpt4o20241120(&Default::default()).serialize(serializer),
-            Self::Gpt4o20240806 => _S::Gpt4o20240806(&Default::default()).serialize(serializer),
-            Self::Gpt4o20240513 => _S::Gpt4o20240513(&Default::default()).serialize(serializer),
+            Self::Gpt4o2024_11_20 => _S::Gpt4o2024_11_20(&Default::default()).serialize(serializer),
+            Self::Gpt4o2024_08_06 => _S::Gpt4o2024_08_06(&Default::default()).serialize(serializer),
+            Self::Gpt4o2024_05_13 => _S::Gpt4o2024_05_13(&Default::default()).serialize(serializer),
             Self::Gpt4oAudioPreview => {
                 _S::Gpt4oAudioPreview(&Default::default()).serialize(serializer)
             }
-            Self::Gpt4oAudioPreview20241001 => {
-                _S::Gpt4oAudioPreview20241001(&Default::default()).serialize(serializer)
+            Self::Gpt4oAudioPreview2024_10_01 => {
+                _S::Gpt4oAudioPreview2024_10_01(&Default::default()).serialize(serializer)
             }
-            Self::Gpt4oAudioPreview20241217 => {
-                _S::Gpt4oAudioPreview20241217(&Default::default()).serialize(serializer)
+            Self::Gpt4oAudioPreview2024_12_17 => {
+                _S::Gpt4oAudioPreview2024_12_17(&Default::default()).serialize(serializer)
             }
             Self::Gpt4oMiniAudioPreview => {
                 _S::Gpt4oMiniAudioPreview(&Default::default()).serialize(serializer)
             }
-            Self::Gpt4oMiniAudioPreview20241217 => {
-                _S::Gpt4oMiniAudioPreview20241217(&Default::default()).serialize(serializer)
+            Self::Gpt4oMiniAudioPreview2024_12_17 => {
+                _S::Gpt4oMiniAudioPreview2024_12_17(&Default::default()).serialize(serializer)
             }
             Self::Gpt4oSearchPreview => {
                 _S::Gpt4oSearchPreview(&Default::default()).serialize(serializer)
@@ -44371,43 +44389,47 @@ impl serde::Serialize for ModelIdsShared {
             Self::Gpt4oMiniSearchPreview => {
                 _S::Gpt4oMiniSearchPreview(&Default::default()).serialize(serializer)
             }
-            Self::Gpt4oSearchPreview20250311 => {
-                _S::Gpt4oSearchPreview20250311(&Default::default()).serialize(serializer)
+            Self::Gpt4oSearchPreview2025_03_11 => {
+                _S::Gpt4oSearchPreview2025_03_11(&Default::default()).serialize(serializer)
             }
-            Self::Gpt4oMiniSearchPreview20250311 => {
-                _S::Gpt4oMiniSearchPreview20250311(&Default::default()).serialize(serializer)
+            Self::Gpt4oMiniSearchPreview2025_03_11 => {
+                _S::Gpt4oMiniSearchPreview2025_03_11(&Default::default()).serialize(serializer)
             }
             Self::Chatgpt4oLatest => _S::Chatgpt4oLatest(&Default::default()).serialize(serializer),
             Self::Gpt4oMini => _S::Gpt4oMini(&Default::default()).serialize(serializer),
-            Self::Gpt4oMini20240718 => {
-                _S::Gpt4oMini20240718(&Default::default()).serialize(serializer)
+            Self::Gpt4oMini2024_07_18 => {
+                _S::Gpt4oMini2024_07_18(&Default::default()).serialize(serializer)
             }
             Self::Gpt4Turbo => _S::Gpt4Turbo(&Default::default()).serialize(serializer),
-            Self::Gpt4Turbo20240409 => {
-                _S::Gpt4Turbo20240409(&Default::default()).serialize(serializer)
+            Self::Gpt4Turbo2024_04_09 => {
+                _S::Gpt4Turbo2024_04_09(&Default::default()).serialize(serializer)
             }
-            Self::Gpt40125Preview => _S::Gpt40125Preview(&Default::default()).serialize(serializer),
+            Self::Gpt4_0125Preview => {
+                _S::Gpt4_0125Preview(&Default::default()).serialize(serializer)
+            }
             Self::Gpt4TurboPreview => {
                 _S::Gpt4TurboPreview(&Default::default()).serialize(serializer)
             }
-            Self::Gpt41106Preview => _S::Gpt41106Preview(&Default::default()).serialize(serializer),
+            Self::Gpt4_1106Preview => {
+                _S::Gpt4_1106Preview(&Default::default()).serialize(serializer)
+            }
             Self::Gpt4VisionPreview => {
                 _S::Gpt4VisionPreview(&Default::default()).serialize(serializer)
             }
             Self::Gpt4 => _S::Gpt4(&Default::default()).serialize(serializer),
-            Self::Gpt40314 => _S::Gpt40314(&Default::default()).serialize(serializer),
-            Self::Gpt40613 => _S::Gpt40613(&Default::default()).serialize(serializer),
-            Self::Gpt432k => _S::Gpt432k(&Default::default()).serialize(serializer),
-            Self::Gpt432k0314 => _S::Gpt432k0314(&Default::default()).serialize(serializer),
-            Self::Gpt432k0613 => _S::Gpt432k0613(&Default::default()).serialize(serializer),
-            Self::Gpt35Turbo => _S::Gpt35Turbo(&Default::default()).serialize(serializer),
-            Self::Gpt35Turbo16k => _S::Gpt35Turbo16k(&Default::default()).serialize(serializer),
-            Self::Gpt35Turbo0301 => _S::Gpt35Turbo0301(&Default::default()).serialize(serializer),
-            Self::Gpt35Turbo0613 => _S::Gpt35Turbo0613(&Default::default()).serialize(serializer),
-            Self::Gpt35Turbo1106 => _S::Gpt35Turbo1106(&Default::default()).serialize(serializer),
-            Self::Gpt35Turbo0125 => _S::Gpt35Turbo0125(&Default::default()).serialize(serializer),
-            Self::Gpt35Turbo16k0613 => {
-                _S::Gpt35Turbo16k0613(&Default::default()).serialize(serializer)
+            Self::Gpt4_0314 => _S::Gpt4_0314(&Default::default()).serialize(serializer),
+            Self::Gpt4_0613 => _S::Gpt4_0613(&Default::default()).serialize(serializer),
+            Self::Gpt4_32k => _S::Gpt4_32k(&Default::default()).serialize(serializer),
+            Self::Gpt4_32k0314 => _S::Gpt4_32k0314(&Default::default()).serialize(serializer),
+            Self::Gpt4_32k0613 => _S::Gpt4_32k0613(&Default::default()).serialize(serializer),
+            Self::Gpt3_5Turbo => _S::Gpt3_5Turbo(&Default::default()).serialize(serializer),
+            Self::Gpt3_5Turbo16k => _S::Gpt3_5Turbo16k(&Default::default()).serialize(serializer),
+            Self::Gpt3_5Turbo0301 => _S::Gpt3_5Turbo0301(&Default::default()).serialize(serializer),
+            Self::Gpt3_5Turbo0613 => _S::Gpt3_5Turbo0613(&Default::default()).serialize(serializer),
+            Self::Gpt3_5Turbo1106 => _S::Gpt3_5Turbo1106(&Default::default()).serialize(serializer),
+            Self::Gpt3_5Turbo0125 => _S::Gpt3_5Turbo0125(&Default::default()).serialize(serializer),
+            Self::Gpt3_5Turbo16k0613 => {
+                _S::Gpt3_5Turbo16k0613(&Default::default()).serialize(serializer)
             }
             Self::Other(_v) => _S::Other(_v).serialize(serializer),
         }
@@ -44416,59 +44438,59 @@ impl serde::Serialize for ModelIdsShared {
 #[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum ModelIdsShared {
-    Gpt41,
-    Gpt41Mini,
-    Gpt41Nano,
-    Gpt4120250414,
-    Gpt41Mini20250414,
-    Gpt41Nano20250414,
+    Gpt4_1,
+    Gpt4_1Mini,
+    Gpt4_1Nano,
+    Gpt4_1_2025_04_14,
+    Gpt4_1Mini2025_04_14,
+    Gpt4_1Nano2025_04_14,
     O4Mini,
-    O4Mini20250416,
+    O4Mini2025_04_16,
     O3,
-    O320250416,
+    O3_2025_04_16,
     O3Mini,
-    O3Mini20250131,
+    O3Mini2025_01_31,
     O1,
-    O120241217,
+    O1_2024_12_17,
     O1Preview,
-    O1Preview20240912,
+    O1Preview2024_09_12,
     O1Mini,
-    O1Mini20240912,
+    O1Mini2024_09_12,
     Gpt4o,
-    Gpt4o20241120,
-    Gpt4o20240806,
-    Gpt4o20240513,
+    Gpt4o2024_11_20,
+    Gpt4o2024_08_06,
+    Gpt4o2024_05_13,
     Gpt4oAudioPreview,
-    Gpt4oAudioPreview20241001,
-    Gpt4oAudioPreview20241217,
+    Gpt4oAudioPreview2024_10_01,
+    Gpt4oAudioPreview2024_12_17,
     Gpt4oMiniAudioPreview,
-    Gpt4oMiniAudioPreview20241217,
+    Gpt4oMiniAudioPreview2024_12_17,
     Gpt4oSearchPreview,
     Gpt4oMiniSearchPreview,
-    Gpt4oSearchPreview20250311,
-    Gpt4oMiniSearchPreview20250311,
+    Gpt4oSearchPreview2025_03_11,
+    Gpt4oMiniSearchPreview2025_03_11,
     Chatgpt4oLatest,
     Gpt4oMini,
-    Gpt4oMini20240718,
+    Gpt4oMini2024_07_18,
     Gpt4Turbo,
-    Gpt4Turbo20240409,
-    Gpt40125Preview,
+    Gpt4Turbo2024_04_09,
+    Gpt4_0125Preview,
     Gpt4TurboPreview,
-    Gpt41106Preview,
+    Gpt4_1106Preview,
     Gpt4VisionPreview,
     Gpt4,
-    Gpt40314,
-    Gpt40613,
-    Gpt432k,
-    Gpt432k0314,
-    Gpt432k0613,
-    Gpt35Turbo,
-    Gpt35Turbo16k,
-    Gpt35Turbo0301,
-    Gpt35Turbo0613,
-    Gpt35Turbo1106,
-    Gpt35Turbo0125,
-    Gpt35Turbo16k0613,
+    Gpt4_0314,
+    Gpt4_0613,
+    Gpt4_32k,
+    Gpt4_32k0314,
+    Gpt4_32k0613,
+    Gpt3_5Turbo,
+    Gpt3_5Turbo16k,
+    Gpt3_5Turbo0301,
+    Gpt3_5Turbo0613,
+    Gpt3_5Turbo1106,
+    Gpt3_5Turbo0125,
+    Gpt3_5Turbo16k0613,
     Other(String),
 }
 impl<'de> serde::Deserialize<'de> for ModelResponseProperties {
@@ -57318,18 +57340,18 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionModel {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum RealtimeSessionModelGpt4oRealtimePreview20241001 {
+        enum RealtimeSessionModelGpt4oRealtimePreview2024_10_01 {
             #[default]
             #[serde(rename = "gpt-4o-realtime-preview-2024-10-01")]
-            Gpt4oRealtimePreview20241001,
+            Gpt4oRealtimePreview2024_10_01,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum RealtimeSessionModelGpt4oRealtimePreview20241217 {
+        enum RealtimeSessionModelGpt4oRealtimePreview2024_12_17 {
             #[default]
             #[serde(rename = "gpt-4o-realtime-preview-2024-12-17")]
-            Gpt4oRealtimePreview20241217,
+            Gpt4oRealtimePreview2024_12_17,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -57342,10 +57364,10 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionModel {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum RealtimeSessionModelGpt4oMiniRealtimePreview20241217 {
+        enum RealtimeSessionModelGpt4oMiniRealtimePreview2024_12_17 {
             #[default]
             #[serde(rename = "gpt-4o-mini-realtime-preview-2024-12-17")]
-            Gpt4oMiniRealtimePreview20241217,
+            Gpt4oMiniRealtimePreview2024_12_17,
         }
         #[derive(serde :: Deserialize)]
         #[serde(untagged)]
@@ -57354,20 +57376,22 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionModel {
             #[allow(dead_code)]
             Gpt4oRealtimePreview(RealtimeSessionModelGpt4oRealtimePreview),
             #[allow(dead_code)]
-            Gpt4oRealtimePreview20241001(RealtimeSessionModelGpt4oRealtimePreview20241001),
+            Gpt4oRealtimePreview2024_10_01(RealtimeSessionModelGpt4oRealtimePreview2024_10_01),
             #[allow(dead_code)]
-            Gpt4oRealtimePreview20241217(RealtimeSessionModelGpt4oRealtimePreview20241217),
+            Gpt4oRealtimePreview2024_12_17(RealtimeSessionModelGpt4oRealtimePreview2024_12_17),
             #[allow(dead_code)]
             Gpt4oMiniRealtimePreview(RealtimeSessionModelGpt4oMiniRealtimePreview),
             #[allow(dead_code)]
-            Gpt4oMiniRealtimePreview20241217(RealtimeSessionModelGpt4oMiniRealtimePreview20241217),
+            Gpt4oMiniRealtimePreview2024_12_17(
+                RealtimeSessionModelGpt4oMiniRealtimePreview2024_12_17,
+            ),
         }
         Ok(match _D::deserialize(deserializer)? {
             _D::Gpt4oRealtimePreview(_) => Self::Gpt4oRealtimePreview,
-            _D::Gpt4oRealtimePreview20241001(_) => Self::Gpt4oRealtimePreview20241001,
-            _D::Gpt4oRealtimePreview20241217(_) => Self::Gpt4oRealtimePreview20241217,
+            _D::Gpt4oRealtimePreview2024_10_01(_) => Self::Gpt4oRealtimePreview2024_10_01,
+            _D::Gpt4oRealtimePreview2024_12_17(_) => Self::Gpt4oRealtimePreview2024_12_17,
             _D::Gpt4oMiniRealtimePreview(_) => Self::Gpt4oMiniRealtimePreview,
-            _D::Gpt4oMiniRealtimePreview20241217(_) => Self::Gpt4oMiniRealtimePreview20241217,
+            _D::Gpt4oMiniRealtimePreview2024_12_17(_) => Self::Gpt4oMiniRealtimePreview2024_12_17,
         })
     }
 }
@@ -57387,18 +57411,18 @@ impl serde::Serialize for RealtimeSessionModel {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum RealtimeSessionModelGpt4oRealtimePreview20241001 {
+        enum RealtimeSessionModelGpt4oRealtimePreview2024_10_01 {
             #[default]
             #[serde(rename = "gpt-4o-realtime-preview-2024-10-01")]
-            Gpt4oRealtimePreview20241001,
+            Gpt4oRealtimePreview2024_10_01,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum RealtimeSessionModelGpt4oRealtimePreview20241217 {
+        enum RealtimeSessionModelGpt4oRealtimePreview2024_12_17 {
             #[default]
             #[serde(rename = "gpt-4o-realtime-preview-2024-12-17")]
-            Gpt4oRealtimePreview20241217,
+            Gpt4oRealtimePreview2024_12_17,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -57411,10 +57435,10 @@ impl serde::Serialize for RealtimeSessionModel {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum RealtimeSessionModelGpt4oMiniRealtimePreview20241217 {
+        enum RealtimeSessionModelGpt4oMiniRealtimePreview2024_12_17 {
             #[default]
             #[serde(rename = "gpt-4o-mini-realtime-preview-2024-12-17")]
-            Gpt4oMiniRealtimePreview20241217,
+            Gpt4oMiniRealtimePreview2024_12_17,
         }
         #[derive(serde :: Serialize)]
         #[serde(untagged)]
@@ -57423,31 +57447,31 @@ impl serde::Serialize for RealtimeSessionModel {
             #[allow(dead_code)]
             Gpt4oRealtimePreview(&'a RealtimeSessionModelGpt4oRealtimePreview),
             #[allow(dead_code)]
-            Gpt4oRealtimePreview20241001(&'a RealtimeSessionModelGpt4oRealtimePreview20241001),
+            Gpt4oRealtimePreview2024_10_01(&'a RealtimeSessionModelGpt4oRealtimePreview2024_10_01),
             #[allow(dead_code)]
-            Gpt4oRealtimePreview20241217(&'a RealtimeSessionModelGpt4oRealtimePreview20241217),
+            Gpt4oRealtimePreview2024_12_17(&'a RealtimeSessionModelGpt4oRealtimePreview2024_12_17),
             #[allow(dead_code)]
             Gpt4oMiniRealtimePreview(&'a RealtimeSessionModelGpt4oMiniRealtimePreview),
             #[allow(dead_code)]
-            Gpt4oMiniRealtimePreview20241217(
-                &'a RealtimeSessionModelGpt4oMiniRealtimePreview20241217,
+            Gpt4oMiniRealtimePreview2024_12_17(
+                &'a RealtimeSessionModelGpt4oMiniRealtimePreview2024_12_17,
             ),
         }
         match self {
             Self::Gpt4oRealtimePreview => {
                 _S::Gpt4oRealtimePreview(&Default::default()).serialize(serializer)
             }
-            Self::Gpt4oRealtimePreview20241001 => {
-                _S::Gpt4oRealtimePreview20241001(&Default::default()).serialize(serializer)
+            Self::Gpt4oRealtimePreview2024_10_01 => {
+                _S::Gpt4oRealtimePreview2024_10_01(&Default::default()).serialize(serializer)
             }
-            Self::Gpt4oRealtimePreview20241217 => {
-                _S::Gpt4oRealtimePreview20241217(&Default::default()).serialize(serializer)
+            Self::Gpt4oRealtimePreview2024_12_17 => {
+                _S::Gpt4oRealtimePreview2024_12_17(&Default::default()).serialize(serializer)
             }
             Self::Gpt4oMiniRealtimePreview => {
                 _S::Gpt4oMiniRealtimePreview(&Default::default()).serialize(serializer)
             }
-            Self::Gpt4oMiniRealtimePreview20241217 => {
-                _S::Gpt4oMiniRealtimePreview20241217(&Default::default()).serialize(serializer)
+            Self::Gpt4oMiniRealtimePreview2024_12_17 => {
+                _S::Gpt4oMiniRealtimePreview2024_12_17(&Default::default()).serialize(serializer)
             }
         }
     }
@@ -57457,10 +57481,10 @@ impl serde::Serialize for RealtimeSessionModel {
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionModel {
     Gpt4oRealtimePreview,
-    Gpt4oRealtimePreview20241001,
-    Gpt4oRealtimePreview20241217,
+    Gpt4oRealtimePreview2024_10_01,
+    Gpt4oRealtimePreview2024_12_17,
     Gpt4oMiniRealtimePreview,
-    Gpt4oMiniRealtimePreview20241217,
+    Gpt4oMiniRealtimePreview2024_12_17,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeSessionInputAudioFormat {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -58653,18 +58677,18 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateRequestModel {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum RealtimeSessionCreateRequestModelGpt4oRealtimePreview20241001 {
+        enum RealtimeSessionCreateRequestModelGpt4oRealtimePreview2024_10_01 {
             #[default]
             #[serde(rename = "gpt-4o-realtime-preview-2024-10-01")]
-            Gpt4oRealtimePreview20241001,
+            Gpt4oRealtimePreview2024_10_01,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum RealtimeSessionCreateRequestModelGpt4oRealtimePreview20241217 {
+        enum RealtimeSessionCreateRequestModelGpt4oRealtimePreview2024_12_17 {
             #[default]
             #[serde(rename = "gpt-4o-realtime-preview-2024-12-17")]
-            Gpt4oRealtimePreview20241217,
+            Gpt4oRealtimePreview2024_12_17,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -58677,10 +58701,10 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateRequestModel {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum RealtimeSessionCreateRequestModelGpt4oMiniRealtimePreview20241217 {
+        enum RealtimeSessionCreateRequestModelGpt4oMiniRealtimePreview2024_12_17 {
             #[default]
             #[serde(rename = "gpt-4o-mini-realtime-preview-2024-12-17")]
-            Gpt4oMiniRealtimePreview20241217,
+            Gpt4oMiniRealtimePreview2024_12_17,
         }
         #[derive(serde :: Deserialize)]
         #[serde(untagged)]
@@ -58689,26 +58713,26 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateRequestModel {
             #[allow(dead_code)]
             Gpt4oRealtimePreview(RealtimeSessionCreateRequestModelGpt4oRealtimePreview),
             #[allow(dead_code)]
-            Gpt4oRealtimePreview20241001(
-                RealtimeSessionCreateRequestModelGpt4oRealtimePreview20241001,
+            Gpt4oRealtimePreview2024_10_01(
+                RealtimeSessionCreateRequestModelGpt4oRealtimePreview2024_10_01,
             ),
             #[allow(dead_code)]
-            Gpt4oRealtimePreview20241217(
-                RealtimeSessionCreateRequestModelGpt4oRealtimePreview20241217,
+            Gpt4oRealtimePreview2024_12_17(
+                RealtimeSessionCreateRequestModelGpt4oRealtimePreview2024_12_17,
             ),
             #[allow(dead_code)]
             Gpt4oMiniRealtimePreview(RealtimeSessionCreateRequestModelGpt4oMiniRealtimePreview),
             #[allow(dead_code)]
-            Gpt4oMiniRealtimePreview20241217(
-                RealtimeSessionCreateRequestModelGpt4oMiniRealtimePreview20241217,
+            Gpt4oMiniRealtimePreview2024_12_17(
+                RealtimeSessionCreateRequestModelGpt4oMiniRealtimePreview2024_12_17,
             ),
         }
         Ok(match _D::deserialize(deserializer)? {
             _D::Gpt4oRealtimePreview(_) => Self::Gpt4oRealtimePreview,
-            _D::Gpt4oRealtimePreview20241001(_) => Self::Gpt4oRealtimePreview20241001,
-            _D::Gpt4oRealtimePreview20241217(_) => Self::Gpt4oRealtimePreview20241217,
+            _D::Gpt4oRealtimePreview2024_10_01(_) => Self::Gpt4oRealtimePreview2024_10_01,
+            _D::Gpt4oRealtimePreview2024_12_17(_) => Self::Gpt4oRealtimePreview2024_12_17,
             _D::Gpt4oMiniRealtimePreview(_) => Self::Gpt4oMiniRealtimePreview,
-            _D::Gpt4oMiniRealtimePreview20241217(_) => Self::Gpt4oMiniRealtimePreview20241217,
+            _D::Gpt4oMiniRealtimePreview2024_12_17(_) => Self::Gpt4oMiniRealtimePreview2024_12_17,
         })
     }
 }
@@ -58728,18 +58752,18 @@ impl serde::Serialize for RealtimeSessionCreateRequestModel {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum RealtimeSessionCreateRequestModelGpt4oRealtimePreview20241001 {
+        enum RealtimeSessionCreateRequestModelGpt4oRealtimePreview2024_10_01 {
             #[default]
             #[serde(rename = "gpt-4o-realtime-preview-2024-10-01")]
-            Gpt4oRealtimePreview20241001,
+            Gpt4oRealtimePreview2024_10_01,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum RealtimeSessionCreateRequestModelGpt4oRealtimePreview20241217 {
+        enum RealtimeSessionCreateRequestModelGpt4oRealtimePreview2024_12_17 {
             #[default]
             #[serde(rename = "gpt-4o-realtime-preview-2024-12-17")]
-            Gpt4oRealtimePreview20241217,
+            Gpt4oRealtimePreview2024_12_17,
         }
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
@@ -58752,10 +58776,10 @@ impl serde::Serialize for RealtimeSessionCreateRequestModel {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum RealtimeSessionCreateRequestModelGpt4oMiniRealtimePreview20241217 {
+        enum RealtimeSessionCreateRequestModelGpt4oMiniRealtimePreview2024_12_17 {
             #[default]
             #[serde(rename = "gpt-4o-mini-realtime-preview-2024-12-17")]
-            Gpt4oMiniRealtimePreview20241217,
+            Gpt4oMiniRealtimePreview2024_12_17,
         }
         #[derive(serde :: Serialize)]
         #[serde(untagged)]
@@ -58764,35 +58788,35 @@ impl serde::Serialize for RealtimeSessionCreateRequestModel {
             #[allow(dead_code)]
             Gpt4oRealtimePreview(&'a RealtimeSessionCreateRequestModelGpt4oRealtimePreview),
             #[allow(dead_code)]
-            Gpt4oRealtimePreview20241001(
-                &'a RealtimeSessionCreateRequestModelGpt4oRealtimePreview20241001,
+            Gpt4oRealtimePreview2024_10_01(
+                &'a RealtimeSessionCreateRequestModelGpt4oRealtimePreview2024_10_01,
             ),
             #[allow(dead_code)]
-            Gpt4oRealtimePreview20241217(
-                &'a RealtimeSessionCreateRequestModelGpt4oRealtimePreview20241217,
+            Gpt4oRealtimePreview2024_12_17(
+                &'a RealtimeSessionCreateRequestModelGpt4oRealtimePreview2024_12_17,
             ),
             #[allow(dead_code)]
             Gpt4oMiniRealtimePreview(&'a RealtimeSessionCreateRequestModelGpt4oMiniRealtimePreview),
             #[allow(dead_code)]
-            Gpt4oMiniRealtimePreview20241217(
-                &'a RealtimeSessionCreateRequestModelGpt4oMiniRealtimePreview20241217,
+            Gpt4oMiniRealtimePreview2024_12_17(
+                &'a RealtimeSessionCreateRequestModelGpt4oMiniRealtimePreview2024_12_17,
             ),
         }
         match self {
             Self::Gpt4oRealtimePreview => {
                 _S::Gpt4oRealtimePreview(&Default::default()).serialize(serializer)
             }
-            Self::Gpt4oRealtimePreview20241001 => {
-                _S::Gpt4oRealtimePreview20241001(&Default::default()).serialize(serializer)
+            Self::Gpt4oRealtimePreview2024_10_01 => {
+                _S::Gpt4oRealtimePreview2024_10_01(&Default::default()).serialize(serializer)
             }
-            Self::Gpt4oRealtimePreview20241217 => {
-                _S::Gpt4oRealtimePreview20241217(&Default::default()).serialize(serializer)
+            Self::Gpt4oRealtimePreview2024_12_17 => {
+                _S::Gpt4oRealtimePreview2024_12_17(&Default::default()).serialize(serializer)
             }
             Self::Gpt4oMiniRealtimePreview => {
                 _S::Gpt4oMiniRealtimePreview(&Default::default()).serialize(serializer)
             }
-            Self::Gpt4oMiniRealtimePreview20241217 => {
-                _S::Gpt4oMiniRealtimePreview20241217(&Default::default()).serialize(serializer)
+            Self::Gpt4oMiniRealtimePreview2024_12_17 => {
+                _S::Gpt4oMiniRealtimePreview2024_12_17(&Default::default()).serialize(serializer)
             }
         }
     }
@@ -58802,10 +58826,10 @@ impl serde::Serialize for RealtimeSessionCreateRequestModel {
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionCreateRequestModel {
     Gpt4oRealtimePreview,
-    Gpt4oRealtimePreview20241001,
-    Gpt4oRealtimePreview20241217,
+    Gpt4oRealtimePreview2024_10_01,
+    Gpt4oRealtimePreview2024_12_17,
     Gpt4oMiniRealtimePreview,
-    Gpt4oMiniRealtimePreview20241217,
+    Gpt4oMiniRealtimePreview2024_12_17,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateRequestInputAudioFormat {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -74223,10 +74247,10 @@ impl<'de> serde::Deserialize<'de> for ToolChoiceTypesType {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ToolChoiceTypesTypeWebSearchPreview20250311 {
+        enum ToolChoiceTypesTypeWebSearchPreview2025_03_11 {
             #[default]
             #[serde(rename = "web_search_preview_2025_03_11")]
-            WebSearchPreview20250311,
+            WebSearchPreview2025_03_11,
         }
         #[derive(serde :: Deserialize)]
         #[serde(untagged)]
@@ -74239,13 +74263,13 @@ impl<'de> serde::Deserialize<'de> for ToolChoiceTypesType {
             #[allow(dead_code)]
             ComputerUsePreview(ToolChoiceTypesTypeComputerUsePreview),
             #[allow(dead_code)]
-            WebSearchPreview20250311(ToolChoiceTypesTypeWebSearchPreview20250311),
+            WebSearchPreview2025_03_11(ToolChoiceTypesTypeWebSearchPreview2025_03_11),
         }
         Ok(match _D::deserialize(deserializer)? {
             _D::FileSearch(_) => Self::FileSearch,
             _D::WebSearchPreview(_) => Self::WebSearchPreview,
             _D::ComputerUsePreview(_) => Self::ComputerUsePreview,
-            _D::WebSearchPreview20250311(_) => Self::WebSearchPreview20250311,
+            _D::WebSearchPreview2025_03_11(_) => Self::WebSearchPreview2025_03_11,
         })
     }
 }
@@ -74281,10 +74305,10 @@ impl serde::Serialize for ToolChoiceTypesType {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum ToolChoiceTypesTypeWebSearchPreview20250311 {
+        enum ToolChoiceTypesTypeWebSearchPreview2025_03_11 {
             #[default]
             #[serde(rename = "web_search_preview_2025_03_11")]
-            WebSearchPreview20250311,
+            WebSearchPreview2025_03_11,
         }
         #[derive(serde :: Serialize)]
         #[serde(untagged)]
@@ -74297,7 +74321,7 @@ impl serde::Serialize for ToolChoiceTypesType {
             #[allow(dead_code)]
             ComputerUsePreview(&'a ToolChoiceTypesTypeComputerUsePreview),
             #[allow(dead_code)]
-            WebSearchPreview20250311(&'a ToolChoiceTypesTypeWebSearchPreview20250311),
+            WebSearchPreview2025_03_11(&'a ToolChoiceTypesTypeWebSearchPreview2025_03_11),
         }
         match self {
             Self::FileSearch => _S::FileSearch(&Default::default()).serialize(serializer),
@@ -74307,8 +74331,8 @@ impl serde::Serialize for ToolChoiceTypesType {
             Self::ComputerUsePreview => {
                 _S::ComputerUsePreview(&Default::default()).serialize(serializer)
             }
-            Self::WebSearchPreview20250311 => {
-                _S::WebSearchPreview20250311(&Default::default()).serialize(serializer)
+            Self::WebSearchPreview2025_03_11 => {
+                _S::WebSearchPreview2025_03_11(&Default::default()).serialize(serializer)
             }
         }
     }
@@ -74320,7 +74344,7 @@ pub enum ToolChoiceTypesType {
     FileSearch,
     WebSearchPreview,
     ComputerUsePreview,
-    WebSearchPreview20250311,
+    WebSearchPreview2025_03_11,
 }
 impl<'de> serde::Deserialize<'de> for ToolChoiceTypes {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -78862,10 +78886,10 @@ impl<'de> serde::Deserialize<'de> for VectorStoreSearchRequestRankingOptionsRank
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum VectorStoreSearchRequestRankingOptionsRankerDefault20241115 {
+        enum VectorStoreSearchRequestRankingOptionsRankerDefault2024_11_15 {
             #[default]
             #[serde(rename = "default-2024-11-15")]
-            Default20241115,
+            Default2024_11_15,
         }
         #[derive(serde :: Deserialize)]
         #[serde(untagged)]
@@ -78874,11 +78898,11 @@ impl<'de> serde::Deserialize<'de> for VectorStoreSearchRequestRankingOptionsRank
             #[allow(dead_code)]
             Auto(VectorStoreSearchRequestRankingOptionsRankerAuto),
             #[allow(dead_code)]
-            Default20241115(VectorStoreSearchRequestRankingOptionsRankerDefault20241115),
+            Default2024_11_15(VectorStoreSearchRequestRankingOptionsRankerDefault2024_11_15),
         }
         Ok(match _D::deserialize(deserializer)? {
             _D::Auto(_) => Self::Auto,
-            _D::Default20241115(_) => Self::Default20241115,
+            _D::Default2024_11_15(_) => Self::Default2024_11_15,
         })
     }
 }
@@ -78898,10 +78922,10 @@ impl serde::Serialize for VectorStoreSearchRequestRankingOptionsRanker {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum VectorStoreSearchRequestRankingOptionsRankerDefault20241115 {
+        enum VectorStoreSearchRequestRankingOptionsRankerDefault2024_11_15 {
             #[default]
             #[serde(rename = "default-2024-11-15")]
-            Default20241115,
+            Default2024_11_15,
         }
         #[derive(serde :: Serialize)]
         #[serde(untagged)]
@@ -78910,11 +78934,13 @@ impl serde::Serialize for VectorStoreSearchRequestRankingOptionsRanker {
             #[allow(dead_code)]
             Auto(&'a VectorStoreSearchRequestRankingOptionsRankerAuto),
             #[allow(dead_code)]
-            Default20241115(&'a VectorStoreSearchRequestRankingOptionsRankerDefault20241115),
+            Default2024_11_15(&'a VectorStoreSearchRequestRankingOptionsRankerDefault2024_11_15),
         }
         match self {
             Self::Auto => _S::Auto(&Default::default()).serialize(serializer),
-            Self::Default20241115 => _S::Default20241115(&Default::default()).serialize(serializer),
+            Self::Default2024_11_15 => {
+                _S::Default2024_11_15(&Default::default()).serialize(serializer)
+            }
         }
     }
 }
@@ -78923,7 +78949,7 @@ impl serde::Serialize for VectorStoreSearchRequestRankingOptionsRanker {
 pub enum VectorStoreSearchRequestRankingOptionsRanker {
     #[default]
     Auto,
-    Default20241115,
+    Default2024_11_15,
 }
 impl<'de> serde::Deserialize<'de> for VectorStoreSearchRequestRankingOptions {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -80430,10 +80456,10 @@ impl<'de> serde::Deserialize<'de> for RankingOptionsRanker {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum RankingOptionsRankerDefault20241115 {
+        enum RankingOptionsRankerDefault2024_11_15 {
             #[default]
             #[serde(rename = "default-2024-11-15")]
-            Default20241115,
+            Default2024_11_15,
         }
         #[derive(serde :: Deserialize)]
         #[serde(untagged)]
@@ -80442,11 +80468,11 @@ impl<'de> serde::Deserialize<'de> for RankingOptionsRanker {
             #[allow(dead_code)]
             Auto(RankingOptionsRankerAuto),
             #[allow(dead_code)]
-            Default20241115(RankingOptionsRankerDefault20241115),
+            Default2024_11_15(RankingOptionsRankerDefault2024_11_15),
         }
         Ok(match _D::deserialize(deserializer)? {
             _D::Auto(_) => Self::Auto,
-            _D::Default20241115(_) => Self::Default20241115,
+            _D::Default2024_11_15(_) => Self::Default2024_11_15,
         })
     }
 }
@@ -80466,10 +80492,10 @@ impl serde::Serialize for RankingOptionsRanker {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum RankingOptionsRankerDefault20241115 {
+        enum RankingOptionsRankerDefault2024_11_15 {
             #[default]
             #[serde(rename = "default-2024-11-15")]
-            Default20241115,
+            Default2024_11_15,
         }
         #[derive(serde :: Serialize)]
         #[serde(untagged)]
@@ -80478,11 +80504,13 @@ impl serde::Serialize for RankingOptionsRanker {
             #[allow(dead_code)]
             Auto(&'a RankingOptionsRankerAuto),
             #[allow(dead_code)]
-            Default20241115(&'a RankingOptionsRankerDefault20241115),
+            Default2024_11_15(&'a RankingOptionsRankerDefault2024_11_15),
         }
         match self {
             Self::Auto => _S::Auto(&Default::default()).serialize(serializer),
-            Self::Default20241115 => _S::Default20241115(&Default::default()).serialize(serializer),
+            Self::Default2024_11_15 => {
+                _S::Default2024_11_15(&Default::default()).serialize(serializer)
+            }
         }
     }
 }
@@ -80491,7 +80519,7 @@ impl serde::Serialize for RankingOptionsRanker {
 #[allow(clippy::large_enum_variant)]
 pub enum RankingOptionsRanker {
     Auto,
-    Default20241115,
+    Default2024_11_15,
 }
 impl<'de> serde::Deserialize<'de> for RankingOptions {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -80939,10 +80967,10 @@ impl<'de> serde::Deserialize<'de> for WebSearchPreviewToolType {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum WebSearchPreviewToolTypeWebSearchPreview20250311 {
+        enum WebSearchPreviewToolTypeWebSearchPreview2025_03_11 {
             #[default]
             #[serde(rename = "web_search_preview_2025_03_11")]
-            WebSearchPreview20250311,
+            WebSearchPreview2025_03_11,
         }
         #[derive(serde :: Deserialize)]
         #[serde(untagged)]
@@ -80951,11 +80979,11 @@ impl<'de> serde::Deserialize<'de> for WebSearchPreviewToolType {
             #[allow(dead_code)]
             WebSearchPreview(WebSearchPreviewToolTypeWebSearchPreview),
             #[allow(dead_code)]
-            WebSearchPreview20250311(WebSearchPreviewToolTypeWebSearchPreview20250311),
+            WebSearchPreview2025_03_11(WebSearchPreviewToolTypeWebSearchPreview2025_03_11),
         }
         Ok(match _D::deserialize(deserializer)? {
             _D::WebSearchPreview(_) => Self::WebSearchPreview,
-            _D::WebSearchPreview20250311(_) => Self::WebSearchPreview20250311,
+            _D::WebSearchPreview2025_03_11(_) => Self::WebSearchPreview2025_03_11,
         })
     }
 }
@@ -80975,10 +81003,10 @@ impl serde::Serialize for WebSearchPreviewToolType {
         #[derive(
             Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize,
         )]
-        enum WebSearchPreviewToolTypeWebSearchPreview20250311 {
+        enum WebSearchPreviewToolTypeWebSearchPreview2025_03_11 {
             #[default]
             #[serde(rename = "web_search_preview_2025_03_11")]
-            WebSearchPreview20250311,
+            WebSearchPreview2025_03_11,
         }
         #[derive(serde :: Serialize)]
         #[serde(untagged)]
@@ -80987,14 +81015,14 @@ impl serde::Serialize for WebSearchPreviewToolType {
             #[allow(dead_code)]
             WebSearchPreview(&'a WebSearchPreviewToolTypeWebSearchPreview),
             #[allow(dead_code)]
-            WebSearchPreview20250311(&'a WebSearchPreviewToolTypeWebSearchPreview20250311),
+            WebSearchPreview2025_03_11(&'a WebSearchPreviewToolTypeWebSearchPreview2025_03_11),
         }
         match self {
             Self::WebSearchPreview => {
                 _S::WebSearchPreview(&Default::default()).serialize(serializer)
             }
-            Self::WebSearchPreview20250311 => {
-                _S::WebSearchPreview20250311(&Default::default()).serialize(serializer)
+            Self::WebSearchPreview2025_03_11 => {
+                _S::WebSearchPreview2025_03_11(&Default::default()).serialize(serializer)
             }
         }
     }
@@ -81005,7 +81033,7 @@ impl serde::Serialize for WebSearchPreviewToolType {
 pub enum WebSearchPreviewToolType {
     #[default]
     WebSearchPreview,
-    WebSearchPreview20250311,
+    WebSearchPreview2025_03_11,
 }
 impl<'de> serde::Deserialize<'de> for WebSearchPreviewToolSearchContextSize {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>

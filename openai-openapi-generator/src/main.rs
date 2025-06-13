@@ -692,7 +692,16 @@ fn to_item_struct(
 
 fn to_ident_pascal(name: &str) -> syn::Ident {
     let name = name.replace(['-', '.', '[', ']'], "_");
-    let name = name.to_pascal_case();
+    let name = name.split('_').fold(String::new(), |mut name, part| {
+        let part = part.to_pascal_case();
+        if name.chars().last().is_some_and(char::is_numeric)
+            && part.chars().next().is_some_and(char::is_numeric)
+        {
+            name.push('_');
+        }
+        name.push_str(&part);
+        name
+    });
     if name.chars().next().is_some_and(char::is_alphabetic) {
         quote::format_ident!("{name}")
     } else {
