@@ -7,6 +7,7 @@ use anyhow::Context;
 use heck::{ToPascalCase, ToSnakeCase};
 use indexmap::IndexMap;
 use quote::ToTokens;
+use std::cmp::Ordering;
 use std::collections::HashMap;
 use std::io;
 
@@ -276,7 +277,13 @@ fn to_item_enum(
     let vis = public.then_some(quote::quote!(pub));
     let ident = to_ident_pascal(name);
 
-    let variants = visit_variants(schema);
+    let mut variants = visit_variants(schema);
+    variants.sort_by(|(a, _), (b, _)| match (&a.type_, &b.type_) {
+        (Type::Const(_), Type::String) => Ordering::Less,
+        (Type::String, Type::Const(_)) => Ordering::Greater,
+        _ => Ordering::Equal,
+    });
+
     let variant_names = {
         let mut names = vec![Vec::new(); variants.len()];
         let mut tags = variants
@@ -342,6 +349,17 @@ fn to_item_enum(
             for (name, tags) in names.iter_mut().zip(&mut tags) {
                 if let Some(tag) = tags.remove(key) {
                     name.push(tag.to_owned());
+                }
+            }
+        }
+
+        if variants
+            .iter()
+            .all(|(variant, _)| matches!(&variant.type_, Type::Const(_) | Type::String))
+        {
+            for (name, (variant, _)) in names.iter_mut().zip(&variants) {
+                if matches!(&variant.type_, Type::String) {
+                    name.push("other".to_owned());
                 }
             }
         }
