@@ -1,14 +1,11 @@
 [package]
-name = "openai-openapi-alt"
+name = "openai-openapi-types"
 version = "0.1.0"
 edition = "2024"
 
-description = "OpenAI API schemas generated from OpenAPI spec"
+description = "Types for OpenAI API generated from OpenAPI spec"
 license = "MIT"
 repository = "https://github.com/Hakuyume/openai-rs"
-
-[lib]
-name = "openai_openapi"
 
 [dependencies]
 serde = { workspace = true, features = ["derive"] }

@@ -1,5 +1,5 @@
 [workspace]
-members = ["openai-openapi", "openai-openapi-generator", "openai-openapi-generator-macros"]
+members = ["openai-openapi-generator", "openai-openapi-generator-macros", "openai-openapi-types"]
 resolver = "3"
 
 [workspace.dependencies]
