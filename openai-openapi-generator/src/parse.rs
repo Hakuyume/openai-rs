@@ -4,21 +4,21 @@ use indexmap::IndexMap;
 
 type Schemas<'a> = &'a IndexMap<String, openapi::Schema>;
 
-pub fn convert<'a>(
+pub fn parse<'a>(
     schema: &'a openapi::Schema,
     schemas: Schemas<'a>,
 ) -> anyhow::Result<crate::Schema<'a>> {
-    if let Some(schema) = convert_primitive(schema, schemas) {
+    if let Some(schema) = parse_primitive(schema, schemas) {
         Ok(schema)
-    } else if let Some(schema) = convert_array(schema, schemas)? {
+    } else if let Some(schema) = parse_array(schema, schemas)? {
         Ok(schema)
-    } else if let Some(schema) = convert_map(schema, schemas)? {
+    } else if let Some(schema) = parse_map(schema, schemas)? {
         Ok(schema)
-    } else if let Some(schema) = convert_ref(schema, schemas)? {
+    } else if let Some(schema) = parse_ref(schema, schemas)? {
         Ok(schema)
-    } else if let Some(schema) = convert_enum(schema, schemas)? {
+    } else if let Some(schema) = parse_enum(schema, schemas)? {
         Ok(schema)
-    } else if let Some(schema) = convert_struct(schema, schemas)? {
+    } else if let Some(schema) = parse_struct(schema, schemas)? {
         Ok(schema)
     } else {
         Err(anyhow::format_err!("unhandled: {schema:#?}"))
@@ -26,7 +26,7 @@ pub fn convert<'a>(
 }
 
 #[openai_openapi_generator_macros::strict(openapi::Schema)]
-fn convert_primitive<'a>(schema: &'a openapi::Schema, _: Schemas<'a>) -> Option<crate::Schema<'a>> {
+fn parse_primitive<'a>(schema: &'a openapi::Schema, _: Schemas<'a>) -> Option<crate::Schema<'a>> {
     if let openapi::Schema { description } = schema {
         Some(crate::Schema {
             description: description.as_deref(),
@@ -167,7 +167,7 @@ fn convert_primitive<'a>(schema: &'a openapi::Schema, _: Schemas<'a>) -> Option<
 }
 
 #[openai_openapi_generator_macros::strict(openapi::Schema)]
-fn convert_array<'a>(
+fn parse_array<'a>(
     schema: &'a openapi::Schema,
     schemas: Schemas<'a>,
 ) -> anyhow::Result<Option<crate::Schema<'a>>> {
@@ -182,7 +182,7 @@ fn convert_array<'a>(
         Ok(Some(crate::Schema {
             description: description.as_deref(),
             nullable: nullable.unwrap_or_default(),
-            type_: crate::Type::Array(Box::new(convert(items, schemas).context("items")?)),
+            type_: crate::Type::Array(Box::new(parse(items, schemas).context("items")?)),
         }))
     } else {
         Ok(None)
@@ -190,7 +190,7 @@ fn convert_array<'a>(
 }
 
 #[openai_openapi_generator_macros::strict(openapi::Schema)]
-fn convert_map<'a>(
+fn parse_map<'a>(
     schema: &'a openapi::Schema,
     schemas: Schemas<'a>,
 ) -> anyhow::Result<Option<crate::Schema<'a>>> {
@@ -206,7 +206,7 @@ fn convert_map<'a>(
             description: description.as_deref(),
             nullable: nullable.unwrap_or_default(),
             type_: crate::Type::Array(Box::new(
-                convert(additional_properties, schemas).context("additionalProperties")?,
+                parse(additional_properties, schemas).context("additionalProperties")?,
             )),
         }))
     } else {
@@ -215,7 +215,7 @@ fn convert_map<'a>(
 }
 
 #[openai_openapi_generator_macros::strict(openapi::Schema)]
-fn convert_ref<'a>(
+fn parse_ref<'a>(
     schema: &'a openapi::Schema,
     schemas: Schemas<'a>,
 ) -> anyhow::Result<Option<crate::Schema<'a>>> {
@@ -243,7 +243,7 @@ fn convert_ref<'a>(
 }
 
 #[openai_openapi_generator_macros::strict(openapi::Schema)]
-fn convert_enum<'a>(
+fn parse_enum<'a>(
     schema: &'a openapi::Schema,
     schemas: Schemas<'a>,
 ) -> anyhow::Result<Option<crate::Schema<'a>>> {
@@ -271,7 +271,7 @@ fn convert_enum<'a>(
             .iter()
             .enumerate()
             .map(|(i, of)| {
-                convert(of, schemas)
+                parse(of, schemas)
                     .with_context(|| format!("{context}[{i}]"))
                     .map(|of| (of, false))
             })
@@ -318,7 +318,7 @@ fn convert_enum<'a>(
 }
 
 #[openai_openapi_generator_macros::strict(openapi::Schema)]
-fn convert_struct<'a>(
+fn parse_struct<'a>(
     schema: &'a openapi::Schema,
     schemas: Schemas<'a>,
 ) -> anyhow::Result<Option<crate::Schema<'a>>> {
@@ -409,7 +409,7 @@ fn convert_struct<'a>(
                     |(property_name, property, required)| {
                         contexts
                             .into_iter()
-                            .fold(convert(property, schemas), |output, context| {
+                            .fold(parse(property, schemas), |output, context| {
                                 output.context(context)
                             })
                             .map(|schema| crate::Field::Property {

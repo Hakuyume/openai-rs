@@ -1,5 +1,5 @@
-mod convert;
 mod openapi;
+mod parse;
 mod patch;
 mod to_item_enum;
 mod to_item_struct;
@@ -23,7 +23,7 @@ fn main() -> anyhow::Result<()> {
         .schemas
         .iter()
         .map(|(name, schema)| {
-            convert::convert(schema, &document.components.schemas)
+            parse::parse(schema, &document.components.schemas)
                 .with_context(|| name.clone())
                 .map(|schema| (name.as_str(), schema))
         })
