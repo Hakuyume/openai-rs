@@ -133,14 +133,14 @@ pub fn to_item_struct(
                     #(#items_inner)*
                     #[serde_with::serde_as]
                     #[derive(serde::Deserialize)]
-                    struct _D {
+                    struct #ident {
                         #(#fields_inner),*
                     }
-                    let _D {
+                    let #ident {
                         #(#idents_outer,)*
                         ..
-                    } = _D::deserialize(deserializer)?;
-                    Ok(#ident {
+                    } = #ident::deserialize(deserializer)?;
+                    Ok(Self {
                         #(#field_values_outer),*
                     })
                 }
@@ -204,13 +204,13 @@ pub fn to_item_struct(
                     #(#items_inner)*
                     #[serde_with::serde_as]
                     #[derive(serde::Serialize)]
-                    struct _S<'a> {
+                    struct #ident<'a> {
                         #(#fields_inner),*
                     }
-                    let #ident {
+                    let Self {
                         #(#idents_outer),*
                     } = self;
-                    _S { #(#field_values_inner),* }.serialize(serializer)
+                    #ident { #(#field_values_inner),* }.serialize(serializer)
                 }
             }
         });

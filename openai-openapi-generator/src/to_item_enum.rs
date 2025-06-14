@@ -87,15 +87,19 @@ pub fn to_item_enum(
                     }
                 },
             );
-        let arms = variant_info
-            .iter()
-            .map(|VariantInfo { ident, public, .. }| {
+        let arms = variant_info.iter().map(
+            |VariantInfo {
+                 ident: variant_ident,
+                 public,
+                 ..
+             }| {
                 if *public {
-                    quote::quote!(_D::#ident(_v) => Self::#ident(_v))
+                    quote::quote!(#ident::#variant_ident(_v) => Self::#variant_ident(_v))
                 } else {
-                    quote::quote!(_D::#ident(_) => Self::#ident)
+                    quote::quote!(#ident::#variant_ident(_) => Self::#variant_ident)
                 }
-            });
+            },
+        );
         items.push(syn::parse_quote! {
             impl<'de> serde::Deserialize<'de> for #ident {
                 fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -105,10 +109,10 @@ pub fn to_item_enum(
                     #[derive(serde::Deserialize)]
                     #[serde(untagged)]
                     #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-                    enum _D {
+                    enum #ident {
                         #(#variants_inner),*
                     }
-                    Ok(match _D::deserialize(deserializer)? {
+                    Ok(match #ident::deserialize(deserializer)? {
                         #(#arms),*
                     })
                 }
@@ -137,13 +141,27 @@ pub fn to_item_enum(
                 }
             },
         );
-        let arms = variant_info.iter().map(|VariantInfo { ident, public, .. }| {
-            if *public {
-                quote::quote!(Self::#ident(_v) => _S::#ident(_v).serialize(serializer))
-            } else {
-                quote::quote!(Self::#ident => _S::#ident(&Default::default()).serialize(serializer))
-            }
-        });
+        let arms = variant_info.iter().map(
+            |VariantInfo {
+                 ident: variant_ident,
+                 public,
+                 ..
+             }| {
+                if *public {
+                    quote::quote! {
+                        Self::#variant_ident(_v) => {
+                            #ident::#variant_ident(_v).serialize(serializer)
+                        }
+                    }
+                } else {
+                    quote::quote! {
+                        Self::#variant_ident => {
+                            #ident::#variant_ident(&Default::default()).serialize(serializer)
+                        }
+                    }
+                }
+            },
+        );
         items.push(syn::parse_quote! {
             impl serde::Serialize for #ident {
                 fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
@@ -153,7 +171,7 @@ pub fn to_item_enum(
                     #[derive(serde::Serialize)]
                     #[serde(untagged)]
                     #[allow(clippy::enum_variant_names)]
-                    enum _S<'a> {
+                    enum #ident<'a> {
                         #(#variants_inner),*
                     }
                     match self { #(#arms),* }
