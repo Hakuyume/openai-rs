@@ -34,24 +34,29 @@ pub trait StreamRequest: Serialize {
     fn enable_stream(self) -> Self;
 }
 
-pub fn call_stream<F, B, E, R>(
+pub fn call_stream<'a, F, Fut, B, E, R>(
     service: F,
     request: R,
-) -> impl Stream<Item = Result<R::Response, Error<E, B::Error>>>
+) -> impl Stream<Item = Result<R::Response, Error<E, B::Error>>> + 'a
 where
-    F: AsyncFnOnce(http::Request<String>) -> Result<http::Response<B>, E>,
+    F: FnOnce(http::Request<String>) -> Fut,
+    Fut: Future<Output = Result<http::Response<B>, E>> + 'a,
+    E: 'a,
     B: http_body::Body,
+    B::Error: 'a,
     R: StreamRequest,
+    R::Response: 'a,
 {
-    let request = serde_json::to_string(&request.enable_stream()).map(|body| {
+    let response = serde_json::to_string(&request.enable_stream()).map(|body| {
         tracing::debug!(?body);
         http::Request::post(R::PATH)
             .header(CONTENT_LENGTH, body.len())
             .header(CONTENT_TYPE, "application/json")
             .body(body)
+            .map(service)
     });
     async move {
-        let response = service(request??).map_err(Error::Service).await?;
+        let response = response??.map_err(Error::Service).await?;
         let (part, body) = response.into_parts();
         let body = body.map_err(Error::Body);
         if part.status.is_success() {
