@@ -43647,13 +43647,13 @@ impl<'de> serde::Deserialize<'de> for ModelIdsResponses {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum _D {
-            ModelIdsShared(#[allow(dead_code)] ModelIdsShared),
             O1Pro(#[allow(dead_code)] ModelIdsResponsesO1Pro),
             O1Pro2025_03_19(#[allow(dead_code)] ModelIdsResponsesO1Pro2025_03_19),
             ComputerUsePreview(#[allow(dead_code)] ModelIdsResponsesComputerUsePreview),
             ComputerUsePreview2025_03_11(
                 #[allow(dead_code)] ModelIdsResponsesComputerUsePreview2025_03_11,
             ),
+            ModelIdsShared(#[allow(dead_code)] ModelIdsShared),
         }
         Ok(match _D::deserialize(deserializer)? {
             _D::ModelIdsShared(_v) => Self::ModelIdsShared(_v),
@@ -44240,6 +44240,7 @@ impl<'de> serde::Deserialize<'de> for ModelIdsShared {
             Other(#[allow(dead_code)] String),
         }
         Ok(match _D::deserialize(deserializer)? {
+            _D::Other(_v) => Self::Other(_v),
             _D::Gpt4_1(_) => Self::Gpt4_1,
             _D::Gpt4_1Mini(_) => Self::Gpt4_1Mini,
             _D::Gpt4_1Nano(_) => Self::Gpt4_1Nano,
@@ -44293,7 +44294,6 @@ impl<'de> serde::Deserialize<'de> for ModelIdsShared {
             _D::Gpt3_5Turbo1106(_) => Self::Gpt3_5Turbo1106,
             _D::Gpt3_5Turbo0125(_) => Self::Gpt3_5Turbo0125,
             _D::Gpt3_5Turbo16k0613(_) => Self::Gpt3_5Turbo16k0613,
-            _D::Other(_v) => Self::Other(_v),
         })
     }
 }
@@ -44731,6 +44731,7 @@ impl serde::Serialize for ModelIdsShared {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum _S<'a> {
+            Other(#[allow(dead_code)] &'a String),
             Gpt4_1(#[allow(dead_code)] &'a ModelIdsSharedGpt4_1),
             Gpt4_1Mini(#[allow(dead_code)] &'a ModelIdsSharedGpt4_1Mini),
             Gpt4_1Nano(#[allow(dead_code)] &'a ModelIdsSharedGpt4_1Nano),
@@ -44794,9 +44795,9 @@ impl serde::Serialize for ModelIdsShared {
             Gpt3_5Turbo1106(#[allow(dead_code)] &'a ModelIdsSharedGpt3_5Turbo1106),
             Gpt3_5Turbo0125(#[allow(dead_code)] &'a ModelIdsSharedGpt3_5Turbo0125),
             Gpt3_5Turbo16k0613(#[allow(dead_code)] &'a ModelIdsSharedGpt3_5Turbo16k0613),
-            Other(#[allow(dead_code)] &'a String),
         }
         match self {
+            Self::Other(_v) => _S::Other(_v).serialize(serializer),
             Self::Gpt4_1 => _S::Gpt4_1(&Default::default()).serialize(serializer),
             Self::Gpt4_1Mini => _S::Gpt4_1Mini(&Default::default()).serialize(serializer),
             Self::Gpt4_1Nano => _S::Gpt4_1Nano(&Default::default()).serialize(serializer),
@@ -44896,13 +44897,13 @@ impl serde::Serialize for ModelIdsShared {
             Self::Gpt3_5Turbo16k0613 => {
                 _S::Gpt3_5Turbo16k0613(&Default::default()).serialize(serializer)
             }
-            Self::Other(_v) => _S::Other(_v).serialize(serializer),
         }
     }
 }
 #[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum ModelIdsShared {
+    Other(String),
     #[doc = "gpt-4.1"]
     Gpt4_1,
     #[doc = "gpt-4.1-mini"]
@@ -45009,7 +45010,6 @@ pub enum ModelIdsShared {
     Gpt3_5Turbo0125,
     #[doc = "gpt-3.5-turbo-16k-0613"]
     Gpt3_5Turbo16k0613,
-    Other(String),
 }
 impl<'de> serde::Deserialize<'de> for ModelResponseProperties {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -45119,8 +45119,8 @@ impl<'de> serde::Deserialize<'de> for ModifyAssistantRequestModel {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum _D {
-            String(#[allow(dead_code)] String),
             AssistantSupportedModels(#[allow(dead_code)] AssistantSupportedModels),
+            String(#[allow(dead_code)] String),
         }
         Ok(match _D::deserialize(deserializer)? {
             _D::String(_v) => Self::String(_v),
@@ -52664,8 +52664,8 @@ impl<'de> serde::Deserialize<'de> for RealtimeResponseMaxOutputTokens {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum _D {
-            Integer(#[allow(dead_code)] u64),
             Inf(#[allow(dead_code)] RealtimeResponseMaxOutputTokensInf),
+            Integer(#[allow(dead_code)] u64),
         }
         Ok(match _D::deserialize(deserializer)? {
             _D::Integer(_v) => Self::Integer(_v),
@@ -53203,8 +53203,8 @@ impl<'de> serde::Deserialize<'de> for RealtimeResponseCreateParamsMaxResponseOut
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum _D {
-            Integer(#[allow(dead_code)] u64),
             Inf(#[allow(dead_code)] RealtimeResponseCreateParamsMaxResponseOutputTokensInf),
+            Integer(#[allow(dead_code)] u64),
         }
         Ok(match _D::deserialize(deserializer)? {
             _D::Integer(_v) => Self::Integer(_v),
@@ -53278,9 +53278,9 @@ impl<'de> serde::Deserialize<'de> for RealtimeResponseCreateParamsConversation {
             Other(#[allow(dead_code)] String),
         }
         Ok(match _D::deserialize(deserializer)? {
+            _D::Other(_v) => Self::Other(_v),
             _D::Auto(_) => Self::Auto,
             _D::None(_) => Self::None,
-            _D::Other(_v) => Self::Other(_v),
         })
     }
 }
@@ -53310,14 +53310,14 @@ impl serde::Serialize for RealtimeResponseCreateParamsConversation {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum _S<'a> {
+            Other(#[allow(dead_code)] &'a String),
             Auto(#[allow(dead_code)] &'a RealtimeResponseCreateParamsConversationAuto),
             None(#[allow(dead_code)] &'a RealtimeResponseCreateParamsConversationNone),
-            Other(#[allow(dead_code)] &'a String),
         }
         match self {
+            Self::Other(_v) => _S::Other(_v).serialize(serializer),
             Self::Auto => _S::Auto(&Default::default()).serialize(serializer),
             Self::None => _S::None(&Default::default()).serialize(serializer),
-            Self::Other(_v) => _S::Other(_v).serialize(serializer),
         }
     }
 }
@@ -53325,11 +53325,11 @@ impl serde::Serialize for RealtimeResponseCreateParamsConversation {
 #[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeResponseCreateParamsConversation {
+    Other(String),
     #[doc = "auto"]
     Auto,
     #[doc = "none"]
     None,
-    Other(String),
 }
 impl<'de> serde::Deserialize<'de> for RealtimeResponseCreateParams {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -59048,8 +59048,8 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionMaxResponseOutputTokens {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum _D {
-            Integer(#[allow(dead_code)] u64),
             Inf(#[allow(dead_code)] RealtimeSessionMaxResponseOutputTokensInf),
+            Integer(#[allow(dead_code)] u64),
         }
         Ok(match _D::deserialize(deserializer)? {
             _D::Integer(_v) => Self::Integer(_v),
@@ -60427,8 +60427,8 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateRequestMaxResponseOut
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum _D {
-            Integer(#[allow(dead_code)] u64),
             Inf(#[allow(dead_code)] RealtimeSessionCreateRequestMaxResponseOutputTokensInf),
+            Integer(#[allow(dead_code)] u64),
         }
         Ok(match _D::deserialize(deserializer)? {
             _D::Integer(_v) => Self::Integer(_v),
@@ -61043,8 +61043,8 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateResponseMaxResponseOu
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum _D {
-            Integer(#[allow(dead_code)] u64),
             Inf(#[allow(dead_code)] RealtimeSessionCreateResponseMaxResponseOutputTokensInf),
+            Integer(#[allow(dead_code)] u64),
         }
         Ok(match _D::deserialize(deserializer)? {
             _D::Integer(_v) => Self::Integer(_v),
@@ -80573,6 +80573,7 @@ impl<'de> serde::Deserialize<'de> for VoiceIdsShared {
             Other(#[allow(dead_code)] String),
         }
         Ok(match _D::deserialize(deserializer)? {
+            _D::Other(_v) => Self::Other(_v),
             _D::Alloy(_) => Self::Alloy,
             _D::Ash(_) => Self::Ash,
             _D::Ballad(_) => Self::Ballad,
@@ -80584,7 +80585,6 @@ impl<'de> serde::Deserialize<'de> for VoiceIdsShared {
             _D::Sage(_) => Self::Sage,
             _D::Shimmer(_) => Self::Shimmer,
             _D::Verse(_) => Self::Verse,
-            _D::Other(_v) => Self::Other(_v),
         })
     }
 }
@@ -80686,6 +80686,7 @@ impl serde::Serialize for VoiceIdsShared {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum _S<'a> {
+            Other(#[allow(dead_code)] &'a String),
             Alloy(#[allow(dead_code)] &'a VoiceIdsSharedAlloy),
             Ash(#[allow(dead_code)] &'a VoiceIdsSharedAsh),
             Ballad(#[allow(dead_code)] &'a VoiceIdsSharedBallad),
@@ -80697,9 +80698,9 @@ impl serde::Serialize for VoiceIdsShared {
             Sage(#[allow(dead_code)] &'a VoiceIdsSharedSage),
             Shimmer(#[allow(dead_code)] &'a VoiceIdsSharedShimmer),
             Verse(#[allow(dead_code)] &'a VoiceIdsSharedVerse),
-            Other(#[allow(dead_code)] &'a String),
         }
         match self {
+            Self::Other(_v) => _S::Other(_v).serialize(serializer),
             Self::Alloy => _S::Alloy(&Default::default()).serialize(serializer),
             Self::Ash => _S::Ash(&Default::default()).serialize(serializer),
             Self::Ballad => _S::Ballad(&Default::default()).serialize(serializer),
@@ -80711,13 +80712,13 @@ impl serde::Serialize for VoiceIdsShared {
             Self::Sage => _S::Sage(&Default::default()).serialize(serializer),
             Self::Shimmer => _S::Shimmer(&Default::default()).serialize(serializer),
             Self::Verse => _S::Verse(&Default::default()).serialize(serializer),
-            Self::Other(_v) => _S::Other(_v).serialize(serializer),
         }
     }
 }
 #[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum VoiceIdsShared {
+    Other(String),
     #[doc = "alloy"]
     Alloy,
     #[doc = "ash"]
@@ -80740,7 +80741,6 @@ pub enum VoiceIdsShared {
     Shimmer,
     #[doc = "verse"]
     Verse,
-    Other(String),
 }
 impl<'de> serde::Deserialize<'de> for Wait {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>

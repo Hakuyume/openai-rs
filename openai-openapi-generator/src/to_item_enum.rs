@@ -2,7 +2,6 @@ use crate::{
     Field, Schema, Type, is_copy, is_default, to_description, to_ident_pascal, to_serde_as, to_type,
 };
 use indexmap::IndexMap;
-use std::cmp::Ordering;
 use std::collections::HashMap;
 
 pub fn to_item_enum(
@@ -14,6 +13,7 @@ pub fn to_item_enum(
     items: &mut Vec<syn::Item>,
 ) -> syn::Item {
     struct VariantInfo<'a> {
+        const_: bool,
         default: bool,
         description: Option<&'a str>,
         ident: syn::Ident,
@@ -29,15 +29,8 @@ pub fn to_item_enum(
     let vis = public.then_some(quote::quote!(pub));
     let ident = to_ident_pascal(name);
 
-    let mut variants = visit_variants(schema);
-    variants.sort_by(|(a, _), (b, _)| match (&a.type_, &b.type_) {
-        (Type::Const(_), Type::String) => Ordering::Less,
-        (Type::String, Type::Const(_)) => Ordering::Greater,
-        _ => Ordering::Equal,
-    });
-
+    let variants = visit_variants(schema);
     let mut items_inner = Vec::new();
-
     let variant_info = variants
         .iter()
         .zip(variant_names(&variants, schemas))
@@ -48,6 +41,7 @@ pub fn to_item_enum(
                 (true, variant.description)
             };
             VariantInfo {
+                const_: is_const(variant, schemas),
                 default: *default,
                 description,
                 ident: to_ident_pascal(&variant_name),
@@ -65,26 +59,34 @@ pub fn to_item_enum(
         .collect::<Vec<_>>();
 
     {
-        let variants_inner = variant_info.iter().map(
-            |VariantInfo {
-                 ident,
-                 serde_as,
-                 type_,
-                 ..
-             }| {
-                let attr_serde_as = serde_as.as_ref().map(|serde_as| {
-                    quote::quote!(#[serde_as(as = #serde_as)]
-                    )
-                });
-                quote::quote! {
-                    #ident(
-                        #attr_serde_as
-                        #[allow(dead_code)]
-                        #type_
-                    )
-                }
-            },
-        );
+        let variants_inner = variant_info
+            .iter()
+            .filter(|VariantInfo { const_, .. }| *const_)
+            .chain(
+                variant_info
+                    .iter()
+                    .filter(|VariantInfo { const_, .. }| !const_),
+            )
+            .map(
+                |VariantInfo {
+                     ident,
+                     serde_as,
+                     type_,
+                     ..
+                 }| {
+                    let attr_serde_as = serde_as.as_ref().map(|serde_as| {
+                        quote::quote!(#[serde_as(as = #serde_as)]
+                        )
+                    });
+                    quote::quote! {
+                        #ident(
+                            #attr_serde_as
+                            #[allow(dead_code)]
+                            #type_
+                        )
+                    }
+                },
+            );
         let arms = variant_info
             .iter()
             .map(|VariantInfo { ident, public, .. }| {
@@ -214,49 +216,14 @@ fn visit_variants<'a>(schema: &'a Schema<'a>) -> Vec<(&'a Schema<'a>, bool)> {
     }
 }
 
-fn visit_fields<'a>(
-    schema: &'a Schema<'a>,
-    schemas: &'a IndexMap<&'a str, Schema<'a>>,
-) -> Vec<(&'a str, &'a Schema<'a>, bool)> {
+fn is_const(schema: &Schema<'_>, schemas: &IndexMap<&str, Schema<'_>>) -> bool {
     match &schema.type_ {
-        Type::Ref(ref_) => visit_fields(schemas.get(ref_).unwrap(), schemas),
-        Type::Struct(fields) => fields
+        Type::Const(_) => true,
+        Type::Enum(variants) => variants
             .iter()
-            .flat_map(|field| match field {
-                Field::Property {
-                    name,
-                    schema,
-                    required,
-                } => vec![(*name, schema, *required)],
-                Field::Ref(ref_) => visit_fields(schemas.get(ref_).unwrap(), schemas),
-            })
-            .collect(),
-        _ => Vec::new(),
-    }
-}
-
-fn to_type_name<'a>(schema: &'a Schema<'a>) -> Vec<&'a str> {
-    match &schema.type_ {
-        Type::Any => vec!["any"],
-        Type::Array(item) => {
-            let mut hint = to_type_name(item);
-            hint.insert(0, "array");
-            hint
-        }
-        Type::Binary => vec!["bytes"],
-        Type::Boolean => vec!["bool"],
-        Type::Const(value) => vec![value],
-        Type::Float => vec!["float"],
-        Type::Integer => vec!["integer"],
-        Type::Map(item) => {
-            let mut hint = to_type_name(item);
-            hint.insert(0, "map");
-            hint
-        }
-        Type::Number => vec!["number"],
-        Type::Ref(ref_) => vec![ref_],
-        Type::String => vec!["string"],
-        _ => Vec::new(),
+            .all(|(variant, _)| is_const(variant, schemas)),
+        Type::Ref(ref_) => is_const(schemas.get(ref_).unwrap(), schemas),
+        _ => false,
     }
 }
 
@@ -367,4 +334,50 @@ fn variant_names(
         }
     }
     names.into_iter().map(|mut name| name.remove(0)).collect()
+}
+
+fn visit_fields<'a>(
+    schema: &'a Schema<'a>,
+    schemas: &'a IndexMap<&'a str, Schema<'a>>,
+) -> Vec<(&'a str, &'a Schema<'a>, bool)> {
+    match &schema.type_ {
+        Type::Ref(ref_) => visit_fields(schemas.get(ref_).unwrap(), schemas),
+        Type::Struct(fields) => fields
+            .iter()
+            .flat_map(|field| match field {
+                Field::Property {
+                    name,
+                    schema,
+                    required,
+                } => vec![(*name, schema, *required)],
+                Field::Ref(ref_) => visit_fields(schemas.get(ref_).unwrap(), schemas),
+            })
+            .collect(),
+        _ => Vec::new(),
+    }
+}
+
+fn to_type_name<'a>(schema: &'a Schema<'a>) -> Vec<&'a str> {
+    match &schema.type_ {
+        Type::Any => vec!["any"],
+        Type::Array(item) => {
+            let mut hint = to_type_name(item);
+            hint.insert(0, "array");
+            hint
+        }
+        Type::Binary => vec!["bytes"],
+        Type::Boolean => vec!["bool"],
+        Type::Const(value) => vec![value],
+        Type::Float => vec!["float"],
+        Type::Integer => vec!["integer"],
+        Type::Map(item) => {
+            let mut hint = to_type_name(item);
+            hint.insert(0, "map");
+            hint
+        }
+        Type::Number => vec!["number"],
+        Type::Ref(ref_) => vec![ref_],
+        Type::String => vec!["string"],
+        _ => Vec::new(),
+    }
 }
