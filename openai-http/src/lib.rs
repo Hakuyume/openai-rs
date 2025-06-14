@@ -29,25 +29,23 @@ pub struct ApiError {
 }
 
 pub trait StreamRequest: Serialize {
+    const PATH: &'static str;
     type Response: for<'de> Deserialize<'de>;
     fn enable_stream(self) -> Self;
 }
 
-pub fn call_stream<F, B, E, U, R>(
+pub fn call_stream<F, B, E, R>(
     service: F,
-    uri: U,
     request: R,
 ) -> impl Stream<Item = Result<R::Response, Error<E, B::Error>>>
 where
     F: AsyncFnOnce(http::Request<String>) -> Result<http::Response<B>, E>,
     B: http_body::Body,
-    U: TryInto<http::Uri>,
-    U::Error: Into<http::Error>,
     R: StreamRequest,
 {
     let request = serde_json::to_string(&request.enable_stream()).map(|body| {
         tracing::debug!(?body);
-        http::Request::post(uri)
+        http::Request::post(R::PATH)
             .header(CONTENT_LENGTH, body.len())
             .header(CONTENT_TYPE, "application/json")
             .body(body)
@@ -94,6 +92,7 @@ where
 }
 
 impl StreamRequest for openai_openapi_types::CreateChatCompletionRequest {
+    const PATH: &'static str = "/chat/completions";
     type Response = openai_openapi_types::CreateChatCompletionStreamResponse;
     fn enable_stream(mut self) -> Self {
         self.stream = Some(true);
@@ -102,6 +101,7 @@ impl StreamRequest for openai_openapi_types::CreateChatCompletionRequest {
 }
 
 impl StreamRequest for openai_openapi_types::CreateResponse {
+    const PATH: &'static str = "/responses";
     type Response = openai_openapi_types::ResponseStreamEvent;
     fn enable_stream(mut self) -> Self {
         self.stream = Some(true);
