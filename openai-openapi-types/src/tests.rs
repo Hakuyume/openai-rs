@@ -15,7 +15,7 @@ fn test_create_chat_completion_request_default() {
         ],
     });
     let b = crate::CreateChatCompletionRequest::builder()
-        .model(crate::ModelIdsShared::Gpt4_1)
+        .model(crate::ModelIdsShared::ChatModel(crate::ChatModel::Gpt4_1))
         .messages(vec![
             crate::ChatCompletionRequestMessage::Developer(
                 crate::ChatCompletionRequestDeveloperMessage::builder()
@@ -153,6 +153,7 @@ fn test_response_stream_event_stream() {
             // "user": null,
             "metadata": {},
         },
+        "sequence_number": 1,
     });
     let b = crate::ResponseStreamEvent::ResponseCreated(
         crate::ResponseCreatedEvent::builder()
@@ -165,7 +166,9 @@ fn test_response_stream_event_stream() {
                         crate::ResponseProperties::builder()
                             .instructions(Some("You are a helpful assistant.".to_owned()))
                             .model(Some(crate::ModelIdsResponses::ModelIdsShared(
-                                crate::ModelIdsShared::Gpt4_1_2025_04_14,
+                                crate::ModelIdsShared::ChatModel(
+                                    crate::ChatModel::Gpt4_1_2025_04_14,
+                                ),
                             )))
                             .reasoning(Some(crate::Reasoning::builder().build()))
                             .text(Some(
@@ -195,6 +198,7 @@ fn test_response_stream_event_stream() {
                     )
                     .build(),
             )
+            .sequence_number(1)
             .build(),
     );
     assert_eq!(a, serde_json::to_value(&b).unwrap());

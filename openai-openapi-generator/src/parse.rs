@@ -337,6 +337,7 @@ fn parse_struct<'a>(
         description,
         nullable,
         required: required_outer,
+        type_: None | Some(openapi::Type::Object),
     } = schema
     {
         all_of

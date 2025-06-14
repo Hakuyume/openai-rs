@@ -42,6 +42,24 @@ pub fn patch(name: &str, schema: &mut openapi::Schema) {
         }
     }
 
+    if let Some(any_of) = &mut schema.any_of {
+        if let Some(default) = schema.default.take() {
+            for any_of in &mut *any_of {
+                any_of.default = Some(default.clone());
+            }
+        }
+        if let Some(properties) = schema.properties.take() {
+            for any_of in &mut *any_of {
+                any_of.properties = Some(properties.clone());
+            }
+        }
+        if let Some(type_) = schema.type_.take() {
+            for any_of in &mut *any_of {
+                any_of.type_ = Some(type_);
+            }
+        }
+    }
+
     if let openapi::Schema {
         any_of: Some(any_of),
     } = schema
@@ -78,15 +96,21 @@ pub fn patch(name: &str, schema: &mut openapi::Schema) {
     if let openapi::Schema {
         description: Some(description),
         enum_: None,
-        type_: Some(openapi::Type::String),
+        type_: None | Some(openapi::Type::String),
         x_stainless_const: Some(true),
     } = schema
     {
-        if let Some(value) = description
-            .strip_prefix("The object type, which is always `")
-            .and_then(|description| description.strip_suffix('`'))
+        if let Some(caps) = regex::RegexBuilder::new(concat!(
+            r#"^The (?:(?:event|object) type|type of object returned),"#,
+            r#" (?:must be|which is always) `(.+)`\.?\s*$"#,
+        ))
+        .build()
+        .unwrap()
+        .captures(description)
         {
+            let (_, [value]) = caps.extract();
             schema.enum_ = Some(vec![value.to_owned()]);
+            schema.type_ = Some(openapi::Type::String);
         }
     }
 

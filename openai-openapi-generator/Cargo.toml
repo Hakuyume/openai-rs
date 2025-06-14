@@ -10,6 +10,7 @@ heck.workspace = true
 indexmap = { workspace = true, features = ["serde"] }
 openai-openapi-generator-macros.path = "../openai-openapi-generator-macros"
 quote.workspace = true
+regex.workspace = true
 serde = { workspace = true, features = ["derive"] }
 serde_json.workspace = true
 serde_yaml.workspace = true
