@@ -79,16 +79,18 @@ fn test_create_chat_completion_response_default() {
         .id("chatcmpl-B9MBs8CjcvOU2jLn4n570S5qMJKcT".to_owned())
         .created(1741569952)
         .model("gpt-4.1-2025-04-14".to_owned())
-        .choices(vec![crate::CreateChatCompletionResponseChoice::builder()
-            .index(0)
-            .message(
-                crate::ChatCompletionResponseMessage::builder()
-                    .content(Some("Hello! How can I assist you today?".to_owned()))
-                    .annotations(Some(Vec::new()))
-                    .build(),
-            )
-            .finish_reason(crate::CreateChatCompletionResponseChoiceFinishReason::Stop)
-            .build()])
+        .choices(vec![
+            crate::CreateChatCompletionResponseChoice::builder()
+                .index(0)
+                .message(
+                    crate::ChatCompletionResponseMessage::builder()
+                        .content(Some("Hello! How can I assist you today?".to_owned()))
+                        .annotations(Some(Vec::new()))
+                        .build(),
+                )
+                .finish_reason(crate::CreateChatCompletionResponseChoiceFinishReason::Stop)
+                .build(),
+        ])
         .usage(Some(
             crate::CompletionUsage::builder()
                 .prompt_tokens(19)
