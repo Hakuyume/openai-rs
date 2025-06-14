@@ -246,7 +246,6 @@ fn to_type_name<'a>(schema: &'a Schema<'a>) -> Vec<&'a str> {
         Type::Binary => vec!["bytes"],
         Type::Boolean => vec!["bool"],
         Type::Const(value) => vec![value],
-        Type::Enum(_) => Vec::new(),
         Type::Float => vec!["float"],
         Type::Integer => vec!["integer"],
         Type::Map(item) => {
@@ -254,9 +253,10 @@ fn to_type_name<'a>(schema: &'a Schema<'a>) -> Vec<&'a str> {
             hint.insert(0, "map");
             hint
         }
+        Type::Number => vec!["number"],
         Type::Ref(ref_) => vec![ref_],
         Type::String => vec!["string"],
-        Type::Struct(_) => Vec::new(),
+        _ => Vec::new(),
     }
 }
 

@@ -68,6 +68,7 @@ enum Type<'a> {
     Float,
     Integer,
     Map(Box<Schema<'a>>),
+    Number,
     Ref(&'a str),
     String,
     Struct(Vec<Field<'a>>),
@@ -93,45 +94,15 @@ fn to_type(
     match &schema.type_ {
         Type::Any => syn::parse_quote!(serde_json::Value),
         Type::Array(item) => {
-            let vocab = [
-                ("annotation", "annotations"),
-                ("attribute", "attributes"),
-                ("certificate", "certificates"),
-                ("choice", "choices"),
-                ("datum", "data"),
-                ("file", "files"),
-                ("filter", "filters"),
-                ("integration", "integrations"),
-                ("logprob", "logprobs"),
-                ("modality", "modalities"),
-                ("result", "results"),
-                ("store", "stores"),
-                ("tool", "tools"),
-            ];
-            let name = vocab
-                .iter()
-                .find_map(|(singular, plural)| {
-                    name.strip_suffix(&plural.to_pascal_case())
-                        .map(|name| format!("{name}{}", singular.to_pascal_case()))
-                        .or_else(|| {
-                            name.strip_suffix(&format!("_{plural}"))
-                                .map(|name| format!("{name}_{singular}"))
-                        })
-                        .or_else(|| {
-                            name.strip_suffix(&format!(".{plural}"))
-                                .map(|name| format!("{name}.{singular}"))
-                        })
-                })
-                .unwrap_or_else(|| name.to_owned());
-            let type_ = to_type(&name, item, schemas, public, items);
+            let type_ = to_type(&to_singular(name), item, schemas, public, items);
             syn::parse_quote!(Vec<#type_>)
         }
         Type::Binary => syn::parse_quote!(Vec<u8>),
         Type::Boolean => syn::parse_quote!(bool),
-        Type::Float => syn::parse_quote!(f64),
+        Type::Float | Type::Number => syn::parse_quote!(f64),
         Type::Integer => syn::parse_quote!(u64),
         Type::Map(item) => {
-            let type_ = to_type(name, item, schemas, public, items);
+            let type_ = to_type(&to_singular(name), item, schemas, public, items);
             syn::parse_quote!(std::collections::HashMap<String, #type_>)
         }
         Type::Ref(ref_) => {
@@ -194,6 +165,39 @@ fn to_item(
     }
 }
 
+fn to_singular(name: &str) -> String {
+    let vocab = [
+        ("annotation", "annotations"),
+        ("attribute", "attributes"),
+        ("certificate", "certificates"),
+        ("choice", "choices"),
+        ("datum", "data"),
+        ("file", "files"),
+        ("filter", "filters"),
+        ("integration", "integrations"),
+        ("logprob", "logprobs"),
+        ("modality", "modalities"),
+        ("result", "results"),
+        ("store", "stores"),
+        ("tool", "tools"),
+    ];
+    vocab
+        .iter()
+        .find_map(|(singular, plural)| {
+            name.strip_suffix(&plural.to_pascal_case())
+                .map(|name| format!("{name}{}", singular.to_pascal_case()))
+                .or_else(|| {
+                    name.strip_suffix(&format!("_{plural}"))
+                        .map(|name| format!("{name}_{singular}"))
+                })
+                .or_else(|| {
+                    name.strip_suffix(&format!(".{plural}"))
+                        .map(|name| format!("{name}.{singular}"))
+                })
+        })
+        .unwrap_or_else(|| name.to_owned())
+}
+
 fn to_ident_pascal(name: &str) -> syn::Ident {
     let name = name.replace(['-', '.', '[', ']'], "_");
     let name = name.split('_').fold(String::new(), |mut name, part| {
@@ -237,7 +241,7 @@ fn to_description(description: Option<&str>) -> Option<syn::Attribute> {
 
 fn is_copy(schema: &Schema<'_>, schemas: &IndexMap<&str, Schema<'_>>) -> bool {
     match &schema.type_ {
-        Type::Boolean | Type::Const(_) | Type::Float | Type::Integer => true,
+        Type::Boolean | Type::Const(_) | Type::Float | Type::Integer | Type::Number => true,
         Type::Enum(variants) => variants
             .iter()
             .all(|(variant, _)| is_copy(variant, schemas)),
@@ -263,6 +267,15 @@ fn is_default(schema: &Schema<'_>, schemas: &IndexMap<&str, Schema<'_>>) -> bool
         }),
         _ => false,
     }
+}
+
+fn is_nullable(schema: &Schema<'_>, schemas: &IndexMap<&str, Schema<'_>>) -> bool {
+    schema.nullable
+        || if let Type::Ref(ref_) = &schema.type_ {
+            is_nullable(schemas.get(ref_).unwrap(), schemas)
+        } else {
+            false
+        }
 }
 
 fn to_serde_as(schema: &Schema<'_>) -> Option<String> {

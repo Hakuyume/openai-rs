@@ -1,6 +1,6 @@
 use crate::{
-    Field, Schema, Type, is_copy, is_default, to_description, to_ident_pascal, to_ident_snake,
-    to_serde_as, to_type,
+    Field, Schema, Type, is_copy, is_default, is_nullable, to_description, to_ident_pascal,
+    to_ident_snake, to_serde_as, to_type,
 };
 use indexmap::IndexMap;
 
@@ -17,7 +17,8 @@ pub fn to_item_struct(
         description: Option<&'a str>,
         ident: syn::Ident,
         name: Option<&'a str>,
-        option: bool,
+        nullable: bool,
+        optional: bool,
         public: bool,
         serde_as: Option<String>,
         type_: syn::Type,
@@ -39,7 +40,6 @@ pub fn to_item_struct(
                 schema,
                 required,
             } => {
-                let option = schema.nullable || !required;
                 let public = public
                     && (!matches!(
                         schema,
@@ -54,31 +54,17 @@ pub fn to_item_struct(
                     description: schema.description,
                     ident: to_ident_snake(field_name),
                     name: Some(field_name),
-                    option,
+                    nullable: is_nullable(schema, schemas),
+                    optional: !required,
                     public,
-                    serde_as: {
-                        let serde_as = to_serde_as(schema);
-                        if option {
-                            serde_as.map(|serde_as| format!("Option<{serde_as}>"))
-                        } else {
-                            serde_as
-                        }
-                    },
-                    type_: {
-                        let type_ = to_type(
-                            &format!("{name}.{field_name}"),
-                            schema,
-                            schemas,
-                            public,
-                            if public { items } else { &mut items_inner },
-                        );
-
-                        if option {
-                            syn::parse_quote!(Option<#type_>)
-                        } else {
-                            type_
-                        }
-                    },
+                    serde_as: to_serde_as(schema),
+                    type_: to_type(
+                        &format!("{name}.{field_name}"),
+                        schema,
+                        schemas,
+                        public,
+                        if public { items } else { &mut items_inner },
+                    ),
                 }
             }
             Field::Ref(ref_) => FieldInfo {
@@ -86,7 +72,8 @@ pub fn to_item_struct(
                 description: None,
                 ident: to_ident_snake(ref_),
                 name: None,
-                option: false,
+                nullable: is_nullable(schema, schemas),
+                optional: false,
                 public: true,
                 serde_as: to_serde_as(schema),
                 type_: {
@@ -102,18 +89,29 @@ pub fn to_item_struct(
             |FieldInfo {
                  ident,
                  name,
+                 nullable,
+                 optional,
                  serde_as,
                  type_,
                  ..
              }| {
                 let attr_serde_as = serde_as.as_ref().map(|serde_as| {
-                    quote::quote!(#[serde_as(as = #serde_as)]
-                    )
+                    let serde_as = if *nullable || *optional {
+                        format!("Option<{serde_as}>")
+                    } else {
+                        serde_as.clone()
+                    };
+                    quote::quote!(#[serde_as(as = #serde_as)])
                 });
                 let attr_serde_rename = name.map_or_else(
                     || quote::quote!(#[serde(flatten)]),
                     |name| quote::quote!(#[serde(rename = #name)]),
                 );
+                let type_ = if *nullable || *optional {
+                    quote::quote!(Option<#type_>)
+                } else {
+                    quote::quote!(#type_)
+                };
                 quote::quote! {
                     #attr_serde_as
                     #attr_serde_rename
@@ -155,22 +153,32 @@ pub fn to_item_struct(
             |FieldInfo {
                  ident,
                  name,
-                 option,
+                 nullable,
+                 optional,
                  serde_as,
                  type_,
                  ..
              }| {
                 let attr_serde_as = serde_as.as_ref().map(|serde_as| {
-                    quote::quote!(#[serde_as(as = #serde_as)]
-                    )
+                    let serde_as = if *nullable || *optional {
+                        format!("Option<{serde_as}>")
+                    } else {
+                        serde_as.clone()
+                    };
+                    quote::quote!(#[serde_as(as = #serde_as)])
                 });
 
                 let attr_serde_rename = name.map_or_else(
                     || quote::quote!(#[serde(flatten)]),
                     |name| quote::quote!(#[serde(rename = #name)]),
                 );
-                let attr_serde_skip_serializing_if = option
+                let attr_serde_skip_serializing_if = (*optional || *nullable)
                     .then_some(quote::quote!(#[serde(skip_serializing_if = "Option::is_none")]));
+                let type_ = if *nullable || *optional {
+                    quote::quote!(Option<#type_>)
+                } else {
+                    quote::quote!(#type_)
+                };
                 quote::quote! {
                     #attr_serde_as
                     #attr_serde_rename
@@ -214,14 +222,20 @@ pub fn to_item_struct(
                  default,
                  description,
                  ident,
-                 option,
+                 nullable,
+                 optional,
                  public,
                  type_,
                  ..
              }| {
                 let description = to_description(*description);
-                let attr_builder =
-                    (*option || *default).then_some(quote::quote!(#[builder(default)]));
+                let attr_builder = (*default || *nullable || *optional)
+                    .then_some(quote::quote!(#[builder(default)]));
+                let type_ = if *nullable || *optional {
+                    quote::quote!(Option<#type_>)
+                } else {
+                    quote::quote!(#type_)
+                };
                 public.then_some(quote::quote! {
                     #description
                     #attr_builder

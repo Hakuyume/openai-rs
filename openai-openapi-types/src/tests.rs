@@ -79,18 +79,16 @@ fn test_create_chat_completion_response_default() {
         .id("chatcmpl-B9MBs8CjcvOU2jLn4n570S5qMJKcT".to_owned())
         .created(1741569952)
         .model("gpt-4.1-2025-04-14".to_owned())
-        .choices(vec![
-            crate::CreateChatCompletionResponseChoice::builder()
-                .index(0)
-                .message(
-                    crate::ChatCompletionResponseMessage::builder()
-                        .content(Some("Hello! How can I assist you today?".to_owned()))
-                        .annotations(Some(Vec::new()))
-                        .build(),
-                )
-                .finish_reason(crate::CreateChatCompletionResponseChoiceFinishReason::Stop)
-                .build(),
-        ])
+        .choices(vec![crate::CreateChatCompletionResponseChoice::builder()
+            .index(0)
+            .message(
+                crate::ChatCompletionResponseMessage::builder()
+                    .content(Some("Hello! How can I assist you today?".to_owned()))
+                    .annotations(Some(Vec::new()))
+                    .build(),
+            )
+            .finish_reason(crate::CreateChatCompletionResponseChoiceFinishReason::Stop)
+            .build()])
         .usage(Some(
             crate::CompletionUsage::builder()
                 .prompt_tokens(19)
@@ -114,6 +112,91 @@ fn test_create_chat_completion_response_default() {
         ))
         .service_tier(Some(crate::ServiceTier::Default))
         .build();
+    assert_eq!(a, serde_json::to_value(&b).unwrap());
+    assert_eq!(b, serde_json::from_value(a.clone()).unwrap());
+}
+
+// https://platform.openai.com/docs/api-reference/responses
+#[test]
+fn test_response_stream_event_stream() {
+    let a = serde_json::json!({
+        "type": "response.created",
+        "response": {
+            "id": "resp_67c9fdcecf488190bdd9a0409de3a1ec07b8b0ad4e5eb654",
+            "object": "response",
+            "created_at": 1741290958,
+            "status": "in_progress",
+            // "error": null,
+            // "incomplete_details": null,
+            "instructions": "You are a helpful assistant.",
+            // "max_output_tokens": null,
+            "model": "gpt-4.1-2025-04-14",
+            "output": [],
+            "parallel_tool_calls": true,
+            // "previous_response_id": null,
+            "reasoning": {
+                // "effort": null,
+                // "summary": null,
+            },
+            // "store": true,
+            "temperature": 1.0,
+            "text": {
+                "format": {
+                    "type": "text",
+                },
+            },
+            "tool_choice": "auto",
+            "tools": [],
+            "top_p": 1.0,
+            "truncation": "disabled",
+            // "usage": null,
+            // "user": null,
+            "metadata": {},
+        },
+    });
+    let b = crate::ResponseStreamEvent::ResponseCreated(
+        crate::ResponseCreatedEvent::builder()
+            .response(
+                crate::Response::builder()
+                    .id("resp_67c9fdcecf488190bdd9a0409de3a1ec07b8b0ad4e5eb654".to_owned())
+                    .created_at(1741290958)
+                    .status(Some(crate::ResponseStatus::InProgress))
+                    .response_properties(
+                        crate::ResponseProperties::builder()
+                            .instructions(Some("You are a helpful assistant.".to_owned()))
+                            .model(Some(crate::ModelIdsResponses::ModelIdsShared(
+                                crate::ModelIdsShared::Gpt4_1_2025_04_14,
+                            )))
+                            .reasoning(Some(crate::Reasoning::builder().build()))
+                            .text(Some(
+                                crate::ResponsePropertiesText::builder()
+                                    .format(Some(crate::TextResponseFormatConfiguration::Text(
+                                        crate::ResponseFormatText::builder().build(),
+                                    )))
+                                    .build(),
+                            ))
+                            .tool_choice(Some(
+                                crate::ResponsePropertiesToolChoice::ToolChoiceOptions(
+                                    crate::ToolChoiceOptions::Auto,
+                                ),
+                            ))
+                            .tools(Some(Vec::new()))
+                            .truncation(Some(crate::ResponsePropertiesTruncation::Disabled))
+                            .build(),
+                    )
+                    .output(Vec::new())
+                    .parallel_tool_calls(true)
+                    .model_response_properties(
+                        crate::ModelResponseProperties::builder()
+                            .temperature(Some(1.))
+                            .top_p(Some(1.))
+                            .metadata(Some(crate::Metadata::new()))
+                            .build(),
+                    )
+                    .build(),
+            )
+            .build(),
+    );
     assert_eq!(a, serde_json::to_value(&b).unwrap());
     assert_eq!(b, serde_json::from_value(a.clone()).unwrap());
 }

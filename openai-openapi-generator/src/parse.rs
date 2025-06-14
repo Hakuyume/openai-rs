@@ -93,16 +93,14 @@ fn parse_primitive<'a>(schema: &'a openapi::Schema, _: Schemas<'a>) -> Option<cr
             type_: crate::Type::Const(value),
         })
     } else if let openapi::Schema {
-        default: _,
         description,
-        format: None | Some(openapi::Format::Float),
-        nullable,
+        format: Some(openapi::Format::Float),
         type_: Some(openapi::Type::Number),
     } = schema
     {
         Some(crate::Schema {
             description: description.as_deref(),
-            nullable: nullable.unwrap_or_default(),
+            nullable: false,
             type_: crate::Type::Float,
         })
     } else if let openapi::Schema {
@@ -118,6 +116,18 @@ fn parse_primitive<'a>(schema: &'a openapi::Schema, _: Schemas<'a>) -> Option<cr
             description: description.as_deref(),
             nullable: nullable.unwrap_or_default(),
             type_: crate::Type::Integer,
+        })
+    } else if let openapi::Schema {
+        default: _,
+        description,
+        nullable,
+        type_: Some(openapi::Type::Number),
+    } = schema
+    {
+        Some(crate::Schema {
+            description: description.as_deref(),
+            nullable: nullable.unwrap_or_default(),
+            type_: crate::Type::Number,
         })
     } else if let openapi::Schema {
         additional_properties: None | Some(openapi::AdditionalProperties::Bool(true)),
@@ -205,7 +215,7 @@ fn parse_map<'a>(
         Ok(Some(crate::Schema {
             description: description.as_deref(),
             nullable: nullable.unwrap_or_default(),
-            type_: crate::Type::Array(Box::new(
+            type_: crate::Type::Map(Box::new(
                 parse(additional_properties, schemas).context("additionalProperties")?,
             )),
         }))

@@ -90,6 +90,15 @@ pub fn patch(name: &str, schema: &mut openapi::Schema) {
         }
     }
 
+    if schema.description.as_ref().is_some_and(|description| {
+        description.starts_with("Unix timestamp (in seconds)")
+            || description.starts_with("The Unix timestamp (in seconds)")
+    }) && matches!(schema.type_, Some(openapi::Type::Number))
+    {
+        schema.format = Some(openapi::Format::Int64);
+        schema.type_ = Some(openapi::Type::Integer);
+    }
+
     if let Some(items) = &mut schema.items {
         if let Some(required) = schema.required.take() {
             items.required = Some(required.clone());
