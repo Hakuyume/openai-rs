@@ -1,0 +1,16 @@
+[package]
+name = "openai-http"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+futures.workspace = true
+http.workspace = true
+http-body.workspace = true
+http-body-server-sent-events.workspace = true
+http-body-util.workspace = true
+openai-openapi-types.path = "../openai-openapi-types"
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
