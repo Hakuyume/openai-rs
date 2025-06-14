@@ -239,7 +239,7 @@ pub fn to_item_struct(
                 public.then_some(quote::quote! {
                     #description
                     #attr_builder
-                    pub #ident: #type_
+                    #vis #ident: #type_
                 })
             },
         );
