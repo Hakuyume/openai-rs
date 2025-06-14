@@ -222,7 +222,7 @@ fn is_const(schema: &Schema<'_>, schemas: &IndexMap<&str, Schema<'_>>) -> bool {
         Type::Enum(variants) => variants
             .iter()
             .all(|(variant, _)| is_const(variant, schemas)),
-        Type::Ref(ref_) => is_const(schemas.get(ref_).unwrap(), schemas),
+        Type::Ref(ref_) => is_const(&schemas[ref_], schemas),
         _ => false,
     }
 }
@@ -341,7 +341,7 @@ fn visit_fields<'a>(
     schemas: &'a IndexMap<&'a str, Schema<'a>>,
 ) -> Vec<(&'a str, &'a Schema<'a>, bool)> {
     match &schema.type_ {
-        Type::Ref(ref_) => visit_fields(schemas.get(ref_).unwrap(), schemas),
+        Type::Ref(ref_) => visit_fields(&schemas[ref_], schemas),
         Type::Struct(fields) => fields
             .iter()
             .flat_map(|field| match field {
@@ -350,7 +350,7 @@ fn visit_fields<'a>(
                     schema,
                     required,
                 } => vec![(*name, schema, *required)],
-                Field::Ref(ref_) => visit_fields(schemas.get(ref_).unwrap(), schemas),
+                Field::Ref(ref_) => visit_fields(&schemas[ref_], schemas),
             })
             .collect(),
         _ => Vec::new(),

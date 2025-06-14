@@ -68,7 +68,7 @@ pub fn to_item_struct(
                 }
             }
             Field::Ref(ref_) => FieldInfo {
-                default: is_default(schemas.get(ref_).unwrap(), schemas),
+                default: is_default(&schemas[ref_], schemas),
                 description: None,
                 ident: to_ident_snake(ref_),
                 name: None,

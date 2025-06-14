@@ -245,10 +245,10 @@ fn is_copy(schema: &Schema<'_>, schemas: &IndexMap<&str, Schema<'_>>) -> bool {
         Type::Enum(variants) => variants
             .iter()
             .all(|(variant, _)| is_copy(variant, schemas)),
-        Type::Ref(ref_) => is_copy(schemas.get(ref_).unwrap(), schemas),
+        Type::Ref(ref_) => is_copy(&schemas[ref_], schemas),
         Type::Struct(fields) => fields.iter().all(|field| match field {
             Field::Property { schema, .. } => is_copy(schema, schemas),
-            Field::Ref(ref_) => is_copy(schemas.get(ref_).unwrap(), schemas),
+            Field::Ref(ref_) => is_copy(&schemas[ref_], schemas),
         }),
         _ => false,
     }
@@ -258,12 +258,12 @@ fn is_default(schema: &Schema<'_>, schemas: &IndexMap<&str, Schema<'_>>) -> bool
     match &schema.type_ {
         Type::Const(_) => true,
         Type::Enum(variants) => variants.iter().any(|(_, default)| *default),
-        Type::Ref(ref_) => is_default(schemas.get(ref_).unwrap(), schemas),
+        Type::Ref(ref_) => is_default(&schemas[ref_], schemas),
         Type::Struct(fields) => fields.iter().all(|field| match field {
             Field::Property {
                 schema, required, ..
             } => is_default(schema, schemas) || schema.nullable || !required,
-            Field::Ref(ref_) => is_default(schemas.get(ref_).unwrap(), schemas),
+            Field::Ref(ref_) => is_default(&schemas[ref_], schemas),
         }),
         _ => false,
     }
@@ -272,7 +272,7 @@ fn is_default(schema: &Schema<'_>, schemas: &IndexMap<&str, Schema<'_>>) -> bool
 fn is_nullable(schema: &Schema<'_>, schemas: &IndexMap<&str, Schema<'_>>) -> bool {
     schema.nullable
         || if let Type::Ref(ref_) = &schema.type_ {
-            is_nullable(schemas.get(ref_).unwrap(), schemas)
+            is_nullable(&schemas[ref_], schemas)
         } else {
             false
         }
