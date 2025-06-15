@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: cargo test --locked --tests
+      - run: cargo test --locked
 
   openai-openapi-generator:
     runs-on: ubuntu-latest

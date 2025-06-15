@@ -235,6 +235,18 @@ fn to_ident_snake(name: &str) -> syn::Ident {
 fn to_description(description: Option<&str>) -> Option<syn::Attribute> {
     description.map(|description| {
         let description = description.replace("](/", "](https://platform.openai.com/");
+        let description = description.split("```\n").enumerate().fold(
+            String::new(),
+            |mut description, (i, part)| {
+                if i % 2 == 1 {
+                    description.push_str("```text\n");
+                } else if i > 0 {
+                    description.push_str("```\n");
+                }
+                description.push_str(part);
+                description
+            },
+        );
         syn::parse_quote!(#[doc = #description])
     })
 }

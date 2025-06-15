@@ -788,7 +788,7 @@ impl serde::Serialize for AssistantStreamEvent {
         }
     }
 }
-#[doc = "Represents an event emitted when streaming a Run.\n\nEach event in a server-sent events stream has an `event` and `data` property:\n\n```\nevent: thread.created\ndata: {\"id\": \"thread_123\", \"object\": \"thread\", ...}\n```\n\nWe emit events whenever a new object is created, transitions to a new state, or is being\nstreamed in parts (deltas). For example, we emit `thread.run.created` when a new run\nis created, `thread.run.completed` when a run completes, and so on. When an Assistant chooses\nto create a message during a run, we emit a `thread.message.created event`, a\n`thread.message.in_progress` event, many `thread.message.delta` events, and finally a\n`thread.message.completed` event.\n\nWe may add additional events over time, so we recommend handling unknown events gracefully\nin your code. See the [Assistants API quickstart](https://platform.openai.com/docs/assistants/overview) to learn how to\nintegrate the Assistants API with streaming.\n"]
+#[doc = "Represents an event emitted when streaming a Run.\n\nEach event in a server-sent events stream has an `event` and `data` property:\n\n```text\nevent: thread.created\ndata: {\"id\": \"thread_123\", \"object\": \"thread\", ...}\n```\n\nWe emit events whenever a new object is created, transitions to a new state, or is being\nstreamed in parts (deltas). For example, we emit `thread.run.created` when a new run\nis created, `thread.run.completed` when a run completes, and so on. When an Assistant chooses\nto create a message during a run, we emit a `thread.message.created event`, a\n`thread.message.in_progress` event, many `thread.message.delta` events, and finally a\n`thread.message.completed` event.\n\nWe may add additional events over time, so we recommend handling unknown events gracefully\nin your code. See the [Assistants API quickstart](https://platform.openai.com/docs/assistants/overview) to learn how to\nintegrate the Assistants API with streaming.\n"]
 #[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum AssistantStreamEvent {
@@ -29670,7 +29670,7 @@ impl serde::Serialize for Drag {
 #[doc = "A drag action.\n"]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct Drag {
-    #[doc = "An array of coordinates representing the path of the drag action. Coordinates will appear as an array\nof objects, eg\n```\n[\n  { x: 100, y: 200 },\n  { x: 200, y: 300 }\n]\n```\n"]
+    #[doc = "An array of coordinates representing the path of the drag action. Coordinates will appear as an array\nof objects, eg\n```text\n[\n  { x: 100, y: 200 },\n  { x: 200, y: 300 }\n]\n```\n"]
     pub path: Vec<Coordinate>,
 }
 impl<'de> serde::Deserialize<'de> for EasyInputMessageRole {
