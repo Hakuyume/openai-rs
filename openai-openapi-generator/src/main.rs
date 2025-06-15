@@ -234,7 +234,7 @@ fn to_ident_snake(name: &str) -> syn::Ident {
 
 fn to_description(description: Option<&str>) -> Option<syn::Attribute> {
     description.map(|description| {
-        let description = description.replace("](/docs/", "](https://platform.openai.com/docs/");
+        let description = description.replace("](/", "](https://platform.openai.com/");
         syn::parse_quote!(#[doc = #description])
     })
 }
