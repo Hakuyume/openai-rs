@@ -11888,12 +11888,12 @@ impl<'de> serde::Deserialize<'de> for CodeInterpreterToolContainer {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum CodeInterpreterToolContainer {
-            Other(#[allow(dead_code)] String),
+            String(#[allow(dead_code)] String),
             CodeInterpreterToolAuto(#[allow(dead_code)] CodeInterpreterToolAuto),
         }
         Ok(
             match CodeInterpreterToolContainer::deserialize(deserializer)? {
-                CodeInterpreterToolContainer::Other(_v) => Self::Other(_v),
+                CodeInterpreterToolContainer::String(_v) => Self::String(_v),
                 CodeInterpreterToolContainer::CodeInterpreterToolAuto(_v) => {
                     Self::CodeInterpreterToolAuto(_v)
                 }
@@ -11911,11 +11911,11 @@ impl serde::Serialize for CodeInterpreterToolContainer {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum CodeInterpreterToolContainer<'a> {
-            Other(#[allow(dead_code)] &'a String),
+            String(#[allow(dead_code)] &'a String),
             CodeInterpreterToolAuto(#[allow(dead_code)] &'a CodeInterpreterToolAuto),
         }
         match self {
-            Self::Other(_v) => CodeInterpreterToolContainer::Other(_v).serialize(serializer),
+            Self::String(_v) => CodeInterpreterToolContainer::String(_v).serialize(serializer),
             Self::CodeInterpreterToolAuto(_v) => {
                 CodeInterpreterToolContainer::CodeInterpreterToolAuto(_v).serialize(serializer)
             }
@@ -11927,7 +11927,7 @@ impl serde::Serialize for CodeInterpreterToolContainer {
 #[allow(clippy::large_enum_variant)]
 pub enum CodeInterpreterToolContainer {
     #[doc = "The container ID."]
-    Other(String),
+    String(String),
     CodeInterpreterToolAuto(CodeInterpreterToolAuto),
 }
 impl<'de> serde::Deserialize<'de> for CodeInterpreterTool {
@@ -29810,11 +29810,11 @@ impl<'de> serde::Deserialize<'de> for EasyInputMessageContent {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum EasyInputMessageContent {
-            Other(#[allow(dead_code)] String),
+            String(#[allow(dead_code)] String),
             InputMessageContentList(#[allow(dead_code)] InputMessageContentList),
         }
         Ok(match EasyInputMessageContent::deserialize(deserializer)? {
-            EasyInputMessageContent::Other(_v) => Self::Other(_v),
+            EasyInputMessageContent::String(_v) => Self::String(_v),
             EasyInputMessageContent::InputMessageContentList(_v) => {
                 Self::InputMessageContentList(_v)
             }
@@ -29831,11 +29831,11 @@ impl serde::Serialize for EasyInputMessageContent {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum EasyInputMessageContent<'a> {
-            Other(#[allow(dead_code)] &'a String),
+            String(#[allow(dead_code)] &'a String),
             InputMessageContentList(#[allow(dead_code)] &'a InputMessageContentList),
         }
         match self {
-            Self::Other(_v) => EasyInputMessageContent::Other(_v).serialize(serializer),
+            Self::String(_v) => EasyInputMessageContent::String(_v).serialize(serializer),
             Self::InputMessageContentList(_v) => {
                 EasyInputMessageContent::InputMessageContentList(_v).serialize(serializer)
             }
@@ -29847,7 +29847,7 @@ impl serde::Serialize for EasyInputMessageContent {
 #[allow(clippy::large_enum_variant)]
 pub enum EasyInputMessageContent {
     #[doc = "A text input to the model.\n"]
-    Other(String),
+    String(String),
     InputMessageContentList(InputMessageContentList),
 }
 #[doc = "The type of the message input. Always `message`.\n"]

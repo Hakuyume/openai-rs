@@ -321,7 +321,7 @@ fn variant_names(
         .all(|(variant, _)| matches!(&variant.type_, Type::Const(_) | Type::Ref(_) | Type::String))
     {
         for (name, (variant, _)) in names.iter_mut().zip(variants) {
-            if matches!(&variant.type_, Type::String) {
+            if variant.description.is_none() && matches!(&variant.type_, Type::String) {
                 name.push("other".to_owned());
             }
         }
