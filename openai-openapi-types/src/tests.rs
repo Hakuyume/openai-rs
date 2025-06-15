@@ -172,11 +172,11 @@ fn test_response_stream_event_stream() {
                                     crate::ChatModel::Gpt4_1_2025_04_14,
                                 ),
                             )))
-                            .reasoning(Some(crate::Reasoning::builder().build()))
+                            .reasoning(Some(crate::Reasoning::default()))
                             .text(Some(
                                 crate::ResponsePropertiesText::builder()
                                     .format(Some(crate::TextResponseFormatConfiguration::Text(
-                                        crate::ResponseFormatText::builder().build(),
+                                        crate::ResponseFormatText::default(),
                                     )))
                                     .build(),
                             ))
