@@ -206,8 +206,8 @@ fn to_ident_snake(name: &str) -> syn::Ident {
     let name = name.replace(['-', '.', '[', ']'], "_");
     let name = name.to_snake_case();
     let name = match &*name {
-        "static" => "static_",
-        "type" => "type_",
+        "static" => "r#static",
+        "type" => "r#type",
         _ => &name,
     };
     if name.chars().next().is_some_and(char::is_alphabetic) {

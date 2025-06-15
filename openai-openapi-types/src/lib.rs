@@ -154,7 +154,7 @@ impl<'de> serde::Deserialize<'de> for AdminApiKeyOwner {
         struct AdminApiKeyOwner {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: Option<AdminApiKeyOwnerType>,
+            r#type: Option<AdminApiKeyOwnerType>,
             #[serde(rename = "object")]
             #[allow(dead_code)]
             object: Option<AdminApiKeyOwnerObject>,
@@ -172,7 +172,7 @@ impl<'de> serde::Deserialize<'de> for AdminApiKeyOwner {
             role: Option<AdminApiKeyOwnerRole>,
         }
         let AdminApiKeyOwner {
-            type_,
+            r#type,
             object,
             id,
             name,
@@ -181,7 +181,7 @@ impl<'de> serde::Deserialize<'de> for AdminApiKeyOwner {
             ..
         } = AdminApiKeyOwner::deserialize(deserializer)?;
         Ok(Self {
-            type_,
+            r#type,
             object,
             id,
             name,
@@ -200,7 +200,7 @@ impl serde::Serialize for AdminApiKeyOwner {
         struct AdminApiKeyOwner<'a> {
             #[serde(rename = "type")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            type_: &'a Option<AdminApiKeyOwnerType>,
+            r#type: &'a Option<AdminApiKeyOwnerType>,
             #[serde(rename = "object")]
             #[serde(skip_serializing_if = "Option::is_none")]
             object: &'a Option<AdminApiKeyOwnerObject>,
@@ -218,7 +218,7 @@ impl serde::Serialize for AdminApiKeyOwner {
             role: &'a Option<AdminApiKeyOwnerRole>,
         }
         let Self {
-            type_,
+            r#type,
             object,
             id,
             name,
@@ -226,7 +226,7 @@ impl serde::Serialize for AdminApiKeyOwner {
             role,
         } = self;
         AdminApiKeyOwner {
-            type_,
+            r#type,
             object,
             id,
             name,
@@ -240,7 +240,7 @@ impl serde::Serialize for AdminApiKeyOwner {
 pub struct AdminApiKeyOwner {
     #[doc = "Always `user`"]
     #[builder(default)]
-    pub type_: Option<AdminApiKeyOwnerType>,
+    pub r#type: Option<AdminApiKeyOwnerType>,
     #[doc = "The object type, which is always organization.user"]
     #[builder(default)]
     pub object: Option<AdminApiKeyOwnerObject>,
@@ -1045,7 +1045,7 @@ impl<'de> serde::Deserialize<'de> for AssistantToolsCode {
         struct AssistantToolsCode {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: AssistantToolsCodeType,
+            r#type: AssistantToolsCodeType,
         }
         let AssistantToolsCode { .. } = AssistantToolsCode::deserialize(deserializer)?;
         Ok(Self {})
@@ -1060,11 +1060,11 @@ impl serde::Serialize for AssistantToolsCode {
         #[derive(serde :: Serialize)]
         struct AssistantToolsCode<'a> {
             #[serde(rename = "type")]
-            type_: &'a AssistantToolsCodeType,
+            r#type: &'a AssistantToolsCodeType,
         }
         let Self {} = self;
         AssistantToolsCode {
-            type_: &Default::default(),
+            r#type: &Default::default(),
         }
         .serialize(serializer)
     }
@@ -1169,7 +1169,7 @@ impl<'de> serde::Deserialize<'de> for AssistantToolsFileSearch {
         struct AssistantToolsFileSearch {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: AssistantToolsFileSearchType,
+            r#type: AssistantToolsFileSearchType,
             #[serde(rename = "file_search")]
             #[allow(dead_code)]
             file_search: Option<AssistantToolsFileSearchFileSearch>,
@@ -1188,14 +1188,14 @@ impl serde::Serialize for AssistantToolsFileSearch {
         #[derive(serde :: Serialize)]
         struct AssistantToolsFileSearch<'a> {
             #[serde(rename = "type")]
-            type_: &'a AssistantToolsFileSearchType,
+            r#type: &'a AssistantToolsFileSearchType,
             #[serde(rename = "file_search")]
             #[serde(skip_serializing_if = "Option::is_none")]
             file_search: &'a Option<AssistantToolsFileSearchFileSearch>,
         }
         let Self { file_search } = self;
         AssistantToolsFileSearch {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             file_search,
         }
         .serialize(serializer)
@@ -1244,7 +1244,7 @@ impl<'de> serde::Deserialize<'de> for AssistantToolsFileSearchTypeOnly {
         struct AssistantToolsFileSearchTypeOnly {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: AssistantToolsFileSearchTypeOnlyType,
+            r#type: AssistantToolsFileSearchTypeOnlyType,
         }
         let AssistantToolsFileSearchTypeOnly { .. } =
             AssistantToolsFileSearchTypeOnly::deserialize(deserializer)?;
@@ -1260,11 +1260,11 @@ impl serde::Serialize for AssistantToolsFileSearchTypeOnly {
         #[derive(serde :: Serialize)]
         struct AssistantToolsFileSearchTypeOnly<'a> {
             #[serde(rename = "type")]
-            type_: &'a AssistantToolsFileSearchTypeOnlyType,
+            r#type: &'a AssistantToolsFileSearchTypeOnlyType,
         }
         let Self {} = self;
         AssistantToolsFileSearchTypeOnly {
-            type_: &Default::default(),
+            r#type: &Default::default(),
         }
         .serialize(serializer)
     }
@@ -1308,7 +1308,7 @@ impl<'de> serde::Deserialize<'de> for AssistantToolsFunction {
         struct AssistantToolsFunction {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: AssistantToolsFunctionType,
+            r#type: AssistantToolsFunctionType,
             #[serde(rename = "function")]
             #[allow(dead_code)]
             function: FunctionObject,
@@ -1327,13 +1327,13 @@ impl serde::Serialize for AssistantToolsFunction {
         #[derive(serde :: Serialize)]
         struct AssistantToolsFunction<'a> {
             #[serde(rename = "type")]
-            type_: &'a AssistantToolsFunctionType,
+            r#type: &'a AssistantToolsFunctionType,
             #[serde(rename = "function")]
             function: &'a FunctionObject,
         }
         let Self { function } = self;
         AssistantToolsFunction {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             function,
         }
         .serialize(serializer)
@@ -1645,15 +1645,15 @@ impl<'de> serde::Deserialize<'de> for AssistantsNamedToolChoice {
         struct AssistantsNamedToolChoice {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: AssistantsNamedToolChoiceType,
+            r#type: AssistantsNamedToolChoiceType,
             #[serde(rename = "function")]
             #[allow(dead_code)]
             function: Option<AssistantsNamedToolChoiceFunction>,
         }
         let AssistantsNamedToolChoice {
-            type_, function, ..
+            r#type, function, ..
         } = AssistantsNamedToolChoice::deserialize(deserializer)?;
-        Ok(Self { type_, function })
+        Ok(Self { r#type, function })
     }
 }
 impl serde::Serialize for AssistantsNamedToolChoice {
@@ -1665,20 +1665,20 @@ impl serde::Serialize for AssistantsNamedToolChoice {
         #[derive(serde :: Serialize)]
         struct AssistantsNamedToolChoice<'a> {
             #[serde(rename = "type")]
-            type_: &'a AssistantsNamedToolChoiceType,
+            r#type: &'a AssistantsNamedToolChoiceType,
             #[serde(rename = "function")]
             #[serde(skip_serializing_if = "Option::is_none")]
             function: &'a Option<AssistantsNamedToolChoiceFunction>,
         }
-        let Self { type_, function } = self;
-        AssistantsNamedToolChoice { type_, function }.serialize(serializer)
+        let Self { r#type, function } = self;
+        AssistantsNamedToolChoice { r#type, function }.serialize(serializer)
     }
 }
 #[doc = "Specifies a tool the model should use. Use to force the model to call a specific tool."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AssistantsNamedToolChoice {
     #[doc = "The type of the tool. If type is `function`, the function name must be set"]
-    pub type_: AssistantsNamedToolChoiceType,
+    pub r#type: AssistantsNamedToolChoiceType,
     #[builder(default)]
     pub function: Option<AssistantsNamedToolChoiceFunction>,
 }
@@ -3894,7 +3894,7 @@ impl<'de> serde::Deserialize<'de> for AuditLog {
             id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: AuditLogEventType,
+            r#type: AuditLogEventType,
             #[serde(rename = "effective_at")]
             #[allow(dead_code)]
             effective_at: u64,
@@ -3988,7 +3988,7 @@ impl<'de> serde::Deserialize<'de> for AuditLog {
         }
         let AuditLog {
             id,
-            type_,
+            r#type,
             effective_at,
             project,
             actor,
@@ -4023,7 +4023,7 @@ impl<'de> serde::Deserialize<'de> for AuditLog {
         } = AuditLog::deserialize(deserializer)?;
         Ok(Self {
             id,
-            type_,
+            r#type,
             effective_at,
             project,
             actor,
@@ -4068,7 +4068,7 @@ impl serde::Serialize for AuditLog {
             #[serde(rename = "id")]
             id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a AuditLogEventType,
+            r#type: &'a AuditLogEventType,
             #[serde(rename = "effective_at")]
             effective_at: &'a u64,
             #[serde(rename = "project")]
@@ -4160,7 +4160,7 @@ impl serde::Serialize for AuditLog {
         }
         let Self {
             id,
-            type_,
+            r#type,
             effective_at,
             project,
             actor,
@@ -4194,7 +4194,7 @@ impl serde::Serialize for AuditLog {
         } = self;
         AuditLog {
             id,
-            type_,
+            r#type,
             effective_at,
             project,
             actor,
@@ -4234,7 +4234,7 @@ impl serde::Serialize for AuditLog {
 pub struct AuditLog {
     #[doc = "The ID of this log."]
     pub id: String,
-    pub type_: AuditLogEventType,
+    pub r#type: AuditLogEventType,
     #[doc = "The Unix timestamp (in seconds) of the event."]
     pub effective_at: u64,
     #[doc = "The project that the action was scoped to. Absent for actions not scoped to projects."]
@@ -4344,7 +4344,7 @@ impl<'de> serde::Deserialize<'de> for AuditLogActor {
         struct AuditLogActor {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: Option<AuditLogActorType>,
+            r#type: Option<AuditLogActorType>,
             #[serde(rename = "session")]
             #[allow(dead_code)]
             session: Option<AuditLogActorSession>,
@@ -4353,13 +4353,13 @@ impl<'de> serde::Deserialize<'de> for AuditLogActor {
             api_key: Option<AuditLogActorApiKey>,
         }
         let AuditLogActor {
-            type_,
+            r#type,
             session,
             api_key,
             ..
         } = AuditLogActor::deserialize(deserializer)?;
         Ok(Self {
-            type_,
+            r#type,
             session,
             api_key,
         })
@@ -4375,7 +4375,7 @@ impl serde::Serialize for AuditLogActor {
         struct AuditLogActor<'a> {
             #[serde(rename = "type")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            type_: &'a Option<AuditLogActorType>,
+            r#type: &'a Option<AuditLogActorType>,
             #[serde(rename = "session")]
             #[serde(skip_serializing_if = "Option::is_none")]
             session: &'a Option<AuditLogActorSession>,
@@ -4384,12 +4384,12 @@ impl serde::Serialize for AuditLogActor {
             api_key: &'a Option<AuditLogActorApiKey>,
         }
         let Self {
-            type_,
+            r#type,
             session,
             api_key,
         } = self;
         AuditLogActor {
-            type_,
+            r#type,
             session,
             api_key,
         }
@@ -4401,7 +4401,7 @@ impl serde::Serialize for AuditLogActor {
 pub struct AuditLogActor {
     #[doc = "The type of actor. Is either `session` or `api_key`."]
     #[builder(default)]
-    pub type_: Option<AuditLogActorType>,
+    pub r#type: Option<AuditLogActorType>,
     #[builder(default)]
     pub session: Option<AuditLogActorSession>,
     #[builder(default)]
@@ -4430,7 +4430,7 @@ impl<'de> serde::Deserialize<'de> for AuditLogActorApiKey {
             id: Option<String>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: Option<AuditLogActorApiKeyType>,
+            r#type: Option<AuditLogActorApiKeyType>,
             #[serde(rename = "user")]
             #[allow(dead_code)]
             user: Option<AuditLogActorUser>,
@@ -4440,14 +4440,14 @@ impl<'de> serde::Deserialize<'de> for AuditLogActorApiKey {
         }
         let AuditLogActorApiKey {
             id,
-            type_,
+            r#type,
             user,
             service_account,
             ..
         } = AuditLogActorApiKey::deserialize(deserializer)?;
         Ok(Self {
             id,
-            type_,
+            r#type,
             user,
             service_account,
         })
@@ -4466,7 +4466,7 @@ impl serde::Serialize for AuditLogActorApiKey {
             id: &'a Option<String>,
             #[serde(rename = "type")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            type_: &'a Option<AuditLogActorApiKeyType>,
+            r#type: &'a Option<AuditLogActorApiKeyType>,
             #[serde(rename = "user")]
             #[serde(skip_serializing_if = "Option::is_none")]
             user: &'a Option<AuditLogActorUser>,
@@ -4476,13 +4476,13 @@ impl serde::Serialize for AuditLogActorApiKey {
         }
         let Self {
             id,
-            type_,
+            r#type,
             user,
             service_account,
         } = self;
         AuditLogActorApiKey {
             id,
-            type_,
+            r#type,
             user,
             service_account,
         }
@@ -4497,7 +4497,7 @@ pub struct AuditLogActorApiKey {
     pub id: Option<String>,
     #[doc = "The type of API key. Can be either `user` or `service_account`."]
     #[builder(default)]
-    pub type_: Option<AuditLogActorApiKeyType>,
+    pub r#type: Option<AuditLogActorApiKeyType>,
     #[builder(default)]
     pub user: Option<AuditLogActorUser>,
     #[builder(default)]
@@ -4753,7 +4753,7 @@ impl<'de> serde::Deserialize<'de> for AutoChunkingStrategyRequestParam {
         struct AutoChunkingStrategyRequestParam {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: AutoChunkingStrategyRequestParamType,
+            r#type: AutoChunkingStrategyRequestParamType,
         }
         let AutoChunkingStrategyRequestParam { .. } =
             AutoChunkingStrategyRequestParam::deserialize(deserializer)?;
@@ -4769,11 +4769,11 @@ impl serde::Serialize for AutoChunkingStrategyRequestParam {
         #[derive(serde :: Serialize)]
         struct AutoChunkingStrategyRequestParam<'a> {
             #[serde(rename = "type")]
-            type_: &'a AutoChunkingStrategyRequestParamType,
+            r#type: &'a AutoChunkingStrategyRequestParamType,
         }
         let Self {} = self;
         AutoChunkingStrategyRequestParam {
-            type_: &Default::default(),
+            r#type: &Default::default(),
         }
         .serialize(serializer)
     }
@@ -6242,7 +6242,7 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionMessageToolCall {
             id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ChatCompletionMessageToolCallType,
+            r#type: ChatCompletionMessageToolCallType,
             #[serde(rename = "function")]
             #[allow(dead_code)]
             function: ChatCompletionMessageToolCallFunction,
@@ -6263,14 +6263,14 @@ impl serde::Serialize for ChatCompletionMessageToolCall {
             #[serde(rename = "id")]
             id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a ChatCompletionMessageToolCallType,
+            r#type: &'a ChatCompletionMessageToolCallType,
             #[serde(rename = "function")]
             function: &'a ChatCompletionMessageToolCallFunction,
         }
         let Self { id, function } = self;
         ChatCompletionMessageToolCall {
             id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             function,
         }
         .serialize(serializer)
@@ -6375,7 +6375,7 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionMessageToolCallChunk {
             id: Option<String>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: Option<ChatCompletionMessageToolCallChunkType>,
+            r#type: Option<ChatCompletionMessageToolCallChunkType>,
             #[serde(rename = "function")]
             #[allow(dead_code)]
             function: Option<ChatCompletionMessageToolCallChunkFunction>,
@@ -6383,14 +6383,14 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionMessageToolCallChunk {
         let ChatCompletionMessageToolCallChunk {
             index,
             id,
-            type_,
+            r#type,
             function,
             ..
         } = ChatCompletionMessageToolCallChunk::deserialize(deserializer)?;
         Ok(Self {
             index,
             id,
-            type_,
+            r#type,
             function,
         })
     }
@@ -6410,7 +6410,7 @@ impl serde::Serialize for ChatCompletionMessageToolCallChunk {
             id: &'a Option<String>,
             #[serde(rename = "type")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            type_: &'a Option<ChatCompletionMessageToolCallChunkType>,
+            r#type: &'a Option<ChatCompletionMessageToolCallChunkType>,
             #[serde(rename = "function")]
             #[serde(skip_serializing_if = "Option::is_none")]
             function: &'a Option<ChatCompletionMessageToolCallChunkFunction>,
@@ -6418,13 +6418,13 @@ impl serde::Serialize for ChatCompletionMessageToolCallChunk {
         let Self {
             index,
             id,
-            type_,
+            r#type,
             function,
         } = self;
         ChatCompletionMessageToolCallChunk {
             index,
             id,
-            type_,
+            r#type,
             function,
         }
         .serialize(serializer)
@@ -6438,7 +6438,7 @@ pub struct ChatCompletionMessageToolCallChunk {
     pub id: Option<String>,
     #[doc = "The type of the tool. Currently, only `function` is supported."]
     #[builder(default)]
-    pub type_: Option<ChatCompletionMessageToolCallChunkType>,
+    pub r#type: Option<ChatCompletionMessageToolCallChunkType>,
     #[builder(default)]
     pub function: Option<ChatCompletionMessageToolCallChunkFunction>,
 }
@@ -6529,7 +6529,7 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionNamedToolChoice {
         struct ChatCompletionNamedToolChoice {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ChatCompletionNamedToolChoiceType,
+            r#type: ChatCompletionNamedToolChoiceType,
             #[serde(rename = "function")]
             #[allow(dead_code)]
             function: ChatCompletionNamedToolChoiceFunction,
@@ -6548,13 +6548,13 @@ impl serde::Serialize for ChatCompletionNamedToolChoice {
         #[derive(serde :: Serialize)]
         struct ChatCompletionNamedToolChoice<'a> {
             #[serde(rename = "type")]
-            type_: &'a ChatCompletionNamedToolChoiceType,
+            r#type: &'a ChatCompletionNamedToolChoiceType,
             #[serde(rename = "function")]
             function: &'a ChatCompletionNamedToolChoiceFunction,
         }
         let Self { function } = self;
         ChatCompletionNamedToolChoice {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             function,
         }
         .serialize(serializer)
@@ -7276,7 +7276,7 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionRequestMessageContentPartAud
         struct ChatCompletionRequestMessageContentPartAudio {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ChatCompletionRequestMessageContentPartAudioType,
+            r#type: ChatCompletionRequestMessageContentPartAudioType,
             #[serde(rename = "input_audio")]
             #[allow(dead_code)]
             input_audio: ChatCompletionRequestMessageContentPartAudioInputAudio,
@@ -7295,13 +7295,13 @@ impl serde::Serialize for ChatCompletionRequestMessageContentPartAudio {
         #[derive(serde :: Serialize)]
         struct ChatCompletionRequestMessageContentPartAudio<'a> {
             #[serde(rename = "type")]
-            type_: &'a ChatCompletionRequestMessageContentPartAudioType,
+            r#type: &'a ChatCompletionRequestMessageContentPartAudioType,
             #[serde(rename = "input_audio")]
             input_audio: &'a ChatCompletionRequestMessageContentPartAudioInputAudio,
         }
         let Self { input_audio } = self;
         ChatCompletionRequestMessageContentPartAudio {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             input_audio,
         }
         .serialize(serializer)
@@ -7423,7 +7423,7 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionRequestMessageContentPartFil
         struct ChatCompletionRequestMessageContentPartFile {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ChatCompletionRequestMessageContentPartFileType,
+            r#type: ChatCompletionRequestMessageContentPartFileType,
             #[serde(rename = "file")]
             #[allow(dead_code)]
             file: ChatCompletionRequestMessageContentPartFileFile,
@@ -7442,13 +7442,13 @@ impl serde::Serialize for ChatCompletionRequestMessageContentPartFile {
         #[derive(serde :: Serialize)]
         struct ChatCompletionRequestMessageContentPartFile<'a> {
             #[serde(rename = "type")]
-            type_: &'a ChatCompletionRequestMessageContentPartFileType,
+            r#type: &'a ChatCompletionRequestMessageContentPartFileType,
             #[serde(rename = "file")]
             file: &'a ChatCompletionRequestMessageContentPartFileFile,
         }
         let Self { file } = self;
         ChatCompletionRequestMessageContentPartFile {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             file,
         }
         .serialize(serializer)
@@ -7557,7 +7557,7 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionRequestMessageContentPartIma
         struct ChatCompletionRequestMessageContentPartImage {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ChatCompletionRequestMessageContentPartImageType,
+            r#type: ChatCompletionRequestMessageContentPartImageType,
             #[serde(rename = "image_url")]
             #[allow(dead_code)]
             image_url: ChatCompletionRequestMessageContentPartImageImageUrl,
@@ -7576,13 +7576,13 @@ impl serde::Serialize for ChatCompletionRequestMessageContentPartImage {
         #[derive(serde :: Serialize)]
         struct ChatCompletionRequestMessageContentPartImage<'a> {
             #[serde(rename = "type")]
-            type_: &'a ChatCompletionRequestMessageContentPartImageType,
+            r#type: &'a ChatCompletionRequestMessageContentPartImageType,
             #[serde(rename = "image_url")]
             image_url: &'a ChatCompletionRequestMessageContentPartImageImageUrl,
         }
         let Self { image_url } = self;
         ChatCompletionRequestMessageContentPartImage {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             image_url,
         }
         .serialize(serializer)
@@ -7630,7 +7630,7 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionRequestMessageContentPartRef
         struct ChatCompletionRequestMessageContentPartRefusal {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ChatCompletionRequestMessageContentPartRefusalType,
+            r#type: ChatCompletionRequestMessageContentPartRefusalType,
             #[serde(rename = "refusal")]
             #[allow(dead_code)]
             refusal: String,
@@ -7649,13 +7649,13 @@ impl serde::Serialize for ChatCompletionRequestMessageContentPartRefusal {
         #[derive(serde :: Serialize)]
         struct ChatCompletionRequestMessageContentPartRefusal<'a> {
             #[serde(rename = "type")]
-            type_: &'a ChatCompletionRequestMessageContentPartRefusalType,
+            r#type: &'a ChatCompletionRequestMessageContentPartRefusalType,
             #[serde(rename = "refusal")]
             refusal: &'a String,
         }
         let Self { refusal } = self;
         ChatCompletionRequestMessageContentPartRefusal {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             refusal,
         }
         .serialize(serializer)
@@ -7703,7 +7703,7 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionRequestMessageContentPartTex
         struct ChatCompletionRequestMessageContentPartText {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ChatCompletionRequestMessageContentPartTextType,
+            r#type: ChatCompletionRequestMessageContentPartTextType,
             #[serde(rename = "text")]
             #[allow(dead_code)]
             text: String,
@@ -7722,13 +7722,13 @@ impl serde::Serialize for ChatCompletionRequestMessageContentPartText {
         #[derive(serde :: Serialize)]
         struct ChatCompletionRequestMessageContentPartText<'a> {
             #[serde(rename = "type")]
-            type_: &'a ChatCompletionRequestMessageContentPartTextType,
+            r#type: &'a ChatCompletionRequestMessageContentPartTextType,
             #[serde(rename = "text")]
             text: &'a String,
         }
         let Self { text } = self;
         ChatCompletionRequestMessageContentPartText {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             text,
         }
         .serialize(serializer)
@@ -8416,7 +8416,7 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionResponseMessageAnnotation {
         struct ChatCompletionResponseMessageAnnotation {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ChatCompletionResponseMessageAnnotationType,
+            r#type: ChatCompletionResponseMessageAnnotationType,
             #[serde(rename = "url_citation")]
             #[allow(dead_code)]
             url_citation: ChatCompletionResponseMessageAnnotationUrlCitation,
@@ -8435,13 +8435,13 @@ impl serde::Serialize for ChatCompletionResponseMessageAnnotation {
         #[derive(serde :: Serialize)]
         struct ChatCompletionResponseMessageAnnotation<'a> {
             #[serde(rename = "type")]
-            type_: &'a ChatCompletionResponseMessageAnnotationType,
+            r#type: &'a ChatCompletionResponseMessageAnnotationType,
             #[serde(rename = "url_citation")]
             url_citation: &'a ChatCompletionResponseMessageAnnotationUrlCitation,
         }
         let Self { url_citation } = self;
         ChatCompletionResponseMessageAnnotation {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             url_citation,
         }
         .serialize(serializer)
@@ -9144,7 +9144,7 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionTool {
         struct ChatCompletionTool {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ChatCompletionToolType,
+            r#type: ChatCompletionToolType,
             #[serde(rename = "function")]
             #[allow(dead_code)]
             function: FunctionObject,
@@ -9162,13 +9162,13 @@ impl serde::Serialize for ChatCompletionTool {
         #[derive(serde :: Serialize)]
         struct ChatCompletionTool<'a> {
             #[serde(rename = "type")]
-            type_: &'a ChatCompletionToolType,
+            r#type: &'a ChatCompletionToolType,
             #[serde(rename = "function")]
             function: &'a FunctionObject,
         }
         let Self { function } = self;
         ChatCompletionTool {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             function,
         }
         .serialize(serializer)
@@ -9433,7 +9433,7 @@ impl<'de> serde::Deserialize<'de> for Click {
         struct Click {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ClickType,
+            r#type: ClickType,
             #[serde(rename = "button")]
             #[allow(dead_code)]
             button: ClickButton,
@@ -9457,7 +9457,7 @@ impl serde::Serialize for Click {
         #[derive(serde :: Serialize)]
         struct Click<'a> {
             #[serde(rename = "type")]
-            type_: &'a ClickType,
+            r#type: &'a ClickType,
             #[serde(rename = "button")]
             button: &'a ClickButton,
             #[serde(rename = "x")]
@@ -9467,7 +9467,7 @@ impl serde::Serialize for Click {
         }
         let Self { button, x, y } = self;
         Click {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             button,
             x,
             y,
@@ -9567,7 +9567,7 @@ impl<'de> serde::Deserialize<'de> for CodeInterpreterFileOutput {
         struct CodeInterpreterFileOutput {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: CodeInterpreterFileOutputType,
+            r#type: CodeInterpreterFileOutputType,
             #[serde(rename = "files")]
             #[allow(dead_code)]
             files: Vec<CodeInterpreterFileOutputFile>,
@@ -9586,13 +9586,13 @@ impl serde::Serialize for CodeInterpreterFileOutput {
         #[derive(serde :: Serialize)]
         struct CodeInterpreterFileOutput<'a> {
             #[serde(rename = "type")]
-            type_: &'a CodeInterpreterFileOutputType,
+            r#type: &'a CodeInterpreterFileOutputType,
             #[serde(rename = "files")]
             files: &'a Vec<CodeInterpreterFileOutputFile>,
         }
         let Self { files } = self;
         CodeInterpreterFileOutput {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             files,
         }
         .serialize(serializer)
@@ -9640,7 +9640,7 @@ impl<'de> serde::Deserialize<'de> for CodeInterpreterTextOutput {
         struct CodeInterpreterTextOutput {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: CodeInterpreterTextOutputType,
+            r#type: CodeInterpreterTextOutputType,
             #[serde(rename = "logs")]
             #[allow(dead_code)]
             logs: String,
@@ -9659,13 +9659,13 @@ impl serde::Serialize for CodeInterpreterTextOutput {
         #[derive(serde :: Serialize)]
         struct CodeInterpreterTextOutput<'a> {
             #[serde(rename = "type")]
-            type_: &'a CodeInterpreterTextOutputType,
+            r#type: &'a CodeInterpreterTextOutputType,
             #[serde(rename = "logs")]
             logs: &'a String,
         }
         let Self { logs } = self;
         CodeInterpreterTextOutput {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             logs,
         }
         .serialize(serializer)
@@ -9766,7 +9766,7 @@ impl<'de> serde::Deserialize<'de> for CodeInterpreterTool {
         struct CodeInterpreterTool {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: CodeInterpreterToolType,
+            r#type: CodeInterpreterToolType,
             #[serde(rename = "container")]
             #[allow(dead_code)]
             container: CodeInterpreterToolContainer,
@@ -9784,13 +9784,13 @@ impl serde::Serialize for CodeInterpreterTool {
         #[derive(serde :: Serialize)]
         struct CodeInterpreterTool<'a> {
             #[serde(rename = "type")]
-            type_: &'a CodeInterpreterToolType,
+            r#type: &'a CodeInterpreterToolType,
             #[serde(rename = "container")]
             container: &'a CodeInterpreterToolContainer,
         }
         let Self { container } = self;
         CodeInterpreterTool {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             container,
         }
         .serialize(serializer)
@@ -9839,7 +9839,7 @@ impl<'de> serde::Deserialize<'de> for CodeInterpreterToolAuto {
         struct CodeInterpreterToolAuto {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: CodeInterpreterToolAutoType,
+            r#type: CodeInterpreterToolAutoType,
             #[serde(rename = "file_ids")]
             #[allow(dead_code)]
             file_ids: Option<Vec<String>>,
@@ -9858,14 +9858,14 @@ impl serde::Serialize for CodeInterpreterToolAuto {
         #[derive(serde :: Serialize)]
         struct CodeInterpreterToolAuto<'a> {
             #[serde(rename = "type")]
-            type_: &'a CodeInterpreterToolAutoType,
+            r#type: &'a CodeInterpreterToolAutoType,
             #[serde(rename = "file_ids")]
             #[serde(skip_serializing_if = "Option::is_none")]
             file_ids: &'a Option<Vec<String>>,
         }
         let Self { file_ids } = self;
         CodeInterpreterToolAuto {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             file_ids,
         }
         .serialize(serializer)
@@ -9931,7 +9931,7 @@ impl<'de> serde::Deserialize<'de> for CodeInterpreterToolCall {
             id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: CodeInterpreterToolCallType,
+            r#type: CodeInterpreterToolCallType,
             #[serde(rename = "container_id")]
             #[allow(dead_code)]
             container_id: Option<String>,
@@ -9973,7 +9973,7 @@ impl serde::Serialize for CodeInterpreterToolCall {
             #[serde(rename = "id")]
             id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a CodeInterpreterToolCallType,
+            r#type: &'a CodeInterpreterToolCallType,
             #[serde(rename = "container_id")]
             #[serde(skip_serializing_if = "Option::is_none")]
             container_id: &'a Option<String>,
@@ -9993,7 +9993,7 @@ impl serde::Serialize for CodeInterpreterToolCall {
         } = self;
         CodeInterpreterToolCall {
             id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             container_id,
             code,
             status,
@@ -10147,7 +10147,7 @@ impl<'de> serde::Deserialize<'de> for ComparisonFilter {
         struct ComparisonFilter {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ComparisonFilterType,
+            r#type: ComparisonFilterType,
             #[serde(rename = "key")]
             #[allow(dead_code)]
             key: String,
@@ -10156,9 +10156,9 @@ impl<'de> serde::Deserialize<'de> for ComparisonFilter {
             value: ComparisonFilterValue,
         }
         let ComparisonFilter {
-            type_, key, value, ..
+            r#type, key, value, ..
         } = ComparisonFilter::deserialize(deserializer)?;
-        Ok(Self { type_, key, value })
+        Ok(Self { r#type, key, value })
     }
 }
 impl serde::Serialize for ComparisonFilter {
@@ -10170,14 +10170,14 @@ impl serde::Serialize for ComparisonFilter {
         #[derive(serde :: Serialize)]
         struct ComparisonFilter<'a> {
             #[serde(rename = "type")]
-            type_: &'a ComparisonFilterType,
+            r#type: &'a ComparisonFilterType,
             #[serde(rename = "key")]
             key: &'a String,
             #[serde(rename = "value")]
             value: &'a ComparisonFilterValue,
         }
-        let Self { type_, key, value } = self;
-        ComparisonFilter { type_, key, value }.serialize(serializer)
+        let Self { r#type, key, value } = self;
+        ComparisonFilter { r#type, key, value }.serialize(serializer)
     }
 }
 #[doc = "A filter used to compare a specified attribute key to a given value using a defined comparison operation.\n"]
@@ -10185,7 +10185,7 @@ impl serde::Serialize for ComparisonFilter {
 pub struct ComparisonFilter {
     #[doc = "Specifies the comparison operator: `eq`, `ne`, `gt`, `gte`, `lt`, `lte`.\n- `eq`: equals\n- `ne`: not equal\n- `gt`: greater than\n- `gte`: greater than or equal\n- `lt`: less than\n- `lte`: less than or equal\n"]
     #[builder(default)]
-    pub type_: ComparisonFilterType,
+    pub r#type: ComparisonFilterType,
     #[doc = "The key to compare against the value."]
     pub key: String,
     #[doc = "The value to compare against the attribute key; supports string, number, or boolean types."]
@@ -10550,13 +10550,15 @@ impl<'de> serde::Deserialize<'de> for CompoundFilter {
         struct CompoundFilter {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: CompoundFilterType,
+            r#type: CompoundFilterType,
             #[serde(rename = "filters")]
             #[allow(dead_code)]
             filters: Vec<CompoundFilterFilter>,
         }
-        let CompoundFilter { type_, filters, .. } = CompoundFilter::deserialize(deserializer)?;
-        Ok(Self { type_, filters })
+        let CompoundFilter {
+            r#type, filters, ..
+        } = CompoundFilter::deserialize(deserializer)?;
+        Ok(Self { r#type, filters })
     }
 }
 impl serde::Serialize for CompoundFilter {
@@ -10568,19 +10570,19 @@ impl serde::Serialize for CompoundFilter {
         #[derive(serde :: Serialize)]
         struct CompoundFilter<'a> {
             #[serde(rename = "type")]
-            type_: &'a CompoundFilterType,
+            r#type: &'a CompoundFilterType,
             #[serde(rename = "filters")]
             filters: &'a Vec<CompoundFilterFilter>,
         }
-        let Self { type_, filters } = self;
-        CompoundFilter { type_, filters }.serialize(serializer)
+        let Self { r#type, filters } = self;
+        CompoundFilter { r#type, filters }.serialize(serializer)
     }
 }
 #[doc = "Combine multiple filters using `and` or `or`."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CompoundFilter {
     #[doc = "Type of operation: `and` or `or`."]
-    pub type_: CompoundFilterType,
+    pub r#type: CompoundFilterType,
     #[doc = "Array of filters to combine. Items can be `ComparisonFilter` or `CompoundFilter`."]
     pub filters: Vec<CompoundFilterFilter>,
 }
@@ -10700,7 +10702,7 @@ impl<'de> serde::Deserialize<'de> for ComputerScreenshotImage {
         struct ComputerScreenshotImage {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ComputerScreenshotImageType,
+            r#type: ComputerScreenshotImageType,
             #[serde(rename = "image_url")]
             #[allow(dead_code)]
             image_url: Option<String>,
@@ -10723,7 +10725,7 @@ impl serde::Serialize for ComputerScreenshotImage {
         #[derive(serde :: Serialize)]
         struct ComputerScreenshotImage<'a> {
             #[serde(rename = "type")]
-            type_: &'a ComputerScreenshotImageType,
+            r#type: &'a ComputerScreenshotImageType,
             #[serde(rename = "image_url")]
             #[serde(skip_serializing_if = "Option::is_none")]
             image_url: &'a Option<String>,
@@ -10733,7 +10735,7 @@ impl serde::Serialize for ComputerScreenshotImage {
         }
         let Self { image_url, file_id } = self;
         ComputerScreenshotImage {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             image_url,
             file_id,
         }
@@ -10800,7 +10802,7 @@ impl<'de> serde::Deserialize<'de> for ComputerToolCall {
         struct ComputerToolCall {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ComputerToolCallType,
+            r#type: ComputerToolCallType,
             #[serde(rename = "id")]
             #[allow(dead_code)]
             id: String,
@@ -10843,7 +10845,7 @@ impl serde::Serialize for ComputerToolCall {
         #[derive(serde :: Serialize)]
         struct ComputerToolCall<'a> {
             #[serde(rename = "type")]
-            type_: &'a ComputerToolCallType,
+            r#type: &'a ComputerToolCallType,
             #[serde(rename = "id")]
             id: &'a String,
             #[serde(rename = "call_id")]
@@ -10863,7 +10865,7 @@ impl serde::Serialize for ComputerToolCall {
             status,
         } = self;
         ComputerToolCall {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             id,
             call_id,
             action,
@@ -10936,7 +10938,7 @@ impl<'de> serde::Deserialize<'de> for ComputerToolCallOutput {
         struct ComputerToolCallOutput {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ComputerToolCallOutputType,
+            r#type: ComputerToolCallOutputType,
             #[serde(rename = "id")]
             #[allow(dead_code)]
             id: Option<String>,
@@ -10979,7 +10981,7 @@ impl serde::Serialize for ComputerToolCallOutput {
         #[derive(serde :: Serialize)]
         struct ComputerToolCallOutput<'a> {
             #[serde(rename = "type")]
-            type_: &'a ComputerToolCallOutputType,
+            r#type: &'a ComputerToolCallOutputType,
             #[serde(rename = "id")]
             #[serde(skip_serializing_if = "Option::is_none")]
             id: &'a Option<String>,
@@ -11002,7 +11004,7 @@ impl serde::Serialize for ComputerToolCallOutput {
             status,
         } = self;
         ComputerToolCallOutput {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             id,
             call_id,
             acknowledged_safety_checks,
@@ -11963,7 +11965,7 @@ impl<'de> serde::Deserialize<'de>
         struct CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_:
+            r#type:
                 CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAutoType,
         }
         let CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto { .. } = CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto :: deserialize (deserializer) ? ;
@@ -11979,10 +11981,10 @@ impl serde::Serialize
     {
         #[serde_with::serde_as]
         #[derive(serde :: Serialize)]
-        struct CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto < 'a > { # [serde (rename = "type")] type_ : & 'a CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAutoType }
+        struct CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto < 'a > { # [serde (rename = "type")] r#type : & 'a CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAutoType }
         let Self {} = self;
         CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto {
-            type_: &Default::default(),
+            r#type: &Default::default(),
         }
         .serialize(serializer)
     }
@@ -12089,9 +12091,9 @@ impl<'de> serde::Deserialize<'de>
     {
         #[serde_with::serde_as]
         #[derive(serde :: Deserialize)]
-        struct CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic { # [serde (rename = "type")] # [allow (dead_code)] type_ : CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticType , # [serde (rename = "static")] # [allow (dead_code)] static_ : CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticStatic }
-        let CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic { static_ , .. } = CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic :: deserialize (deserializer) ? ;
-        Ok(Self { static_ })
+        struct CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic { # [serde (rename = "type")] # [allow (dead_code)] r#type : CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticType , # [serde (rename = "static")] # [allow (dead_code)] r#static : CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticStatic }
+        let CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic { r#static , .. } = CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic :: deserialize (deserializer) ? ;
+        Ok(Self { r#static })
     }
 }
 impl serde::Serialize
@@ -12103,18 +12105,18 @@ impl serde::Serialize
     {
         #[serde_with::serde_as]
         #[derive(serde :: Serialize)]
-        struct CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic < 'a > { # [serde (rename = "type")] type_ : & 'a CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticType , # [serde (rename = "static")] static_ : & 'a CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticStatic }
-        let Self { static_ } = self;
+        struct CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic < 'a > { # [serde (rename = "type")] r#type : & 'a CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticType , # [serde (rename = "static")] r#static : & 'a CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticStatic }
+        let Self { r#static } = self;
         CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic {
-            type_: &Default::default(),
-            static_,
+            r#type: &Default::default(),
+            r#static,
         }
         .serialize(serializer)
     }
 }
 #[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
 pub struct CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic {
-    pub static_:
+    pub r#static:
         CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticStatic,
 }
 impl<'de> serde::Deserialize<'de>
@@ -12354,7 +12356,7 @@ impl<'de> serde::Deserialize<'de>
         struct CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_:
+            r#type:
                 CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAutoType,
         }
         let CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto { .. } = CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto :: deserialize (deserializer) ? ;
@@ -12370,10 +12372,10 @@ impl serde::Serialize
     {
         #[serde_with::serde_as]
         #[derive(serde :: Serialize)]
-        struct CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto < 'a > { # [serde (rename = "type")] type_ : & 'a CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAutoType }
+        struct CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto < 'a > { # [serde (rename = "type")] r#type : & 'a CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAutoType }
         let Self {} = self;
         CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto {
-            type_: &Default::default(),
+            r#type: &Default::default(),
         }
         .serialize(serializer)
     }
@@ -12480,9 +12482,9 @@ impl<'de> serde::Deserialize<'de>
     {
         #[serde_with::serde_as]
         #[derive(serde :: Deserialize)]
-        struct CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic { # [serde (rename = "type")] # [allow (dead_code)] type_ : CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticType , # [serde (rename = "static")] # [allow (dead_code)] static_ : CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticStatic }
-        let CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic { static_ , .. } = CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic :: deserialize (deserializer) ? ;
-        Ok(Self { static_ })
+        struct CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic { # [serde (rename = "type")] # [allow (dead_code)] r#type : CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticType , # [serde (rename = "static")] # [allow (dead_code)] r#static : CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticStatic }
+        let CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic { r#static , .. } = CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic :: deserialize (deserializer) ? ;
+        Ok(Self { r#static })
     }
 }
 impl serde::Serialize
@@ -12494,18 +12496,18 @@ impl serde::Serialize
     {
         #[serde_with::serde_as]
         #[derive(serde :: Serialize)]
-        struct CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic < 'a > { # [serde (rename = "type")] type_ : & 'a CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticType , # [serde (rename = "static")] static_ : & 'a CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticStatic }
-        let Self { static_ } = self;
+        struct CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic < 'a > { # [serde (rename = "type")] r#type : & 'a CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticType , # [serde (rename = "static")] r#static : & 'a CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticStatic }
+        let Self { r#static } = self;
         CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic {
-            type_: &Default::default(),
-            static_,
+            r#type: &Default::default(),
+            r#static,
         }
         .serialize(serializer)
     }
 }
 #[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
 pub struct CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic {
-    pub static_:
+    pub r#static:
         CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticStatic,
 }
 impl<'de> serde::Deserialize<'de>
@@ -13021,7 +13023,7 @@ impl<'de> serde::Deserialize<'de> for CreateChatCompletionRequestWebSearchOption
         struct CreateChatCompletionRequestWebSearchOptionsUserLocation {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: CreateChatCompletionRequestWebSearchOptionsUserLocationType,
+            r#type: CreateChatCompletionRequestWebSearchOptionsUserLocationType,
             #[serde(rename = "approximate")]
             #[allow(dead_code)]
             approximate: WebSearchLocation,
@@ -13040,13 +13042,13 @@ impl serde::Serialize for CreateChatCompletionRequestWebSearchOptionsUserLocatio
         #[derive(serde :: Serialize)]
         struct CreateChatCompletionRequestWebSearchOptionsUserLocation<'a> {
             #[serde(rename = "type")]
-            type_: &'a CreateChatCompletionRequestWebSearchOptionsUserLocationType,
+            r#type: &'a CreateChatCompletionRequestWebSearchOptionsUserLocationType,
             #[serde(rename = "approximate")]
             approximate: &'a WebSearchLocation,
         }
         let Self { approximate } = self;
         CreateChatCompletionRequestWebSearchOptionsUserLocation {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             approximate,
         }
         .serialize(serializer)
@@ -15633,7 +15635,7 @@ impl<'de> serde::Deserialize<'de> for CreateEvalCompletionsRunDataSourceInputMes
         struct CreateEvalCompletionsRunDataSourceInputMessagesTemplate {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: CreateEvalCompletionsRunDataSourceInputMessagesTemplateType,
+            r#type: CreateEvalCompletionsRunDataSourceInputMessagesTemplateType,
             #[serde(rename = "template")]
             #[allow(dead_code)]
             template: Vec<CreateEvalCompletionsRunDataSourceInputMessagesTemplateTemplate>,
@@ -15652,13 +15654,13 @@ impl serde::Serialize for CreateEvalCompletionsRunDataSourceInputMessagesTemplat
         #[derive(serde :: Serialize)]
         struct CreateEvalCompletionsRunDataSourceInputMessagesTemplate<'a> {
             #[serde(rename = "type")]
-            type_: &'a CreateEvalCompletionsRunDataSourceInputMessagesTemplateType,
+            r#type: &'a CreateEvalCompletionsRunDataSourceInputMessagesTemplateType,
             #[serde(rename = "template")]
             template: &'a Vec<CreateEvalCompletionsRunDataSourceInputMessagesTemplateTemplate>,
         }
         let Self { template } = self;
         CreateEvalCompletionsRunDataSourceInputMessagesTemplate {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             template,
         }
         .serialize(serializer)
@@ -15708,7 +15710,7 @@ impl<'de> serde::Deserialize<'de> for CreateEvalCompletionsRunDataSourceInputMes
         struct CreateEvalCompletionsRunDataSourceInputMessagesItemReference {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: CreateEvalCompletionsRunDataSourceInputMessagesItemReferenceType,
+            r#type: CreateEvalCompletionsRunDataSourceInputMessagesItemReferenceType,
             #[serde(rename = "item_reference")]
             #[allow(dead_code)]
             item_reference: String,
@@ -15729,13 +15731,13 @@ impl serde::Serialize for CreateEvalCompletionsRunDataSourceInputMessagesItemRef
         #[derive(serde :: Serialize)]
         struct CreateEvalCompletionsRunDataSourceInputMessagesItemReference<'a> {
             #[serde(rename = "type")]
-            type_: &'a CreateEvalCompletionsRunDataSourceInputMessagesItemReferenceType,
+            r#type: &'a CreateEvalCompletionsRunDataSourceInputMessagesItemReferenceType,
             #[serde(rename = "item_reference")]
             item_reference: &'a String,
         }
         let Self { item_reference } = self;
         CreateEvalCompletionsRunDataSourceInputMessagesItemReference {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             item_reference,
         }
         .serialize(serializer)
@@ -16062,7 +16064,7 @@ impl<'de> serde::Deserialize<'de> for CreateEvalCompletionsRunDataSource {
         struct CreateEvalCompletionsRunDataSource {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: CreateEvalCompletionsRunDataSourceType,
+            r#type: CreateEvalCompletionsRunDataSourceType,
             #[serde(rename = "input_messages")]
             #[allow(dead_code)]
             input_messages: Option<CreateEvalCompletionsRunDataSourceInputMessages>,
@@ -16100,7 +16102,7 @@ impl serde::Serialize for CreateEvalCompletionsRunDataSource {
         #[derive(serde :: Serialize)]
         struct CreateEvalCompletionsRunDataSource<'a> {
             #[serde(rename = "type")]
-            type_: &'a CreateEvalCompletionsRunDataSourceType,
+            r#type: &'a CreateEvalCompletionsRunDataSourceType,
             #[serde(rename = "input_messages")]
             #[serde(skip_serializing_if = "Option::is_none")]
             input_messages: &'a Option<CreateEvalCompletionsRunDataSourceInputMessages>,
@@ -16120,7 +16122,7 @@ impl serde::Serialize for CreateEvalCompletionsRunDataSource {
             source,
         } = self;
         CreateEvalCompletionsRunDataSource {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             input_messages,
             sampling_params,
             model,
@@ -16180,7 +16182,7 @@ impl<'de> serde::Deserialize<'de> for CreateEvalCustomDataSourceConfig {
         struct CreateEvalCustomDataSourceConfig {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: CreateEvalCustomDataSourceConfigType,
+            r#type: CreateEvalCustomDataSourceConfigType,
             #[serde(rename = "item_schema")]
             #[allow(dead_code)]
             item_schema: std::collections::HashMap<String, serde_json::Value>,
@@ -16208,7 +16210,7 @@ impl serde::Serialize for CreateEvalCustomDataSourceConfig {
         #[derive(serde :: Serialize)]
         struct CreateEvalCustomDataSourceConfig<'a> {
             #[serde(rename = "type")]
-            type_: &'a CreateEvalCustomDataSourceConfigType,
+            r#type: &'a CreateEvalCustomDataSourceConfigType,
             #[serde(rename = "item_schema")]
             item_schema: &'a std::collections::HashMap<String, serde_json::Value>,
             #[serde(rename = "include_sample_schema")]
@@ -16220,7 +16222,7 @@ impl serde::Serialize for CreateEvalCustomDataSourceConfig {
             include_sample_schema,
         } = self;
         CreateEvalCustomDataSourceConfig {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             item_schema,
             include_sample_schema,
         }
@@ -16410,7 +16412,7 @@ impl<'de> serde::Deserialize<'de> for CreateEvalJsonlRunDataSource {
         struct CreateEvalJsonlRunDataSource {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: CreateEvalJsonlRunDataSourceType,
+            r#type: CreateEvalJsonlRunDataSourceType,
             #[serde(rename = "source")]
             #[allow(dead_code)]
             source: CreateEvalJsonlRunDataSourceSource,
@@ -16429,13 +16431,13 @@ impl serde::Serialize for CreateEvalJsonlRunDataSource {
         #[derive(serde :: Serialize)]
         struct CreateEvalJsonlRunDataSource<'a> {
             #[serde(rename = "type")]
-            type_: &'a CreateEvalJsonlRunDataSourceType,
+            r#type: &'a CreateEvalJsonlRunDataSourceType,
             #[serde(rename = "source")]
             source: &'a CreateEvalJsonlRunDataSourceSource,
         }
         let Self { source } = self;
         CreateEvalJsonlRunDataSource {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             source,
         }
         .serialize(serializer)
@@ -16484,7 +16486,7 @@ impl<'de> serde::Deserialize<'de> for CreateEvalLabelModelGrader {
         struct CreateEvalLabelModelGrader {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: CreateEvalLabelModelGraderType,
+            r#type: CreateEvalLabelModelGraderType,
             #[serde(rename = "name")]
             #[allow(dead_code)]
             name: String,
@@ -16527,7 +16529,7 @@ impl serde::Serialize for CreateEvalLabelModelGrader {
         #[derive(serde :: Serialize)]
         struct CreateEvalLabelModelGrader<'a> {
             #[serde(rename = "type")]
-            type_: &'a CreateEvalLabelModelGraderType,
+            r#type: &'a CreateEvalLabelModelGraderType,
             #[serde(rename = "name")]
             name: &'a String,
             #[serde(rename = "model")]
@@ -16547,7 +16549,7 @@ impl serde::Serialize for CreateEvalLabelModelGrader {
             passing_labels,
         } = self;
         CreateEvalLabelModelGrader {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             name,
             model,
             input,
@@ -16608,7 +16610,7 @@ impl<'de> serde::Deserialize<'de> for CreateEvalLogsDataSourceConfig {
         struct CreateEvalLogsDataSourceConfig {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: CreateEvalLogsDataSourceConfigType,
+            r#type: CreateEvalLogsDataSourceConfigType,
             #[serde(rename = "metadata")]
             #[allow(dead_code)]
             metadata: Option<std::collections::HashMap<String, serde_json::Value>>,
@@ -16627,14 +16629,14 @@ impl serde::Serialize for CreateEvalLogsDataSourceConfig {
         #[derive(serde :: Serialize)]
         struct CreateEvalLogsDataSourceConfig<'a> {
             #[serde(rename = "type")]
-            type_: &'a CreateEvalLogsDataSourceConfigType,
+            r#type: &'a CreateEvalLogsDataSourceConfigType,
             #[serde(rename = "metadata")]
             #[serde(skip_serializing_if = "Option::is_none")]
             metadata: &'a Option<std::collections::HashMap<String, serde_json::Value>>,
         }
         let Self { metadata } = self;
         CreateEvalLogsDataSourceConfig {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             metadata,
         }
         .serialize(serializer)
@@ -17027,7 +17029,7 @@ impl<'de> serde::Deserialize<'de> for CreateEvalResponsesRunDataSourceInputMessa
         struct CreateEvalResponsesRunDataSourceInputMessagesTemplate {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: CreateEvalResponsesRunDataSourceInputMessagesTemplateType,
+            r#type: CreateEvalResponsesRunDataSourceInputMessagesTemplateType,
             #[serde(rename = "template")]
             #[allow(dead_code)]
             template: Vec<CreateEvalResponsesRunDataSourceInputMessagesTemplateTemplate>,
@@ -17046,13 +17048,13 @@ impl serde::Serialize for CreateEvalResponsesRunDataSourceInputMessagesTemplate 
         #[derive(serde :: Serialize)]
         struct CreateEvalResponsesRunDataSourceInputMessagesTemplate<'a> {
             #[serde(rename = "type")]
-            type_: &'a CreateEvalResponsesRunDataSourceInputMessagesTemplateType,
+            r#type: &'a CreateEvalResponsesRunDataSourceInputMessagesTemplateType,
             #[serde(rename = "template")]
             template: &'a Vec<CreateEvalResponsesRunDataSourceInputMessagesTemplateTemplate>,
         }
         let Self { template } = self;
         CreateEvalResponsesRunDataSourceInputMessagesTemplate {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             template,
         }
         .serialize(serializer)
@@ -17102,7 +17104,7 @@ impl<'de> serde::Deserialize<'de> for CreateEvalResponsesRunDataSourceInputMessa
         struct CreateEvalResponsesRunDataSourceInputMessagesItemReference {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: CreateEvalResponsesRunDataSourceInputMessagesItemReferenceType,
+            r#type: CreateEvalResponsesRunDataSourceInputMessagesItemReferenceType,
             #[serde(rename = "item_reference")]
             #[allow(dead_code)]
             item_reference: String,
@@ -17121,13 +17123,13 @@ impl serde::Serialize for CreateEvalResponsesRunDataSourceInputMessagesItemRefer
         #[derive(serde :: Serialize)]
         struct CreateEvalResponsesRunDataSourceInputMessagesItemReference<'a> {
             #[serde(rename = "type")]
-            type_: &'a CreateEvalResponsesRunDataSourceInputMessagesItemReferenceType,
+            r#type: &'a CreateEvalResponsesRunDataSourceInputMessagesItemReferenceType,
             #[serde(rename = "item_reference")]
             item_reference: &'a String,
         }
         let Self { item_reference } = self;
         CreateEvalResponsesRunDataSourceInputMessagesItemReference {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             item_reference,
         }
         .serialize(serializer)
@@ -17416,7 +17418,7 @@ impl<'de> serde::Deserialize<'de> for CreateEvalResponsesRunDataSource {
         struct CreateEvalResponsesRunDataSource {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: CreateEvalResponsesRunDataSourceType,
+            r#type: CreateEvalResponsesRunDataSourceType,
             #[serde(rename = "input_messages")]
             #[allow(dead_code)]
             input_messages: Option<CreateEvalResponsesRunDataSourceInputMessages>,
@@ -17454,7 +17456,7 @@ impl serde::Serialize for CreateEvalResponsesRunDataSource {
         #[derive(serde :: Serialize)]
         struct CreateEvalResponsesRunDataSource<'a> {
             #[serde(rename = "type")]
-            type_: &'a CreateEvalResponsesRunDataSourceType,
+            r#type: &'a CreateEvalResponsesRunDataSourceType,
             #[serde(rename = "input_messages")]
             #[serde(skip_serializing_if = "Option::is_none")]
             input_messages: &'a Option<CreateEvalResponsesRunDataSourceInputMessages>,
@@ -17474,7 +17476,7 @@ impl serde::Serialize for CreateEvalResponsesRunDataSource {
             source,
         } = self;
         CreateEvalResponsesRunDataSource {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             input_messages,
             sampling_params,
             model,
@@ -17661,7 +17663,7 @@ impl<'de> serde::Deserialize<'de> for CreateEvalStoredCompletionsDataSourceConfi
         struct CreateEvalStoredCompletionsDataSourceConfig {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: CreateEvalStoredCompletionsDataSourceConfigType,
+            r#type: CreateEvalStoredCompletionsDataSourceConfigType,
             #[serde(rename = "metadata")]
             #[allow(dead_code)]
             metadata: Option<std::collections::HashMap<String, serde_json::Value>>,
@@ -17680,14 +17682,14 @@ impl serde::Serialize for CreateEvalStoredCompletionsDataSourceConfig {
         #[derive(serde :: Serialize)]
         struct CreateEvalStoredCompletionsDataSourceConfig<'a> {
             #[serde(rename = "type")]
-            type_: &'a CreateEvalStoredCompletionsDataSourceConfigType,
+            r#type: &'a CreateEvalStoredCompletionsDataSourceConfigType,
             #[serde(rename = "metadata")]
             #[serde(skip_serializing_if = "Option::is_none")]
             metadata: &'a Option<std::collections::HashMap<String, serde_json::Value>>,
         }
         let Self { metadata } = self;
         CreateEvalStoredCompletionsDataSourceConfig {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             metadata,
         }
         .serialize(serializer)
@@ -18219,14 +18221,14 @@ impl<'de> serde::Deserialize<'de> for CreateFineTuningJobRequestIntegration {
         struct CreateFineTuningJobRequestIntegration {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: CreateFineTuningJobRequestIntegrationType,
+            r#type: CreateFineTuningJobRequestIntegrationType,
             #[serde(rename = "wandb")]
             #[allow(dead_code)]
             wandb: CreateFineTuningJobRequestIntegrationWandb,
         }
-        let CreateFineTuningJobRequestIntegration { type_, wandb, .. } =
+        let CreateFineTuningJobRequestIntegration { r#type, wandb, .. } =
             CreateFineTuningJobRequestIntegration::deserialize(deserializer)?;
-        Ok(Self { type_, wandb })
+        Ok(Self { r#type, wandb })
     }
 }
 impl serde::Serialize for CreateFineTuningJobRequestIntegration {
@@ -18238,18 +18240,18 @@ impl serde::Serialize for CreateFineTuningJobRequestIntegration {
         #[derive(serde :: Serialize)]
         struct CreateFineTuningJobRequestIntegration<'a> {
             #[serde(rename = "type")]
-            type_: &'a CreateFineTuningJobRequestIntegrationType,
+            r#type: &'a CreateFineTuningJobRequestIntegrationType,
             #[serde(rename = "wandb")]
             wandb: &'a CreateFineTuningJobRequestIntegrationWandb,
         }
-        let Self { type_, wandb } = self;
-        CreateFineTuningJobRequestIntegration { type_, wandb }.serialize(serializer)
+        let Self { r#type, wandb } = self;
+        CreateFineTuningJobRequestIntegration { r#type, wandb }.serialize(serializer)
     }
 }
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateFineTuningJobRequestIntegration {
     #[doc = "The type of integration to enable. Currently, only \"wandb\" (Weights and Biases) is supported.\n"]
-    pub type_: CreateFineTuningJobRequestIntegrationType,
+    pub r#type: CreateFineTuningJobRequestIntegrationType,
     #[doc = "The settings for your integration with Weights and Biases. This payload specifies the project that\nmetrics will be sent to. Optionally, you can set an explicit display name for your run, add tags\nto your run, and set a default entity (team, username, etc) to be associated with your run.\n"]
     pub wandb: CreateFineTuningJobRequestIntegrationWandb,
 }
@@ -21523,7 +21525,7 @@ impl<'de> serde::Deserialize<'de>
         struct CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAutoType,
+            r#type: CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAutoType,
         }
         let CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto { .. } = CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto :: deserialize (deserializer) ? ;
         Ok(Self {})
@@ -21540,12 +21542,12 @@ impl serde::Serialize
         #[derive(serde :: Serialize)]
         struct CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto<'a> {
             #[serde(rename = "type")]
-            type_:
+            r#type:
                 &'a CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAutoType,
         }
         let Self {} = self;
         CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto {
-            type_: &Default::default(),
+            r#type: &Default::default(),
         }
         .serialize(serializer)
     }
@@ -21655,14 +21657,15 @@ impl<'de> serde::Deserialize<'de>
         struct CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticType,
+            r#type:
+                CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticType,
             #[serde(rename = "static")]
             #[allow(dead_code)]
-            static_:
+            r#static:
                 CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticStatic,
         }
-        let CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic { static_ , .. } = CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic :: deserialize (deserializer) ? ;
-        Ok(Self { static_ })
+        let CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic { r#static , .. } = CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic :: deserialize (deserializer) ? ;
+        Ok(Self { r#static })
     }
 }
 impl serde::Serialize
@@ -21674,18 +21677,19 @@ impl serde::Serialize
     {
         #[serde_with::serde_as]
         #[derive(serde :: Serialize)]
-        struct CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic < 'a > { # [serde (rename = "type")] type_ : & 'a CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticType , # [serde (rename = "static")] static_ : & 'a CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticStatic }
-        let Self { static_ } = self;
+        struct CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic < 'a > { # [serde (rename = "type")] r#type : & 'a CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticType , # [serde (rename = "static")] r#static : & 'a CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticStatic }
+        let Self { r#static } = self;
         CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic {
-            type_: &Default::default(),
-            static_,
+            r#type: &Default::default(),
+            r#static,
         }
         .serialize(serializer)
     }
 }
 #[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
 pub struct CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic {
-    pub static_: CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticStatic,
+    pub r#static:
+        CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticStatic,
 }
 impl<'de> serde::Deserialize<'de>
     for CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategy
@@ -21928,7 +21932,7 @@ impl<'de> serde::Deserialize<'de>
         struct CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAutoType,
+            r#type: CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAutoType,
         }
         let CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto { .. } = CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto :: deserialize (deserializer) ? ;
         Ok(Self {})
@@ -21945,12 +21949,12 @@ impl serde::Serialize
         #[derive(serde :: Serialize)]
         struct CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto<'a> {
             #[serde(rename = "type")]
-            type_:
+            r#type:
                 &'a CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAutoType,
         }
         let Self {} = self;
         CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto {
-            type_: &Default::default(),
+            r#type: &Default::default(),
         }
         .serialize(serializer)
     }
@@ -22060,14 +22064,15 @@ impl<'de> serde::Deserialize<'de>
         struct CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticType,
+            r#type:
+                CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticType,
             #[serde(rename = "static")]
             #[allow(dead_code)]
-            static_:
+            r#static:
                 CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticStatic,
         }
-        let CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic { static_ , .. } = CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic :: deserialize (deserializer) ? ;
-        Ok(Self { static_ })
+        let CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic { r#static , .. } = CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic :: deserialize (deserializer) ? ;
+        Ok(Self { r#static })
     }
 }
 impl serde::Serialize
@@ -22079,18 +22084,19 @@ impl serde::Serialize
     {
         #[serde_with::serde_as]
         #[derive(serde :: Serialize)]
-        struct CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic < 'a > { # [serde (rename = "type")] type_ : & 'a CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticType , # [serde (rename = "static")] static_ : & 'a CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticStatic }
-        let Self { static_ } = self;
+        struct CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic < 'a > { # [serde (rename = "type")] r#type : & 'a CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticType , # [serde (rename = "static")] r#static : & 'a CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticStatic }
+        let Self { r#static } = self;
         CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic {
-            type_: &Default::default(),
-            static_,
+            r#type: &Default::default(),
+            r#static,
         }
         .serialize(serializer)
     }
 }
 #[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
 pub struct CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic {
-    pub static_: CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticStatic,
+    pub r#static:
+        CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticStatic,
 }
 impl<'de> serde::Deserialize<'de>
     for CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategy
@@ -24304,7 +24310,7 @@ impl<'de> serde::Deserialize<'de> for DoubleClick {
         struct DoubleClick {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: DoubleClickType,
+            r#type: DoubleClickType,
             #[serde(rename = "x")]
             #[allow(dead_code)]
             x: u64,
@@ -24325,7 +24331,7 @@ impl serde::Serialize for DoubleClick {
         #[derive(serde :: Serialize)]
         struct DoubleClick<'a> {
             #[serde(rename = "type")]
-            type_: &'a DoubleClickType,
+            r#type: &'a DoubleClickType,
             #[serde(rename = "x")]
             x: &'a u64,
             #[serde(rename = "y")]
@@ -24333,7 +24339,7 @@ impl serde::Serialize for DoubleClick {
         }
         let Self { x, y } = self;
         DoubleClick {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             x,
             y,
         }
@@ -24385,7 +24391,7 @@ impl<'de> serde::Deserialize<'de> for Drag {
         struct Drag {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: DragType,
+            r#type: DragType,
             #[serde(rename = "path")]
             #[allow(dead_code)]
             path: Vec<Coordinate>,
@@ -24403,13 +24409,13 @@ impl serde::Serialize for Drag {
         #[derive(serde :: Serialize)]
         struct Drag<'a> {
             #[serde(rename = "type")]
-            type_: &'a DragType,
+            r#type: &'a DragType,
             #[serde(rename = "path")]
             path: &'a Vec<Coordinate>,
         }
         let Self { path } = self;
         Drag {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             path,
         }
         .serialize(serializer)
@@ -24528,18 +24534,18 @@ impl<'de> serde::Deserialize<'de> for EasyInputMessage {
             content: EasyInputMessageContent,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: Option<EasyInputMessageType>,
+            r#type: Option<EasyInputMessageType>,
         }
         let EasyInputMessage {
             role,
             content,
-            type_,
+            r#type,
             ..
         } = EasyInputMessage::deserialize(deserializer)?;
         Ok(Self {
             role,
             content,
-            type_,
+            r#type,
         })
     }
 }
@@ -24557,17 +24563,17 @@ impl serde::Serialize for EasyInputMessage {
             content: &'a EasyInputMessageContent,
             #[serde(rename = "type")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            type_: &'a Option<EasyInputMessageType>,
+            r#type: &'a Option<EasyInputMessageType>,
         }
         let Self {
             role,
             content,
-            type_,
+            r#type,
         } = self;
         EasyInputMessage {
             role,
             content,
-            type_,
+            r#type,
         }
         .serialize(serializer)
     }
@@ -24581,7 +24587,7 @@ pub struct EasyInputMessage {
     pub content: EasyInputMessageContent,
     #[doc = "The type of the message input. Always `message`.\n"]
     #[builder(default)]
-    pub type_: Option<EasyInputMessageType>,
+    pub r#type: Option<EasyInputMessageType>,
 }
 impl<'de> serde::Deserialize<'de> for EmbeddingObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -24685,20 +24691,20 @@ impl<'de> serde::Deserialize<'de> for Error {
             param: Option<String>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: String,
+            r#type: String,
         }
         let Error {
             code,
             message,
             param,
-            type_,
+            r#type,
             ..
         } = Error::deserialize(deserializer)?;
         Ok(Self {
             code,
             message,
             param,
-            type_,
+            r#type,
         })
     }
 }
@@ -24719,19 +24725,19 @@ impl serde::Serialize for Error {
             #[serde(skip_serializing_if = "Option::is_none")]
             param: &'a Option<String>,
             #[serde(rename = "type")]
-            type_: &'a String,
+            r#type: &'a String,
         }
         let Self {
             code,
             message,
             param,
-            type_,
+            r#type,
         } = self;
         Error {
             code,
             message,
             param,
-            type_,
+            r#type,
         }
         .serialize(serializer)
     }
@@ -24743,7 +24749,7 @@ pub struct Error {
     pub message: String,
     #[builder(default)]
     pub param: Option<String>,
-    pub type_: String,
+    pub r#type: String,
 }
 impl<'de> serde::Deserialize<'de> for ErrorEventEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -25180,7 +25186,7 @@ impl<'de> serde::Deserialize<'de> for EvalCustomDataSourceConfig {
         struct EvalCustomDataSourceConfig {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: EvalCustomDataSourceConfigType,
+            r#type: EvalCustomDataSourceConfigType,
             #[serde(rename = "schema")]
             #[allow(dead_code)]
             schema: std::collections::HashMap<String, serde_json::Value>,
@@ -25199,13 +25205,13 @@ impl serde::Serialize for EvalCustomDataSourceConfig {
         #[derive(serde :: Serialize)]
         struct EvalCustomDataSourceConfig<'a> {
             #[serde(rename = "type")]
-            type_: &'a EvalCustomDataSourceConfigType,
+            r#type: &'a EvalCustomDataSourceConfigType,
             #[serde(rename = "schema")]
             schema: &'a std::collections::HashMap<String, serde_json::Value>,
         }
         let Self { schema } = self;
         EvalCustomDataSourceConfig {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             schema,
         }
         .serialize(serializer)
@@ -25524,7 +25530,7 @@ impl<'de> serde::Deserialize<'de> for EvalItemContentOutputText {
         struct EvalItemContentOutputText {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: EvalItemContentOutputTextType,
+            r#type: EvalItemContentOutputTextType,
             #[serde(rename = "text")]
             #[allow(dead_code)]
             text: String,
@@ -25543,13 +25549,13 @@ impl serde::Serialize for EvalItemContentOutputText {
         #[derive(serde :: Serialize)]
         struct EvalItemContentOutputText<'a> {
             #[serde(rename = "type")]
-            type_: &'a EvalItemContentOutputTextType,
+            r#type: &'a EvalItemContentOutputTextType,
             #[serde(rename = "text")]
             text: &'a String,
         }
         let Self { text } = self;
         EvalItemContentOutputText {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             text,
         }
         .serialize(serializer)
@@ -25656,18 +25662,18 @@ impl<'de> serde::Deserialize<'de> for EvalItem {
             content: EvalItemContent,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: Option<EvalItemType>,
+            r#type: Option<EvalItemType>,
         }
         let EvalItem {
             role,
             content,
-            type_,
+            r#type,
             ..
         } = EvalItem::deserialize(deserializer)?;
         Ok(Self {
             role,
             content,
-            type_,
+            r#type,
         })
     }
 }
@@ -25685,17 +25691,17 @@ impl serde::Serialize for EvalItem {
             content: &'a EvalItemContent,
             #[serde(rename = "type")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            type_: &'a Option<EvalItemType>,
+            r#type: &'a Option<EvalItemType>,
         }
         let Self {
             role,
             content,
-            type_,
+            r#type,
         } = self;
         EvalItem {
             role,
             content,
-            type_,
+            r#type,
         }
         .serialize(serializer)
     }
@@ -25709,7 +25715,7 @@ pub struct EvalItem {
     pub content: EvalItemContent,
     #[doc = "The type of the message input. Always `message`.\n"]
     #[builder(default)]
-    pub type_: Option<EvalItemType>,
+    pub r#type: Option<EvalItemType>,
 }
 impl<'de> serde::Deserialize<'de> for EvalJsonlFileContentSourceType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -25792,7 +25798,7 @@ impl<'de> serde::Deserialize<'de> for EvalJsonlFileContentSource {
         struct EvalJsonlFileContentSource {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: EvalJsonlFileContentSourceType,
+            r#type: EvalJsonlFileContentSourceType,
             #[serde(rename = "content")]
             #[allow(dead_code)]
             content: Vec<EvalJsonlFileContentSourceContent>,
@@ -25811,13 +25817,13 @@ impl serde::Serialize for EvalJsonlFileContentSource {
         #[derive(serde :: Serialize)]
         struct EvalJsonlFileContentSource<'a> {
             #[serde(rename = "type")]
-            type_: &'a EvalJsonlFileContentSourceType,
+            r#type: &'a EvalJsonlFileContentSourceType,
             #[serde(rename = "content")]
             content: &'a Vec<EvalJsonlFileContentSourceContent>,
         }
         let Self { content } = self;
         EvalJsonlFileContentSource {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             content,
         }
         .serialize(serializer)
@@ -25865,7 +25871,7 @@ impl<'de> serde::Deserialize<'de> for EvalJsonlFileIdSource {
         struct EvalJsonlFileIdSource {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: EvalJsonlFileIdSourceType,
+            r#type: EvalJsonlFileIdSourceType,
             #[serde(rename = "id")]
             #[allow(dead_code)]
             id: String,
@@ -25883,13 +25889,13 @@ impl serde::Serialize for EvalJsonlFileIdSource {
         #[derive(serde :: Serialize)]
         struct EvalJsonlFileIdSource<'a> {
             #[serde(rename = "type")]
-            type_: &'a EvalJsonlFileIdSourceType,
+            r#type: &'a EvalJsonlFileIdSourceType,
             #[serde(rename = "id")]
             id: &'a String,
         }
         let Self { id } = self;
         EvalJsonlFileIdSource {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             id,
         }
         .serialize(serializer)
@@ -26050,7 +26056,7 @@ impl<'de> serde::Deserialize<'de> for EvalLogsDataSourceConfig {
         struct EvalLogsDataSourceConfig {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: EvalLogsDataSourceConfigType,
+            r#type: EvalLogsDataSourceConfigType,
             #[serde(rename = "metadata")]
             #[allow(dead_code)]
             metadata: Option<Metadata>,
@@ -26073,7 +26079,7 @@ impl serde::Serialize for EvalLogsDataSourceConfig {
         #[derive(serde :: Serialize)]
         struct EvalLogsDataSourceConfig<'a> {
             #[serde(rename = "type")]
-            type_: &'a EvalLogsDataSourceConfigType,
+            r#type: &'a EvalLogsDataSourceConfigType,
             #[serde(rename = "metadata")]
             #[serde(skip_serializing_if = "Option::is_none")]
             metadata: &'a Option<Metadata>,
@@ -26082,7 +26088,7 @@ impl serde::Serialize for EvalLogsDataSourceConfig {
         }
         let Self { metadata, schema } = self;
         EvalLogsDataSourceConfig {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             metadata,
             schema,
         }
@@ -26134,7 +26140,7 @@ impl<'de> serde::Deserialize<'de> for EvalResponsesSource {
         struct EvalResponsesSource {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: EvalResponsesSourceType,
+            r#type: EvalResponsesSourceType,
             #[serde(rename = "metadata")]
             #[allow(dead_code)]
             metadata: Option<std::collections::HashMap<String, serde_json::Value>>,
@@ -26202,7 +26208,7 @@ impl serde::Serialize for EvalResponsesSource {
         #[derive(serde :: Serialize)]
         struct EvalResponsesSource<'a> {
             #[serde(rename = "type")]
-            type_: &'a EvalResponsesSourceType,
+            r#type: &'a EvalResponsesSourceType,
             #[serde(rename = "metadata")]
             #[serde(skip_serializing_if = "Option::is_none")]
             metadata: &'a Option<std::collections::HashMap<String, serde_json::Value>>,
@@ -26247,7 +26253,7 @@ impl serde::Serialize for EvalResponsesSource {
             tools,
         } = self;
         EvalResponsesSource {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             metadata,
             model,
             instructions_search,
@@ -27556,7 +27562,7 @@ impl<'de> serde::Deserialize<'de> for EvalStoredCompletionsDataSourceConfig {
         struct EvalStoredCompletionsDataSourceConfig {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: EvalStoredCompletionsDataSourceConfigType,
+            r#type: EvalStoredCompletionsDataSourceConfigType,
             #[serde(rename = "metadata")]
             #[allow(dead_code)]
             metadata: Option<Metadata>,
@@ -27579,7 +27585,7 @@ impl serde::Serialize for EvalStoredCompletionsDataSourceConfig {
         #[derive(serde :: Serialize)]
         struct EvalStoredCompletionsDataSourceConfig<'a> {
             #[serde(rename = "type")]
-            type_: &'a EvalStoredCompletionsDataSourceConfigType,
+            r#type: &'a EvalStoredCompletionsDataSourceConfigType,
             #[serde(rename = "metadata")]
             #[serde(skip_serializing_if = "Option::is_none")]
             metadata: &'a Option<Metadata>,
@@ -27588,7 +27594,7 @@ impl serde::Serialize for EvalStoredCompletionsDataSourceConfig {
         }
         let Self { metadata, schema } = self;
         EvalStoredCompletionsDataSourceConfig {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             metadata,
             schema,
         }
@@ -27640,7 +27646,7 @@ impl<'de> serde::Deserialize<'de> for EvalStoredCompletionsSource {
         struct EvalStoredCompletionsSource {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: EvalStoredCompletionsSourceType,
+            r#type: EvalStoredCompletionsSourceType,
             #[serde(rename = "metadata")]
             #[allow(dead_code)]
             metadata: Option<Metadata>,
@@ -27683,7 +27689,7 @@ impl serde::Serialize for EvalStoredCompletionsSource {
         #[derive(serde :: Serialize)]
         struct EvalStoredCompletionsSource<'a> {
             #[serde(rename = "type")]
-            type_: &'a EvalStoredCompletionsSourceType,
+            r#type: &'a EvalStoredCompletionsSourceType,
             #[serde(rename = "metadata")]
             #[serde(skip_serializing_if = "Option::is_none")]
             metadata: &'a Option<Metadata>,
@@ -27708,7 +27714,7 @@ impl serde::Serialize for EvalStoredCompletionsSource {
             limit,
         } = self;
         EvalStoredCompletionsSource {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             metadata,
             model,
             created_after,
@@ -27773,7 +27779,7 @@ impl<'de> serde::Deserialize<'de> for FilePath {
         struct FilePath {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: FilePathType,
+            r#type: FilePathType,
             #[serde(rename = "file_id")]
             #[allow(dead_code)]
             file_id: String,
@@ -27794,7 +27800,7 @@ impl serde::Serialize for FilePath {
         #[derive(serde :: Serialize)]
         struct FilePath<'a> {
             #[serde(rename = "type")]
-            type_: &'a FilePathType,
+            r#type: &'a FilePathType,
             #[serde(rename = "file_id")]
             file_id: &'a String,
             #[serde(rename = "index")]
@@ -27802,7 +27808,7 @@ impl serde::Serialize for FilePath {
         }
         let Self { file_id, index } = self;
         FilePath {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             file_id,
             index,
         }
@@ -28044,7 +28050,7 @@ impl<'de> serde::Deserialize<'de> for FileSearchToolCall {
             id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: FileSearchToolCallType,
+            r#type: FileSearchToolCallType,
             #[serde(rename = "status")]
             #[allow(dead_code)]
             status: FileSearchToolCallStatus,
@@ -28081,7 +28087,7 @@ impl serde::Serialize for FileSearchToolCall {
             #[serde(rename = "id")]
             id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a FileSearchToolCallType,
+            r#type: &'a FileSearchToolCallType,
             #[serde(rename = "status")]
             status: &'a FileSearchToolCallStatus,
             #[serde(rename = "queries")]
@@ -28098,7 +28104,7 @@ impl serde::Serialize for FileSearchToolCall {
         } = self;
         FileSearchToolCall {
             id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             status,
             queries,
             results,
@@ -28793,7 +28799,7 @@ impl<'de> serde::Deserialize<'de> for FineTuneMethod {
         struct FineTuneMethod {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: FineTuneMethodType,
+            r#type: FineTuneMethodType,
             #[serde(rename = "supervised")]
             #[allow(dead_code)]
             supervised: Option<FineTuneSupervisedMethod>,
@@ -28805,14 +28811,14 @@ impl<'de> serde::Deserialize<'de> for FineTuneMethod {
             reinforcement: Option<FineTuneReinforcementMethod>,
         }
         let FineTuneMethod {
-            type_,
+            r#type,
             supervised,
             dpo,
             reinforcement,
             ..
         } = FineTuneMethod::deserialize(deserializer)?;
         Ok(Self {
-            type_,
+            r#type,
             supervised,
             dpo,
             reinforcement,
@@ -28828,7 +28834,7 @@ impl serde::Serialize for FineTuneMethod {
         #[derive(serde :: Serialize)]
         struct FineTuneMethod<'a> {
             #[serde(rename = "type")]
-            type_: &'a FineTuneMethodType,
+            r#type: &'a FineTuneMethodType,
             #[serde(rename = "supervised")]
             #[serde(skip_serializing_if = "Option::is_none")]
             supervised: &'a Option<FineTuneSupervisedMethod>,
@@ -28840,13 +28846,13 @@ impl serde::Serialize for FineTuneMethod {
             reinforcement: &'a Option<FineTuneReinforcementMethod>,
         }
         let Self {
-            type_,
+            r#type,
             supervised,
             dpo,
             reinforcement,
         } = self;
         FineTuneMethod {
-            type_,
+            r#type,
             supervised,
             dpo,
             reinforcement,
@@ -28858,7 +28864,7 @@ impl serde::Serialize for FineTuneMethod {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct FineTuneMethod {
     #[doc = "The type of method. Is either `supervised`, `dpo`, or `reinforcement`."]
-    pub type_: FineTuneMethodType,
+    pub r#type: FineTuneMethodType,
     #[builder(default)]
     pub supervised: Option<FineTuneSupervisedMethod>,
     #[builder(default)]
@@ -30617,7 +30623,7 @@ impl<'de> serde::Deserialize<'de> for FineTuningIntegration {
         struct FineTuningIntegration {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: FineTuningIntegrationType,
+            r#type: FineTuningIntegrationType,
             #[serde(rename = "wandb")]
             #[allow(dead_code)]
             wandb: FineTuningIntegrationWandb,
@@ -30635,13 +30641,13 @@ impl serde::Serialize for FineTuningIntegration {
         #[derive(serde :: Serialize)]
         struct FineTuningIntegration<'a> {
             #[serde(rename = "type")]
-            type_: &'a FineTuningIntegrationType,
+            r#type: &'a FineTuningIntegrationType,
             #[serde(rename = "wandb")]
             wandb: &'a FineTuningIntegrationWandb,
         }
         let Self { wandb } = self;
         FineTuningIntegration {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             wandb,
         }
         .serialize(serializer)
@@ -31714,7 +31720,7 @@ impl<'de> serde::Deserialize<'de> for FineTuningJobEvent {
             message: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: Option<FineTuningJobEventType>,
+            r#type: Option<FineTuningJobEventType>,
             #[serde(rename = "data")]
             #[allow(dead_code)]
             data: Option<std::collections::HashMap<String, serde_json::Value>>,
@@ -31724,7 +31730,7 @@ impl<'de> serde::Deserialize<'de> for FineTuningJobEvent {
             created_at,
             level,
             message,
-            type_,
+            r#type,
             data,
             ..
         } = FineTuningJobEvent::deserialize(deserializer)?;
@@ -31733,7 +31739,7 @@ impl<'de> serde::Deserialize<'de> for FineTuningJobEvent {
             created_at,
             level,
             message,
-            type_,
+            r#type,
             data,
         })
     }
@@ -31758,7 +31764,7 @@ impl serde::Serialize for FineTuningJobEvent {
             message: &'a String,
             #[serde(rename = "type")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            type_: &'a Option<FineTuningJobEventType>,
+            r#type: &'a Option<FineTuningJobEventType>,
             #[serde(rename = "data")]
             #[serde(skip_serializing_if = "Option::is_none")]
             data: &'a Option<std::collections::HashMap<String, serde_json::Value>>,
@@ -31768,7 +31774,7 @@ impl serde::Serialize for FineTuningJobEvent {
             created_at,
             level,
             message,
-            type_,
+            r#type,
             data,
         } = self;
         FineTuningJobEvent {
@@ -31777,7 +31783,7 @@ impl serde::Serialize for FineTuningJobEvent {
             created_at,
             level,
             message,
-            type_,
+            r#type,
             data,
         }
         .serialize(serializer)
@@ -31796,7 +31802,7 @@ pub struct FineTuningJobEvent {
     pub message: String,
     #[doc = "The type of event."]
     #[builder(default)]
-    pub type_: Option<FineTuningJobEventType>,
+    pub r#type: Option<FineTuningJobEventType>,
     #[doc = "The data associated with the event."]
     #[builder(default)]
     pub data: Option<std::collections::HashMap<String, serde_json::Value>>,
@@ -31940,7 +31946,7 @@ impl<'de> serde::Deserialize<'de> for FunctionToolCall {
             id: Option<String>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: FunctionToolCallType,
+            r#type: FunctionToolCallType,
             #[serde(rename = "call_id")]
             #[allow(dead_code)]
             call_id: String,
@@ -31983,7 +31989,7 @@ impl serde::Serialize for FunctionToolCall {
             #[serde(skip_serializing_if = "Option::is_none")]
             id: &'a Option<String>,
             #[serde(rename = "type")]
-            type_: &'a FunctionToolCallType,
+            r#type: &'a FunctionToolCallType,
             #[serde(rename = "call_id")]
             call_id: &'a String,
             #[serde(rename = "name")]
@@ -32003,7 +32009,7 @@ impl serde::Serialize for FunctionToolCall {
         } = self;
         FunctionToolCall {
             id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             call_id,
             name,
             arguments,
@@ -32081,7 +32087,7 @@ impl<'de> serde::Deserialize<'de> for FunctionToolCallOutput {
             id: Option<String>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: FunctionToolCallOutputType,
+            r#type: FunctionToolCallOutputType,
             #[serde(rename = "call_id")]
             #[allow(dead_code)]
             call_id: String,
@@ -32119,7 +32125,7 @@ impl serde::Serialize for FunctionToolCallOutput {
             #[serde(skip_serializing_if = "Option::is_none")]
             id: &'a Option<String>,
             #[serde(rename = "type")]
-            type_: &'a FunctionToolCallOutputType,
+            r#type: &'a FunctionToolCallOutputType,
             #[serde(rename = "call_id")]
             call_id: &'a String,
             #[serde(rename = "output")]
@@ -32136,7 +32142,7 @@ impl serde::Serialize for FunctionToolCallOutput {
         } = self;
         FunctionToolCallOutput {
             id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             call_id,
             output,
             status,
@@ -32307,7 +32313,7 @@ impl<'de> serde::Deserialize<'de> for GraderLabelModel {
         struct GraderLabelModel {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: GraderLabelModelType,
+            r#type: GraderLabelModelType,
             #[serde(rename = "name")]
             #[allow(dead_code)]
             name: String,
@@ -32350,7 +32356,7 @@ impl serde::Serialize for GraderLabelModel {
         #[derive(serde :: Serialize)]
         struct GraderLabelModel<'a> {
             #[serde(rename = "type")]
-            type_: &'a GraderLabelModelType,
+            r#type: &'a GraderLabelModelType,
             #[serde(rename = "name")]
             name: &'a String,
             #[serde(rename = "model")]
@@ -32370,7 +32376,7 @@ impl serde::Serialize for GraderLabelModel {
             passing_labels,
         } = self;
         GraderLabelModel {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             name,
             model,
             input,
@@ -32489,7 +32495,7 @@ impl<'de> serde::Deserialize<'de> for GraderMulti {
         struct GraderMulti {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: GraderMultiType,
+            r#type: GraderMultiType,
             #[serde(rename = "name")]
             #[allow(dead_code)]
             name: String,
@@ -32522,7 +32528,7 @@ impl serde::Serialize for GraderMulti {
         #[derive(serde :: Serialize)]
         struct GraderMulti<'a> {
             #[serde(rename = "type")]
-            type_: &'a GraderMultiType,
+            r#type: &'a GraderMultiType,
             #[serde(rename = "name")]
             name: &'a String,
             #[serde(rename = "graders")]
@@ -32536,7 +32542,7 @@ impl serde::Serialize for GraderMulti {
             calculate_output,
         } = self;
         GraderMulti {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             name,
             graders,
             calculate_output,
@@ -32590,7 +32596,7 @@ impl<'de> serde::Deserialize<'de> for GraderPython {
         struct GraderPython {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: GraderPythonType,
+            r#type: GraderPythonType,
             #[serde(rename = "name")]
             #[allow(dead_code)]
             name: String,
@@ -32623,7 +32629,7 @@ impl serde::Serialize for GraderPython {
         #[derive(serde :: Serialize)]
         struct GraderPython<'a> {
             #[serde(rename = "type")]
-            type_: &'a GraderPythonType,
+            r#type: &'a GraderPythonType,
             #[serde(rename = "name")]
             name: &'a String,
             #[serde(rename = "source")]
@@ -32638,7 +32644,7 @@ impl serde::Serialize for GraderPython {
             image_tag,
         } = self;
         GraderPython {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             name,
             source,
             image_tag,
@@ -32694,7 +32700,7 @@ impl<'de> serde::Deserialize<'de> for GraderScoreModel {
         struct GraderScoreModel {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: GraderScoreModelType,
+            r#type: GraderScoreModelType,
             #[serde(rename = "name")]
             #[allow(dead_code)]
             name: String,
@@ -32737,7 +32743,7 @@ impl serde::Serialize for GraderScoreModel {
         #[derive(serde :: Serialize)]
         struct GraderScoreModel<'a> {
             #[serde(rename = "type")]
-            type_: &'a GraderScoreModelType,
+            r#type: &'a GraderScoreModelType,
             #[serde(rename = "name")]
             name: &'a String,
             #[serde(rename = "model")]
@@ -32759,7 +32765,7 @@ impl serde::Serialize for GraderScoreModel {
             range,
         } = self;
         GraderScoreModel {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             name,
             model,
             sampling_params,
@@ -32838,7 +32844,7 @@ impl<'de> serde::Deserialize<'de> for GraderStringCheck {
         struct GraderStringCheck {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: GraderStringCheckType,
+            r#type: GraderStringCheckType,
             #[serde(rename = "name")]
             #[allow(dead_code)]
             name: String,
@@ -32876,7 +32882,7 @@ impl serde::Serialize for GraderStringCheck {
         #[derive(serde :: Serialize)]
         struct GraderStringCheck<'a> {
             #[serde(rename = "type")]
-            type_: &'a GraderStringCheckType,
+            r#type: &'a GraderStringCheckType,
             #[serde(rename = "name")]
             name: &'a String,
             #[serde(rename = "input")]
@@ -32893,7 +32899,7 @@ impl serde::Serialize for GraderStringCheck {
             operation,
         } = self;
         GraderStringCheck {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             name,
             input,
             reference,
@@ -32985,7 +32991,7 @@ impl<'de> serde::Deserialize<'de> for GraderTextSimilarity {
         struct GraderTextSimilarity {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: GraderTextSimilarityType,
+            r#type: GraderTextSimilarityType,
             #[serde(rename = "name")]
             #[allow(dead_code)]
             name: String,
@@ -33023,7 +33029,7 @@ impl serde::Serialize for GraderTextSimilarity {
         #[derive(serde :: Serialize)]
         struct GraderTextSimilarity<'a> {
             #[serde(rename = "type")]
-            type_: &'a GraderTextSimilarityType,
+            r#type: &'a GraderTextSimilarityType,
             #[serde(rename = "name")]
             name: &'a String,
             #[serde(rename = "input")]
@@ -33040,7 +33046,7 @@ impl serde::Serialize for GraderTextSimilarity {
             evaluation_metric,
         } = self;
         GraderTextSimilarity {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             name,
             input,
             reference,
@@ -33304,7 +33310,7 @@ impl<'de> serde::Deserialize<'de> for ImageGenTool {
         struct ImageGenTool {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ImageGenToolType,
+            r#type: ImageGenToolType,
             #[serde(rename = "model")]
             #[allow(dead_code)]
             model: Option<ImageGenToolModel>,
@@ -33367,7 +33373,7 @@ impl serde::Serialize for ImageGenTool {
         #[derive(serde :: Serialize)]
         struct ImageGenTool<'a> {
             #[serde(rename = "type")]
-            type_: &'a ImageGenToolType,
+            r#type: &'a ImageGenToolType,
             #[serde(rename = "model")]
             #[serde(skip_serializing_if = "Option::is_none")]
             model: &'a Option<ImageGenToolModel>,
@@ -33408,7 +33414,7 @@ impl serde::Serialize for ImageGenTool {
             partial_images,
         } = self;
         ImageGenTool {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             model,
             quality,
             size,
@@ -33506,7 +33512,7 @@ impl<'de> serde::Deserialize<'de> for ImageGenToolCall {
         struct ImageGenToolCall {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ImageGenToolCallType,
+            r#type: ImageGenToolCallType,
             #[serde(rename = "id")]
             #[allow(dead_code)]
             id: String,
@@ -33532,7 +33538,7 @@ impl serde::Serialize for ImageGenToolCall {
         #[derive(serde :: Serialize)]
         struct ImageGenToolCall<'a> {
             #[serde(rename = "type")]
-            type_: &'a ImageGenToolCallType,
+            r#type: &'a ImageGenToolCallType,
             #[serde(rename = "id")]
             id: &'a String,
             #[serde(rename = "status")]
@@ -33543,7 +33549,7 @@ impl serde::Serialize for ImageGenToolCall {
         }
         let Self { id, status, result } = self;
         ImageGenToolCall {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             id,
             status,
             result,
@@ -33839,7 +33845,7 @@ impl<'de> serde::Deserialize<'de> for InputAudio {
         struct InputAudio {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: InputAudioType,
+            r#type: InputAudioType,
             #[serde(rename = "data")]
             #[allow(dead_code)]
             data: String,
@@ -33860,7 +33866,7 @@ impl serde::Serialize for InputAudio {
         #[derive(serde :: Serialize)]
         struct InputAudio<'a> {
             #[serde(rename = "type")]
-            type_: &'a InputAudioType,
+            r#type: &'a InputAudioType,
             #[serde(rename = "data")]
             data: &'a String,
             #[serde(rename = "format")]
@@ -33868,7 +33874,7 @@ impl serde::Serialize for InputAudio {
         }
         let Self { data, format } = self;
         InputAudio {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             data,
             format,
         }
@@ -34045,7 +34051,7 @@ impl<'de> serde::Deserialize<'de> for InputMessage {
         struct InputMessage {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: Option<InputMessageType>,
+            r#type: Option<InputMessageType>,
             #[serde(rename = "role")]
             #[allow(dead_code)]
             role: InputMessageRole,
@@ -34057,14 +34063,14 @@ impl<'de> serde::Deserialize<'de> for InputMessage {
             content: InputMessageContentList,
         }
         let InputMessage {
-            type_,
+            r#type,
             role,
             status,
             content,
             ..
         } = InputMessage::deserialize(deserializer)?;
         Ok(Self {
-            type_,
+            r#type,
             role,
             status,
             content,
@@ -34081,7 +34087,7 @@ impl serde::Serialize for InputMessage {
         struct InputMessage<'a> {
             #[serde(rename = "type")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            type_: &'a Option<InputMessageType>,
+            r#type: &'a Option<InputMessageType>,
             #[serde(rename = "role")]
             role: &'a InputMessageRole,
             #[serde(rename = "status")]
@@ -34091,13 +34097,13 @@ impl serde::Serialize for InputMessage {
             content: &'a InputMessageContentList,
         }
         let Self {
-            type_,
+            r#type,
             role,
             status,
             content,
         } = self;
         InputMessage {
-            type_,
+            r#type,
             role,
             status,
             content,
@@ -34110,7 +34116,7 @@ impl serde::Serialize for InputMessage {
 pub struct InputMessage {
     #[doc = "The type of the message input. Always set to `message`.\n"]
     #[builder(default)]
-    pub type_: Option<InputMessageType>,
+    pub r#type: Option<InputMessageType>,
     #[doc = "The role of the message input. One of `user`, `system`, or `developer`.\n"]
     pub role: InputMessageRole,
     #[doc = "The status of item. One of `in_progress`, `completed`, or\n`incomplete`. Populated when items are returned via API.\n"]
@@ -35039,7 +35045,7 @@ impl<'de> serde::Deserialize<'de> for KeyPress {
         struct KeyPress {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: KeyPressType,
+            r#type: KeyPressType,
             #[serde(rename = "keys")]
             #[allow(dead_code)]
             keys: Vec<String>,
@@ -35057,13 +35063,13 @@ impl serde::Serialize for KeyPress {
         #[derive(serde :: Serialize)]
         struct KeyPress<'a> {
             #[serde(rename = "type")]
-            type_: &'a KeyPressType,
+            r#type: &'a KeyPressType,
             #[serde(rename = "keys")]
             keys: &'a Vec<String>,
         }
         let Self { keys } = self;
         KeyPress {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             keys,
         }
         .serialize(serializer)
@@ -36492,7 +36498,7 @@ impl<'de> serde::Deserialize<'de> for LocalShellExecAction {
         struct LocalShellExecAction {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: LocalShellExecActionType,
+            r#type: LocalShellExecActionType,
             #[serde(rename = "command")]
             #[allow(dead_code)]
             command: Vec<String>,
@@ -36535,7 +36541,7 @@ impl serde::Serialize for LocalShellExecAction {
         #[derive(serde :: Serialize)]
         struct LocalShellExecAction<'a> {
             #[serde(rename = "type")]
-            type_: &'a LocalShellExecActionType,
+            r#type: &'a LocalShellExecActionType,
             #[serde(rename = "command")]
             command: &'a Vec<String>,
             #[serde(rename = "timeout_ms")]
@@ -36558,7 +36564,7 @@ impl serde::Serialize for LocalShellExecAction {
             user,
         } = self;
         LocalShellExecAction {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             command,
             timeout_ms,
             working_directory,
@@ -36622,7 +36628,7 @@ impl<'de> serde::Deserialize<'de> for LocalShellTool {
         struct LocalShellTool {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: LocalShellToolType,
+            r#type: LocalShellToolType,
         }
         let LocalShellTool { .. } = LocalShellTool::deserialize(deserializer)?;
         Ok(Self {})
@@ -36637,11 +36643,11 @@ impl serde::Serialize for LocalShellTool {
         #[derive(serde :: Serialize)]
         struct LocalShellTool<'a> {
             #[serde(rename = "type")]
-            type_: &'a LocalShellToolType,
+            r#type: &'a LocalShellToolType,
         }
         let Self {} = self;
         LocalShellTool {
-            type_: &Default::default(),
+            r#type: &Default::default(),
         }
         .serialize(serializer)
     }
@@ -36699,7 +36705,7 @@ impl<'de> serde::Deserialize<'de> for LocalShellToolCall {
         struct LocalShellToolCall {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: LocalShellToolCallType,
+            r#type: LocalShellToolCallType,
             #[serde(rename = "id")]
             #[allow(dead_code)]
             id: String,
@@ -36737,7 +36743,7 @@ impl serde::Serialize for LocalShellToolCall {
         #[derive(serde :: Serialize)]
         struct LocalShellToolCall<'a> {
             #[serde(rename = "type")]
-            type_: &'a LocalShellToolCallType,
+            r#type: &'a LocalShellToolCallType,
             #[serde(rename = "id")]
             id: &'a String,
             #[serde(rename = "call_id")]
@@ -36754,7 +36760,7 @@ impl serde::Serialize for LocalShellToolCall {
             status,
         } = self;
         LocalShellToolCall {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             id,
             call_id,
             action,
@@ -36824,7 +36830,7 @@ impl<'de> serde::Deserialize<'de> for LocalShellToolCallOutput {
         struct LocalShellToolCallOutput {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: LocalShellToolCallOutputType,
+            r#type: LocalShellToolCallOutputType,
             #[serde(rename = "id")]
             #[allow(dead_code)]
             id: String,
@@ -36850,7 +36856,7 @@ impl serde::Serialize for LocalShellToolCallOutput {
         #[derive(serde :: Serialize)]
         struct LocalShellToolCallOutput<'a> {
             #[serde(rename = "type")]
-            type_: &'a LocalShellToolCallOutputType,
+            r#type: &'a LocalShellToolCallOutputType,
             #[serde(rename = "id")]
             id: &'a String,
             #[serde(rename = "output")]
@@ -36861,7 +36867,7 @@ impl serde::Serialize for LocalShellToolCallOutput {
         }
         let Self { id, output, status } = self;
         LocalShellToolCallOutput {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             id,
             output,
             status,
@@ -36986,7 +36992,7 @@ impl<'de> serde::Deserialize<'de> for McpApprovalRequest {
         struct McpApprovalRequest {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: McpApprovalRequestType,
+            r#type: McpApprovalRequestType,
             #[serde(rename = "id")]
             #[allow(dead_code)]
             id: String,
@@ -37024,7 +37030,7 @@ impl serde::Serialize for McpApprovalRequest {
         #[derive(serde :: Serialize)]
         struct McpApprovalRequest<'a> {
             #[serde(rename = "type")]
-            type_: &'a McpApprovalRequestType,
+            r#type: &'a McpApprovalRequestType,
             #[serde(rename = "id")]
             id: &'a String,
             #[serde(rename = "server_label")]
@@ -37041,7 +37047,7 @@ impl serde::Serialize for McpApprovalRequest {
             arguments,
         } = self;
         McpApprovalRequest {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             id,
             server_label,
             name,
@@ -37099,7 +37105,7 @@ impl<'de> serde::Deserialize<'de> for McpApprovalResponse {
         struct McpApprovalResponse {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: McpApprovalResponseType,
+            r#type: McpApprovalResponseType,
             #[serde(rename = "id")]
             #[allow(dead_code)]
             id: Option<String>,
@@ -37137,7 +37143,7 @@ impl serde::Serialize for McpApprovalResponse {
         #[derive(serde :: Serialize)]
         struct McpApprovalResponse<'a> {
             #[serde(rename = "type")]
-            type_: &'a McpApprovalResponseType,
+            r#type: &'a McpApprovalResponseType,
             #[serde(rename = "id")]
             #[serde(skip_serializing_if = "Option::is_none")]
             id: &'a Option<String>,
@@ -37156,7 +37162,7 @@ impl serde::Serialize for McpApprovalResponse {
             reason,
         } = self;
         McpApprovalResponse {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             id,
             approval_request_id,
             approve,
@@ -37216,7 +37222,7 @@ impl<'de> serde::Deserialize<'de> for McpApprovalResponseResource {
         struct McpApprovalResponseResource {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: McpApprovalResponseResourceType,
+            r#type: McpApprovalResponseResourceType,
             #[serde(rename = "id")]
             #[allow(dead_code)]
             id: String,
@@ -37254,7 +37260,7 @@ impl serde::Serialize for McpApprovalResponseResource {
         #[derive(serde :: Serialize)]
         struct McpApprovalResponseResource<'a> {
             #[serde(rename = "type")]
-            type_: &'a McpApprovalResponseResourceType,
+            r#type: &'a McpApprovalResponseResourceType,
             #[serde(rename = "id")]
             id: &'a String,
             #[serde(rename = "approval_request_id")]
@@ -37272,7 +37278,7 @@ impl serde::Serialize for McpApprovalResponseResource {
             reason,
         } = self;
         McpApprovalResponseResource {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             id,
             approval_request_id,
             approve,
@@ -37331,7 +37337,7 @@ impl<'de> serde::Deserialize<'de> for McpListTools {
         struct McpListTools {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: McpListToolsType,
+            r#type: McpListToolsType,
             #[serde(rename = "id")]
             #[allow(dead_code)]
             id: String,
@@ -37369,7 +37375,7 @@ impl serde::Serialize for McpListTools {
         #[derive(serde :: Serialize)]
         struct McpListTools<'a> {
             #[serde(rename = "type")]
-            type_: &'a McpListToolsType,
+            r#type: &'a McpListToolsType,
             #[serde(rename = "id")]
             id: &'a String,
             #[serde(rename = "server_label")]
@@ -37387,7 +37393,7 @@ impl serde::Serialize for McpListTools {
             error,
         } = self;
         McpListTools {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             id,
             server_label,
             tools,
@@ -37853,7 +37859,7 @@ impl<'de> serde::Deserialize<'de> for McpTool {
         struct McpTool {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: McpToolType,
+            r#type: McpToolType,
             #[serde(rename = "server_label")]
             #[allow(dead_code)]
             server_label: String,
@@ -37896,7 +37902,7 @@ impl serde::Serialize for McpTool {
         #[derive(serde :: Serialize)]
         struct McpTool<'a> {
             #[serde(rename = "type")]
-            type_: &'a McpToolType,
+            r#type: &'a McpToolType,
             #[serde(rename = "server_label")]
             server_label: &'a String,
             #[serde(rename = "server_url")]
@@ -37919,7 +37925,7 @@ impl serde::Serialize for McpTool {
             require_approval,
         } = self;
         McpTool {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             server_label,
             server_url,
             headers,
@@ -37983,7 +37989,7 @@ impl<'de> serde::Deserialize<'de> for McpToolCall {
         struct McpToolCall {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: McpToolCallType,
+            r#type: McpToolCallType,
             #[serde(rename = "id")]
             #[allow(dead_code)]
             id: String,
@@ -38031,7 +38037,7 @@ impl serde::Serialize for McpToolCall {
         #[derive(serde :: Serialize)]
         struct McpToolCall<'a> {
             #[serde(rename = "type")]
-            type_: &'a McpToolCallType,
+            r#type: &'a McpToolCallType,
             #[serde(rename = "id")]
             id: &'a String,
             #[serde(rename = "server_label")]
@@ -38056,7 +38062,7 @@ impl serde::Serialize for McpToolCall {
             error,
         } = self;
         McpToolCall {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             id,
             server_label,
             name,
@@ -38183,7 +38189,7 @@ impl<'de> serde::Deserialize<'de> for MessageContentImageFileObject {
         struct MessageContentImageFileObject {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: MessageContentImageFileObjectType,
+            r#type: MessageContentImageFileObjectType,
             #[serde(rename = "image_file")]
             #[allow(dead_code)]
             image_file: MessageContentImageFileObjectImageFile,
@@ -38202,13 +38208,13 @@ impl serde::Serialize for MessageContentImageFileObject {
         #[derive(serde :: Serialize)]
         struct MessageContentImageFileObject<'a> {
             #[serde(rename = "type")]
-            type_: &'a MessageContentImageFileObjectType,
+            r#type: &'a MessageContentImageFileObjectType,
             #[serde(rename = "image_file")]
             image_file: &'a MessageContentImageFileObjectImageFile,
         }
         let Self { image_file } = self;
         MessageContentImageFileObject {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             image_file,
         }
         .serialize(serializer)
@@ -38316,7 +38322,7 @@ impl<'de> serde::Deserialize<'de> for MessageContentImageUrlObject {
         struct MessageContentImageUrlObject {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: MessageContentImageUrlObjectType,
+            r#type: MessageContentImageUrlObjectType,
             #[serde(rename = "image_url")]
             #[allow(dead_code)]
             image_url: MessageContentImageUrlObjectImageUrl,
@@ -38335,13 +38341,13 @@ impl serde::Serialize for MessageContentImageUrlObject {
         #[derive(serde :: Serialize)]
         struct MessageContentImageUrlObject<'a> {
             #[serde(rename = "type")]
-            type_: &'a MessageContentImageUrlObjectType,
+            r#type: &'a MessageContentImageUrlObjectType,
             #[serde(rename = "image_url")]
             image_url: &'a MessageContentImageUrlObjectImageUrl,
         }
         let Self { image_url } = self;
         MessageContentImageUrlObject {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             image_url,
         }
         .serialize(serializer)
@@ -38389,7 +38395,7 @@ impl<'de> serde::Deserialize<'de> for MessageContentRefusalObject {
         struct MessageContentRefusalObject {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: MessageContentRefusalObjectType,
+            r#type: MessageContentRefusalObjectType,
             #[serde(rename = "refusal")]
             #[allow(dead_code)]
             refusal: String,
@@ -38408,13 +38414,13 @@ impl serde::Serialize for MessageContentRefusalObject {
         #[derive(serde :: Serialize)]
         struct MessageContentRefusalObject<'a> {
             #[serde(rename = "type")]
-            type_: &'a MessageContentRefusalObjectType,
+            r#type: &'a MessageContentRefusalObjectType,
             #[serde(rename = "refusal")]
             refusal: &'a String,
         }
         let Self { refusal } = self;
         MessageContentRefusalObject {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             refusal,
         }
         .serialize(serializer)
@@ -38500,7 +38506,7 @@ impl<'de> serde::Deserialize<'de> for MessageContentTextAnnotationsFileCitationO
         struct MessageContentTextAnnotationsFileCitationObject {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: MessageContentTextAnnotationsFileCitationObjectType,
+            r#type: MessageContentTextAnnotationsFileCitationObjectType,
             #[serde(rename = "text")]
             #[allow(dead_code)]
             text: String,
@@ -38538,7 +38544,7 @@ impl serde::Serialize for MessageContentTextAnnotationsFileCitationObject {
         #[derive(serde :: Serialize)]
         struct MessageContentTextAnnotationsFileCitationObject<'a> {
             #[serde(rename = "type")]
-            type_: &'a MessageContentTextAnnotationsFileCitationObjectType,
+            r#type: &'a MessageContentTextAnnotationsFileCitationObjectType,
             #[serde(rename = "text")]
             text: &'a String,
             #[serde(rename = "file_citation")]
@@ -38555,7 +38561,7 @@ impl serde::Serialize for MessageContentTextAnnotationsFileCitationObject {
             end_index,
         } = self;
         MessageContentTextAnnotationsFileCitationObject {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             text,
             file_citation,
             start_index,
@@ -38647,7 +38653,7 @@ impl<'de> serde::Deserialize<'de> for MessageContentTextAnnotationsFilePathObjec
         struct MessageContentTextAnnotationsFilePathObject {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: MessageContentTextAnnotationsFilePathObjectType,
+            r#type: MessageContentTextAnnotationsFilePathObjectType,
             #[serde(rename = "text")]
             #[allow(dead_code)]
             text: String,
@@ -38685,7 +38691,7 @@ impl serde::Serialize for MessageContentTextAnnotationsFilePathObject {
         #[derive(serde :: Serialize)]
         struct MessageContentTextAnnotationsFilePathObject<'a> {
             #[serde(rename = "type")]
-            type_: &'a MessageContentTextAnnotationsFilePathObjectType,
+            r#type: &'a MessageContentTextAnnotationsFilePathObjectType,
             #[serde(rename = "text")]
             text: &'a String,
             #[serde(rename = "file_path")]
@@ -38702,7 +38708,7 @@ impl serde::Serialize for MessageContentTextAnnotationsFilePathObject {
             end_index,
         } = self;
         MessageContentTextAnnotationsFilePathObject {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             text,
             file_path,
             start_index,
@@ -38801,7 +38807,7 @@ impl<'de> serde::Deserialize<'de> for MessageContentTextObject {
         struct MessageContentTextObject {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: MessageContentTextObjectType,
+            r#type: MessageContentTextObjectType,
             #[serde(rename = "text")]
             #[allow(dead_code)]
             text: MessageContentTextObjectText,
@@ -38820,13 +38826,13 @@ impl serde::Serialize for MessageContentTextObject {
         #[derive(serde :: Serialize)]
         struct MessageContentTextObject<'a> {
             #[serde(rename = "type")]
-            type_: &'a MessageContentTextObjectType,
+            r#type: &'a MessageContentTextObjectType,
             #[serde(rename = "text")]
             text: &'a MessageContentTextObjectText,
         }
         let Self { text } = self;
         MessageContentTextObject {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             text,
         }
         .serialize(serializer)
@@ -38940,7 +38946,7 @@ impl<'de> serde::Deserialize<'de> for MessageDeltaContentImageFileObject {
             index: u64,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: MessageDeltaContentImageFileObjectType,
+            r#type: MessageDeltaContentImageFileObjectType,
             #[serde(rename = "image_file")]
             #[allow(dead_code)]
             image_file: Option<MessageDeltaContentImageFileObjectImageFile>,
@@ -38962,7 +38968,7 @@ impl serde::Serialize for MessageDeltaContentImageFileObject {
             #[serde(rename = "index")]
             index: &'a u64,
             #[serde(rename = "type")]
-            type_: &'a MessageDeltaContentImageFileObjectType,
+            r#type: &'a MessageDeltaContentImageFileObjectType,
             #[serde(rename = "image_file")]
             #[serde(skip_serializing_if = "Option::is_none")]
             image_file: &'a Option<MessageDeltaContentImageFileObjectImageFile>,
@@ -38970,7 +38976,7 @@ impl serde::Serialize for MessageDeltaContentImageFileObject {
         let Self { index, image_file } = self;
         MessageDeltaContentImageFileObject {
             index,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             image_file,
         }
         .serialize(serializer)
@@ -39086,7 +39092,7 @@ impl<'de> serde::Deserialize<'de> for MessageDeltaContentImageUrlObject {
             index: u64,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: MessageDeltaContentImageUrlObjectType,
+            r#type: MessageDeltaContentImageUrlObjectType,
             #[serde(rename = "image_url")]
             #[allow(dead_code)]
             image_url: Option<MessageDeltaContentImageUrlObjectImageUrl>,
@@ -39108,7 +39114,7 @@ impl serde::Serialize for MessageDeltaContentImageUrlObject {
             #[serde(rename = "index")]
             index: &'a u64,
             #[serde(rename = "type")]
-            type_: &'a MessageDeltaContentImageUrlObjectType,
+            r#type: &'a MessageDeltaContentImageUrlObjectType,
             #[serde(rename = "image_url")]
             #[serde(skip_serializing_if = "Option::is_none")]
             image_url: &'a Option<MessageDeltaContentImageUrlObjectImageUrl>,
@@ -39116,7 +39122,7 @@ impl serde::Serialize for MessageDeltaContentImageUrlObject {
         let Self { index, image_url } = self;
         MessageDeltaContentImageUrlObject {
             index,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             image_url,
         }
         .serialize(serializer)
@@ -39170,7 +39176,7 @@ impl<'de> serde::Deserialize<'de> for MessageDeltaContentRefusalObject {
             index: u64,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: MessageDeltaContentRefusalObjectType,
+            r#type: MessageDeltaContentRefusalObjectType,
             #[serde(rename = "refusal")]
             #[allow(dead_code)]
             refusal: Option<String>,
@@ -39191,7 +39197,7 @@ impl serde::Serialize for MessageDeltaContentRefusalObject {
             #[serde(rename = "index")]
             index: &'a u64,
             #[serde(rename = "type")]
-            type_: &'a MessageDeltaContentRefusalObjectType,
+            r#type: &'a MessageDeltaContentRefusalObjectType,
             #[serde(rename = "refusal")]
             #[serde(skip_serializing_if = "Option::is_none")]
             refusal: &'a Option<String>,
@@ -39199,7 +39205,7 @@ impl serde::Serialize for MessageDeltaContentRefusalObject {
         let Self { index, refusal } = self;
         MessageDeltaContentRefusalObject {
             index,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             refusal,
         }
         .serialize(serializer)
@@ -39307,7 +39313,7 @@ impl<'de> serde::Deserialize<'de> for MessageDeltaContentTextAnnotationsFileCita
             index: u64,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: MessageDeltaContentTextAnnotationsFileCitationObjectType,
+            r#type: MessageDeltaContentTextAnnotationsFileCitationObjectType,
             #[serde(rename = "text")]
             #[allow(dead_code)]
             text: Option<String>,
@@ -39349,7 +39355,7 @@ impl serde::Serialize for MessageDeltaContentTextAnnotationsFileCitationObject {
             #[serde(rename = "index")]
             index: &'a u64,
             #[serde(rename = "type")]
-            type_: &'a MessageDeltaContentTextAnnotationsFileCitationObjectType,
+            r#type: &'a MessageDeltaContentTextAnnotationsFileCitationObjectType,
             #[serde(rename = "text")]
             #[serde(skip_serializing_if = "Option::is_none")]
             text: &'a Option<String>,
@@ -39373,7 +39379,7 @@ impl serde::Serialize for MessageDeltaContentTextAnnotationsFileCitationObject {
         } = self;
         MessageDeltaContentTextAnnotationsFileCitationObject {
             index,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             text,
             file_citation,
             start_index,
@@ -39476,7 +39482,7 @@ impl<'de> serde::Deserialize<'de> for MessageDeltaContentTextAnnotationsFilePath
             index: u64,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: MessageDeltaContentTextAnnotationsFilePathObjectType,
+            r#type: MessageDeltaContentTextAnnotationsFilePathObjectType,
             #[serde(rename = "text")]
             #[allow(dead_code)]
             text: Option<String>,
@@ -39518,7 +39524,7 @@ impl serde::Serialize for MessageDeltaContentTextAnnotationsFilePathObject {
             #[serde(rename = "index")]
             index: &'a u64,
             #[serde(rename = "type")]
-            type_: &'a MessageDeltaContentTextAnnotationsFilePathObjectType,
+            r#type: &'a MessageDeltaContentTextAnnotationsFilePathObjectType,
             #[serde(rename = "text")]
             #[serde(skip_serializing_if = "Option::is_none")]
             text: &'a Option<String>,
@@ -39541,7 +39547,7 @@ impl serde::Serialize for MessageDeltaContentTextAnnotationsFilePathObject {
         } = self;
         MessageDeltaContentTextAnnotationsFilePathObject {
             index,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             text,
             file_path,
             start_index,
@@ -39653,7 +39659,7 @@ impl<'de> serde::Deserialize<'de> for MessageDeltaContentTextObject {
             index: u64,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: MessageDeltaContentTextObjectType,
+            r#type: MessageDeltaContentTextObjectType,
             #[serde(rename = "text")]
             #[allow(dead_code)]
             text: Option<MessageDeltaContentTextObjectText>,
@@ -39674,7 +39680,7 @@ impl serde::Serialize for MessageDeltaContentTextObject {
             #[serde(rename = "index")]
             index: &'a u64,
             #[serde(rename = "type")]
-            type_: &'a MessageDeltaContentTextObjectType,
+            r#type: &'a MessageDeltaContentTextObjectType,
             #[serde(rename = "text")]
             #[serde(skip_serializing_if = "Option::is_none")]
             text: &'a Option<MessageDeltaContentTextObjectText>,
@@ -39682,7 +39688,7 @@ impl serde::Serialize for MessageDeltaContentTextObject {
         let Self { index, text } = self;
         MessageDeltaContentTextObject {
             index,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             text,
         }
         .serialize(serializer)
@@ -40277,7 +40283,7 @@ impl<'de> serde::Deserialize<'de> for MessageRequestContentTextObject {
         struct MessageRequestContentTextObject {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: MessageRequestContentTextObjectType,
+            r#type: MessageRequestContentTextObjectType,
             #[serde(rename = "text")]
             #[allow(dead_code)]
             text: String,
@@ -40296,13 +40302,13 @@ impl serde::Serialize for MessageRequestContentTextObject {
         #[derive(serde :: Serialize)]
         struct MessageRequestContentTextObject<'a> {
             #[serde(rename = "type")]
-            type_: &'a MessageRequestContentTextObjectType,
+            r#type: &'a MessageRequestContentTextObjectType,
             #[serde(rename = "text")]
             text: &'a String,
         }
         let Self { text } = self;
         MessageRequestContentTextObject {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             text,
         }
         .serialize(serializer)
@@ -42014,7 +42020,7 @@ impl<'de> serde::Deserialize<'de> for Move {
         struct Move {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: MoveType,
+            r#type: MoveType,
             #[serde(rename = "x")]
             #[allow(dead_code)]
             x: u64,
@@ -42035,7 +42041,7 @@ impl serde::Serialize for Move {
         #[derive(serde :: Serialize)]
         struct Move<'a> {
             #[serde(rename = "type")]
-            type_: &'a MoveType,
+            r#type: &'a MoveType,
             #[serde(rename = "x")]
             x: &'a u64,
             #[serde(rename = "y")]
@@ -42043,7 +42049,7 @@ impl serde::Serialize for Move {
         }
         let Self { x, y } = self;
         Move {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             x,
             y,
         }
@@ -42294,7 +42300,7 @@ impl<'de> serde::Deserialize<'de> for OtherChunkingStrategyResponseParam {
         struct OtherChunkingStrategyResponseParam {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: OtherChunkingStrategyResponseParamType,
+            r#type: OtherChunkingStrategyResponseParamType,
         }
         let OtherChunkingStrategyResponseParam { .. } =
             OtherChunkingStrategyResponseParam::deserialize(deserializer)?;
@@ -42310,11 +42316,11 @@ impl serde::Serialize for OtherChunkingStrategyResponseParam {
         #[derive(serde :: Serialize)]
         struct OtherChunkingStrategyResponseParam<'a> {
             #[serde(rename = "type")]
-            type_: &'a OtherChunkingStrategyResponseParamType,
+            r#type: &'a OtherChunkingStrategyResponseParamType,
         }
         let Self {} = self;
         OtherChunkingStrategyResponseParam {
-            type_: &Default::default(),
+            r#type: &Default::default(),
         }
         .serialize(serializer)
     }
@@ -42359,7 +42365,7 @@ impl<'de> serde::Deserialize<'de> for OutputAudio {
         struct OutputAudio {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: OutputAudioType,
+            r#type: OutputAudioType,
             #[serde(rename = "data")]
             #[allow(dead_code)]
             data: String,
@@ -42382,7 +42388,7 @@ impl serde::Serialize for OutputAudio {
         #[derive(serde :: Serialize)]
         struct OutputAudio<'a> {
             #[serde(rename = "type")]
-            type_: &'a OutputAudioType,
+            r#type: &'a OutputAudioType,
             #[serde(rename = "data")]
             data: &'a String,
             #[serde(rename = "transcript")]
@@ -42390,7 +42396,7 @@ impl serde::Serialize for OutputAudio {
         }
         let Self { data, transcript } = self;
         OutputAudio {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             data,
             transcript,
         }
@@ -42627,7 +42633,7 @@ impl<'de> serde::Deserialize<'de> for OutputMessage {
             id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: OutputMessageType,
+            r#type: OutputMessageType,
             #[serde(rename = "role")]
             #[allow(dead_code)]
             role: OutputMessageRole,
@@ -42662,7 +42668,7 @@ impl serde::Serialize for OutputMessage {
             #[serde(rename = "id")]
             id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a OutputMessageType,
+            r#type: &'a OutputMessageType,
             #[serde(rename = "role")]
             role: &'a OutputMessageRole,
             #[serde(rename = "content")]
@@ -42677,7 +42683,7 @@ impl serde::Serialize for OutputMessage {
         } = self;
         OutputMessage {
             id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             role: &Default::default(),
             content,
             status,
@@ -42781,7 +42787,7 @@ impl<'de> serde::Deserialize<'de> for PredictionContent {
         struct PredictionContent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: PredictionContentType,
+            r#type: PredictionContentType,
             #[serde(rename = "content")]
             #[allow(dead_code)]
             content: PredictionContentContent,
@@ -42799,13 +42805,13 @@ impl serde::Serialize for PredictionContent {
         #[derive(serde :: Serialize)]
         struct PredictionContent<'a> {
             #[serde(rename = "type")]
-            type_: &'a PredictionContentType,
+            r#type: &'a PredictionContentType,
             #[serde(rename = "content")]
             content: &'a PredictionContentContent,
         }
         let Self { content } = self;
         PredictionContent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             content,
         }
         .serialize(serializer)
@@ -43000,7 +43006,7 @@ impl<'de> serde::Deserialize<'de> for ProjectApiKeyOwner {
         struct ProjectApiKeyOwner {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: Option<ProjectApiKeyOwnerType>,
+            r#type: Option<ProjectApiKeyOwnerType>,
             #[serde(rename = "user")]
             #[allow(dead_code)]
             user: Option<ProjectUser>,
@@ -43009,13 +43015,13 @@ impl<'de> serde::Deserialize<'de> for ProjectApiKeyOwner {
             service_account: Option<ProjectServiceAccount>,
         }
         let ProjectApiKeyOwner {
-            type_,
+            r#type,
             user,
             service_account,
             ..
         } = ProjectApiKeyOwner::deserialize(deserializer)?;
         Ok(Self {
-            type_,
+            r#type,
             user,
             service_account,
         })
@@ -43031,7 +43037,7 @@ impl serde::Serialize for ProjectApiKeyOwner {
         struct ProjectApiKeyOwner<'a> {
             #[serde(rename = "type")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            type_: &'a Option<ProjectApiKeyOwnerType>,
+            r#type: &'a Option<ProjectApiKeyOwnerType>,
             #[serde(rename = "user")]
             #[serde(skip_serializing_if = "Option::is_none")]
             user: &'a Option<ProjectUser>,
@@ -43040,12 +43046,12 @@ impl serde::Serialize for ProjectApiKeyOwner {
             service_account: &'a Option<ProjectServiceAccount>,
         }
         let Self {
-            type_,
+            r#type,
             user,
             service_account,
         } = self;
         ProjectApiKeyOwner {
-            type_,
+            r#type,
             user,
             service_account,
         }
@@ -43056,7 +43062,7 @@ impl serde::Serialize for ProjectApiKeyOwner {
 pub struct ProjectApiKeyOwner {
     #[doc = "`user` or `service_account`"]
     #[builder(default)]
-    pub type_: Option<ProjectApiKeyOwnerType>,
+    pub r#type: Option<ProjectApiKeyOwnerType>,
     #[builder(default)]
     pub user: Option<ProjectUser>,
     #[builder(default)]
@@ -45095,7 +45101,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeClientEventConversationItemCreate 
             event_id: Option<String>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeClientEventConversationItemCreateType,
+            r#type: RealtimeClientEventConversationItemCreateType,
             #[serde(rename = "previous_item_id")]
             #[allow(dead_code)]
             previous_item_id: Option<String>,
@@ -45128,7 +45134,7 @@ impl serde::Serialize for RealtimeClientEventConversationItemCreate {
             #[serde(skip_serializing_if = "Option::is_none")]
             event_id: &'a Option<String>,
             #[serde(rename = "type")]
-            type_: &'a RealtimeClientEventConversationItemCreateType,
+            r#type: &'a RealtimeClientEventConversationItemCreateType,
             #[serde(rename = "previous_item_id")]
             #[serde(skip_serializing_if = "Option::is_none")]
             previous_item_id: &'a Option<String>,
@@ -45142,7 +45148,7 @@ impl serde::Serialize for RealtimeClientEventConversationItemCreate {
         } = self;
         RealtimeClientEventConversationItemCreate {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             previous_item_id,
             item,
         }
@@ -45201,7 +45207,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeClientEventConversationItemDelete 
             event_id: Option<String>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeClientEventConversationItemDeleteType,
+            r#type: RealtimeClientEventConversationItemDeleteType,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
@@ -45224,14 +45230,14 @@ impl serde::Serialize for RealtimeClientEventConversationItemDelete {
             #[serde(skip_serializing_if = "Option::is_none")]
             event_id: &'a Option<String>,
             #[serde(rename = "type")]
-            type_: &'a RealtimeClientEventConversationItemDeleteType,
+            r#type: &'a RealtimeClientEventConversationItemDeleteType,
             #[serde(rename = "item_id")]
             item_id: &'a String,
         }
         let Self { event_id, item_id } = self;
         RealtimeClientEventConversationItemDelete {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             item_id,
         }
         .serialize(serializer)
@@ -45286,7 +45292,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeClientEventConversationItemRetriev
             event_id: Option<String>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeClientEventConversationItemRetrieveType,
+            r#type: RealtimeClientEventConversationItemRetrieveType,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
@@ -45309,14 +45315,14 @@ impl serde::Serialize for RealtimeClientEventConversationItemRetrieve {
             #[serde(skip_serializing_if = "Option::is_none")]
             event_id: &'a Option<String>,
             #[serde(rename = "type")]
-            type_: &'a RealtimeClientEventConversationItemRetrieveType,
+            r#type: &'a RealtimeClientEventConversationItemRetrieveType,
             #[serde(rename = "item_id")]
             item_id: &'a String,
         }
         let Self { event_id, item_id } = self;
         RealtimeClientEventConversationItemRetrieve {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             item_id,
         }
         .serialize(serializer)
@@ -45371,7 +45377,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeClientEventConversationItemTruncat
             event_id: Option<String>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeClientEventConversationItemTruncateType,
+            r#type: RealtimeClientEventConversationItemTruncateType,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
@@ -45409,7 +45415,7 @@ impl serde::Serialize for RealtimeClientEventConversationItemTruncate {
             #[serde(skip_serializing_if = "Option::is_none")]
             event_id: &'a Option<String>,
             #[serde(rename = "type")]
-            type_: &'a RealtimeClientEventConversationItemTruncateType,
+            r#type: &'a RealtimeClientEventConversationItemTruncateType,
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "content_index")]
@@ -45425,7 +45431,7 @@ impl serde::Serialize for RealtimeClientEventConversationItemTruncate {
         } = self;
         RealtimeClientEventConversationItemTruncate {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             item_id,
             content_index,
             audio_end_ms,
@@ -45486,7 +45492,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeClientEventInputAudioBufferAppend 
             event_id: Option<String>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeClientEventInputAudioBufferAppendType,
+            r#type: RealtimeClientEventInputAudioBufferAppendType,
             #[serde(rename = "audio")]
             #[allow(dead_code)]
             audio: String,
@@ -45509,14 +45515,14 @@ impl serde::Serialize for RealtimeClientEventInputAudioBufferAppend {
             #[serde(skip_serializing_if = "Option::is_none")]
             event_id: &'a Option<String>,
             #[serde(rename = "type")]
-            type_: &'a RealtimeClientEventInputAudioBufferAppendType,
+            r#type: &'a RealtimeClientEventInputAudioBufferAppendType,
             #[serde(rename = "audio")]
             audio: &'a String,
         }
         let Self { event_id, audio } = self;
         RealtimeClientEventInputAudioBufferAppend {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             audio,
         }
         .serialize(serializer)
@@ -45571,7 +45577,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeClientEventInputAudioBufferClear {
             event_id: Option<String>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeClientEventInputAudioBufferClearType,
+            r#type: RealtimeClientEventInputAudioBufferClearType,
         }
         let RealtimeClientEventInputAudioBufferClear { event_id, .. } =
             RealtimeClientEventInputAudioBufferClear::deserialize(deserializer)?;
@@ -45590,12 +45596,12 @@ impl serde::Serialize for RealtimeClientEventInputAudioBufferClear {
             #[serde(skip_serializing_if = "Option::is_none")]
             event_id: &'a Option<String>,
             #[serde(rename = "type")]
-            type_: &'a RealtimeClientEventInputAudioBufferClearType,
+            r#type: &'a RealtimeClientEventInputAudioBufferClearType,
         }
         let Self { event_id } = self;
         RealtimeClientEventInputAudioBufferClear {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
         }
         .serialize(serializer)
     }
@@ -45647,7 +45653,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeClientEventInputAudioBufferCommit 
             event_id: Option<String>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeClientEventInputAudioBufferCommitType,
+            r#type: RealtimeClientEventInputAudioBufferCommitType,
         }
         let RealtimeClientEventInputAudioBufferCommit { event_id, .. } =
             RealtimeClientEventInputAudioBufferCommit::deserialize(deserializer)?;
@@ -45666,12 +45672,12 @@ impl serde::Serialize for RealtimeClientEventInputAudioBufferCommit {
             #[serde(skip_serializing_if = "Option::is_none")]
             event_id: &'a Option<String>,
             #[serde(rename = "type")]
-            type_: &'a RealtimeClientEventInputAudioBufferCommitType,
+            r#type: &'a RealtimeClientEventInputAudioBufferCommitType,
         }
         let Self { event_id } = self;
         RealtimeClientEventInputAudioBufferCommit {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
         }
         .serialize(serializer)
     }
@@ -45723,7 +45729,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeClientEventOutputAudioBufferClear 
             event_id: Option<String>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeClientEventOutputAudioBufferClearType,
+            r#type: RealtimeClientEventOutputAudioBufferClearType,
         }
         let RealtimeClientEventOutputAudioBufferClear { event_id, .. } =
             RealtimeClientEventOutputAudioBufferClear::deserialize(deserializer)?;
@@ -45742,12 +45748,12 @@ impl serde::Serialize for RealtimeClientEventOutputAudioBufferClear {
             #[serde(skip_serializing_if = "Option::is_none")]
             event_id: &'a Option<String>,
             #[serde(rename = "type")]
-            type_: &'a RealtimeClientEventOutputAudioBufferClearType,
+            r#type: &'a RealtimeClientEventOutputAudioBufferClearType,
         }
         let Self { event_id } = self;
         RealtimeClientEventOutputAudioBufferClear {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
         }
         .serialize(serializer)
     }
@@ -45799,7 +45805,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeClientEventResponseCancel {
             event_id: Option<String>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeClientEventResponseCancelType,
+            r#type: RealtimeClientEventResponseCancelType,
             #[serde(rename = "response_id")]
             #[allow(dead_code)]
             response_id: Option<String>,
@@ -45827,7 +45833,7 @@ impl serde::Serialize for RealtimeClientEventResponseCancel {
             #[serde(skip_serializing_if = "Option::is_none")]
             event_id: &'a Option<String>,
             #[serde(rename = "type")]
-            type_: &'a RealtimeClientEventResponseCancelType,
+            r#type: &'a RealtimeClientEventResponseCancelType,
             #[serde(rename = "response_id")]
             #[serde(skip_serializing_if = "Option::is_none")]
             response_id: &'a Option<String>,
@@ -45838,7 +45844,7 @@ impl serde::Serialize for RealtimeClientEventResponseCancel {
         } = self;
         RealtimeClientEventResponseCancel {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             response_id,
         }
         .serialize(serializer)
@@ -45894,7 +45900,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeClientEventResponseCreate {
             event_id: Option<String>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeClientEventResponseCreateType,
+            r#type: RealtimeClientEventResponseCreateType,
             #[serde(rename = "response")]
             #[allow(dead_code)]
             response: Option<RealtimeResponseCreateParams>,
@@ -45917,7 +45923,7 @@ impl serde::Serialize for RealtimeClientEventResponseCreate {
             #[serde(skip_serializing_if = "Option::is_none")]
             event_id: &'a Option<String>,
             #[serde(rename = "type")]
-            type_: &'a RealtimeClientEventResponseCreateType,
+            r#type: &'a RealtimeClientEventResponseCreateType,
             #[serde(rename = "response")]
             #[serde(skip_serializing_if = "Option::is_none")]
             response: &'a Option<RealtimeResponseCreateParams>,
@@ -45925,7 +45931,7 @@ impl serde::Serialize for RealtimeClientEventResponseCreate {
         let Self { event_id, response } = self;
         RealtimeClientEventResponseCreate {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             response,
         }
         .serialize(serializer)
@@ -45980,7 +45986,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeClientEventSessionUpdate {
             event_id: Option<String>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeClientEventSessionUpdateType,
+            r#type: RealtimeClientEventSessionUpdateType,
             #[serde(rename = "session")]
             #[allow(dead_code)]
             session: RealtimeSessionCreateRequest,
@@ -46003,14 +46009,14 @@ impl serde::Serialize for RealtimeClientEventSessionUpdate {
             #[serde(skip_serializing_if = "Option::is_none")]
             event_id: &'a Option<String>,
             #[serde(rename = "type")]
-            type_: &'a RealtimeClientEventSessionUpdateType,
+            r#type: &'a RealtimeClientEventSessionUpdateType,
             #[serde(rename = "session")]
             session: &'a RealtimeSessionCreateRequest,
         }
         let Self { event_id, session } = self;
         RealtimeClientEventSessionUpdate {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             session,
         }
         .serialize(serializer)
@@ -46065,7 +46071,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeClientEventTranscriptionSessionUpd
             event_id: Option<String>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeClientEventTranscriptionSessionUpdateType,
+            r#type: RealtimeClientEventTranscriptionSessionUpdateType,
             #[serde(rename = "session")]
             #[allow(dead_code)]
             session: RealtimeTranscriptionSessionCreateRequest,
@@ -46088,14 +46094,14 @@ impl serde::Serialize for RealtimeClientEventTranscriptionSessionUpdate {
             #[serde(skip_serializing_if = "Option::is_none")]
             event_id: &'a Option<String>,
             #[serde(rename = "type")]
-            type_: &'a RealtimeClientEventTranscriptionSessionUpdateType,
+            r#type: &'a RealtimeClientEventTranscriptionSessionUpdateType,
             #[serde(rename = "session")]
             session: &'a RealtimeTranscriptionSessionCreateRequest,
         }
         let Self { event_id, session } = self;
         RealtimeClientEventTranscriptionSessionUpdate {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             session,
         }
         .serialize(serializer)
@@ -46186,7 +46192,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeConversationItem {
             id: Option<String>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: Option<RealtimeConversationItemType>,
+            r#type: Option<RealtimeConversationItemType>,
             #[serde(rename = "object")]
             #[allow(dead_code)]
             object: Option<RealtimeConversationItemObject>,
@@ -46214,7 +46220,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeConversationItem {
         }
         let RealtimeConversationItem {
             id,
-            type_,
+            r#type,
             object,
             status,
             role,
@@ -46227,7 +46233,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeConversationItem {
         } = RealtimeConversationItem::deserialize(deserializer)?;
         Ok(Self {
             id,
-            type_,
+            r#type,
             object,
             status,
             role,
@@ -46252,7 +46258,7 @@ impl serde::Serialize for RealtimeConversationItem {
             id: &'a Option<String>,
             #[serde(rename = "type")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            type_: &'a Option<RealtimeConversationItemType>,
+            r#type: &'a Option<RealtimeConversationItemType>,
             #[serde(rename = "object")]
             #[serde(skip_serializing_if = "Option::is_none")]
             object: &'a Option<RealtimeConversationItemObject>,
@@ -46280,7 +46286,7 @@ impl serde::Serialize for RealtimeConversationItem {
         }
         let Self {
             id,
-            type_,
+            r#type,
             object,
             status,
             role,
@@ -46292,7 +46298,7 @@ impl serde::Serialize for RealtimeConversationItem {
         } = self;
         RealtimeConversationItem {
             id,
-            type_,
+            r#type,
             object,
             status,
             role,
@@ -46313,7 +46319,7 @@ pub struct RealtimeConversationItem {
     pub id: Option<String>,
     #[doc = "The type of the item (`message`, `function_call`, `function_call_output`).\n"]
     #[builder(default)]
-    pub type_: Option<RealtimeConversationItemType>,
+    pub r#type: Option<RealtimeConversationItemType>,
     #[doc = "Identifier for the API object being returned - always `realtime.item`.\n"]
     #[builder(default)]
     pub object: Option<RealtimeConversationItemObject>,
@@ -46418,7 +46424,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeConversationItemWithReference {
             id: Option<String>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: Option<RealtimeConversationItemWithReferenceType>,
+            r#type: Option<RealtimeConversationItemWithReferenceType>,
             #[serde(rename = "object")]
             #[allow(dead_code)]
             object: Option<RealtimeConversationItemWithReferenceObject>,
@@ -46446,7 +46452,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeConversationItemWithReference {
         }
         let RealtimeConversationItemWithReference {
             id,
-            type_,
+            r#type,
             object,
             status,
             role,
@@ -46459,7 +46465,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeConversationItemWithReference {
         } = RealtimeConversationItemWithReference::deserialize(deserializer)?;
         Ok(Self {
             id,
-            type_,
+            r#type,
             object,
             status,
             role,
@@ -46484,7 +46490,7 @@ impl serde::Serialize for RealtimeConversationItemWithReference {
             id: &'a Option<String>,
             #[serde(rename = "type")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            type_: &'a Option<RealtimeConversationItemWithReferenceType>,
+            r#type: &'a Option<RealtimeConversationItemWithReferenceType>,
             #[serde(rename = "object")]
             #[serde(skip_serializing_if = "Option::is_none")]
             object: &'a Option<RealtimeConversationItemWithReferenceObject>,
@@ -46512,7 +46518,7 @@ impl serde::Serialize for RealtimeConversationItemWithReference {
         }
         let Self {
             id,
-            type_,
+            r#type,
             object,
             status,
             role,
@@ -46524,7 +46530,7 @@ impl serde::Serialize for RealtimeConversationItemWithReference {
         } = self;
         RealtimeConversationItemWithReference {
             id,
-            type_,
+            r#type,
             object,
             status,
             role,
@@ -46545,7 +46551,7 @@ pub struct RealtimeConversationItemWithReference {
     pub id: Option<String>,
     #[doc = "The type of the item (`message`, `function_call`, `function_call_output`, `item_reference`).\n"]
     #[builder(default)]
-    pub type_: Option<RealtimeConversationItemWithReferenceType>,
+    pub r#type: Option<RealtimeConversationItemWithReferenceType>,
     #[doc = "Identifier for the API object being returned - always `realtime.item`.\n"]
     #[builder(default)]
     pub object: Option<RealtimeConversationItemWithReferenceObject>,
@@ -46656,14 +46662,14 @@ impl<'de> serde::Deserialize<'de> for RealtimeResponseStatusDetailsError {
         struct RealtimeResponseStatusDetailsError {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: Option<String>,
+            r#type: Option<String>,
             #[serde(rename = "code")]
             #[allow(dead_code)]
             code: Option<String>,
         }
-        let RealtimeResponseStatusDetailsError { type_, code, .. } =
+        let RealtimeResponseStatusDetailsError { r#type, code, .. } =
             RealtimeResponseStatusDetailsError::deserialize(deserializer)?;
-        Ok(Self { type_, code })
+        Ok(Self { r#type, code })
     }
 }
 impl serde::Serialize for RealtimeResponseStatusDetailsError {
@@ -46676,13 +46682,13 @@ impl serde::Serialize for RealtimeResponseStatusDetailsError {
         struct RealtimeResponseStatusDetailsError<'a> {
             #[serde(rename = "type")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            type_: &'a Option<String>,
+            r#type: &'a Option<String>,
             #[serde(rename = "code")]
             #[serde(skip_serializing_if = "Option::is_none")]
             code: &'a Option<String>,
         }
-        let Self { type_, code } = self;
-        RealtimeResponseStatusDetailsError { type_, code }.serialize(serializer)
+        let Self { r#type, code } = self;
+        RealtimeResponseStatusDetailsError { r#type, code }.serialize(serializer)
     }
 }
 #[doc = "A description of the error that caused the response to fail, \npopulated when the `status` is `failed`.\n"]
@@ -46690,7 +46696,7 @@ impl serde::Serialize for RealtimeResponseStatusDetailsError {
 pub struct RealtimeResponseStatusDetailsError {
     #[doc = "The type of error."]
     #[builder(default)]
-    pub type_: Option<String>,
+    pub r#type: Option<String>,
     #[doc = "Error code, if any."]
     #[builder(default)]
     pub code: Option<String>,
@@ -46705,7 +46711,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeResponseStatusDetails {
         struct RealtimeResponseStatusDetails {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: Option<RealtimeResponseStatusDetailsType>,
+            r#type: Option<RealtimeResponseStatusDetailsType>,
             #[serde(rename = "reason")]
             #[allow(dead_code)]
             reason: Option<RealtimeResponseStatusDetailsReason>,
@@ -46714,13 +46720,13 @@ impl<'de> serde::Deserialize<'de> for RealtimeResponseStatusDetails {
             error: Option<RealtimeResponseStatusDetailsError>,
         }
         let RealtimeResponseStatusDetails {
-            type_,
+            r#type,
             reason,
             error,
             ..
         } = RealtimeResponseStatusDetails::deserialize(deserializer)?;
         Ok(Self {
-            type_,
+            r#type,
             reason,
             error,
         })
@@ -46736,7 +46742,7 @@ impl serde::Serialize for RealtimeResponseStatusDetails {
         struct RealtimeResponseStatusDetails<'a> {
             #[serde(rename = "type")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            type_: &'a Option<RealtimeResponseStatusDetailsType>,
+            r#type: &'a Option<RealtimeResponseStatusDetailsType>,
             #[serde(rename = "reason")]
             #[serde(skip_serializing_if = "Option::is_none")]
             reason: &'a Option<RealtimeResponseStatusDetailsReason>,
@@ -46745,12 +46751,12 @@ impl serde::Serialize for RealtimeResponseStatusDetails {
             error: &'a Option<RealtimeResponseStatusDetailsError>,
         }
         let Self {
-            type_,
+            r#type,
             reason,
             error,
         } = self;
         RealtimeResponseStatusDetails {
-            type_,
+            r#type,
             reason,
             error,
         }
@@ -46762,7 +46768,7 @@ impl serde::Serialize for RealtimeResponseStatusDetails {
 pub struct RealtimeResponseStatusDetails {
     #[doc = "The type of error that caused the response to fail, corresponding \nwith the `status` field (`completed`, `cancelled`, `incomplete`, \n`failed`).\n"]
     #[builder(default)]
-    pub type_: Option<RealtimeResponseStatusDetailsType>,
+    pub r#type: Option<RealtimeResponseStatusDetailsType>,
     #[doc = "The reason the Response did not complete. For a `cancelled` Response, \none of `turn_detected` (the server VAD detected a new start of speech) \nor `client_cancelled` (the client sent a cancel event). For an \n`incomplete` Response, one of `max_output_tokens` or `content_filter` \n(the server-side safety filter activated and cut off the response).\n"]
     #[builder(default)]
     pub reason: Option<RealtimeResponseStatusDetailsReason>,
@@ -47370,7 +47376,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeResponseCreateParamsTool {
         struct RealtimeResponseCreateParamsTool {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: Option<RealtimeResponseCreateParamsToolType>,
+            r#type: Option<RealtimeResponseCreateParamsToolType>,
             #[serde(rename = "name")]
             #[allow(dead_code)]
             name: Option<String>,
@@ -47382,14 +47388,14 @@ impl<'de> serde::Deserialize<'de> for RealtimeResponseCreateParamsTool {
             parameters: Option<std::collections::HashMap<String, serde_json::Value>>,
         }
         let RealtimeResponseCreateParamsTool {
-            type_,
+            r#type,
             name,
             description,
             parameters,
             ..
         } = RealtimeResponseCreateParamsTool::deserialize(deserializer)?;
         Ok(Self {
-            type_,
+            r#type,
             name,
             description,
             parameters,
@@ -47406,7 +47412,7 @@ impl serde::Serialize for RealtimeResponseCreateParamsTool {
         struct RealtimeResponseCreateParamsTool<'a> {
             #[serde(rename = "type")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            type_: &'a Option<RealtimeResponseCreateParamsToolType>,
+            r#type: &'a Option<RealtimeResponseCreateParamsToolType>,
             #[serde(rename = "name")]
             #[serde(skip_serializing_if = "Option::is_none")]
             name: &'a Option<String>,
@@ -47418,13 +47424,13 @@ impl serde::Serialize for RealtimeResponseCreateParamsTool {
             parameters: &'a Option<std::collections::HashMap<String, serde_json::Value>>,
         }
         let Self {
-            type_,
+            r#type,
             name,
             description,
             parameters,
         } = self;
         RealtimeResponseCreateParamsTool {
-            type_,
+            r#type,
             name,
             description,
             parameters,
@@ -47436,7 +47442,7 @@ impl serde::Serialize for RealtimeResponseCreateParamsTool {
 pub struct RealtimeResponseCreateParamsTool {
     #[doc = "The type of the tool, i.e. `function`."]
     #[builder(default)]
-    pub type_: Option<RealtimeResponseCreateParamsToolType>,
+    pub r#type: Option<RealtimeResponseCreateParamsToolType>,
     #[doc = "The name of the function."]
     #[builder(default)]
     pub name: Option<String>,
@@ -48312,7 +48318,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventConversationCreated {
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeServerEventConversationCreatedType,
+            r#type: RealtimeServerEventConversationCreatedType,
             #[serde(rename = "conversation")]
             #[allow(dead_code)]
             conversation: RealtimeServerEventConversationCreatedConversation,
@@ -48339,7 +48345,7 @@ impl serde::Serialize for RealtimeServerEventConversationCreated {
             #[serde(rename = "event_id")]
             event_id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a RealtimeServerEventConversationCreatedType,
+            r#type: &'a RealtimeServerEventConversationCreatedType,
             #[serde(rename = "conversation")]
             conversation: &'a RealtimeServerEventConversationCreatedConversation,
         }
@@ -48349,7 +48355,7 @@ impl serde::Serialize for RealtimeServerEventConversationCreated {
         } = self;
         RealtimeServerEventConversationCreated {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             conversation,
         }
         .serialize(serializer)
@@ -48404,7 +48410,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventConversationItemCreated
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeServerEventConversationItemCreatedType,
+            r#type: RealtimeServerEventConversationItemCreatedType,
             #[serde(rename = "previous_item_id")]
             #[allow(dead_code)]
             previous_item_id: String,
@@ -48436,7 +48442,7 @@ impl serde::Serialize for RealtimeServerEventConversationItemCreated {
             #[serde(rename = "event_id")]
             event_id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a RealtimeServerEventConversationItemCreatedType,
+            r#type: &'a RealtimeServerEventConversationItemCreatedType,
             #[serde(rename = "previous_item_id")]
             previous_item_id: &'a String,
             #[serde(rename = "item")]
@@ -48449,7 +48455,7 @@ impl serde::Serialize for RealtimeServerEventConversationItemCreated {
         } = self;
         RealtimeServerEventConversationItemCreated {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             previous_item_id,
             item,
         }
@@ -48506,7 +48512,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventConversationItemDeleted
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeServerEventConversationItemDeletedType,
+            r#type: RealtimeServerEventConversationItemDeletedType,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
@@ -48528,14 +48534,14 @@ impl serde::Serialize for RealtimeServerEventConversationItemDeleted {
             #[serde(rename = "event_id")]
             event_id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a RealtimeServerEventConversationItemDeletedType,
+            r#type: &'a RealtimeServerEventConversationItemDeletedType,
             #[serde(rename = "item_id")]
             item_id: &'a String,
         }
         let Self { event_id, item_id } = self;
         RealtimeServerEventConversationItemDeleted {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             item_id,
         }
         .serialize(serializer)
@@ -48593,7 +48599,7 @@ impl<'de> serde::Deserialize<'de>
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeServerEventConversationItemInputAudioTranscriptionCompletedType,
+            r#type: RealtimeServerEventConversationItemInputAudioTranscriptionCompletedType,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
@@ -48637,7 +48643,7 @@ impl serde::Serialize for RealtimeServerEventConversationItemInputAudioTranscrip
             #[serde(rename = "event_id")]
             event_id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a RealtimeServerEventConversationItemInputAudioTranscriptionCompletedType,
+            r#type: &'a RealtimeServerEventConversationItemInputAudioTranscriptionCompletedType,
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "content_index")]
@@ -48657,7 +48663,7 @@ impl serde::Serialize for RealtimeServerEventConversationItemInputAudioTranscrip
         } = self;
         RealtimeServerEventConversationItemInputAudioTranscriptionCompleted {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             item_id,
             content_index,
             transcript,
@@ -48725,7 +48731,7 @@ impl<'de> serde::Deserialize<'de>
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeServerEventConversationItemInputAudioTranscriptionDeltaType,
+            r#type: RealtimeServerEventConversationItemInputAudioTranscriptionDeltaType,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
@@ -48769,7 +48775,7 @@ impl serde::Serialize for RealtimeServerEventConversationItemInputAudioTranscrip
             #[serde(rename = "event_id")]
             event_id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a RealtimeServerEventConversationItemInputAudioTranscriptionDeltaType,
+            r#type: &'a RealtimeServerEventConversationItemInputAudioTranscriptionDeltaType,
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "content_index")]
@@ -48791,7 +48797,7 @@ impl serde::Serialize for RealtimeServerEventConversationItemInputAudioTranscrip
         } = self;
         RealtimeServerEventConversationItemInputAudioTranscriptionDelta {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             item_id,
             content_index,
             delta,
@@ -48858,7 +48864,7 @@ impl<'de> serde::Deserialize<'de>
         struct RealtimeServerEventConversationItemInputAudioTranscriptionFailedError {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: Option<String>,
+            r#type: Option<String>,
             #[serde(rename = "code")]
             #[allow(dead_code)]
             code: Option<String>,
@@ -48870,7 +48876,7 @@ impl<'de> serde::Deserialize<'de>
             param: Option<String>,
         }
         let RealtimeServerEventConversationItemInputAudioTranscriptionFailedError {
-            type_,
+            r#type,
             code,
             message,
             param,
@@ -48879,7 +48885,7 @@ impl<'de> serde::Deserialize<'de>
             deserializer,
         )?;
         Ok(Self {
-            type_,
+            r#type,
             code,
             message,
             param,
@@ -48896,7 +48902,7 @@ impl serde::Serialize for RealtimeServerEventConversationItemInputAudioTranscrip
         struct RealtimeServerEventConversationItemInputAudioTranscriptionFailedError<'a> {
             #[serde(rename = "type")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            type_: &'a Option<String>,
+            r#type: &'a Option<String>,
             #[serde(rename = "code")]
             #[serde(skip_serializing_if = "Option::is_none")]
             code: &'a Option<String>,
@@ -48908,13 +48914,13 @@ impl serde::Serialize for RealtimeServerEventConversationItemInputAudioTranscrip
             param: &'a Option<String>,
         }
         let Self {
-            type_,
+            r#type,
             code,
             message,
             param,
         } = self;
         RealtimeServerEventConversationItemInputAudioTranscriptionFailedError {
-            type_,
+            r#type,
             code,
             message,
             param,
@@ -48927,7 +48933,7 @@ impl serde::Serialize for RealtimeServerEventConversationItemInputAudioTranscrip
 pub struct RealtimeServerEventConversationItemInputAudioTranscriptionFailedError {
     #[doc = "The type of error."]
     #[builder(default)]
-    pub type_: Option<String>,
+    pub r#type: Option<String>,
     #[doc = "Error code, if any."]
     #[builder(default)]
     pub code: Option<String>,
@@ -48953,7 +48959,7 @@ impl<'de> serde::Deserialize<'de>
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeServerEventConversationItemInputAudioTranscriptionFailedType,
+            r#type: RealtimeServerEventConversationItemInputAudioTranscriptionFailedType,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
@@ -48992,7 +48998,7 @@ impl serde::Serialize for RealtimeServerEventConversationItemInputAudioTranscrip
             #[serde(rename = "event_id")]
             event_id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a RealtimeServerEventConversationItemInputAudioTranscriptionFailedType,
+            r#type: &'a RealtimeServerEventConversationItemInputAudioTranscriptionFailedType,
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "content_index")]
@@ -49008,7 +49014,7 @@ impl serde::Serialize for RealtimeServerEventConversationItemInputAudioTranscrip
         } = self;
         RealtimeServerEventConversationItemInputAudioTranscriptionFailed {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             item_id,
             content_index,
             error,
@@ -49069,7 +49075,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventConversationItemRetriev
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeServerEventConversationItemRetrievedType,
+            r#type: RealtimeServerEventConversationItemRetrievedType,
             #[serde(rename = "item")]
             #[allow(dead_code)]
             item: RealtimeConversationItem,
@@ -49090,14 +49096,14 @@ impl serde::Serialize for RealtimeServerEventConversationItemRetrieved {
             #[serde(rename = "event_id")]
             event_id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a RealtimeServerEventConversationItemRetrievedType,
+            r#type: &'a RealtimeServerEventConversationItemRetrievedType,
             #[serde(rename = "item")]
             item: &'a RealtimeConversationItem,
         }
         let Self { event_id, item } = self;
         RealtimeServerEventConversationItemRetrieved {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             item,
         }
         .serialize(serializer)
@@ -49151,7 +49157,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventConversationItemTruncat
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeServerEventConversationItemTruncatedType,
+            r#type: RealtimeServerEventConversationItemTruncatedType,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
@@ -49188,7 +49194,7 @@ impl serde::Serialize for RealtimeServerEventConversationItemTruncated {
             #[serde(rename = "event_id")]
             event_id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a RealtimeServerEventConversationItemTruncatedType,
+            r#type: &'a RealtimeServerEventConversationItemTruncatedType,
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "content_index")]
@@ -49204,7 +49210,7 @@ impl serde::Serialize for RealtimeServerEventConversationItemTruncated {
         } = self;
         RealtimeServerEventConversationItemTruncated {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             item_id,
             content_index,
             audio_end_ms,
@@ -49261,7 +49267,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventErrorError {
         struct RealtimeServerEventErrorError {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: String,
+            r#type: String,
             #[serde(rename = "code")]
             #[allow(dead_code)]
             code: Option<String>,
@@ -49276,7 +49282,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventErrorError {
             event_id: Option<String>,
         }
         let RealtimeServerEventErrorError {
-            type_,
+            r#type,
             code,
             message,
             param,
@@ -49284,7 +49290,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventErrorError {
             ..
         } = RealtimeServerEventErrorError::deserialize(deserializer)?;
         Ok(Self {
-            type_,
+            r#type,
             code,
             message,
             param,
@@ -49301,7 +49307,7 @@ impl serde::Serialize for RealtimeServerEventErrorError {
         #[derive(serde :: Serialize)]
         struct RealtimeServerEventErrorError<'a> {
             #[serde(rename = "type")]
-            type_: &'a String,
+            r#type: &'a String,
             #[serde(rename = "code")]
             #[serde(skip_serializing_if = "Option::is_none")]
             code: &'a Option<String>,
@@ -49315,14 +49321,14 @@ impl serde::Serialize for RealtimeServerEventErrorError {
             event_id: &'a Option<String>,
         }
         let Self {
-            type_,
+            r#type,
             code,
             message,
             param,
             event_id,
         } = self;
         RealtimeServerEventErrorError {
-            type_,
+            r#type,
             code,
             message,
             param,
@@ -49335,7 +49341,7 @@ impl serde::Serialize for RealtimeServerEventErrorError {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeServerEventErrorError {
     #[doc = "The type of error (e.g., \"invalid_request_error\", \"server_error\").\n"]
-    pub type_: String,
+    pub r#type: String,
     #[doc = "Error code, if any."]
     #[builder(default)]
     pub code: Option<String>,
@@ -49361,7 +49367,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventError {
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeServerEventErrorType,
+            r#type: RealtimeServerEventErrorType,
             #[serde(rename = "error")]
             #[allow(dead_code)]
             error: RealtimeServerEventErrorError,
@@ -49383,14 +49389,14 @@ impl serde::Serialize for RealtimeServerEventError {
             #[serde(rename = "event_id")]
             event_id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a RealtimeServerEventErrorType,
+            r#type: &'a RealtimeServerEventErrorType,
             #[serde(rename = "error")]
             error: &'a RealtimeServerEventErrorError,
         }
         let Self { event_id, error } = self;
         RealtimeServerEventError {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             error,
         }
         .serialize(serializer)
@@ -49444,7 +49450,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventInputAudioBufferCleared
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeServerEventInputAudioBufferClearedType,
+            r#type: RealtimeServerEventInputAudioBufferClearedType,
         }
         let RealtimeServerEventInputAudioBufferCleared { event_id, .. } =
             RealtimeServerEventInputAudioBufferCleared::deserialize(deserializer)?;
@@ -49462,12 +49468,12 @@ impl serde::Serialize for RealtimeServerEventInputAudioBufferCleared {
             #[serde(rename = "event_id")]
             event_id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a RealtimeServerEventInputAudioBufferClearedType,
+            r#type: &'a RealtimeServerEventInputAudioBufferClearedType,
         }
         let Self { event_id } = self;
         RealtimeServerEventInputAudioBufferCleared {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
         }
         .serialize(serializer)
     }
@@ -49518,7 +49524,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventInputAudioBufferCommitt
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeServerEventInputAudioBufferCommittedType,
+            r#type: RealtimeServerEventInputAudioBufferCommittedType,
             #[serde(rename = "previous_item_id")]
             #[allow(dead_code)]
             previous_item_id: String,
@@ -49550,7 +49556,7 @@ impl serde::Serialize for RealtimeServerEventInputAudioBufferCommitted {
             #[serde(rename = "event_id")]
             event_id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a RealtimeServerEventInputAudioBufferCommittedType,
+            r#type: &'a RealtimeServerEventInputAudioBufferCommittedType,
             #[serde(rename = "previous_item_id")]
             previous_item_id: &'a String,
             #[serde(rename = "item_id")]
@@ -49563,7 +49569,7 @@ impl serde::Serialize for RealtimeServerEventInputAudioBufferCommitted {
         } = self;
         RealtimeServerEventInputAudioBufferCommitted {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             previous_item_id,
             item_id,
         }
@@ -49620,7 +49626,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventInputAudioBufferSpeechS
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeServerEventInputAudioBufferSpeechStartedType,
+            r#type: RealtimeServerEventInputAudioBufferSpeechStartedType,
             #[serde(rename = "audio_start_ms")]
             #[allow(dead_code)]
             audio_start_ms: u64,
@@ -49652,7 +49658,7 @@ impl serde::Serialize for RealtimeServerEventInputAudioBufferSpeechStarted {
             #[serde(rename = "event_id")]
             event_id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a RealtimeServerEventInputAudioBufferSpeechStartedType,
+            r#type: &'a RealtimeServerEventInputAudioBufferSpeechStartedType,
             #[serde(rename = "audio_start_ms")]
             audio_start_ms: &'a u64,
             #[serde(rename = "item_id")]
@@ -49665,7 +49671,7 @@ impl serde::Serialize for RealtimeServerEventInputAudioBufferSpeechStarted {
         } = self;
         RealtimeServerEventInputAudioBufferSpeechStarted {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             audio_start_ms,
             item_id,
         }
@@ -49722,7 +49728,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventInputAudioBufferSpeechS
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeServerEventInputAudioBufferSpeechStoppedType,
+            r#type: RealtimeServerEventInputAudioBufferSpeechStoppedType,
             #[serde(rename = "audio_end_ms")]
             #[allow(dead_code)]
             audio_end_ms: u64,
@@ -49754,7 +49760,7 @@ impl serde::Serialize for RealtimeServerEventInputAudioBufferSpeechStopped {
             #[serde(rename = "event_id")]
             event_id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a RealtimeServerEventInputAudioBufferSpeechStoppedType,
+            r#type: &'a RealtimeServerEventInputAudioBufferSpeechStoppedType,
             #[serde(rename = "audio_end_ms")]
             audio_end_ms: &'a u64,
             #[serde(rename = "item_id")]
@@ -49767,7 +49773,7 @@ impl serde::Serialize for RealtimeServerEventInputAudioBufferSpeechStopped {
         } = self;
         RealtimeServerEventInputAudioBufferSpeechStopped {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             audio_end_ms,
             item_id,
         }
@@ -49824,7 +49830,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventOutputAudioBufferCleare
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeServerEventOutputAudioBufferClearedType,
+            r#type: RealtimeServerEventOutputAudioBufferClearedType,
             #[serde(rename = "response_id")]
             #[allow(dead_code)]
             response_id: String,
@@ -49851,7 +49857,7 @@ impl serde::Serialize for RealtimeServerEventOutputAudioBufferCleared {
             #[serde(rename = "event_id")]
             event_id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a RealtimeServerEventOutputAudioBufferClearedType,
+            r#type: &'a RealtimeServerEventOutputAudioBufferClearedType,
             #[serde(rename = "response_id")]
             response_id: &'a String,
         }
@@ -49861,7 +49867,7 @@ impl serde::Serialize for RealtimeServerEventOutputAudioBufferCleared {
         } = self;
         RealtimeServerEventOutputAudioBufferCleared {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             response_id,
         }
         .serialize(serializer)
@@ -49915,7 +49921,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventOutputAudioBufferStarte
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeServerEventOutputAudioBufferStartedType,
+            r#type: RealtimeServerEventOutputAudioBufferStartedType,
             #[serde(rename = "response_id")]
             #[allow(dead_code)]
             response_id: String,
@@ -49942,7 +49948,7 @@ impl serde::Serialize for RealtimeServerEventOutputAudioBufferStarted {
             #[serde(rename = "event_id")]
             event_id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a RealtimeServerEventOutputAudioBufferStartedType,
+            r#type: &'a RealtimeServerEventOutputAudioBufferStartedType,
             #[serde(rename = "response_id")]
             response_id: &'a String,
         }
@@ -49952,7 +49958,7 @@ impl serde::Serialize for RealtimeServerEventOutputAudioBufferStarted {
         } = self;
         RealtimeServerEventOutputAudioBufferStarted {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             response_id,
         }
         .serialize(serializer)
@@ -50006,7 +50012,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventOutputAudioBufferStoppe
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeServerEventOutputAudioBufferStoppedType,
+            r#type: RealtimeServerEventOutputAudioBufferStoppedType,
             #[serde(rename = "response_id")]
             #[allow(dead_code)]
             response_id: String,
@@ -50033,7 +50039,7 @@ impl serde::Serialize for RealtimeServerEventOutputAudioBufferStopped {
             #[serde(rename = "event_id")]
             event_id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a RealtimeServerEventOutputAudioBufferStoppedType,
+            r#type: &'a RealtimeServerEventOutputAudioBufferStoppedType,
             #[serde(rename = "response_id")]
             response_id: &'a String,
         }
@@ -50043,7 +50049,7 @@ impl serde::Serialize for RealtimeServerEventOutputAudioBufferStopped {
         } = self;
         RealtimeServerEventOutputAudioBufferStopped {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             response_id,
         }
         .serialize(serializer)
@@ -50194,7 +50200,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventRateLimitsUpdated {
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeServerEventRateLimitsUpdatedType,
+            r#type: RealtimeServerEventRateLimitsUpdatedType,
             #[serde(rename = "rate_limits")]
             #[allow(dead_code)]
             rate_limits: Vec<RealtimeServerEventRateLimitsUpdatedRateLimits>,
@@ -50221,7 +50227,7 @@ impl serde::Serialize for RealtimeServerEventRateLimitsUpdated {
             #[serde(rename = "event_id")]
             event_id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a RealtimeServerEventRateLimitsUpdatedType,
+            r#type: &'a RealtimeServerEventRateLimitsUpdatedType,
             #[serde(rename = "rate_limits")]
             rate_limits: &'a Vec<RealtimeServerEventRateLimitsUpdatedRateLimits>,
         }
@@ -50231,7 +50237,7 @@ impl serde::Serialize for RealtimeServerEventRateLimitsUpdated {
         } = self;
         RealtimeServerEventRateLimitsUpdated {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             rate_limits,
         }
         .serialize(serializer)
@@ -50285,7 +50291,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseAudioDelta {
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeServerEventResponseAudioDeltaType,
+            r#type: RealtimeServerEventResponseAudioDeltaType,
             #[serde(rename = "response_id")]
             #[allow(dead_code)]
             response_id: String,
@@ -50332,7 +50338,7 @@ impl serde::Serialize for RealtimeServerEventResponseAudioDelta {
             #[serde(rename = "event_id")]
             event_id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a RealtimeServerEventResponseAudioDeltaType,
+            r#type: &'a RealtimeServerEventResponseAudioDeltaType,
             #[serde(rename = "response_id")]
             response_id: &'a String,
             #[serde(rename = "item_id")]
@@ -50354,7 +50360,7 @@ impl serde::Serialize for RealtimeServerEventResponseAudioDelta {
         } = self;
         RealtimeServerEventResponseAudioDelta {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             response_id,
             item_id,
             output_index,
@@ -50420,7 +50426,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseAudioDone {
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeServerEventResponseAudioDoneType,
+            r#type: RealtimeServerEventResponseAudioDoneType,
             #[serde(rename = "response_id")]
             #[allow(dead_code)]
             response_id: String,
@@ -50462,7 +50468,7 @@ impl serde::Serialize for RealtimeServerEventResponseAudioDone {
             #[serde(rename = "event_id")]
             event_id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a RealtimeServerEventResponseAudioDoneType,
+            r#type: &'a RealtimeServerEventResponseAudioDoneType,
             #[serde(rename = "response_id")]
             response_id: &'a String,
             #[serde(rename = "item_id")]
@@ -50481,7 +50487,7 @@ impl serde::Serialize for RealtimeServerEventResponseAudioDone {
         } = self;
         RealtimeServerEventResponseAudioDone {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             response_id,
             item_id,
             output_index,
@@ -50544,7 +50550,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseAudioTranscript
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeServerEventResponseAudioTranscriptDeltaType,
+            r#type: RealtimeServerEventResponseAudioTranscriptDeltaType,
             #[serde(rename = "response_id")]
             #[allow(dead_code)]
             response_id: String,
@@ -50591,7 +50597,7 @@ impl serde::Serialize for RealtimeServerEventResponseAudioTranscriptDelta {
             #[serde(rename = "event_id")]
             event_id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a RealtimeServerEventResponseAudioTranscriptDeltaType,
+            r#type: &'a RealtimeServerEventResponseAudioTranscriptDeltaType,
             #[serde(rename = "response_id")]
             response_id: &'a String,
             #[serde(rename = "item_id")]
@@ -50613,7 +50619,7 @@ impl serde::Serialize for RealtimeServerEventResponseAudioTranscriptDelta {
         } = self;
         RealtimeServerEventResponseAudioTranscriptDelta {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             response_id,
             item_id,
             output_index,
@@ -50679,7 +50685,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseAudioTranscript
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeServerEventResponseAudioTranscriptDoneType,
+            r#type: RealtimeServerEventResponseAudioTranscriptDoneType,
             #[serde(rename = "response_id")]
             #[allow(dead_code)]
             response_id: String,
@@ -50726,7 +50732,7 @@ impl serde::Serialize for RealtimeServerEventResponseAudioTranscriptDone {
             #[serde(rename = "event_id")]
             event_id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a RealtimeServerEventResponseAudioTranscriptDoneType,
+            r#type: &'a RealtimeServerEventResponseAudioTranscriptDoneType,
             #[serde(rename = "response_id")]
             response_id: &'a String,
             #[serde(rename = "item_id")]
@@ -50748,7 +50754,7 @@ impl serde::Serialize for RealtimeServerEventResponseAudioTranscriptDone {
         } = self;
         RealtimeServerEventResponseAudioTranscriptDone {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             response_id,
             item_id,
             output_index,
@@ -50821,7 +50827,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseContentPartAdde
         struct RealtimeServerEventResponseContentPartAddedPart {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: Option<RealtimeServerEventResponseContentPartAddedPartType>,
+            r#type: Option<RealtimeServerEventResponseContentPartAddedPartType>,
             #[serde(rename = "text")]
             #[allow(dead_code)]
             text: Option<String>,
@@ -50833,14 +50839,14 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseContentPartAdde
             transcript: Option<String>,
         }
         let RealtimeServerEventResponseContentPartAddedPart {
-            type_,
+            r#type,
             text,
             audio,
             transcript,
             ..
         } = RealtimeServerEventResponseContentPartAddedPart::deserialize(deserializer)?;
         Ok(Self {
-            type_,
+            r#type,
             text,
             audio,
             transcript,
@@ -50857,7 +50863,7 @@ impl serde::Serialize for RealtimeServerEventResponseContentPartAddedPart {
         struct RealtimeServerEventResponseContentPartAddedPart<'a> {
             #[serde(rename = "type")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            type_: &'a Option<RealtimeServerEventResponseContentPartAddedPartType>,
+            r#type: &'a Option<RealtimeServerEventResponseContentPartAddedPartType>,
             #[serde(rename = "text")]
             #[serde(skip_serializing_if = "Option::is_none")]
             text: &'a Option<String>,
@@ -50869,13 +50875,13 @@ impl serde::Serialize for RealtimeServerEventResponseContentPartAddedPart {
             transcript: &'a Option<String>,
         }
         let Self {
-            type_,
+            r#type,
             text,
             audio,
             transcript,
         } = self;
         RealtimeServerEventResponseContentPartAddedPart {
-            type_,
+            r#type,
             text,
             audio,
             transcript,
@@ -50888,7 +50894,7 @@ impl serde::Serialize for RealtimeServerEventResponseContentPartAddedPart {
 pub struct RealtimeServerEventResponseContentPartAddedPart {
     #[doc = "The content type (\"text\", \"audio\")."]
     #[builder(default)]
-    pub type_: Option<RealtimeServerEventResponseContentPartAddedPartType>,
+    pub r#type: Option<RealtimeServerEventResponseContentPartAddedPartType>,
     #[doc = "The text content (if type is \"text\")."]
     #[builder(default)]
     pub text: Option<String>,
@@ -50912,7 +50918,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseContentPartAdde
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeServerEventResponseContentPartAddedType,
+            r#type: RealtimeServerEventResponseContentPartAddedType,
             #[serde(rename = "response_id")]
             #[allow(dead_code)]
             response_id: String,
@@ -50959,7 +50965,7 @@ impl serde::Serialize for RealtimeServerEventResponseContentPartAdded {
             #[serde(rename = "event_id")]
             event_id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a RealtimeServerEventResponseContentPartAddedType,
+            r#type: &'a RealtimeServerEventResponseContentPartAddedType,
             #[serde(rename = "response_id")]
             response_id: &'a String,
             #[serde(rename = "item_id")]
@@ -50981,7 +50987,7 @@ impl serde::Serialize for RealtimeServerEventResponseContentPartAdded {
         } = self;
         RealtimeServerEventResponseContentPartAdded {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             response_id,
             item_id,
             output_index,
@@ -51055,7 +51061,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseContentPartDone
         struct RealtimeServerEventResponseContentPartDonePart {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: Option<RealtimeServerEventResponseContentPartDonePartType>,
+            r#type: Option<RealtimeServerEventResponseContentPartDonePartType>,
             #[serde(rename = "text")]
             #[allow(dead_code)]
             text: Option<String>,
@@ -51067,14 +51073,14 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseContentPartDone
             transcript: Option<String>,
         }
         let RealtimeServerEventResponseContentPartDonePart {
-            type_,
+            r#type,
             text,
             audio,
             transcript,
             ..
         } = RealtimeServerEventResponseContentPartDonePart::deserialize(deserializer)?;
         Ok(Self {
-            type_,
+            r#type,
             text,
             audio,
             transcript,
@@ -51091,7 +51097,7 @@ impl serde::Serialize for RealtimeServerEventResponseContentPartDonePart {
         struct RealtimeServerEventResponseContentPartDonePart<'a> {
             #[serde(rename = "type")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            type_: &'a Option<RealtimeServerEventResponseContentPartDonePartType>,
+            r#type: &'a Option<RealtimeServerEventResponseContentPartDonePartType>,
             #[serde(rename = "text")]
             #[serde(skip_serializing_if = "Option::is_none")]
             text: &'a Option<String>,
@@ -51103,13 +51109,13 @@ impl serde::Serialize for RealtimeServerEventResponseContentPartDonePart {
             transcript: &'a Option<String>,
         }
         let Self {
-            type_,
+            r#type,
             text,
             audio,
             transcript,
         } = self;
         RealtimeServerEventResponseContentPartDonePart {
-            type_,
+            r#type,
             text,
             audio,
             transcript,
@@ -51122,7 +51128,7 @@ impl serde::Serialize for RealtimeServerEventResponseContentPartDonePart {
 pub struct RealtimeServerEventResponseContentPartDonePart {
     #[doc = "The content type (\"text\", \"audio\")."]
     #[builder(default)]
-    pub type_: Option<RealtimeServerEventResponseContentPartDonePartType>,
+    pub r#type: Option<RealtimeServerEventResponseContentPartDonePartType>,
     #[doc = "The text content (if type is \"text\")."]
     #[builder(default)]
     pub text: Option<String>,
@@ -51146,7 +51152,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseContentPartDone
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeServerEventResponseContentPartDoneType,
+            r#type: RealtimeServerEventResponseContentPartDoneType,
             #[serde(rename = "response_id")]
             #[allow(dead_code)]
             response_id: String,
@@ -51193,7 +51199,7 @@ impl serde::Serialize for RealtimeServerEventResponseContentPartDone {
             #[serde(rename = "event_id")]
             event_id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a RealtimeServerEventResponseContentPartDoneType,
+            r#type: &'a RealtimeServerEventResponseContentPartDoneType,
             #[serde(rename = "response_id")]
             response_id: &'a String,
             #[serde(rename = "item_id")]
@@ -51215,7 +51221,7 @@ impl serde::Serialize for RealtimeServerEventResponseContentPartDone {
         } = self;
         RealtimeServerEventResponseContentPartDone {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             response_id,
             item_id,
             output_index,
@@ -51282,7 +51288,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseCreated {
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeServerEventResponseCreatedType,
+            r#type: RealtimeServerEventResponseCreatedType,
             #[serde(rename = "response")]
             #[allow(dead_code)]
             response: RealtimeResponse,
@@ -51304,14 +51310,14 @@ impl serde::Serialize for RealtimeServerEventResponseCreated {
             #[serde(rename = "event_id")]
             event_id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a RealtimeServerEventResponseCreatedType,
+            r#type: &'a RealtimeServerEventResponseCreatedType,
             #[serde(rename = "response")]
             response: &'a RealtimeResponse,
         }
         let Self { event_id, response } = self;
         RealtimeServerEventResponseCreated {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             response,
         }
         .serialize(serializer)
@@ -51365,7 +51371,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseDone {
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeServerEventResponseDoneType,
+            r#type: RealtimeServerEventResponseDoneType,
             #[serde(rename = "response")]
             #[allow(dead_code)]
             response: RealtimeResponse,
@@ -51387,14 +51393,14 @@ impl serde::Serialize for RealtimeServerEventResponseDone {
             #[serde(rename = "event_id")]
             event_id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a RealtimeServerEventResponseDoneType,
+            r#type: &'a RealtimeServerEventResponseDoneType,
             #[serde(rename = "response")]
             response: &'a RealtimeResponse,
         }
         let Self { event_id, response } = self;
         RealtimeServerEventResponseDone {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             response,
         }
         .serialize(serializer)
@@ -51448,7 +51454,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseFunctionCallArg
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeServerEventResponseFunctionCallArgumentsDeltaType,
+            r#type: RealtimeServerEventResponseFunctionCallArgumentsDeltaType,
             #[serde(rename = "response_id")]
             #[allow(dead_code)]
             response_id: String,
@@ -51495,7 +51501,7 @@ impl serde::Serialize for RealtimeServerEventResponseFunctionCallArgumentsDelta 
             #[serde(rename = "event_id")]
             event_id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a RealtimeServerEventResponseFunctionCallArgumentsDeltaType,
+            r#type: &'a RealtimeServerEventResponseFunctionCallArgumentsDeltaType,
             #[serde(rename = "response_id")]
             response_id: &'a String,
             #[serde(rename = "item_id")]
@@ -51517,7 +51523,7 @@ impl serde::Serialize for RealtimeServerEventResponseFunctionCallArgumentsDelta 
         } = self;
         RealtimeServerEventResponseFunctionCallArgumentsDelta {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             response_id,
             item_id,
             output_index,
@@ -51583,7 +51589,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseFunctionCallArg
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeServerEventResponseFunctionCallArgumentsDoneType,
+            r#type: RealtimeServerEventResponseFunctionCallArgumentsDoneType,
             #[serde(rename = "response_id")]
             #[allow(dead_code)]
             response_id: String,
@@ -51630,7 +51636,7 @@ impl serde::Serialize for RealtimeServerEventResponseFunctionCallArgumentsDone {
             #[serde(rename = "event_id")]
             event_id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a RealtimeServerEventResponseFunctionCallArgumentsDoneType,
+            r#type: &'a RealtimeServerEventResponseFunctionCallArgumentsDoneType,
             #[serde(rename = "response_id")]
             response_id: &'a String,
             #[serde(rename = "item_id")]
@@ -51652,7 +51658,7 @@ impl serde::Serialize for RealtimeServerEventResponseFunctionCallArgumentsDone {
         } = self;
         RealtimeServerEventResponseFunctionCallArgumentsDone {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             response_id,
             item_id,
             output_index,
@@ -51718,7 +51724,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseOutputItemAdded
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeServerEventResponseOutputItemAddedType,
+            r#type: RealtimeServerEventResponseOutputItemAddedType,
             #[serde(rename = "response_id")]
             #[allow(dead_code)]
             response_id: String,
@@ -51755,7 +51761,7 @@ impl serde::Serialize for RealtimeServerEventResponseOutputItemAdded {
             #[serde(rename = "event_id")]
             event_id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a RealtimeServerEventResponseOutputItemAddedType,
+            r#type: &'a RealtimeServerEventResponseOutputItemAddedType,
             #[serde(rename = "response_id")]
             response_id: &'a String,
             #[serde(rename = "output_index")]
@@ -51771,7 +51777,7 @@ impl serde::Serialize for RealtimeServerEventResponseOutputItemAdded {
         } = self;
         RealtimeServerEventResponseOutputItemAdded {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             response_id,
             output_index,
             item,
@@ -51831,7 +51837,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseOutputItemDone 
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeServerEventResponseOutputItemDoneType,
+            r#type: RealtimeServerEventResponseOutputItemDoneType,
             #[serde(rename = "response_id")]
             #[allow(dead_code)]
             response_id: String,
@@ -51868,7 +51874,7 @@ impl serde::Serialize for RealtimeServerEventResponseOutputItemDone {
             #[serde(rename = "event_id")]
             event_id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a RealtimeServerEventResponseOutputItemDoneType,
+            r#type: &'a RealtimeServerEventResponseOutputItemDoneType,
             #[serde(rename = "response_id")]
             response_id: &'a String,
             #[serde(rename = "output_index")]
@@ -51884,7 +51890,7 @@ impl serde::Serialize for RealtimeServerEventResponseOutputItemDone {
         } = self;
         RealtimeServerEventResponseOutputItemDone {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             response_id,
             output_index,
             item,
@@ -51944,7 +51950,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseTextDelta {
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeServerEventResponseTextDeltaType,
+            r#type: RealtimeServerEventResponseTextDeltaType,
             #[serde(rename = "response_id")]
             #[allow(dead_code)]
             response_id: String,
@@ -51991,7 +51997,7 @@ impl serde::Serialize for RealtimeServerEventResponseTextDelta {
             #[serde(rename = "event_id")]
             event_id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a RealtimeServerEventResponseTextDeltaType,
+            r#type: &'a RealtimeServerEventResponseTextDeltaType,
             #[serde(rename = "response_id")]
             response_id: &'a String,
             #[serde(rename = "item_id")]
@@ -52013,7 +52019,7 @@ impl serde::Serialize for RealtimeServerEventResponseTextDelta {
         } = self;
         RealtimeServerEventResponseTextDelta {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             response_id,
             item_id,
             output_index,
@@ -52079,7 +52085,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseTextDone {
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeServerEventResponseTextDoneType,
+            r#type: RealtimeServerEventResponseTextDoneType,
             #[serde(rename = "response_id")]
             #[allow(dead_code)]
             response_id: String,
@@ -52126,7 +52132,7 @@ impl serde::Serialize for RealtimeServerEventResponseTextDone {
             #[serde(rename = "event_id")]
             event_id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a RealtimeServerEventResponseTextDoneType,
+            r#type: &'a RealtimeServerEventResponseTextDoneType,
             #[serde(rename = "response_id")]
             response_id: &'a String,
             #[serde(rename = "item_id")]
@@ -52148,7 +52154,7 @@ impl serde::Serialize for RealtimeServerEventResponseTextDone {
         } = self;
         RealtimeServerEventResponseTextDone {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             response_id,
             item_id,
             output_index,
@@ -52214,7 +52220,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventSessionCreated {
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeServerEventSessionCreatedType,
+            r#type: RealtimeServerEventSessionCreatedType,
             #[serde(rename = "session")]
             #[allow(dead_code)]
             session: RealtimeSession,
@@ -52236,14 +52242,14 @@ impl serde::Serialize for RealtimeServerEventSessionCreated {
             #[serde(rename = "event_id")]
             event_id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a RealtimeServerEventSessionCreatedType,
+            r#type: &'a RealtimeServerEventSessionCreatedType,
             #[serde(rename = "session")]
             session: &'a RealtimeSession,
         }
         let Self { event_id, session } = self;
         RealtimeServerEventSessionCreated {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             session,
         }
         .serialize(serializer)
@@ -52297,7 +52303,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventSessionUpdated {
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeServerEventSessionUpdatedType,
+            r#type: RealtimeServerEventSessionUpdatedType,
             #[serde(rename = "session")]
             #[allow(dead_code)]
             session: RealtimeSession,
@@ -52319,14 +52325,14 @@ impl serde::Serialize for RealtimeServerEventSessionUpdated {
             #[serde(rename = "event_id")]
             event_id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a RealtimeServerEventSessionUpdatedType,
+            r#type: &'a RealtimeServerEventSessionUpdatedType,
             #[serde(rename = "session")]
             session: &'a RealtimeSession,
         }
         let Self { event_id, session } = self;
         RealtimeServerEventSessionUpdated {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             session,
         }
         .serialize(serializer)
@@ -52380,7 +52386,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventTranscriptionSessionUpd
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RealtimeServerEventTranscriptionSessionUpdatedType,
+            r#type: RealtimeServerEventTranscriptionSessionUpdatedType,
             #[serde(rename = "session")]
             #[allow(dead_code)]
             session: RealtimeTranscriptionSessionCreateResponse,
@@ -52402,14 +52408,14 @@ impl serde::Serialize for RealtimeServerEventTranscriptionSessionUpdated {
             #[serde(rename = "event_id")]
             event_id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a RealtimeServerEventTranscriptionSessionUpdatedType,
+            r#type: &'a RealtimeServerEventTranscriptionSessionUpdatedType,
             #[serde(rename = "session")]
             session: &'a RealtimeTranscriptionSessionCreateResponse,
         }
         let Self { event_id, session } = self;
         RealtimeServerEventTranscriptionSessionUpdated {
             event_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             session,
         }
         .serialize(serializer)
@@ -52594,7 +52600,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionTurnDetection {
         struct RealtimeSessionTurnDetection {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: Option<RealtimeSessionTurnDetectionType>,
+            r#type: Option<RealtimeSessionTurnDetectionType>,
             #[serde(rename = "eagerness")]
             #[allow(dead_code)]
             eagerness: Option<RealtimeSessionTurnDetectionEagerness>,
@@ -52615,7 +52621,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionTurnDetection {
             interrupt_response: Option<bool>,
         }
         let RealtimeSessionTurnDetection {
-            type_,
+            r#type,
             eagerness,
             threshold,
             prefix_padding_ms,
@@ -52625,7 +52631,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionTurnDetection {
             ..
         } = RealtimeSessionTurnDetection::deserialize(deserializer)?;
         Ok(Self {
-            type_,
+            r#type,
             eagerness,
             threshold,
             prefix_padding_ms,
@@ -52645,7 +52651,7 @@ impl serde::Serialize for RealtimeSessionTurnDetection {
         struct RealtimeSessionTurnDetection<'a> {
             #[serde(rename = "type")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            type_: &'a Option<RealtimeSessionTurnDetectionType>,
+            r#type: &'a Option<RealtimeSessionTurnDetectionType>,
             #[serde(rename = "eagerness")]
             #[serde(skip_serializing_if = "Option::is_none")]
             eagerness: &'a Option<RealtimeSessionTurnDetectionEagerness>,
@@ -52666,7 +52672,7 @@ impl serde::Serialize for RealtimeSessionTurnDetection {
             interrupt_response: &'a Option<bool>,
         }
         let Self {
-            type_,
+            r#type,
             eagerness,
             threshold,
             prefix_padding_ms,
@@ -52675,7 +52681,7 @@ impl serde::Serialize for RealtimeSessionTurnDetection {
             interrupt_response,
         } = self;
         RealtimeSessionTurnDetection {
-            type_,
+            r#type,
             eagerness,
             threshold,
             prefix_padding_ms,
@@ -52691,7 +52697,7 @@ impl serde::Serialize for RealtimeSessionTurnDetection {
 pub struct RealtimeSessionTurnDetection {
     #[doc = "Type of turn detection.\n"]
     #[builder(default)]
-    pub type_: Option<RealtimeSessionTurnDetectionType>,
+    pub r#type: Option<RealtimeSessionTurnDetectionType>,
     #[doc = "Used only for `semantic_vad` mode. The eagerness of the model to respond. `low` will wait longer for the user to continue speaking, `high` will respond more quickly. `auto` is the default and is equivalent to `medium`.\n"]
     #[builder(default)]
     pub eagerness: Option<RealtimeSessionTurnDetectionEagerness>,
@@ -52731,11 +52737,11 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionInputAudioNoiseReduction {
         struct RealtimeSessionInputAudioNoiseReduction {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: Option<RealtimeSessionInputAudioNoiseReductionType>,
+            r#type: Option<RealtimeSessionInputAudioNoiseReductionType>,
         }
-        let RealtimeSessionInputAudioNoiseReduction { type_, .. } =
+        let RealtimeSessionInputAudioNoiseReduction { r#type, .. } =
             RealtimeSessionInputAudioNoiseReduction::deserialize(deserializer)?;
-        Ok(Self { type_ })
+        Ok(Self { r#type })
     }
 }
 impl serde::Serialize for RealtimeSessionInputAudioNoiseReduction {
@@ -52748,10 +52754,10 @@ impl serde::Serialize for RealtimeSessionInputAudioNoiseReduction {
         struct RealtimeSessionInputAudioNoiseReduction<'a> {
             #[serde(rename = "type")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            type_: &'a Option<RealtimeSessionInputAudioNoiseReductionType>,
+            r#type: &'a Option<RealtimeSessionInputAudioNoiseReductionType>,
         }
-        let Self { type_ } = self;
-        RealtimeSessionInputAudioNoiseReduction { type_ }.serialize(serializer)
+        let Self { r#type } = self;
+        RealtimeSessionInputAudioNoiseReduction { r#type }.serialize(serializer)
     }
 }
 #[doc = "Configuration for input audio noise reduction. This can be set to `null` to turn off.\nNoise reduction filters audio added to the input audio buffer before it is sent to VAD and the model.\nFiltering the audio can improve VAD and turn detection accuracy (reducing false positives) and model performance by improving perception of the input audio.\n"]
@@ -52759,7 +52765,7 @@ impl serde::Serialize for RealtimeSessionInputAudioNoiseReduction {
 pub struct RealtimeSessionInputAudioNoiseReduction {
     #[doc = "Type of noise reduction. `near_field` is for close-talking microphones such as headphones, `far_field` is for far-field microphones such as laptop or conference room microphones.\n"]
     #[builder(default)]
-    pub type_: Option<RealtimeSessionInputAudioNoiseReductionType>,
+    pub r#type: Option<RealtimeSessionInputAudioNoiseReductionType>,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeSessionTracingAuto {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -52947,7 +52953,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionTool {
         struct RealtimeSessionTool {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: Option<RealtimeSessionToolType>,
+            r#type: Option<RealtimeSessionToolType>,
             #[serde(rename = "name")]
             #[allow(dead_code)]
             name: Option<String>,
@@ -52959,14 +52965,14 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionTool {
             parameters: Option<std::collections::HashMap<String, serde_json::Value>>,
         }
         let RealtimeSessionTool {
-            type_,
+            r#type,
             name,
             description,
             parameters,
             ..
         } = RealtimeSessionTool::deserialize(deserializer)?;
         Ok(Self {
-            type_,
+            r#type,
             name,
             description,
             parameters,
@@ -52983,7 +52989,7 @@ impl serde::Serialize for RealtimeSessionTool {
         struct RealtimeSessionTool<'a> {
             #[serde(rename = "type")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            type_: &'a Option<RealtimeSessionToolType>,
+            r#type: &'a Option<RealtimeSessionToolType>,
             #[serde(rename = "name")]
             #[serde(skip_serializing_if = "Option::is_none")]
             name: &'a Option<String>,
@@ -52995,13 +53001,13 @@ impl serde::Serialize for RealtimeSessionTool {
             parameters: &'a Option<std::collections::HashMap<String, serde_json::Value>>,
         }
         let Self {
-            type_,
+            r#type,
             name,
             description,
             parameters,
         } = self;
         RealtimeSessionTool {
-            type_,
+            r#type,
             name,
             description,
             parameters,
@@ -53013,7 +53019,7 @@ impl serde::Serialize for RealtimeSessionTool {
 pub struct RealtimeSessionTool {
     #[doc = "The type of the tool, i.e. `function`."]
     #[builder(default)]
-    pub type_: Option<RealtimeSessionToolType>,
+    pub r#type: Option<RealtimeSessionToolType>,
     #[doc = "The name of the function."]
     #[builder(default)]
     pub name: Option<String>,
@@ -53518,7 +53524,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateRequestTurnDetection 
         struct RealtimeSessionCreateRequestTurnDetection {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: Option<RealtimeSessionCreateRequestTurnDetectionType>,
+            r#type: Option<RealtimeSessionCreateRequestTurnDetectionType>,
             #[serde(rename = "eagerness")]
             #[allow(dead_code)]
             eagerness: Option<RealtimeSessionCreateRequestTurnDetectionEagerness>,
@@ -53539,7 +53545,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateRequestTurnDetection 
             interrupt_response: Option<bool>,
         }
         let RealtimeSessionCreateRequestTurnDetection {
-            type_,
+            r#type,
             eagerness,
             threshold,
             prefix_padding_ms,
@@ -53549,7 +53555,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateRequestTurnDetection 
             ..
         } = RealtimeSessionCreateRequestTurnDetection::deserialize(deserializer)?;
         Ok(Self {
-            type_,
+            r#type,
             eagerness,
             threshold,
             prefix_padding_ms,
@@ -53569,7 +53575,7 @@ impl serde::Serialize for RealtimeSessionCreateRequestTurnDetection {
         struct RealtimeSessionCreateRequestTurnDetection<'a> {
             #[serde(rename = "type")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            type_: &'a Option<RealtimeSessionCreateRequestTurnDetectionType>,
+            r#type: &'a Option<RealtimeSessionCreateRequestTurnDetectionType>,
             #[serde(rename = "eagerness")]
             #[serde(skip_serializing_if = "Option::is_none")]
             eagerness: &'a Option<RealtimeSessionCreateRequestTurnDetectionEagerness>,
@@ -53590,7 +53596,7 @@ impl serde::Serialize for RealtimeSessionCreateRequestTurnDetection {
             interrupt_response: &'a Option<bool>,
         }
         let Self {
-            type_,
+            r#type,
             eagerness,
             threshold,
             prefix_padding_ms,
@@ -53599,7 +53605,7 @@ impl serde::Serialize for RealtimeSessionCreateRequestTurnDetection {
             interrupt_response,
         } = self;
         RealtimeSessionCreateRequestTurnDetection {
-            type_,
+            r#type,
             eagerness,
             threshold,
             prefix_padding_ms,
@@ -53615,7 +53621,7 @@ impl serde::Serialize for RealtimeSessionCreateRequestTurnDetection {
 pub struct RealtimeSessionCreateRequestTurnDetection {
     #[doc = "Type of turn detection.\n"]
     #[builder(default)]
-    pub type_: Option<RealtimeSessionCreateRequestTurnDetectionType>,
+    pub r#type: Option<RealtimeSessionCreateRequestTurnDetectionType>,
     #[doc = "Used only for `semantic_vad` mode. The eagerness of the model to respond. `low` will wait longer for the user to continue speaking, `high` will respond more quickly. `auto` is the default and is equivalent to `medium`.\n"]
     #[builder(default)]
     pub eagerness: Option<RealtimeSessionCreateRequestTurnDetectionEagerness>,
@@ -53655,11 +53661,11 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateRequestInputAudioNois
         struct RealtimeSessionCreateRequestInputAudioNoiseReduction {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: Option<RealtimeSessionCreateRequestInputAudioNoiseReductionType>,
+            r#type: Option<RealtimeSessionCreateRequestInputAudioNoiseReductionType>,
         }
-        let RealtimeSessionCreateRequestInputAudioNoiseReduction { type_, .. } =
+        let RealtimeSessionCreateRequestInputAudioNoiseReduction { r#type, .. } =
             RealtimeSessionCreateRequestInputAudioNoiseReduction::deserialize(deserializer)?;
-        Ok(Self { type_ })
+        Ok(Self { r#type })
     }
 }
 impl serde::Serialize for RealtimeSessionCreateRequestInputAudioNoiseReduction {
@@ -53672,10 +53678,10 @@ impl serde::Serialize for RealtimeSessionCreateRequestInputAudioNoiseReduction {
         struct RealtimeSessionCreateRequestInputAudioNoiseReduction<'a> {
             #[serde(rename = "type")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            type_: &'a Option<RealtimeSessionCreateRequestInputAudioNoiseReductionType>,
+            r#type: &'a Option<RealtimeSessionCreateRequestInputAudioNoiseReductionType>,
         }
-        let Self { type_ } = self;
-        RealtimeSessionCreateRequestInputAudioNoiseReduction { type_ }.serialize(serializer)
+        let Self { r#type } = self;
+        RealtimeSessionCreateRequestInputAudioNoiseReduction { r#type }.serialize(serializer)
     }
 }
 #[doc = "Configuration for input audio noise reduction. This can be set to `null` to turn off.\nNoise reduction filters audio added to the input audio buffer before it is sent to VAD and the model.\nFiltering the audio can improve VAD and turn detection accuracy (reducing false positives) and model performance by improving perception of the input audio.\n"]
@@ -53683,7 +53689,7 @@ impl serde::Serialize for RealtimeSessionCreateRequestInputAudioNoiseReduction {
 pub struct RealtimeSessionCreateRequestInputAudioNoiseReduction {
     #[doc = "Type of noise reduction. `near_field` is for close-talking microphones such as headphones, `far_field` is for far-field microphones such as laptop or conference room microphones.\n"]
     #[builder(default)]
-    pub type_: Option<RealtimeSessionCreateRequestInputAudioNoiseReductionType>,
+    pub r#type: Option<RealtimeSessionCreateRequestInputAudioNoiseReductionType>,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateRequestTracingAuto {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -53875,7 +53881,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateRequestTool {
         struct RealtimeSessionCreateRequestTool {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: Option<RealtimeSessionCreateRequestToolType>,
+            r#type: Option<RealtimeSessionCreateRequestToolType>,
             #[serde(rename = "name")]
             #[allow(dead_code)]
             name: Option<String>,
@@ -53887,14 +53893,14 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateRequestTool {
             parameters: Option<std::collections::HashMap<String, serde_json::Value>>,
         }
         let RealtimeSessionCreateRequestTool {
-            type_,
+            r#type,
             name,
             description,
             parameters,
             ..
         } = RealtimeSessionCreateRequestTool::deserialize(deserializer)?;
         Ok(Self {
-            type_,
+            r#type,
             name,
             description,
             parameters,
@@ -53911,7 +53917,7 @@ impl serde::Serialize for RealtimeSessionCreateRequestTool {
         struct RealtimeSessionCreateRequestTool<'a> {
             #[serde(rename = "type")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            type_: &'a Option<RealtimeSessionCreateRequestToolType>,
+            r#type: &'a Option<RealtimeSessionCreateRequestToolType>,
             #[serde(rename = "name")]
             #[serde(skip_serializing_if = "Option::is_none")]
             name: &'a Option<String>,
@@ -53923,13 +53929,13 @@ impl serde::Serialize for RealtimeSessionCreateRequestTool {
             parameters: &'a Option<std::collections::HashMap<String, serde_json::Value>>,
         }
         let Self {
-            type_,
+            r#type,
             name,
             description,
             parameters,
         } = self;
         RealtimeSessionCreateRequestTool {
-            type_,
+            r#type,
             name,
             description,
             parameters,
@@ -53941,7 +53947,7 @@ impl serde::Serialize for RealtimeSessionCreateRequestTool {
 pub struct RealtimeSessionCreateRequestTool {
     #[doc = "The type of the tool, i.e. `function`."]
     #[builder(default)]
-    pub type_: Option<RealtimeSessionCreateRequestToolType>,
+    pub r#type: Option<RealtimeSessionCreateRequestToolType>,
     #[doc = "The name of the function."]
     #[builder(default)]
     pub name: Option<String>,
@@ -54634,7 +54640,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateResponseTurnDetection
         struct RealtimeSessionCreateResponseTurnDetection {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: Option<String>,
+            r#type: Option<String>,
             #[serde(rename = "threshold")]
             #[allow(dead_code)]
             threshold: Option<f64>,
@@ -54646,14 +54652,14 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateResponseTurnDetection
             silence_duration_ms: Option<u64>,
         }
         let RealtimeSessionCreateResponseTurnDetection {
-            type_,
+            r#type,
             threshold,
             prefix_padding_ms,
             silence_duration_ms,
             ..
         } = RealtimeSessionCreateResponseTurnDetection::deserialize(deserializer)?;
         Ok(Self {
-            type_,
+            r#type,
             threshold,
             prefix_padding_ms,
             silence_duration_ms,
@@ -54670,7 +54676,7 @@ impl serde::Serialize for RealtimeSessionCreateResponseTurnDetection {
         struct RealtimeSessionCreateResponseTurnDetection<'a> {
             #[serde(rename = "type")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            type_: &'a Option<String>,
+            r#type: &'a Option<String>,
             #[serde(rename = "threshold")]
             #[serde(skip_serializing_if = "Option::is_none")]
             threshold: &'a Option<f64>,
@@ -54682,13 +54688,13 @@ impl serde::Serialize for RealtimeSessionCreateResponseTurnDetection {
             silence_duration_ms: &'a Option<u64>,
         }
         let Self {
-            type_,
+            r#type,
             threshold,
             prefix_padding_ms,
             silence_duration_ms,
         } = self;
         RealtimeSessionCreateResponseTurnDetection {
-            type_,
+            r#type,
             threshold,
             prefix_padding_ms,
             silence_duration_ms,
@@ -54701,7 +54707,7 @@ impl serde::Serialize for RealtimeSessionCreateResponseTurnDetection {
 pub struct RealtimeSessionCreateResponseTurnDetection {
     #[doc = "Type of turn detection, only `server_vad` is currently supported.\n"]
     #[builder(default)]
-    pub type_: Option<String>,
+    pub r#type: Option<String>,
     #[doc = "Activation threshold for VAD (0.0 to 1.0), this defaults to 0.5. A \nhigher threshold will require louder audio to activate the model, and \nthus might perform better in noisy environments.\n"]
     #[builder(default)]
     pub threshold: Option<f64>,
@@ -54749,7 +54755,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateResponseTool {
         struct RealtimeSessionCreateResponseTool {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: Option<RealtimeSessionCreateResponseToolType>,
+            r#type: Option<RealtimeSessionCreateResponseToolType>,
             #[serde(rename = "name")]
             #[allow(dead_code)]
             name: Option<String>,
@@ -54761,14 +54767,14 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateResponseTool {
             parameters: Option<std::collections::HashMap<String, serde_json::Value>>,
         }
         let RealtimeSessionCreateResponseTool {
-            type_,
+            r#type,
             name,
             description,
             parameters,
             ..
         } = RealtimeSessionCreateResponseTool::deserialize(deserializer)?;
         Ok(Self {
-            type_,
+            r#type,
             name,
             description,
             parameters,
@@ -54785,7 +54791,7 @@ impl serde::Serialize for RealtimeSessionCreateResponseTool {
         struct RealtimeSessionCreateResponseTool<'a> {
             #[serde(rename = "type")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            type_: &'a Option<RealtimeSessionCreateResponseToolType>,
+            r#type: &'a Option<RealtimeSessionCreateResponseToolType>,
             #[serde(rename = "name")]
             #[serde(skip_serializing_if = "Option::is_none")]
             name: &'a Option<String>,
@@ -54797,13 +54803,13 @@ impl serde::Serialize for RealtimeSessionCreateResponseTool {
             parameters: &'a Option<std::collections::HashMap<String, serde_json::Value>>,
         }
         let Self {
-            type_,
+            r#type,
             name,
             description,
             parameters,
         } = self;
         RealtimeSessionCreateResponseTool {
-            type_,
+            r#type,
             name,
             description,
             parameters,
@@ -54815,7 +54821,7 @@ impl serde::Serialize for RealtimeSessionCreateResponseTool {
 pub struct RealtimeSessionCreateResponseTool {
     #[doc = "The type of the tool, i.e. `function`."]
     #[builder(default)]
-    pub type_: Option<RealtimeSessionCreateResponseToolType>,
+    pub r#type: Option<RealtimeSessionCreateResponseToolType>,
     #[doc = "The name of the function."]
     #[builder(default)]
     pub name: Option<String>,
@@ -55280,7 +55286,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeTranscriptionSessionCreateRequestT
         struct RealtimeTranscriptionSessionCreateRequestTurnDetection {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: Option<RealtimeTranscriptionSessionCreateRequestTurnDetectionType>,
+            r#type: Option<RealtimeTranscriptionSessionCreateRequestTurnDetectionType>,
             #[serde(rename = "eagerness")]
             #[allow(dead_code)]
             eagerness: Option<RealtimeTranscriptionSessionCreateRequestTurnDetectionEagerness>,
@@ -55301,7 +55307,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeTranscriptionSessionCreateRequestT
             interrupt_response: Option<bool>,
         }
         let RealtimeTranscriptionSessionCreateRequestTurnDetection {
-            type_,
+            r#type,
             eagerness,
             threshold,
             prefix_padding_ms,
@@ -55311,7 +55317,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeTranscriptionSessionCreateRequestT
             ..
         } = RealtimeTranscriptionSessionCreateRequestTurnDetection::deserialize(deserializer)?;
         Ok(Self {
-            type_,
+            r#type,
             eagerness,
             threshold,
             prefix_padding_ms,
@@ -55331,7 +55337,7 @@ impl serde::Serialize for RealtimeTranscriptionSessionCreateRequestTurnDetection
         struct RealtimeTranscriptionSessionCreateRequestTurnDetection<'a> {
             #[serde(rename = "type")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            type_: &'a Option<RealtimeTranscriptionSessionCreateRequestTurnDetectionType>,
+            r#type: &'a Option<RealtimeTranscriptionSessionCreateRequestTurnDetectionType>,
             #[serde(rename = "eagerness")]
             #[serde(skip_serializing_if = "Option::is_none")]
             eagerness: &'a Option<RealtimeTranscriptionSessionCreateRequestTurnDetectionEagerness>,
@@ -55352,7 +55358,7 @@ impl serde::Serialize for RealtimeTranscriptionSessionCreateRequestTurnDetection
             interrupt_response: &'a Option<bool>,
         }
         let Self {
-            type_,
+            r#type,
             eagerness,
             threshold,
             prefix_padding_ms,
@@ -55361,7 +55367,7 @@ impl serde::Serialize for RealtimeTranscriptionSessionCreateRequestTurnDetection
             interrupt_response,
         } = self;
         RealtimeTranscriptionSessionCreateRequestTurnDetection {
-            type_,
+            r#type,
             eagerness,
             threshold,
             prefix_padding_ms,
@@ -55377,7 +55383,7 @@ impl serde::Serialize for RealtimeTranscriptionSessionCreateRequestTurnDetection
 pub struct RealtimeTranscriptionSessionCreateRequestTurnDetection {
     #[doc = "Type of turn detection.\n"]
     #[builder(default)]
-    pub type_: Option<RealtimeTranscriptionSessionCreateRequestTurnDetectionType>,
+    pub r#type: Option<RealtimeTranscriptionSessionCreateRequestTurnDetectionType>,
     #[doc = "Used only for `semantic_vad` mode. The eagerness of the model to respond. `low` will wait longer for the user to continue speaking, `high` will respond more quickly. `auto` is the default and is equivalent to `medium`.\n"]
     #[builder(default)]
     pub eagerness: Option<RealtimeTranscriptionSessionCreateRequestTurnDetectionEagerness>,
@@ -55419,13 +55425,13 @@ impl<'de> serde::Deserialize<'de>
         struct RealtimeTranscriptionSessionCreateRequestInputAudioNoiseReduction {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: Option<RealtimeTranscriptionSessionCreateRequestInputAudioNoiseReductionType>,
+            r#type: Option<RealtimeTranscriptionSessionCreateRequestInputAudioNoiseReductionType>,
         }
-        let RealtimeTranscriptionSessionCreateRequestInputAudioNoiseReduction { type_, .. } =
+        let RealtimeTranscriptionSessionCreateRequestInputAudioNoiseReduction { r#type, .. } =
             RealtimeTranscriptionSessionCreateRequestInputAudioNoiseReduction::deserialize(
                 deserializer,
             )?;
-        Ok(Self { type_ })
+        Ok(Self { r#type })
     }
 }
 impl serde::Serialize for RealtimeTranscriptionSessionCreateRequestInputAudioNoiseReduction {
@@ -55438,11 +55444,11 @@ impl serde::Serialize for RealtimeTranscriptionSessionCreateRequestInputAudioNoi
         struct RealtimeTranscriptionSessionCreateRequestInputAudioNoiseReduction<'a> {
             #[serde(rename = "type")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            type_:
+            r#type:
                 &'a Option<RealtimeTranscriptionSessionCreateRequestInputAudioNoiseReductionType>,
         }
-        let Self { type_ } = self;
-        RealtimeTranscriptionSessionCreateRequestInputAudioNoiseReduction { type_ }
+        let Self { r#type } = self;
+        RealtimeTranscriptionSessionCreateRequestInputAudioNoiseReduction { r#type }
             .serialize(serializer)
     }
 }
@@ -55451,7 +55457,7 @@ impl serde::Serialize for RealtimeTranscriptionSessionCreateRequestInputAudioNoi
 pub struct RealtimeTranscriptionSessionCreateRequestInputAudioNoiseReduction {
     #[doc = "Type of noise reduction. `near_field` is for close-talking microphones such as headphones, `far_field` is for far-field microphones such as laptop or conference room microphones.\n"]
     #[builder(default)]
-    pub type_: Option<RealtimeTranscriptionSessionCreateRequestInputAudioNoiseReductionType>,
+    pub r#type: Option<RealtimeTranscriptionSessionCreateRequestInputAudioNoiseReductionType>,
 }
 #[doc = "The anchor point for the ephemeral token expiration. Only `created_at` is currently supported.\n"]
 #[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
@@ -55850,7 +55856,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeTranscriptionSessionCreateResponse
         struct RealtimeTranscriptionSessionCreateResponseTurnDetection {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: Option<String>,
+            r#type: Option<String>,
             #[serde(rename = "threshold")]
             #[allow(dead_code)]
             threshold: Option<f64>,
@@ -55862,14 +55868,14 @@ impl<'de> serde::Deserialize<'de> for RealtimeTranscriptionSessionCreateResponse
             silence_duration_ms: Option<u64>,
         }
         let RealtimeTranscriptionSessionCreateResponseTurnDetection {
-            type_,
+            r#type,
             threshold,
             prefix_padding_ms,
             silence_duration_ms,
             ..
         } = RealtimeTranscriptionSessionCreateResponseTurnDetection::deserialize(deserializer)?;
         Ok(Self {
-            type_,
+            r#type,
             threshold,
             prefix_padding_ms,
             silence_duration_ms,
@@ -55886,7 +55892,7 @@ impl serde::Serialize for RealtimeTranscriptionSessionCreateResponseTurnDetectio
         struct RealtimeTranscriptionSessionCreateResponseTurnDetection<'a> {
             #[serde(rename = "type")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            type_: &'a Option<String>,
+            r#type: &'a Option<String>,
             #[serde(rename = "threshold")]
             #[serde(skip_serializing_if = "Option::is_none")]
             threshold: &'a Option<f64>,
@@ -55898,13 +55904,13 @@ impl serde::Serialize for RealtimeTranscriptionSessionCreateResponseTurnDetectio
             silence_duration_ms: &'a Option<u64>,
         }
         let Self {
-            type_,
+            r#type,
             threshold,
             prefix_padding_ms,
             silence_duration_ms,
         } = self;
         RealtimeTranscriptionSessionCreateResponseTurnDetection {
-            type_,
+            r#type,
             threshold,
             prefix_padding_ms,
             silence_duration_ms,
@@ -55917,7 +55923,7 @@ impl serde::Serialize for RealtimeTranscriptionSessionCreateResponseTurnDetectio
 pub struct RealtimeTranscriptionSessionCreateResponseTurnDetection {
     #[doc = "Type of turn detection, only `server_vad` is currently supported.\n"]
     #[builder(default)]
-    pub type_: Option<String>,
+    pub r#type: Option<String>,
     #[doc = "Activation threshold for VAD (0.0 to 1.0), this defaults to 0.5. A \nhigher threshold will require louder audio to activate the model, and \nthus might perform better in noisy environments.\n"]
     #[builder(default)]
     pub threshold: Option<f64>,
@@ -56208,7 +56214,7 @@ impl<'de> serde::Deserialize<'de> for ReasoningItemSummary {
         struct ReasoningItemSummary {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ReasoningItemSummaryType,
+            r#type: ReasoningItemSummaryType,
             #[serde(rename = "text")]
             #[allow(dead_code)]
             text: String,
@@ -56226,13 +56232,13 @@ impl serde::Serialize for ReasoningItemSummary {
         #[derive(serde :: Serialize)]
         struct ReasoningItemSummary<'a> {
             #[serde(rename = "type")]
-            type_: &'a ReasoningItemSummaryType,
+            r#type: &'a ReasoningItemSummaryType,
             #[serde(rename = "text")]
             text: &'a String,
         }
         let Self { text } = self;
         ReasoningItemSummary {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             text,
         }
         .serialize(serializer)
@@ -56266,7 +56272,7 @@ impl<'de> serde::Deserialize<'de> for ReasoningItem {
         struct ReasoningItem {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ReasoningItemType,
+            r#type: ReasoningItemType,
             #[serde(rename = "id")]
             #[allow(dead_code)]
             id: String,
@@ -56304,7 +56310,7 @@ impl serde::Serialize for ReasoningItem {
         #[derive(serde :: Serialize)]
         struct ReasoningItem<'a> {
             #[serde(rename = "type")]
-            type_: &'a ReasoningItemType,
+            r#type: &'a ReasoningItemType,
             #[serde(rename = "id")]
             id: &'a String,
             #[serde(rename = "encrypted_content")]
@@ -56323,7 +56329,7 @@ impl serde::Serialize for ReasoningItem {
             status,
         } = self;
         ReasoningItem {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             id,
             encrypted_content,
             summary,
@@ -56652,7 +56658,7 @@ impl<'de> serde::Deserialize<'de> for ResponseAudioDeltaEvent {
         struct ResponseAudioDeltaEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseAudioDeltaEventType,
+            r#type: ResponseAudioDeltaEventType,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
             sequence_number: u64,
@@ -56680,7 +56686,7 @@ impl serde::Serialize for ResponseAudioDeltaEvent {
         #[derive(serde :: Serialize)]
         struct ResponseAudioDeltaEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseAudioDeltaEventType,
+            r#type: &'a ResponseAudioDeltaEventType,
             #[serde(rename = "sequence_number")]
             sequence_number: &'a u64,
             #[serde(rename = "delta")]
@@ -56691,7 +56697,7 @@ impl serde::Serialize for ResponseAudioDeltaEvent {
             delta,
         } = self;
         ResponseAudioDeltaEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             sequence_number,
             delta,
         }
@@ -56743,7 +56749,7 @@ impl<'de> serde::Deserialize<'de> for ResponseAudioDoneEvent {
         struct ResponseAudioDoneEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseAudioDoneEventType,
+            r#type: ResponseAudioDoneEventType,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
             sequence_number: u64,
@@ -56763,13 +56769,13 @@ impl serde::Serialize for ResponseAudioDoneEvent {
         #[derive(serde :: Serialize)]
         struct ResponseAudioDoneEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseAudioDoneEventType,
+            r#type: &'a ResponseAudioDoneEventType,
             #[serde(rename = "sequence_number")]
             sequence_number: &'a u64,
         }
         let Self { sequence_number } = self;
         ResponseAudioDoneEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             sequence_number,
         }
         .serialize(serializer)
@@ -56818,7 +56824,7 @@ impl<'de> serde::Deserialize<'de> for ResponseAudioTranscriptDeltaEvent {
         struct ResponseAudioTranscriptDeltaEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseAudioTranscriptDeltaEventType,
+            r#type: ResponseAudioTranscriptDeltaEventType,
             #[serde(rename = "delta")]
             #[allow(dead_code)]
             delta: String,
@@ -56846,7 +56852,7 @@ impl serde::Serialize for ResponseAudioTranscriptDeltaEvent {
         #[derive(serde :: Serialize)]
         struct ResponseAudioTranscriptDeltaEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseAudioTranscriptDeltaEventType,
+            r#type: &'a ResponseAudioTranscriptDeltaEventType,
             #[serde(rename = "delta")]
             delta: &'a String,
             #[serde(rename = "sequence_number")]
@@ -56857,7 +56863,7 @@ impl serde::Serialize for ResponseAudioTranscriptDeltaEvent {
             sequence_number,
         } = self;
         ResponseAudioTranscriptDeltaEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             delta,
             sequence_number,
         }
@@ -56909,7 +56915,7 @@ impl<'de> serde::Deserialize<'de> for ResponseAudioTranscriptDoneEvent {
         struct ResponseAudioTranscriptDoneEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseAudioTranscriptDoneEventType,
+            r#type: ResponseAudioTranscriptDoneEventType,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
             sequence_number: u64,
@@ -56929,13 +56935,13 @@ impl serde::Serialize for ResponseAudioTranscriptDoneEvent {
         #[derive(serde :: Serialize)]
         struct ResponseAudioTranscriptDoneEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseAudioTranscriptDoneEventType,
+            r#type: &'a ResponseAudioTranscriptDoneEventType,
             #[serde(rename = "sequence_number")]
             sequence_number: &'a u64,
         }
         let Self { sequence_number } = self;
         ResponseAudioTranscriptDoneEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             sequence_number,
         }
         .serialize(serializer)
@@ -56984,7 +56990,7 @@ impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallCodeDeltaEvent 
         struct ResponseCodeInterpreterCallCodeDeltaEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseCodeInterpreterCallCodeDeltaEventType,
+            r#type: ResponseCodeInterpreterCallCodeDeltaEventType,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
             output_index: u64,
@@ -57017,7 +57023,7 @@ impl serde::Serialize for ResponseCodeInterpreterCallCodeDeltaEvent {
         #[derive(serde :: Serialize)]
         struct ResponseCodeInterpreterCallCodeDeltaEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseCodeInterpreterCallCodeDeltaEventType,
+            r#type: &'a ResponseCodeInterpreterCallCodeDeltaEventType,
             #[serde(rename = "output_index")]
             output_index: &'a u64,
             #[serde(rename = "delta")]
@@ -57031,7 +57037,7 @@ impl serde::Serialize for ResponseCodeInterpreterCallCodeDeltaEvent {
             sequence_number,
         } = self;
         ResponseCodeInterpreterCallCodeDeltaEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             output_index,
             delta,
             sequence_number,
@@ -57086,7 +57092,7 @@ impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallCodeDoneEvent {
         struct ResponseCodeInterpreterCallCodeDoneEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseCodeInterpreterCallCodeDoneEventType,
+            r#type: ResponseCodeInterpreterCallCodeDoneEventType,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
             output_index: u64,
@@ -57119,7 +57125,7 @@ impl serde::Serialize for ResponseCodeInterpreterCallCodeDoneEvent {
         #[derive(serde :: Serialize)]
         struct ResponseCodeInterpreterCallCodeDoneEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseCodeInterpreterCallCodeDoneEventType,
+            r#type: &'a ResponseCodeInterpreterCallCodeDoneEventType,
             #[serde(rename = "output_index")]
             output_index: &'a u64,
             #[serde(rename = "code")]
@@ -57133,7 +57139,7 @@ impl serde::Serialize for ResponseCodeInterpreterCallCodeDoneEvent {
             sequence_number,
         } = self;
         ResponseCodeInterpreterCallCodeDoneEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             output_index,
             code,
             sequence_number,
@@ -57188,7 +57194,7 @@ impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallCompletedEvent 
         struct ResponseCodeInterpreterCallCompletedEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseCodeInterpreterCallCompletedEventType,
+            r#type: ResponseCodeInterpreterCallCompletedEventType,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
             output_index: u64,
@@ -57221,7 +57227,7 @@ impl serde::Serialize for ResponseCodeInterpreterCallCompletedEvent {
         #[derive(serde :: Serialize)]
         struct ResponseCodeInterpreterCallCompletedEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseCodeInterpreterCallCompletedEventType,
+            r#type: &'a ResponseCodeInterpreterCallCompletedEventType,
             #[serde(rename = "output_index")]
             output_index: &'a u64,
             #[serde(rename = "code_interpreter_call")]
@@ -57235,7 +57241,7 @@ impl serde::Serialize for ResponseCodeInterpreterCallCompletedEvent {
             sequence_number,
         } = self;
         ResponseCodeInterpreterCallCompletedEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             output_index,
             code_interpreter_call,
             sequence_number,
@@ -57289,7 +57295,7 @@ impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallInProgressEvent
         struct ResponseCodeInterpreterCallInProgressEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseCodeInterpreterCallInProgressEventType,
+            r#type: ResponseCodeInterpreterCallInProgressEventType,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
             output_index: u64,
@@ -57322,7 +57328,7 @@ impl serde::Serialize for ResponseCodeInterpreterCallInProgressEvent {
         #[derive(serde :: Serialize)]
         struct ResponseCodeInterpreterCallInProgressEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseCodeInterpreterCallInProgressEventType,
+            r#type: &'a ResponseCodeInterpreterCallInProgressEventType,
             #[serde(rename = "output_index")]
             output_index: &'a u64,
             #[serde(rename = "code_interpreter_call")]
@@ -57336,7 +57342,7 @@ impl serde::Serialize for ResponseCodeInterpreterCallInProgressEvent {
             sequence_number,
         } = self;
         ResponseCodeInterpreterCallInProgressEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             output_index,
             code_interpreter_call,
             sequence_number,
@@ -57390,7 +57396,7 @@ impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallInterpretingEve
         struct ResponseCodeInterpreterCallInterpretingEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseCodeInterpreterCallInterpretingEventType,
+            r#type: ResponseCodeInterpreterCallInterpretingEventType,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
             sequence_number: u64,
@@ -57423,7 +57429,7 @@ impl serde::Serialize for ResponseCodeInterpreterCallInterpretingEvent {
         #[derive(serde :: Serialize)]
         struct ResponseCodeInterpreterCallInterpretingEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseCodeInterpreterCallInterpretingEventType,
+            r#type: &'a ResponseCodeInterpreterCallInterpretingEventType,
             #[serde(rename = "sequence_number")]
             sequence_number: &'a u64,
             #[serde(rename = "output_index")]
@@ -57437,7 +57443,7 @@ impl serde::Serialize for ResponseCodeInterpreterCallInterpretingEvent {
             code_interpreter_call,
         } = self;
         ResponseCodeInterpreterCallInterpretingEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             sequence_number,
             output_index,
             code_interpreter_call,
@@ -57491,7 +57497,7 @@ impl<'de> serde::Deserialize<'de> for ResponseCompletedEvent {
         struct ResponseCompletedEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseCompletedEventType,
+            r#type: ResponseCompletedEventType,
             #[serde(rename = "response")]
             #[allow(dead_code)]
             response: Response,
@@ -57519,7 +57525,7 @@ impl serde::Serialize for ResponseCompletedEvent {
         #[derive(serde :: Serialize)]
         struct ResponseCompletedEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseCompletedEventType,
+            r#type: &'a ResponseCompletedEventType,
             #[serde(rename = "response")]
             response: &'a Response,
             #[serde(rename = "sequence_number")]
@@ -57530,7 +57536,7 @@ impl serde::Serialize for ResponseCompletedEvent {
             sequence_number,
         } = self;
         ResponseCompletedEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             response,
             sequence_number,
         }
@@ -57582,7 +57588,7 @@ impl<'de> serde::Deserialize<'de> for ResponseContentPartAddedEvent {
         struct ResponseContentPartAddedEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseContentPartAddedEventType,
+            r#type: ResponseContentPartAddedEventType,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
@@ -57625,7 +57631,7 @@ impl serde::Serialize for ResponseContentPartAddedEvent {
         #[derive(serde :: Serialize)]
         struct ResponseContentPartAddedEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseContentPartAddedEventType,
+            r#type: &'a ResponseContentPartAddedEventType,
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
@@ -57645,7 +57651,7 @@ impl serde::Serialize for ResponseContentPartAddedEvent {
             sequence_number,
         } = self;
         ResponseContentPartAddedEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             item_id,
             output_index,
             content_index,
@@ -57706,7 +57712,7 @@ impl<'de> serde::Deserialize<'de> for ResponseContentPartDoneEvent {
         struct ResponseContentPartDoneEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseContentPartDoneEventType,
+            r#type: ResponseContentPartDoneEventType,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
@@ -57749,7 +57755,7 @@ impl serde::Serialize for ResponseContentPartDoneEvent {
         #[derive(serde :: Serialize)]
         struct ResponseContentPartDoneEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseContentPartDoneEventType,
+            r#type: &'a ResponseContentPartDoneEventType,
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
@@ -57769,7 +57775,7 @@ impl serde::Serialize for ResponseContentPartDoneEvent {
             part,
         } = self;
         ResponseContentPartDoneEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             item_id,
             output_index,
             content_index,
@@ -57830,7 +57836,7 @@ impl<'de> serde::Deserialize<'de> for ResponseCreatedEvent {
         struct ResponseCreatedEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseCreatedEventType,
+            r#type: ResponseCreatedEventType,
             #[serde(rename = "response")]
             #[allow(dead_code)]
             response: Response,
@@ -57858,7 +57864,7 @@ impl serde::Serialize for ResponseCreatedEvent {
         #[derive(serde :: Serialize)]
         struct ResponseCreatedEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseCreatedEventType,
+            r#type: &'a ResponseCreatedEventType,
             #[serde(rename = "response")]
             response: &'a Response,
             #[serde(rename = "sequence_number")]
@@ -57869,7 +57875,7 @@ impl serde::Serialize for ResponseCreatedEvent {
             sequence_number,
         } = self;
         ResponseCreatedEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             response,
             sequence_number,
         }
@@ -58022,7 +58028,7 @@ impl<'de> serde::Deserialize<'de> for ResponseErrorEvent {
         struct ResponseErrorEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseErrorEventType,
+            r#type: ResponseErrorEventType,
             #[serde(rename = "code")]
             #[allow(dead_code)]
             code: Option<String>,
@@ -58060,7 +58066,7 @@ impl serde::Serialize for ResponseErrorEvent {
         #[derive(serde :: Serialize)]
         struct ResponseErrorEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseErrorEventType,
+            r#type: &'a ResponseErrorEventType,
             #[serde(rename = "code")]
             #[serde(skip_serializing_if = "Option::is_none")]
             code: &'a Option<String>,
@@ -58079,7 +58085,7 @@ impl serde::Serialize for ResponseErrorEvent {
             sequence_number,
         } = self;
         ResponseErrorEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             code,
             message,
             param,
@@ -58139,7 +58145,7 @@ impl<'de> serde::Deserialize<'de> for ResponseFailedEvent {
         struct ResponseFailedEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseFailedEventType,
+            r#type: ResponseFailedEventType,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
             sequence_number: u64,
@@ -58167,7 +58173,7 @@ impl serde::Serialize for ResponseFailedEvent {
         #[derive(serde :: Serialize)]
         struct ResponseFailedEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseFailedEventType,
+            r#type: &'a ResponseFailedEventType,
             #[serde(rename = "sequence_number")]
             sequence_number: &'a u64,
             #[serde(rename = "response")]
@@ -58178,7 +58184,7 @@ impl serde::Serialize for ResponseFailedEvent {
             response,
         } = self;
         ResponseFailedEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             sequence_number,
             response,
         }
@@ -58230,7 +58236,7 @@ impl<'de> serde::Deserialize<'de> for ResponseFileSearchCallCompletedEvent {
         struct ResponseFileSearchCallCompletedEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseFileSearchCallCompletedEventType,
+            r#type: ResponseFileSearchCallCompletedEventType,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
             output_index: u64,
@@ -58263,7 +58269,7 @@ impl serde::Serialize for ResponseFileSearchCallCompletedEvent {
         #[derive(serde :: Serialize)]
         struct ResponseFileSearchCallCompletedEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseFileSearchCallCompletedEventType,
+            r#type: &'a ResponseFileSearchCallCompletedEventType,
             #[serde(rename = "output_index")]
             output_index: &'a u64,
             #[serde(rename = "item_id")]
@@ -58277,7 +58283,7 @@ impl serde::Serialize for ResponseFileSearchCallCompletedEvent {
             sequence_number,
         } = self;
         ResponseFileSearchCallCompletedEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             output_index,
             item_id,
             sequence_number,
@@ -58332,7 +58338,7 @@ impl<'de> serde::Deserialize<'de> for ResponseFileSearchCallInProgressEvent {
         struct ResponseFileSearchCallInProgressEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseFileSearchCallInProgressEventType,
+            r#type: ResponseFileSearchCallInProgressEventType,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
             output_index: u64,
@@ -58365,7 +58371,7 @@ impl serde::Serialize for ResponseFileSearchCallInProgressEvent {
         #[derive(serde :: Serialize)]
         struct ResponseFileSearchCallInProgressEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseFileSearchCallInProgressEventType,
+            r#type: &'a ResponseFileSearchCallInProgressEventType,
             #[serde(rename = "output_index")]
             output_index: &'a u64,
             #[serde(rename = "item_id")]
@@ -58379,7 +58385,7 @@ impl serde::Serialize for ResponseFileSearchCallInProgressEvent {
             sequence_number,
         } = self;
         ResponseFileSearchCallInProgressEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             output_index,
             item_id,
             sequence_number,
@@ -58434,7 +58440,7 @@ impl<'de> serde::Deserialize<'de> for ResponseFileSearchCallSearchingEvent {
         struct ResponseFileSearchCallSearchingEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseFileSearchCallSearchingEventType,
+            r#type: ResponseFileSearchCallSearchingEventType,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
             output_index: u64,
@@ -58467,7 +58473,7 @@ impl serde::Serialize for ResponseFileSearchCallSearchingEvent {
         #[derive(serde :: Serialize)]
         struct ResponseFileSearchCallSearchingEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseFileSearchCallSearchingEventType,
+            r#type: &'a ResponseFileSearchCallSearchingEventType,
             #[serde(rename = "output_index")]
             output_index: &'a u64,
             #[serde(rename = "item_id")]
@@ -58481,7 +58487,7 @@ impl serde::Serialize for ResponseFileSearchCallSearchingEvent {
             sequence_number,
         } = self;
         ResponseFileSearchCallSearchingEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             output_index,
             item_id,
             sequence_number,
@@ -58536,7 +58542,7 @@ impl<'de> serde::Deserialize<'de> for ResponseFormatJsonObject {
         struct ResponseFormatJsonObject {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseFormatJsonObjectType,
+            r#type: ResponseFormatJsonObjectType,
         }
         let ResponseFormatJsonObject { .. } = ResponseFormatJsonObject::deserialize(deserializer)?;
         Ok(Self {})
@@ -58551,11 +58557,11 @@ impl serde::Serialize for ResponseFormatJsonObject {
         #[derive(serde :: Serialize)]
         struct ResponseFormatJsonObject<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseFormatJsonObjectType,
+            r#type: &'a ResponseFormatJsonObjectType,
         }
         let Self {} = self;
         ResponseFormatJsonObject {
-            type_: &Default::default(),
+            r#type: &Default::default(),
         }
         .serialize(serializer)
     }
@@ -58685,7 +58691,7 @@ impl<'de> serde::Deserialize<'de> for ResponseFormatJsonSchema {
         struct ResponseFormatJsonSchema {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseFormatJsonSchemaType,
+            r#type: ResponseFormatJsonSchemaType,
             #[serde(rename = "json_schema")]
             #[allow(dead_code)]
             json_schema: ResponseFormatJsonSchemaJsonSchema,
@@ -58704,13 +58710,13 @@ impl serde::Serialize for ResponseFormatJsonSchema {
         #[derive(serde :: Serialize)]
         struct ResponseFormatJsonSchema<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseFormatJsonSchemaType,
+            r#type: &'a ResponseFormatJsonSchemaType,
             #[serde(rename = "json_schema")]
             json_schema: &'a ResponseFormatJsonSchemaJsonSchema,
         }
         let Self { json_schema } = self;
         ResponseFormatJsonSchema {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             json_schema,
         }
         .serialize(serializer)
@@ -58761,7 +58767,7 @@ impl<'de> serde::Deserialize<'de> for ResponseFormatText {
         struct ResponseFormatText {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseFormatTextType,
+            r#type: ResponseFormatTextType,
         }
         let ResponseFormatText { .. } = ResponseFormatText::deserialize(deserializer)?;
         Ok(Self {})
@@ -58776,11 +58782,11 @@ impl serde::Serialize for ResponseFormatText {
         #[derive(serde :: Serialize)]
         struct ResponseFormatText<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseFormatTextType,
+            r#type: &'a ResponseFormatTextType,
         }
         let Self {} = self;
         ResponseFormatText {
-            type_: &Default::default(),
+            r#type: &Default::default(),
         }
         .serialize(serializer)
     }
@@ -58825,7 +58831,7 @@ impl<'de> serde::Deserialize<'de> for ResponseFunctionCallArgumentsDeltaEvent {
         struct ResponseFunctionCallArgumentsDeltaEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseFunctionCallArgumentsDeltaEventType,
+            r#type: ResponseFunctionCallArgumentsDeltaEventType,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
@@ -58863,7 +58869,7 @@ impl serde::Serialize for ResponseFunctionCallArgumentsDeltaEvent {
         #[derive(serde :: Serialize)]
         struct ResponseFunctionCallArgumentsDeltaEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseFunctionCallArgumentsDeltaEventType,
+            r#type: &'a ResponseFunctionCallArgumentsDeltaEventType,
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
@@ -58880,7 +58886,7 @@ impl serde::Serialize for ResponseFunctionCallArgumentsDeltaEvent {
             delta,
         } = self;
         ResponseFunctionCallArgumentsDeltaEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             item_id,
             output_index,
             sequence_number,
@@ -58938,7 +58944,7 @@ impl<'de> serde::Deserialize<'de> for ResponseFunctionCallArgumentsDoneEvent {
         struct ResponseFunctionCallArgumentsDoneEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseFunctionCallArgumentsDoneEventType,
+            r#type: ResponseFunctionCallArgumentsDoneEventType,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
@@ -58976,7 +58982,7 @@ impl serde::Serialize for ResponseFunctionCallArgumentsDoneEvent {
         #[derive(serde :: Serialize)]
         struct ResponseFunctionCallArgumentsDoneEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseFunctionCallArgumentsDoneEventType,
+            r#type: &'a ResponseFunctionCallArgumentsDoneEventType,
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
@@ -58993,7 +58999,7 @@ impl serde::Serialize for ResponseFunctionCallArgumentsDoneEvent {
             arguments,
         } = self;
         ResponseFunctionCallArgumentsDoneEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             item_id,
             output_index,
             sequence_number,
@@ -59051,7 +59057,7 @@ impl<'de> serde::Deserialize<'de> for ResponseImageGenCallCompletedEvent {
         struct ResponseImageGenCallCompletedEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseImageGenCallCompletedEventType,
+            r#type: ResponseImageGenCallCompletedEventType,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
             output_index: u64,
@@ -59084,7 +59090,7 @@ impl serde::Serialize for ResponseImageGenCallCompletedEvent {
         #[derive(serde :: Serialize)]
         struct ResponseImageGenCallCompletedEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseImageGenCallCompletedEventType,
+            r#type: &'a ResponseImageGenCallCompletedEventType,
             #[serde(rename = "output_index")]
             output_index: &'a u64,
             #[serde(rename = "sequence_number")]
@@ -59098,7 +59104,7 @@ impl serde::Serialize for ResponseImageGenCallCompletedEvent {
             item_id,
         } = self;
         ResponseImageGenCallCompletedEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             output_index,
             sequence_number,
             item_id,
@@ -59153,7 +59159,7 @@ impl<'de> serde::Deserialize<'de> for ResponseImageGenCallGeneratingEvent {
         struct ResponseImageGenCallGeneratingEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseImageGenCallGeneratingEventType,
+            r#type: ResponseImageGenCallGeneratingEventType,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
             output_index: u64,
@@ -59186,7 +59192,7 @@ impl serde::Serialize for ResponseImageGenCallGeneratingEvent {
         #[derive(serde :: Serialize)]
         struct ResponseImageGenCallGeneratingEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseImageGenCallGeneratingEventType,
+            r#type: &'a ResponseImageGenCallGeneratingEventType,
             #[serde(rename = "output_index")]
             output_index: &'a u64,
             #[serde(rename = "item_id")]
@@ -59200,7 +59206,7 @@ impl serde::Serialize for ResponseImageGenCallGeneratingEvent {
             sequence_number,
         } = self;
         ResponseImageGenCallGeneratingEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             output_index,
             item_id,
             sequence_number,
@@ -59255,7 +59261,7 @@ impl<'de> serde::Deserialize<'de> for ResponseImageGenCallInProgressEvent {
         struct ResponseImageGenCallInProgressEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseImageGenCallInProgressEventType,
+            r#type: ResponseImageGenCallInProgressEventType,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
             output_index: u64,
@@ -59288,7 +59294,7 @@ impl serde::Serialize for ResponseImageGenCallInProgressEvent {
         #[derive(serde :: Serialize)]
         struct ResponseImageGenCallInProgressEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseImageGenCallInProgressEventType,
+            r#type: &'a ResponseImageGenCallInProgressEventType,
             #[serde(rename = "output_index")]
             output_index: &'a u64,
             #[serde(rename = "item_id")]
@@ -59302,7 +59308,7 @@ impl serde::Serialize for ResponseImageGenCallInProgressEvent {
             sequence_number,
         } = self;
         ResponseImageGenCallInProgressEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             output_index,
             item_id,
             sequence_number,
@@ -59357,7 +59363,7 @@ impl<'de> serde::Deserialize<'de> for ResponseImageGenCallPartialImageEvent {
         struct ResponseImageGenCallPartialImageEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseImageGenCallPartialImageEventType,
+            r#type: ResponseImageGenCallPartialImageEventType,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
             output_index: u64,
@@ -59400,7 +59406,7 @@ impl serde::Serialize for ResponseImageGenCallPartialImageEvent {
         #[derive(serde :: Serialize)]
         struct ResponseImageGenCallPartialImageEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseImageGenCallPartialImageEventType,
+            r#type: &'a ResponseImageGenCallPartialImageEventType,
             #[serde(rename = "output_index")]
             output_index: &'a u64,
             #[serde(rename = "item_id")]
@@ -59420,7 +59426,7 @@ impl serde::Serialize for ResponseImageGenCallPartialImageEvent {
             partial_image_b64,
         } = self;
         ResponseImageGenCallPartialImageEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             output_index,
             item_id,
             sequence_number,
@@ -59481,7 +59487,7 @@ impl<'de> serde::Deserialize<'de> for ResponseInProgressEvent {
         struct ResponseInProgressEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseInProgressEventType,
+            r#type: ResponseInProgressEventType,
             #[serde(rename = "response")]
             #[allow(dead_code)]
             response: Response,
@@ -59509,7 +59515,7 @@ impl serde::Serialize for ResponseInProgressEvent {
         #[derive(serde :: Serialize)]
         struct ResponseInProgressEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseInProgressEventType,
+            r#type: &'a ResponseInProgressEventType,
             #[serde(rename = "response")]
             response: &'a Response,
             #[serde(rename = "sequence_number")]
@@ -59520,7 +59526,7 @@ impl serde::Serialize for ResponseInProgressEvent {
             sequence_number,
         } = self;
         ResponseInProgressEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             response,
             sequence_number,
         }
@@ -59572,7 +59578,7 @@ impl<'de> serde::Deserialize<'de> for ResponseIncompleteEvent {
         struct ResponseIncompleteEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseIncompleteEventType,
+            r#type: ResponseIncompleteEventType,
             #[serde(rename = "response")]
             #[allow(dead_code)]
             response: Response,
@@ -59600,7 +59606,7 @@ impl serde::Serialize for ResponseIncompleteEvent {
         #[derive(serde :: Serialize)]
         struct ResponseIncompleteEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseIncompleteEventType,
+            r#type: &'a ResponseIncompleteEventType,
             #[serde(rename = "response")]
             response: &'a Response,
             #[serde(rename = "sequence_number")]
@@ -59611,7 +59617,7 @@ impl serde::Serialize for ResponseIncompleteEvent {
             sequence_number,
         } = self;
         ResponseIncompleteEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             response,
             sequence_number,
         }
@@ -59776,7 +59782,7 @@ impl<'de> serde::Deserialize<'de> for ResponseMcpCallArgumentsDeltaEvent {
         struct ResponseMcpCallArgumentsDeltaEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseMcpCallArgumentsDeltaEventType,
+            r#type: ResponseMcpCallArgumentsDeltaEventType,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
             output_index: u64,
@@ -59814,7 +59820,7 @@ impl serde::Serialize for ResponseMcpCallArgumentsDeltaEvent {
         #[derive(serde :: Serialize)]
         struct ResponseMcpCallArgumentsDeltaEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseMcpCallArgumentsDeltaEventType,
+            r#type: &'a ResponseMcpCallArgumentsDeltaEventType,
             #[serde(rename = "output_index")]
             output_index: &'a u64,
             #[serde(rename = "item_id")]
@@ -59831,7 +59837,7 @@ impl serde::Serialize for ResponseMcpCallArgumentsDeltaEvent {
             sequence_number,
         } = self;
         ResponseMcpCallArgumentsDeltaEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             output_index,
             item_id,
             delta,
@@ -59889,7 +59895,7 @@ impl<'de> serde::Deserialize<'de> for ResponseMcpCallArgumentsDoneEvent {
         struct ResponseMcpCallArgumentsDoneEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseMcpCallArgumentsDoneEventType,
+            r#type: ResponseMcpCallArgumentsDoneEventType,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
             output_index: u64,
@@ -59927,7 +59933,7 @@ impl serde::Serialize for ResponseMcpCallArgumentsDoneEvent {
         #[derive(serde :: Serialize)]
         struct ResponseMcpCallArgumentsDoneEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseMcpCallArgumentsDoneEventType,
+            r#type: &'a ResponseMcpCallArgumentsDoneEventType,
             #[serde(rename = "output_index")]
             output_index: &'a u64,
             #[serde(rename = "item_id")]
@@ -59944,7 +59950,7 @@ impl serde::Serialize for ResponseMcpCallArgumentsDoneEvent {
             sequence_number,
         } = self;
         ResponseMcpCallArgumentsDoneEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             output_index,
             item_id,
             arguments,
@@ -60002,7 +60008,7 @@ impl<'de> serde::Deserialize<'de> for ResponseMcpCallCompletedEvent {
         struct ResponseMcpCallCompletedEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseMcpCallCompletedEventType,
+            r#type: ResponseMcpCallCompletedEventType,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
             sequence_number: u64,
@@ -60022,13 +60028,13 @@ impl serde::Serialize for ResponseMcpCallCompletedEvent {
         #[derive(serde :: Serialize)]
         struct ResponseMcpCallCompletedEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseMcpCallCompletedEventType,
+            r#type: &'a ResponseMcpCallCompletedEventType,
             #[serde(rename = "sequence_number")]
             sequence_number: &'a u64,
         }
         let Self { sequence_number } = self;
         ResponseMcpCallCompletedEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             sequence_number,
         }
         .serialize(serializer)
@@ -60077,7 +60083,7 @@ impl<'de> serde::Deserialize<'de> for ResponseMcpCallFailedEvent {
         struct ResponseMcpCallFailedEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseMcpCallFailedEventType,
+            r#type: ResponseMcpCallFailedEventType,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
             sequence_number: u64,
@@ -60097,13 +60103,13 @@ impl serde::Serialize for ResponseMcpCallFailedEvent {
         #[derive(serde :: Serialize)]
         struct ResponseMcpCallFailedEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseMcpCallFailedEventType,
+            r#type: &'a ResponseMcpCallFailedEventType,
             #[serde(rename = "sequence_number")]
             sequence_number: &'a u64,
         }
         let Self { sequence_number } = self;
         ResponseMcpCallFailedEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             sequence_number,
         }
         .serialize(serializer)
@@ -60152,7 +60158,7 @@ impl<'de> serde::Deserialize<'de> for ResponseMcpCallInProgressEvent {
         struct ResponseMcpCallInProgressEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseMcpCallInProgressEventType,
+            r#type: ResponseMcpCallInProgressEventType,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
             sequence_number: u64,
@@ -60185,7 +60191,7 @@ impl serde::Serialize for ResponseMcpCallInProgressEvent {
         #[derive(serde :: Serialize)]
         struct ResponseMcpCallInProgressEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseMcpCallInProgressEventType,
+            r#type: &'a ResponseMcpCallInProgressEventType,
             #[serde(rename = "sequence_number")]
             sequence_number: &'a u64,
             #[serde(rename = "output_index")]
@@ -60199,7 +60205,7 @@ impl serde::Serialize for ResponseMcpCallInProgressEvent {
             item_id,
         } = self;
         ResponseMcpCallInProgressEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             sequence_number,
             output_index,
             item_id,
@@ -60254,7 +60260,7 @@ impl<'de> serde::Deserialize<'de> for ResponseMcpListToolsCompletedEvent {
         struct ResponseMcpListToolsCompletedEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseMcpListToolsCompletedEventType,
+            r#type: ResponseMcpListToolsCompletedEventType,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
             sequence_number: u64,
@@ -60274,13 +60280,13 @@ impl serde::Serialize for ResponseMcpListToolsCompletedEvent {
         #[derive(serde :: Serialize)]
         struct ResponseMcpListToolsCompletedEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseMcpListToolsCompletedEventType,
+            r#type: &'a ResponseMcpListToolsCompletedEventType,
             #[serde(rename = "sequence_number")]
             sequence_number: &'a u64,
         }
         let Self { sequence_number } = self;
         ResponseMcpListToolsCompletedEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             sequence_number,
         }
         .serialize(serializer)
@@ -60329,7 +60335,7 @@ impl<'de> serde::Deserialize<'de> for ResponseMcpListToolsFailedEvent {
         struct ResponseMcpListToolsFailedEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseMcpListToolsFailedEventType,
+            r#type: ResponseMcpListToolsFailedEventType,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
             sequence_number: u64,
@@ -60349,13 +60355,13 @@ impl serde::Serialize for ResponseMcpListToolsFailedEvent {
         #[derive(serde :: Serialize)]
         struct ResponseMcpListToolsFailedEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseMcpListToolsFailedEventType,
+            r#type: &'a ResponseMcpListToolsFailedEventType,
             #[serde(rename = "sequence_number")]
             sequence_number: &'a u64,
         }
         let Self { sequence_number } = self;
         ResponseMcpListToolsFailedEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             sequence_number,
         }
         .serialize(serializer)
@@ -60404,7 +60410,7 @@ impl<'de> serde::Deserialize<'de> for ResponseMcpListToolsInProgressEvent {
         struct ResponseMcpListToolsInProgressEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseMcpListToolsInProgressEventType,
+            r#type: ResponseMcpListToolsInProgressEventType,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
             sequence_number: u64,
@@ -60424,13 +60430,13 @@ impl serde::Serialize for ResponseMcpListToolsInProgressEvent {
         #[derive(serde :: Serialize)]
         struct ResponseMcpListToolsInProgressEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseMcpListToolsInProgressEventType,
+            r#type: &'a ResponseMcpListToolsInProgressEventType,
             #[serde(rename = "sequence_number")]
             sequence_number: &'a u64,
         }
         let Self { sequence_number } = self;
         ResponseMcpListToolsInProgressEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             sequence_number,
         }
         .serialize(serializer)
@@ -60490,7 +60496,7 @@ impl<'de> serde::Deserialize<'de> for ResponseOutputItemAddedEvent {
         struct ResponseOutputItemAddedEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseOutputItemAddedEventType,
+            r#type: ResponseOutputItemAddedEventType,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
             output_index: u64,
@@ -60523,7 +60529,7 @@ impl serde::Serialize for ResponseOutputItemAddedEvent {
         #[derive(serde :: Serialize)]
         struct ResponseOutputItemAddedEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseOutputItemAddedEventType,
+            r#type: &'a ResponseOutputItemAddedEventType,
             #[serde(rename = "output_index")]
             output_index: &'a u64,
             #[serde(rename = "sequence_number")]
@@ -60537,7 +60543,7 @@ impl serde::Serialize for ResponseOutputItemAddedEvent {
             item,
         } = self;
         ResponseOutputItemAddedEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             output_index,
             sequence_number,
             item,
@@ -60592,7 +60598,7 @@ impl<'de> serde::Deserialize<'de> for ResponseOutputItemDoneEvent {
         struct ResponseOutputItemDoneEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseOutputItemDoneEventType,
+            r#type: ResponseOutputItemDoneEventType,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
             output_index: u64,
@@ -60625,7 +60631,7 @@ impl serde::Serialize for ResponseOutputItemDoneEvent {
         #[derive(serde :: Serialize)]
         struct ResponseOutputItemDoneEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseOutputItemDoneEventType,
+            r#type: &'a ResponseOutputItemDoneEventType,
             #[serde(rename = "output_index")]
             output_index: &'a u64,
             #[serde(rename = "sequence_number")]
@@ -60639,7 +60645,7 @@ impl serde::Serialize for ResponseOutputItemDoneEvent {
             item,
         } = self;
         ResponseOutputItemDoneEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             output_index,
             sequence_number,
             item,
@@ -60694,7 +60700,7 @@ impl<'de> serde::Deserialize<'de> for ResponseOutputTextAnnotationAddedEvent {
         struct ResponseOutputTextAnnotationAddedEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseOutputTextAnnotationAddedEventType,
+            r#type: ResponseOutputTextAnnotationAddedEventType,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
@@ -60742,7 +60748,7 @@ impl serde::Serialize for ResponseOutputTextAnnotationAddedEvent {
         #[derive(serde :: Serialize)]
         struct ResponseOutputTextAnnotationAddedEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseOutputTextAnnotationAddedEventType,
+            r#type: &'a ResponseOutputTextAnnotationAddedEventType,
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
@@ -60765,7 +60771,7 @@ impl serde::Serialize for ResponseOutputTextAnnotationAddedEvent {
             annotation,
         } = self;
         ResponseOutputTextAnnotationAddedEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             item_id,
             output_index,
             content_index,
@@ -61101,7 +61107,7 @@ impl<'de> serde::Deserialize<'de> for ResponseQueuedEvent {
         struct ResponseQueuedEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseQueuedEventType,
+            r#type: ResponseQueuedEventType,
             #[serde(rename = "response")]
             #[allow(dead_code)]
             response: Response,
@@ -61129,7 +61135,7 @@ impl serde::Serialize for ResponseQueuedEvent {
         #[derive(serde :: Serialize)]
         struct ResponseQueuedEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseQueuedEventType,
+            r#type: &'a ResponseQueuedEventType,
             #[serde(rename = "response")]
             response: &'a Response,
             #[serde(rename = "sequence_number")]
@@ -61140,7 +61146,7 @@ impl serde::Serialize for ResponseQueuedEvent {
             sequence_number,
         } = self;
         ResponseQueuedEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             response,
             sequence_number,
         }
@@ -61192,7 +61198,7 @@ impl<'de> serde::Deserialize<'de> for ResponseReasoningDeltaEvent {
         struct ResponseReasoningDeltaEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseReasoningDeltaEventType,
+            r#type: ResponseReasoningDeltaEventType,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
@@ -61235,7 +61241,7 @@ impl serde::Serialize for ResponseReasoningDeltaEvent {
         #[derive(serde :: Serialize)]
         struct ResponseReasoningDeltaEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseReasoningDeltaEventType,
+            r#type: &'a ResponseReasoningDeltaEventType,
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
@@ -61255,7 +61261,7 @@ impl serde::Serialize for ResponseReasoningDeltaEvent {
             sequence_number,
         } = self;
         ResponseReasoningDeltaEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             item_id,
             output_index,
             content_index,
@@ -61316,7 +61322,7 @@ impl<'de> serde::Deserialize<'de> for ResponseReasoningDoneEvent {
         struct ResponseReasoningDoneEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseReasoningDoneEventType,
+            r#type: ResponseReasoningDoneEventType,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
@@ -61359,7 +61365,7 @@ impl serde::Serialize for ResponseReasoningDoneEvent {
         #[derive(serde :: Serialize)]
         struct ResponseReasoningDoneEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseReasoningDoneEventType,
+            r#type: &'a ResponseReasoningDoneEventType,
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
@@ -61379,7 +61385,7 @@ impl serde::Serialize for ResponseReasoningDoneEvent {
             sequence_number,
         } = self;
         ResponseReasoningDoneEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             item_id,
             output_index,
             content_index,
@@ -61440,7 +61446,7 @@ impl<'de> serde::Deserialize<'de> for ResponseReasoningSummaryDeltaEvent {
         struct ResponseReasoningSummaryDeltaEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseReasoningSummaryDeltaEventType,
+            r#type: ResponseReasoningSummaryDeltaEventType,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
@@ -61483,7 +61489,7 @@ impl serde::Serialize for ResponseReasoningSummaryDeltaEvent {
         #[derive(serde :: Serialize)]
         struct ResponseReasoningSummaryDeltaEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseReasoningSummaryDeltaEventType,
+            r#type: &'a ResponseReasoningSummaryDeltaEventType,
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
@@ -61503,7 +61509,7 @@ impl serde::Serialize for ResponseReasoningSummaryDeltaEvent {
             delta,
         } = self;
         ResponseReasoningSummaryDeltaEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             item_id,
             output_index,
             summary_index,
@@ -61564,7 +61570,7 @@ impl<'de> serde::Deserialize<'de> for ResponseReasoningSummaryDoneEvent {
         struct ResponseReasoningSummaryDoneEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseReasoningSummaryDoneEventType,
+            r#type: ResponseReasoningSummaryDoneEventType,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
@@ -61607,7 +61613,7 @@ impl serde::Serialize for ResponseReasoningSummaryDoneEvent {
         #[derive(serde :: Serialize)]
         struct ResponseReasoningSummaryDoneEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseReasoningSummaryDoneEventType,
+            r#type: &'a ResponseReasoningSummaryDoneEventType,
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
@@ -61627,7 +61633,7 @@ impl serde::Serialize for ResponseReasoningSummaryDoneEvent {
             sequence_number,
         } = self;
         ResponseReasoningSummaryDoneEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             item_id,
             output_index,
             summary_index,
@@ -61715,7 +61721,7 @@ impl<'de> serde::Deserialize<'de> for ResponseReasoningSummaryPartAddedEventPart
         struct ResponseReasoningSummaryPartAddedEventPart {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseReasoningSummaryPartAddedEventPartType,
+            r#type: ResponseReasoningSummaryPartAddedEventPartType,
             #[serde(rename = "text")]
             #[allow(dead_code)]
             text: String,
@@ -61734,13 +61740,13 @@ impl serde::Serialize for ResponseReasoningSummaryPartAddedEventPart {
         #[derive(serde :: Serialize)]
         struct ResponseReasoningSummaryPartAddedEventPart<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseReasoningSummaryPartAddedEventPartType,
+            r#type: &'a ResponseReasoningSummaryPartAddedEventPartType,
             #[serde(rename = "text")]
             text: &'a String,
         }
         let Self { text } = self;
         ResponseReasoningSummaryPartAddedEventPart {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             text,
         }
         .serialize(serializer)
@@ -61762,7 +61768,7 @@ impl<'de> serde::Deserialize<'de> for ResponseReasoningSummaryPartAddedEvent {
         struct ResponseReasoningSummaryPartAddedEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseReasoningSummaryPartAddedEventType,
+            r#type: ResponseReasoningSummaryPartAddedEventType,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
@@ -61805,7 +61811,7 @@ impl serde::Serialize for ResponseReasoningSummaryPartAddedEvent {
         #[derive(serde :: Serialize)]
         struct ResponseReasoningSummaryPartAddedEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseReasoningSummaryPartAddedEventType,
+            r#type: &'a ResponseReasoningSummaryPartAddedEventType,
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
@@ -61825,7 +61831,7 @@ impl serde::Serialize for ResponseReasoningSummaryPartAddedEvent {
             part,
         } = self;
         ResponseReasoningSummaryPartAddedEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             item_id,
             output_index,
             summary_index,
@@ -61913,7 +61919,7 @@ impl<'de> serde::Deserialize<'de> for ResponseReasoningSummaryPartDoneEventPart 
         struct ResponseReasoningSummaryPartDoneEventPart {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseReasoningSummaryPartDoneEventPartType,
+            r#type: ResponseReasoningSummaryPartDoneEventPartType,
             #[serde(rename = "text")]
             #[allow(dead_code)]
             text: String,
@@ -61932,13 +61938,13 @@ impl serde::Serialize for ResponseReasoningSummaryPartDoneEventPart {
         #[derive(serde :: Serialize)]
         struct ResponseReasoningSummaryPartDoneEventPart<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseReasoningSummaryPartDoneEventPartType,
+            r#type: &'a ResponseReasoningSummaryPartDoneEventPartType,
             #[serde(rename = "text")]
             text: &'a String,
         }
         let Self { text } = self;
         ResponseReasoningSummaryPartDoneEventPart {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             text,
         }
         .serialize(serializer)
@@ -61960,7 +61966,7 @@ impl<'de> serde::Deserialize<'de> for ResponseReasoningSummaryPartDoneEvent {
         struct ResponseReasoningSummaryPartDoneEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseReasoningSummaryPartDoneEventType,
+            r#type: ResponseReasoningSummaryPartDoneEventType,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
@@ -62003,7 +62009,7 @@ impl serde::Serialize for ResponseReasoningSummaryPartDoneEvent {
         #[derive(serde :: Serialize)]
         struct ResponseReasoningSummaryPartDoneEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseReasoningSummaryPartDoneEventType,
+            r#type: &'a ResponseReasoningSummaryPartDoneEventType,
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
@@ -62023,7 +62029,7 @@ impl serde::Serialize for ResponseReasoningSummaryPartDoneEvent {
             part,
         } = self;
         ResponseReasoningSummaryPartDoneEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             item_id,
             output_index,
             summary_index,
@@ -62084,7 +62090,7 @@ impl<'de> serde::Deserialize<'de> for ResponseReasoningSummaryTextDeltaEvent {
         struct ResponseReasoningSummaryTextDeltaEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseReasoningSummaryTextDeltaEventType,
+            r#type: ResponseReasoningSummaryTextDeltaEventType,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
@@ -62127,7 +62133,7 @@ impl serde::Serialize for ResponseReasoningSummaryTextDeltaEvent {
         #[derive(serde :: Serialize)]
         struct ResponseReasoningSummaryTextDeltaEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseReasoningSummaryTextDeltaEventType,
+            r#type: &'a ResponseReasoningSummaryTextDeltaEventType,
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
@@ -62147,7 +62153,7 @@ impl serde::Serialize for ResponseReasoningSummaryTextDeltaEvent {
             sequence_number,
         } = self;
         ResponseReasoningSummaryTextDeltaEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             item_id,
             output_index,
             summary_index,
@@ -62208,7 +62214,7 @@ impl<'de> serde::Deserialize<'de> for ResponseReasoningSummaryTextDoneEvent {
         struct ResponseReasoningSummaryTextDoneEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseReasoningSummaryTextDoneEventType,
+            r#type: ResponseReasoningSummaryTextDoneEventType,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
@@ -62251,7 +62257,7 @@ impl serde::Serialize for ResponseReasoningSummaryTextDoneEvent {
         #[derive(serde :: Serialize)]
         struct ResponseReasoningSummaryTextDoneEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseReasoningSummaryTextDoneEventType,
+            r#type: &'a ResponseReasoningSummaryTextDoneEventType,
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
@@ -62271,7 +62277,7 @@ impl serde::Serialize for ResponseReasoningSummaryTextDoneEvent {
             sequence_number,
         } = self;
         ResponseReasoningSummaryTextDoneEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             item_id,
             output_index,
             summary_index,
@@ -62332,7 +62338,7 @@ impl<'de> serde::Deserialize<'de> for ResponseRefusalDeltaEvent {
         struct ResponseRefusalDeltaEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseRefusalDeltaEventType,
+            r#type: ResponseRefusalDeltaEventType,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
@@ -62375,7 +62381,7 @@ impl serde::Serialize for ResponseRefusalDeltaEvent {
         #[derive(serde :: Serialize)]
         struct ResponseRefusalDeltaEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseRefusalDeltaEventType,
+            r#type: &'a ResponseRefusalDeltaEventType,
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
@@ -62395,7 +62401,7 @@ impl serde::Serialize for ResponseRefusalDeltaEvent {
             sequence_number,
         } = self;
         ResponseRefusalDeltaEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             item_id,
             output_index,
             content_index,
@@ -62456,7 +62462,7 @@ impl<'de> serde::Deserialize<'de> for ResponseRefusalDoneEvent {
         struct ResponseRefusalDoneEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseRefusalDoneEventType,
+            r#type: ResponseRefusalDoneEventType,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
@@ -62499,7 +62505,7 @@ impl serde::Serialize for ResponseRefusalDoneEvent {
         #[derive(serde :: Serialize)]
         struct ResponseRefusalDoneEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseRefusalDoneEventType,
+            r#type: &'a ResponseRefusalDoneEventType,
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
@@ -62519,7 +62525,7 @@ impl serde::Serialize for ResponseRefusalDoneEvent {
             sequence_number,
         } = self;
         ResponseRefusalDoneEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             item_id,
             output_index,
             content_index,
@@ -63135,7 +63141,7 @@ impl<'de> serde::Deserialize<'de> for ResponseTextDeltaEvent {
         struct ResponseTextDeltaEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseTextDeltaEventType,
+            r#type: ResponseTextDeltaEventType,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
@@ -63178,7 +63184,7 @@ impl serde::Serialize for ResponseTextDeltaEvent {
         #[derive(serde :: Serialize)]
         struct ResponseTextDeltaEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseTextDeltaEventType,
+            r#type: &'a ResponseTextDeltaEventType,
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
@@ -63198,7 +63204,7 @@ impl serde::Serialize for ResponseTextDeltaEvent {
             sequence_number,
         } = self;
         ResponseTextDeltaEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             item_id,
             output_index,
             content_index,
@@ -63259,7 +63265,7 @@ impl<'de> serde::Deserialize<'de> for ResponseTextDoneEvent {
         struct ResponseTextDoneEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseTextDoneEventType,
+            r#type: ResponseTextDoneEventType,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
@@ -63302,7 +63308,7 @@ impl serde::Serialize for ResponseTextDoneEvent {
         #[derive(serde :: Serialize)]
         struct ResponseTextDoneEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseTextDoneEventType,
+            r#type: &'a ResponseTextDoneEventType,
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
@@ -63322,7 +63328,7 @@ impl serde::Serialize for ResponseTextDoneEvent {
             sequence_number,
         } = self;
         ResponseTextDoneEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             item_id,
             output_index,
             content_index,
@@ -63551,7 +63557,7 @@ impl<'de> serde::Deserialize<'de> for ResponseWebSearchCallCompletedEvent {
         struct ResponseWebSearchCallCompletedEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseWebSearchCallCompletedEventType,
+            r#type: ResponseWebSearchCallCompletedEventType,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
             output_index: u64,
@@ -63584,7 +63590,7 @@ impl serde::Serialize for ResponseWebSearchCallCompletedEvent {
         #[derive(serde :: Serialize)]
         struct ResponseWebSearchCallCompletedEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseWebSearchCallCompletedEventType,
+            r#type: &'a ResponseWebSearchCallCompletedEventType,
             #[serde(rename = "output_index")]
             output_index: &'a u64,
             #[serde(rename = "item_id")]
@@ -63598,7 +63604,7 @@ impl serde::Serialize for ResponseWebSearchCallCompletedEvent {
             sequence_number,
         } = self;
         ResponseWebSearchCallCompletedEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             output_index,
             item_id,
             sequence_number,
@@ -63653,7 +63659,7 @@ impl<'de> serde::Deserialize<'de> for ResponseWebSearchCallInProgressEvent {
         struct ResponseWebSearchCallInProgressEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseWebSearchCallInProgressEventType,
+            r#type: ResponseWebSearchCallInProgressEventType,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
             output_index: u64,
@@ -63686,7 +63692,7 @@ impl serde::Serialize for ResponseWebSearchCallInProgressEvent {
         #[derive(serde :: Serialize)]
         struct ResponseWebSearchCallInProgressEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseWebSearchCallInProgressEventType,
+            r#type: &'a ResponseWebSearchCallInProgressEventType,
             #[serde(rename = "output_index")]
             output_index: &'a u64,
             #[serde(rename = "item_id")]
@@ -63700,7 +63706,7 @@ impl serde::Serialize for ResponseWebSearchCallInProgressEvent {
             sequence_number,
         } = self;
         ResponseWebSearchCallInProgressEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             output_index,
             item_id,
             sequence_number,
@@ -63755,7 +63761,7 @@ impl<'de> serde::Deserialize<'de> for ResponseWebSearchCallSearchingEvent {
         struct ResponseWebSearchCallSearchingEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ResponseWebSearchCallSearchingEventType,
+            r#type: ResponseWebSearchCallSearchingEventType,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
             output_index: u64,
@@ -63788,7 +63794,7 @@ impl serde::Serialize for ResponseWebSearchCallSearchingEvent {
         #[derive(serde :: Serialize)]
         struct ResponseWebSearchCallSearchingEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a ResponseWebSearchCallSearchingEventType,
+            r#type: &'a ResponseWebSearchCallSearchingEventType,
             #[serde(rename = "output_index")]
             output_index: &'a u64,
             #[serde(rename = "item_id")]
@@ -63802,7 +63808,7 @@ impl serde::Serialize for ResponseWebSearchCallSearchingEvent {
             sequence_number,
         } = self;
         ResponseWebSearchCallSearchingEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             output_index,
             item_id,
             sequence_number,
@@ -64215,7 +64221,7 @@ impl<'de> serde::Deserialize<'de> for RunGraderResponseMetadata {
             name: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: String,
+            r#type: String,
             #[serde(rename = "errors")]
             #[allow(dead_code)]
             errors: RunGraderResponseMetadataErrors,
@@ -64234,7 +64240,7 @@ impl<'de> serde::Deserialize<'de> for RunGraderResponseMetadata {
         }
         let RunGraderResponseMetadata {
             name,
-            type_,
+            r#type,
             errors,
             execution_time,
             scores,
@@ -64244,7 +64250,7 @@ impl<'de> serde::Deserialize<'de> for RunGraderResponseMetadata {
         } = RunGraderResponseMetadata::deserialize(deserializer)?;
         Ok(Self {
             name,
-            type_,
+            r#type,
             errors,
             execution_time,
             scores,
@@ -64264,7 +64270,7 @@ impl serde::Serialize for RunGraderResponseMetadata {
             #[serde(rename = "name")]
             name: &'a String,
             #[serde(rename = "type")]
-            type_: &'a String,
+            r#type: &'a String,
             #[serde(rename = "errors")]
             errors: &'a RunGraderResponseMetadataErrors,
             #[serde(rename = "execution_time")]
@@ -64280,7 +64286,7 @@ impl serde::Serialize for RunGraderResponseMetadata {
         }
         let Self {
             name,
-            type_,
+            r#type,
             errors,
             execution_time,
             scores,
@@ -64289,7 +64295,7 @@ impl serde::Serialize for RunGraderResponseMetadata {
         } = self;
         RunGraderResponseMetadata {
             name,
-            type_,
+            r#type,
             errors,
             execution_time,
             scores,
@@ -64302,7 +64308,7 @@ impl serde::Serialize for RunGraderResponseMetadata {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunGraderResponseMetadata {
     pub name: String,
-    pub type_: String,
+    pub r#type: String,
     pub errors: RunGraderResponseMetadataErrors,
     pub execution_time: f64,
     pub scores: std::collections::HashMap<String, serde_json::Value>,
@@ -64490,7 +64496,7 @@ impl<'de> serde::Deserialize<'de> for RunObjectRequiredAction {
         struct RunObjectRequiredAction {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RunObjectRequiredActionType,
+            r#type: RunObjectRequiredActionType,
             #[serde(rename = "submit_tool_outputs")]
             #[allow(dead_code)]
             submit_tool_outputs: RunObjectRequiredActionSubmitToolOutputs,
@@ -64513,7 +64519,7 @@ impl serde::Serialize for RunObjectRequiredAction {
         #[derive(serde :: Serialize)]
         struct RunObjectRequiredAction<'a> {
             #[serde(rename = "type")]
-            type_: &'a RunObjectRequiredActionType,
+            r#type: &'a RunObjectRequiredActionType,
             #[serde(rename = "submit_tool_outputs")]
             submit_tool_outputs: &'a RunObjectRequiredActionSubmitToolOutputs,
         }
@@ -64521,7 +64527,7 @@ impl serde::Serialize for RunObjectRequiredAction {
             submit_tool_outputs,
         } = self;
         RunObjectRequiredAction {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             submit_tool_outputs,
         }
         .serialize(serializer)
@@ -65223,7 +65229,7 @@ impl<'de> serde::Deserialize<'de> for RunStepDeltaStepDetailsMessageCreationObje
         struct RunStepDeltaStepDetailsMessageCreationObject {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RunStepDeltaStepDetailsMessageCreationObjectType,
+            r#type: RunStepDeltaStepDetailsMessageCreationObjectType,
             #[serde(rename = "message_creation")]
             #[allow(dead_code)]
             message_creation: Option<RunStepDeltaStepDetailsMessageCreationObjectMessageCreation>,
@@ -65243,7 +65249,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsMessageCreationObject {
         #[derive(serde :: Serialize)]
         struct RunStepDeltaStepDetailsMessageCreationObject<'a> {
             #[serde(rename = "type")]
-            type_: &'a RunStepDeltaStepDetailsMessageCreationObjectType,
+            r#type: &'a RunStepDeltaStepDetailsMessageCreationObjectType,
             #[serde(rename = "message_creation")]
             #[serde(skip_serializing_if = "Option::is_none")]
             message_creation:
@@ -65251,7 +65257,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsMessageCreationObject {
         }
         let Self { message_creation } = self;
         RunStepDeltaStepDetailsMessageCreationObject {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             message_creation,
         }
         .serialize(serializer)
@@ -65417,7 +65423,7 @@ impl<'de> serde::Deserialize<'de> for RunStepDeltaStepDetailsToolCallsCodeObject
             id: Option<String>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RunStepDeltaStepDetailsToolCallsCodeObjectType,
+            r#type: RunStepDeltaStepDetailsToolCallsCodeObjectType,
             #[serde(rename = "code_interpreter")]
             #[allow(dead_code)]
             code_interpreter: Option<RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter>,
@@ -65449,7 +65455,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsCodeObject {
             #[serde(skip_serializing_if = "Option::is_none")]
             id: &'a Option<String>,
             #[serde(rename = "type")]
-            type_: &'a RunStepDeltaStepDetailsToolCallsCodeObjectType,
+            r#type: &'a RunStepDeltaStepDetailsToolCallsCodeObjectType,
             #[serde(rename = "code_interpreter")]
             #[serde(skip_serializing_if = "Option::is_none")]
             code_interpreter: &'a Option<RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter>,
@@ -65462,7 +65468,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsCodeObject {
         RunStepDeltaStepDetailsToolCallsCodeObject {
             index,
             id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             code_interpreter,
         }
         .serialize(serializer)
@@ -65559,7 +65565,7 @@ impl<'de> serde::Deserialize<'de> for RunStepDeltaStepDetailsToolCallsCodeOutput
             index: u64,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectType,
+            r#type: RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectType,
             #[serde(rename = "image")]
             #[allow(dead_code)]
             image: Option<RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImage>,
@@ -65580,7 +65586,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsCodeOutputImageObject 
             #[serde(rename = "index")]
             index: &'a u64,
             #[serde(rename = "type")]
-            type_: &'a RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectType,
+            r#type: &'a RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectType,
             #[serde(rename = "image")]
             #[serde(skip_serializing_if = "Option::is_none")]
             image: &'a Option<RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImage>,
@@ -65588,7 +65594,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsCodeOutputImageObject 
         let Self { index, image } = self;
         RunStepDeltaStepDetailsToolCallsCodeOutputImageObject {
             index,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             image,
         }
         .serialize(serializer)
@@ -65641,7 +65647,7 @@ impl<'de> serde::Deserialize<'de> for RunStepDeltaStepDetailsToolCallsCodeOutput
             index: u64,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectType,
+            r#type: RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectType,
             #[serde(rename = "logs")]
             #[allow(dead_code)]
             logs: Option<String>,
@@ -65662,7 +65668,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject {
             #[serde(rename = "index")]
             index: &'a u64,
             #[serde(rename = "type")]
-            type_: &'a RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectType,
+            r#type: &'a RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectType,
             #[serde(rename = "logs")]
             #[serde(skip_serializing_if = "Option::is_none")]
             logs: &'a Option<String>,
@@ -65670,7 +65676,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject {
         let Self { index, logs } = self;
         RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject {
             index,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             logs,
         }
         .serialize(serializer)
@@ -65728,7 +65734,7 @@ impl<'de> serde::Deserialize<'de> for RunStepDeltaStepDetailsToolCallsFileSearch
             id: Option<String>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RunStepDeltaStepDetailsToolCallsFileSearchObjectType,
+            r#type: RunStepDeltaStepDetailsToolCallsFileSearchObjectType,
             #[serde(rename = "file_search")]
             #[allow(dead_code)]
             file_search: std::collections::HashMap<String, serde_json::Value>,
@@ -65760,7 +65766,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsFileSearchObject {
             #[serde(skip_serializing_if = "Option::is_none")]
             id: &'a Option<String>,
             #[serde(rename = "type")]
-            type_: &'a RunStepDeltaStepDetailsToolCallsFileSearchObjectType,
+            r#type: &'a RunStepDeltaStepDetailsToolCallsFileSearchObjectType,
             #[serde(rename = "file_search")]
             file_search: &'a std::collections::HashMap<String, serde_json::Value>,
         }
@@ -65772,7 +65778,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsFileSearchObject {
         RunStepDeltaStepDetailsToolCallsFileSearchObject {
             index,
             id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             file_search,
         }
         .serialize(serializer)
@@ -65906,7 +65912,7 @@ impl<'de> serde::Deserialize<'de> for RunStepDeltaStepDetailsToolCallsFunctionOb
             id: Option<String>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RunStepDeltaStepDetailsToolCallsFunctionObjectType,
+            r#type: RunStepDeltaStepDetailsToolCallsFunctionObjectType,
             #[serde(rename = "function")]
             #[allow(dead_code)]
             function: Option<RunStepDeltaStepDetailsToolCallsFunctionObjectFunction>,
@@ -65938,7 +65944,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsFunctionObject {
             #[serde(skip_serializing_if = "Option::is_none")]
             id: &'a Option<String>,
             #[serde(rename = "type")]
-            type_: &'a RunStepDeltaStepDetailsToolCallsFunctionObjectType,
+            r#type: &'a RunStepDeltaStepDetailsToolCallsFunctionObjectType,
             #[serde(rename = "function")]
             #[serde(skip_serializing_if = "Option::is_none")]
             function: &'a Option<RunStepDeltaStepDetailsToolCallsFunctionObjectFunction>,
@@ -65951,7 +65957,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsFunctionObject {
         RunStepDeltaStepDetailsToolCallsFunctionObject {
             index,
             id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             function,
         }
         .serialize(serializer)
@@ -66005,7 +66011,7 @@ impl<'de> serde::Deserialize<'de> for RunStepDeltaStepDetailsToolCallsObject {
         struct RunStepDeltaStepDetailsToolCallsObject {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RunStepDeltaStepDetailsToolCallsObjectType,
+            r#type: RunStepDeltaStepDetailsToolCallsObjectType,
             #[serde(rename = "tool_calls")]
             #[allow(dead_code)]
             tool_calls: Option<Vec<RunStepDeltaStepDetailsToolCall>>,
@@ -66024,14 +66030,14 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsObject {
         #[derive(serde :: Serialize)]
         struct RunStepDeltaStepDetailsToolCallsObject<'a> {
             #[serde(rename = "type")]
-            type_: &'a RunStepDeltaStepDetailsToolCallsObjectType,
+            r#type: &'a RunStepDeltaStepDetailsToolCallsObjectType,
             #[serde(rename = "tool_calls")]
             #[serde(skip_serializing_if = "Option::is_none")]
             tool_calls: &'a Option<Vec<RunStepDeltaStepDetailsToolCall>>,
         }
         let Self { tool_calls } = self;
         RunStepDeltaStepDetailsToolCallsObject {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             tool_calls,
         }
         .serialize(serializer)
@@ -66118,7 +66124,7 @@ impl<'de> serde::Deserialize<'de> for RunStepDetailsMessageCreationObject {
         struct RunStepDetailsMessageCreationObject {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RunStepDetailsMessageCreationObjectType,
+            r#type: RunStepDetailsMessageCreationObjectType,
             #[serde(rename = "message_creation")]
             #[allow(dead_code)]
             message_creation: RunStepDetailsMessageCreationObjectMessageCreation,
@@ -66138,13 +66144,13 @@ impl serde::Serialize for RunStepDetailsMessageCreationObject {
         #[derive(serde :: Serialize)]
         struct RunStepDetailsMessageCreationObject<'a> {
             #[serde(rename = "type")]
-            type_: &'a RunStepDetailsMessageCreationObjectType,
+            r#type: &'a RunStepDetailsMessageCreationObjectType,
             #[serde(rename = "message_creation")]
             message_creation: &'a RunStepDetailsMessageCreationObjectMessageCreation,
         }
         let Self { message_creation } = self;
         RunStepDetailsMessageCreationObject {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             message_creation,
         }
         .serialize(serializer)
@@ -66290,7 +66296,7 @@ impl<'de> serde::Deserialize<'de> for RunStepDetailsToolCallsCodeObject {
             id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RunStepDetailsToolCallsCodeObjectType,
+            r#type: RunStepDetailsToolCallsCodeObjectType,
             #[serde(rename = "code_interpreter")]
             #[allow(dead_code)]
             code_interpreter: RunStepDetailsToolCallsCodeObjectCodeInterpreter,
@@ -66317,7 +66323,7 @@ impl serde::Serialize for RunStepDetailsToolCallsCodeObject {
             #[serde(rename = "id")]
             id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a RunStepDetailsToolCallsCodeObjectType,
+            r#type: &'a RunStepDetailsToolCallsCodeObjectType,
             #[serde(rename = "code_interpreter")]
             code_interpreter: &'a RunStepDetailsToolCallsCodeObjectCodeInterpreter,
         }
@@ -66327,7 +66333,7 @@ impl serde::Serialize for RunStepDetailsToolCallsCodeObject {
         } = self;
         RunStepDetailsToolCallsCodeObject {
             id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             code_interpreter,
         }
         .serialize(serializer)
@@ -66415,7 +66421,7 @@ impl<'de> serde::Deserialize<'de> for RunStepDetailsToolCallsCodeOutputImageObje
         struct RunStepDetailsToolCallsCodeOutputImageObject {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RunStepDetailsToolCallsCodeOutputImageObjectType,
+            r#type: RunStepDetailsToolCallsCodeOutputImageObjectType,
             #[serde(rename = "image")]
             #[allow(dead_code)]
             image: RunStepDetailsToolCallsCodeOutputImageObjectImage,
@@ -66434,13 +66440,13 @@ impl serde::Serialize for RunStepDetailsToolCallsCodeOutputImageObject {
         #[derive(serde :: Serialize)]
         struct RunStepDetailsToolCallsCodeOutputImageObject<'a> {
             #[serde(rename = "type")]
-            type_: &'a RunStepDetailsToolCallsCodeOutputImageObjectType,
+            r#type: &'a RunStepDetailsToolCallsCodeOutputImageObjectType,
             #[serde(rename = "image")]
             image: &'a RunStepDetailsToolCallsCodeOutputImageObjectImage,
         }
         let Self { image } = self;
         RunStepDetailsToolCallsCodeOutputImageObject {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             image,
         }
         .serialize(serializer)
@@ -66487,7 +66493,7 @@ impl<'de> serde::Deserialize<'de> for RunStepDetailsToolCallsCodeOutputLogsObjec
         struct RunStepDetailsToolCallsCodeOutputLogsObject {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RunStepDetailsToolCallsCodeOutputLogsObjectType,
+            r#type: RunStepDetailsToolCallsCodeOutputLogsObjectType,
             #[serde(rename = "logs")]
             #[allow(dead_code)]
             logs: String,
@@ -66506,13 +66512,13 @@ impl serde::Serialize for RunStepDetailsToolCallsCodeOutputLogsObject {
         #[derive(serde :: Serialize)]
         struct RunStepDetailsToolCallsCodeOutputLogsObject<'a> {
             #[serde(rename = "type")]
-            type_: &'a RunStepDetailsToolCallsCodeOutputLogsObjectType,
+            r#type: &'a RunStepDetailsToolCallsCodeOutputLogsObjectType,
             #[serde(rename = "logs")]
             logs: &'a String,
         }
         let Self { logs } = self;
         RunStepDetailsToolCallsCodeOutputLogsObject {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             logs,
         }
         .serialize(serializer)
@@ -66625,7 +66631,7 @@ impl<'de> serde::Deserialize<'de> for RunStepDetailsToolCallsFileSearchObject {
             id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RunStepDetailsToolCallsFileSearchObjectType,
+            r#type: RunStepDetailsToolCallsFileSearchObjectType,
             #[serde(rename = "file_search")]
             #[allow(dead_code)]
             file_search: RunStepDetailsToolCallsFileSearchObjectFileSearch,
@@ -66647,14 +66653,14 @@ impl serde::Serialize for RunStepDetailsToolCallsFileSearchObject {
             #[serde(rename = "id")]
             id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a RunStepDetailsToolCallsFileSearchObjectType,
+            r#type: &'a RunStepDetailsToolCallsFileSearchObjectType,
             #[serde(rename = "file_search")]
             file_search: &'a RunStepDetailsToolCallsFileSearchObjectFileSearch,
         }
         let Self { id, file_search } = self;
         RunStepDetailsToolCallsFileSearchObject {
             id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             file_search,
         }
         .serialize(serializer)
@@ -66762,14 +66768,14 @@ impl<'de> serde::Deserialize<'de> for RunStepDetailsToolCallsFileSearchResultObj
         struct RunStepDetailsToolCallsFileSearchResultObjectContent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: Option<RunStepDetailsToolCallsFileSearchResultObjectContentType>,
+            r#type: Option<RunStepDetailsToolCallsFileSearchResultObjectContentType>,
             #[serde(rename = "text")]
             #[allow(dead_code)]
             text: Option<String>,
         }
-        let RunStepDetailsToolCallsFileSearchResultObjectContent { type_, text, .. } =
+        let RunStepDetailsToolCallsFileSearchResultObjectContent { r#type, text, .. } =
             RunStepDetailsToolCallsFileSearchResultObjectContent::deserialize(deserializer)?;
-        Ok(Self { type_, text })
+        Ok(Self { r#type, text })
     }
 }
 impl serde::Serialize for RunStepDetailsToolCallsFileSearchResultObjectContent {
@@ -66782,20 +66788,20 @@ impl serde::Serialize for RunStepDetailsToolCallsFileSearchResultObjectContent {
         struct RunStepDetailsToolCallsFileSearchResultObjectContent<'a> {
             #[serde(rename = "type")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            type_: &'a Option<RunStepDetailsToolCallsFileSearchResultObjectContentType>,
+            r#type: &'a Option<RunStepDetailsToolCallsFileSearchResultObjectContentType>,
             #[serde(rename = "text")]
             #[serde(skip_serializing_if = "Option::is_none")]
             text: &'a Option<String>,
         }
-        let Self { type_, text } = self;
-        RunStepDetailsToolCallsFileSearchResultObjectContent { type_, text }.serialize(serializer)
+        let Self { r#type, text } = self;
+        RunStepDetailsToolCallsFileSearchResultObjectContent { r#type, text }.serialize(serializer)
     }
 }
 #[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
 pub struct RunStepDetailsToolCallsFileSearchResultObjectContent {
     #[doc = "The type of the content."]
     #[builder(default)]
-    pub type_: Option<RunStepDetailsToolCallsFileSearchResultObjectContentType>,
+    pub r#type: Option<RunStepDetailsToolCallsFileSearchResultObjectContentType>,
     #[doc = "The text content of the file."]
     #[builder(default)]
     pub text: Option<String>,
@@ -66993,7 +66999,7 @@ impl<'de> serde::Deserialize<'de> for RunStepDetailsToolCallsFunctionObject {
             id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RunStepDetailsToolCallsFunctionObjectType,
+            r#type: RunStepDetailsToolCallsFunctionObjectType,
             #[serde(rename = "function")]
             #[allow(dead_code)]
             function: RunStepDetailsToolCallsFunctionObjectFunction,
@@ -67014,14 +67020,14 @@ impl serde::Serialize for RunStepDetailsToolCallsFunctionObject {
             #[serde(rename = "id")]
             id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a RunStepDetailsToolCallsFunctionObjectType,
+            r#type: &'a RunStepDetailsToolCallsFunctionObjectType,
             #[serde(rename = "function")]
             function: &'a RunStepDetailsToolCallsFunctionObjectFunction,
         }
         let Self { id, function } = self;
         RunStepDetailsToolCallsFunctionObject {
             id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             function,
         }
         .serialize(serializer)
@@ -67071,7 +67077,7 @@ impl<'de> serde::Deserialize<'de> for RunStepDetailsToolCallsObject {
         struct RunStepDetailsToolCallsObject {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RunStepDetailsToolCallsObjectType,
+            r#type: RunStepDetailsToolCallsObjectType,
             #[serde(rename = "tool_calls")]
             #[allow(dead_code)]
             tool_calls: Vec<RunStepDetailsToolCall>,
@@ -67090,13 +67096,13 @@ impl serde::Serialize for RunStepDetailsToolCallsObject {
         #[derive(serde :: Serialize)]
         struct RunStepDetailsToolCallsObject<'a> {
             #[serde(rename = "type")]
-            type_: &'a RunStepDetailsToolCallsObjectType,
+            r#type: &'a RunStepDetailsToolCallsObjectType,
             #[serde(rename = "tool_calls")]
             tool_calls: &'a Vec<RunStepDetailsToolCall>,
         }
         let Self { tool_calls } = self;
         RunStepDetailsToolCallsObject {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             tool_calls,
         }
         .serialize(serializer)
@@ -67294,7 +67300,7 @@ impl<'de> serde::Deserialize<'de> for RunStepObject {
             run_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RunStepObjectType,
+            r#type: RunStepObjectType,
             #[serde(rename = "status")]
             #[allow(dead_code)]
             status: RunStepObjectStatus,
@@ -67329,7 +67335,7 @@ impl<'de> serde::Deserialize<'de> for RunStepObject {
             assistant_id,
             thread_id,
             run_id,
-            type_,
+            r#type,
             status,
             step_details,
             last_error,
@@ -67347,7 +67353,7 @@ impl<'de> serde::Deserialize<'de> for RunStepObject {
             assistant_id,
             thread_id,
             run_id,
-            type_,
+            r#type,
             status,
             step_details,
             last_error,
@@ -67381,7 +67387,7 @@ impl serde::Serialize for RunStepObject {
             #[serde(rename = "run_id")]
             run_id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a RunStepObjectType,
+            r#type: &'a RunStepObjectType,
             #[serde(rename = "status")]
             status: &'a RunStepObjectStatus,
             #[serde(rename = "step_details")]
@@ -67414,7 +67420,7 @@ impl serde::Serialize for RunStepObject {
             assistant_id,
             thread_id,
             run_id,
-            type_,
+            r#type,
             status,
             step_details,
             last_error,
@@ -67432,7 +67438,7 @@ impl serde::Serialize for RunStepObject {
             assistant_id,
             thread_id,
             run_id,
-            type_,
+            r#type,
             status,
             step_details,
             last_error,
@@ -67460,7 +67466,7 @@ pub struct RunStepObject {
     #[doc = "The ID of the [run](https://platform.openai.com/docs/api-reference/runs) that this run step is a part of."]
     pub run_id: String,
     #[doc = "The type of run step, which can be either `message_creation` or `tool_calls`."]
-    pub type_: RunStepObjectType,
+    pub r#type: RunStepObjectType,
     #[doc = "The status of the run step, which can be either `in_progress`, `cancelled`, `failed`, `completed`, or `expired`."]
     pub status: RunStepObjectStatus,
     #[doc = "The details of the run step."]
@@ -69014,7 +69020,7 @@ impl<'de> serde::Deserialize<'de> for RunToolCallObject {
             id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RunToolCallObjectType,
+            r#type: RunToolCallObjectType,
             #[serde(rename = "function")]
             #[allow(dead_code)]
             function: RunToolCallObjectFunction,
@@ -69034,14 +69040,14 @@ impl serde::Serialize for RunToolCallObject {
             #[serde(rename = "id")]
             id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a RunToolCallObjectType,
+            r#type: &'a RunToolCallObjectType,
             #[serde(rename = "function")]
             function: &'a RunToolCallObjectFunction,
         }
         let Self { id, function } = self;
         RunToolCallObject {
             id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             function,
         }
         .serialize(serializer)
@@ -69092,7 +69098,7 @@ impl<'de> serde::Deserialize<'de> for Screenshot {
         struct Screenshot {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ScreenshotType,
+            r#type: ScreenshotType,
         }
         let Screenshot { .. } = Screenshot::deserialize(deserializer)?;
         Ok(Self {})
@@ -69107,11 +69113,11 @@ impl serde::Serialize for Screenshot {
         #[derive(serde :: Serialize)]
         struct Screenshot<'a> {
             #[serde(rename = "type")]
-            type_: &'a ScreenshotType,
+            r#type: &'a ScreenshotType,
         }
         let Self {} = self;
         Screenshot {
-            type_: &Default::default(),
+            r#type: &Default::default(),
         }
         .serialize(serializer)
     }
@@ -69156,7 +69162,7 @@ impl<'de> serde::Deserialize<'de> for Scroll {
         struct Scroll {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ScrollType,
+            r#type: ScrollType,
             #[serde(rename = "x")]
             #[allow(dead_code)]
             x: u64,
@@ -69194,7 +69200,7 @@ impl serde::Serialize for Scroll {
         #[derive(serde :: Serialize)]
         struct Scroll<'a> {
             #[serde(rename = "type")]
-            type_: &'a ScrollType,
+            r#type: &'a ScrollType,
             #[serde(rename = "x")]
             x: &'a u64,
             #[serde(rename = "y")]
@@ -69211,7 +69217,7 @@ impl serde::Serialize for Scroll {
             scroll_y,
         } = self;
         Scroll {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             x,
             y,
             scroll_x,
@@ -69340,14 +69346,14 @@ impl<'de> serde::Deserialize<'de> for StaticChunkingStrategyRequestParam {
         struct StaticChunkingStrategyRequestParam {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: StaticChunkingStrategyRequestParamType,
+            r#type: StaticChunkingStrategyRequestParamType,
             #[serde(rename = "static")]
             #[allow(dead_code)]
-            static_: StaticChunkingStrategy,
+            r#static: StaticChunkingStrategy,
         }
-        let StaticChunkingStrategyRequestParam { static_, .. } =
+        let StaticChunkingStrategyRequestParam { r#static, .. } =
             StaticChunkingStrategyRequestParam::deserialize(deserializer)?;
-        Ok(Self { static_ })
+        Ok(Self { r#static })
     }
 }
 impl serde::Serialize for StaticChunkingStrategyRequestParam {
@@ -69359,14 +69365,14 @@ impl serde::Serialize for StaticChunkingStrategyRequestParam {
         #[derive(serde :: Serialize)]
         struct StaticChunkingStrategyRequestParam<'a> {
             #[serde(rename = "type")]
-            type_: &'a StaticChunkingStrategyRequestParamType,
+            r#type: &'a StaticChunkingStrategyRequestParamType,
             #[serde(rename = "static")]
-            static_: &'a StaticChunkingStrategy,
+            r#static: &'a StaticChunkingStrategy,
         }
-        let Self { static_ } = self;
+        let Self { r#static } = self;
         StaticChunkingStrategyRequestParam {
-            type_: &Default::default(),
-            static_,
+            r#type: &Default::default(),
+            r#static,
         }
         .serialize(serializer)
     }
@@ -69374,7 +69380,7 @@ impl serde::Serialize for StaticChunkingStrategyRequestParam {
 #[doc = "Customize your own chunking strategy by setting chunk size and chunk overlap."]
 #[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
 pub struct StaticChunkingStrategyRequestParam {
-    pub static_: StaticChunkingStrategy,
+    pub r#static: StaticChunkingStrategy,
 }
 impl<'de> serde::Deserialize<'de> for StaticChunkingStrategyResponseParamType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -69413,14 +69419,14 @@ impl<'de> serde::Deserialize<'de> for StaticChunkingStrategyResponseParam {
         struct StaticChunkingStrategyResponseParam {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: StaticChunkingStrategyResponseParamType,
+            r#type: StaticChunkingStrategyResponseParamType,
             #[serde(rename = "static")]
             #[allow(dead_code)]
-            static_: StaticChunkingStrategy,
+            r#static: StaticChunkingStrategy,
         }
-        let StaticChunkingStrategyResponseParam { static_, .. } =
+        let StaticChunkingStrategyResponseParam { r#static, .. } =
             StaticChunkingStrategyResponseParam::deserialize(deserializer)?;
-        Ok(Self { static_ })
+        Ok(Self { r#static })
     }
 }
 impl serde::Serialize for StaticChunkingStrategyResponseParam {
@@ -69432,21 +69438,21 @@ impl serde::Serialize for StaticChunkingStrategyResponseParam {
         #[derive(serde :: Serialize)]
         struct StaticChunkingStrategyResponseParam<'a> {
             #[serde(rename = "type")]
-            type_: &'a StaticChunkingStrategyResponseParamType,
+            r#type: &'a StaticChunkingStrategyResponseParamType,
             #[serde(rename = "static")]
-            static_: &'a StaticChunkingStrategy,
+            r#static: &'a StaticChunkingStrategy,
         }
-        let Self { static_ } = self;
+        let Self { r#static } = self;
         StaticChunkingStrategyResponseParam {
-            type_: &Default::default(),
-            static_,
+            r#type: &Default::default(),
+            r#static,
         }
         .serialize(serializer)
     }
 }
 #[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
 pub struct StaticChunkingStrategyResponseParam {
-    pub static_: StaticChunkingStrategy,
+    pub r#static: StaticChunkingStrategy,
 }
 impl<'de> serde::Deserialize<'de> for StopConfiguration {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -69706,7 +69712,7 @@ impl<'de> serde::Deserialize<'de> for TextResponseFormatJsonSchema {
         struct TextResponseFormatJsonSchema {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: TextResponseFormatJsonSchemaType,
+            r#type: TextResponseFormatJsonSchemaType,
             #[serde(rename = "description")]
             #[allow(dead_code)]
             description: Option<String>,
@@ -69744,7 +69750,7 @@ impl serde::Serialize for TextResponseFormatJsonSchema {
         #[derive(serde :: Serialize)]
         struct TextResponseFormatJsonSchema<'a> {
             #[serde(rename = "type")]
-            type_: &'a TextResponseFormatJsonSchemaType,
+            r#type: &'a TextResponseFormatJsonSchemaType,
             #[serde(rename = "description")]
             #[serde(skip_serializing_if = "Option::is_none")]
             description: &'a Option<String>,
@@ -69763,7 +69769,7 @@ impl serde::Serialize for TextResponseFormatJsonSchema {
             strict,
         } = self;
         TextResponseFormatJsonSchema {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             description,
             name,
             schema,
@@ -70314,7 +70320,7 @@ impl<'de> serde::Deserialize<'de> for ToolChoiceFunction {
         struct ToolChoiceFunction {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ToolChoiceFunctionType,
+            r#type: ToolChoiceFunctionType,
             #[serde(rename = "name")]
             #[allow(dead_code)]
             name: String,
@@ -70332,13 +70338,13 @@ impl serde::Serialize for ToolChoiceFunction {
         #[derive(serde :: Serialize)]
         struct ToolChoiceFunction<'a> {
             #[serde(rename = "type")]
-            type_: &'a ToolChoiceFunctionType,
+            r#type: &'a ToolChoiceFunctionType,
             #[serde(rename = "name")]
             name: &'a String,
         }
         let Self { name } = self;
         ToolChoiceFunction {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             name,
         }
         .serialize(serializer)
@@ -70398,10 +70404,10 @@ impl<'de> serde::Deserialize<'de> for ToolChoiceTypes {
         struct ToolChoiceTypes {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ToolChoiceTypesType,
+            r#type: ToolChoiceTypesType,
         }
-        let ToolChoiceTypes { type_, .. } = ToolChoiceTypes::deserialize(deserializer)?;
-        Ok(Self { type_ })
+        let ToolChoiceTypes { r#type, .. } = ToolChoiceTypes::deserialize(deserializer)?;
+        Ok(Self { r#type })
     }
 }
 impl serde::Serialize for ToolChoiceTypes {
@@ -70413,17 +70419,17 @@ impl serde::Serialize for ToolChoiceTypes {
         #[derive(serde :: Serialize)]
         struct ToolChoiceTypes<'a> {
             #[serde(rename = "type")]
-            type_: &'a ToolChoiceTypesType,
+            r#type: &'a ToolChoiceTypesType,
         }
-        let Self { type_ } = self;
-        ToolChoiceTypes { type_ }.serialize(serializer)
+        let Self { r#type } = self;
+        ToolChoiceTypes { r#type }.serialize(serializer)
     }
 }
 #[doc = "Indicates that the model should use a built-in tool to generate a response.\n[Learn more about built-in tools](https://platform.openai.com/docs/guides/tools).\n"]
 #[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
 pub struct ToolChoiceTypes {
     #[doc = "The type of hosted tool the model should to use. Learn more about\n[built-in tools](https://platform.openai.com/docs/guides/tools).\n\nAllowed values are:\n- `file_search`\n- `web_search_preview`\n- `computer_use_preview`\n- `code_interpreter`\n- `mcp`\n- `image_generation`\n"]
-    pub type_: ToolChoiceTypesType,
+    pub r#type: ToolChoiceTypesType,
 }
 impl<'de> serde::Deserialize<'de> for TranscriptTextDeltaEventType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -70536,7 +70542,7 @@ impl<'de> serde::Deserialize<'de> for TranscriptTextDeltaEvent {
         struct TranscriptTextDeltaEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: TranscriptTextDeltaEventType,
+            r#type: TranscriptTextDeltaEventType,
             #[serde(rename = "delta")]
             #[allow(dead_code)]
             delta: String,
@@ -70559,7 +70565,7 @@ impl serde::Serialize for TranscriptTextDeltaEvent {
         #[derive(serde :: Serialize)]
         struct TranscriptTextDeltaEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a TranscriptTextDeltaEventType,
+            r#type: &'a TranscriptTextDeltaEventType,
             #[serde(rename = "delta")]
             delta: &'a String,
             #[serde(rename = "logprobs")]
@@ -70568,7 +70574,7 @@ impl serde::Serialize for TranscriptTextDeltaEvent {
         }
         let Self { delta, logprobs } = self;
         TranscriptTextDeltaEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             delta,
             logprobs,
         }
@@ -70695,7 +70701,7 @@ impl<'de> serde::Deserialize<'de> for TranscriptTextDoneEvent {
         struct TranscriptTextDoneEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: TranscriptTextDoneEventType,
+            r#type: TranscriptTextDoneEventType,
             #[serde(rename = "text")]
             #[allow(dead_code)]
             text: String,
@@ -70717,7 +70723,7 @@ impl serde::Serialize for TranscriptTextDoneEvent {
         #[derive(serde :: Serialize)]
         struct TranscriptTextDoneEvent<'a> {
             #[serde(rename = "type")]
-            type_: &'a TranscriptTextDoneEventType,
+            r#type: &'a TranscriptTextDoneEventType,
             #[serde(rename = "text")]
             text: &'a String,
             #[serde(rename = "logprobs")]
@@ -70726,7 +70732,7 @@ impl serde::Serialize for TranscriptTextDoneEvent {
         }
         let Self { text, logprobs } = self;
         TranscriptTextDoneEvent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             text,
             logprobs,
         }
@@ -70967,18 +70973,18 @@ impl<'de> serde::Deserialize<'de> for TruncationObject {
         struct TruncationObject {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: TruncationObjectType,
+            r#type: TruncationObjectType,
             #[serde(rename = "last_messages")]
             #[allow(dead_code)]
             last_messages: Option<u64>,
         }
         let TruncationObject {
-            type_,
+            r#type,
             last_messages,
             ..
         } = TruncationObject::deserialize(deserializer)?;
         Ok(Self {
-            type_,
+            r#type,
             last_messages,
         })
     }
@@ -70992,17 +70998,17 @@ impl serde::Serialize for TruncationObject {
         #[derive(serde :: Serialize)]
         struct TruncationObject<'a> {
             #[serde(rename = "type")]
-            type_: &'a TruncationObjectType,
+            r#type: &'a TruncationObjectType,
             #[serde(rename = "last_messages")]
             #[serde(skip_serializing_if = "Option::is_none")]
             last_messages: &'a Option<u64>,
         }
         let Self {
-            type_,
+            r#type,
             last_messages,
         } = self;
         TruncationObject {
-            type_,
+            r#type,
             last_messages,
         }
         .serialize(serializer)
@@ -71012,7 +71018,7 @@ impl serde::Serialize for TruncationObject {
 #[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
 pub struct TruncationObject {
     #[doc = "The truncation strategy to use for the thread. The default is `auto`. If set to `last_messages`, the thread will be truncated to the n most recent messages in the thread. When set to `auto`, messages in the middle of the thread will be dropped to fit the context length of the model, `max_prompt_tokens`."]
-    pub type_: TruncationObjectType,
+    pub r#type: TruncationObjectType,
     #[doc = "The number of most recent messages from the thread when constructing the context for the run."]
     #[builder(default)]
     pub last_messages: Option<u64>,
@@ -71054,7 +71060,7 @@ impl<'de> serde::Deserialize<'de> for Type {
         struct Type {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: TypeType,
+            r#type: TypeType,
             #[serde(rename = "text")]
             #[allow(dead_code)]
             text: String,
@@ -71072,13 +71078,13 @@ impl serde::Serialize for Type {
         #[derive(serde :: Serialize)]
         struct Type<'a> {
             #[serde(rename = "type")]
-            type_: &'a TypeType,
+            r#type: &'a TypeType,
             #[serde(rename = "text")]
             text: &'a String,
         }
         let Self { text } = self;
         Type {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             text,
         }
         .serialize(serializer)
@@ -73360,7 +73366,7 @@ impl<'de> serde::Deserialize<'de> for VadConfig {
         struct VadConfig {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: VadConfigType,
+            r#type: VadConfigType,
             #[serde(rename = "prefix_padding_ms")]
             #[allow(dead_code)]
             prefix_padding_ms: Option<u64>,
@@ -73372,14 +73378,14 @@ impl<'de> serde::Deserialize<'de> for VadConfig {
             threshold: Option<f64>,
         }
         let VadConfig {
-            type_,
+            r#type,
             prefix_padding_ms,
             silence_duration_ms,
             threshold,
             ..
         } = VadConfig::deserialize(deserializer)?;
         Ok(Self {
-            type_,
+            r#type,
             prefix_padding_ms,
             silence_duration_ms,
             threshold,
@@ -73395,7 +73401,7 @@ impl serde::Serialize for VadConfig {
         #[derive(serde :: Serialize)]
         struct VadConfig<'a> {
             #[serde(rename = "type")]
-            type_: &'a VadConfigType,
+            r#type: &'a VadConfigType,
             #[serde(rename = "prefix_padding_ms")]
             #[serde(skip_serializing_if = "Option::is_none")]
             prefix_padding_ms: &'a Option<u64>,
@@ -73407,13 +73413,13 @@ impl serde::Serialize for VadConfig {
             threshold: &'a Option<f64>,
         }
         let Self {
-            type_,
+            r#type,
             prefix_padding_ms,
             silence_duration_ms,
             threshold,
         } = self;
         VadConfig {
-            type_,
+            r#type,
             prefix_padding_ms,
             silence_duration_ms,
             threshold,
@@ -73424,7 +73430,7 @@ impl serde::Serialize for VadConfig {
 #[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
 pub struct VadConfig {
     #[doc = "Must be set to `server_vad` to enable manual chunking using server side VAD."]
-    pub type_: VadConfigType,
+    pub r#type: VadConfigType,
     #[doc = "Amount of audio to include before the VAD detected speech (in \nmilliseconds).\n"]
     #[builder(default)]
     pub prefix_padding_ms: Option<u64>,
@@ -74036,14 +74042,14 @@ impl<'de> serde::Deserialize<'de> for VectorStoreFileContentResponseDatum {
         struct VectorStoreFileContentResponseDatum {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: Option<String>,
+            r#type: Option<String>,
             #[serde(rename = "text")]
             #[allow(dead_code)]
             text: Option<String>,
         }
-        let VectorStoreFileContentResponseDatum { type_, text, .. } =
+        let VectorStoreFileContentResponseDatum { r#type, text, .. } =
             VectorStoreFileContentResponseDatum::deserialize(deserializer)?;
-        Ok(Self { type_, text })
+        Ok(Self { r#type, text })
     }
 }
 impl serde::Serialize for VectorStoreFileContentResponseDatum {
@@ -74056,20 +74062,20 @@ impl serde::Serialize for VectorStoreFileContentResponseDatum {
         struct VectorStoreFileContentResponseDatum<'a> {
             #[serde(rename = "type")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            type_: &'a Option<String>,
+            r#type: &'a Option<String>,
             #[serde(rename = "text")]
             #[serde(skip_serializing_if = "Option::is_none")]
             text: &'a Option<String>,
         }
-        let Self { type_, text } = self;
-        VectorStoreFileContentResponseDatum { type_, text }.serialize(serializer)
+        let Self { r#type, text } = self;
+        VectorStoreFileContentResponseDatum { r#type, text }.serialize(serializer)
     }
 }
 #[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
 pub struct VectorStoreFileContentResponseDatum {
     #[doc = "The content type (currently only `\"text\"`)"]
     #[builder(default)]
-    pub type_: Option<String>,
+    pub r#type: Option<String>,
     #[doc = "The text content"]
     #[builder(default)]
     pub text: Option<String>,
@@ -74956,14 +74962,14 @@ impl<'de> serde::Deserialize<'de> for VectorStoreSearchResultContentObject {
         struct VectorStoreSearchResultContentObject {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: VectorStoreSearchResultContentObjectType,
+            r#type: VectorStoreSearchResultContentObjectType,
             #[serde(rename = "text")]
             #[allow(dead_code)]
             text: String,
         }
-        let VectorStoreSearchResultContentObject { type_, text, .. } =
+        let VectorStoreSearchResultContentObject { r#type, text, .. } =
             VectorStoreSearchResultContentObject::deserialize(deserializer)?;
-        Ok(Self { type_, text })
+        Ok(Self { r#type, text })
     }
 }
 impl serde::Serialize for VectorStoreSearchResultContentObject {
@@ -74975,18 +74981,18 @@ impl serde::Serialize for VectorStoreSearchResultContentObject {
         #[derive(serde :: Serialize)]
         struct VectorStoreSearchResultContentObject<'a> {
             #[serde(rename = "type")]
-            type_: &'a VectorStoreSearchResultContentObjectType,
+            r#type: &'a VectorStoreSearchResultContentObjectType,
             #[serde(rename = "text")]
             text: &'a String,
         }
-        let Self { type_, text } = self;
-        VectorStoreSearchResultContentObject { type_, text }.serialize(serializer)
+        let Self { r#type, text } = self;
+        VectorStoreSearchResultContentObject { r#type, text }.serialize(serializer)
     }
 }
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct VectorStoreSearchResultContentObject {
     #[doc = "The type of content."]
-    pub type_: VectorStoreSearchResultContentObjectType,
+    pub r#type: VectorStoreSearchResultContentObjectType,
     #[doc = "The text content returned from search."]
     pub text: String,
 }
@@ -75633,7 +75639,7 @@ impl<'de> serde::Deserialize<'de> for Wait {
         struct Wait {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: WaitType,
+            r#type: WaitType,
         }
         let Wait { .. } = Wait::deserialize(deserializer)?;
         Ok(Self {})
@@ -75648,11 +75654,11 @@ impl serde::Serialize for Wait {
         #[derive(serde :: Serialize)]
         struct Wait<'a> {
             #[serde(rename = "type")]
-            type_: &'a WaitType,
+            r#type: &'a WaitType,
         }
         let Self {} = self;
         Wait {
-            type_: &Default::default(),
+            r#type: &Default::default(),
         }
         .serialize(serializer)
     }
@@ -75818,7 +75824,7 @@ impl<'de> serde::Deserialize<'de> for WebSearchToolCall {
             id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: WebSearchToolCallType,
+            r#type: WebSearchToolCallType,
             #[serde(rename = "status")]
             #[allow(dead_code)]
             status: WebSearchToolCallStatus,
@@ -75838,14 +75844,14 @@ impl serde::Serialize for WebSearchToolCall {
             #[serde(rename = "id")]
             id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a WebSearchToolCallType,
+            r#type: &'a WebSearchToolCallType,
             #[serde(rename = "status")]
             status: &'a WebSearchToolCallStatus,
         }
         let Self { id, status } = self;
         WebSearchToolCall {
             id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             status,
         }
         .serialize(serializer)
@@ -75896,7 +75902,7 @@ impl<'de> serde::Deserialize<'de> for InputTextContent {
         struct InputTextContent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: InputTextContentType,
+            r#type: InputTextContentType,
             #[serde(rename = "text")]
             #[allow(dead_code)]
             text: String,
@@ -75914,13 +75920,13 @@ impl serde::Serialize for InputTextContent {
         #[derive(serde :: Serialize)]
         struct InputTextContent<'a> {
             #[serde(rename = "type")]
-            type_: &'a InputTextContentType,
+            r#type: &'a InputTextContentType,
             #[serde(rename = "text")]
             text: &'a String,
         }
         let Self { text } = self;
         InputTextContent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             text,
         }
         .serialize(serializer)
@@ -75982,7 +75988,7 @@ impl<'de> serde::Deserialize<'de> for InputImageContent {
         struct InputImageContent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: InputImageContentType,
+            r#type: InputImageContentType,
             #[serde(rename = "image_url")]
             #[allow(dead_code)]
             image_url: Option<String>,
@@ -76015,7 +76021,7 @@ impl serde::Serialize for InputImageContent {
         #[derive(serde :: Serialize)]
         struct InputImageContent<'a> {
             #[serde(rename = "type")]
-            type_: &'a InputImageContentType,
+            r#type: &'a InputImageContentType,
             #[serde(rename = "image_url")]
             #[serde(skip_serializing_if = "Option::is_none")]
             image_url: &'a Option<String>,
@@ -76031,7 +76037,7 @@ impl serde::Serialize for InputImageContent {
             detail,
         } = self;
         InputImageContent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             image_url,
             file_id,
             detail,
@@ -76088,7 +76094,7 @@ impl<'de> serde::Deserialize<'de> for InputFileContent {
         struct InputFileContent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: InputFileContentType,
+            r#type: InputFileContentType,
             #[serde(rename = "file_id")]
             #[allow(dead_code)]
             file_id: Option<String>,
@@ -76121,7 +76127,7 @@ impl serde::Serialize for InputFileContent {
         #[derive(serde :: Serialize)]
         struct InputFileContent<'a> {
             #[serde(rename = "type")]
-            type_: &'a InputFileContentType,
+            r#type: &'a InputFileContentType,
             #[serde(rename = "file_id")]
             #[serde(skip_serializing_if = "Option::is_none")]
             file_id: &'a Option<String>,
@@ -76138,7 +76144,7 @@ impl serde::Serialize for InputFileContent {
             file_data,
         } = self;
         InputFileContent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             file_id,
             filename,
             file_data,
@@ -76196,7 +76202,7 @@ impl<'de> serde::Deserialize<'de> for FunctionTool {
         struct FunctionTool {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: FunctionToolType,
+            r#type: FunctionToolType,
             #[serde(rename = "name")]
             #[allow(dead_code)]
             name: String,
@@ -76234,7 +76240,7 @@ impl serde::Serialize for FunctionTool {
         #[derive(serde :: Serialize)]
         struct FunctionTool<'a> {
             #[serde(rename = "type")]
-            type_: &'a FunctionToolType,
+            r#type: &'a FunctionToolType,
             #[serde(rename = "name")]
             name: &'a String,
             #[serde(rename = "description")]
@@ -76254,7 +76260,7 @@ impl serde::Serialize for FunctionTool {
             strict,
         } = self;
         FunctionTool {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             name,
             description,
             parameters,
@@ -76430,7 +76436,7 @@ impl<'de> serde::Deserialize<'de> for FileSearchTool {
         struct FileSearchTool {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: FileSearchToolType,
+            r#type: FileSearchToolType,
             #[serde(rename = "vector_store_ids")]
             #[allow(dead_code)]
             vector_store_ids: Vec<String>,
@@ -76468,7 +76474,7 @@ impl serde::Serialize for FileSearchTool {
         #[derive(serde :: Serialize)]
         struct FileSearchTool<'a> {
             #[serde(rename = "type")]
-            type_: &'a FileSearchToolType,
+            r#type: &'a FileSearchToolType,
             #[serde(rename = "vector_store_ids")]
             vector_store_ids: &'a Vec<String>,
             #[serde(rename = "max_num_results")]
@@ -76488,7 +76494,7 @@ impl serde::Serialize for FileSearchTool {
             filters,
         } = self;
         FileSearchTool {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             vector_store_ids,
             max_num_results,
             ranking_options,
@@ -76549,7 +76555,7 @@ impl<'de> serde::Deserialize<'de> for ApproximateLocation {
         struct ApproximateLocation {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ApproximateLocationType,
+            r#type: ApproximateLocationType,
             #[serde(rename = "country")]
             #[allow(dead_code)]
             country: Option<String>,
@@ -76587,7 +76593,7 @@ impl serde::Serialize for ApproximateLocation {
         #[derive(serde :: Serialize)]
         struct ApproximateLocation<'a> {
             #[serde(rename = "type")]
-            type_: &'a ApproximateLocationType,
+            r#type: &'a ApproximateLocationType,
             #[serde(rename = "country")]
             #[serde(skip_serializing_if = "Option::is_none")]
             country: &'a Option<String>,
@@ -76608,7 +76614,7 @@ impl serde::Serialize for ApproximateLocation {
             timezone,
         } = self;
         ApproximateLocation {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             country,
             region,
             city,
@@ -76666,7 +76672,7 @@ impl<'de> serde::Deserialize<'de> for WebSearchPreviewTool {
         struct WebSearchPreviewTool {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: WebSearchPreviewToolType,
+            r#type: WebSearchPreviewToolType,
             #[serde(rename = "user_location")]
             #[allow(dead_code)]
             user_location: Option<ApproximateLocation>,
@@ -76675,13 +76681,13 @@ impl<'de> serde::Deserialize<'de> for WebSearchPreviewTool {
             search_context_size: Option<WebSearchPreviewToolSearchContextSize>,
         }
         let WebSearchPreviewTool {
-            type_,
+            r#type,
             user_location,
             search_context_size,
             ..
         } = WebSearchPreviewTool::deserialize(deserializer)?;
         Ok(Self {
-            type_,
+            r#type,
             user_location,
             search_context_size,
         })
@@ -76696,7 +76702,7 @@ impl serde::Serialize for WebSearchPreviewTool {
         #[derive(serde :: Serialize)]
         struct WebSearchPreviewTool<'a> {
             #[serde(rename = "type")]
-            type_: &'a WebSearchPreviewToolType,
+            r#type: &'a WebSearchPreviewToolType,
             #[serde(rename = "user_location")]
             #[serde(skip_serializing_if = "Option::is_none")]
             user_location: &'a Option<ApproximateLocation>,
@@ -76705,12 +76711,12 @@ impl serde::Serialize for WebSearchPreviewTool {
             search_context_size: &'a Option<WebSearchPreviewToolSearchContextSize>,
         }
         let Self {
-            type_,
+            r#type,
             user_location,
             search_context_size,
         } = self;
         WebSearchPreviewTool {
-            type_,
+            r#type,
             user_location,
             search_context_size,
         }
@@ -76722,7 +76728,7 @@ impl serde::Serialize for WebSearchPreviewTool {
 pub struct WebSearchPreviewTool {
     #[doc = "The type of the web search tool. One of `web_search_preview` or `web_search_preview_2025_03_11`."]
     #[builder(default)]
-    pub type_: WebSearchPreviewToolType,
+    pub r#type: WebSearchPreviewToolType,
     #[doc = "The user's location."]
     #[builder(default)]
     pub user_location: Option<ApproximateLocation>,
@@ -76786,7 +76792,7 @@ impl<'de> serde::Deserialize<'de> for ComputerUsePreviewTool {
         struct ComputerUsePreviewTool {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ComputerUsePreviewToolType,
+            r#type: ComputerUsePreviewToolType,
             #[serde(rename = "environment")]
             #[allow(dead_code)]
             environment: ComputerUsePreviewToolEnvironment,
@@ -76819,7 +76825,7 @@ impl serde::Serialize for ComputerUsePreviewTool {
         #[derive(serde :: Serialize)]
         struct ComputerUsePreviewTool<'a> {
             #[serde(rename = "type")]
-            type_: &'a ComputerUsePreviewToolType,
+            r#type: &'a ComputerUsePreviewToolType,
             #[serde(rename = "environment")]
             environment: &'a ComputerUsePreviewToolEnvironment,
             #[serde(rename = "display_width")]
@@ -76833,7 +76839,7 @@ impl serde::Serialize for ComputerUsePreviewTool {
             display_height,
         } = self;
         ComputerUsePreviewTool {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             environment,
             display_width,
             display_height,
@@ -76888,7 +76894,7 @@ impl<'de> serde::Deserialize<'de> for FileCitationBody {
         struct FileCitationBody {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: FileCitationBodyType,
+            r#type: FileCitationBodyType,
             #[serde(rename = "file_id")]
             #[allow(dead_code)]
             file_id: String,
@@ -76909,7 +76915,7 @@ impl serde::Serialize for FileCitationBody {
         #[derive(serde :: Serialize)]
         struct FileCitationBody<'a> {
             #[serde(rename = "type")]
-            type_: &'a FileCitationBodyType,
+            r#type: &'a FileCitationBodyType,
             #[serde(rename = "file_id")]
             file_id: &'a String,
             #[serde(rename = "index")]
@@ -76917,7 +76923,7 @@ impl serde::Serialize for FileCitationBody {
         }
         let Self { file_id, index } = self;
         FileCitationBody {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             file_id,
             index,
         }
@@ -76969,7 +76975,7 @@ impl<'de> serde::Deserialize<'de> for UrlCitationBody {
         struct UrlCitationBody {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: UrlCitationBodyType,
+            r#type: UrlCitationBodyType,
             #[serde(rename = "url")]
             #[allow(dead_code)]
             url: String,
@@ -77007,7 +77013,7 @@ impl serde::Serialize for UrlCitationBody {
         #[derive(serde :: Serialize)]
         struct UrlCitationBody<'a> {
             #[serde(rename = "type")]
-            type_: &'a UrlCitationBodyType,
+            r#type: &'a UrlCitationBodyType,
             #[serde(rename = "url")]
             url: &'a String,
             #[serde(rename = "start_index")]
@@ -77024,7 +77030,7 @@ impl serde::Serialize for UrlCitationBody {
             title,
         } = self;
         UrlCitationBody {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             url,
             start_index,
             end_index,
@@ -77082,7 +77088,7 @@ impl<'de> serde::Deserialize<'de> for ContainerFileCitationBody {
         struct ContainerFileCitationBody {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ContainerFileCitationBodyType,
+            r#type: ContainerFileCitationBodyType,
             #[serde(rename = "container_id")]
             #[allow(dead_code)]
             container_id: String,
@@ -77120,7 +77126,7 @@ impl serde::Serialize for ContainerFileCitationBody {
         #[derive(serde :: Serialize)]
         struct ContainerFileCitationBody<'a> {
             #[serde(rename = "type")]
-            type_: &'a ContainerFileCitationBodyType,
+            r#type: &'a ContainerFileCitationBodyType,
             #[serde(rename = "container_id")]
             container_id: &'a String,
             #[serde(rename = "file_id")]
@@ -77137,7 +77143,7 @@ impl serde::Serialize for ContainerFileCitationBody {
             end_index,
         } = self;
         ContainerFileCitationBody {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             container_id,
             file_id,
             start_index,
@@ -77393,7 +77399,7 @@ impl<'de> serde::Deserialize<'de> for OutputTextContent {
         struct OutputTextContent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: OutputTextContentType,
+            r#type: OutputTextContentType,
             #[serde(rename = "text")]
             #[allow(dead_code)]
             text: String,
@@ -77426,7 +77432,7 @@ impl serde::Serialize for OutputTextContent {
         #[derive(serde :: Serialize)]
         struct OutputTextContent<'a> {
             #[serde(rename = "type")]
-            type_: &'a OutputTextContentType,
+            r#type: &'a OutputTextContentType,
             #[serde(rename = "text")]
             text: &'a String,
             #[serde(rename = "annotations")]
@@ -77441,7 +77447,7 @@ impl serde::Serialize for OutputTextContent {
             logprobs,
         } = self;
         OutputTextContent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             text,
             annotations,
             logprobs,
@@ -77496,7 +77502,7 @@ impl<'de> serde::Deserialize<'de> for RefusalContent {
         struct RefusalContent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: RefusalContentType,
+            r#type: RefusalContentType,
             #[serde(rename = "refusal")]
             #[allow(dead_code)]
             refusal: String,
@@ -77514,13 +77520,13 @@ impl serde::Serialize for RefusalContent {
         #[derive(serde :: Serialize)]
         struct RefusalContent<'a> {
             #[serde(rename = "type")]
-            type_: &'a RefusalContentType,
+            r#type: &'a RefusalContentType,
             #[serde(rename = "refusal")]
             refusal: &'a String,
         }
         let Self { refusal } = self;
         RefusalContent {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             refusal,
         }
         .serialize(serializer)
@@ -77645,7 +77651,7 @@ impl<'de> serde::Deserialize<'de> for ComputerCallOutputItemParam {
             call_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ComputerCallOutputItemParamType,
+            r#type: ComputerCallOutputItemParamType,
             #[serde(rename = "output")]
             #[allow(dead_code)]
             output: ComputerScreenshotImage,
@@ -77687,7 +77693,7 @@ impl serde::Serialize for ComputerCallOutputItemParam {
             #[serde(rename = "call_id")]
             call_id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a ComputerCallOutputItemParamType,
+            r#type: &'a ComputerCallOutputItemParamType,
             #[serde(rename = "output")]
             output: &'a ComputerScreenshotImage,
             #[serde(rename = "acknowledged_safety_checks")]
@@ -77707,7 +77713,7 @@ impl serde::Serialize for ComputerCallOutputItemParam {
         ComputerCallOutputItemParam {
             id,
             call_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             output,
             acknowledged_safety_checks,
             status,
@@ -77788,7 +77794,7 @@ impl<'de> serde::Deserialize<'de> for FunctionCallOutputItemParam {
             call_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: FunctionCallOutputItemParamType,
+            r#type: FunctionCallOutputItemParamType,
             #[serde(rename = "output")]
             #[allow(dead_code)]
             output: String,
@@ -77825,7 +77831,7 @@ impl serde::Serialize for FunctionCallOutputItemParam {
             #[serde(rename = "call_id")]
             call_id: &'a String,
             #[serde(rename = "type")]
-            type_: &'a FunctionCallOutputItemParamType,
+            r#type: &'a FunctionCallOutputItemParamType,
             #[serde(rename = "output")]
             output: &'a String,
             #[serde(rename = "status")]
@@ -77841,7 +77847,7 @@ impl serde::Serialize for FunctionCallOutputItemParam {
         FunctionCallOutputItemParam {
             id,
             call_id,
-            type_: &Default::default(),
+            r#type: &Default::default(),
             output,
             status,
         }
@@ -77880,13 +77886,13 @@ impl<'de> serde::Deserialize<'de> for ItemReferenceParam {
         struct ItemReferenceParam {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: Option<ItemReferenceParamType>,
+            r#type: Option<ItemReferenceParamType>,
             #[serde(rename = "id")]
             #[allow(dead_code)]
             id: String,
         }
-        let ItemReferenceParam { type_, id, .. } = ItemReferenceParam::deserialize(deserializer)?;
-        Ok(Self { type_, id })
+        let ItemReferenceParam { r#type, id, .. } = ItemReferenceParam::deserialize(deserializer)?;
+        Ok(Self { r#type, id })
     }
 }
 impl serde::Serialize for ItemReferenceParam {
@@ -77899,12 +77905,12 @@ impl serde::Serialize for ItemReferenceParam {
         struct ItemReferenceParam<'a> {
             #[serde(rename = "type")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            type_: &'a Option<ItemReferenceParamType>,
+            r#type: &'a Option<ItemReferenceParamType>,
             #[serde(rename = "id")]
             id: &'a String,
         }
-        let Self { type_, id } = self;
-        ItemReferenceParam { type_, id }.serialize(serializer)
+        let Self { r#type, id } = self;
+        ItemReferenceParam { r#type, id }.serialize(serializer)
     }
 }
 #[doc = "An internal identifier for an item to reference."]
@@ -77912,7 +77918,7 @@ impl serde::Serialize for ItemReferenceParam {
 pub struct ItemReferenceParam {
     #[doc = "The type of item to reference. Always `item_reference`."]
     #[builder(default)]
-    pub type_: Option<ItemReferenceParamType>,
+    pub r#type: Option<ItemReferenceParamType>,
     #[doc = "The ID of the item to reference."]
     pub id: String,
 }
@@ -77942,7 +77948,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeConversationItemContent {
         struct RealtimeConversationItemContent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: Option<RealtimeConversationItemContentType>,
+            r#type: Option<RealtimeConversationItemContentType>,
             #[serde(rename = "text")]
             #[allow(dead_code)]
             text: Option<String>,
@@ -77957,7 +77963,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeConversationItemContent {
             transcript: Option<String>,
         }
         let RealtimeConversationItemContent {
-            type_,
+            r#type,
             text,
             id,
             audio,
@@ -77965,7 +77971,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeConversationItemContent {
             ..
         } = RealtimeConversationItemContent::deserialize(deserializer)?;
         Ok(Self {
-            type_,
+            r#type,
             text,
             id,
             audio,
@@ -77983,7 +77989,7 @@ impl serde::Serialize for RealtimeConversationItemContent {
         struct RealtimeConversationItemContent<'a> {
             #[serde(rename = "type")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            type_: &'a Option<RealtimeConversationItemContentType>,
+            r#type: &'a Option<RealtimeConversationItemContentType>,
             #[serde(rename = "text")]
             #[serde(skip_serializing_if = "Option::is_none")]
             text: &'a Option<String>,
@@ -77998,14 +78004,14 @@ impl serde::Serialize for RealtimeConversationItemContent {
             transcript: &'a Option<String>,
         }
         let Self {
-            type_,
+            r#type,
             text,
             id,
             audio,
             transcript,
         } = self;
         RealtimeConversationItemContent {
-            type_,
+            r#type,
             text,
             id,
             audio,
@@ -78018,7 +78024,7 @@ impl serde::Serialize for RealtimeConversationItemContent {
 pub struct RealtimeConversationItemContent {
     #[doc = "The content type (`input_text`, `input_audio`, `item_reference`, `text`).\n"]
     #[builder(default)]
-    pub type_: Option<RealtimeConversationItemContentType>,
+    pub r#type: Option<RealtimeConversationItemContentType>,
     #[doc = "The text content, used for `input_text` and `text` content types.\n"]
     #[builder(default)]
     pub text: Option<String>,
@@ -78142,7 +78148,7 @@ impl<'de> serde::Deserialize<'de> for ModerationImageUrlInput {
         struct ModerationImageUrlInput {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ModerationImageUrlInputType,
+            r#type: ModerationImageUrlInputType,
             #[serde(rename = "image_url")]
             #[allow(dead_code)]
             image_url: ModerationImageUrlInputImageUrl,
@@ -78161,13 +78167,13 @@ impl serde::Serialize for ModerationImageUrlInput {
         #[derive(serde :: Serialize)]
         struct ModerationImageUrlInput<'a> {
             #[serde(rename = "type")]
-            type_: &'a ModerationImageUrlInputType,
+            r#type: &'a ModerationImageUrlInputType,
             #[serde(rename = "image_url")]
             image_url: &'a ModerationImageUrlInputImageUrl,
         }
         let Self { image_url } = self;
         ModerationImageUrlInput {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             image_url,
         }
         .serialize(serializer)
@@ -78216,7 +78222,7 @@ impl<'de> serde::Deserialize<'de> for ModerationTextInput {
         struct ModerationTextInput {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            type_: ModerationTextInputType,
+            r#type: ModerationTextInputType,
             #[serde(rename = "text")]
             #[allow(dead_code)]
             text: String,
@@ -78234,13 +78240,13 @@ impl serde::Serialize for ModerationTextInput {
         #[derive(serde :: Serialize)]
         struct ModerationTextInput<'a> {
             #[serde(rename = "type")]
-            type_: &'a ModerationTextInputType,
+            r#type: &'a ModerationTextInputType,
             #[serde(rename = "text")]
             text: &'a String,
         }
         let Self { text } = self;
         ModerationTextInput {
-            type_: &Default::default(),
+            r#type: &Default::default(),
             text,
         }
         .serialize(serializer)
