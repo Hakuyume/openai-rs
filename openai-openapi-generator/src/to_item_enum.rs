@@ -7,7 +7,7 @@ use std::collections::HashMap;
 pub fn to_item_enum(
     name: &str,
     schema: &Schema<'_>,
-    _: &Vec<(Schema<'_>, bool)>,
+    variants: &Vec<(Schema<'_>, bool)>,
     schemas: &IndexMap<&str, Schema<'_>>,
     public: bool,
     items: &mut Vec<syn::Item>,
@@ -29,44 +29,130 @@ pub fn to_item_enum(
     let vis = public.then_some(quote::quote!(pub));
     let ident = to_ident_pascal(name);
 
-    let variants = visit_variants(schema);
-    let variant_info = variants
+    if let Some(variants) = variants
         .iter()
-        .zip(variant_names(&variants, schemas))
-        .map(|((variant, default), variant_name)| {
-            let (public, description) = if let Type::Const(value) = &variant.type_ {
-                (false, Some(*value))
+        .map(|(variant, default)| {
+            if let (false, Type::Const(value)) = (variant.nullable, &variant.type_) {
+                Some((variant.description, *value, default))
             } else {
-                (true, variant.description)
-            };
-            VariantInfo {
-                const_: is_const(variant, schemas),
-                default: *default,
-                description,
-                ident: to_ident_pascal(&variant_name),
-                public,
-                serde_as: to_serde_as(variant),
-                type_: to_type(
-                    &format!("{name}.{variant_name}"),
-                    variant,
-                    schemas,
-                    public,
-                    items,
-                ),
+                None
             }
         })
-        .collect::<Vec<_>>();
-
+        .collect::<Option<Vec<_>>>()
     {
-        let variants_inner = variant_info
+        let variants = variants.iter().map(|(description, value, default)| {
+            let description = to_description(Some(description.unwrap_or(value)));
+            let attr_default = default.then_some(quote::quote!(#[default]));
+            let ident = to_ident_pascal(value);
+            quote::quote! {
+                #description
+                #attr_default
+                #[serde(rename = #value)]
+                #ident
+            }
+        });
+        syn::parse_quote! {
+            #description
+            #derive
+            #derive_copy
+            #derive_default
+            #[derive(serde::Deserialize, serde::Serialize)]
+            #vis enum #ident {
+                #(#variants),*
+            }
+        }
+    } else {
+        let variants = extract_variants(schema);
+        let variant_info = variants
             .iter()
-            .filter(|VariantInfo { const_, .. }| *const_)
-            .chain(
-                variant_info
-                    .iter()
-                    .filter(|VariantInfo { const_, .. }| !const_),
-            )
-            .map(
+            .zip(variant_names(&variants, schemas))
+            .map(|((variant, default), variant_name)| {
+                let (public, description) = if let Type::Const(value) = &variant.type_ {
+                    (false, Some(*value))
+                } else {
+                    (true, variant.description)
+                };
+                VariantInfo {
+                    const_: is_const(variant, schemas),
+                    default: *default,
+                    description,
+                    ident: to_ident_pascal(&variant_name),
+                    public,
+                    serde_as: to_serde_as(variant),
+                    type_: to_type(
+                        &format!("{name}.{variant_name}"),
+                        variant,
+                        schemas,
+                        public,
+                        items,
+                    ),
+                }
+            })
+            .collect::<Vec<_>>();
+
+        {
+            let variants_inner = variant_info
+                .iter()
+                .filter(|VariantInfo { const_, .. }| *const_)
+                .chain(
+                    variant_info
+                        .iter()
+                        .filter(|VariantInfo { const_, .. }| !const_),
+                )
+                .map(
+                    |VariantInfo {
+                         ident,
+                         serde_as,
+                         type_,
+                         ..
+                     }| {
+                        let attr_serde_as = serde_as.as_ref().map(|serde_as| {
+                            quote::quote!(#[serde_as(as = #serde_as)]
+                            )
+                        });
+                        quote::quote! {
+                            #ident(
+                                #attr_serde_as
+                                #[allow(dead_code)]
+                                #type_
+                            )
+                        }
+                    },
+                );
+            let arms = variant_info.iter().map(
+                |VariantInfo {
+                     ident: variant_ident,
+                     public,
+                     ..
+                 }| {
+                    if *public {
+                        quote::quote!(#ident::#variant_ident(v) => Self::#variant_ident(v))
+                    } else {
+                        quote::quote!(#ident::#variant_ident(_) => Self::#variant_ident)
+                    }
+                },
+            );
+            items.push(syn::parse_quote! {
+                impl<'de> serde::Deserialize<'de> for #ident {
+                    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+                    where D: serde::Deserializer<'de> {
+                        #[serde_with::serde_as]
+                        #[derive(serde::Deserialize)]
+                        #[serde(untagged)]
+                        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
+                        enum #ident {
+                            #(#variants_inner),*
+                        }
+                        Ok(match #ident::deserialize(deserializer)? {
+                            #(#arms),*
+                        })
+                    }
+                }
+            });
+        }
+
+        {
+            let variants_inner = variant_info.iter().map(
                 |VariantInfo {
                      ident,
                      serde_as,
@@ -81,148 +167,96 @@ pub fn to_item_enum(
                         #ident(
                             #attr_serde_as
                             #[allow(dead_code)]
-                            #type_
+                            &'a #type_
                         )
                     }
                 },
             );
-        let arms = variant_info.iter().map(
-            |VariantInfo {
-                 ident: variant_ident,
-                 public,
-                 ..
-             }| {
-                if *public {
-                    quote::quote!(#ident::#variant_ident(_v) => Self::#variant_ident(_v))
-                } else {
-                    quote::quote!(#ident::#variant_ident(_) => Self::#variant_ident)
-                }
-            },
-        );
-        items.push(syn::parse_quote! {
-            impl<'de> serde::Deserialize<'de> for #ident {
-                fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-                where D: serde::Deserializer<'de> {
-                    #[serde_with::serde_as]
-                    #[derive(serde::Deserialize)]
-                    #[serde(untagged)]
-                    #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-                    enum #ident {
-                        #(#variants_inner),*
-                    }
-                    Ok(match #ident::deserialize(deserializer)? {
-                        #(#arms),*
-                    })
-                }
-            }
-        });
-    }
-
-    {
-        let variants_inner = variant_info.iter().map(
-            |VariantInfo {
-                 ident,
-                 serde_as,
-                 type_,
-                 ..
-             }| {
-                let attr_serde_as = serde_as.as_ref().map(|serde_as| {
-                    quote::quote!(#[serde_as(as = #serde_as)]
-                    )
-                });
-                quote::quote! {
-                    #ident(
-                        #attr_serde_as
-                        #[allow(dead_code)]
-                        &'a #type_
-                    )
-                }
-            },
-        );
-        let arms = variant_info.iter().map(
-            |VariantInfo {
-                 ident: variant_ident,
-                 public,
-                 ..
-             }| {
-                if *public {
-                    quote::quote! {
-                        Self::#variant_ident(_v) => {
-                            #ident::#variant_ident(_v).serialize(serializer)
+            let arms = variant_info.iter().map(
+                |VariantInfo {
+                     ident: variant_ident,
+                     public,
+                     ..
+                 }| {
+                    if *public {
+                        quote::quote! {
+                            Self::#variant_ident(v) => {
+                                #ident::#variant_ident(v).serialize(serializer)
+                            }
+                        }
+                    } else {
+                        quote::quote! {
+                            Self::#variant_ident => {
+                                #ident::#variant_ident(&Default::default()).serialize(serializer)
+                            }
                         }
                     }
-                } else {
-                    quote::quote! {
-                        Self::#variant_ident => {
-                            #ident::#variant_ident(&Default::default()).serialize(serializer)
+                },
+            );
+            items.push(syn::parse_quote! {
+                impl serde::Serialize for #ident {
+                    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+                    where S: serde::Serializer {
+                        #[serde_with::serde_as]
+                        #[derive(serde::Serialize)]
+                        #[serde(untagged)]
+                        #[allow(clippy::enum_variant_names)]
+                        enum #ident<'a> {
+                            #(#variants_inner),*
+                        }
+                        match self { #(#arms),* }
+                    }
+                }
+            });
+        }
+
+        {
+            let variants = variant_info.iter().map(
+                |VariantInfo {
+                     default,
+                     description,
+                     ident,
+                     public,
+                     type_,
+                     ..
+                 }| {
+                    let description = to_description(*description);
+                    let attr_default = default.then_some(quote::quote!(#[default]));
+                    if *public {
+                        quote::quote! {
+                            #description
+                            #attr_default
+                            #ident(#type_)
+                        }
+                    } else {
+                        quote::quote! {
+                            #description
+                            #attr_default
+                            #ident
                         }
                     }
+                },
+            );
+            syn::parse_quote! {
+                #description
+                #derive
+                #derive_copy
+                #derive_default
+                #[allow(clippy::large_enum_variant)]
+                #vis enum #ident {
+                    #(#variants),*
                 }
-            },
-        );
-        items.push(syn::parse_quote! {
-            impl serde::Serialize for #ident {
-                fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-                where S: serde::Serializer {
-                    #[serde_with::serde_as]
-                    #[derive(serde::Serialize)]
-                    #[serde(untagged)]
-                    #[allow(clippy::enum_variant_names)]
-                    enum #ident<'a> {
-                        #(#variants_inner),*
-                    }
-                    match self { #(#arms),* }
-                }
-            }
-        });
-    }
-
-    {
-        let variants = variant_info.iter().map(
-            |VariantInfo {
-                 default,
-                 description,
-                 ident,
-                 public,
-                 type_,
-                 ..
-             }| {
-                let description = to_description(*description);
-                let attr_default = default.then_some(quote::quote!(#[default]));
-                if *public {
-                    quote::quote! {
-                        #description
-                        #attr_default
-                        #ident(#type_)
-                    }
-                } else {
-                    quote::quote! {
-                        #description
-                        #attr_default
-                        #ident
-                    }
-                }
-            },
-        );
-        syn::parse_quote! {
-            #description
-            #derive
-            #derive_copy
-            #derive_default
-            #[allow(clippy::large_enum_variant)]
-            #vis enum #ident {
-                #(#variants),*
             }
         }
     }
 }
 
-fn visit_variants<'a>(schema: &'a Schema<'a>) -> Vec<(&'a Schema<'a>, bool)> {
+fn extract_variants<'a>(schema: &'a Schema<'a>) -> Vec<(&'a Schema<'a>, bool)> {
     match &schema.type_ {
         Type::Enum(variants) => variants
             .iter()
             .flat_map(|(variant, default_outer)| {
-                visit_variants(variant)
+                extract_variants(variant)
                     .into_iter()
                     .map(|(variant, default_inner)| (variant, *default_outer && default_inner))
             })
@@ -242,31 +276,64 @@ fn is_const(schema: &Schema<'_>, schemas: &IndexMap<&str, Schema<'_>>) -> bool {
     }
 }
 
-fn variant_names(
-    variants: &[(&Schema<'_>, bool)],
-    schemas: &IndexMap<&str, Schema<'_>>,
-) -> Vec<String> {
-    let mut names = vec![Vec::new(); variants.len()];
-
-    let mut tags = variants
+fn extract_tags<'a>(
+    variants: &'a [(&'a Schema<'a>, bool)],
+    schemas: &'a IndexMap<&'a str, Schema<'a>>,
+) -> Vec<HashMap<&'a str, &'a str>> {
+    variants
         .iter()
         .map(|(variant, _)| {
-            visit_fields(variant, schemas)
+            extract_fields(variant, schemas)
                 .into_iter()
                 .filter_map(|(name, schema, required)| {
-                    if ["event", "object", "role", "type"].contains(&name) && required {
-                        if let Type::Const(value) = &schema.type_ {
-                            Some((name, *value))
-                        } else {
-                            None
-                        }
+                    if let (
+                        "event" | "object" | "role" | "type",
+                        Schema {
+                            nullable: false,
+                            type_: Type::Const(value),
+                            ..
+                        },
+                        true,
+                    ) = (name, schema, required)
+                    {
+                        Some((name, *value))
                     } else {
                         None
                     }
                 })
                 .collect()
         })
-        .collect::<Vec<HashMap<_, _>>>();
+        .collect()
+}
+
+fn extract_fields<'a>(
+    schema: &'a Schema<'a>,
+    schemas: &'a IndexMap<&'a str, Schema<'a>>,
+) -> Vec<(&'a str, &'a Schema<'a>, bool)> {
+    match &schema.type_ {
+        Type::Ref(ref_) => extract_fields(&schemas[ref_], schemas),
+        Type::Struct(fields) => fields
+            .iter()
+            .flat_map(|field| match field {
+                Field::Property {
+                    name,
+                    schema,
+                    required,
+                } => vec![(*name, schema, *required)],
+                Field::Ref(ref_) => extract_fields(&schemas[ref_], schemas),
+            })
+            .collect(),
+        _ => Vec::new(),
+    }
+}
+
+fn variant_names(
+    variants: &[(&Schema<'_>, bool)],
+    schemas: &IndexMap<&str, Schema<'_>>,
+) -> Vec<String> {
+    let mut names = vec![Vec::new(); variants.len()];
+
+    let tags = extract_tags(variants, schemas);
     let key = tags
         .iter()
         .flatten()
@@ -291,9 +358,9 @@ fn variant_names(
                     .filter(|(variant, _)| matches!(variant.type_, Type::Ref(_) | Type::Struct(_)))
                     .count()
         {
-            for (name, tags) in names.iter_mut().zip(&mut tags) {
-                if let Some(tag) = tags.remove(key) {
-                    name.push(tag.to_owned());
+            for (name, tags) in names.iter_mut().zip(&tags) {
+                if let Some(tag) = tags.get(key) {
+                    name.push((*tag).to_owned());
                 }
             }
         }
@@ -306,9 +373,9 @@ fn variant_names(
     }
 
     if let Some((key, _)) = key {
-        for (name, tags) in names.iter_mut().zip(&mut tags) {
-            if let Some(tag) = tags.remove(key) {
-                name.push(tag.to_owned());
+        for (name, tags) in names.iter_mut().zip(&tags) {
+            if let Some(tag) = tags.get(key) {
+                name.push((*tag).to_owned());
             }
         }
     }
@@ -349,27 +416,6 @@ fn variant_names(
         }
     }
     names.into_iter().map(|mut name| name.remove(0)).collect()
-}
-
-fn visit_fields<'a>(
-    schema: &'a Schema<'a>,
-    schemas: &'a IndexMap<&'a str, Schema<'a>>,
-) -> Vec<(&'a str, &'a Schema<'a>, bool)> {
-    match &schema.type_ {
-        Type::Ref(ref_) => visit_fields(&schemas[ref_], schemas),
-        Type::Struct(fields) => fields
-            .iter()
-            .flat_map(|field| match field {
-                Field::Property {
-                    name,
-                    schema,
-                    required,
-                } => vec![(*name, schema, *required)],
-                Field::Ref(ref_) => visit_fields(&schemas[ref_], schemas),
-            })
-            .collect(),
-        _ => Vec::new(),
-    }
 }
 
 fn to_type_name<'a>(schema: &'a Schema<'a>) -> Vec<&'a str> {
