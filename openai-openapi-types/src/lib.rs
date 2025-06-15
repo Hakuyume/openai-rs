@@ -11888,12 +11888,12 @@ impl<'de> serde::Deserialize<'de> for CodeInterpreterToolContainer {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum CodeInterpreterToolContainer {
-            String(#[allow(dead_code)] String),
+            Other(#[allow(dead_code)] String),
             CodeInterpreterToolAuto(#[allow(dead_code)] CodeInterpreterToolAuto),
         }
         Ok(
             match CodeInterpreterToolContainer::deserialize(deserializer)? {
-                CodeInterpreterToolContainer::String(_v) => Self::String(_v),
+                CodeInterpreterToolContainer::Other(_v) => Self::Other(_v),
                 CodeInterpreterToolContainer::CodeInterpreterToolAuto(_v) => {
                     Self::CodeInterpreterToolAuto(_v)
                 }
@@ -11911,11 +11911,11 @@ impl serde::Serialize for CodeInterpreterToolContainer {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum CodeInterpreterToolContainer<'a> {
-            String(#[allow(dead_code)] &'a String),
+            Other(#[allow(dead_code)] &'a String),
             CodeInterpreterToolAuto(#[allow(dead_code)] &'a CodeInterpreterToolAuto),
         }
         match self {
-            Self::String(_v) => CodeInterpreterToolContainer::String(_v).serialize(serializer),
+            Self::Other(_v) => CodeInterpreterToolContainer::Other(_v).serialize(serializer),
             Self::CodeInterpreterToolAuto(_v) => {
                 CodeInterpreterToolContainer::CodeInterpreterToolAuto(_v).serialize(serializer)
             }
@@ -11927,7 +11927,7 @@ impl serde::Serialize for CodeInterpreterToolContainer {
 #[allow(clippy::large_enum_variant)]
 pub enum CodeInterpreterToolContainer {
     #[doc = "The container ID."]
-    String(String),
+    Other(String),
     CodeInterpreterToolAuto(CodeInterpreterToolAuto),
 }
 impl<'de> serde::Deserialize<'de> for CodeInterpreterTool {
@@ -29810,11 +29810,11 @@ impl<'de> serde::Deserialize<'de> for EasyInputMessageContent {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum EasyInputMessageContent {
-            String(#[allow(dead_code)] String),
+            Other(#[allow(dead_code)] String),
             InputMessageContentList(#[allow(dead_code)] InputMessageContentList),
         }
         Ok(match EasyInputMessageContent::deserialize(deserializer)? {
-            EasyInputMessageContent::String(_v) => Self::String(_v),
+            EasyInputMessageContent::Other(_v) => Self::Other(_v),
             EasyInputMessageContent::InputMessageContentList(_v) => {
                 Self::InputMessageContentList(_v)
             }
@@ -29831,11 +29831,11 @@ impl serde::Serialize for EasyInputMessageContent {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum EasyInputMessageContent<'a> {
-            String(#[allow(dead_code)] &'a String),
+            Other(#[allow(dead_code)] &'a String),
             InputMessageContentList(#[allow(dead_code)] &'a InputMessageContentList),
         }
         match self {
-            Self::String(_v) => EasyInputMessageContent::String(_v).serialize(serializer),
+            Self::Other(_v) => EasyInputMessageContent::Other(_v).serialize(serializer),
             Self::InputMessageContentList(_v) => {
                 EasyInputMessageContent::InputMessageContentList(_v).serialize(serializer)
             }
@@ -29847,7 +29847,7 @@ impl serde::Serialize for EasyInputMessageContent {
 #[allow(clippy::large_enum_variant)]
 pub enum EasyInputMessageContent {
     #[doc = "A text input to the model.\n"]
-    String(String),
+    Other(String),
     InputMessageContentList(InputMessageContentList),
 }
 #[doc = "The type of the message input. Always `message`.\n"]
@@ -49185,10 +49185,10 @@ impl<'de> serde::Deserialize<'de> for ModelIdsShared {
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum ModelIdsShared {
             ChatModel(#[allow(dead_code)] ChatModel),
-            String(#[allow(dead_code)] String),
+            Other(#[allow(dead_code)] String),
         }
         Ok(match ModelIdsShared::deserialize(deserializer)? {
-            ModelIdsShared::String(_v) => Self::String(_v),
+            ModelIdsShared::Other(_v) => Self::Other(_v),
             ModelIdsShared::ChatModel(_v) => Self::ChatModel(_v),
         })
     }
@@ -49203,11 +49203,11 @@ impl serde::Serialize for ModelIdsShared {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum ModelIdsShared<'a> {
-            String(#[allow(dead_code)] &'a String),
+            Other(#[allow(dead_code)] &'a String),
             ChatModel(#[allow(dead_code)] &'a ChatModel),
         }
         match self {
-            Self::String(_v) => ModelIdsShared::String(_v).serialize(serializer),
+            Self::Other(_v) => ModelIdsShared::Other(_v).serialize(serializer),
             Self::ChatModel(_v) => ModelIdsShared::ChatModel(_v).serialize(serializer),
         }
     }
@@ -49215,7 +49215,7 @@ impl serde::Serialize for ModelIdsShared {
 #[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum ModelIdsShared {
-    String(String),
+    Other(String),
     ChatModel(ChatModel),
 }
 impl<'de> serde::Deserialize<'de> for ModelResponseProperties {
@@ -49327,11 +49327,11 @@ impl<'de> serde::Deserialize<'de> for ModifyAssistantRequestModel {
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum ModifyAssistantRequestModel {
             AssistantSupportedModels(#[allow(dead_code)] AssistantSupportedModels),
-            String(#[allow(dead_code)] String),
+            Other(#[allow(dead_code)] String),
         }
         Ok(
             match ModifyAssistantRequestModel::deserialize(deserializer)? {
-                ModifyAssistantRequestModel::String(_v) => Self::String(_v),
+                ModifyAssistantRequestModel::Other(_v) => Self::Other(_v),
                 ModifyAssistantRequestModel::AssistantSupportedModels(_v) => {
                     Self::AssistantSupportedModels(_v)
                 }
@@ -49349,11 +49349,11 @@ impl serde::Serialize for ModifyAssistantRequestModel {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum ModifyAssistantRequestModel<'a> {
-            String(#[allow(dead_code)] &'a String),
+            Other(#[allow(dead_code)] &'a String),
             AssistantSupportedModels(#[allow(dead_code)] &'a AssistantSupportedModels),
         }
         match self {
-            Self::String(_v) => ModifyAssistantRequestModel::String(_v).serialize(serializer),
+            Self::Other(_v) => ModifyAssistantRequestModel::Other(_v).serialize(serializer),
             Self::AssistantSupportedModels(_v) => {
                 ModifyAssistantRequestModel::AssistantSupportedModels(_v).serialize(serializer)
             }
@@ -49364,7 +49364,7 @@ impl serde::Serialize for ModifyAssistantRequestModel {
 #[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum ModifyAssistantRequestModel {
-    String(String),
+    Other(String),
     AssistantSupportedModels(AssistantSupportedModels),
 }
 impl<'de> serde::Deserialize<'de> for ModifyAssistantRequestToolResourcesCodeInterpreter {
