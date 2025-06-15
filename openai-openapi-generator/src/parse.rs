@@ -76,7 +76,7 @@ fn parse_primitive<'a>(schema: &'a openapi::Schema, _: Schemas<'a>) -> Option<cr
         default: _,
         description,
         type_: Some(openapi::Type::String),
-        x_stainless_const: _,
+        x_stainless_const: Some(true),
     } = schema
     {
         if let [value] = &enum_[..] {

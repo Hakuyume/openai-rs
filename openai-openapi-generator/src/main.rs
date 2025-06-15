@@ -1,6 +1,7 @@
 mod openapi;
 mod parse;
 mod patch;
+mod to_item_const;
 mod to_item_enum;
 mod to_item_struct;
 mod visit;
@@ -131,23 +132,7 @@ fn to_item(
     let ident = to_ident_pascal(name);
     match &schema.type_ {
         Type::Const(value) => {
-            let derive = quote::quote!(#[derive(Clone, Debug, PartialEq)]);
-            let derive_copy = is_copy(schema, schemas).then_some(quote::quote!(#[derive(Copy)]));
-            let derive_default =
-                is_default(schema, schemas).then_some(quote::quote!(#[derive(Default)]));
-            let variant = to_ident_pascal(value);
-            syn::parse_quote! {
-                #description
-                #derive
-                #derive_copy
-                #derive_default
-                #[derive(serde::Deserialize, serde::Serialize)]
-                #vis enum #ident {
-                    #[default]
-                    #[serde(rename = #value)]
-                    #variant
-                }
-            }
+            to_item_const::to_item_const(name, schema, value, schemas, public, items)
         }
         Type::Enum(variants) => {
             to_item_enum::to_item_enum(name, schema, variants, schemas, public, items)

@@ -30,7 +30,6 @@ pub fn to_item_enum(
     let ident = to_ident_pascal(name);
 
     let variants = visit_variants(schema);
-    let mut items_inner = Vec::new();
     let variant_info = variants
         .iter()
         .zip(variant_names(&variants, schemas))
@@ -52,7 +51,7 @@ pub fn to_item_enum(
                     variant,
                     schemas,
                     public,
-                    if public { items } else { &mut items_inner },
+                    items,
                 ),
             }
         })
@@ -104,7 +103,6 @@ pub fn to_item_enum(
             impl<'de> serde::Deserialize<'de> for #ident {
                 fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
                 where D: serde::Deserializer<'de> {
-                    #(#items_inner)*
                     #[serde_with::serde_as]
                     #[derive(serde::Deserialize)]
                     #[serde(untagged)]
@@ -166,7 +164,6 @@ pub fn to_item_enum(
             impl serde::Serialize for #ident {
                 fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
                 where S: serde::Serializer {
-                    #(#items_inner)*
                     #[serde_with::serde_as]
                     #[derive(serde::Serialize)]
                     #[serde(untagged)]

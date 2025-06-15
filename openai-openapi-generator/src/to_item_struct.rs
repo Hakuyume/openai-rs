@@ -31,7 +31,6 @@ pub fn to_item_struct(
     let vis = public.then_some(quote::quote!(pub));
     let ident = to_ident_pascal(name);
 
-    let mut items_inner = Vec::new();
     let fields = fields
         .iter()
         .map(|field| match field {
@@ -63,7 +62,7 @@ pub fn to_item_struct(
                         schema,
                         schemas,
                         public,
-                        if public { items } else { &mut items_inner },
+                        items,
                     ),
                 }
             }
@@ -130,7 +129,6 @@ pub fn to_item_struct(
             impl<'de> serde::Deserialize<'de> for #ident {
                 fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
                 where D: serde::Deserializer<'de> {
-                    #(#items_inner)*
                     #[serde_with::serde_as]
                     #[derive(serde::Deserialize)]
                     struct #ident {
@@ -201,7 +199,6 @@ pub fn to_item_struct(
             impl serde::Serialize for #ident {
                 fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
                 where S: serde::Serializer {
-                    #(#items_inner)*
                     #[serde_with::serde_as]
                     #[derive(serde::Serialize)]
                     struct #ident<'a> {
