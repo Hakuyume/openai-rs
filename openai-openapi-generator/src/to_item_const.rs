@@ -1,4 +1,4 @@
-use crate::{Schema, is_copy, is_default, to_description, to_ident_pascal};
+use crate::{Schema, to_derive, to_description, to_ident_pascal};
 use indexmap::IndexMap;
 
 pub fn to_item_const(
@@ -10,9 +10,7 @@ pub fn to_item_const(
     items: &mut Vec<syn::Item>,
 ) -> syn::Item {
     let description = to_description(Some(schema.description.unwrap_or(value)));
-    let derive = quote::quote!(#[derive(Clone, Debug, PartialEq)]);
-    let derive_copy = is_copy(schema, schemas).then_some(quote::quote!(#[derive(Copy)]));
-    let derive_default = is_default(schema, schemas).then_some(quote::quote!(#[derive(Default)]));
+    let derive = to_derive(schema, schemas);
     let vis = public.then_some(quote::quote!(pub));
     let ident = to_ident_pascal(name);
 
@@ -50,8 +48,6 @@ pub fn to_item_const(
         syn::parse_quote! {
             #description
             #derive
-            #derive_copy
-            #derive_default
             #vis struct #ident;
         }
     }

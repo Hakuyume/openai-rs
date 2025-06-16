@@ -61,7 +61,7 @@ impl serde::Serialize for AdminApiKeyObject {
     }
 }
 #[doc = "The object type, which is always `organization.admin_api_key`"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct AdminApiKeyObject;
 impl<'de> serde::Deserialize<'de> for AdminApiKeyOwnerType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -88,7 +88,7 @@ impl serde::Serialize for AdminApiKeyOwnerType {
     }
 }
 #[doc = "Always `user`"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct AdminApiKeyOwnerType;
 impl<'de> serde::Deserialize<'de> for AdminApiKeyOwnerObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -115,7 +115,7 @@ impl serde::Serialize for AdminApiKeyOwnerObject {
     }
 }
 #[doc = "The object type, which is always organization.user"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct AdminApiKeyOwnerObject;
 impl<'de> serde::Deserialize<'de> for AdminApiKeyOwnerRole {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -142,7 +142,7 @@ impl serde::Serialize for AdminApiKeyOwnerRole {
     }
 }
 #[doc = "Always `owner`"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct AdminApiKeyOwnerRole;
 impl<'de> serde::Deserialize<'de> for AdminApiKeyOwner {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -236,7 +236,7 @@ impl serde::Serialize for AdminApiKeyOwner {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AdminApiKeyOwner {
     #[doc = "Always `user`"]
     #[builder(default)]
@@ -462,7 +462,7 @@ impl serde::Serialize for ApiKeyList {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ApiKeyList {
     #[builder(default)]
     pub object: Option<String>,
@@ -500,7 +500,7 @@ impl serde::Serialize for AssistantObjectObject {
     }
 }
 #[doc = "The object type, which is always `assistant`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct AssistantObjectObject;
 impl<'de> serde::Deserialize<'de> for AssistantObjectToolResourcesCodeInterpreter {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -535,7 +535,7 @@ impl serde::Serialize for AssistantObjectToolResourcesCodeInterpreter {
         AssistantObjectToolResourcesCodeInterpreter { file_ids }.serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AssistantObjectToolResourcesCodeInterpreter {
     #[doc = "A list of [file](https://platform.openai.com/docs/api-reference/files) IDs made available to the `code_interpreter`` tool. There can be a maximum of 20 files associated with the tool.\n"]
     #[builder(default)]
@@ -575,7 +575,7 @@ impl serde::Serialize for AssistantObjectToolResourcesFileSearch {
         AssistantObjectToolResourcesFileSearch { vector_store_ids }.serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AssistantObjectToolResourcesFileSearch {
     #[doc = "The ID of the [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) attached to this assistant. There can be a maximum of 1 vector store attached to the assistant.\n"]
     #[builder(default)]
@@ -634,7 +634,7 @@ impl serde::Serialize for AssistantObjectToolResources {
     }
 }
 #[doc = "A set of resources that are used by the assistant's tools. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AssistantObjectToolResources {
     #[builder(default)]
     pub code_interpreter: Option<AssistantObjectToolResourcesCodeInterpreter>,
@@ -897,7 +897,7 @@ pub enum AssistantStreamEvent {
     MessageStreamEvent(MessageStreamEvent),
     ErrorEvent(ErrorEvent),
 }
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum AssistantSupportedModels {
     #[doc = "gpt-4.1"]
     #[serde(rename = "gpt-4.1")]
@@ -1033,7 +1033,7 @@ impl serde::Serialize for AssistantToolsCodeType {
     }
 }
 #[doc = "The type of tool being defined: `code_interpreter`"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct AssistantToolsCodeType;
 impl<'de> serde::Deserialize<'de> for AssistantToolsCode {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -1069,7 +1069,7 @@ impl serde::Serialize for AssistantToolsCode {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AssistantToolsCode {}
 impl<'de> serde::Deserialize<'de> for AssistantToolsFileSearchType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -1096,7 +1096,7 @@ impl serde::Serialize for AssistantToolsFileSearchType {
     }
 }
 #[doc = "The type of tool being defined: `file_search`"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct AssistantToolsFileSearchType;
 impl<'de> serde::Deserialize<'de> for AssistantToolsFileSearchFileSearch {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -1151,7 +1151,7 @@ impl serde::Serialize for AssistantToolsFileSearchFileSearch {
     }
 }
 #[doc = "Overrides for the file search tool."]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AssistantToolsFileSearchFileSearch {
     #[doc = "The maximum number of results the file search tool should output. The default is 20 for `gpt-4*` models and 5 for `gpt-3.5-turbo`. This number should be between 1 and 50 inclusive.\n\nNote that the file search tool may output fewer than `max_num_results` results. See the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search#customizing-file-search-settings) for more information.\n"]
     #[builder(default)]
@@ -1201,7 +1201,7 @@ impl serde::Serialize for AssistantToolsFileSearch {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AssistantToolsFileSearch {
     #[doc = "Overrides for the file search tool."]
     #[builder(default)]
@@ -1232,7 +1232,7 @@ impl serde::Serialize for AssistantToolsFileSearchTypeOnlyType {
     }
 }
 #[doc = "The type of tool being defined: `file_search`"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct AssistantToolsFileSearchTypeOnlyType;
 impl<'de> serde::Deserialize<'de> for AssistantToolsFileSearchTypeOnly {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -1269,7 +1269,7 @@ impl serde::Serialize for AssistantToolsFileSearchTypeOnly {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AssistantToolsFileSearchTypeOnly {}
 impl<'de> serde::Deserialize<'de> for AssistantToolsFunctionType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -1296,7 +1296,7 @@ impl serde::Serialize for AssistantToolsFunctionType {
     }
 }
 #[doc = "The type of tool being defined: `function`"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct AssistantToolsFunctionType;
 impl<'de> serde::Deserialize<'de> for AssistantToolsFunction {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -1368,7 +1368,7 @@ impl serde::Serialize for AssistantsApiResponseFormatOptionAuto {
     }
 }
 #[doc = "`auto` is the default value\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct AssistantsApiResponseFormatOptionAuto;
 impl<'de> serde::Deserialize<'de> for AssistantsApiResponseFormatOption {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -1459,7 +1459,7 @@ impl serde::Serialize for AssistantsApiToolChoiceOptionNone {
     }
 }
 #[doc = "none"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct AssistantsApiToolChoiceOptionNone;
 impl<'de> serde::Deserialize<'de> for AssistantsApiToolChoiceOptionAuto {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -1486,7 +1486,7 @@ impl serde::Serialize for AssistantsApiToolChoiceOptionAuto {
     }
 }
 #[doc = "auto"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct AssistantsApiToolChoiceOptionAuto;
 impl<'de> serde::Deserialize<'de> for AssistantsApiToolChoiceOptionRequired {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -1513,7 +1513,7 @@ impl serde::Serialize for AssistantsApiToolChoiceOptionRequired {
     }
 }
 #[doc = "required"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct AssistantsApiToolChoiceOptionRequired;
 impl<'de> serde::Deserialize<'de> for AssistantsApiToolChoiceOption {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -1586,7 +1586,7 @@ pub enum AssistantsApiToolChoiceOption {
     AssistantsNamedToolChoice(AssistantsNamedToolChoice),
 }
 #[doc = "The type of the tool. If type is `function`, the function name must be set"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum AssistantsNamedToolChoiceType {
     #[doc = "function"]
     #[serde(rename = "function")]
@@ -1683,7 +1683,7 @@ pub struct AssistantsNamedToolChoice {
     pub function: Option<AssistantsNamedToolChoiceFunction>,
 }
 #[doc = "The format of the output, in one of these options: `json`, `text`, `srt`, `verbose_json`, or `vtt`. For `gpt-4o-transcribe` and `gpt-4o-mini-transcribe`, the only supported format is `json`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum AudioResponseFormat {
     #[doc = "json"]
     #[default]
@@ -1741,7 +1741,7 @@ impl serde::Serialize for AuditLogProject {
     }
 }
 #[doc = "The project that the action was scoped to. Absent for actions not scoped to projects."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogProject {
     #[doc = "The project ID."]
     #[builder(default)]
@@ -1784,7 +1784,7 @@ impl serde::Serialize for AuditLogApiKeyCreatedData {
     }
 }
 #[doc = "The payload used to create the API key."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogApiKeyCreatedData {
     #[doc = "A list of scopes allowed for the API key, e.g. `[\"api.model.request\"]`"]
     #[builder(default)]
@@ -1830,7 +1830,7 @@ impl serde::Serialize for AuditLogApiKeyCreated {
     }
 }
 #[doc = "The details for events with this `type`."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogApiKeyCreated {
     #[doc = "The tracking ID of the API key."]
     #[builder(default)]
@@ -1873,7 +1873,7 @@ impl serde::Serialize for AuditLogApiKeyUpdatedChangesRequested {
     }
 }
 #[doc = "The payload used to update the API key."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogApiKeyUpdatedChangesRequested {
     #[doc = "A list of scopes allowed for the API key, e.g. `[\"api.model.request\"]`"]
     #[builder(default)]
@@ -1932,7 +1932,7 @@ impl serde::Serialize for AuditLogApiKeyUpdated {
     }
 }
 #[doc = "The details for events with this `type`."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogApiKeyUpdated {
     #[doc = "The tracking ID of the API key."]
     #[builder(default)]
@@ -1974,7 +1974,7 @@ impl serde::Serialize for AuditLogApiKeyDeleted {
     }
 }
 #[doc = "The details for events with this `type`."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogApiKeyDeleted {
     #[doc = "The tracking ID of the API key."]
     #[builder(default)]
@@ -2033,7 +2033,7 @@ impl serde::Serialize for AuditLogCheckpointPermissionCreatedData {
     }
 }
 #[doc = "The payload used to create the checkpoint permission."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogCheckpointPermissionCreatedData {
     #[doc = "The ID of the project that the checkpoint permission was created for."]
     #[builder(default)]
@@ -2082,7 +2082,7 @@ impl serde::Serialize for AuditLogCheckpointPermissionCreated {
     }
 }
 #[doc = "The project and fine-tuned model checkpoint that the checkpoint permission was created for."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogCheckpointPermissionCreated {
     #[doc = "The ID of the checkpoint permission."]
     #[builder(default)]
@@ -2125,7 +2125,7 @@ impl serde::Serialize for AuditLogCheckpointPermissionDeleted {
     }
 }
 #[doc = "The details for events with this `type`."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogCheckpointPermissionDeleted {
     #[doc = "The ID of the checkpoint permission."]
     #[builder(default)]
@@ -2171,7 +2171,7 @@ impl serde::Serialize for AuditLogInviteSentData {
     }
 }
 #[doc = "The payload used to create the invite."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogInviteSentData {
     #[doc = "The email invited to the organization."]
     #[builder(default)]
@@ -2219,7 +2219,7 @@ impl serde::Serialize for AuditLogInviteSent {
     }
 }
 #[doc = "The details for events with this `type`."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogInviteSent {
     #[doc = "The ID of the invite."]
     #[builder(default)]
@@ -2261,7 +2261,7 @@ impl serde::Serialize for AuditLogInviteAccepted {
     }
 }
 #[doc = "The details for events with this `type`."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogInviteAccepted {
     #[doc = "The ID of the invite."]
     #[builder(default)]
@@ -2300,7 +2300,7 @@ impl serde::Serialize for AuditLogInviteDeleted {
     }
 }
 #[doc = "The details for events with this `type`."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogInviteDeleted {
     #[doc = "The ID of the invite."]
     #[builder(default)]
@@ -2359,7 +2359,7 @@ impl serde::Serialize for AuditLogLoginFailed {
     }
 }
 #[doc = "The details for events with this `type`."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogLoginFailed {
     #[doc = "The error code of the failure."]
     #[builder(default)]
@@ -2421,7 +2421,7 @@ impl serde::Serialize for AuditLogLogoutFailed {
     }
 }
 #[doc = "The details for events with this `type`."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogLogoutFailed {
     #[doc = "The error code of the failure."]
     #[builder(default)]
@@ -2533,7 +2533,7 @@ impl serde::Serialize for AuditLogOrganizationUpdatedChangesRequested {
     }
 }
 #[doc = "The payload used to update the organization settings."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogOrganizationUpdatedChangesRequested {
     #[doc = "The organization title."]
     #[builder(default)]
@@ -2610,7 +2610,7 @@ impl serde::Serialize for AuditLogOrganizationUpdated {
     }
 }
 #[doc = "The details for events with this `type`."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogOrganizationUpdated {
     #[doc = "The organization ID."]
     #[builder(default)]
@@ -2659,7 +2659,7 @@ impl serde::Serialize for AuditLogProjectCreatedData {
     }
 }
 #[doc = "The payload used to create the project."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogProjectCreatedData {
     #[doc = "The project name."]
     #[builder(default)]
@@ -2708,7 +2708,7 @@ impl serde::Serialize for AuditLogProjectCreated {
     }
 }
 #[doc = "The details for events with this `type`."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogProjectCreated {
     #[doc = "The project ID."]
     #[builder(default)]
@@ -2751,7 +2751,7 @@ impl serde::Serialize for AuditLogProjectUpdatedChangesRequested {
     }
 }
 #[doc = "The payload used to update the project."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogProjectUpdatedChangesRequested {
     #[doc = "The title of the project as seen on the dashboard."]
     #[builder(default)]
@@ -2810,7 +2810,7 @@ impl serde::Serialize for AuditLogProjectUpdated {
     }
 }
 #[doc = "The details for events with this `type`."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogProjectUpdated {
     #[doc = "The project ID."]
     #[builder(default)]
@@ -2853,7 +2853,7 @@ impl serde::Serialize for AuditLogProjectArchived {
     }
 }
 #[doc = "The details for events with this `type`."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogProjectArchived {
     #[doc = "The project ID."]
     #[builder(default)]
@@ -2952,7 +2952,7 @@ impl serde::Serialize for AuditLogRateLimitUpdatedChangesRequested {
     }
 }
 #[doc = "The payload used to update the rate limits."]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogRateLimitUpdatedChangesRequested {
     #[doc = "The maximum requests per minute."]
     #[builder(default)]
@@ -3026,7 +3026,7 @@ impl serde::Serialize for AuditLogRateLimitUpdated {
     }
 }
 #[doc = "The details for events with this `type`."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogRateLimitUpdated {
     #[doc = "The rate limit ID"]
     #[builder(default)]
@@ -3069,7 +3069,7 @@ impl serde::Serialize for AuditLogRateLimitDeleted {
     }
 }
 #[doc = "The details for events with this `type`."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogRateLimitDeleted {
     #[doc = "The rate limit ID"]
     #[builder(default)]
@@ -3109,7 +3109,7 @@ impl serde::Serialize for AuditLogServiceAccountCreatedData {
     }
 }
 #[doc = "The payload used to create the service account."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogServiceAccountCreatedData {
     #[doc = "The role of the service account. Is either `owner` or `member`."]
     #[builder(default)]
@@ -3155,7 +3155,7 @@ impl serde::Serialize for AuditLogServiceAccountCreated {
     }
 }
 #[doc = "The details for events with this `type`."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogServiceAccountCreated {
     #[doc = "The service account ID."]
     #[builder(default)]
@@ -3198,7 +3198,7 @@ impl serde::Serialize for AuditLogServiceAccountUpdatedChangesRequested {
     }
 }
 #[doc = "The payload used to updated the service account."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogServiceAccountUpdatedChangesRequested {
     #[doc = "The role of the service account. Is either `owner` or `member`."]
     #[builder(default)]
@@ -3257,7 +3257,7 @@ impl serde::Serialize for AuditLogServiceAccountUpdated {
     }
 }
 #[doc = "The details for events with this `type`."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogServiceAccountUpdated {
     #[doc = "The service account ID."]
     #[builder(default)]
@@ -3300,7 +3300,7 @@ impl serde::Serialize for AuditLogServiceAccountDeleted {
     }
 }
 #[doc = "The details for events with this `type`."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogServiceAccountDeleted {
     #[doc = "The service account ID."]
     #[builder(default)]
@@ -3339,7 +3339,7 @@ impl serde::Serialize for AuditLogUserAddedData {
     }
 }
 #[doc = "The payload used to add the user to the project."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogUserAddedData {
     #[doc = "The role of the user. Is either `owner` or `member`."]
     #[builder(default)]
@@ -3384,7 +3384,7 @@ impl serde::Serialize for AuditLogUserAdded {
     }
 }
 #[doc = "The details for events with this `type`."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogUserAdded {
     #[doc = "The user ID."]
     #[builder(default)]
@@ -3427,7 +3427,7 @@ impl serde::Serialize for AuditLogUserUpdatedChangesRequested {
     }
 }
 #[doc = "The payload used to update the user."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogUserUpdatedChangesRequested {
     #[doc = "The role of the user. Is either `owner` or `member`."]
     #[builder(default)]
@@ -3486,7 +3486,7 @@ impl serde::Serialize for AuditLogUserUpdated {
     }
 }
 #[doc = "The details for events with this `type`."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogUserUpdated {
     #[doc = "The project ID."]
     #[builder(default)]
@@ -3528,7 +3528,7 @@ impl serde::Serialize for AuditLogUserDeleted {
     }
 }
 #[doc = "The details for events with this `type`."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogUserDeleted {
     #[doc = "The user ID."]
     #[builder(default)]
@@ -3574,7 +3574,7 @@ impl serde::Serialize for AuditLogCertificateCreated {
     }
 }
 #[doc = "The details for events with this `type`."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogCertificateCreated {
     #[doc = "The certificate ID."]
     #[builder(default)]
@@ -3623,7 +3623,7 @@ impl serde::Serialize for AuditLogCertificateUpdated {
     }
 }
 #[doc = "The details for events with this `type`."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogCertificateUpdated {
     #[doc = "The certificate ID."]
     #[builder(default)]
@@ -3695,7 +3695,7 @@ impl serde::Serialize for AuditLogCertificateDeleted {
     }
 }
 #[doc = "The details for events with this `type`."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogCertificateDeleted {
     #[doc = "The certificate ID."]
     #[builder(default)]
@@ -3746,7 +3746,7 @@ impl serde::Serialize for AuditLogCertificatesActivatedCertificate {
         AuditLogCertificatesActivatedCertificate { id, name }.serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogCertificatesActivatedCertificate {
     #[doc = "The certificate ID."]
     #[builder(default)]
@@ -3789,7 +3789,7 @@ impl serde::Serialize for AuditLogCertificatesActivated {
     }
 }
 #[doc = "The details for events with this `type`."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogCertificatesActivated {
     #[builder(default)]
     pub certificates: Option<Vec<AuditLogCertificatesActivatedCertificate>>,
@@ -3833,7 +3833,7 @@ impl serde::Serialize for AuditLogCertificatesDeactivatedCertificate {
         AuditLogCertificatesDeactivatedCertificate { id, name }.serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogCertificatesDeactivatedCertificate {
     #[doc = "The certificate ID."]
     #[builder(default)]
@@ -3876,7 +3876,7 @@ impl serde::Serialize for AuditLogCertificatesDeactivated {
     }
 }
 #[doc = "The details for events with this `type`."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogCertificatesDeactivated {
     #[builder(default)]
     pub certificates: Option<Vec<AuditLogCertificatesDeactivatedCertificate>>,
@@ -4325,7 +4325,7 @@ pub struct AuditLog {
     pub certificates_deactivated: Option<AuditLogCertificatesDeactivated>,
 }
 #[doc = "The type of actor. Is either `session` or `api_key`."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum AuditLogActorType {
     #[doc = "session"]
     #[serde(rename = "session")]
@@ -4397,7 +4397,7 @@ impl serde::Serialize for AuditLogActor {
     }
 }
 #[doc = "The actor who performed the audit logged action."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogActor {
     #[doc = "The type of actor. Is either `session` or `api_key`."]
     #[builder(default)]
@@ -4408,7 +4408,7 @@ pub struct AuditLogActor {
     pub api_key: Option<AuditLogActorApiKey>,
 }
 #[doc = "The type of API key. Can be either `user` or `service_account`."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum AuditLogActorApiKeyType {
     #[doc = "user"]
     #[serde(rename = "user")]
@@ -4490,7 +4490,7 @@ impl serde::Serialize for AuditLogActorApiKey {
     }
 }
 #[doc = "The API Key used to perform the audit logged action."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogActorApiKey {
     #[doc = "The tracking id of the API key."]
     #[builder(default)]
@@ -4537,7 +4537,7 @@ impl serde::Serialize for AuditLogActorServiceAccount {
     }
 }
 #[doc = "The service account that performed the audit logged action."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogActorServiceAccount {
     #[doc = "The service account id."]
     #[builder(default)]
@@ -4584,7 +4584,7 @@ impl serde::Serialize for AuditLogActorSession {
     }
 }
 #[doc = "The session in which the audit logged action was performed."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogActorSession {
     #[builder(default)]
     pub user: Option<AuditLogActorUser>,
@@ -4631,7 +4631,7 @@ impl serde::Serialize for AuditLogActorUser {
     }
 }
 #[doc = "The user who performed the audit logged action."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AuditLogActorUser {
     #[doc = "The user id."]
     #[builder(default)]
@@ -4641,7 +4641,7 @@ pub struct AuditLogActorUser {
     pub email: Option<String>,
 }
 #[doc = "The event type."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum AuditLogEventType {
     #[doc = "api_key.created"]
     #[serde(rename = "api_key.created")]
@@ -4741,7 +4741,7 @@ impl serde::Serialize for AutoChunkingStrategyRequestParamType {
     }
 }
 #[doc = "Always `auto`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct AutoChunkingStrategyRequestParamType;
 impl<'de> serde::Deserialize<'de> for AutoChunkingStrategyRequestParam {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -4779,7 +4779,7 @@ impl serde::Serialize for AutoChunkingStrategyRequestParam {
     }
 }
 #[doc = "The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AutoChunkingStrategyRequestParam {}
 impl<'de> serde::Deserialize<'de> for BatchObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -4806,7 +4806,7 @@ impl serde::Serialize for BatchObject {
     }
 }
 #[doc = "The object type, which is always `batch`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct BatchObject;
 impl<'de> serde::Deserialize<'de> for BatchErrorsObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -4833,7 +4833,7 @@ impl serde::Serialize for BatchErrorsObject {
     }
 }
 #[doc = "The object type, which is always `list`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct BatchErrorsObject;
 impl<'de> serde::Deserialize<'de> for BatchErrors {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -4873,7 +4873,7 @@ impl serde::Serialize for BatchErrors {
         BatchErrors { object, data }.serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct BatchErrors {
     #[doc = "The object type, which is always `list`."]
     #[builder(default)]
@@ -4882,7 +4882,7 @@ pub struct BatchErrors {
     pub data: Option<Vec<BatchError>>,
 }
 #[doc = "The current status of the batch."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum BatchStatus {
     #[doc = "validating"]
     #[serde(rename = "validating")]
@@ -5206,7 +5206,7 @@ impl serde::Serialize for BatchRequestInputMethod {
     }
 }
 #[doc = "The HTTP method to be used for the request. Currently only `POST` is supported."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct BatchRequestInputMethod;
 impl<'de> serde::Deserialize<'de> for BatchRequestInput {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -5271,7 +5271,7 @@ impl serde::Serialize for BatchRequestInput {
     }
 }
 #[doc = "The per-line object of the batch input file"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct BatchRequestInput {
     #[doc = "A developer-provided per-request id that will be used to match outputs to inputs. Must be unique for each request in a batch."]
     #[builder(default)]
@@ -5299,7 +5299,7 @@ impl<'de> serde::Deserialize<'de> for BatchRequestOutputResponse {
             request_id: Option<String>,
             #[serde(rename = "body")]
             #[allow(dead_code)]
-            body: Option<std::collections::HashMap<String, serde_json::Value>>,
+            body: Option<indexmap::IndexMap<String, serde_json::Value>>,
         }
         let BatchRequestOutputResponse {
             status_code,
@@ -5330,7 +5330,7 @@ impl serde::Serialize for BatchRequestOutputResponse {
             request_id: &'a Option<String>,
             #[serde(rename = "body")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            body: &'a Option<std::collections::HashMap<String, serde_json::Value>>,
+            body: &'a Option<indexmap::IndexMap<String, serde_json::Value>>,
         }
         let Self {
             status_code,
@@ -5345,7 +5345,7 @@ impl serde::Serialize for BatchRequestOutputResponse {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct BatchRequestOutputResponse {
     #[doc = "The HTTP status code of the response"]
     #[builder(default)]
@@ -5355,7 +5355,7 @@ pub struct BatchRequestOutputResponse {
     pub request_id: Option<String>,
     #[doc = "The JSON body of the response"]
     #[builder(default)]
-    pub body: Option<std::collections::HashMap<String, serde_json::Value>>,
+    pub body: Option<indexmap::IndexMap<String, serde_json::Value>>,
 }
 impl<'de> serde::Deserialize<'de> for BatchRequestOutputError {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -5397,7 +5397,7 @@ impl serde::Serialize for BatchRequestOutputError {
     }
 }
 #[doc = "For requests that failed with a non-HTTP error, this will contain more information on the cause of the failure."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct BatchRequestOutputError {
     #[doc = "A machine-readable error code."]
     #[builder(default)]
@@ -5479,7 +5479,7 @@ impl serde::Serialize for BatchRequestOutput {
     }
 }
 #[doc = "The per-line object of the batch output and error files"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct BatchRequestOutput {
     #[builder(default)]
     pub id: Option<String>,
@@ -5493,7 +5493,7 @@ pub struct BatchRequestOutput {
     pub error: Option<BatchRequestOutputError>,
 }
 #[doc = "The object type.\n\n- If creating, updating, or getting a specific certificate, the object type is `certificate`.\n- If listing, activating, or deactivating certificates for the organization, the object type is `organization.certificate`.\n- If listing, activating, or deactivating certificates for a project, the object type is `organization.project.certificate`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CertificateObject {
     #[doc = "certificate"]
     #[serde(rename = "certificate")]
@@ -5567,7 +5567,7 @@ impl serde::Serialize for CertificateCertificateDetails {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CertificateCertificateDetails {
     #[doc = "The Unix timestamp (in seconds) of when the certificate becomes valid."]
     #[builder(default)]
@@ -5708,7 +5708,7 @@ impl serde::Serialize for ChatCompletionDeletedObject {
     }
 }
 #[doc = "The type of object being deleted."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ChatCompletionDeletedObject;
 impl<'de> serde::Deserialize<'de> for ChatCompletionDeleted {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -5898,7 +5898,7 @@ impl serde::Serialize for ChatCompletionListObject {
     }
 }
 #[doc = "The type of this object. It is always set to \"list\".\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ChatCompletionListObject;
 impl<'de> serde::Deserialize<'de> for ChatCompletionList {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -6011,7 +6011,7 @@ impl serde::Serialize for ChatCompletionMessageListObject {
     }
 }
 #[doc = "The type of this object. It is always set to \"list\".\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ChatCompletionMessageListObject;
 impl<'de> serde::Deserialize<'de> for ChatCompletionMessageListDatum {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -6181,7 +6181,7 @@ impl serde::Serialize for ChatCompletionMessageToolCallType {
     }
 }
 #[doc = "The type of the tool. Currently, only `function` is supported."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ChatCompletionMessageToolCallType;
 impl<'de> serde::Deserialize<'de> for ChatCompletionMessageToolCallFunction {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -6308,7 +6308,7 @@ impl serde::Serialize for ChatCompletionMessageToolCallChunkType {
     }
 }
 #[doc = "The type of the tool. Currently, only `function` is supported."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct ChatCompletionMessageToolCallChunkType;
 impl<'de> serde::Deserialize<'de> for ChatCompletionMessageToolCallChunkFunction {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -6350,7 +6350,7 @@ impl serde::Serialize for ChatCompletionMessageToolCallChunkFunction {
         ChatCompletionMessageToolCallChunkFunction { name, arguments }.serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ChatCompletionMessageToolCallChunkFunction {
     #[doc = "The name of the function to call."]
     #[builder(default)]
@@ -6444,7 +6444,7 @@ pub struct ChatCompletionMessageToolCallChunk {
 }
 #[doc = "The tool calls generated by the model, such as function calls."]
 pub type ChatCompletionMessageToolCalls = Vec<ChatCompletionMessageToolCall>;
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ChatCompletionModality {
     #[doc = "text"]
     #[serde(rename = "text")]
@@ -6480,7 +6480,7 @@ impl serde::Serialize for ChatCompletionNamedToolChoiceType {
     }
 }
 #[doc = "The type of the tool. Currently, only `function` is supported."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ChatCompletionNamedToolChoiceType;
 impl<'de> serde::Deserialize<'de> for ChatCompletionNamedToolChoiceFunction {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -6643,7 +6643,7 @@ impl serde::Serialize for ChatCompletionRequestAssistantMessageRole {
     }
 }
 #[doc = "The role of the messages author, in this case `assistant`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ChatCompletionRequestAssistantMessageRole;
 impl<'de> serde::Deserialize<'de> for ChatCompletionRequestAssistantMessageAudio {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -6828,7 +6828,7 @@ impl serde::Serialize for ChatCompletionRequestAssistantMessage {
     }
 }
 #[doc = "Messages sent by the model in response to user messages.\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ChatCompletionRequestAssistantMessage {
     #[doc = "The contents of the assistant message. Required unless `tool_calls` or `function_call` is specified.\n"]
     #[builder(default)]
@@ -6976,7 +6976,7 @@ impl serde::Serialize for ChatCompletionRequestDeveloperMessageRole {
     }
 }
 #[doc = "The role of the messages author, in this case `developer`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ChatCompletionRequestDeveloperMessageRole;
 impl<'de> serde::Deserialize<'de> for ChatCompletionRequestDeveloperMessage {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -7060,7 +7060,7 @@ impl serde::Serialize for ChatCompletionRequestFunctionMessageRole {
     }
 }
 #[doc = "The role of the messages author, in this case `function`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ChatCompletionRequestFunctionMessageRole;
 impl<'de> serde::Deserialize<'de> for ChatCompletionRequestFunctionMessage {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -7209,10 +7209,10 @@ impl serde::Serialize for ChatCompletionRequestMessageContentPartAudioType {
     }
 }
 #[doc = "The type of the content part. Always `input_audio`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ChatCompletionRequestMessageContentPartAudioType;
 #[doc = "The format of the encoded audio data. Currently supports \"wav\" and \"mp3\".\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ChatCompletionRequestMessageContentPartAudioInputAudioFormat {
     #[doc = "wav"]
     #[serde(rename = "wav")]
@@ -7337,7 +7337,7 @@ impl serde::Serialize for ChatCompletionRequestMessageContentPartFileType {
     }
 }
 #[doc = "The type of the content part. Always `file`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ChatCompletionRequestMessageContentPartFileType;
 impl<'de> serde::Deserialize<'de> for ChatCompletionRequestMessageContentPartFileFile {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -7401,7 +7401,7 @@ impl serde::Serialize for ChatCompletionRequestMessageContentPartFileFile {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ChatCompletionRequestMessageContentPartFileFile {
     #[doc = "The name of the file, used when passing the file to the model as a \nstring.\n"]
     #[builder(default)]
@@ -7455,7 +7455,7 @@ impl serde::Serialize for ChatCompletionRequestMessageContentPartFile {
     }
 }
 #[doc = "Learn about [file inputs](https://platform.openai.com/docs/guides/text) for text generation.\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ChatCompletionRequestMessageContentPartFile {
     #[builder(default)]
     pub file: ChatCompletionRequestMessageContentPartFileFile,
@@ -7485,10 +7485,10 @@ impl serde::Serialize for ChatCompletionRequestMessageContentPartImageType {
     }
 }
 #[doc = "The type of the content part."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ChatCompletionRequestMessageContentPartImageType;
 #[doc = "Specifies the detail level of the image. Learn more in the [Vision guide](https://platform.openai.com/docs/guides/vision#low-or-high-fidelity-image-understanding)."]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ChatCompletionRequestMessageContentPartImageImageUrlDetail {
     #[doc = "auto"]
     #[default]
@@ -7618,7 +7618,7 @@ impl serde::Serialize for ChatCompletionRequestMessageContentPartRefusalType {
     }
 }
 #[doc = "The type of the content part."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ChatCompletionRequestMessageContentPartRefusalType;
 impl<'de> serde::Deserialize<'de> for ChatCompletionRequestMessageContentPartRefusal {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -7691,7 +7691,7 @@ impl serde::Serialize for ChatCompletionRequestMessageContentPartTextType {
     }
 }
 #[doc = "The type of the content part."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ChatCompletionRequestMessageContentPartTextType;
 impl<'de> serde::Deserialize<'de> for ChatCompletionRequestMessageContentPartText {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -7818,7 +7818,7 @@ impl serde::Serialize for ChatCompletionRequestSystemMessageRole {
     }
 }
 #[doc = "The role of the messages author, in this case `system`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ChatCompletionRequestSystemMessageRole;
 impl<'de> serde::Deserialize<'de> for ChatCompletionRequestSystemMessage {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -7941,7 +7941,7 @@ impl serde::Serialize for ChatCompletionRequestToolMessageRole {
     }
 }
 #[doc = "The role of the messages author, in this case `tool`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ChatCompletionRequestToolMessageRole;
 impl<'de> serde::Deserialize<'de> for ChatCompletionRequestToolMessageContent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -8176,7 +8176,7 @@ impl serde::Serialize for ChatCompletionRequestUserMessageRole {
     }
 }
 #[doc = "The role of the messages author, in this case `user`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ChatCompletionRequestUserMessageRole;
 impl<'de> serde::Deserialize<'de> for ChatCompletionRequestUserMessage {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -8324,7 +8324,7 @@ impl serde::Serialize for ChatCompletionResponseMessageAnnotationType {
     }
 }
 #[doc = "The type of the URL citation. Always `url_citation`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ChatCompletionResponseMessageAnnotationType;
 impl<'de> serde::Deserialize<'de> for ChatCompletionResponseMessageAnnotationUrlCitation {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -8478,7 +8478,7 @@ impl serde::Serialize for ChatCompletionResponseMessageRole {
     }
 }
 #[doc = "The role of the author of this message."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ChatCompletionResponseMessageRole;
 impl<'de> serde::Deserialize<'de> for ChatCompletionResponseMessageFunctionCall {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -8705,7 +8705,7 @@ impl serde::Serialize for ChatCompletionResponseMessage {
     }
 }
 #[doc = "A chat completion message generated by the model."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ChatCompletionResponseMessage {
     #[doc = "The contents of the message."]
     #[builder(default)]
@@ -8726,7 +8726,7 @@ pub struct ChatCompletionResponseMessage {
     pub audio: Option<ChatCompletionResponseMessageAudio>,
 }
 #[doc = "The role of the author of a message"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ChatCompletionRole {
     #[doc = "developer"]
     #[serde(rename = "developer")]
@@ -8781,7 +8781,7 @@ impl serde::Serialize for ChatCompletionStreamOptions {
     }
 }
 #[doc = "Options for streaming response. Only set this when you set `stream: true`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ChatCompletionStreamOptions {
     #[doc = "If set, an additional chunk will be streamed before the `data: [DONE]`\nmessage. The `usage` field on this chunk shows the token usage statistics\nfor the entire request, and the `choices` field will always be an empty\narray. \n\nAll other chunks will also include a `usage` field, but with a null\nvalue. **NOTE:** If the stream is interrupted, you may not receive the\nfinal usage chunk which contains the total token usage for the request.\n"]
     #[builder(default)]
@@ -8828,7 +8828,7 @@ impl serde::Serialize for ChatCompletionStreamResponseDeltaFunctionCall {
     }
 }
 #[doc = "Deprecated and replaced by `tool_calls`. The name and arguments of a function that should be called, as generated by the model."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ChatCompletionStreamResponseDeltaFunctionCall {
     #[doc = "The arguments to call the function with, as generated by the model in JSON format. Note that the model does not always generate valid JSON, and may hallucinate parameters not defined by your function schema. Validate the arguments in your code before calling your function."]
     #[builder(default)]
@@ -8838,7 +8838,7 @@ pub struct ChatCompletionStreamResponseDeltaFunctionCall {
     pub name: Option<String>,
 }
 #[doc = "The role of the author of this message."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ChatCompletionStreamResponseDeltaRole {
     #[doc = "developer"]
     #[serde(rename = "developer")]
@@ -8939,7 +8939,7 @@ impl serde::Serialize for ChatCompletionStreamResponseDelta {
     }
 }
 #[doc = "A chat completion delta generated by streamed model responses."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ChatCompletionStreamResponseDelta {
     #[doc = "The contents of the chunk message."]
     #[builder(default)]
@@ -9132,7 +9132,7 @@ impl serde::Serialize for ChatCompletionToolType {
     }
 }
 #[doc = "The type of the tool. Currently, only `function` is supported."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ChatCompletionToolType;
 impl<'de> serde::Deserialize<'de> for ChatCompletionTool {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -9203,7 +9203,7 @@ impl serde::Serialize for ChatCompletionToolChoiceOptionNone {
     }
 }
 #[doc = "none"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ChatCompletionToolChoiceOptionNone;
 impl<'de> serde::Deserialize<'de> for ChatCompletionToolChoiceOptionAuto {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -9230,7 +9230,7 @@ impl serde::Serialize for ChatCompletionToolChoiceOptionAuto {
     }
 }
 #[doc = "auto"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ChatCompletionToolChoiceOptionAuto;
 impl<'de> serde::Deserialize<'de> for ChatCompletionToolChoiceOptionRequired {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -9257,7 +9257,7 @@ impl serde::Serialize for ChatCompletionToolChoiceOptionRequired {
     }
 }
 #[doc = "required"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ChatCompletionToolChoiceOptionRequired;
 impl<'de> serde::Deserialize<'de> for ChatCompletionToolChoiceOption {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -9371,7 +9371,7 @@ impl serde::Serialize for ChunkingStrategyRequestParam {
     }
 }
 #[doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy. Only applicable if `file_ids` is non-empty."]
-#[derive(Clone, Debug, PartialEq, Copy)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum ChunkingStrategyRequestParam {
     Auto(AutoChunkingStrategyRequestParam),
@@ -9402,10 +9402,10 @@ impl serde::Serialize for ClickType {
     }
 }
 #[doc = "Specifies the event type. For a click action, this property is \nalways set to `click`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ClickType;
 #[doc = "Indicates which mouse button was pressed during the click. One of `left`, `right`, `wheel`, `back`, or `forward`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ClickButton {
     #[doc = "left"]
     #[serde(rename = "left")]
@@ -9476,7 +9476,7 @@ impl serde::Serialize for Click {
     }
 }
 #[doc = "A click action.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct Click {
     #[doc = "Indicates which mouse button was pressed during the click. One of `left`, `right`, `wheel`, `back`, or `forward`.\n"]
     pub button: ClickButton,
@@ -9510,7 +9510,7 @@ impl serde::Serialize for CodeInterpreterFileOutputType {
     }
 }
 #[doc = "The type of the code interpreter file output. Always `files`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct CodeInterpreterFileOutputType;
 impl<'de> serde::Deserialize<'de> for CodeInterpreterFileOutputFile {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -9628,7 +9628,7 @@ impl serde::Serialize for CodeInterpreterTextOutputType {
     }
 }
 #[doc = "The type of the code interpreter text output. Always `logs`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct CodeInterpreterTextOutputType;
 impl<'de> serde::Deserialize<'de> for CodeInterpreterTextOutput {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -9702,7 +9702,7 @@ impl serde::Serialize for CodeInterpreterToolType {
     }
 }
 #[doc = "The type of the code interpreter tool. Always `code_interpreter`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct CodeInterpreterToolType;
 impl<'de> serde::Deserialize<'de> for CodeInterpreterToolContainer {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -9827,7 +9827,7 @@ impl serde::Serialize for CodeInterpreterToolAutoType {
     }
 }
 #[doc = "Always `auto`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct CodeInterpreterToolAutoType;
 impl<'de> serde::Deserialize<'de> for CodeInterpreterToolAuto {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -9872,7 +9872,7 @@ impl serde::Serialize for CodeInterpreterToolAuto {
     }
 }
 #[doc = "Configuration for a code interpreter container. Optionally specify the IDs\nof the files to run the code on.\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CodeInterpreterToolAuto {
     #[doc = "An optional list of uploaded files to make available to your code.\n"]
     #[builder(default)]
@@ -9903,10 +9903,10 @@ impl serde::Serialize for CodeInterpreterToolCallType {
     }
 }
 #[doc = "The type of the code interpreter tool call. Always `code_interpreter_call`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct CodeInterpreterToolCallType;
 #[doc = "The status of the code interpreter tool call.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CodeInterpreterToolCallStatus {
     #[doc = "in_progress"]
     #[serde(rename = "in_progress")]
@@ -10065,7 +10065,7 @@ pub enum CodeInterpreterToolOutput {
     Files(CodeInterpreterFileOutput),
 }
 #[doc = "Specifies the comparison operator: `eq`, `ne`, `gt`, `gte`, `lt`, `lte`.\n- `eq`: equals\n- `ne`: not equal\n- `gt`: greater than\n- `gte`: greater than or equal\n- `lt`: less than\n- `lte`: less than or equal\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ComparisonFilterType {
     #[doc = "eq"]
     #[default]
@@ -10310,7 +10310,7 @@ impl serde::Serialize for CompletionUsageCompletionTokensDetails {
     }
 }
 #[doc = "Breakdown of tokens used in a completion."]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CompletionUsageCompletionTokensDetails {
     #[doc = "When using Predicted Outputs, the number of tokens in the\nprediction that appeared in the completion.\n"]
     #[builder(default)]
@@ -10378,7 +10378,7 @@ impl serde::Serialize for CompletionUsagePromptTokensDetails {
     }
 }
 #[doc = "Breakdown of tokens used in the prompt."]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CompletionUsagePromptTokensDetails {
     #[doc = "Audio input tokens present in the prompt."]
     #[builder(default)]
@@ -10467,7 +10467,7 @@ impl serde::Serialize for CompletionUsage {
     }
 }
 #[doc = "Usage statistics for the completion request."]
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CompletionUsage {
     #[doc = "Number of tokens in the generated completion."]
     pub completion_tokens: u64,
@@ -10483,7 +10483,7 @@ pub struct CompletionUsage {
     pub prompt_tokens_details: Option<CompletionUsagePromptTokensDetails>,
 }
 #[doc = "Type of operation: `and` or `or`."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CompoundFilterType {
     #[doc = "and"]
     #[serde(rename = "and")]
@@ -10690,7 +10690,7 @@ impl serde::Serialize for ComputerScreenshotImageType {
     }
 }
 #[doc = "Specifies the event type. For a computer screenshot, this property is \nalways set to `computer_screenshot`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ComputerScreenshotImageType;
 impl<'de> serde::Deserialize<'de> for ComputerScreenshotImage {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -10743,7 +10743,7 @@ impl serde::Serialize for ComputerScreenshotImage {
     }
 }
 #[doc = "A computer screenshot image used with the computer use tool.\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ComputerScreenshotImage {
     #[doc = "The URL of the screenshot image."]
     #[builder(default)]
@@ -10777,10 +10777,10 @@ impl serde::Serialize for ComputerToolCallType {
     }
 }
 #[doc = "The type of the computer call. Always `computer_call`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ComputerToolCallType;
 #[doc = "The status of the item. One of `in_progress`, `completed`, or\n`incomplete`. Populated when items are returned via API.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ComputerToolCallStatus {
     #[doc = "in_progress"]
     #[serde(rename = "in_progress")]
@@ -10913,10 +10913,10 @@ impl serde::Serialize for ComputerToolCallOutputType {
     }
 }
 #[doc = "The type of the computer tool call output. Always `computer_call_output`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ComputerToolCallOutputType;
 #[doc = "The status of the message input. One of `in_progress`, `completed`, or\n`incomplete`. Populated when input items are returned via API.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ComputerToolCallOutputStatus {
     #[doc = "in_progress"]
     #[serde(rename = "in_progress")]
@@ -11165,7 +11165,7 @@ impl serde::Serialize for ContainerFileListResourceObject {
     }
 }
 #[doc = "The type of object returned, must be 'list'."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ContainerFileListResourceObject;
 impl<'de> serde::Deserialize<'de> for ContainerFileListResource {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -11389,7 +11389,7 @@ impl serde::Serialize for ContainerListResourceObject {
     }
 }
 #[doc = "The type of object returned, must be 'list'."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ContainerListResourceObject;
 impl<'de> serde::Deserialize<'de> for ContainerListResource {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -11477,7 +11477,7 @@ pub struct ContainerListResource {
     pub has_more: bool,
 }
 #[doc = "The reference point for the expiration."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ContainerResourceExpiresAfterAnchor {
     #[doc = "last_active_at"]
     #[serde(rename = "last_active_at")]
@@ -11524,7 +11524,7 @@ impl serde::Serialize for ContainerResourceExpiresAfter {
     }
 }
 #[doc = "The container will expire after this time period.\nThe anchor is the reference point for the expiration.\nThe minutes is the number of minutes after the anchor before the container expires.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ContainerResourceExpiresAfter {
     #[doc = "The reference point for the expiration."]
     #[builder(default)]
@@ -11718,7 +11718,7 @@ impl serde::Serialize for Coordinate {
     }
 }
 #[doc = "An x/y coordinate pair, e.g. `{ x: 100, y: 200 }`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct Coordinate {
     #[doc = "The x-coordinate.\n"]
     pub x: u64,
@@ -11750,7 +11750,7 @@ impl serde::Serialize for CostsResultObject {
     }
 }
 #[doc = "organization.costs.result"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct CostsResultObject;
 impl<'de> serde::Deserialize<'de> for CostsResultAmount {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -11793,7 +11793,7 @@ impl serde::Serialize for CostsResultAmount {
     }
 }
 #[doc = "The monetary value in its associated currency."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CostsResultAmount {
     #[doc = "The numeric value of the cost."]
     #[builder(default)]
@@ -11871,7 +11871,7 @@ impl serde::Serialize for CostsResult {
     }
 }
 #[doc = "The aggregated costs details of the specific time bucket."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CostsResult {
     #[doc = "The monetary value in its associated currency."]
     #[builder(default)]
@@ -11916,7 +11916,7 @@ impl serde::Serialize for CreateAssistantRequestToolResourcesCodeInterpreter {
         CreateAssistantRequestToolResourcesCodeInterpreter { file_ids }.serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateAssistantRequestToolResourcesCodeInterpreter {
     #[doc = "A list of [file](https://platform.openai.com/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.\n"]
     #[builder(default)]
@@ -11951,7 +11951,7 @@ impl serde::Serialize
     }
 }
 #[doc = "Always `auto`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAutoType;
 impl<'de> serde::Deserialize<'de>
     for CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto
@@ -11990,7 +11990,7 @@ impl serde::Serialize
     }
 }
 #[doc = "The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto {}
 impl<'de> serde::Deserialize<'de>
     for CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticType
@@ -12021,7 +12021,7 @@ impl serde::Serialize
     }
 }
 #[doc = "Always `static`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticType;
 impl<'de> serde::Deserialize<'de>
     for CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticStatic
@@ -12075,7 +12075,7 @@ impl serde::Serialize
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticStatic {
     #[doc = "The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the maximum value is `4096`."]
     pub max_chunk_size_tokens: u64,
@@ -12114,7 +12114,7 @@ impl serde::Serialize
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic {
     pub r#static:
         CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticStatic,
@@ -12169,7 +12169,7 @@ impl serde::Serialize
     }
 }
 #[doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy."]
-#[derive(Clone, Debug, PartialEq, Copy)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategy {
     #[doc = "The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`."]
@@ -12241,7 +12241,7 @@ impl serde::Serialize for CreateAssistantRequestToolResourcesFileSearch0VectorSt
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateAssistantRequestToolResourcesFileSearch0VectorStore {
     #[doc = "A list of [file](https://platform.openai.com/docs/api-reference/files) IDs to add to the vector store. There can be a maximum of 10000 files in a vector store.\n"]
     #[builder(default)]
@@ -12342,7 +12342,7 @@ impl serde::Serialize
     }
 }
 #[doc = "Always `auto`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAutoType;
 impl<'de> serde::Deserialize<'de>
     for CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto
@@ -12381,7 +12381,7 @@ impl serde::Serialize
     }
 }
 #[doc = "The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto {}
 impl<'de> serde::Deserialize<'de>
     for CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticType
@@ -12412,7 +12412,7 @@ impl serde::Serialize
     }
 }
 #[doc = "Always `static`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticType;
 impl<'de> serde::Deserialize<'de>
     for CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticStatic
@@ -12466,7 +12466,7 @@ impl serde::Serialize
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticStatic {
     #[doc = "The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the maximum value is `4096`."]
     pub max_chunk_size_tokens: u64,
@@ -12505,7 +12505,7 @@ impl serde::Serialize
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic {
     pub r#static:
         CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticStatic,
@@ -12560,7 +12560,7 @@ impl serde::Serialize
     }
 }
 #[doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy."]
-#[derive(Clone, Debug, PartialEq, Copy)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategy {
     #[doc = "The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`."]
@@ -12632,7 +12632,7 @@ impl serde::Serialize for CreateAssistantRequestToolResourcesFileSearch1VectorSt
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateAssistantRequestToolResourcesFileSearch1VectorStore {
     #[doc = "A list of [file](https://platform.openai.com/docs/api-reference/files) IDs to add to the vector store. There can be a maximum of 10000 files in a vector store.\n"]
     #[builder(default)]
@@ -12806,7 +12806,7 @@ impl serde::Serialize for CreateAssistantRequestToolResources {
     }
 }
 #[doc = "A set of resources that are used by the assistant's tools. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateAssistantRequestToolResources {
     #[builder(default)]
     pub code_interpreter: Option<CreateAssistantRequestToolResourcesCodeInterpreter>,
@@ -13011,7 +13011,7 @@ impl serde::Serialize for CreateChatCompletionRequestWebSearchOptionsUserLocatio
     }
 }
 #[doc = "The type of location approximation. Always `approximate`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct CreateChatCompletionRequestWebSearchOptionsUserLocationType;
 impl<'de> serde::Deserialize<'de> for CreateChatCompletionRequestWebSearchOptionsUserLocation {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -13055,7 +13055,7 @@ impl serde::Serialize for CreateChatCompletionRequestWebSearchOptionsUserLocatio
     }
 }
 #[doc = "Approximate location parameters for the search.\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateChatCompletionRequestWebSearchOptionsUserLocation {
     #[builder(default)]
     pub approximate: WebSearchLocation,
@@ -13113,7 +13113,7 @@ impl serde::Serialize for CreateChatCompletionRequestWebSearchOptions {
     }
 }
 #[doc = "This tool searches the web for relevant results to use in a response.\nLearn more about the [web search tool](https://platform.openai.com/docs/guides/tools-web-search?api-mode=chat).\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateChatCompletionRequestWebSearchOptions {
     #[doc = "Approximate location parameters for the search.\n"]
     #[builder(default)]
@@ -13180,7 +13180,7 @@ pub enum CreateChatCompletionRequestResponseFormat {
     JsonObject(ResponseFormatJsonObject),
 }
 #[doc = "Specifies the output audio format. Must be one of `wav`, `mp3`, `flac`,\n`opus`, or `pcm16`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateChatCompletionRequestAudioFormat {
     #[doc = "wav"]
     #[serde(rename = "wav")]
@@ -13317,7 +13317,7 @@ impl serde::Serialize for CreateChatCompletionRequestFunctionCallNone {
     }
 }
 #[doc = "none"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct CreateChatCompletionRequestFunctionCallNone;
 impl<'de> serde::Deserialize<'de> for CreateChatCompletionRequestFunctionCallAuto {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -13344,7 +13344,7 @@ impl serde::Serialize for CreateChatCompletionRequestFunctionCallAuto {
     }
 }
 #[doc = "auto"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct CreateChatCompletionRequestFunctionCallAuto;
 impl<'de> serde::Deserialize<'de> for CreateChatCompletionRequestFunctionCall {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -13464,7 +13464,7 @@ impl<'de> serde::Deserialize<'de> for CreateChatCompletionRequest {
             stop: Option<StopConfiguration>,
             #[serde(rename = "logit_bias")]
             #[allow(dead_code)]
-            logit_bias: Option<std::collections::HashMap<String, u64>>,
+            logit_bias: Option<indexmap::IndexMap<String, u64>>,
             #[serde(rename = "logprobs")]
             #[allow(dead_code)]
             logprobs: Option<bool>,
@@ -13612,7 +13612,7 @@ impl serde::Serialize for CreateChatCompletionRequest {
             stop: &'a Option<StopConfiguration>,
             #[serde(rename = "logit_bias")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            logit_bias: &'a Option<std::collections::HashMap<String, u64>>,
+            logit_bias: &'a Option<indexmap::IndexMap<String, u64>>,
             #[serde(rename = "logprobs")]
             #[serde(skip_serializing_if = "Option::is_none")]
             logprobs: &'a Option<bool>,
@@ -13751,7 +13751,7 @@ pub struct CreateChatCompletionRequest {
     pub stop: Option<StopConfiguration>,
     #[doc = "Modify the likelihood of specified tokens appearing in the completion.\n\nAccepts a JSON object that maps tokens (specified by their token ID in the\ntokenizer) to an associated bias value from -100 to 100. Mathematically,\nthe bias is added to the logits generated by the model prior to sampling.\nThe exact effect will vary per model, but values between -1 and 1 should\ndecrease or increase likelihood of selection; values like -100 or 100\nshould result in a ban or exclusive selection of the relevant token.\n"]
     #[builder(default)]
-    pub logit_bias: Option<std::collections::HashMap<String, u64>>,
+    pub logit_bias: Option<indexmap::IndexMap<String, u64>>,
     #[doc = "Whether to return log probabilities of the output tokens or not. If true,\nreturns the log probabilities of each output token returned in the\n`content` of `message`.\n"]
     #[builder(default)]
     pub logprobs: Option<bool>,
@@ -13784,7 +13784,7 @@ pub struct CreateChatCompletionRequest {
     pub functions: Option<Vec<ChatCompletionFunctions>>,
 }
 #[doc = "The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,\n`length` if the maximum number of tokens specified in the request was reached,\n`content_filter` if content was omitted due to a flag from our content filters,\n`tool_calls` if the model called a tool, or `function_call` (deprecated) if the model called a function.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateChatCompletionResponseChoiceFinishReason {
     #[doc = "stop"]
     #[serde(rename = "stop")]
@@ -13843,7 +13843,7 @@ impl serde::Serialize for CreateChatCompletionResponseChoiceLogprobs {
     }
 }
 #[doc = "Log probability information for the choice."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateChatCompletionResponseChoiceLogprobs {
     #[doc = "A list of message content tokens with log probability information."]
     #[builder(default)]
@@ -13958,7 +13958,7 @@ impl serde::Serialize for CreateChatCompletionResponseObject {
     }
 }
 #[doc = "The object type, which is always `chat.completion`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct CreateChatCompletionResponseObject;
 impl<'de> serde::Deserialize<'de> for CreateChatCompletionResponse {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -14124,7 +14124,7 @@ impl serde::Serialize for CreateChatCompletionStreamResponseChoiceLogprobs {
     }
 }
 #[doc = "Log probability information for the choice."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateChatCompletionStreamResponseChoiceLogprobs {
     #[doc = "A list of message content tokens with log probability information."]
     #[builder(default)]
@@ -14134,7 +14134,7 @@ pub struct CreateChatCompletionStreamResponseChoiceLogprobs {
     pub refusal: Option<Vec<ChatCompletionTokenLogprob>>,
 }
 #[doc = "The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,\n`length` if the maximum number of tokens specified in the request was reached,\n`content_filter` if content was omitted due to a flag from our content filters,\n`tool_calls` if the model called a tool, or `function_call` (deprecated) if the model called a function.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateChatCompletionStreamResponseChoiceFinishReason {
     #[doc = "stop"]
     #[serde(rename = "stop")]
@@ -14260,7 +14260,7 @@ impl serde::Serialize for CreateChatCompletionStreamResponseObject {
     }
 }
 #[doc = "The object type, which is always `chat.completion.chunk`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct CreateChatCompletionStreamResponseObject;
 impl<'de> serde::Deserialize<'de> for CreateChatCompletionStreamResponse {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -14474,7 +14474,7 @@ impl<'de> serde::Deserialize<'de> for CreateCompletionRequest {
             frequency_penalty: Option<f64>,
             #[serde(rename = "logit_bias")]
             #[allow(dead_code)]
-            logit_bias: Option<std::collections::HashMap<String, u64>>,
+            logit_bias: Option<indexmap::IndexMap<String, u64>>,
             #[serde(rename = "logprobs")]
             #[allow(dead_code)]
             logprobs: Option<u64>,
@@ -14579,7 +14579,7 @@ impl serde::Serialize for CreateCompletionRequest {
             frequency_penalty: &'a Option<f64>,
             #[serde(rename = "logit_bias")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            logit_bias: &'a Option<std::collections::HashMap<String, u64>>,
+            logit_bias: &'a Option<indexmap::IndexMap<String, u64>>,
             #[serde(rename = "logprobs")]
             #[serde(skip_serializing_if = "Option::is_none")]
             logprobs: &'a Option<u64>,
@@ -14678,7 +14678,7 @@ pub struct CreateCompletionRequest {
     pub frequency_penalty: Option<f64>,
     #[doc = "Modify the likelihood of specified tokens appearing in the completion.\n\nAccepts a JSON object that maps tokens (specified by their token ID in the GPT tokenizer) to an associated bias value from -100 to 100. You can use this [tokenizer tool](https://platform.openai.com/tokenizer?view=bpe) to convert text to token IDs. Mathematically, the bias is added to the logits generated by the model prior to sampling. The exact effect will vary per model, but values between -1 and 1 should decrease or increase likelihood of selection; values like -100 or 100 should result in a ban or exclusive selection of the relevant token.\n\nAs an example, you can pass `{\"50256\": -100}` to prevent the <|endoftext|> token from being generated.\n"]
     #[builder(default)]
-    pub logit_bias: Option<std::collections::HashMap<String, u64>>,
+    pub logit_bias: Option<indexmap::IndexMap<String, u64>>,
     #[doc = "Include the log probabilities on the `logprobs` most likely output tokens, as well the chosen tokens. For example, if `logprobs` is 5, the API will return a list of the 5 most likely tokens. The API will always return the `logprob` of the sampled token, so there may be up to `logprobs+1` elements in the response.\n\nThe maximum value for `logprobs` is 5.\n"]
     #[builder(default)]
     pub logprobs: Option<u64>,
@@ -14715,7 +14715,7 @@ pub struct CreateCompletionRequest {
     pub user: Option<String>,
 }
 #[doc = "The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,\n`length` if the maximum number of tokens specified in the request was reached,\nor `content_filter` if content was omitted due to a flag from our content filters.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateCompletionResponseChoiceFinishReason {
     #[doc = "stop"]
     #[serde(rename = "stop")]
@@ -14746,7 +14746,7 @@ impl<'de> serde::Deserialize<'de> for CreateCompletionResponseChoiceLogprobs {
             tokens: Option<Vec<String>>,
             #[serde(rename = "top_logprobs")]
             #[allow(dead_code)]
-            top_logprobs: Option<Vec<std::collections::HashMap<String, f64>>>,
+            top_logprobs: Option<Vec<indexmap::IndexMap<String, f64>>>,
         }
         let CreateCompletionResponseChoiceLogprobs {
             text_offset,
@@ -14782,7 +14782,7 @@ impl serde::Serialize for CreateCompletionResponseChoiceLogprobs {
             tokens: &'a Option<Vec<String>>,
             #[serde(rename = "top_logprobs")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            top_logprobs: &'a Option<Vec<std::collections::HashMap<String, f64>>>,
+            top_logprobs: &'a Option<Vec<indexmap::IndexMap<String, f64>>>,
         }
         let Self {
             text_offset,
@@ -14799,7 +14799,7 @@ impl serde::Serialize for CreateCompletionResponseChoiceLogprobs {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateCompletionResponseChoiceLogprobs {
     #[builder(default)]
     pub text_offset: Option<Vec<u64>>,
@@ -14808,7 +14808,7 @@ pub struct CreateCompletionResponseChoiceLogprobs {
     #[builder(default)]
     pub tokens: Option<Vec<String>>,
     #[builder(default)]
-    pub top_logprobs: Option<Vec<std::collections::HashMap<String, f64>>>,
+    pub top_logprobs: Option<Vec<indexmap::IndexMap<String, f64>>>,
 }
 impl<'de> serde::Deserialize<'de> for CreateCompletionResponseChoice {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -14913,7 +14913,7 @@ impl serde::Serialize for CreateCompletionResponseObject {
     }
 }
 #[doc = "The object type, which is always \"text_completion\""]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct CreateCompletionResponseObject;
 impl<'de> serde::Deserialize<'de> for CreateCompletionResponse {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -15027,7 +15027,7 @@ pub struct CreateCompletionResponse {
     pub usage: Option<CompletionUsage>,
 }
 #[doc = "Time anchor for the expiration time. Currently only 'last_active_at' is supported."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateContainerBodyExpiresAfterAnchor {
     #[doc = "last_active_at"]
     #[serde(rename = "last_active_at")]
@@ -15072,7 +15072,7 @@ impl serde::Serialize for CreateContainerBodyExpiresAfter {
     }
 }
 #[doc = "Container expiration time in seconds relative to the 'anchor' time."]
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateContainerBodyExpiresAfter {
     #[doc = "Time anchor for the expiration time. Currently only 'last_active_at' is supported."]
     pub anchor: CreateContainerBodyExpiresAfterAnchor,
@@ -15191,7 +15191,7 @@ impl serde::Serialize for CreateContainerFileBody {
         CreateContainerFileBody { file_id, file }.serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateContainerFileBody {
     #[doc = "Name of the file to create."]
     #[builder(default)]
@@ -15268,7 +15268,7 @@ pub enum CreateEmbeddingRequestInput {
     ArrayOfArray(Vec<Vec<u64>>),
 }
 #[doc = "The format to return the embeddings in. Can be either `float` or [`base64`](https://pypi.org/project/pybase64/)."]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateEmbeddingRequestEncodingFormat {
     #[doc = "float"]
     #[default]
@@ -15399,7 +15399,7 @@ impl serde::Serialize for CreateEmbeddingResponseObject {
     }
 }
 #[doc = "The object type, which is always \"list\"."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct CreateEmbeddingResponseObject;
 impl<'de> serde::Deserialize<'de> for CreateEmbeddingResponseUsage {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -15452,7 +15452,7 @@ impl serde::Serialize for CreateEmbeddingResponseUsage {
     }
 }
 #[doc = "The usage information for the request."]
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateEmbeddingResponseUsage {
     #[doc = "The number of tokens used by the prompt."]
     pub prompt_tokens: u64,
@@ -15547,7 +15547,7 @@ impl serde::Serialize for CreateEvalCompletionsRunDataSourceType {
     }
 }
 #[doc = "The type of run data source. Always `completions`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct CreateEvalCompletionsRunDataSourceType;
 impl<'de> serde::Deserialize<'de> for CreateEvalCompletionsRunDataSourceInputMessagesTemplateType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -15574,7 +15574,7 @@ impl serde::Serialize for CreateEvalCompletionsRunDataSourceInputMessagesTemplat
     }
 }
 #[doc = "The type of input messages. Always `template`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct CreateEvalCompletionsRunDataSourceInputMessagesTemplateType;
 impl<'de> serde::Deserialize<'de>
     for CreateEvalCompletionsRunDataSourceInputMessagesTemplateTemplate
@@ -15698,7 +15698,7 @@ impl serde::Serialize for CreateEvalCompletionsRunDataSourceInputMessagesItemRef
     }
 }
 #[doc = "The type of input messages. Always `item_reference`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct CreateEvalCompletionsRunDataSourceInputMessagesItemReferenceType;
 impl<'de> serde::Deserialize<'de> for CreateEvalCompletionsRunDataSourceInputMessagesItemReference {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -15973,7 +15973,7 @@ impl serde::Serialize for CreateEvalCompletionsRunDataSourceSamplingParams {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateEvalCompletionsRunDataSourceSamplingParams {
     #[doc = "A higher temperature increases randomness in the outputs."]
     #[builder(default)]
@@ -16170,7 +16170,7 @@ impl serde::Serialize for CreateEvalCustomDataSourceConfigType {
     }
 }
 #[doc = "The type of data source. Always `custom`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct CreateEvalCustomDataSourceConfigType;
 impl<'de> serde::Deserialize<'de> for CreateEvalCustomDataSourceConfig {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -16185,7 +16185,7 @@ impl<'de> serde::Deserialize<'de> for CreateEvalCustomDataSourceConfig {
             r#type: CreateEvalCustomDataSourceConfigType,
             #[serde(rename = "item_schema")]
             #[allow(dead_code)]
-            item_schema: std::collections::HashMap<String, serde_json::Value>,
+            item_schema: indexmap::IndexMap<String, serde_json::Value>,
             #[serde(rename = "include_sample_schema")]
             #[allow(dead_code)]
             include_sample_schema: Option<bool>,
@@ -16212,7 +16212,7 @@ impl serde::Serialize for CreateEvalCustomDataSourceConfig {
             #[serde(rename = "type")]
             r#type: &'a CreateEvalCustomDataSourceConfigType,
             #[serde(rename = "item_schema")]
-            item_schema: &'a std::collections::HashMap<String, serde_json::Value>,
+            item_schema: &'a indexmap::IndexMap<String, serde_json::Value>,
             #[serde(rename = "include_sample_schema")]
             #[serde(skip_serializing_if = "Option::is_none")]
             include_sample_schema: &'a Option<bool>,
@@ -16233,7 +16233,7 @@ impl serde::Serialize for CreateEvalCustomDataSourceConfig {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateEvalCustomDataSourceConfig {
     #[doc = "The json schema for each row in the data source."]
-    pub item_schema: std::collections::HashMap<String, serde_json::Value>,
+    pub item_schema: indexmap::IndexMap<String, serde_json::Value>,
     #[doc = "Whether the eval should expect you to populate the sample namespace (ie, by generating responses off of your data source)"]
     #[builder(default)]
     pub include_sample_schema: Option<bool>,
@@ -16351,7 +16351,7 @@ impl serde::Serialize for CreateEvalJsonlRunDataSourceType {
     }
 }
 #[doc = "The type of data source. Always `jsonl`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct CreateEvalJsonlRunDataSourceType;
 impl<'de> serde::Deserialize<'de> for CreateEvalJsonlRunDataSourceSource {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -16474,7 +16474,7 @@ impl serde::Serialize for CreateEvalLabelModelGraderType {
     }
 }
 #[doc = "The object type, which is always `label_model`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct CreateEvalLabelModelGraderType;
 impl<'de> serde::Deserialize<'de> for CreateEvalLabelModelGrader {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -16598,7 +16598,7 @@ impl serde::Serialize for CreateEvalLogsDataSourceConfigType {
     }
 }
 #[doc = "The type of data source. Always `logs`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct CreateEvalLogsDataSourceConfigType;
 impl<'de> serde::Deserialize<'de> for CreateEvalLogsDataSourceConfig {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -16613,7 +16613,7 @@ impl<'de> serde::Deserialize<'de> for CreateEvalLogsDataSourceConfig {
             r#type: CreateEvalLogsDataSourceConfigType,
             #[serde(rename = "metadata")]
             #[allow(dead_code)]
-            metadata: Option<std::collections::HashMap<String, serde_json::Value>>,
+            metadata: Option<indexmap::IndexMap<String, serde_json::Value>>,
         }
         let CreateEvalLogsDataSourceConfig { metadata, .. } =
             CreateEvalLogsDataSourceConfig::deserialize(deserializer)?;
@@ -16632,7 +16632,7 @@ impl serde::Serialize for CreateEvalLogsDataSourceConfig {
             r#type: &'a CreateEvalLogsDataSourceConfigType,
             #[serde(rename = "metadata")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            metadata: &'a Option<std::collections::HashMap<String, serde_json::Value>>,
+            metadata: &'a Option<indexmap::IndexMap<String, serde_json::Value>>,
         }
         let Self { metadata } = self;
         CreateEvalLogsDataSourceConfig {
@@ -16643,11 +16643,11 @@ impl serde::Serialize for CreateEvalLogsDataSourceConfig {
     }
 }
 #[doc = "A data source config which specifies the metadata property of your logs query.\nThis is usually metadata like `usecase=chatbot` or `prompt-version=v2`, etc.\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateEvalLogsDataSourceConfig {
     #[doc = "Metadata filters for the logs data source."]
     #[builder(default)]
-    pub metadata: Option<std::collections::HashMap<String, serde_json::Value>>,
+    pub metadata: Option<indexmap::IndexMap<String, serde_json::Value>>,
 }
 impl<'de> serde::Deserialize<'de> for CreateEvalRequestDataSourceConfig {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -16881,7 +16881,7 @@ impl serde::Serialize for CreateEvalResponsesRunDataSourceType {
     }
 }
 #[doc = "The type of run data source. Always `responses`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct CreateEvalResponsesRunDataSourceType;
 impl<'de> serde::Deserialize<'de> for CreateEvalResponsesRunDataSourceInputMessagesTemplateType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -16908,7 +16908,7 @@ impl serde::Serialize for CreateEvalResponsesRunDataSourceInputMessagesTemplateT
     }
 }
 #[doc = "The type of input messages. Always `template`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct CreateEvalResponsesRunDataSourceInputMessagesTemplateType;
 impl<'de> serde::Deserialize<'de>
     for CreateEvalResponsesRunDataSourceInputMessagesTemplateTemplate0
@@ -17092,7 +17092,7 @@ impl serde::Serialize for CreateEvalResponsesRunDataSourceInputMessagesItemRefer
     }
 }
 #[doc = "The type of input messages. Always `item_reference`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct CreateEvalResponsesRunDataSourceInputMessagesItemReferenceType;
 impl<'de> serde::Deserialize<'de> for CreateEvalResponsesRunDataSourceInputMessagesItemReference {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -17232,7 +17232,7 @@ impl serde::Serialize for CreateEvalResponsesRunDataSourceSamplingParamsText {
     }
 }
 #[doc = "Configuration options for a text response from the model. Can be plain\ntext or structured JSON data. Learn more:\n- [Text inputs and outputs](https://platform.openai.com/docs/guides/text)\n- [Structured Outputs](https://platform.openai.com/docs/guides/structured-outputs)\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateEvalResponsesRunDataSourceSamplingParamsText {
     #[builder(default)]
     pub format: Option<TextResponseFormatConfiguration>,
@@ -17329,7 +17329,7 @@ impl serde::Serialize for CreateEvalResponsesRunDataSourceSamplingParams {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateEvalResponsesRunDataSourceSamplingParams {
     #[doc = "A higher temperature increases randomness in the outputs."]
     #[builder(default)]
@@ -17651,7 +17651,7 @@ impl serde::Serialize for CreateEvalStoredCompletionsDataSourceConfigType {
     }
 }
 #[doc = "The type of data source. Always `stored_completions`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct CreateEvalStoredCompletionsDataSourceConfigType;
 impl<'de> serde::Deserialize<'de> for CreateEvalStoredCompletionsDataSourceConfig {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -17666,7 +17666,7 @@ impl<'de> serde::Deserialize<'de> for CreateEvalStoredCompletionsDataSourceConfi
             r#type: CreateEvalStoredCompletionsDataSourceConfigType,
             #[serde(rename = "metadata")]
             #[allow(dead_code)]
-            metadata: Option<std::collections::HashMap<String, serde_json::Value>>,
+            metadata: Option<indexmap::IndexMap<String, serde_json::Value>>,
         }
         let CreateEvalStoredCompletionsDataSourceConfig { metadata, .. } =
             CreateEvalStoredCompletionsDataSourceConfig::deserialize(deserializer)?;
@@ -17685,7 +17685,7 @@ impl serde::Serialize for CreateEvalStoredCompletionsDataSourceConfig {
             r#type: &'a CreateEvalStoredCompletionsDataSourceConfigType,
             #[serde(rename = "metadata")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            metadata: &'a Option<std::collections::HashMap<String, serde_json::Value>>,
+            metadata: &'a Option<indexmap::IndexMap<String, serde_json::Value>>,
         }
         let Self { metadata } = self;
         CreateEvalStoredCompletionsDataSourceConfig {
@@ -17696,11 +17696,11 @@ impl serde::Serialize for CreateEvalStoredCompletionsDataSourceConfig {
     }
 }
 #[doc = "Deprecated in favor of LogsDataSourceConfig.\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateEvalStoredCompletionsDataSourceConfig {
     #[doc = "Metadata filters for the stored completions data source."]
     #[builder(default)]
-    pub metadata: Option<std::collections::HashMap<String, serde_json::Value>>,
+    pub metadata: Option<indexmap::IndexMap<String, serde_json::Value>>,
 }
 impl<'de> serde::Deserialize<'de> for CreateFileRequest {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -17808,7 +17808,7 @@ impl serde::Serialize for CreateFineTuningJobRequestHyperparametersBatchSizeAuto
     }
 }
 #[doc = "auto"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct CreateFineTuningJobRequestHyperparametersBatchSizeAuto;
 impl<'de> serde::Deserialize<'de> for CreateFineTuningJobRequestHyperparametersBatchSize {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -17856,7 +17856,7 @@ impl serde::Serialize for CreateFineTuningJobRequestHyperparametersBatchSize {
     }
 }
 #[doc = "Number of examples in each batch. A larger batch size means that model parameters\nare updated less frequently, but with lower variance.\n"]
-#[derive(Clone, Debug, PartialEq, Copy)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateFineTuningJobRequestHyperparametersBatchSize {
     #[doc = "auto"]
@@ -17890,7 +17890,7 @@ impl serde::Serialize for CreateFineTuningJobRequestHyperparametersLearningRateM
     }
 }
 #[doc = "auto"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct CreateFineTuningJobRequestHyperparametersLearningRateMultiplierAuto;
 impl<'de> serde::Deserialize<'de>
     for CreateFineTuningJobRequestHyperparametersLearningRateMultiplier
@@ -17953,7 +17953,7 @@ impl serde::Serialize for CreateFineTuningJobRequestHyperparametersLearningRateM
     }
 }
 #[doc = "Scaling factor for the learning rate. A smaller learning rate may be useful to avoid\noverfitting.\n"]
-#[derive(Clone, Debug, PartialEq, Copy)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateFineTuningJobRequestHyperparametersLearningRateMultiplier {
     #[doc = "auto"]
@@ -17985,7 +17985,7 @@ impl serde::Serialize for CreateFineTuningJobRequestHyperparametersNEpochsAuto {
     }
 }
 #[doc = "auto"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct CreateFineTuningJobRequestHyperparametersNEpochsAuto;
 impl<'de> serde::Deserialize<'de> for CreateFineTuningJobRequestHyperparametersNEpochs {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -18033,7 +18033,7 @@ impl serde::Serialize for CreateFineTuningJobRequestHyperparametersNEpochs {
     }
 }
 #[doc = "The number of epochs to train the model for. An epoch refers to one full cycle\nthrough the training dataset.\n"]
-#[derive(Clone, Debug, PartialEq, Copy)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateFineTuningJobRequestHyperparametersNEpochs {
     #[doc = "auto"]
@@ -18105,7 +18105,7 @@ impl serde::Serialize for CreateFineTuningJobRequestHyperparameters {
     }
 }
 #[doc = "The hyperparameters used for the fine-tuning job.\nThis value is now deprecated in favor of `method`, and should be passed in under the `method` parameter.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateFineTuningJobRequestHyperparameters {
     #[doc = "Number of examples in each batch. A larger batch size means that model parameters\nare updated less frequently, but with lower variance.\n"]
     #[builder(default)]
@@ -18119,7 +18119,7 @@ pub struct CreateFineTuningJobRequestHyperparameters {
     pub n_epochs: Option<CreateFineTuningJobRequestHyperparametersNEpochs>,
 }
 #[doc = "The type of integration to enable. Currently, only \"wandb\" (Weights and Biases) is supported.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateFineTuningJobRequestIntegrationType {
     #[doc = "wandb"]
     #[serde(rename = "wandb")]
@@ -18465,7 +18465,7 @@ pub enum CreateImageEditRequestImage {
     Array(Vec<Vec<u8>>),
 }
 #[doc = "Allows to set transparency for the background of the generated image(s). \nThis parameter is only supported for `gpt-image-1`. Must be one of \n`transparent`, `opaque` or `auto` (default value). When `auto` is used, the \nmodel will automatically determine the best background for the image.\n\nIf `transparent`, the output format needs to support transparency, so it \nshould be set to either `png` (default value) or `webp`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateImageEditRequestBackground {
     #[doc = "transparent"]
     #[serde(rename = "transparent")]
@@ -18479,7 +18479,7 @@ pub enum CreateImageEditRequestBackground {
     Auto,
 }
 #[doc = "The size of the generated images. Must be one of `1024x1024`, `1536x1024` (landscape), `1024x1536` (portrait), or `auto` (default value) for `gpt-image-1`, and one of `256x256`, `512x512`, or `1024x1024` for `dall-e-2`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateImageEditRequestSize {
     #[doc = "256x256"]
     #[serde(rename = "256x256")]
@@ -18502,7 +18502,7 @@ pub enum CreateImageEditRequestSize {
     Auto,
 }
 #[doc = "The format in which the generated images are returned. Must be one of `url` or `b64_json`. URLs are only valid for 60 minutes after the image has been generated. This parameter is only supported for `dall-e-2`, as `gpt-image-1` will always return base64-encoded images."]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateImageEditRequestResponseFormat {
     #[doc = "url"]
     #[default]
@@ -18513,7 +18513,7 @@ pub enum CreateImageEditRequestResponseFormat {
     B64Json,
 }
 #[doc = "The quality of the image that will be generated. `high`, `medium` and `low` are only supported for `gpt-image-1`. `dall-e-2` only supports `standard` quality. Defaults to `auto`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateImageEditRequestQuality {
     #[doc = "standard"]
     #[serde(rename = "standard")]
@@ -18696,7 +18696,7 @@ pub struct CreateImageEditRequest {
     pub quality: Option<CreateImageEditRequestQuality>,
 }
 #[doc = "The quality of the image that will be generated. \n\n- `auto` (default value) will automatically select the best quality for the given model.\n- `high`, `medium` and `low` are supported for `gpt-image-1`.\n- `hd` and `standard` are supported for `dall-e-3`.\n- `standard` is the only option for `dall-e-2`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateImageRequestQuality {
     #[doc = "standard"]
     #[serde(rename = "standard")]
@@ -18719,7 +18719,7 @@ pub enum CreateImageRequestQuality {
     Auto,
 }
 #[doc = "The format in which generated images with `dall-e-2` and `dall-e-3` are returned. Must be one of `url` or `b64_json`. URLs are only valid for 60 minutes after the image has been generated. This parameter isn't supported for `gpt-image-1` which will always return base64-encoded images."]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateImageRequestResponseFormat {
     #[doc = "url"]
     #[default]
@@ -18730,7 +18730,7 @@ pub enum CreateImageRequestResponseFormat {
     B64Json,
 }
 #[doc = "The format in which the generated images are returned. This parameter is only supported for `gpt-image-1`. Must be one of `png`, `jpeg`, or `webp`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateImageRequestOutputFormat {
     #[doc = "png"]
     #[default]
@@ -18744,7 +18744,7 @@ pub enum CreateImageRequestOutputFormat {
     Webp,
 }
 #[doc = "The size of the generated images. Must be one of `1024x1024`, `1536x1024` (landscape), `1024x1536` (portrait), or `auto` (default value) for `gpt-image-1`, one of `256x256`, `512x512`, or `1024x1024` for `dall-e-2`, and one of `1024x1024`, `1792x1024`, or `1024x1792` for `dall-e-3`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateImageRequestSize {
     #[doc = "auto"]
     #[default]
@@ -18773,7 +18773,7 @@ pub enum CreateImageRequestSize {
     _1024x1792,
 }
 #[doc = "Control the content-moderation level for images generated by `gpt-image-1`. Must be either `low` for less restrictive filtering or `auto` (default value)."]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateImageRequestModeration {
     #[doc = "low"]
     #[serde(rename = "low")]
@@ -18784,7 +18784,7 @@ pub enum CreateImageRequestModeration {
     Auto,
 }
 #[doc = "Allows to set transparency for the background of the generated image(s). \nThis parameter is only supported for `gpt-image-1`. Must be one of \n`transparent`, `opaque` or `auto` (default value). When `auto` is used, the \nmodel will automatically determine the best background for the image.\n\nIf `transparent`, the output format needs to support transparency, so it \nshould be set to either `png` (default value) or `webp`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateImageRequestBackground {
     #[doc = "transparent"]
     #[serde(rename = "transparent")]
@@ -18798,7 +18798,7 @@ pub enum CreateImageRequestBackground {
     Auto,
 }
 #[doc = "The style of the generated images. This parameter is only supported for `dall-e-3`. Must be one of `vivid` or `natural`. Vivid causes the model to lean towards generating hyper-real and dramatic images. Natural causes the model to produce more natural, less hyper-real looking images."]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateImageRequestStyle {
     #[doc = "vivid"]
     #[default]
@@ -18998,7 +18998,7 @@ pub struct CreateImageRequest {
     pub user: Option<String>,
 }
 #[doc = "The format in which the generated images are returned. Must be one of `url` or `b64_json`. URLs are only valid for 60 minutes after the image has been generated."]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateImageVariationRequestResponseFormat {
     #[doc = "url"]
     #[default]
@@ -19009,7 +19009,7 @@ pub enum CreateImageVariationRequestResponseFormat {
     B64Json,
 }
 #[doc = "The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateImageVariationRequestSize {
     #[doc = "256x256"]
     #[serde(rename = "256x256")]
@@ -19136,7 +19136,7 @@ pub struct CreateImageVariationRequest {
     pub user: Option<String>,
 }
 #[doc = "The role of the entity that is creating the message. Allowed values include:\n- `user`: Indicates the message is sent by an actual user and should be used in most cases to represent user-generated messages.\n- `assistant`: Indicates the message is generated by the assistant. Use this value to insert messages from the assistant into the conversation.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateMessageRequestRole {
     #[doc = "user"]
     #[serde(rename = "user")]
@@ -19292,7 +19292,7 @@ impl serde::Serialize for CreateMessageRequestAttachmentsTool {
         }
     }
 }
-#[derive(Clone, Debug, PartialEq, Copy)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateMessageRequestAttachmentsTool {
     CodeInterpreter(AssistantToolsCode),
@@ -19725,7 +19725,7 @@ impl serde::Serialize for CreateModerationResponseResultCategories {
     }
 }
 #[doc = "A list of the categories, and whether they are flagged or not."]
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateModerationResponseResultCategories {
     #[doc = "Content that expresses, incites, or promotes hate based on race, gender, ethnicity, religion, nationality, sexual orientation, disability status, or caste. Hateful content aimed at non-protected groups (e.g., chess players) is harassment."]
     pub hate: bool,
@@ -19906,7 +19906,7 @@ impl serde::Serialize for CreateModerationResponseResultCategoryScores {
     }
 }
 #[doc = "A list of the categories along with their scores as predicted by model."]
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateModerationResponseResultCategoryScores {
     #[doc = "The score for the category 'hate'."]
     pub hate: f64,
@@ -19960,7 +19960,7 @@ impl serde::Serialize for CreateModerationResponseResultCategoryAppliedInputType
     }
 }
 #[doc = "text"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct CreateModerationResponseResultCategoryAppliedInputTypesHate;
 impl<'de> serde::Deserialize<'de>
     for CreateModerationResponseResultCategoryAppliedInputTypesHateThreatening
@@ -19989,7 +19989,7 @@ impl serde::Serialize for CreateModerationResponseResultCategoryAppliedInputType
     }
 }
 #[doc = "text"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct CreateModerationResponseResultCategoryAppliedInputTypesHateThreatening;
 impl<'de> serde::Deserialize<'de>
     for CreateModerationResponseResultCategoryAppliedInputTypesHarassment
@@ -20018,7 +20018,7 @@ impl serde::Serialize for CreateModerationResponseResultCategoryAppliedInputType
     }
 }
 #[doc = "text"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct CreateModerationResponseResultCategoryAppliedInputTypesHarassment;
 impl<'de> serde::Deserialize<'de>
     for CreateModerationResponseResultCategoryAppliedInputTypesHarassmentThreatening
@@ -20049,7 +20049,7 @@ impl serde::Serialize
     }
 }
 #[doc = "text"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct CreateModerationResponseResultCategoryAppliedInputTypesHarassmentThreatening;
 impl<'de> serde::Deserialize<'de>
     for CreateModerationResponseResultCategoryAppliedInputTypesIllicit
@@ -20078,7 +20078,7 @@ impl serde::Serialize for CreateModerationResponseResultCategoryAppliedInputType
     }
 }
 #[doc = "text"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct CreateModerationResponseResultCategoryAppliedInputTypesIllicit;
 impl<'de> serde::Deserialize<'de>
     for CreateModerationResponseResultCategoryAppliedInputTypesIllicitViolent
@@ -20107,9 +20107,9 @@ impl serde::Serialize for CreateModerationResponseResultCategoryAppliedInputType
     }
 }
 #[doc = "text"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct CreateModerationResponseResultCategoryAppliedInputTypesIllicitViolent;
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateModerationResponseResultCategoryAppliedInputTypesSelfHarm {
     #[doc = "text"]
     #[serde(rename = "text")]
@@ -20118,7 +20118,7 @@ pub enum CreateModerationResponseResultCategoryAppliedInputTypesSelfHarm {
     #[serde(rename = "image")]
     Image,
 }
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateModerationResponseResultCategoryAppliedInputTypesSelfHarmIntent {
     #[doc = "text"]
     #[serde(rename = "text")]
@@ -20127,7 +20127,7 @@ pub enum CreateModerationResponseResultCategoryAppliedInputTypesSelfHarmIntent {
     #[serde(rename = "image")]
     Image,
 }
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateModerationResponseResultCategoryAppliedInputTypesSelfHarmInstructions {
     #[doc = "text"]
     #[serde(rename = "text")]
@@ -20136,7 +20136,7 @@ pub enum CreateModerationResponseResultCategoryAppliedInputTypesSelfHarmInstruct
     #[serde(rename = "image")]
     Image,
 }
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateModerationResponseResultCategoryAppliedInputTypesSexual {
     #[doc = "text"]
     #[serde(rename = "text")]
@@ -20172,9 +20172,9 @@ impl serde::Serialize for CreateModerationResponseResultCategoryAppliedInputType
     }
 }
 #[doc = "text"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct CreateModerationResponseResultCategoryAppliedInputTypesSexualMinors;
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateModerationResponseResultCategoryAppliedInputTypesViolence {
     #[doc = "text"]
     #[serde(rename = "text")]
@@ -20183,7 +20183,7 @@ pub enum CreateModerationResponseResultCategoryAppliedInputTypesViolence {
     #[serde(rename = "image")]
     Image,
 }
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateModerationResponseResultCategoryAppliedInputTypesViolenceGraphic {
     #[doc = "text"]
     #[serde(rename = "text")]
@@ -20940,7 +20940,7 @@ pub struct CreateRunRequest {
     pub response_format: Option<AssistantsApiResponseFormatOption>,
 }
 #[doc = "The format to audio in. Supported formats are `mp3`, `opus`, `aac`, `flac`, `wav`, and `pcm`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateSpeechRequestResponseFormat {
     #[doc = "mp3"]
     #[default]
@@ -21102,7 +21102,7 @@ impl serde::Serialize for CreateThreadAndRunRequestToolResourcesCodeInterpreter 
         CreateThreadAndRunRequestToolResourcesCodeInterpreter { file_ids }.serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateThreadAndRunRequestToolResourcesCodeInterpreter {
     #[doc = "A list of [file](https://platform.openai.com/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.\n"]
     #[builder(default)]
@@ -21142,7 +21142,7 @@ impl serde::Serialize for CreateThreadAndRunRequestToolResourcesFileSearch {
         CreateThreadAndRunRequestToolResourcesFileSearch { vector_store_ids }.serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateThreadAndRunRequestToolResourcesFileSearch {
     #[doc = "The ID of the [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) attached to this assistant. There can be a maximum of 1 vector store attached to the assistant.\n"]
     #[builder(default)]
@@ -21201,7 +21201,7 @@ impl serde::Serialize for CreateThreadAndRunRequestToolResources {
     }
 }
 #[doc = "A set of resources that are used by the assistant's tools. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateThreadAndRunRequestToolResources {
     #[builder(default)]
     pub code_interpreter: Option<CreateThreadAndRunRequestToolResourcesCodeInterpreter>,
@@ -21476,7 +21476,7 @@ impl serde::Serialize for CreateThreadRequestToolResourcesCodeInterpreter {
         CreateThreadRequestToolResourcesCodeInterpreter { file_ids }.serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateThreadRequestToolResourcesCodeInterpreter {
     #[doc = "A list of [file](https://platform.openai.com/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.\n"]
     #[builder(default)]
@@ -21511,7 +21511,7 @@ impl serde::Serialize
     }
 }
 #[doc = "Always `auto`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAutoType;
 impl<'de> serde::Deserialize<'de>
     for CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto
@@ -21553,7 +21553,7 @@ impl serde::Serialize
     }
 }
 #[doc = "The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto {}
 impl<'de> serde::Deserialize<'de>
     for CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticType
@@ -21584,7 +21584,7 @@ impl serde::Serialize
     }
 }
 #[doc = "Always `static`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticType;
 impl<'de> serde::Deserialize<'de>
     for CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticStatic
@@ -21638,7 +21638,7 @@ impl serde::Serialize
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticStatic {
     #[doc = "The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the maximum value is `4096`."]
     pub max_chunk_size_tokens: u64,
@@ -21686,7 +21686,7 @@ impl serde::Serialize
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic {
     pub r#static:
         CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticStatic,
@@ -21747,7 +21747,7 @@ impl serde::Serialize for CreateThreadRequestToolResourcesFileSearch0VectorStore
     }
 }
 #[doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy."]
-#[derive(Clone, Debug, PartialEq, Copy)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategy {
     #[doc = "The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`."]
@@ -21818,7 +21818,7 @@ impl serde::Serialize for CreateThreadRequestToolResourcesFileSearch0VectorStore
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateThreadRequestToolResourcesFileSearch0VectorStore {
     #[doc = "A list of [file](https://platform.openai.com/docs/api-reference/files) IDs to add to the vector store. There can be a maximum of 10000 files in a vector store.\n"]
     #[builder(default)]
@@ -21918,7 +21918,7 @@ impl serde::Serialize
     }
 }
 #[doc = "Always `auto`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAutoType;
 impl<'de> serde::Deserialize<'de>
     for CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto
@@ -21960,7 +21960,7 @@ impl serde::Serialize
     }
 }
 #[doc = "The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto {}
 impl<'de> serde::Deserialize<'de>
     for CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticType
@@ -21991,7 +21991,7 @@ impl serde::Serialize
     }
 }
 #[doc = "Always `static`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticType;
 impl<'de> serde::Deserialize<'de>
     for CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticStatic
@@ -22045,7 +22045,7 @@ impl serde::Serialize
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticStatic {
     #[doc = "The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the maximum value is `4096`."]
     pub max_chunk_size_tokens: u64,
@@ -22093,7 +22093,7 @@ impl serde::Serialize
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic {
     pub r#static:
         CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticStatic,
@@ -22154,7 +22154,7 @@ impl serde::Serialize for CreateThreadRequestToolResourcesFileSearch1VectorStore
     }
 }
 #[doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy."]
-#[derive(Clone, Debug, PartialEq, Copy)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategy {
     #[doc = "The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`."]
@@ -22225,7 +22225,7 @@ impl serde::Serialize for CreateThreadRequestToolResourcesFileSearch1VectorStore
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateThreadRequestToolResourcesFileSearch1VectorStore {
     #[doc = "A list of [file](https://platform.openai.com/docs/api-reference/files) IDs to add to the vector store. There can be a maximum of 10000 files in a vector store.\n"]
     #[builder(default)]
@@ -22395,7 +22395,7 @@ impl serde::Serialize for CreateThreadRequestToolResources {
     }
 }
 #[doc = "A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateThreadRequestToolResources {
     #[builder(default)]
     pub code_interpreter: Option<CreateThreadRequestToolResourcesCodeInterpreter>,
@@ -22465,7 +22465,7 @@ impl serde::Serialize for CreateThreadRequest {
     }
 }
 #[doc = "Options to create a new thread. If no thread is provided when running a \nrequest, an empty thread will be created.\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateThreadRequest {
     #[doc = "A list of [messages](https://platform.openai.com/docs/api-reference/messages) to start the thread with."]
     #[builder(default)]
@@ -22476,7 +22476,7 @@ pub struct CreateThreadRequest {
     #[builder(default)]
     pub metadata: Option<Metadata>,
 }
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateTranscriptionRequestTimestampGranularities {
     #[doc = "word"]
     #[serde(rename = "word")]
@@ -22709,7 +22709,7 @@ impl serde::Serialize for CreateTranscriptionResponseJsonLogprob {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateTranscriptionResponseJsonLogprob {
     #[doc = "The token in the transcription."]
     #[builder(default)]
@@ -22918,7 +22918,7 @@ pub struct CreateTranscriptionResponseVerboseJson {
     pub segments: Option<Vec<TranscriptionSegment>>,
 }
 #[doc = "The format of the output, in one of these options: `json`, `text`, `srt`, `verbose_json`, or `vtt`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateTranslationRequestResponseFormat {
     #[doc = "json"]
     #[default]
@@ -23153,7 +23153,7 @@ pub struct CreateTranslationResponseVerboseJson {
     pub segments: Option<Vec<TranscriptionSegment>>,
 }
 #[doc = "The intended purpose of the uploaded file.\n\nSee the [documentation on File purposes](https://platform.openai.com/docs/api-reference/files/create#files-create-purpose).\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateUploadRequestPurpose {
     #[doc = "assistants"]
     #[serde(rename = "assistants")]
@@ -23469,7 +23469,7 @@ impl serde::Serialize for CreateVectorStoreRequest {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateVectorStoreRequest {
     #[doc = "A list of [File](https://platform.openai.com/docs/api-reference/files) IDs that the vector store should use. Useful for tools like `file_search` that can access files."]
     #[builder(default)]
@@ -23509,7 +23509,7 @@ impl serde::Serialize for DeleteAssistantResponseObject {
     }
 }
 #[doc = "assistant.deleted"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct DeleteAssistantResponseObject;
 impl<'de> serde::Deserialize<'de> for DeleteAssistantResponse {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -23588,7 +23588,7 @@ impl serde::Serialize for DeleteCertificateResponseObject {
     }
 }
 #[doc = "The object type, must be `certificate.deleted`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct DeleteCertificateResponseObject;
 impl<'de> serde::Deserialize<'de> for DeleteCertificateResponse {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -23661,7 +23661,7 @@ impl serde::Serialize for DeleteFileResponseObject {
     }
 }
 #[doc = "file"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct DeleteFileResponseObject;
 impl<'de> serde::Deserialize<'de> for DeleteFileResponse {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -23739,7 +23739,7 @@ impl serde::Serialize for DeleteFineTuningCheckpointPermissionResponseObject {
     }
 }
 #[doc = "The object type, which is always \"checkpoint.permission\"."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct DeleteFineTuningCheckpointPermissionResponseObject;
 impl<'de> serde::Deserialize<'de> for DeleteFineTuningCheckpointPermissionResponse {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -23820,7 +23820,7 @@ impl serde::Serialize for DeleteMessageResponseObject {
     }
 }
 #[doc = "thread.message.deleted"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct DeleteMessageResponseObject;
 impl<'de> serde::Deserialize<'de> for DeleteMessageResponse {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -23964,7 +23964,7 @@ impl serde::Serialize for DeleteThreadResponseObject {
     }
 }
 #[doc = "thread.deleted"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct DeleteThreadResponseObject;
 impl<'de> serde::Deserialize<'de> for DeleteThreadResponse {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -24043,7 +24043,7 @@ impl serde::Serialize for DeleteVectorStoreFileResponseObject {
     }
 }
 #[doc = "vector_store.file.deleted"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct DeleteVectorStoreFileResponseObject;
 impl<'de> serde::Deserialize<'de> for DeleteVectorStoreFileResponse {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -24122,7 +24122,7 @@ impl serde::Serialize for DeleteVectorStoreResponseObject {
     }
 }
 #[doc = "vector_store.deleted"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct DeleteVectorStoreResponseObject;
 impl<'de> serde::Deserialize<'de> for DeleteVectorStoreResponse {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -24201,7 +24201,7 @@ impl serde::Serialize for DoneEventEvent {
     }
 }
 #[doc = "done"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct DoneEventEvent;
 impl<'de> serde::Deserialize<'de> for DoneEventData {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -24228,7 +24228,7 @@ impl serde::Serialize for DoneEventData {
     }
 }
 #[doc = "[DONE]"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct DoneEventData;
 impl<'de> serde::Deserialize<'de> for DoneEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -24271,7 +24271,7 @@ impl serde::Serialize for DoneEvent {
     }
 }
 #[doc = "Occurs when a stream ends."]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct DoneEvent {}
 impl<'de> serde::Deserialize<'de> for DoubleClickType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -24298,7 +24298,7 @@ impl serde::Serialize for DoubleClickType {
     }
 }
 #[doc = "Specifies the event type. For a double click action, this property is \nalways set to `double_click`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct DoubleClickType;
 impl<'de> serde::Deserialize<'de> for DoubleClick {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -24347,7 +24347,7 @@ impl serde::Serialize for DoubleClick {
     }
 }
 #[doc = "A double click action.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct DoubleClick {
     #[doc = "The x-coordinate where the double click occurred.\n"]
     pub x: u64,
@@ -24379,7 +24379,7 @@ impl serde::Serialize for DragType {
     }
 }
 #[doc = "Specifies the event type. For a drag action, this property is \nalways set to `drag`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct DragType;
 impl<'de> serde::Deserialize<'de> for Drag {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -24428,7 +24428,7 @@ pub struct Drag {
     pub path: Vec<Coordinate>,
 }
 #[doc = "The role of the message input. One of `user`, `assistant`, `system`, or\n`developer`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum EasyInputMessageRole {
     #[doc = "user"]
     #[serde(rename = "user")]
@@ -24516,7 +24516,7 @@ impl serde::Serialize for EasyInputMessageType {
     }
 }
 #[doc = "The type of the message input. Always `message`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct EasyInputMessageType;
 impl<'de> serde::Deserialize<'de> for EasyInputMessage {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -24614,7 +24614,7 @@ impl serde::Serialize for EmbeddingObject {
     }
 }
 #[doc = "The object type, which is always \"embedding\"."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct EmbeddingObject;
 impl<'de> serde::Deserialize<'de> for Embedding {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -24776,7 +24776,7 @@ impl serde::Serialize for ErrorEventEvent {
     }
 }
 #[doc = "error"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ErrorEventEvent;
 impl<'de> serde::Deserialize<'de> for ErrorEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -24883,7 +24883,7 @@ impl serde::Serialize for EvalObject {
     }
 }
 #[doc = "The object type."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct EvalObject;
 impl<'de> serde::Deserialize<'de> for EvalDataSourceConfig {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -25174,7 +25174,7 @@ impl serde::Serialize for EvalCustomDataSourceConfigType {
     }
 }
 #[doc = "The type of data source. Always `custom`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct EvalCustomDataSourceConfigType;
 impl<'de> serde::Deserialize<'de> for EvalCustomDataSourceConfig {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -25189,7 +25189,7 @@ impl<'de> serde::Deserialize<'de> for EvalCustomDataSourceConfig {
             r#type: EvalCustomDataSourceConfigType,
             #[serde(rename = "schema")]
             #[allow(dead_code)]
-            schema: std::collections::HashMap<String, serde_json::Value>,
+            schema: indexmap::IndexMap<String, serde_json::Value>,
         }
         let EvalCustomDataSourceConfig { schema, .. } =
             EvalCustomDataSourceConfig::deserialize(deserializer)?;
@@ -25207,7 +25207,7 @@ impl serde::Serialize for EvalCustomDataSourceConfig {
             #[serde(rename = "type")]
             r#type: &'a EvalCustomDataSourceConfigType,
             #[serde(rename = "schema")]
-            schema: &'a std::collections::HashMap<String, serde_json::Value>,
+            schema: &'a indexmap::IndexMap<String, serde_json::Value>,
         }
         let Self { schema } = self;
         EvalCustomDataSourceConfig {
@@ -25221,7 +25221,7 @@ impl serde::Serialize for EvalCustomDataSourceConfig {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct EvalCustomDataSourceConfig {
     #[doc = "The json schema for the run data source items.\nLearn how to build JSON schemas [here](https://json-schema.org/).\n"]
-    pub schema: std::collections::HashMap<String, serde_json::Value>,
+    pub schema: indexmap::IndexMap<String, serde_json::Value>,
 }
 impl<'de> serde::Deserialize<'de> for EvalGraderLabelModel {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -25478,7 +25478,7 @@ pub struct EvalGraderTextSimilarity {
     pub pass_threshold: f64,
 }
 #[doc = "The role of the message input. One of `user`, `assistant`, `system`, or\n`developer`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum EvalItemRole {
     #[doc = "user"]
     #[serde(rename = "user")]
@@ -25518,7 +25518,7 @@ impl serde::Serialize for EvalItemContentOutputTextType {
     }
 }
 #[doc = "The type of the output text. Always `output_text`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct EvalItemContentOutputTextType;
 impl<'de> serde::Deserialize<'de> for EvalItemContentOutputText {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -25644,7 +25644,7 @@ impl serde::Serialize for EvalItemType {
     }
 }
 #[doc = "The type of the message input. Always `message`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct EvalItemType;
 impl<'de> serde::Deserialize<'de> for EvalItem {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -25742,7 +25742,7 @@ impl serde::Serialize for EvalJsonlFileContentSourceType {
     }
 }
 #[doc = "The type of jsonl source. Always `file_content`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct EvalJsonlFileContentSourceType;
 impl<'de> serde::Deserialize<'de> for EvalJsonlFileContentSourceContent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -25754,10 +25754,10 @@ impl<'de> serde::Deserialize<'de> for EvalJsonlFileContentSourceContent {
         struct EvalJsonlFileContentSourceContent {
             #[serde(rename = "item")]
             #[allow(dead_code)]
-            item: std::collections::HashMap<String, serde_json::Value>,
+            item: indexmap::IndexMap<String, serde_json::Value>,
             #[serde(rename = "sample")]
             #[allow(dead_code)]
-            sample: Option<std::collections::HashMap<String, serde_json::Value>>,
+            sample: Option<indexmap::IndexMap<String, serde_json::Value>>,
         }
         let EvalJsonlFileContentSourceContent { item, sample, .. } =
             EvalJsonlFileContentSourceContent::deserialize(deserializer)?;
@@ -25773,10 +25773,10 @@ impl serde::Serialize for EvalJsonlFileContentSourceContent {
         #[derive(serde :: Serialize)]
         struct EvalJsonlFileContentSourceContent<'a> {
             #[serde(rename = "item")]
-            item: &'a std::collections::HashMap<String, serde_json::Value>,
+            item: &'a indexmap::IndexMap<String, serde_json::Value>,
             #[serde(rename = "sample")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            sample: &'a Option<std::collections::HashMap<String, serde_json::Value>>,
+            sample: &'a Option<indexmap::IndexMap<String, serde_json::Value>>,
         }
         let Self { item, sample } = self;
         EvalJsonlFileContentSourceContent { item, sample }.serialize(serializer)
@@ -25784,9 +25784,9 @@ impl serde::Serialize for EvalJsonlFileContentSourceContent {
 }
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct EvalJsonlFileContentSourceContent {
-    pub item: std::collections::HashMap<String, serde_json::Value>,
+    pub item: indexmap::IndexMap<String, serde_json::Value>,
     #[builder(default)]
-    pub sample: Option<std::collections::HashMap<String, serde_json::Value>>,
+    pub sample: Option<indexmap::IndexMap<String, serde_json::Value>>,
 }
 impl<'de> serde::Deserialize<'de> for EvalJsonlFileContentSource {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -25859,7 +25859,7 @@ impl serde::Serialize for EvalJsonlFileIdSourceType {
     }
 }
 #[doc = "The type of jsonl source. Always `file_id`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct EvalJsonlFileIdSourceType;
 impl<'de> serde::Deserialize<'de> for EvalJsonlFileIdSource {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -25931,7 +25931,7 @@ impl serde::Serialize for EvalListObject {
     }
 }
 #[doc = "The type of this object. It is always set to \"list\".\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct EvalListObject;
 impl<'de> serde::Deserialize<'de> for EvalList {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -26044,7 +26044,7 @@ impl serde::Serialize for EvalLogsDataSourceConfigType {
     }
 }
 #[doc = "The type of data source. Always `logs`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct EvalLogsDataSourceConfigType;
 impl<'de> serde::Deserialize<'de> for EvalLogsDataSourceConfig {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -26062,7 +26062,7 @@ impl<'de> serde::Deserialize<'de> for EvalLogsDataSourceConfig {
             metadata: Option<Metadata>,
             #[serde(rename = "schema")]
             #[allow(dead_code)]
-            schema: std::collections::HashMap<String, serde_json::Value>,
+            schema: indexmap::IndexMap<String, serde_json::Value>,
         }
         let EvalLogsDataSourceConfig {
             metadata, schema, ..
@@ -26084,7 +26084,7 @@ impl serde::Serialize for EvalLogsDataSourceConfig {
             #[serde(skip_serializing_if = "Option::is_none")]
             metadata: &'a Option<Metadata>,
             #[serde(rename = "schema")]
-            schema: &'a std::collections::HashMap<String, serde_json::Value>,
+            schema: &'a indexmap::IndexMap<String, serde_json::Value>,
         }
         let Self { metadata, schema } = self;
         EvalLogsDataSourceConfig {
@@ -26101,7 +26101,7 @@ pub struct EvalLogsDataSourceConfig {
     #[builder(default)]
     pub metadata: Option<Metadata>,
     #[doc = "The json schema for the run data source items.\nLearn how to build JSON schemas [here](https://json-schema.org/).\n"]
-    pub schema: std::collections::HashMap<String, serde_json::Value>,
+    pub schema: indexmap::IndexMap<String, serde_json::Value>,
 }
 impl<'de> serde::Deserialize<'de> for EvalResponsesSourceType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -26128,7 +26128,7 @@ impl serde::Serialize for EvalResponsesSourceType {
     }
 }
 #[doc = "The type of run data source. Always `responses`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct EvalResponsesSourceType;
 impl<'de> serde::Deserialize<'de> for EvalResponsesSource {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -26143,7 +26143,7 @@ impl<'de> serde::Deserialize<'de> for EvalResponsesSource {
             r#type: EvalResponsesSourceType,
             #[serde(rename = "metadata")]
             #[allow(dead_code)]
-            metadata: Option<std::collections::HashMap<String, serde_json::Value>>,
+            metadata: Option<indexmap::IndexMap<String, serde_json::Value>>,
             #[serde(rename = "model")]
             #[allow(dead_code)]
             model: Option<String>,
@@ -26211,7 +26211,7 @@ impl serde::Serialize for EvalResponsesSource {
             r#type: &'a EvalResponsesSourceType,
             #[serde(rename = "metadata")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            metadata: &'a Option<std::collections::HashMap<String, serde_json::Value>>,
+            metadata: &'a Option<indexmap::IndexMap<String, serde_json::Value>>,
             #[serde(rename = "model")]
             #[serde(skip_serializing_if = "Option::is_none")]
             model: &'a Option<String>,
@@ -26269,11 +26269,11 @@ impl serde::Serialize for EvalResponsesSource {
     }
 }
 #[doc = "A EvalResponsesSource object describing a run data source configuration.\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct EvalResponsesSource {
     #[doc = "Metadata filter for the responses. This is a query parameter used to select responses."]
     #[builder(default)]
-    pub metadata: Option<std::collections::HashMap<String, serde_json::Value>>,
+    pub metadata: Option<indexmap::IndexMap<String, serde_json::Value>>,
     #[doc = "The name of the model to find responses for. This is a query parameter used to select responses."]
     #[builder(default)]
     pub model: Option<String>,
@@ -26327,7 +26327,7 @@ impl serde::Serialize for EvalRunObject {
     }
 }
 #[doc = "The type of the object. Always \"eval.run\"."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct EvalRunObject;
 impl<'de> serde::Deserialize<'de> for EvalRunResultCounts {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -26398,7 +26398,7 @@ impl serde::Serialize for EvalRunResultCounts {
     }
 }
 #[doc = "Counters summarizing the outcomes of the evaluation run."]
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct EvalRunResultCounts {
     #[doc = "Total number of executed output items."]
     pub total: u64,
@@ -26838,7 +26838,7 @@ impl serde::Serialize for EvalRunListObject {
     }
 }
 #[doc = "The type of this object. It is always set to \"list\".\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct EvalRunListObject;
 impl<'de> serde::Deserialize<'de> for EvalRunList {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -26951,7 +26951,7 @@ impl serde::Serialize for EvalRunOutputItemObject {
     }
 }
 #[doc = "The type of the object. Always \"eval.run.output_item\"."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct EvalRunOutputItemObject;
 impl<'de> serde::Deserialize<'de> for EvalRunOutputItemSampleInput {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -27037,7 +27037,7 @@ impl serde::Serialize for EvalRunOutputItemSampleOutput {
         EvalRunOutputItemSampleOutput { role, content }.serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct EvalRunOutputItemSampleOutput {
     #[doc = "The role of the message (e.g. \"system\", \"assistant\", \"user\")."]
     #[builder(default)]
@@ -27115,7 +27115,7 @@ impl serde::Serialize for EvalRunOutputItemSampleUsage {
     }
 }
 #[doc = "Token usage details for the sample."]
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct EvalRunOutputItemSampleUsage {
     #[doc = "The total number of tokens used."]
     pub total_tokens: u64,
@@ -27302,10 +27302,10 @@ impl<'de> serde::Deserialize<'de> for EvalRunOutputItem {
             datasource_item_id: u64,
             #[serde(rename = "datasource_item")]
             #[allow(dead_code)]
-            datasource_item: std::collections::HashMap<String, serde_json::Value>,
+            datasource_item: indexmap::IndexMap<String, serde_json::Value>,
             #[serde(rename = "results")]
             #[allow(dead_code)]
-            results: Vec<std::collections::HashMap<String, serde_json::Value>>,
+            results: Vec<indexmap::IndexMap<String, serde_json::Value>>,
             #[serde(rename = "sample")]
             #[allow(dead_code)]
             sample: EvalRunOutputItemSample,
@@ -27358,9 +27358,9 @@ impl serde::Serialize for EvalRunOutputItem {
             #[serde(rename = "datasource_item_id")]
             datasource_item_id: &'a u64,
             #[serde(rename = "datasource_item")]
-            datasource_item: &'a std::collections::HashMap<String, serde_json::Value>,
+            datasource_item: &'a indexmap::IndexMap<String, serde_json::Value>,
             #[serde(rename = "results")]
-            results: &'a Vec<std::collections::HashMap<String, serde_json::Value>>,
+            results: &'a Vec<indexmap::IndexMap<String, serde_json::Value>>,
             #[serde(rename = "sample")]
             sample: &'a EvalRunOutputItemSample,
         }
@@ -27406,9 +27406,9 @@ pub struct EvalRunOutputItem {
     #[doc = "The identifier for the data source item."]
     pub datasource_item_id: u64,
     #[doc = "Details of the input data source item."]
-    pub datasource_item: std::collections::HashMap<String, serde_json::Value>,
+    pub datasource_item: indexmap::IndexMap<String, serde_json::Value>,
     #[doc = "A list of results from the evaluation run."]
-    pub results: Vec<std::collections::HashMap<String, serde_json::Value>>,
+    pub results: Vec<indexmap::IndexMap<String, serde_json::Value>>,
     #[doc = "A sample containing the input and output of the evaluation run."]
     pub sample: EvalRunOutputItemSample,
 }
@@ -27437,7 +27437,7 @@ impl serde::Serialize for EvalRunOutputItemListObject {
     }
 }
 #[doc = "The type of this object. It is always set to \"list\".\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct EvalRunOutputItemListObject;
 impl<'de> serde::Deserialize<'de> for EvalRunOutputItemList {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -27550,7 +27550,7 @@ impl serde::Serialize for EvalStoredCompletionsDataSourceConfigType {
     }
 }
 #[doc = "The type of data source. Always `stored_completions`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct EvalStoredCompletionsDataSourceConfigType;
 impl<'de> serde::Deserialize<'de> for EvalStoredCompletionsDataSourceConfig {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -27568,7 +27568,7 @@ impl<'de> serde::Deserialize<'de> for EvalStoredCompletionsDataSourceConfig {
             metadata: Option<Metadata>,
             #[serde(rename = "schema")]
             #[allow(dead_code)]
-            schema: std::collections::HashMap<String, serde_json::Value>,
+            schema: indexmap::IndexMap<String, serde_json::Value>,
         }
         let EvalStoredCompletionsDataSourceConfig {
             metadata, schema, ..
@@ -27590,7 +27590,7 @@ impl serde::Serialize for EvalStoredCompletionsDataSourceConfig {
             #[serde(skip_serializing_if = "Option::is_none")]
             metadata: &'a Option<Metadata>,
             #[serde(rename = "schema")]
-            schema: &'a std::collections::HashMap<String, serde_json::Value>,
+            schema: &'a indexmap::IndexMap<String, serde_json::Value>,
         }
         let Self { metadata, schema } = self;
         EvalStoredCompletionsDataSourceConfig {
@@ -27607,7 +27607,7 @@ pub struct EvalStoredCompletionsDataSourceConfig {
     #[builder(default)]
     pub metadata: Option<Metadata>,
     #[doc = "The json schema for the run data source items.\nLearn how to build JSON schemas [here](https://json-schema.org/).\n"]
-    pub schema: std::collections::HashMap<String, serde_json::Value>,
+    pub schema: indexmap::IndexMap<String, serde_json::Value>,
 }
 impl<'de> serde::Deserialize<'de> for EvalStoredCompletionsSourceType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -27634,7 +27634,7 @@ impl serde::Serialize for EvalStoredCompletionsSourceType {
     }
 }
 #[doc = "The type of source. Always `stored_completions`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct EvalStoredCompletionsSourceType;
 impl<'de> serde::Deserialize<'de> for EvalStoredCompletionsSource {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -27725,7 +27725,7 @@ impl serde::Serialize for EvalStoredCompletionsSource {
     }
 }
 #[doc = "A StoredCompletionsRunDataSource configuration describing a set of filters\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct EvalStoredCompletionsSource {
     #[builder(default)]
     pub metadata: Option<Metadata>,
@@ -27767,7 +27767,7 @@ impl serde::Serialize for FilePathType {
     }
 }
 #[doc = "The type of the file path. Always `file_path`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct FilePathType;
 impl<'de> serde::Deserialize<'de> for FilePath {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -27824,7 +27824,7 @@ pub struct FilePath {
     pub index: u64,
 }
 #[doc = "The ranker to use for the file search. If not specified will use the `auto` ranker."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum FileSearchRanker {
     #[doc = "auto"]
     #[serde(rename = "auto")]
@@ -27885,7 +27885,7 @@ impl serde::Serialize for FileSearchRankingOptions {
     }
 }
 #[doc = "The ranking options for the file search. If not specified, the file search tool will use the `auto` ranker and a score_threshold of 0.\n\nSee the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search#customizing-file-search-settings) for more information.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct FileSearchRankingOptions {
     #[builder(default)]
     pub ranker: Option<FileSearchRanker>,
@@ -27917,10 +27917,10 @@ impl serde::Serialize for FileSearchToolCallType {
     }
 }
 #[doc = "The type of the file search tool call. Always `file_search_call`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct FileSearchToolCallType;
 #[doc = "The status of the file search tool call. One of `in_progress`, \n`searching`, `incomplete` or `failed`,\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum FileSearchToolCallStatus {
     #[doc = "in_progress"]
     #[serde(rename = "in_progress")]
@@ -28020,7 +28020,7 @@ impl serde::Serialize for FileSearchToolCallResult {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct FileSearchToolCallResult {
     #[doc = "The unique ID of the file.\n"]
     #[builder(default)]
@@ -28176,7 +28176,7 @@ impl serde::Serialize for FineTuneChatCompletionRequestAssistantMessage {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct FineTuneChatCompletionRequestAssistantMessage {
     #[doc = "Controls whether the assistant message is trained against (0 or 1)"]
     #[builder(default)]
@@ -28322,7 +28322,7 @@ impl serde::Serialize for FineTuneChatRequestInput {
     }
 }
 #[doc = "The per-line training example of a fine-tuning input file for chat models using the supervised method."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct FineTuneChatRequestInput {
     #[builder(default)]
     pub messages: Option<Vec<FineTuneChatRequestInputMessages>>,
@@ -28360,7 +28360,7 @@ impl serde::Serialize for FineTuneDpoHyperparametersBetaAuto {
     }
 }
 #[doc = "auto"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct FineTuneDpoHyperparametersBetaAuto;
 impl<'de> serde::Deserialize<'de> for FineTuneDpoHyperparametersBeta {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -28405,7 +28405,7 @@ impl serde::Serialize for FineTuneDpoHyperparametersBeta {
     }
 }
 #[doc = "The beta value for the DPO method. A higher beta value will increase the weight of the penalty between the policy and reference model.\n"]
-#[derive(Clone, Debug, PartialEq, Copy)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuneDpoHyperparametersBeta {
     #[doc = "auto"]
@@ -28437,7 +28437,7 @@ impl serde::Serialize for FineTuneDpoHyperparametersBatchSizeAuto {
     }
 }
 #[doc = "auto"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct FineTuneDpoHyperparametersBatchSizeAuto;
 impl<'de> serde::Deserialize<'de> for FineTuneDpoHyperparametersBatchSize {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -28484,7 +28484,7 @@ impl serde::Serialize for FineTuneDpoHyperparametersBatchSize {
     }
 }
 #[doc = "Number of examples in each batch. A larger batch size means that model parameters are updated less frequently, but with lower variance.\n"]
-#[derive(Clone, Debug, PartialEq, Copy)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuneDpoHyperparametersBatchSize {
     #[doc = "auto"]
@@ -28516,7 +28516,7 @@ impl serde::Serialize for FineTuneDpoHyperparametersLearningRateMultiplierAuto {
     }
 }
 #[doc = "auto"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct FineTuneDpoHyperparametersLearningRateMultiplierAuto;
 impl<'de> serde::Deserialize<'de> for FineTuneDpoHyperparametersLearningRateMultiplier {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -28564,7 +28564,7 @@ impl serde::Serialize for FineTuneDpoHyperparametersLearningRateMultiplier {
     }
 }
 #[doc = "Scaling factor for the learning rate. A smaller learning rate may be useful to avoid overfitting.\n"]
-#[derive(Clone, Debug, PartialEq, Copy)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuneDpoHyperparametersLearningRateMultiplier {
     #[doc = "auto"]
@@ -28596,7 +28596,7 @@ impl serde::Serialize for FineTuneDpoHyperparametersNEpochsAuto {
     }
 }
 #[doc = "auto"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct FineTuneDpoHyperparametersNEpochsAuto;
 impl<'de> serde::Deserialize<'de> for FineTuneDpoHyperparametersNEpochs {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -28641,7 +28641,7 @@ impl serde::Serialize for FineTuneDpoHyperparametersNEpochs {
     }
 }
 #[doc = "The number of epochs to train the model for. An epoch refers to one full cycle through the training dataset.\n"]
-#[derive(Clone, Debug, PartialEq, Copy)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuneDpoHyperparametersNEpochs {
     #[doc = "auto"]
@@ -28721,7 +28721,7 @@ impl serde::Serialize for FineTuneDpoHyperparameters {
     }
 }
 #[doc = "The hyperparameters used for the DPO fine-tuning job."]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct FineTuneDpoHyperparameters {
     #[doc = "The beta value for the DPO method. A higher beta value will increase the weight of the penalty between the policy and reference model.\n"]
     #[builder(default)]
@@ -28771,13 +28771,13 @@ impl serde::Serialize for FineTuneDpoMethod {
     }
 }
 #[doc = "Configuration for the DPO fine-tuning method."]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct FineTuneDpoMethod {
     #[builder(default)]
     pub hyperparameters: Option<FineTuneDpoHyperparameters>,
 }
 #[doc = "The type of method. Is either `supervised`, `dpo`, or `reinforcement`."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum FineTuneMethodType {
     #[doc = "supervised"]
     #[serde(rename = "supervised")]
@@ -29005,7 +29005,7 @@ impl serde::Serialize for FineTunePreferenceRequestInputInput {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct FineTunePreferenceRequestInputInput {
     #[builder(default)]
     pub messages: Option<Vec<FineTunePreferenceRequestInputInputMessages>>,
@@ -29156,7 +29156,7 @@ impl serde::Serialize for FineTunePreferenceRequestInput {
     }
 }
 #[doc = "The per-line training example of a fine-tuning input file for chat models using the dpo method."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct FineTunePreferenceRequestInput {
     #[builder(default)]
     pub input: Option<FineTunePreferenceRequestInputInput>,
@@ -29192,7 +29192,7 @@ impl serde::Serialize for FineTuneReinforcementHyperparametersBatchSizeAuto {
     }
 }
 #[doc = "auto"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct FineTuneReinforcementHyperparametersBatchSizeAuto;
 impl<'de> serde::Deserialize<'de> for FineTuneReinforcementHyperparametersBatchSize {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -29238,7 +29238,7 @@ impl serde::Serialize for FineTuneReinforcementHyperparametersBatchSize {
     }
 }
 #[doc = "Number of examples in each batch. A larger batch size means that model parameters are updated less frequently, but with lower variance.\n"]
-#[derive(Clone, Debug, PartialEq, Copy)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuneReinforcementHyperparametersBatchSize {
     #[doc = "auto"]
@@ -29272,7 +29272,7 @@ impl serde::Serialize for FineTuneReinforcementHyperparametersLearningRateMultip
     }
 }
 #[doc = "auto"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct FineTuneReinforcementHyperparametersLearningRateMultiplierAuto;
 impl<'de> serde::Deserialize<'de> for FineTuneReinforcementHyperparametersLearningRateMultiplier {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -29330,7 +29330,7 @@ impl serde::Serialize for FineTuneReinforcementHyperparametersLearningRateMultip
     }
 }
 #[doc = "Scaling factor for the learning rate. A smaller learning rate may be useful to avoid overfitting.\n"]
-#[derive(Clone, Debug, PartialEq, Copy)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuneReinforcementHyperparametersLearningRateMultiplier {
     #[doc = "auto"]
@@ -29362,7 +29362,7 @@ impl serde::Serialize for FineTuneReinforcementHyperparametersNEpochsAuto {
     }
 }
 #[doc = "auto"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct FineTuneReinforcementHyperparametersNEpochsAuto;
 impl<'de> serde::Deserialize<'de> for FineTuneReinforcementHyperparametersNEpochs {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -29408,7 +29408,7 @@ impl serde::Serialize for FineTuneReinforcementHyperparametersNEpochs {
     }
 }
 #[doc = "The number of epochs to train the model for. An epoch refers to one full cycle through the training dataset.\n"]
-#[derive(Clone, Debug, PartialEq, Copy)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuneReinforcementHyperparametersNEpochs {
     #[doc = "auto"]
@@ -29416,7 +29416,7 @@ pub enum FineTuneReinforcementHyperparametersNEpochs {
     Integer(u64),
 }
 #[doc = "Level of reasoning effort.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum FineTuneReinforcementHyperparametersReasoningEffort {
     #[doc = "default"]
     #[default]
@@ -29457,7 +29457,7 @@ impl serde::Serialize for FineTuneReinforcementHyperparametersComputeMultiplierA
     }
 }
 #[doc = "auto"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct FineTuneReinforcementHyperparametersComputeMultiplierAuto;
 impl<'de> serde::Deserialize<'de> for FineTuneReinforcementHyperparametersComputeMultiplier {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -29505,7 +29505,7 @@ impl serde::Serialize for FineTuneReinforcementHyperparametersComputeMultiplier 
     }
 }
 #[doc = "Multiplier on amount of compute used for exploring search space during training.\n"]
-#[derive(Clone, Debug, PartialEq, Copy)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuneReinforcementHyperparametersComputeMultiplier {
     #[doc = "auto"]
@@ -29537,7 +29537,7 @@ impl serde::Serialize for FineTuneReinforcementHyperparametersEvalIntervalAuto {
     }
 }
 #[doc = "auto"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct FineTuneReinforcementHyperparametersEvalIntervalAuto;
 impl<'de> serde::Deserialize<'de> for FineTuneReinforcementHyperparametersEvalInterval {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -29585,7 +29585,7 @@ impl serde::Serialize for FineTuneReinforcementHyperparametersEvalInterval {
     }
 }
 #[doc = "The number of training steps between evaluation runs.\n"]
-#[derive(Clone, Debug, PartialEq, Copy)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuneReinforcementHyperparametersEvalInterval {
     #[doc = "auto"]
@@ -29617,7 +29617,7 @@ impl serde::Serialize for FineTuneReinforcementHyperparametersEvalSamplesAuto {
     }
 }
 #[doc = "auto"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct FineTuneReinforcementHyperparametersEvalSamplesAuto;
 impl<'de> serde::Deserialize<'de> for FineTuneReinforcementHyperparametersEvalSamples {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -29665,7 +29665,7 @@ impl serde::Serialize for FineTuneReinforcementHyperparametersEvalSamples {
     }
 }
 #[doc = "Number of evaluation samples to generate per training step.\n"]
-#[derive(Clone, Debug, PartialEq, Copy)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuneReinforcementHyperparametersEvalSamples {
     #[doc = "auto"]
@@ -29777,7 +29777,7 @@ impl serde::Serialize for FineTuneReinforcementHyperparameters {
     }
 }
 #[doc = "The hyperparameters used for the reinforcement fine-tuning job."]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct FineTuneReinforcementHyperparameters {
     #[doc = "Number of examples in each batch. A larger batch size means that model parameters are updated less frequently, but with lower variance.\n"]
     #[builder(default)]
@@ -30065,7 +30065,7 @@ impl serde::Serialize for FineTuneSupervisedHyperparametersBatchSizeAuto {
     }
 }
 #[doc = "auto"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct FineTuneSupervisedHyperparametersBatchSizeAuto;
 impl<'de> serde::Deserialize<'de> for FineTuneSupervisedHyperparametersBatchSize {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -30111,7 +30111,7 @@ impl serde::Serialize for FineTuneSupervisedHyperparametersBatchSize {
     }
 }
 #[doc = "Number of examples in each batch. A larger batch size means that model parameters are updated less frequently, but with lower variance.\n"]
-#[derive(Clone, Debug, PartialEq, Copy)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuneSupervisedHyperparametersBatchSize {
     #[doc = "auto"]
@@ -30143,7 +30143,7 @@ impl serde::Serialize for FineTuneSupervisedHyperparametersLearningRateMultiplie
     }
 }
 #[doc = "auto"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct FineTuneSupervisedHyperparametersLearningRateMultiplierAuto;
 impl<'de> serde::Deserialize<'de> for FineTuneSupervisedHyperparametersLearningRateMultiplier {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -30196,7 +30196,7 @@ impl serde::Serialize for FineTuneSupervisedHyperparametersLearningRateMultiplie
     }
 }
 #[doc = "Scaling factor for the learning rate. A smaller learning rate may be useful to avoid overfitting.\n"]
-#[derive(Clone, Debug, PartialEq, Copy)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuneSupervisedHyperparametersLearningRateMultiplier {
     #[doc = "auto"]
@@ -30228,7 +30228,7 @@ impl serde::Serialize for FineTuneSupervisedHyperparametersNEpochsAuto {
     }
 }
 #[doc = "auto"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct FineTuneSupervisedHyperparametersNEpochsAuto;
 impl<'de> serde::Deserialize<'de> for FineTuneSupervisedHyperparametersNEpochs {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -30274,7 +30274,7 @@ impl serde::Serialize for FineTuneSupervisedHyperparametersNEpochs {
     }
 }
 #[doc = "The number of epochs to train the model for. An epoch refers to one full cycle through the training dataset.\n"]
-#[derive(Clone, Debug, PartialEq, Copy)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuneSupervisedHyperparametersNEpochs {
     #[doc = "auto"]
@@ -30346,7 +30346,7 @@ impl serde::Serialize for FineTuneSupervisedHyperparameters {
     }
 }
 #[doc = "The hyperparameters used for the fine-tuning job."]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct FineTuneSupervisedHyperparameters {
     #[doc = "Number of examples in each batch. A larger batch size means that model parameters are updated less frequently, but with lower variance.\n"]
     #[builder(default)]
@@ -30393,7 +30393,7 @@ impl serde::Serialize for FineTuneSupervisedMethod {
     }
 }
 #[doc = "Configuration for the supervised fine-tuning method."]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct FineTuneSupervisedMethod {
     #[builder(default)]
     pub hyperparameters: Option<FineTuneSupervisedHyperparameters>,
@@ -30423,7 +30423,7 @@ impl serde::Serialize for FineTuningCheckpointPermissionObject {
     }
 }
 #[doc = "The object type, which is always \"checkpoint.permission\"."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct FineTuningCheckpointPermissionObject;
 impl<'de> serde::Deserialize<'de> for FineTuningCheckpointPermission {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -30525,7 +30525,7 @@ impl serde::Serialize for FineTuningIntegrationType {
     }
 }
 #[doc = "The type of the integration being enabled for the fine-tuning job"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct FineTuningIntegrationType;
 impl<'de> serde::Deserialize<'de> for FineTuningIntegrationWandb {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -30754,7 +30754,7 @@ impl serde::Serialize for FineTuningJobHyperparametersBatchSizeAuto {
     }
 }
 #[doc = "auto"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct FineTuningJobHyperparametersBatchSizeAuto;
 impl<'de> serde::Deserialize<'de> for FineTuningJobHyperparametersBatchSize {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -30800,7 +30800,7 @@ impl serde::Serialize for FineTuningJobHyperparametersBatchSize {
     }
 }
 #[doc = "Number of examples in each batch. A larger batch size means that model parameters\nare updated less frequently, but with lower variance.\n"]
-#[derive(Clone, Debug, PartialEq, Copy)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuningJobHyperparametersBatchSize {
     #[doc = "auto"]
@@ -30832,7 +30832,7 @@ impl serde::Serialize for FineTuningJobHyperparametersLearningRateMultiplierAuto
     }
 }
 #[doc = "auto"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct FineTuningJobHyperparametersLearningRateMultiplierAuto;
 impl<'de> serde::Deserialize<'de> for FineTuningJobHyperparametersLearningRateMultiplier {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -30880,7 +30880,7 @@ impl serde::Serialize for FineTuningJobHyperparametersLearningRateMultiplier {
     }
 }
 #[doc = "Scaling factor for the learning rate. A smaller learning rate may be useful to avoid\noverfitting.\n"]
-#[derive(Clone, Debug, PartialEq, Copy)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuningJobHyperparametersLearningRateMultiplier {
     #[doc = "auto"]
@@ -30912,7 +30912,7 @@ impl serde::Serialize for FineTuningJobHyperparametersNEpochsAuto {
     }
 }
 #[doc = "auto"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct FineTuningJobHyperparametersNEpochsAuto;
 impl<'de> serde::Deserialize<'de> for FineTuningJobHyperparametersNEpochs {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -30959,7 +30959,7 @@ impl serde::Serialize for FineTuningJobHyperparametersNEpochs {
     }
 }
 #[doc = "The number of epochs to train the model for. An epoch refers to one full cycle\nthrough the training dataset.\n"]
-#[derive(Clone, Debug, PartialEq, Copy)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuningJobHyperparametersNEpochs {
     #[doc = "auto"]
@@ -31030,7 +31030,7 @@ impl serde::Serialize for FineTuningJobHyperparameters {
     }
 }
 #[doc = "The hyperparameters used for the fine-tuning job. This value will only be returned when running `supervised` jobs."]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct FineTuningJobHyperparameters {
     #[doc = "Number of examples in each batch. A larger batch size means that model parameters\nare updated less frequently, but with lower variance.\n"]
     #[builder(default)]
@@ -31067,10 +31067,10 @@ impl serde::Serialize for FineTuningJobObject {
     }
 }
 #[doc = "The object type, which is always \"fine_tuning.job\"."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct FineTuningJobObject;
 #[doc = "The current status of the fine-tuning job, which can be either `validating_files`, `queued`, `running`, `succeeded`, `failed`, or `cancelled`."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum FineTuningJobStatus {
     #[doc = "validating_files"]
     #[serde(rename = "validating_files")]
@@ -31492,7 +31492,7 @@ impl serde::Serialize for FineTuningJobCheckpointMetrics {
     }
 }
 #[doc = "Metrics at the step number during the fine-tuning job."]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct FineTuningJobCheckpointMetrics {
     #[builder(default)]
     pub step: Option<f64>,
@@ -31534,7 +31534,7 @@ impl serde::Serialize for FineTuningJobCheckpointObject {
     }
 }
 #[doc = "The object type, which is always \"fine_tuning.job.checkpoint\"."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct FineTuningJobCheckpointObject;
 impl<'de> serde::Deserialize<'de> for FineTuningJobCheckpoint {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -31670,10 +31670,10 @@ impl serde::Serialize for FineTuningJobEventObject {
     }
 }
 #[doc = "The object type, which is always \"fine_tuning.job.event\"."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct FineTuningJobEventObject;
 #[doc = "The log level of the event."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum FineTuningJobEventLevel {
     #[doc = "info"]
     #[serde(rename = "info")]
@@ -31686,7 +31686,7 @@ pub enum FineTuningJobEventLevel {
     Error,
 }
 #[doc = "The type of event."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum FineTuningJobEventType {
     #[doc = "message"]
     #[serde(rename = "message")]
@@ -31723,7 +31723,7 @@ impl<'de> serde::Deserialize<'de> for FineTuningJobEvent {
             r#type: Option<FineTuningJobEventType>,
             #[serde(rename = "data")]
             #[allow(dead_code)]
-            data: Option<std::collections::HashMap<String, serde_json::Value>>,
+            data: Option<indexmap::IndexMap<String, serde_json::Value>>,
         }
         let FineTuningJobEvent {
             id,
@@ -31767,7 +31767,7 @@ impl serde::Serialize for FineTuningJobEvent {
             r#type: &'a Option<FineTuningJobEventType>,
             #[serde(rename = "data")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            data: &'a Option<std::collections::HashMap<String, serde_json::Value>>,
+            data: &'a Option<indexmap::IndexMap<String, serde_json::Value>>,
         }
         let Self {
             id,
@@ -31805,7 +31805,7 @@ pub struct FineTuningJobEvent {
     pub r#type: Option<FineTuningJobEventType>,
     #[doc = "The data associated with the event."]
     #[builder(default)]
-    pub data: Option<std::collections::HashMap<String, serde_json::Value>>,
+    pub data: Option<indexmap::IndexMap<String, serde_json::Value>>,
 }
 impl<'de> serde::Deserialize<'de> for FunctionObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -31892,7 +31892,7 @@ pub struct FunctionObject {
     pub strict: Option<bool>,
 }
 #[doc = "The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format. \n\nOmitting `parameters` defines a function with an empty parameter list."]
-pub type FunctionParameters = std::collections::HashMap<String, serde_json::Value>;
+pub type FunctionParameters = indexmap::IndexMap<String, serde_json::Value>;
 impl<'de> serde::Deserialize<'de> for FunctionToolCallType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -31918,10 +31918,10 @@ impl serde::Serialize for FunctionToolCallType {
     }
 }
 #[doc = "The type of the function tool call. Always `function_call`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct FunctionToolCallType;
 #[doc = "The status of the item. One of `in_progress`, `completed`, or\n`incomplete`. Populated when items are returned via API.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum FunctionToolCallStatus {
     #[doc = "in_progress"]
     #[serde(rename = "in_progress")]
@@ -32059,10 +32059,10 @@ impl serde::Serialize for FunctionToolCallOutputType {
     }
 }
 #[doc = "The type of the function tool call output. Always `function_call_output`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct FunctionToolCallOutputType;
 #[doc = "The status of the item. One of `in_progress`, `completed`, or\n`incomplete`. Populated when items are returned via API.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum FunctionToolCallOutputStatus {
     #[doc = "in_progress"]
     #[serde(rename = "in_progress")]
@@ -32301,7 +32301,7 @@ impl serde::Serialize for GraderLabelModelType {
     }
 }
 #[doc = "The object type, which is always `label_model`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct GraderLabelModelType;
 impl<'de> serde::Deserialize<'de> for GraderLabelModel {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -32424,7 +32424,7 @@ impl serde::Serialize for GraderMultiType {
     }
 }
 #[doc = "The object type, which is always `multi`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct GraderMultiType;
 impl<'de> serde::Deserialize<'de> for GraderMultiGraders {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -32584,7 +32584,7 @@ impl serde::Serialize for GraderPythonType {
     }
 }
 #[doc = "The object type, which is always `python`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct GraderPythonType;
 impl<'de> serde::Deserialize<'de> for GraderPython {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -32688,7 +32688,7 @@ impl serde::Serialize for GraderScoreModelType {
     }
 }
 #[doc = "The object type, which is always `score_model`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct GraderScoreModelType;
 impl<'de> serde::Deserialize<'de> for GraderScoreModel {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -32709,7 +32709,7 @@ impl<'de> serde::Deserialize<'de> for GraderScoreModel {
             model: String,
             #[serde(rename = "sampling_params")]
             #[allow(dead_code)]
-            sampling_params: Option<std::collections::HashMap<String, serde_json::Value>>,
+            sampling_params: Option<indexmap::IndexMap<String, serde_json::Value>>,
             #[serde(rename = "input")]
             #[allow(dead_code)]
             input: Vec<EvalItem>,
@@ -32750,7 +32750,7 @@ impl serde::Serialize for GraderScoreModel {
             model: &'a String,
             #[serde(rename = "sampling_params")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            sampling_params: &'a Option<std::collections::HashMap<String, serde_json::Value>>,
+            sampling_params: &'a Option<indexmap::IndexMap<String, serde_json::Value>>,
             #[serde(rename = "input")]
             input: &'a Vec<EvalItem>,
             #[serde(rename = "range")]
@@ -32784,7 +32784,7 @@ pub struct GraderScoreModel {
     pub model: String,
     #[doc = "The sampling parameters for the model."]
     #[builder(default)]
-    pub sampling_params: Option<std::collections::HashMap<String, serde_json::Value>>,
+    pub sampling_params: Option<indexmap::IndexMap<String, serde_json::Value>>,
     #[doc = "The input text. This may include template strings."]
     pub input: Vec<EvalItem>,
     #[doc = "The range of the score. Defaults to `[0, 1]`."]
@@ -32816,10 +32816,10 @@ impl serde::Serialize for GraderStringCheckType {
     }
 }
 #[doc = "The object type, which is always `string_check`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct GraderStringCheckType;
 #[doc = "The string check operation to perform. One of `eq`, `ne`, `like`, or `ilike`."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum GraderStringCheckOperation {
     #[doc = "eq"]
     #[serde(rename = "eq")]
@@ -32945,10 +32945,10 @@ impl serde::Serialize for GraderTextSimilarityType {
     }
 }
 #[doc = "The type of grader."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct GraderTextSimilarityType;
 #[doc = "The evaluation metric to use. One of `fuzzy_match`, `bleu`, `gleu`, `meteor`, `rouge_1`, `rouge_2`, `rouge_3`, `rouge_4`, `rouge_5`, or `rouge_l`."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum GraderTextSimilarityEvaluationMetric {
     #[doc = "fuzzy_match"]
     #[serde(rename = "fuzzy_match")]
@@ -33130,7 +33130,7 @@ impl serde::Serialize for Image {
     }
 }
 #[doc = "Represents the content or the URL of an image generated by the OpenAI API."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct Image {
     #[doc = "The base64-encoded JSON of the generated image. Default value for `gpt-image-1`, and only present if `response_format` is set to `b64_json` for `dall-e-2` and `dall-e-3`."]
     #[builder(default)]
@@ -33167,10 +33167,10 @@ impl serde::Serialize for ImageGenToolType {
     }
 }
 #[doc = "The type of the image generation tool. Always `image_generation`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ImageGenToolType;
 #[doc = "The image generation model to use. Default: `gpt-image-1`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ImageGenToolModel {
     #[doc = "gpt-image-1"]
     #[default]
@@ -33178,7 +33178,7 @@ pub enum ImageGenToolModel {
     GptImage1,
 }
 #[doc = "The quality of the generated image. One of `low`, `medium`, `high`, \nor `auto`. Default: `auto`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ImageGenToolQuality {
     #[doc = "low"]
     #[serde(rename = "low")]
@@ -33195,7 +33195,7 @@ pub enum ImageGenToolQuality {
     Auto,
 }
 #[doc = "The size of the generated image. One of `1024x1024`, `1024x1536`, \n`1536x1024`, or `auto`. Default: `auto`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ImageGenToolSize {
     #[doc = "1024x1024"]
     #[serde(rename = "1024x1024")]
@@ -33212,7 +33212,7 @@ pub enum ImageGenToolSize {
     Auto,
 }
 #[doc = "The output format of the generated image. One of `png`, `webp`, or \n`jpeg`. Default: `png`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ImageGenToolOutputFormat {
     #[doc = "png"]
     #[default]
@@ -33226,7 +33226,7 @@ pub enum ImageGenToolOutputFormat {
     Jpeg,
 }
 #[doc = "Moderation level for the generated image. Default: `auto`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ImageGenToolModeration {
     #[doc = "auto"]
     #[default]
@@ -33237,7 +33237,7 @@ pub enum ImageGenToolModeration {
     Low,
 }
 #[doc = "Background type for the generated image. One of `transparent`, \n`opaque`, or `auto`. Default: `auto`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ImageGenToolBackground {
     #[doc = "transparent"]
     #[serde(rename = "transparent")]
@@ -33291,7 +33291,7 @@ impl serde::Serialize for ImageGenToolInputImageMask {
     }
 }
 #[doc = "Optional mask for inpainting. Contains `image_url` \n(string, optional) and `file_id` (string, optional).\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ImageGenToolInputImageMask {
     #[doc = "Base64-encoded mask image.\n"]
     #[builder(default)]
@@ -33429,7 +33429,7 @@ impl serde::Serialize for ImageGenTool {
     }
 }
 #[doc = "A tool that generates images using a model like `gpt-image-1`.\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ImageGenTool {
     #[doc = "The image generation model to use. Default: `gpt-image-1`.\n"]
     #[builder(default)]
@@ -33484,10 +33484,10 @@ impl serde::Serialize for ImageGenToolCallType {
     }
 }
 #[doc = "The type of the image generation call. Always `image_generation_call`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ImageGenToolCallType;
 #[doc = "The status of the image generation call.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ImageGenToolCallStatus {
     #[doc = "in_progress"]
     #[serde(rename = "in_progress")]
@@ -33619,7 +33619,7 @@ impl serde::Serialize for ImagesResponseUsageInputTokensDetails {
     }
 }
 #[doc = "The input tokens detailed information for the image generation."]
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ImagesResponseUsageInputTokensDetails {
     #[doc = "The number of text tokens in the input prompt."]
     pub text_tokens: u64,
@@ -33695,7 +33695,7 @@ impl serde::Serialize for ImagesResponseUsage {
     }
 }
 #[doc = "For `gpt-image-1` only, the token usage information for the image generation.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ImagesResponseUsage {
     #[doc = "The total number of tokens (images and text) used for the image generation."]
     pub total_tokens: u64,
@@ -33780,7 +33780,7 @@ pub struct ImagesResponse {
     pub usage: Option<ImagesResponseUsage>,
 }
 #[doc = "Specify additional output data to include in the model response. Currently\nsupported values are:\n- `file_search_call.results`: Include the search results of\n  the file search tool call.\n- `message.input_image.image_url`: Include image urls from the input message.\n- `computer_call_output.output.image_url`: Include image urls from the computer call output.\n- `reasoning.encrypted_content`: Includes an encrypted version of reasoning\n  tokens in reasoning item outputs. This enables reasoning items to be used in\n  multi-turn conversations when using the Responses API statelessly (like\n  when the `store` parameter is set to `false`, or when an organization is\n  enrolled in the zero data retention program).\n- `code_interpreter_call.outputs`: Includes the outputs of python code execution\n  in code interpreter tool call items.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum Includable {
     #[doc = "file_search_call.results"]
     #[serde(rename = "file_search_call.results")]
@@ -33823,10 +33823,10 @@ impl serde::Serialize for InputAudioType {
     }
 }
 #[doc = "The type of the input item. Always `input_audio`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct InputAudioType;
 #[doc = "The format of the audio data. Currently supported formats are `mp3` and\n`wav`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum InputAudioFormat {
     #[doc = "mp3"]
     #[serde(rename = "mp3")]
@@ -34013,10 +34013,10 @@ impl serde::Serialize for InputMessageType {
     }
 }
 #[doc = "The type of the message input. Always set to `message`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct InputMessageType;
 #[doc = "The role of the message input. One of `user`, `system`, or `developer`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum InputMessageRole {
     #[doc = "user"]
     #[serde(rename = "user")]
@@ -34029,7 +34029,7 @@ pub enum InputMessageRole {
     Developer,
 }
 #[doc = "The status of item. One of `in_progress`, `completed`, or\n`incomplete`. Populated when items are returned via API.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum InputMessageStatus {
     #[doc = "in_progress"]
     #[serde(rename = "in_progress")]
@@ -34195,10 +34195,10 @@ impl serde::Serialize for InviteObject {
     }
 }
 #[doc = "The object type, which is always `organization.invite`"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct InviteObject;
 #[doc = "`owner` or `reader`"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum InviteRole {
     #[doc = "owner"]
     #[serde(rename = "owner")]
@@ -34208,7 +34208,7 @@ pub enum InviteRole {
     Reader,
 }
 #[doc = "`accepted`,`expired`, or `pending`"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum InviteStatus {
     #[doc = "accepted"]
     #[serde(rename = "accepted")]
@@ -34221,7 +34221,7 @@ pub enum InviteStatus {
     Pending,
 }
 #[doc = "Project membership role"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum InviteProjectsRole {
     #[doc = "member"]
     #[serde(rename = "member")]
@@ -34268,7 +34268,7 @@ impl serde::Serialize for InviteProjects {
         InviteProjects { id, role }.serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct InviteProjects {
     #[doc = "Project's public ID"]
     #[builder(default)]
@@ -34436,7 +34436,7 @@ impl serde::Serialize for InviteDeleteResponseObject {
     }
 }
 #[doc = "The object type, which is always `organization.invite.deleted`"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct InviteDeleteResponseObject;
 impl<'de> serde::Deserialize<'de> for InviteDeleteResponse {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -34515,7 +34515,7 @@ impl serde::Serialize for InviteListResponseObject {
     }
 }
 #[doc = "The object type, which is always `list`"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct InviteListResponseObject;
 impl<'de> serde::Deserialize<'de> for InviteListResponse {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -34608,7 +34608,7 @@ pub struct InviteListResponse {
     pub has_more: Option<bool>,
 }
 #[doc = "`owner` or `reader`"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum InviteRequestRole {
     #[doc = "reader"]
     #[serde(rename = "reader")]
@@ -34618,7 +34618,7 @@ pub enum InviteRequestRole {
     Owner,
 }
 #[doc = "Project membership role"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum InviteRequestProjectsRole {
     #[doc = "member"]
     #[serde(rename = "member")]
@@ -35033,7 +35033,7 @@ impl serde::Serialize for KeyPressType {
     }
 }
 #[doc = "Specifies the event type. For a keypress action, this property is \nalways set to `keypress`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct KeyPressType;
 impl<'de> serde::Deserialize<'de> for KeyPress {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -35191,7 +35191,7 @@ impl serde::Serialize for ListAuditLogsResponseObject {
     }
 }
 #[doc = "list"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ListAuditLogsResponseObject;
 impl<'de> serde::Deserialize<'de> for ListAuditLogsResponse {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -35299,7 +35299,7 @@ impl serde::Serialize for ListBatchesResponseObject {
     }
 }
 #[doc = "list"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ListBatchesResponseObject;
 impl<'de> serde::Deserialize<'de> for ListBatchesResponse {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -35411,7 +35411,7 @@ impl serde::Serialize for ListCertificatesResponseObject {
     }
 }
 #[doc = "list"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ListCertificatesResponseObject;
 impl<'de> serde::Deserialize<'de> for ListCertificatesResponse {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -35608,7 +35608,7 @@ impl serde::Serialize for ListFineTuningCheckpointPermissionResponseObject {
     }
 }
 #[doc = "list"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ListFineTuningCheckpointPermissionResponseObject;
 impl<'de> serde::Deserialize<'de> for ListFineTuningCheckpointPermissionResponse {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -35720,7 +35720,7 @@ impl serde::Serialize for ListFineTuningJobCheckpointsResponseObject {
     }
 }
 #[doc = "list"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ListFineTuningJobCheckpointsResponseObject;
 impl<'de> serde::Deserialize<'de> for ListFineTuningJobCheckpointsResponse {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -35832,7 +35832,7 @@ impl serde::Serialize for ListFineTuningJobEventsResponseObject {
     }
 }
 #[doc = "list"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ListFineTuningJobEventsResponseObject;
 impl<'de> serde::Deserialize<'de> for ListFineTuningJobEventsResponse {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -35996,7 +35996,7 @@ impl serde::Serialize for ListModelsResponseObject {
     }
 }
 #[doc = "list"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ListModelsResponseObject;
 impl<'de> serde::Deserialize<'de> for ListModelsResponse {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -36067,7 +36067,7 @@ impl serde::Serialize for ListPaginatedFineTuningJobsResponseObject {
     }
 }
 #[doc = "list"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ListPaginatedFineTuningJobsResponseObject;
 impl<'de> serde::Deserialize<'de> for ListPaginatedFineTuningJobsResponse {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -36486,7 +36486,7 @@ impl serde::Serialize for LocalShellExecActionType {
     }
 }
 #[doc = "The type of the local shell action. Always `exec`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct LocalShellExecActionType;
 impl<'de> serde::Deserialize<'de> for LocalShellExecAction {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -36510,7 +36510,7 @@ impl<'de> serde::Deserialize<'de> for LocalShellExecAction {
             working_directory: Option<String>,
             #[serde(rename = "env")]
             #[allow(dead_code)]
-            env: std::collections::HashMap<String, String>,
+            env: indexmap::IndexMap<String, String>,
             #[serde(rename = "user")]
             #[allow(dead_code)]
             user: Option<String>,
@@ -36551,7 +36551,7 @@ impl serde::Serialize for LocalShellExecAction {
             #[serde(skip_serializing_if = "Option::is_none")]
             working_directory: &'a Option<String>,
             #[serde(rename = "env")]
-            env: &'a std::collections::HashMap<String, String>,
+            env: &'a indexmap::IndexMap<String, String>,
             #[serde(rename = "user")]
             #[serde(skip_serializing_if = "Option::is_none")]
             user: &'a Option<String>,
@@ -36586,7 +36586,7 @@ pub struct LocalShellExecAction {
     #[builder(default)]
     pub working_directory: Option<String>,
     #[doc = "Environment variables to set for the command.\n"]
-    pub env: std::collections::HashMap<String, String>,
+    pub env: indexmap::IndexMap<String, String>,
     #[doc = "Optional user to run the command as.\n"]
     #[builder(default)]
     pub user: Option<String>,
@@ -36616,7 +36616,7 @@ impl serde::Serialize for LocalShellToolType {
     }
 }
 #[doc = "The type of the local shell tool. Always `local_shell`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct LocalShellToolType;
 impl<'de> serde::Deserialize<'de> for LocalShellTool {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -36653,7 +36653,7 @@ impl serde::Serialize for LocalShellTool {
     }
 }
 #[doc = "A tool that allows the model to execute shell commands in a local environment.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct LocalShellTool {}
 impl<'de> serde::Deserialize<'de> for LocalShellToolCallType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -36680,10 +36680,10 @@ impl serde::Serialize for LocalShellToolCallType {
     }
 }
 #[doc = "The type of the local shell call. Always `local_shell_call`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct LocalShellToolCallType;
 #[doc = "The status of the local shell call.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum LocalShellToolCallStatus {
     #[doc = "in_progress"]
     #[serde(rename = "in_progress")]
@@ -36805,10 +36805,10 @@ impl serde::Serialize for LocalShellToolCallOutputType {
     }
 }
 #[doc = "The type of the local shell tool call output. Always `local_shell_call_output`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct LocalShellToolCallOutputType;
 #[doc = "The status of the item. One of `in_progress`, `completed`, or `incomplete`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum LocalShellToolCallOutputStatus {
     #[doc = "in_progress"]
     #[serde(rename = "in_progress")]
@@ -36980,7 +36980,7 @@ impl serde::Serialize for McpApprovalRequestType {
     }
 }
 #[doc = "The type of the item. Always `mcp_approval_request`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct McpApprovalRequestType;
 impl<'de> serde::Deserialize<'de> for McpApprovalRequest {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -37093,7 +37093,7 @@ impl serde::Serialize for McpApprovalResponseType {
     }
 }
 #[doc = "The type of the item. Always `mcp_approval_response`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct McpApprovalResponseType;
 impl<'de> serde::Deserialize<'de> for McpApprovalResponse {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -37210,7 +37210,7 @@ impl serde::Serialize for McpApprovalResponseResourceType {
     }
 }
 #[doc = "The type of the item. Always `mcp_approval_response`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct McpApprovalResponseResourceType;
 impl<'de> serde::Deserialize<'de> for McpApprovalResponseResource {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -37325,7 +37325,7 @@ impl serde::Serialize for McpListToolsType {
     }
 }
 #[doc = "The type of the item. Always `mcp_list_tools`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct McpListToolsType;
 impl<'de> serde::Deserialize<'de> for McpListTools {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -37431,10 +37431,10 @@ impl<'de> serde::Deserialize<'de> for McpListToolsTool {
             description: Option<String>,
             #[serde(rename = "input_schema")]
             #[allow(dead_code)]
-            input_schema: std::collections::HashMap<String, serde_json::Value>,
+            input_schema: indexmap::IndexMap<String, serde_json::Value>,
             #[serde(rename = "annotations")]
             #[allow(dead_code)]
-            annotations: Option<std::collections::HashMap<String, serde_json::Value>>,
+            annotations: Option<indexmap::IndexMap<String, serde_json::Value>>,
         }
         let McpListToolsTool {
             name,
@@ -37465,10 +37465,10 @@ impl serde::Serialize for McpListToolsTool {
             #[serde(skip_serializing_if = "Option::is_none")]
             description: &'a Option<String>,
             #[serde(rename = "input_schema")]
-            input_schema: &'a std::collections::HashMap<String, serde_json::Value>,
+            input_schema: &'a indexmap::IndexMap<String, serde_json::Value>,
             #[serde(rename = "annotations")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            annotations: &'a Option<std::collections::HashMap<String, serde_json::Value>>,
+            annotations: &'a Option<indexmap::IndexMap<String, serde_json::Value>>,
         }
         let Self {
             name,
@@ -37494,10 +37494,10 @@ pub struct McpListToolsTool {
     #[builder(default)]
     pub description: Option<String>,
     #[doc = "The JSON schema describing the tool's input.\n"]
-    pub input_schema: std::collections::HashMap<String, serde_json::Value>,
+    pub input_schema: indexmap::IndexMap<String, serde_json::Value>,
     #[doc = "Additional annotations about the tool.\n"]
     #[builder(default)]
-    pub annotations: Option<std::collections::HashMap<String, serde_json::Value>>,
+    pub annotations: Option<indexmap::IndexMap<String, serde_json::Value>>,
 }
 impl<'de> serde::Deserialize<'de> for McpToolType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -37524,7 +37524,7 @@ impl serde::Serialize for McpToolType {
     }
 }
 #[doc = "The type of the MCP tool. Always `mcp`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct McpToolType;
 impl<'de> serde::Deserialize<'de> for McpToolAllowedTools1 {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -37560,7 +37560,7 @@ impl serde::Serialize for McpToolAllowedTools1 {
     }
 }
 #[doc = "A filter object to specify which tools are allowed.\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct McpToolAllowedTools1 {
     #[doc = "List of allowed tool names."]
     #[builder(default)]
@@ -37647,7 +37647,7 @@ impl serde::Serialize for McpToolRequireApproval0Always {
     }
 }
 #[doc = "A list of tools that always require approval.\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct McpToolRequireApproval0Always {
     #[doc = "List of tools that require approval."]
     #[builder(default)]
@@ -37687,7 +37687,7 @@ impl serde::Serialize for McpToolRequireApproval0Never {
     }
 }
 #[doc = "A list of tools that never require approval.\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct McpToolRequireApproval0Never {
     #[doc = "List of tools that do not require approval."]
     #[builder(default)]
@@ -37732,7 +37732,7 @@ impl serde::Serialize for McpToolRequireApproval0 {
         McpToolRequireApproval0 { always, never }.serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct McpToolRequireApproval0 {
     #[doc = "A list of tools that always require approval.\n"]
     #[builder(default)]
@@ -37766,7 +37766,7 @@ impl serde::Serialize for McpToolRequireApprovalAlways {
     }
 }
 #[doc = "always"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct McpToolRequireApprovalAlways;
 impl<'de> serde::Deserialize<'de> for McpToolRequireApprovalNever {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -37793,7 +37793,7 @@ impl serde::Serialize for McpToolRequireApprovalNever {
     }
 }
 #[doc = "never"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct McpToolRequireApprovalNever;
 impl<'de> serde::Deserialize<'de> for McpToolRequireApproval {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -37868,7 +37868,7 @@ impl<'de> serde::Deserialize<'de> for McpTool {
             server_url: String,
             #[serde(rename = "headers")]
             #[allow(dead_code)]
-            headers: Option<std::collections::HashMap<String, String>>,
+            headers: Option<indexmap::IndexMap<String, String>>,
             #[serde(rename = "allowed_tools")]
             #[allow(dead_code)]
             allowed_tools: Option<McpToolAllowedTools>,
@@ -37909,7 +37909,7 @@ impl serde::Serialize for McpTool {
             server_url: &'a String,
             #[serde(rename = "headers")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            headers: &'a Option<std::collections::HashMap<String, String>>,
+            headers: &'a Option<indexmap::IndexMap<String, String>>,
             #[serde(rename = "allowed_tools")]
             #[serde(skip_serializing_if = "Option::is_none")]
             allowed_tools: &'a Option<McpToolAllowedTools>,
@@ -37944,7 +37944,7 @@ pub struct McpTool {
     pub server_url: String,
     #[doc = "Optional HTTP headers to send to the MCP server. Use for authentication\nor other purposes.\n"]
     #[builder(default)]
-    pub headers: Option<std::collections::HashMap<String, String>>,
+    pub headers: Option<indexmap::IndexMap<String, String>>,
     #[doc = "List of allowed tool names or a filter object.\n"]
     #[builder(default)]
     pub allowed_tools: Option<McpToolAllowedTools>,
@@ -37977,7 +37977,7 @@ impl serde::Serialize for McpToolCallType {
     }
 }
 #[doc = "The type of the item. Always `mcp_call`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct McpToolCallType;
 impl<'de> serde::Deserialize<'de> for McpToolCall {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -38116,10 +38116,10 @@ impl serde::Serialize for MessageContentImageFileObjectType {
     }
 }
 #[doc = "Always `image_file`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct MessageContentImageFileObjectType;
 #[doc = "Specifies the detail level of the image if specified by the user. `low` uses fewer tokens, you can opt in to high resolution using `high`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum MessageContentImageFileObjectImageFileDetail {
     #[doc = "auto"]
     #[default]
@@ -38250,10 +38250,10 @@ impl serde::Serialize for MessageContentImageUrlObjectType {
     }
 }
 #[doc = "The type of the content part."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct MessageContentImageUrlObjectType;
 #[doc = "Specifies the detail level of the image. `low` uses fewer tokens, you can opt in to high resolution using `high`. Default value is `auto`"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum MessageContentImageUrlObjectImageUrlDetail {
     #[doc = "auto"]
     #[default]
@@ -38383,7 +38383,7 @@ impl serde::Serialize for MessageContentRefusalObjectType {
     }
 }
 #[doc = "Always `refusal`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct MessageContentRefusalObjectType;
 impl<'de> serde::Deserialize<'de> for MessageContentRefusalObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -38456,7 +38456,7 @@ impl serde::Serialize for MessageContentTextAnnotationsFileCitationObjectType {
     }
 }
 #[doc = "Always `file_citation`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct MessageContentTextAnnotationsFileCitationObjectType;
 impl<'de> serde::Deserialize<'de> for MessageContentTextAnnotationsFileCitationObjectFileCitation {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -38604,7 +38604,7 @@ impl serde::Serialize for MessageContentTextAnnotationsFilePathObjectType {
     }
 }
 #[doc = "Always `file_path`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct MessageContentTextAnnotationsFilePathObjectType;
 impl<'de> serde::Deserialize<'de> for MessageContentTextAnnotationsFilePathObjectFilePath {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -38751,7 +38751,7 @@ impl serde::Serialize for MessageContentTextObjectType {
     }
 }
 #[doc = "Always `text`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct MessageContentTextObjectType;
 impl<'de> serde::Deserialize<'de> for MessageContentTextObjectText {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -38868,10 +38868,10 @@ impl serde::Serialize for MessageDeltaContentImageFileObjectType {
     }
 }
 #[doc = "Always `image_file`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct MessageDeltaContentImageFileObjectType;
 #[doc = "Specifies the detail level of the image if specified by the user. `low` uses fewer tokens, you can opt in to high resolution using `high`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum MessageDeltaContentImageFileObjectImageFileDetail {
     #[doc = "auto"]
     #[default]
@@ -38924,7 +38924,7 @@ impl serde::Serialize for MessageDeltaContentImageFileObjectImageFile {
         MessageDeltaContentImageFileObjectImageFile { file_id, detail }.serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct MessageDeltaContentImageFileObjectImageFile {
     #[doc = "The [File](https://platform.openai.com/docs/api-reference/files) ID of the image in the message content. Set `purpose=\"vision\"` when uploading the File if you need to later display the file content."]
     #[builder(default)]
@@ -39015,10 +39015,10 @@ impl serde::Serialize for MessageDeltaContentImageUrlObjectType {
     }
 }
 #[doc = "Always `image_url`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct MessageDeltaContentImageUrlObjectType;
 #[doc = "Specifies the detail level of the image. `low` uses fewer tokens, you can opt in to high resolution using `high`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum MessageDeltaContentImageUrlObjectImageUrlDetail {
     #[doc = "auto"]
     #[default]
@@ -39070,7 +39070,7 @@ impl serde::Serialize for MessageDeltaContentImageUrlObjectImageUrl {
         MessageDeltaContentImageUrlObjectImageUrl { url, detail }.serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct MessageDeltaContentImageUrlObjectImageUrl {
     #[doc = "The URL of the image, must be a supported image types: jpeg, jpg, png, gif, webp."]
     #[builder(default)]
@@ -39161,7 +39161,7 @@ impl serde::Serialize for MessageDeltaContentRefusalObjectType {
     }
 }
 #[doc = "Always `refusal`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct MessageDeltaContentRefusalObjectType;
 impl<'de> serde::Deserialize<'de> for MessageDeltaContentRefusalObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -39244,7 +39244,7 @@ impl serde::Serialize for MessageDeltaContentTextAnnotationsFileCitationObjectTy
     }
 }
 #[doc = "Always `file_citation`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct MessageDeltaContentTextAnnotationsFileCitationObjectType;
 impl<'de> serde::Deserialize<'de>
     for MessageDeltaContentTextAnnotationsFileCitationObjectFileCitation
@@ -39291,7 +39291,7 @@ impl serde::Serialize for MessageDeltaContentTextAnnotationsFileCitationObjectFi
             .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct MessageDeltaContentTextAnnotationsFileCitationObjectFileCitation {
     #[doc = "The ID of the specific File the citation is from."]
     #[builder(default)]
@@ -39428,7 +39428,7 @@ impl serde::Serialize for MessageDeltaContentTextAnnotationsFilePathObjectType {
     }
 }
 #[doc = "Always `file_path`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct MessageDeltaContentTextAnnotationsFilePathObjectType;
 impl<'de> serde::Deserialize<'de> for MessageDeltaContentTextAnnotationsFilePathObjectFilePath {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -39463,7 +39463,7 @@ impl serde::Serialize for MessageDeltaContentTextAnnotationsFilePathObjectFilePa
         MessageDeltaContentTextAnnotationsFilePathObjectFilePath { file_id }.serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct MessageDeltaContentTextAnnotationsFilePathObjectFilePath {
     #[doc = "The ID of the file that was generated."]
     #[builder(default)]
@@ -39596,7 +39596,7 @@ impl serde::Serialize for MessageDeltaContentTextObjectType {
     }
 }
 #[doc = "Always `text`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct MessageDeltaContentTextObjectType;
 impl<'de> serde::Deserialize<'de> for MessageDeltaContentTextObjectText {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -39638,7 +39638,7 @@ impl serde::Serialize for MessageDeltaContentTextObjectText {
         MessageDeltaContentTextObjectText { value, annotations }.serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct MessageDeltaContentTextObjectText {
     #[doc = "The data that makes up the text."]
     #[builder(default)]
@@ -39727,10 +39727,10 @@ impl serde::Serialize for MessageDeltaObjectObject {
     }
 }
 #[doc = "The object type, which is always `thread.message.delta`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct MessageDeltaObjectObject;
 #[doc = "The entity that produced the message. One of `user` or `assistant`."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum MessageDeltaObjectDeltaRole {
     #[doc = "user"]
     #[serde(rename = "user")]
@@ -39779,7 +39779,7 @@ impl serde::Serialize for MessageDeltaObjectDelta {
     }
 }
 #[doc = "The delta containing the fields that have changed on the Message."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct MessageDeltaObjectDelta {
     #[doc = "The entity that produced the message. One of `user` or `assistant`."]
     #[builder(default)]
@@ -39868,10 +39868,10 @@ impl serde::Serialize for MessageObjectObject {
     }
 }
 #[doc = "The object type, which is always `thread.message`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct MessageObjectObject;
 #[doc = "The status of the message, which can be either `in_progress`, `incomplete`, or `completed`."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum MessageObjectStatus {
     #[doc = "in_progress"]
     #[serde(rename = "in_progress")]
@@ -39884,7 +39884,7 @@ pub enum MessageObjectStatus {
     Completed,
 }
 #[doc = "The reason the message is incomplete."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum MessageObjectIncompleteDetailsReason {
     #[doc = "content_filter"]
     #[serde(rename = "content_filter")]
@@ -39935,13 +39935,13 @@ impl serde::Serialize for MessageObjectIncompleteDetails {
     }
 }
 #[doc = "On an incomplete message, details about why the message is incomplete."]
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct MessageObjectIncompleteDetails {
     #[doc = "The reason the message is incomplete."]
     pub reason: MessageObjectIncompleteDetailsReason,
 }
 #[doc = "The entity that produced the message. One of `user` or `assistant`."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum MessageObjectRole {
     #[doc = "user"]
     #[serde(rename = "user")]
@@ -39994,7 +39994,7 @@ impl serde::Serialize for MessageObjectAttachmentsTool {
         }
     }
 }
-#[derive(Clone, Debug, PartialEq, Copy)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum MessageObjectAttachmentsTool {
     CodeInterpreter(AssistantToolsCode),
@@ -40039,7 +40039,7 @@ impl serde::Serialize for MessageObjectAttachments {
         MessageObjectAttachments { file_id, tools }.serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct MessageObjectAttachments {
     #[doc = "The ID of the file to attach to the message."]
     #[builder(default)]
@@ -40271,7 +40271,7 @@ impl serde::Serialize for MessageRequestContentTextObjectType {
     }
 }
 #[doc = "Always `text`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct MessageRequestContentTextObjectType;
 impl<'de> serde::Deserialize<'de> for MessageRequestContentTextObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -40345,7 +40345,7 @@ impl serde::Serialize for MessageStreamEventThreadMessageCreatedEvent {
     }
 }
 #[doc = "thread.message.created"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct MessageStreamEventThreadMessageCreatedEvent;
 impl<'de> serde::Deserialize<'de> for MessageStreamEventThreadMessageCreated {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -40418,7 +40418,7 @@ impl serde::Serialize for MessageStreamEventThreadMessageInProgressEvent {
     }
 }
 #[doc = "thread.message.in_progress"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct MessageStreamEventThreadMessageInProgressEvent;
 impl<'de> serde::Deserialize<'de> for MessageStreamEventThreadMessageInProgress {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -40491,7 +40491,7 @@ impl serde::Serialize for MessageStreamEventThreadMessageDeltaEvent {
     }
 }
 #[doc = "thread.message.delta"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct MessageStreamEventThreadMessageDeltaEvent;
 impl<'de> serde::Deserialize<'de> for MessageStreamEventThreadMessageDelta {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -40564,7 +40564,7 @@ impl serde::Serialize for MessageStreamEventThreadMessageCompletedEvent {
     }
 }
 #[doc = "thread.message.completed"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct MessageStreamEventThreadMessageCompletedEvent;
 impl<'de> serde::Deserialize<'de> for MessageStreamEventThreadMessageCompleted {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -40637,7 +40637,7 @@ impl serde::Serialize for MessageStreamEventThreadMessageIncompleteEvent {
     }
 }
 #[doc = "thread.message.incomplete"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct MessageStreamEventThreadMessageIncompleteEvent;
 impl<'de> serde::Deserialize<'de> for MessageStreamEventThreadMessageIncomplete {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -40766,7 +40766,7 @@ pub enum MessageStreamEvent {
     ThreadMessageIncomplete(MessageStreamEventThreadMessageIncomplete),
 }
 #[doc = "Set of 16 key-value pairs that can be attached to an object. This can be\nuseful for storing additional information about the object in a structured\nformat, and querying for objects via API or the dashboard. \n\nKeys are strings with a maximum length of 64 characters. Values are strings\nwith a maximum length of 512 characters.\n"]
-pub type Metadata = std::collections::HashMap<String, String>;
+pub type Metadata = indexmap::IndexMap<String, String>;
 impl<'de> serde::Deserialize<'de> for ModelObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -40792,7 +40792,7 @@ impl serde::Serialize for ModelObject {
     }
 }
 #[doc = "The object type, which is always \"model\"."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ModelObject;
 impl<'de> serde::Deserialize<'de> for Model {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -40938,7 +40938,7 @@ impl serde::Serialize for ModelIdsResponsesO1Pro {
     }
 }
 #[doc = "o1-pro"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ModelIdsResponsesO1Pro;
 impl<'de> serde::Deserialize<'de> for ModelIdsResponsesO1Pro2025_03_19 {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -40965,7 +40965,7 @@ impl serde::Serialize for ModelIdsResponsesO1Pro2025_03_19 {
     }
 }
 #[doc = "o1-pro-2025-03-19"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ModelIdsResponsesO1Pro2025_03_19;
 impl<'de> serde::Deserialize<'de> for ModelIdsResponsesO3Pro {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -40992,7 +40992,7 @@ impl serde::Serialize for ModelIdsResponsesO3Pro {
     }
 }
 #[doc = "o3-pro"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ModelIdsResponsesO3Pro;
 impl<'de> serde::Deserialize<'de> for ModelIdsResponsesO3Pro2025_06_10 {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -41019,7 +41019,7 @@ impl serde::Serialize for ModelIdsResponsesO3Pro2025_06_10 {
     }
 }
 #[doc = "o3-pro-2025-06-10"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ModelIdsResponsesO3Pro2025_06_10;
 impl<'de> serde::Deserialize<'de> for ModelIdsResponsesComputerUsePreview {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -41046,7 +41046,7 @@ impl serde::Serialize for ModelIdsResponsesComputerUsePreview {
     }
 }
 #[doc = "computer-use-preview"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ModelIdsResponsesComputerUsePreview;
 impl<'de> serde::Deserialize<'de> for ModelIdsResponsesComputerUsePreview2025_03_11 {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -41073,7 +41073,7 @@ impl serde::Serialize for ModelIdsResponsesComputerUsePreview2025_03_11 {
     }
 }
 #[doc = "computer-use-preview-2025-03-11"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ModelIdsResponsesComputerUsePreview2025_03_11;
 impl<'de> serde::Deserialize<'de> for ModelIdsResponses {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -41291,7 +41291,7 @@ impl serde::Serialize for ModelResponseProperties {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ModelResponseProperties {
     #[builder(default)]
     pub metadata: Option<Metadata>,
@@ -41391,7 +41391,7 @@ impl serde::Serialize for ModifyAssistantRequestToolResourcesCodeInterpreter {
         ModifyAssistantRequestToolResourcesCodeInterpreter { file_ids }.serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ModifyAssistantRequestToolResourcesCodeInterpreter {
     #[doc = "Overrides the list of [file](https://platform.openai.com/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.\n"]
     #[builder(default)]
@@ -41431,7 +41431,7 @@ impl serde::Serialize for ModifyAssistantRequestToolResourcesFileSearch {
         ModifyAssistantRequestToolResourcesFileSearch { vector_store_ids }.serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ModifyAssistantRequestToolResourcesFileSearch {
     #[doc = "Overrides the [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) attached to this assistant. There can be a maximum of 1 vector store attached to the assistant.\n"]
     #[builder(default)]
@@ -41490,7 +41490,7 @@ impl serde::Serialize for ModifyAssistantRequestToolResources {
     }
 }
 #[doc = "A set of resources that are used by the assistant's tools. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ModifyAssistantRequestToolResources {
     #[builder(default)]
     pub code_interpreter: Option<ModifyAssistantRequestToolResourcesCodeInterpreter>,
@@ -41639,7 +41639,7 @@ impl serde::Serialize for ModifyAssistantRequest {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ModifyAssistantRequest {
     #[doc = "ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models) for descriptions of them.\n"]
     #[builder(default)]
@@ -41742,7 +41742,7 @@ impl serde::Serialize for ModifyMessageRequest {
         ModifyMessageRequest { metadata }.serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ModifyMessageRequest {
     #[builder(default)]
     pub metadata: Option<Metadata>,
@@ -41779,7 +41779,7 @@ impl serde::Serialize for ModifyRunRequest {
         ModifyRunRequest { metadata }.serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ModifyRunRequest {
     #[builder(default)]
     pub metadata: Option<Metadata>,
@@ -41817,7 +41817,7 @@ impl serde::Serialize for ModifyThreadRequestToolResourcesCodeInterpreter {
         ModifyThreadRequestToolResourcesCodeInterpreter { file_ids }.serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ModifyThreadRequestToolResourcesCodeInterpreter {
     #[doc = "A list of [file](https://platform.openai.com/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.\n"]
     #[builder(default)]
@@ -41857,7 +41857,7 @@ impl serde::Serialize for ModifyThreadRequestToolResourcesFileSearch {
         ModifyThreadRequestToolResourcesFileSearch { vector_store_ids }.serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ModifyThreadRequestToolResourcesFileSearch {
     #[doc = "The [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) attached to this thread. There can be a maximum of 1 vector store attached to the thread.\n"]
     #[builder(default)]
@@ -41916,7 +41916,7 @@ impl serde::Serialize for ModifyThreadRequestToolResources {
     }
 }
 #[doc = "A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ModifyThreadRequestToolResources {
     #[builder(default)]
     pub code_interpreter: Option<ModifyThreadRequestToolResourcesCodeInterpreter>,
@@ -41975,7 +41975,7 @@ impl serde::Serialize for ModifyThreadRequest {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ModifyThreadRequest {
     #[doc = "A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.\n"]
     #[builder(default)]
@@ -42008,7 +42008,7 @@ impl serde::Serialize for MoveType {
     }
 }
 #[doc = "Specifies the event type. For a move action, this property is \nalways set to `move`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct MoveType;
 impl<'de> serde::Deserialize<'de> for Move {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -42057,7 +42057,7 @@ impl serde::Serialize for Move {
     }
 }
 #[doc = "A mouse move action.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct Move {
     #[doc = "The x-coordinate to move to.\n"]
     pub x: u64,
@@ -42089,10 +42089,10 @@ impl serde::Serialize for OpenAiFileObject {
     }
 }
 #[doc = "The object type, which is always `file`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct OpenAiFileObject;
 #[doc = "The intended purpose of the file. Supported values are `assistants`, `assistants_output`, `batch`, `batch_output`, `fine-tune`, `fine-tune-results` and `vision`."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum OpenAiFilePurpose {
     #[doc = "assistants"]
     #[serde(rename = "assistants")]
@@ -42117,7 +42117,7 @@ pub enum OpenAiFilePurpose {
     Vision,
 }
 #[doc = "Deprecated. The current status of the file, which can be either `uploaded`, `processed`, or `error`."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum OpenAiFileStatus {
     #[doc = "uploaded"]
     #[serde(rename = "uploaded")]
@@ -42288,7 +42288,7 @@ impl serde::Serialize for OtherChunkingStrategyResponseParamType {
     }
 }
 #[doc = "Always `other`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct OtherChunkingStrategyResponseParamType;
 impl<'de> serde::Deserialize<'de> for OtherChunkingStrategyResponseParam {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -42326,7 +42326,7 @@ impl serde::Serialize for OtherChunkingStrategyResponseParam {
     }
 }
 #[doc = "This is returned when the chunking strategy is unknown. Typically, this is because the file was indexed before the `chunking_strategy` concept was introduced in the API."]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct OtherChunkingStrategyResponseParam {}
 impl<'de> serde::Deserialize<'de> for OutputAudioType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -42353,7 +42353,7 @@ impl serde::Serialize for OutputAudioType {
     }
 }
 #[doc = "The type of the output audio. Always `output_audio`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct OutputAudioType;
 impl<'de> serde::Deserialize<'de> for OutputAudio {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -42578,7 +42578,7 @@ impl serde::Serialize for OutputMessageType {
     }
 }
 #[doc = "The type of the output message. Always `message`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct OutputMessageType;
 impl<'de> serde::Deserialize<'de> for OutputMessageRole {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -42605,10 +42605,10 @@ impl serde::Serialize for OutputMessageRole {
     }
 }
 #[doc = "The role of the output message. Always `assistant`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct OutputMessageRole;
 #[doc = "The status of the message input. One of `in_progress`, `completed`, or\n`incomplete`. Populated when input items are returned via API.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum OutputMessageStatus {
     #[doc = "in_progress"]
     #[serde(rename = "in_progress")]
@@ -42728,7 +42728,7 @@ impl serde::Serialize for PredictionContentType {
     }
 }
 #[doc = "The type of the predicted content you want to provide. This type is\ncurrently always `content`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct PredictionContentType;
 impl<'de> serde::Deserialize<'de> for PredictionContentContent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -42848,10 +42848,10 @@ impl serde::Serialize for ProjectObject {
     }
 }
 #[doc = "The object type, which is always `organization.project`"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ProjectObject;
 #[doc = "`active` or `archived`"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ProjectStatus {
     #[doc = "active"]
     #[serde(rename = "active")]
@@ -42984,10 +42984,10 @@ impl serde::Serialize for ProjectApiKeyObject {
     }
 }
 #[doc = "The object type, which is always `organization.project.api_key`"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ProjectApiKeyObject;
 #[doc = "`user` or `service_account`"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ProjectApiKeyOwnerType {
     #[doc = "user"]
     #[serde(rename = "user")]
@@ -43058,7 +43058,7 @@ impl serde::Serialize for ProjectApiKeyOwner {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ProjectApiKeyOwner {
     #[doc = "`user` or `service_account`"]
     #[builder(default)]
@@ -43201,7 +43201,7 @@ impl serde::Serialize for ProjectApiKeyDeleteResponseObject {
     }
 }
 #[doc = "organization.project.api_key.deleted"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ProjectApiKeyDeleteResponseObject;
 impl<'de> serde::Deserialize<'de> for ProjectApiKeyDeleteResponse {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -43280,7 +43280,7 @@ impl serde::Serialize for ProjectApiKeyListResponseObject {
     }
 }
 #[doc = "list"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ProjectApiKeyListResponseObject;
 impl<'de> serde::Deserialize<'de> for ProjectApiKeyListResponse {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -43424,7 +43424,7 @@ impl serde::Serialize for ProjectListResponseObject {
     }
 }
 #[doc = "list"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ProjectListResponseObject;
 impl<'de> serde::Deserialize<'de> for ProjectListResponse {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -43532,7 +43532,7 @@ impl serde::Serialize for ProjectRateLimitObject {
     }
 }
 #[doc = "The object type, which is always `project.rate_limit`"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ProjectRateLimitObject;
 impl<'de> serde::Deserialize<'de> for ProjectRateLimit {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -43697,7 +43697,7 @@ impl serde::Serialize for ProjectRateLimitListResponseObject {
     }
 }
 #[doc = "list"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ProjectRateLimitListResponseObject;
 impl<'de> serde::Deserialize<'de> for ProjectRateLimitListResponse {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -43872,7 +43872,7 @@ impl serde::Serialize for ProjectRateLimitUpdateRequest {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ProjectRateLimitUpdateRequest {
     #[doc = "The maximum requests per minute."]
     #[builder(default)]
@@ -43918,10 +43918,10 @@ impl serde::Serialize for ProjectServiceAccountObject {
     }
 }
 #[doc = "The object type, which is always `organization.project.service_account`"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ProjectServiceAccountObject;
 #[doc = "`owner` or `member`"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ProjectServiceAccountRole {
     #[doc = "owner"]
     #[serde(rename = "owner")]
@@ -44041,7 +44041,7 @@ impl serde::Serialize for ProjectServiceAccountApiKeyObject {
     }
 }
 #[doc = "The object type, which is always `organization.project.service_account.api_key`"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ProjectServiceAccountApiKeyObject;
 impl<'de> serde::Deserialize<'de> for ProjectServiceAccountApiKey {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -44186,7 +44186,7 @@ impl serde::Serialize for ProjectServiceAccountCreateResponseObject {
     }
 }
 #[doc = "organization.project.service_account"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ProjectServiceAccountCreateResponseObject;
 impl<'de> serde::Deserialize<'de> for ProjectServiceAccountCreateResponseRole {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -44213,7 +44213,7 @@ impl serde::Serialize for ProjectServiceAccountCreateResponseRole {
     }
 }
 #[doc = "Service accounts can only have one role of type `member`"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ProjectServiceAccountCreateResponseRole;
 impl<'de> serde::Deserialize<'de> for ProjectServiceAccountCreateResponse {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -44327,7 +44327,7 @@ impl serde::Serialize for ProjectServiceAccountDeleteResponseObject {
     }
 }
 #[doc = "organization.project.service_account.deleted"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ProjectServiceAccountDeleteResponseObject;
 impl<'de> serde::Deserialize<'de> for ProjectServiceAccountDeleteResponse {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -44406,7 +44406,7 @@ impl serde::Serialize for ProjectServiceAccountListResponseObject {
     }
 }
 #[doc = "list"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ProjectServiceAccountListResponseObject;
 impl<'de> serde::Deserialize<'de> for ProjectServiceAccountListResponse {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -44550,10 +44550,10 @@ impl serde::Serialize for ProjectUserObject {
     }
 }
 #[doc = "The object type, which is always `organization.project.user`"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ProjectUserObject;
 #[doc = "`owner` or `member`"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ProjectUserRole {
     #[doc = "owner"]
     #[serde(rename = "owner")]
@@ -44660,7 +44660,7 @@ pub struct ProjectUser {
     pub added_at: u64,
 }
 #[doc = "`owner` or `member`"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ProjectUserCreateRequestRole {
     #[doc = "owner"]
     #[serde(rename = "owner")]
@@ -44738,7 +44738,7 @@ impl serde::Serialize for ProjectUserDeleteResponseObject {
     }
 }
 #[doc = "organization.project.user.deleted"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ProjectUserDeleteResponseObject;
 impl<'de> serde::Deserialize<'de> for ProjectUserDeleteResponse {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -44878,7 +44878,7 @@ pub struct ProjectUserListResponse {
     pub has_more: bool,
 }
 #[doc = "`owner` or `member`"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ProjectUserUpdateRequestRole {
     #[doc = "owner"]
     #[serde(rename = "owner")]
@@ -44919,7 +44919,7 @@ impl serde::Serialize for ProjectUserUpdateRequest {
         ProjectUserUpdateRequest { role }.serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ProjectUserUpdateRequest {
     #[doc = "`owner` or `member`"]
     pub role: ProjectUserUpdateRequestRole,
@@ -45086,7 +45086,7 @@ impl serde::Serialize for RealtimeClientEventConversationItemCreateType {
     }
 }
 #[doc = "The event type, must be `conversation.item.create`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeClientEventConversationItemCreateType;
 impl<'de> serde::Deserialize<'de> for RealtimeClientEventConversationItemCreate {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -45156,7 +45156,7 @@ impl serde::Serialize for RealtimeClientEventConversationItemCreate {
     }
 }
 #[doc = "Add a new Item to the Conversation's context, including messages, function \ncalls, and function call responses. This event can be used both to populate a \n\"history\" of the conversation and to add new items mid-stream, but has the \ncurrent limitation that it cannot populate assistant audio messages.\n\nIf successful, the server will respond with a `conversation.item.created` \nevent, otherwise an `error` event will be sent.\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeClientEventConversationItemCreate {
     #[doc = "Optional client-generated ID used to identify this event."]
     #[builder(default)]
@@ -45192,7 +45192,7 @@ impl serde::Serialize for RealtimeClientEventConversationItemDeleteType {
     }
 }
 #[doc = "The event type, must be `conversation.item.delete`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeClientEventConversationItemDeleteType;
 impl<'de> serde::Deserialize<'de> for RealtimeClientEventConversationItemDelete {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -45277,7 +45277,7 @@ impl serde::Serialize for RealtimeClientEventConversationItemRetrieveType {
     }
 }
 #[doc = "The event type, must be `conversation.item.retrieve`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeClientEventConversationItemRetrieveType;
 impl<'de> serde::Deserialize<'de> for RealtimeClientEventConversationItemRetrieve {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -45362,7 +45362,7 @@ impl serde::Serialize for RealtimeClientEventConversationItemTruncateType {
     }
 }
 #[doc = "The event type, must be `conversation.item.truncate`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeClientEventConversationItemTruncateType;
 impl<'de> serde::Deserialize<'de> for RealtimeClientEventConversationItemTruncate {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -45477,7 +45477,7 @@ impl serde::Serialize for RealtimeClientEventInputAudioBufferAppendType {
     }
 }
 #[doc = "The event type, must be `input_audio_buffer.append`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeClientEventInputAudioBufferAppendType;
 impl<'de> serde::Deserialize<'de> for RealtimeClientEventInputAudioBufferAppend {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -45562,7 +45562,7 @@ impl serde::Serialize for RealtimeClientEventInputAudioBufferClearType {
     }
 }
 #[doc = "The event type, must be `input_audio_buffer.clear`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeClientEventInputAudioBufferClearType;
 impl<'de> serde::Deserialize<'de> for RealtimeClientEventInputAudioBufferClear {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -45607,7 +45607,7 @@ impl serde::Serialize for RealtimeClientEventInputAudioBufferClear {
     }
 }
 #[doc = "Send this event to clear the audio bytes in the buffer. The server will \nrespond with an `input_audio_buffer.cleared` event.\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeClientEventInputAudioBufferClear {
     #[doc = "Optional client-generated ID used to identify this event."]
     #[builder(default)]
@@ -45638,7 +45638,7 @@ impl serde::Serialize for RealtimeClientEventInputAudioBufferCommitType {
     }
 }
 #[doc = "The event type, must be `input_audio_buffer.commit`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeClientEventInputAudioBufferCommitType;
 impl<'de> serde::Deserialize<'de> for RealtimeClientEventInputAudioBufferCommit {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -45683,7 +45683,7 @@ impl serde::Serialize for RealtimeClientEventInputAudioBufferCommit {
     }
 }
 #[doc = "Send this event to commit the user input audio buffer, which will create a \nnew user message item in the conversation. This event will produce an error \nif the input audio buffer is empty. When in Server VAD mode, the client does \nnot need to send this event, the server will commit the audio buffer \nautomatically.\n\nCommitting the input audio buffer will trigger input audio transcription \n(if enabled in session configuration), but it will not create a response \nfrom the model. The server will respond with an `input_audio_buffer.committed` \nevent.\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeClientEventInputAudioBufferCommit {
     #[doc = "Optional client-generated ID used to identify this event."]
     #[builder(default)]
@@ -45714,7 +45714,7 @@ impl serde::Serialize for RealtimeClientEventOutputAudioBufferClearType {
     }
 }
 #[doc = "The event type, must be `output_audio_buffer.clear`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeClientEventOutputAudioBufferClearType;
 impl<'de> serde::Deserialize<'de> for RealtimeClientEventOutputAudioBufferClear {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -45759,7 +45759,7 @@ impl serde::Serialize for RealtimeClientEventOutputAudioBufferClear {
     }
 }
 #[doc = "**WebRTC Only:** Emit to cut off the current audio response. This will trigger the server to\nstop generating audio and emit a `output_audio_buffer.cleared` event. This \nevent should be preceded by a `response.cancel` client event to stop the \ngeneration of the current response.\n[Learn more](https://platform.openai.com/docs/guides/realtime-conversations#client-and-server-events-for-audio-in-webrtc).\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeClientEventOutputAudioBufferClear {
     #[doc = "The unique ID of the client event used for error handling."]
     #[builder(default)]
@@ -45790,7 +45790,7 @@ impl serde::Serialize for RealtimeClientEventResponseCancelType {
     }
 }
 #[doc = "The event type, must be `response.cancel`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeClientEventResponseCancelType;
 impl<'de> serde::Deserialize<'de> for RealtimeClientEventResponseCancel {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -45851,7 +45851,7 @@ impl serde::Serialize for RealtimeClientEventResponseCancel {
     }
 }
 #[doc = "Send this event to cancel an in-progress response. The server will respond \nwith a `response.cancelled` event or an error if there is no response to \ncancel.\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeClientEventResponseCancel {
     #[doc = "Optional client-generated ID used to identify this event."]
     #[builder(default)]
@@ -45885,7 +45885,7 @@ impl serde::Serialize for RealtimeClientEventResponseCreateType {
     }
 }
 #[doc = "The event type, must be `response.create`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeClientEventResponseCreateType;
 impl<'de> serde::Deserialize<'de> for RealtimeClientEventResponseCreate {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -45938,7 +45938,7 @@ impl serde::Serialize for RealtimeClientEventResponseCreate {
     }
 }
 #[doc = "This event instructs the server to create a Response, which means triggering \nmodel inference. When in Server VAD mode, the server will create Responses \nautomatically.\n\nA Response will include at least one Item, and may have two, in which case \nthe second will be a function call. These Items will be appended to the \nconversation history.\n\nThe server will respond with a `response.created` event, events for Items \nand content created, and finally a `response.done` event to indicate the \nResponse is complete.\n\nThe `response.create` event includes inference configuration like \n`instructions`, and `temperature`. These fields will override the Session's \nconfiguration for this Response only.\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeClientEventResponseCreate {
     #[doc = "Optional client-generated ID used to identify this event."]
     #[builder(default)]
@@ -45971,7 +45971,7 @@ impl serde::Serialize for RealtimeClientEventSessionUpdateType {
     }
 }
 #[doc = "The event type, must be `session.update`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeClientEventSessionUpdateType;
 impl<'de> serde::Deserialize<'de> for RealtimeClientEventSessionUpdate {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -46023,7 +46023,7 @@ impl serde::Serialize for RealtimeClientEventSessionUpdate {
     }
 }
 #[doc = "Send this event to update the session’s default configuration.\nThe client may send this event at any time to update any field,\nexcept for `voice`. However, note that once a session has been\ninitialized with a particular `model`, it can’t be changed to\nanother model using `session.update`.\n\nWhen the server receives a `session.update`, it will respond\nwith a `session.updated` event showing the full, effective configuration.\nOnly the fields that are present are updated. To clear a field like\n`instructions`, pass an empty string.\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeClientEventSessionUpdate {
     #[doc = "Optional client-generated ID used to identify this event."]
     #[builder(default)]
@@ -46056,7 +46056,7 @@ impl serde::Serialize for RealtimeClientEventTranscriptionSessionUpdateType {
     }
 }
 #[doc = "The event type, must be `transcription_session.update`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeClientEventTranscriptionSessionUpdateType;
 impl<'de> serde::Deserialize<'de> for RealtimeClientEventTranscriptionSessionUpdate {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -46108,7 +46108,7 @@ impl serde::Serialize for RealtimeClientEventTranscriptionSessionUpdate {
     }
 }
 #[doc = "Send this event to update a transcription session.\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeClientEventTranscriptionSessionUpdate {
     #[doc = "Optional client-generated ID used to identify this event."]
     #[builder(default)]
@@ -46117,7 +46117,7 @@ pub struct RealtimeClientEventTranscriptionSessionUpdate {
     pub session: RealtimeTranscriptionSessionCreateRequest,
 }
 #[doc = "The type of the item (`message`, `function_call`, `function_call_output`).\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeConversationItemType {
     #[doc = "message"]
     #[serde(rename = "message")]
@@ -46154,10 +46154,10 @@ impl serde::Serialize for RealtimeConversationItemObject {
     }
 }
 #[doc = "Identifier for the API object being returned - always `realtime.item`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct RealtimeConversationItemObject;
 #[doc = "The status of the item (`completed`, `incomplete`). These have no effect \non the conversation, but are accepted for consistency with the \n`conversation.item.created` event.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeConversationItemStatus {
     #[doc = "completed"]
     #[serde(rename = "completed")]
@@ -46167,7 +46167,7 @@ pub enum RealtimeConversationItemStatus {
     Incomplete,
 }
 #[doc = "The role of the message sender (`user`, `assistant`, `system`), only \napplicable for `message` items.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeConversationItemRole {
     #[doc = "user"]
     #[serde(rename = "user")]
@@ -46312,7 +46312,7 @@ impl serde::Serialize for RealtimeConversationItem {
     }
 }
 #[doc = "The item to add to the conversation."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeConversationItem {
     #[doc = "The unique ID of the item, this can be generated by the client to help \nmanage server-side context, but is not required because the server will \ngenerate one if not provided.\n"]
     #[builder(default)]
@@ -46346,7 +46346,7 @@ pub struct RealtimeConversationItem {
     pub output: Option<String>,
 }
 #[doc = "The type of the item (`message`, `function_call`, `function_call_output`, `item_reference`).\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeConversationItemWithReferenceType {
     #[doc = "message"]
     #[serde(rename = "message")]
@@ -46386,10 +46386,10 @@ impl serde::Serialize for RealtimeConversationItemWithReferenceObject {
     }
 }
 #[doc = "Identifier for the API object being returned - always `realtime.item`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct RealtimeConversationItemWithReferenceObject;
 #[doc = "The status of the item (`completed`, `incomplete`). These have no effect \non the conversation, but are accepted for consistency with the \n`conversation.item.created` event.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeConversationItemWithReferenceStatus {
     #[doc = "completed"]
     #[serde(rename = "completed")]
@@ -46399,7 +46399,7 @@ pub enum RealtimeConversationItemWithReferenceStatus {
     Incomplete,
 }
 #[doc = "The role of the message sender (`user`, `assistant`, `system`), only \napplicable for `message` items.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeConversationItemWithReferenceRole {
     #[doc = "user"]
     #[serde(rename = "user")]
@@ -46544,7 +46544,7 @@ impl serde::Serialize for RealtimeConversationItemWithReference {
     }
 }
 #[doc = "The item to add to the conversation."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeConversationItemWithReference {
     #[doc = "For an item of type (`message` | `function_call` | `function_call_output`)\nthis field allows the client to assign the unique ID of the item. It is\nnot required because the server will generate one if not provided.\n\nFor an item of type `item_reference`, this field is required and is a\nreference to any item that has previously existed in the conversation.\n"]
     #[builder(default)]
@@ -46602,10 +46602,10 @@ impl serde::Serialize for RealtimeResponseObject {
     }
 }
 #[doc = "The object type, must be `realtime.response`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct RealtimeResponseObject;
 #[doc = "The final status of the response (`completed`, `cancelled`, `failed`, or \n`incomplete`).\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeResponseStatus {
     #[doc = "completed"]
     #[serde(rename = "completed")]
@@ -46621,7 +46621,7 @@ pub enum RealtimeResponseStatus {
     Incomplete,
 }
 #[doc = "The type of error that caused the response to fail, corresponding \nwith the `status` field (`completed`, `cancelled`, `incomplete`, \n`failed`).\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeResponseStatusDetailsType {
     #[doc = "completed"]
     #[serde(rename = "completed")]
@@ -46637,7 +46637,7 @@ pub enum RealtimeResponseStatusDetailsType {
     Failed,
 }
 #[doc = "The reason the Response did not complete. For a `cancelled` Response, \none of `turn_detected` (the server VAD detected a new start of speech) \nor `client_cancelled` (the client sent a cancel event). For an \n`incomplete` Response, one of `max_output_tokens` or `content_filter` \n(the server-side safety filter activated and cut off the response).\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeResponseStatusDetailsReason {
     #[doc = "turn_detected"]
     #[serde(rename = "turn_detected")]
@@ -46692,7 +46692,7 @@ impl serde::Serialize for RealtimeResponseStatusDetailsError {
     }
 }
 #[doc = "A description of the error that caused the response to fail, \npopulated when the `status` is `failed`.\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeResponseStatusDetailsError {
     #[doc = "The type of error."]
     #[builder(default)]
@@ -46764,7 +46764,7 @@ impl serde::Serialize for RealtimeResponseStatusDetails {
     }
 }
 #[doc = "Additional details about the status."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeResponseStatusDetails {
     #[doc = "The type of error that caused the response to fail, corresponding \nwith the `status` field (`completed`, `cancelled`, `incomplete`, \n`failed`).\n"]
     #[builder(default)]
@@ -46839,7 +46839,7 @@ impl serde::Serialize for RealtimeResponseUsageInputTokenDetails {
     }
 }
 #[doc = "Details about the input tokens used in the Response."]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeResponseUsageInputTokenDetails {
     #[doc = "The number of cached tokens used in the Response."]
     #[builder(default)]
@@ -46904,7 +46904,7 @@ impl serde::Serialize for RealtimeResponseUsageOutputTokenDetails {
     }
 }
 #[doc = "Details about the output tokens used in the Response."]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeResponseUsageOutputTokenDetails {
     #[doc = "The number of text tokens used in the Response."]
     #[builder(default)]
@@ -46996,7 +46996,7 @@ impl serde::Serialize for RealtimeResponseUsage {
     }
 }
 #[doc = "Usage statistics for the Response, this will correspond to billing. A \nRealtime API session will maintain a conversation context and append new \nItems to the Conversation, thus output from previous turns (text and \naudio tokens) will become the input for later turns.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeResponseUsage {
     #[doc = "The total number of tokens in the Response including input and output \ntext and audio tokens.\n"]
     #[builder(default)]
@@ -47014,7 +47014,7 @@ pub struct RealtimeResponseUsage {
     #[builder(default)]
     pub output_token_details: Option<RealtimeResponseUsageOutputTokenDetails>,
 }
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeResponseModality {
     #[doc = "text"]
     #[serde(rename = "text")]
@@ -47024,7 +47024,7 @@ pub enum RealtimeResponseModality {
     Audio,
 }
 #[doc = "The format of output audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeResponseOutputAudioFormat {
     #[doc = "pcm16"]
     #[serde(rename = "pcm16")]
@@ -47061,7 +47061,7 @@ impl serde::Serialize for RealtimeResponseMaxOutputTokensInf {
     }
 }
 #[doc = "inf"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeResponseMaxOutputTokensInf;
 impl<'de> serde::Deserialize<'de> for RealtimeResponseMaxOutputTokens {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -47106,7 +47106,7 @@ impl serde::Serialize for RealtimeResponseMaxOutputTokens {
     }
 }
 #[doc = "Maximum number of output tokens for a single assistant response,\ninclusive of tool calls, that was used in this response.\n"]
-#[derive(Clone, Debug, PartialEq, Copy)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeResponseMaxOutputTokens {
     Integer(u64),
@@ -47276,7 +47276,7 @@ impl serde::Serialize for RealtimeResponse {
     }
 }
 #[doc = "The response resource."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeResponse {
     #[doc = "The unique ID of the response."]
     #[builder(default)]
@@ -47317,7 +47317,7 @@ pub struct RealtimeResponse {
     #[builder(default)]
     pub max_output_tokens: Option<RealtimeResponseMaxOutputTokens>,
 }
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeResponseCreateParamsModality {
     #[doc = "text"]
     #[serde(rename = "text")]
@@ -47327,7 +47327,7 @@ pub enum RealtimeResponseCreateParamsModality {
     Audio,
 }
 #[doc = "The format of output audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeResponseCreateParamsOutputAudioFormat {
     #[doc = "pcm16"]
     #[serde(rename = "pcm16")]
@@ -47364,7 +47364,7 @@ impl serde::Serialize for RealtimeResponseCreateParamsToolType {
     }
 }
 #[doc = "The type of the tool, i.e. `function`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct RealtimeResponseCreateParamsToolType;
 impl<'de> serde::Deserialize<'de> for RealtimeResponseCreateParamsTool {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -47385,7 +47385,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeResponseCreateParamsTool {
             description: Option<String>,
             #[serde(rename = "parameters")]
             #[allow(dead_code)]
-            parameters: Option<std::collections::HashMap<String, serde_json::Value>>,
+            parameters: Option<indexmap::IndexMap<String, serde_json::Value>>,
         }
         let RealtimeResponseCreateParamsTool {
             r#type,
@@ -47421,7 +47421,7 @@ impl serde::Serialize for RealtimeResponseCreateParamsTool {
             description: &'a Option<String>,
             #[serde(rename = "parameters")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            parameters: &'a Option<std::collections::HashMap<String, serde_json::Value>>,
+            parameters: &'a Option<indexmap::IndexMap<String, serde_json::Value>>,
         }
         let Self {
             r#type,
@@ -47438,7 +47438,7 @@ impl serde::Serialize for RealtimeResponseCreateParamsTool {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeResponseCreateParamsTool {
     #[doc = "The type of the tool, i.e. `function`."]
     #[builder(default)]
@@ -47451,7 +47451,7 @@ pub struct RealtimeResponseCreateParamsTool {
     pub description: Option<String>,
     #[doc = "Parameters of the function in JSON Schema."]
     #[builder(default)]
-    pub parameters: Option<std::collections::HashMap<String, serde_json::Value>>,
+    pub parameters: Option<indexmap::IndexMap<String, serde_json::Value>>,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeResponseCreateParamsMaxResponseOutputTokensInf {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -47478,7 +47478,7 @@ impl serde::Serialize for RealtimeResponseCreateParamsMaxResponseOutputTokensInf
     }
 }
 #[doc = "inf"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeResponseCreateParamsMaxResponseOutputTokensInf;
 impl<'de> serde::Deserialize<'de> for RealtimeResponseCreateParamsMaxResponseOutputTokens {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -47525,7 +47525,7 @@ impl serde::Serialize for RealtimeResponseCreateParamsMaxResponseOutputTokens {
     }
 }
 #[doc = "Maximum number of output tokens for a single assistant response,\ninclusive of tool calls. Provide an integer between 1 and 4096 to\nlimit output tokens, or `inf` for the maximum available tokens for a\ngiven model. Defaults to `inf`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeResponseCreateParamsMaxResponseOutputTokens {
     Integer(u64),
@@ -47557,7 +47557,7 @@ impl serde::Serialize for RealtimeResponseCreateParamsConversationAuto {
     }
 }
 #[doc = "auto"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeResponseCreateParamsConversationAuto;
 impl<'de> serde::Deserialize<'de> for RealtimeResponseCreateParamsConversationNone {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -47584,7 +47584,7 @@ impl serde::Serialize for RealtimeResponseCreateParamsConversationNone {
     }
 }
 #[doc = "none"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeResponseCreateParamsConversationNone;
 impl<'de> serde::Deserialize<'de> for RealtimeResponseCreateParamsConversation {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -47788,7 +47788,7 @@ impl serde::Serialize for RealtimeResponseCreateParams {
     }
 }
 #[doc = "Create a new Realtime response with these parameters"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeResponseCreateParams {
     #[doc = "The set of modalities the model can respond with. To disable audio,\nset this to [\"text\"].\n"]
     #[builder(default)]
@@ -48227,7 +48227,7 @@ impl serde::Serialize for RealtimeServerEventConversationCreatedType {
     }
 }
 #[doc = "The event type, must be `conversation.created`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeServerEventConversationCreatedType;
 impl<'de> serde::Deserialize<'de> for RealtimeServerEventConversationCreatedConversationObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -48254,7 +48254,7 @@ impl serde::Serialize for RealtimeServerEventConversationCreatedConversationObje
     }
 }
 #[doc = "The object type, must be `realtime.conversation`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct RealtimeServerEventConversationCreatedConversationObject;
 impl<'de> serde::Deserialize<'de> for RealtimeServerEventConversationCreatedConversation {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -48296,7 +48296,7 @@ impl serde::Serialize for RealtimeServerEventConversationCreatedConversation {
     }
 }
 #[doc = "The conversation resource."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeServerEventConversationCreatedConversation {
     #[doc = "The unique ID of the conversation."]
     #[builder(default)]
@@ -48395,7 +48395,7 @@ impl serde::Serialize for RealtimeServerEventConversationItemCreatedType {
     }
 }
 #[doc = "The event type, must be `conversation.item.created`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeServerEventConversationItemCreatedType;
 impl<'de> serde::Deserialize<'de> for RealtimeServerEventConversationItemCreated {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -48497,7 +48497,7 @@ impl serde::Serialize for RealtimeServerEventConversationItemDeletedType {
     }
 }
 #[doc = "The event type, must be `conversation.item.deleted`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeServerEventConversationItemDeletedType;
 impl<'de> serde::Deserialize<'de> for RealtimeServerEventConversationItemDeleted {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -48582,7 +48582,7 @@ impl serde::Serialize for RealtimeServerEventConversationItemInputAudioTranscrip
     }
 }
 #[doc = "The event type, must be\n`conversation.item.input_audio_transcription.completed`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeServerEventConversationItemInputAudioTranscriptionCompletedType;
 impl<'de> serde::Deserialize<'de>
     for RealtimeServerEventConversationItemInputAudioTranscriptionCompleted
@@ -48714,7 +48714,7 @@ impl serde::Serialize for RealtimeServerEventConversationItemInputAudioTranscrip
     }
 }
 #[doc = "The event type, must be `conversation.item.input_audio_transcription.delta`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeServerEventConversationItemInputAudioTranscriptionDeltaType;
 impl<'de> serde::Deserialize<'de>
     for RealtimeServerEventConversationItemInputAudioTranscriptionDelta
@@ -48850,7 +48850,7 @@ impl serde::Serialize for RealtimeServerEventConversationItemInputAudioTranscrip
     }
 }
 #[doc = "The event type, must be\n`conversation.item.input_audio_transcription.failed`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeServerEventConversationItemInputAudioTranscriptionFailedType;
 impl<'de> serde::Deserialize<'de>
     for RealtimeServerEventConversationItemInputAudioTranscriptionFailedError
@@ -48929,7 +48929,7 @@ impl serde::Serialize for RealtimeServerEventConversationItemInputAudioTranscrip
     }
 }
 #[doc = "Details of the transcription error."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeServerEventConversationItemInputAudioTranscriptionFailedError {
     #[doc = "The type of error."]
     #[builder(default)]
@@ -49060,7 +49060,7 @@ impl serde::Serialize for RealtimeServerEventConversationItemRetrievedType {
     }
 }
 #[doc = "The event type, must be `conversation.item.retrieved`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeServerEventConversationItemRetrievedType;
 impl<'de> serde::Deserialize<'de> for RealtimeServerEventConversationItemRetrieved {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -49142,7 +49142,7 @@ impl serde::Serialize for RealtimeServerEventConversationItemTruncatedType {
     }
 }
 #[doc = "The event type, must be `conversation.item.truncated`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeServerEventConversationItemTruncatedType;
 impl<'de> serde::Deserialize<'de> for RealtimeServerEventConversationItemTruncated {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -49255,7 +49255,7 @@ impl serde::Serialize for RealtimeServerEventErrorType {
     }
 }
 #[doc = "The event type, must be `error`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeServerEventErrorType;
 impl<'de> serde::Deserialize<'de> for RealtimeServerEventErrorError {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -49435,7 +49435,7 @@ impl serde::Serialize for RealtimeServerEventInputAudioBufferClearedType {
     }
 }
 #[doc = "The event type, must be `input_audio_buffer.cleared`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeServerEventInputAudioBufferClearedType;
 impl<'de> serde::Deserialize<'de> for RealtimeServerEventInputAudioBufferCleared {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -49509,7 +49509,7 @@ impl serde::Serialize for RealtimeServerEventInputAudioBufferCommittedType {
     }
 }
 #[doc = "The event type, must be `input_audio_buffer.committed`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeServerEventInputAudioBufferCommittedType;
 impl<'de> serde::Deserialize<'de> for RealtimeServerEventInputAudioBufferCommitted {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -49611,7 +49611,7 @@ impl serde::Serialize for RealtimeServerEventInputAudioBufferSpeechStartedType {
     }
 }
 #[doc = "The event type, must be `input_audio_buffer.speech_started`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeServerEventInputAudioBufferSpeechStartedType;
 impl<'de> serde::Deserialize<'de> for RealtimeServerEventInputAudioBufferSpeechStarted {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -49713,7 +49713,7 @@ impl serde::Serialize for RealtimeServerEventInputAudioBufferSpeechStoppedType {
     }
 }
 #[doc = "The event type, must be `input_audio_buffer.speech_stopped`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeServerEventInputAudioBufferSpeechStoppedType;
 impl<'de> serde::Deserialize<'de> for RealtimeServerEventInputAudioBufferSpeechStopped {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -49815,7 +49815,7 @@ impl serde::Serialize for RealtimeServerEventOutputAudioBufferClearedType {
     }
 }
 #[doc = "The event type, must be `output_audio_buffer.cleared`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeServerEventOutputAudioBufferClearedType;
 impl<'de> serde::Deserialize<'de> for RealtimeServerEventOutputAudioBufferCleared {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -49906,7 +49906,7 @@ impl serde::Serialize for RealtimeServerEventOutputAudioBufferStartedType {
     }
 }
 #[doc = "The event type, must be `output_audio_buffer.started`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeServerEventOutputAudioBufferStartedType;
 impl<'de> serde::Deserialize<'de> for RealtimeServerEventOutputAudioBufferStarted {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -49997,7 +49997,7 @@ impl serde::Serialize for RealtimeServerEventOutputAudioBufferStoppedType {
     }
 }
 #[doc = "The event type, must be `output_audio_buffer.stopped`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeServerEventOutputAudioBufferStoppedType;
 impl<'de> serde::Deserialize<'de> for RealtimeServerEventOutputAudioBufferStopped {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -50088,10 +50088,10 @@ impl serde::Serialize for RealtimeServerEventRateLimitsUpdatedType {
     }
 }
 #[doc = "The event type, must be `rate_limits.updated`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeServerEventRateLimitsUpdatedType;
 #[doc = "The name of the rate limit (`requests`, `tokens`).\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeServerEventRateLimitsUpdatedRateLimitsName {
     #[doc = "requests"]
     #[serde(rename = "requests")]
@@ -50172,7 +50172,7 @@ impl serde::Serialize for RealtimeServerEventRateLimitsUpdatedRateLimits {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeServerEventRateLimitsUpdatedRateLimits {
     #[doc = "The name of the rate limit (`requests`, `tokens`).\n"]
     #[builder(default)]
@@ -50276,7 +50276,7 @@ impl serde::Serialize for RealtimeServerEventResponseAudioDeltaType {
     }
 }
 #[doc = "The event type, must be `response.audio.delta`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeServerEventResponseAudioDeltaType;
 impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseAudioDelta {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -50411,7 +50411,7 @@ impl serde::Serialize for RealtimeServerEventResponseAudioDoneType {
     }
 }
 #[doc = "The event type, must be `response.audio.done`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeServerEventResponseAudioDoneType;
 impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseAudioDone {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -50535,7 +50535,7 @@ impl serde::Serialize for RealtimeServerEventResponseAudioTranscriptDeltaType {
     }
 }
 #[doc = "The event type, must be `response.audio_transcript.delta`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeServerEventResponseAudioTranscriptDeltaType;
 impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseAudioTranscriptDelta {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -50670,7 +50670,7 @@ impl serde::Serialize for RealtimeServerEventResponseAudioTranscriptDoneType {
     }
 }
 #[doc = "The event type, must be `response.audio_transcript.done`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeServerEventResponseAudioTranscriptDoneType;
 impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseAudioTranscriptDone {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -50805,10 +50805,10 @@ impl serde::Serialize for RealtimeServerEventResponseContentPartAddedType {
     }
 }
 #[doc = "The event type, must be `response.content_part.added`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeServerEventResponseContentPartAddedType;
 #[doc = "The content type (\"text\", \"audio\")."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeServerEventResponseContentPartAddedPartType {
     #[doc = "text"]
     #[serde(rename = "text")]
@@ -50890,7 +50890,7 @@ impl serde::Serialize for RealtimeServerEventResponseContentPartAddedPart {
     }
 }
 #[doc = "The content part that was added."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeServerEventResponseContentPartAddedPart {
     #[doc = "The content type (\"text\", \"audio\")."]
     #[builder(default)]
@@ -51039,10 +51039,10 @@ impl serde::Serialize for RealtimeServerEventResponseContentPartDoneType {
     }
 }
 #[doc = "The event type, must be `response.content_part.done`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeServerEventResponseContentPartDoneType;
 #[doc = "The content type (\"text\", \"audio\")."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeServerEventResponseContentPartDonePartType {
     #[doc = "text"]
     #[serde(rename = "text")]
@@ -51124,7 +51124,7 @@ impl serde::Serialize for RealtimeServerEventResponseContentPartDonePart {
     }
 }
 #[doc = "The content part that is done."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeServerEventResponseContentPartDonePart {
     #[doc = "The content type (\"text\", \"audio\")."]
     #[builder(default)]
@@ -51273,7 +51273,7 @@ impl serde::Serialize for RealtimeServerEventResponseCreatedType {
     }
 }
 #[doc = "The event type, must be `response.created`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeServerEventResponseCreatedType;
 impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseCreated {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -51356,7 +51356,7 @@ impl serde::Serialize for RealtimeServerEventResponseDoneType {
     }
 }
 #[doc = "The event type, must be `response.done`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeServerEventResponseDoneType;
 impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseDone {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -51439,7 +51439,7 @@ impl serde::Serialize for RealtimeServerEventResponseFunctionCallArgumentsDeltaT
     }
 }
 #[doc = "The event type, must be `response.function_call_arguments.delta`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeServerEventResponseFunctionCallArgumentsDeltaType;
 impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseFunctionCallArgumentsDelta {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -51574,7 +51574,7 @@ impl serde::Serialize for RealtimeServerEventResponseFunctionCallArgumentsDoneTy
     }
 }
 #[doc = "The event type, must be `response.function_call_arguments.done`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeServerEventResponseFunctionCallArgumentsDoneType;
 impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseFunctionCallArgumentsDone {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -51709,7 +51709,7 @@ impl serde::Serialize for RealtimeServerEventResponseOutputItemAddedType {
     }
 }
 #[doc = "The event type, must be `response.output_item.added`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeServerEventResponseOutputItemAddedType;
 impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseOutputItemAdded {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -51822,7 +51822,7 @@ impl serde::Serialize for RealtimeServerEventResponseOutputItemDoneType {
     }
 }
 #[doc = "The event type, must be `response.output_item.done`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeServerEventResponseOutputItemDoneType;
 impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseOutputItemDone {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -51935,7 +51935,7 @@ impl serde::Serialize for RealtimeServerEventResponseTextDeltaType {
     }
 }
 #[doc = "The event type, must be `response.text.delta`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeServerEventResponseTextDeltaType;
 impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseTextDelta {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -52070,7 +52070,7 @@ impl serde::Serialize for RealtimeServerEventResponseTextDoneType {
     }
 }
 #[doc = "The event type, must be `response.text.done`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeServerEventResponseTextDoneType;
 impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseTextDone {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -52205,7 +52205,7 @@ impl serde::Serialize for RealtimeServerEventSessionCreatedType {
     }
 }
 #[doc = "The event type, must be `session.created`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeServerEventSessionCreatedType;
 impl<'de> serde::Deserialize<'de> for RealtimeServerEventSessionCreated {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -52288,7 +52288,7 @@ impl serde::Serialize for RealtimeServerEventSessionUpdatedType {
     }
 }
 #[doc = "The event type, must be `session.updated`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeServerEventSessionUpdatedType;
 impl<'de> serde::Deserialize<'de> for RealtimeServerEventSessionUpdated {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -52371,7 +52371,7 @@ impl serde::Serialize for RealtimeServerEventTranscriptionSessionUpdatedType {
     }
 }
 #[doc = "The event type, must be `transcription_session.updated`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeServerEventTranscriptionSessionUpdatedType;
 impl<'de> serde::Deserialize<'de> for RealtimeServerEventTranscriptionSessionUpdated {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -52428,7 +52428,7 @@ pub struct RealtimeServerEventTranscriptionSessionUpdated {
     pub event_id: String,
     pub session: RealtimeTranscriptionSessionCreateResponse,
 }
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeSessionModality {
     #[doc = "text"]
     #[serde(rename = "text")]
@@ -52438,7 +52438,7 @@ pub enum RealtimeSessionModality {
     Audio,
 }
 #[doc = "The Realtime model used for this session.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeSessionModel {
     #[doc = "gpt-4o-realtime-preview"]
     #[serde(rename = "gpt-4o-realtime-preview")]
@@ -52460,7 +52460,7 @@ pub enum RealtimeSessionModel {
     Gpt4oMiniRealtimePreview2024_12_17,
 }
 #[doc = "The format of input audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.\nFor `pcm16`, input audio must be 16-bit PCM at a 24kHz sample rate, \nsingle channel (mono), and little-endian byte order.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeSessionInputAudioFormat {
     #[doc = "pcm16"]
     #[default]
@@ -52474,7 +52474,7 @@ pub enum RealtimeSessionInputAudioFormat {
     G711Alaw,
 }
 #[doc = "The format of output audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.\nFor `pcm16`, output audio is sampled at a rate of 24kHz.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeSessionOutputAudioFormat {
     #[doc = "pcm16"]
     #[default]
@@ -52550,7 +52550,7 @@ impl serde::Serialize for RealtimeSessionInputAudioTranscription {
     }
 }
 #[doc = "Configuration for input audio transcription, defaults to off and can be  set to `null` to turn off once on. Input audio transcription is not native to the model, since the model consumes audio directly. Transcription runs  asynchronously through [the /audio/transcriptions endpoint](https://platform.openai.com/docs/api-reference/audio/createTranscription) and should be treated as guidance of input audio content rather than precisely what the model heard. The client can optionally set the language and prompt for transcription, these offer additional guidance to the transcription service.\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeSessionInputAudioTranscription {
     #[doc = "The model to use for transcription, current options are `gpt-4o-transcribe`, `gpt-4o-mini-transcribe`, and `whisper-1`.\n"]
     #[builder(default)]
@@ -52563,7 +52563,7 @@ pub struct RealtimeSessionInputAudioTranscription {
     pub prompt: Option<String>,
 }
 #[doc = "Type of turn detection.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeSessionTurnDetectionType {
     #[doc = "server_vad"]
     #[default]
@@ -52574,7 +52574,7 @@ pub enum RealtimeSessionTurnDetectionType {
     SemanticVad,
 }
 #[doc = "Used only for `semantic_vad` mode. The eagerness of the model to respond. `low` will wait longer for the user to continue speaking, `high` will respond more quickly. `auto` is the default and is equivalent to `medium`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeSessionTurnDetectionEagerness {
     #[doc = "low"]
     #[serde(rename = "low")]
@@ -52693,7 +52693,7 @@ impl serde::Serialize for RealtimeSessionTurnDetection {
     }
 }
 #[doc = "Configuration for turn detection, ether Server VAD or Semantic VAD. This can be set to `null` to turn off, in which case the client must manually trigger model response.\nServer VAD means that the model will detect the start and end of speech based on audio volume and respond at the end of user speech.\nSemantic VAD is more advanced and uses a turn detection model (in conjuction with VAD) to semantically estimate whether the user has finished speaking, then dynamically sets a timeout based on this probability. For example, if user audio trails off with \"uhhm\", the model will score a low probability of turn end and wait longer for the user to continue speaking. This can be useful for more natural conversations, but may have a higher latency.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeSessionTurnDetection {
     #[doc = "Type of turn detection.\n"]
     #[builder(default)]
@@ -52718,7 +52718,7 @@ pub struct RealtimeSessionTurnDetection {
     pub interrupt_response: Option<bool>,
 }
 #[doc = "Type of noise reduction. `near_field` is for close-talking microphones such as headphones, `far_field` is for far-field microphones such as laptop or conference room microphones.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeSessionInputAudioNoiseReductionType {
     #[doc = "near_field"]
     #[serde(rename = "near_field")]
@@ -52761,7 +52761,7 @@ impl serde::Serialize for RealtimeSessionInputAudioNoiseReduction {
     }
 }
 #[doc = "Configuration for input audio noise reduction. This can be set to `null` to turn off.\nNoise reduction filters audio added to the input audio buffer before it is sent to VAD and the model.\nFiltering the audio can improve VAD and turn detection accuracy (reducing false positives) and model performance by improving perception of the input audio.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeSessionInputAudioNoiseReduction {
     #[doc = "Type of noise reduction. `near_field` is for close-talking microphones such as headphones, `far_field` is for far-field microphones such as laptop or conference room microphones.\n"]
     #[builder(default)]
@@ -52792,7 +52792,7 @@ impl serde::Serialize for RealtimeSessionTracingAuto {
     }
 }
 #[doc = "Default tracing mode for the session.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeSessionTracingAuto;
 impl<'de> serde::Deserialize<'de> for RealtimeSessionTracing1 {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -52810,7 +52810,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionTracing1 {
             group_id: Option<String>,
             #[serde(rename = "metadata")]
             #[allow(dead_code)]
-            metadata: Option<std::collections::HashMap<String, serde_json::Value>>,
+            metadata: Option<indexmap::IndexMap<String, serde_json::Value>>,
         }
         let RealtimeSessionTracing1 {
             workflow_name,
@@ -52841,7 +52841,7 @@ impl serde::Serialize for RealtimeSessionTracing1 {
             group_id: &'a Option<String>,
             #[serde(rename = "metadata")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            metadata: &'a Option<std::collections::HashMap<String, serde_json::Value>>,
+            metadata: &'a Option<indexmap::IndexMap<String, serde_json::Value>>,
         }
         let Self {
             workflow_name,
@@ -52857,7 +52857,7 @@ impl serde::Serialize for RealtimeSessionTracing1 {
     }
 }
 #[doc = "Granular configuration for tracing.\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeSessionTracing1 {
     #[doc = "The name of the workflow to attach to this trace. This is used to \nname the trace in the traces dashboard.\n"]
     #[builder(default)]
@@ -52867,7 +52867,7 @@ pub struct RealtimeSessionTracing1 {
     pub group_id: Option<String>,
     #[doc = "The arbitrary metadata to attach to this trace to enable \nfiltering in the traces dashboard.\n"]
     #[builder(default)]
-    pub metadata: Option<std::collections::HashMap<String, serde_json::Value>>,
+    pub metadata: Option<indexmap::IndexMap<String, serde_json::Value>>,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeSessionTracing {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -52941,7 +52941,7 @@ impl serde::Serialize for RealtimeSessionToolType {
     }
 }
 #[doc = "The type of the tool, i.e. `function`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct RealtimeSessionToolType;
 impl<'de> serde::Deserialize<'de> for RealtimeSessionTool {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -52962,7 +52962,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionTool {
             description: Option<String>,
             #[serde(rename = "parameters")]
             #[allow(dead_code)]
-            parameters: Option<std::collections::HashMap<String, serde_json::Value>>,
+            parameters: Option<indexmap::IndexMap<String, serde_json::Value>>,
         }
         let RealtimeSessionTool {
             r#type,
@@ -52998,7 +52998,7 @@ impl serde::Serialize for RealtimeSessionTool {
             description: &'a Option<String>,
             #[serde(rename = "parameters")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            parameters: &'a Option<std::collections::HashMap<String, serde_json::Value>>,
+            parameters: &'a Option<indexmap::IndexMap<String, serde_json::Value>>,
         }
         let Self {
             r#type,
@@ -53015,7 +53015,7 @@ impl serde::Serialize for RealtimeSessionTool {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeSessionTool {
     #[doc = "The type of the tool, i.e. `function`."]
     #[builder(default)]
@@ -53028,7 +53028,7 @@ pub struct RealtimeSessionTool {
     pub description: Option<String>,
     #[doc = "Parameters of the function in JSON Schema."]
     #[builder(default)]
-    pub parameters: Option<std::collections::HashMap<String, serde_json::Value>>,
+    pub parameters: Option<indexmap::IndexMap<String, serde_json::Value>>,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeSessionMaxResponseOutputTokensInf {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -53055,7 +53055,7 @@ impl serde::Serialize for RealtimeSessionMaxResponseOutputTokensInf {
     }
 }
 #[doc = "inf"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeSessionMaxResponseOutputTokensInf;
 impl<'de> serde::Deserialize<'de> for RealtimeSessionMaxResponseOutputTokens {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -53101,7 +53101,7 @@ impl serde::Serialize for RealtimeSessionMaxResponseOutputTokens {
     }
 }
 #[doc = "Maximum number of output tokens for a single assistant response,\ninclusive of tool calls. Provide an integer between 1 and 4096 to\nlimit output tokens, or `inf` for the maximum available tokens for a\ngiven model. Defaults to `inf`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionMaxResponseOutputTokens {
     Integer(u64),
@@ -53301,7 +53301,7 @@ impl serde::Serialize for RealtimeSession {
     }
 }
 #[doc = "Realtime session object configuration."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeSession {
     #[doc = "Unique identifier for the session that looks like `sess_1234567890abcdef`.\n"]
     #[builder(default)]
@@ -53352,7 +53352,7 @@ pub struct RealtimeSession {
     #[builder(default)]
     pub max_response_output_tokens: Option<RealtimeSessionMaxResponseOutputTokens>,
 }
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeSessionCreateRequestModality {
     #[doc = "text"]
     #[serde(rename = "text")]
@@ -53362,7 +53362,7 @@ pub enum RealtimeSessionCreateRequestModality {
     Audio,
 }
 #[doc = "The Realtime model used for this session.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeSessionCreateRequestModel {
     #[doc = "gpt-4o-realtime-preview"]
     #[serde(rename = "gpt-4o-realtime-preview")]
@@ -53384,7 +53384,7 @@ pub enum RealtimeSessionCreateRequestModel {
     Gpt4oMiniRealtimePreview2024_12_17,
 }
 #[doc = "The format of input audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.\nFor `pcm16`, input audio must be 16-bit PCM at a 24kHz sample rate,\nsingle channel (mono), and little-endian byte order.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeSessionCreateRequestInputAudioFormat {
     #[doc = "pcm16"]
     #[default]
@@ -53398,7 +53398,7 @@ pub enum RealtimeSessionCreateRequestInputAudioFormat {
     G711Alaw,
 }
 #[doc = "The format of output audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.\nFor `pcm16`, output audio is sampled at a rate of 24kHz.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeSessionCreateRequestOutputAudioFormat {
     #[doc = "pcm16"]
     #[default]
@@ -53474,7 +53474,7 @@ impl serde::Serialize for RealtimeSessionCreateRequestInputAudioTranscription {
     }
 }
 #[doc = "Configuration for input audio transcription, defaults to off and can be set to `null` to turn off once on. Input audio transcription is not native to the model, since the model consumes audio directly. Transcription runs asynchronously through [the /audio/transcriptions endpoint](https://platform.openai.com/docs/api-reference/audio/createTranscription) and should be treated as guidance of input audio content rather than precisely what the model heard. The client can optionally set the language and prompt for transcription, these offer additional guidance to the transcription service.\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeSessionCreateRequestInputAudioTranscription {
     #[doc = "The model to use for transcription, current options are `gpt-4o-transcribe`, `gpt-4o-mini-transcribe`, and `whisper-1`.\n"]
     #[builder(default)]
@@ -53487,7 +53487,7 @@ pub struct RealtimeSessionCreateRequestInputAudioTranscription {
     pub prompt: Option<String>,
 }
 #[doc = "Type of turn detection.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeSessionCreateRequestTurnDetectionType {
     #[doc = "server_vad"]
     #[default]
@@ -53498,7 +53498,7 @@ pub enum RealtimeSessionCreateRequestTurnDetectionType {
     SemanticVad,
 }
 #[doc = "Used only for `semantic_vad` mode. The eagerness of the model to respond. `low` will wait longer for the user to continue speaking, `high` will respond more quickly. `auto` is the default and is equivalent to `medium`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeSessionCreateRequestTurnDetectionEagerness {
     #[doc = "low"]
     #[serde(rename = "low")]
@@ -53617,7 +53617,7 @@ impl serde::Serialize for RealtimeSessionCreateRequestTurnDetection {
     }
 }
 #[doc = "Configuration for turn detection, ether Server VAD or Semantic VAD. This can be set to `null` to turn off, in which case the client must manually trigger model response.\nServer VAD means that the model will detect the start and end of speech based on audio volume and respond at the end of user speech.\nSemantic VAD is more advanced and uses a turn detection model (in conjuction with VAD) to semantically estimate whether the user has finished speaking, then dynamically sets a timeout based on this probability. For example, if user audio trails off with \"uhhm\", the model will score a low probability of turn end and wait longer for the user to continue speaking. This can be useful for more natural conversations, but may have a higher latency.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeSessionCreateRequestTurnDetection {
     #[doc = "Type of turn detection.\n"]
     #[builder(default)]
@@ -53642,7 +53642,7 @@ pub struct RealtimeSessionCreateRequestTurnDetection {
     pub interrupt_response: Option<bool>,
 }
 #[doc = "Type of noise reduction. `near_field` is for close-talking microphones such as headphones, `far_field` is for far-field microphones such as laptop or conference room microphones.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeSessionCreateRequestInputAudioNoiseReductionType {
     #[doc = "near_field"]
     #[serde(rename = "near_field")]
@@ -53685,7 +53685,7 @@ impl serde::Serialize for RealtimeSessionCreateRequestInputAudioNoiseReduction {
     }
 }
 #[doc = "Configuration for input audio noise reduction. This can be set to `null` to turn off.\nNoise reduction filters audio added to the input audio buffer before it is sent to VAD and the model.\nFiltering the audio can improve VAD and turn detection accuracy (reducing false positives) and model performance by improving perception of the input audio.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeSessionCreateRequestInputAudioNoiseReduction {
     #[doc = "Type of noise reduction. `near_field` is for close-talking microphones such as headphones, `far_field` is for far-field microphones such as laptop or conference room microphones.\n"]
     #[builder(default)]
@@ -53716,7 +53716,7 @@ impl serde::Serialize for RealtimeSessionCreateRequestTracingAuto {
     }
 }
 #[doc = "Default tracing mode for the session.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeSessionCreateRequestTracingAuto;
 impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateRequestTracing1 {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -53734,7 +53734,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateRequestTracing1 {
             group_id: Option<String>,
             #[serde(rename = "metadata")]
             #[allow(dead_code)]
-            metadata: Option<std::collections::HashMap<String, serde_json::Value>>,
+            metadata: Option<indexmap::IndexMap<String, serde_json::Value>>,
         }
         let RealtimeSessionCreateRequestTracing1 {
             workflow_name,
@@ -53765,7 +53765,7 @@ impl serde::Serialize for RealtimeSessionCreateRequestTracing1 {
             group_id: &'a Option<String>,
             #[serde(rename = "metadata")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            metadata: &'a Option<std::collections::HashMap<String, serde_json::Value>>,
+            metadata: &'a Option<indexmap::IndexMap<String, serde_json::Value>>,
         }
         let Self {
             workflow_name,
@@ -53781,7 +53781,7 @@ impl serde::Serialize for RealtimeSessionCreateRequestTracing1 {
     }
 }
 #[doc = "Granular configuration for tracing.\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeSessionCreateRequestTracing1 {
     #[doc = "The name of the workflow to attach to this trace. This is used to \nname the trace in the traces dashboard.\n"]
     #[builder(default)]
@@ -53791,7 +53791,7 @@ pub struct RealtimeSessionCreateRequestTracing1 {
     pub group_id: Option<String>,
     #[doc = "The arbitrary metadata to attach to this trace to enable \nfiltering in the traces dashboard.\n"]
     #[builder(default)]
-    pub metadata: Option<std::collections::HashMap<String, serde_json::Value>>,
+    pub metadata: Option<indexmap::IndexMap<String, serde_json::Value>>,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateRequestTracing {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -53869,7 +53869,7 @@ impl serde::Serialize for RealtimeSessionCreateRequestToolType {
     }
 }
 #[doc = "The type of the tool, i.e. `function`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct RealtimeSessionCreateRequestToolType;
 impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateRequestTool {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -53890,7 +53890,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateRequestTool {
             description: Option<String>,
             #[serde(rename = "parameters")]
             #[allow(dead_code)]
-            parameters: Option<std::collections::HashMap<String, serde_json::Value>>,
+            parameters: Option<indexmap::IndexMap<String, serde_json::Value>>,
         }
         let RealtimeSessionCreateRequestTool {
             r#type,
@@ -53926,7 +53926,7 @@ impl serde::Serialize for RealtimeSessionCreateRequestTool {
             description: &'a Option<String>,
             #[serde(rename = "parameters")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            parameters: &'a Option<std::collections::HashMap<String, serde_json::Value>>,
+            parameters: &'a Option<indexmap::IndexMap<String, serde_json::Value>>,
         }
         let Self {
             r#type,
@@ -53943,7 +53943,7 @@ impl serde::Serialize for RealtimeSessionCreateRequestTool {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeSessionCreateRequestTool {
     #[doc = "The type of the tool, i.e. `function`."]
     #[builder(default)]
@@ -53956,7 +53956,7 @@ pub struct RealtimeSessionCreateRequestTool {
     pub description: Option<String>,
     #[doc = "Parameters of the function in JSON Schema."]
     #[builder(default)]
-    pub parameters: Option<std::collections::HashMap<String, serde_json::Value>>,
+    pub parameters: Option<indexmap::IndexMap<String, serde_json::Value>>,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateRequestMaxResponseOutputTokensInf {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -53983,7 +53983,7 @@ impl serde::Serialize for RealtimeSessionCreateRequestMaxResponseOutputTokensInf
     }
 }
 #[doc = "inf"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeSessionCreateRequestMaxResponseOutputTokensInf;
 impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateRequestMaxResponseOutputTokens {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -54030,7 +54030,7 @@ impl serde::Serialize for RealtimeSessionCreateRequestMaxResponseOutputTokens {
     }
 }
 #[doc = "Maximum number of output tokens for a single assistant response,\ninclusive of tool calls. Provide an integer between 1 and 4096 to\nlimit output tokens, or `inf` for the maximum available tokens for a\ngiven model. Defaults to `inf`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionCreateRequestMaxResponseOutputTokens {
     Integer(u64),
@@ -54038,7 +54038,7 @@ pub enum RealtimeSessionCreateRequestMaxResponseOutputTokens {
     Inf,
 }
 #[doc = "The anchor point for the ephemeral token expiration. Only `created_at` is currently supported.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeSessionCreateRequestClientSecretExpiresAtAnchor {
     #[doc = "created_at"]
     #[default]
@@ -54086,7 +54086,7 @@ impl serde::Serialize for RealtimeSessionCreateRequestClientSecretExpiresAt {
     }
 }
 #[doc = "Configuration for the ephemeral token expiration.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeSessionCreateRequestClientSecretExpiresAt {
     #[doc = "The anchor point for the ephemeral token expiration. Only `created_at` is currently supported.\n"]
     #[builder(default)]
@@ -54129,7 +54129,7 @@ impl serde::Serialize for RealtimeSessionCreateRequestClientSecret {
     }
 }
 #[doc = "Configuration options for the generated client secret.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeSessionCreateRequestClientSecret {
     #[doc = "Configuration for the ephemeral token expiration.\n"]
     #[builder(default)]
@@ -54332,7 +54332,7 @@ impl serde::Serialize for RealtimeSessionCreateRequest {
     }
 }
 #[doc = "Realtime session object configuration."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeSessionCreateRequest {
     #[doc = "The set of modalities the model can respond with. To disable audio,\nset this to [\"text\"].\n"]
     #[builder(default)]
@@ -54429,7 +54429,7 @@ pub struct RealtimeSessionCreateResponseClientSecret {
     #[doc = "Timestamp for when the token expires. Currently, all tokens expire\nafter one minute.\n"]
     pub expires_at: u64,
 }
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeSessionCreateResponseModality {
     #[doc = "text"]
     #[serde(rename = "text")]
@@ -54472,7 +54472,7 @@ impl serde::Serialize for RealtimeSessionCreateResponseInputAudioTranscription {
     }
 }
 #[doc = "Configuration for input audio transcription, defaults to off and can be \nset to `null` to turn off once on. Input audio transcription is not native \nto the model, since the model consumes audio directly. Transcription runs \nasynchronously through Whisper and should be treated as rough guidance \nrather than the representation understood by the model.\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeSessionCreateResponseInputAudioTranscription {
     #[doc = "The model to use for transcription, `whisper-1` is the only currently \nsupported model.\n"]
     #[builder(default)]
@@ -54503,7 +54503,7 @@ impl serde::Serialize for RealtimeSessionCreateResponseTracingAuto {
     }
 }
 #[doc = "Default tracing mode for the session.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeSessionCreateResponseTracingAuto;
 impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateResponseTracing1 {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -54521,7 +54521,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateResponseTracing1 {
             group_id: Option<String>,
             #[serde(rename = "metadata")]
             #[allow(dead_code)]
-            metadata: Option<std::collections::HashMap<String, serde_json::Value>>,
+            metadata: Option<indexmap::IndexMap<String, serde_json::Value>>,
         }
         let RealtimeSessionCreateResponseTracing1 {
             workflow_name,
@@ -54552,7 +54552,7 @@ impl serde::Serialize for RealtimeSessionCreateResponseTracing1 {
             group_id: &'a Option<String>,
             #[serde(rename = "metadata")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            metadata: &'a Option<std::collections::HashMap<String, serde_json::Value>>,
+            metadata: &'a Option<indexmap::IndexMap<String, serde_json::Value>>,
         }
         let Self {
             workflow_name,
@@ -54568,7 +54568,7 @@ impl serde::Serialize for RealtimeSessionCreateResponseTracing1 {
     }
 }
 #[doc = "Granular configuration for tracing.\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeSessionCreateResponseTracing1 {
     #[doc = "The name of the workflow to attach to this trace. This is used to \nname the trace in the traces dashboard.\n"]
     #[builder(default)]
@@ -54578,7 +54578,7 @@ pub struct RealtimeSessionCreateResponseTracing1 {
     pub group_id: Option<String>,
     #[doc = "The arbitrary metadata to attach to this trace to enable \nfiltering in the traces dashboard.\n"]
     #[builder(default)]
-    pub metadata: Option<std::collections::HashMap<String, serde_json::Value>>,
+    pub metadata: Option<indexmap::IndexMap<String, serde_json::Value>>,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateResponseTracing {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -54703,7 +54703,7 @@ impl serde::Serialize for RealtimeSessionCreateResponseTurnDetection {
     }
 }
 #[doc = "Configuration for turn detection. Can be set to `null` to turn off. Server \nVAD means that the model will detect the start and end of speech based on \naudio volume and respond at the end of user speech.\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeSessionCreateResponseTurnDetection {
     #[doc = "Type of turn detection, only `server_vad` is currently supported.\n"]
     #[builder(default)]
@@ -54743,7 +54743,7 @@ impl serde::Serialize for RealtimeSessionCreateResponseToolType {
     }
 }
 #[doc = "The type of the tool, i.e. `function`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct RealtimeSessionCreateResponseToolType;
 impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateResponseTool {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -54764,7 +54764,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateResponseTool {
             description: Option<String>,
             #[serde(rename = "parameters")]
             #[allow(dead_code)]
-            parameters: Option<std::collections::HashMap<String, serde_json::Value>>,
+            parameters: Option<indexmap::IndexMap<String, serde_json::Value>>,
         }
         let RealtimeSessionCreateResponseTool {
             r#type,
@@ -54800,7 +54800,7 @@ impl serde::Serialize for RealtimeSessionCreateResponseTool {
             description: &'a Option<String>,
             #[serde(rename = "parameters")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            parameters: &'a Option<std::collections::HashMap<String, serde_json::Value>>,
+            parameters: &'a Option<indexmap::IndexMap<String, serde_json::Value>>,
         }
         let Self {
             r#type,
@@ -54817,7 +54817,7 @@ impl serde::Serialize for RealtimeSessionCreateResponseTool {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeSessionCreateResponseTool {
     #[doc = "The type of the tool, i.e. `function`."]
     #[builder(default)]
@@ -54830,7 +54830,7 @@ pub struct RealtimeSessionCreateResponseTool {
     pub description: Option<String>,
     #[doc = "Parameters of the function in JSON Schema."]
     #[builder(default)]
-    pub parameters: Option<std::collections::HashMap<String, serde_json::Value>>,
+    pub parameters: Option<indexmap::IndexMap<String, serde_json::Value>>,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateResponseMaxResponseOutputTokensInf {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -54857,7 +54857,7 @@ impl serde::Serialize for RealtimeSessionCreateResponseMaxResponseOutputTokensIn
     }
 }
 #[doc = "inf"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeSessionCreateResponseMaxResponseOutputTokensInf;
 impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateResponseMaxResponseOutputTokens {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -54906,7 +54906,7 @@ impl serde::Serialize for RealtimeSessionCreateResponseMaxResponseOutputTokens {
     }
 }
 #[doc = "Maximum number of output tokens for a single assistant response,\ninclusive of tool calls. Provide an integer between 1 and 4096 to\nlimit output tokens, or `inf` for the maximum available tokens for a\ngiven model. Defaults to `inf`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionCreateResponseMaxResponseOutputTokens {
     Integer(u64),
@@ -55132,7 +55132,7 @@ pub struct RealtimeSessionCreateResponse {
     #[builder(default)]
     pub max_response_output_tokens: Option<RealtimeSessionCreateResponseMaxResponseOutputTokens>,
 }
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeTranscriptionSessionCreateRequestModality {
     #[doc = "text"]
     #[serde(rename = "text")]
@@ -55142,7 +55142,7 @@ pub enum RealtimeTranscriptionSessionCreateRequestModality {
     Audio,
 }
 #[doc = "The format of input audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.\nFor `pcm16`, input audio must be 16-bit PCM at a 24kHz sample rate,\nsingle channel (mono), and little-endian byte order.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeTranscriptionSessionCreateRequestInputAudioFormat {
     #[doc = "pcm16"]
     #[default]
@@ -55156,7 +55156,7 @@ pub enum RealtimeTranscriptionSessionCreateRequestInputAudioFormat {
     G711Alaw,
 }
 #[doc = "The model to use for transcription, current options are `gpt-4o-transcribe`, `gpt-4o-mini-transcribe`, and `whisper-1`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeTranscriptionSessionCreateRequestInputAudioTranscriptionModel {
     #[doc = "gpt-4o-transcribe"]
     #[serde(rename = "gpt-4o-transcribe")]
@@ -55236,7 +55236,7 @@ impl serde::Serialize for RealtimeTranscriptionSessionCreateRequestInputAudioTra
     }
 }
 #[doc = "Configuration for input audio transcription. The client can optionally set the language and prompt for transcription, these offer additional guidance to the transcription service.\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeTranscriptionSessionCreateRequestInputAudioTranscription {
     #[doc = "The model to use for transcription, current options are `gpt-4o-transcribe`, `gpt-4o-mini-transcribe`, and `whisper-1`.\n"]
     #[builder(default)]
@@ -55249,7 +55249,7 @@ pub struct RealtimeTranscriptionSessionCreateRequestInputAudioTranscription {
     pub prompt: Option<String>,
 }
 #[doc = "Type of turn detection.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeTranscriptionSessionCreateRequestTurnDetectionType {
     #[doc = "server_vad"]
     #[default]
@@ -55260,7 +55260,7 @@ pub enum RealtimeTranscriptionSessionCreateRequestTurnDetectionType {
     SemanticVad,
 }
 #[doc = "Used only for `semantic_vad` mode. The eagerness of the model to respond. `low` will wait longer for the user to continue speaking, `high` will respond more quickly. `auto` is the default and is equivalent to `medium`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeTranscriptionSessionCreateRequestTurnDetectionEagerness {
     #[doc = "low"]
     #[serde(rename = "low")]
@@ -55379,7 +55379,7 @@ impl serde::Serialize for RealtimeTranscriptionSessionCreateRequestTurnDetection
     }
 }
 #[doc = "Configuration for turn detection, ether Server VAD or Semantic VAD. This can be set to `null` to turn off, in which case the client must manually trigger model response.\nServer VAD means that the model will detect the start and end of speech based on audio volume and respond at the end of user speech.\nSemantic VAD is more advanced and uses a turn detection model (in conjuction with VAD) to semantically estimate whether the user has finished speaking, then dynamically sets a timeout based on this probability. For example, if user audio trails off with \"uhhm\", the model will score a low probability of turn end and wait longer for the user to continue speaking. This can be useful for more natural conversations, but may have a higher latency.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeTranscriptionSessionCreateRequestTurnDetection {
     #[doc = "Type of turn detection.\n"]
     #[builder(default)]
@@ -55404,7 +55404,7 @@ pub struct RealtimeTranscriptionSessionCreateRequestTurnDetection {
     pub interrupt_response: Option<bool>,
 }
 #[doc = "Type of noise reduction. `near_field` is for close-talking microphones such as headphones, `far_field` is for far-field microphones such as laptop or conference room microphones.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeTranscriptionSessionCreateRequestInputAudioNoiseReductionType {
     #[doc = "near_field"]
     #[serde(rename = "near_field")]
@@ -55453,14 +55453,14 @@ impl serde::Serialize for RealtimeTranscriptionSessionCreateRequestInputAudioNoi
     }
 }
 #[doc = "Configuration for input audio noise reduction. This can be set to `null` to turn off.\nNoise reduction filters audio added to the input audio buffer before it is sent to VAD and the model.\nFiltering the audio can improve VAD and turn detection accuracy (reducing false positives) and model performance by improving perception of the input audio.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeTranscriptionSessionCreateRequestInputAudioNoiseReduction {
     #[doc = "Type of noise reduction. `near_field` is for close-talking microphones such as headphones, `far_field` is for far-field microphones such as laptop or conference room microphones.\n"]
     #[builder(default)]
     pub r#type: Option<RealtimeTranscriptionSessionCreateRequestInputAudioNoiseReductionType>,
 }
 #[doc = "The anchor point for the ephemeral token expiration. Only `created_at` is currently supported.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeTranscriptionSessionCreateRequestClientSecretExpiresAtAnchor {
     #[doc = "created_at"]
     #[default]
@@ -55514,7 +55514,7 @@ impl serde::Serialize for RealtimeTranscriptionSessionCreateRequestClientSecretE
     }
 }
 #[doc = "Configuration for the ephemeral token expiration.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeTranscriptionSessionCreateRequestClientSecretExpiresAt {
     #[doc = "The anchor point for the ephemeral token expiration. Only `created_at` is currently supported.\n"]
     #[builder(default)]
@@ -55557,7 +55557,7 @@ impl serde::Serialize for RealtimeTranscriptionSessionCreateRequestClientSecret 
     }
 }
 #[doc = "Configuration options for the generated client secret.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeTranscriptionSessionCreateRequestClientSecret {
     #[doc = "Configuration for the ephemeral token expiration.\n"]
     #[builder(default)]
@@ -55671,7 +55671,7 @@ impl serde::Serialize for RealtimeTranscriptionSessionCreateRequest {
     }
 }
 #[doc = "Realtime transcription session object configuration."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeTranscriptionSessionCreateRequest {
     #[doc = "The set of modalities the model can respond with. To disable audio,\nset this to [\"text\"].\n"]
     #[builder(default)]
@@ -55744,7 +55744,7 @@ pub struct RealtimeTranscriptionSessionCreateResponseClientSecret {
     #[doc = "Timestamp for when the token expires. Currently, all tokens expire\nafter one minute.\n"]
     pub expires_at: u64,
 }
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeTranscriptionSessionCreateResponseModality {
     #[doc = "text"]
     #[serde(rename = "text")]
@@ -55754,7 +55754,7 @@ pub enum RealtimeTranscriptionSessionCreateResponseModality {
     Audio,
 }
 #[doc = "The model to use for transcription. Can be `gpt-4o-transcribe`, `gpt-4o-mini-transcribe`, or `whisper-1`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeTranscriptionSessionCreateResponseInputAudioTranscriptionModel {
     #[doc = "gpt-4o-transcribe"]
     #[serde(rename = "gpt-4o-transcribe")]
@@ -55834,7 +55834,7 @@ impl serde::Serialize for RealtimeTranscriptionSessionCreateResponseInputAudioTr
     }
 }
 #[doc = "Configuration of the transcription model.\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeTranscriptionSessionCreateResponseInputAudioTranscription {
     #[doc = "The model to use for transcription. Can be `gpt-4o-transcribe`, `gpt-4o-mini-transcribe`, or `whisper-1`.\n"]
     #[builder(default)]
@@ -55919,7 +55919,7 @@ impl serde::Serialize for RealtimeTranscriptionSessionCreateResponseTurnDetectio
     }
 }
 #[doc = "Configuration for turn detection. Can be set to `null` to turn off. Server \nVAD means that the model will detect the start and end of speech based on \naudio volume and respond at the end of user speech.\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeTranscriptionSessionCreateResponseTurnDetection {
     #[doc = "Type of turn detection, only `server_vad` is currently supported.\n"]
     #[builder(default)]
@@ -56037,7 +56037,7 @@ pub struct RealtimeTranscriptionSessionCreateResponse {
     pub turn_detection: Option<RealtimeTranscriptionSessionCreateResponseTurnDetection>,
 }
 #[doc = "A summary of the reasoning performed by the model. This can be\nuseful for debugging and understanding the model's reasoning process.\nOne of `auto`, `concise`, or `detailed`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ReasoningSummary {
     #[doc = "auto"]
     #[serde(rename = "auto")]
@@ -56050,7 +56050,7 @@ pub enum ReasoningSummary {
     Detailed,
 }
 #[doc = "**Deprecated:** use `summary` instead.\n\nA summary of the reasoning performed by the model. This can be\nuseful for debugging and understanding the model's reasoning process.\nOne of `auto`, `concise`, or `detailed`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ReasoningGenerateSummary {
     #[doc = "auto"]
     #[serde(rename = "auto")]
@@ -56125,7 +56125,7 @@ impl serde::Serialize for Reasoning {
     }
 }
 #[doc = "**o-series models only**\n\nConfiguration options for \n[reasoning models](https://platform.openai.com/docs/guides/reasoning).\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct Reasoning {
     #[builder(default)]
     pub effort: Option<ReasoningEffort>,
@@ -56137,7 +56137,7 @@ pub struct Reasoning {
     pub generate_summary: Option<ReasoningGenerateSummary>,
 }
 #[doc = "**o-series models only** \n\nConstrains effort on reasoning for \n[reasoning models](https://platform.openai.com/docs/guides/reasoning).\nCurrently supported values are `low`, `medium`, and `high`. Reducing\nreasoning effort can result in faster responses and fewer tokens used\non reasoning in a response.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ReasoningEffort {
     #[doc = "low"]
     #[serde(rename = "low")]
@@ -56175,7 +56175,7 @@ impl serde::Serialize for ReasoningItemType {
     }
 }
 #[doc = "The type of the object. Always `reasoning`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ReasoningItemType;
 impl<'de> serde::Deserialize<'de> for ReasoningItemSummaryType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -56202,7 +56202,7 @@ impl serde::Serialize for ReasoningItemSummaryType {
     }
 }
 #[doc = "The type of the object. Always `summary_text`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ReasoningItemSummaryType;
 impl<'de> serde::Deserialize<'de> for ReasoningItemSummary {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -56250,7 +56250,7 @@ pub struct ReasoningItemSummary {
     pub text: String,
 }
 #[doc = "The status of the item. One of `in_progress`, `completed`, or\n`incomplete`. Populated when items are returned via API.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ReasoningItemStatus {
     #[doc = "in_progress"]
     #[serde(rename = "in_progress")]
@@ -56377,10 +56377,10 @@ impl serde::Serialize for ResponseObject {
     }
 }
 #[doc = "The object type of this resource - always set to `response`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseObject;
 #[doc = "The status of the response generation. One of `completed`, `failed`, \n`in_progress`, `cancelled`, `queued`, or `incomplete`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ResponseStatus {
     #[doc = "completed"]
     #[serde(rename = "completed")]
@@ -56402,7 +56402,7 @@ pub enum ResponseStatus {
     Incomplete,
 }
 #[doc = "The reason why the response is incomplete."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ResponseIncompleteDetailsReason {
     #[doc = "max_output_tokens"]
     #[serde(rename = "max_output_tokens")]
@@ -56445,7 +56445,7 @@ impl serde::Serialize for ResponseIncompleteDetails {
     }
 }
 #[doc = "Details about why the response is incomplete.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseIncompleteDetails {
     #[doc = "The reason why the response is incomplete."]
     #[builder(default)]
@@ -56646,7 +56646,7 @@ impl serde::Serialize for ResponseAudioDeltaEventType {
     }
 }
 #[doc = "The type of the event. Always `response.audio.delta`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseAudioDeltaEventType;
 impl<'de> serde::Deserialize<'de> for ResponseAudioDeltaEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -56737,7 +56737,7 @@ impl serde::Serialize for ResponseAudioDoneEventType {
     }
 }
 #[doc = "The type of the event. Always `response.audio.done`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseAudioDoneEventType;
 impl<'de> serde::Deserialize<'de> for ResponseAudioDoneEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -56782,7 +56782,7 @@ impl serde::Serialize for ResponseAudioDoneEvent {
     }
 }
 #[doc = "Emitted when the audio response is complete."]
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseAudioDoneEvent {
     #[doc = "The sequence number of the delta.\n"]
     pub sequence_number: u64,
@@ -56812,7 +56812,7 @@ impl serde::Serialize for ResponseAudioTranscriptDeltaEventType {
     }
 }
 #[doc = "The type of the event. Always `response.audio.transcript.delta`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseAudioTranscriptDeltaEventType;
 impl<'de> serde::Deserialize<'de> for ResponseAudioTranscriptDeltaEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -56903,7 +56903,7 @@ impl serde::Serialize for ResponseAudioTranscriptDoneEventType {
     }
 }
 #[doc = "The type of the event. Always `response.audio.transcript.done`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseAudioTranscriptDoneEventType;
 impl<'de> serde::Deserialize<'de> for ResponseAudioTranscriptDoneEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -56948,7 +56948,7 @@ impl serde::Serialize for ResponseAudioTranscriptDoneEvent {
     }
 }
 #[doc = "Emitted when the full audio transcript is completed."]
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseAudioTranscriptDoneEvent {
     #[doc = "The sequence number of this event."]
     pub sequence_number: u64,
@@ -56978,7 +56978,7 @@ impl serde::Serialize for ResponseCodeInterpreterCallCodeDeltaEventType {
     }
 }
 #[doc = "The type of the event. Always `response.code_interpreter_call_code.delta`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseCodeInterpreterCallCodeDeltaEventType;
 impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallCodeDeltaEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -57080,7 +57080,7 @@ impl serde::Serialize for ResponseCodeInterpreterCallCodeDoneEventType {
     }
 }
 #[doc = "The type of the event. Always `response.code_interpreter_call_code.done`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseCodeInterpreterCallCodeDoneEventType;
 impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallCodeDoneEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -57182,7 +57182,7 @@ impl serde::Serialize for ResponseCodeInterpreterCallCompletedEventType {
     }
 }
 #[doc = "The type of the event. Always `response.code_interpreter_call.completed`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseCodeInterpreterCallCompletedEventType;
 impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallCompletedEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -57283,7 +57283,7 @@ impl serde::Serialize for ResponseCodeInterpreterCallInProgressEventType {
     }
 }
 #[doc = "The type of the event. Always `response.code_interpreter_call.in_progress`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseCodeInterpreterCallInProgressEventType;
 impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallInProgressEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -57384,7 +57384,7 @@ impl serde::Serialize for ResponseCodeInterpreterCallInterpretingEventType {
     }
 }
 #[doc = "The type of the event. Always `response.code_interpreter_call.interpreting`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseCodeInterpreterCallInterpretingEventType;
 impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallInterpretingEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -57485,7 +57485,7 @@ impl serde::Serialize for ResponseCompletedEventType {
     }
 }
 #[doc = "The type of the event. Always `response.completed`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseCompletedEventType;
 impl<'de> serde::Deserialize<'de> for ResponseCompletedEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -57576,7 +57576,7 @@ impl serde::Serialize for ResponseContentPartAddedEventType {
     }
 }
 #[doc = "The type of the event. Always `response.content_part.added`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseContentPartAddedEventType;
 impl<'de> serde::Deserialize<'de> for ResponseContentPartAddedEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -57700,7 +57700,7 @@ impl serde::Serialize for ResponseContentPartDoneEventType {
     }
 }
 #[doc = "The type of the event. Always `response.content_part.done`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseContentPartDoneEventType;
 impl<'de> serde::Deserialize<'de> for ResponseContentPartDoneEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -57824,7 +57824,7 @@ impl serde::Serialize for ResponseCreatedEventType {
     }
 }
 #[doc = "The type of the event. Always `response.created`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseCreatedEventType;
 impl<'de> serde::Deserialize<'de> for ResponseCreatedEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -57934,7 +57934,7 @@ pub struct ResponseError {
     pub message: String,
 }
 #[doc = "The error code for the response.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ResponseErrorCode {
     #[doc = "server_error"]
     #[serde(rename = "server_error")]
@@ -58016,7 +58016,7 @@ impl serde::Serialize for ResponseErrorEventType {
     }
 }
 #[doc = "The type of the event. Always `error`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseErrorEventType;
 impl<'de> serde::Deserialize<'de> for ResponseErrorEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -58133,7 +58133,7 @@ impl serde::Serialize for ResponseFailedEventType {
     }
 }
 #[doc = "The type of the event. Always `response.failed`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseFailedEventType;
 impl<'de> serde::Deserialize<'de> for ResponseFailedEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -58224,7 +58224,7 @@ impl serde::Serialize for ResponseFileSearchCallCompletedEventType {
     }
 }
 #[doc = "The type of the event. Always `response.file_search_call.completed`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseFileSearchCallCompletedEventType;
 impl<'de> serde::Deserialize<'de> for ResponseFileSearchCallCompletedEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -58326,7 +58326,7 @@ impl serde::Serialize for ResponseFileSearchCallInProgressEventType {
     }
 }
 #[doc = "The type of the event. Always `response.file_search_call.in_progress`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseFileSearchCallInProgressEventType;
 impl<'de> serde::Deserialize<'de> for ResponseFileSearchCallInProgressEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -58428,7 +58428,7 @@ impl serde::Serialize for ResponseFileSearchCallSearchingEventType {
     }
 }
 #[doc = "The type of the event. Always `response.file_search_call.searching`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseFileSearchCallSearchingEventType;
 impl<'de> serde::Deserialize<'de> for ResponseFileSearchCallSearchingEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -58530,7 +58530,7 @@ impl serde::Serialize for ResponseFormatJsonObjectType {
     }
 }
 #[doc = "The type of response format being defined. Always `json_object`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseFormatJsonObjectType;
 impl<'de> serde::Deserialize<'de> for ResponseFormatJsonObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -58567,7 +58567,7 @@ impl serde::Serialize for ResponseFormatJsonObject {
     }
 }
 #[doc = "JSON object response format. An older method of generating JSON responses.\nUsing `json_schema` is recommended for models that support it. Note that the\nmodel will not generate JSON without a system or user message instructing it\nto do so.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseFormatJsonObject {}
 impl<'de> serde::Deserialize<'de> for ResponseFormatJsonSchemaType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -58594,7 +58594,7 @@ impl serde::Serialize for ResponseFormatJsonSchemaType {
     }
 }
 #[doc = "The type of response format being defined. Always `json_schema`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseFormatJsonSchemaType;
 impl<'de> serde::Deserialize<'de> for ResponseFormatJsonSchemaJsonSchema {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -58729,7 +58729,7 @@ pub struct ResponseFormatJsonSchema {
     pub json_schema: ResponseFormatJsonSchemaJsonSchema,
 }
 #[doc = "The schema for the response format, described as a JSON Schema object.\nLearn how to build JSON schemas [here](https://json-schema.org/).\n"]
-pub type ResponseFormatJsonSchemaSchema = std::collections::HashMap<String, serde_json::Value>;
+pub type ResponseFormatJsonSchemaSchema = indexmap::IndexMap<String, serde_json::Value>;
 impl<'de> serde::Deserialize<'de> for ResponseFormatTextType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -58755,7 +58755,7 @@ impl serde::Serialize for ResponseFormatTextType {
     }
 }
 #[doc = "The type of response format being defined. Always `text`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseFormatTextType;
 impl<'de> serde::Deserialize<'de> for ResponseFormatText {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -58792,7 +58792,7 @@ impl serde::Serialize for ResponseFormatText {
     }
 }
 #[doc = "Default response format. Used to generate text responses.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseFormatText {}
 impl<'de> serde::Deserialize<'de> for ResponseFunctionCallArgumentsDeltaEventType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -58819,7 +58819,7 @@ impl serde::Serialize for ResponseFunctionCallArgumentsDeltaEventType {
     }
 }
 #[doc = "The type of the event. Always `response.function_call_arguments.delta`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseFunctionCallArgumentsDeltaEventType;
 impl<'de> serde::Deserialize<'de> for ResponseFunctionCallArgumentsDeltaEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -58932,7 +58932,7 @@ impl serde::Serialize for ResponseFunctionCallArgumentsDoneEventType {
     }
 }
 #[doc = "response.function_call_arguments.done"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseFunctionCallArgumentsDoneEventType;
 impl<'de> serde::Deserialize<'de> for ResponseFunctionCallArgumentsDoneEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -59045,7 +59045,7 @@ impl serde::Serialize for ResponseImageGenCallCompletedEventType {
     }
 }
 #[doc = "The type of the event. Always 'response.image_generation_call.completed'."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseImageGenCallCompletedEventType;
 impl<'de> serde::Deserialize<'de> for ResponseImageGenCallCompletedEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -59147,7 +59147,7 @@ impl serde::Serialize for ResponseImageGenCallGeneratingEventType {
     }
 }
 #[doc = "The type of the event. Always 'response.image_generation_call.generating'."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseImageGenCallGeneratingEventType;
 impl<'de> serde::Deserialize<'de> for ResponseImageGenCallGeneratingEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -59249,7 +59249,7 @@ impl serde::Serialize for ResponseImageGenCallInProgressEventType {
     }
 }
 #[doc = "The type of the event. Always 'response.image_generation_call.in_progress'."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseImageGenCallInProgressEventType;
 impl<'de> serde::Deserialize<'de> for ResponseImageGenCallInProgressEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -59351,7 +59351,7 @@ impl serde::Serialize for ResponseImageGenCallPartialImageEventType {
     }
 }
 #[doc = "The type of the event. Always 'response.image_generation_call.partial_image'."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseImageGenCallPartialImageEventType;
 impl<'de> serde::Deserialize<'de> for ResponseImageGenCallPartialImageEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -59475,7 +59475,7 @@ impl serde::Serialize for ResponseInProgressEventType {
     }
 }
 #[doc = "The type of the event. Always `response.in_progress`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseInProgressEventType;
 impl<'de> serde::Deserialize<'de> for ResponseInProgressEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -59566,7 +59566,7 @@ impl serde::Serialize for ResponseIncompleteEventType {
     }
 }
 #[doc = "The type of the event. Always `response.incomplete`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseIncompleteEventType;
 impl<'de> serde::Deserialize<'de> for ResponseIncompleteEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -59657,7 +59657,7 @@ impl serde::Serialize for ResponseItemListObject {
     }
 }
 #[doc = "The type of object returned, must be `list`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseItemListObject;
 impl<'de> serde::Deserialize<'de> for ResponseItemList {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -59770,7 +59770,7 @@ impl serde::Serialize for ResponseMcpCallArgumentsDeltaEventType {
     }
 }
 #[doc = "The type of the event. Always 'response.mcp_call.arguments_delta'."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseMcpCallArgumentsDeltaEventType;
 impl<'de> serde::Deserialize<'de> for ResponseMcpCallArgumentsDeltaEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -59791,7 +59791,7 @@ impl<'de> serde::Deserialize<'de> for ResponseMcpCallArgumentsDeltaEvent {
             item_id: String,
             #[serde(rename = "delta")]
             #[allow(dead_code)]
-            delta: std::collections::HashMap<String, serde_json::Value>,
+            delta: indexmap::IndexMap<String, serde_json::Value>,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
             sequence_number: u64,
@@ -59826,7 +59826,7 @@ impl serde::Serialize for ResponseMcpCallArgumentsDeltaEvent {
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "delta")]
-            delta: &'a std::collections::HashMap<String, serde_json::Value>,
+            delta: &'a indexmap::IndexMap<String, serde_json::Value>,
             #[serde(rename = "sequence_number")]
             sequence_number: &'a u64,
         }
@@ -59854,7 +59854,7 @@ pub struct ResponseMcpCallArgumentsDeltaEvent {
     #[doc = "The unique identifier of the MCP tool call item being processed."]
     pub item_id: String,
     #[doc = "The partial update to the arguments for the MCP tool call."]
-    pub delta: std::collections::HashMap<String, serde_json::Value>,
+    pub delta: indexmap::IndexMap<String, serde_json::Value>,
     #[doc = "The sequence number of this event."]
     pub sequence_number: u64,
 }
@@ -59883,7 +59883,7 @@ impl serde::Serialize for ResponseMcpCallArgumentsDoneEventType {
     }
 }
 #[doc = "The type of the event. Always 'response.mcp_call.arguments_done'."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseMcpCallArgumentsDoneEventType;
 impl<'de> serde::Deserialize<'de> for ResponseMcpCallArgumentsDoneEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -59904,7 +59904,7 @@ impl<'de> serde::Deserialize<'de> for ResponseMcpCallArgumentsDoneEvent {
             item_id: String,
             #[serde(rename = "arguments")]
             #[allow(dead_code)]
-            arguments: std::collections::HashMap<String, serde_json::Value>,
+            arguments: indexmap::IndexMap<String, serde_json::Value>,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
             sequence_number: u64,
@@ -59939,7 +59939,7 @@ impl serde::Serialize for ResponseMcpCallArgumentsDoneEvent {
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "arguments")]
-            arguments: &'a std::collections::HashMap<String, serde_json::Value>,
+            arguments: &'a indexmap::IndexMap<String, serde_json::Value>,
             #[serde(rename = "sequence_number")]
             sequence_number: &'a u64,
         }
@@ -59967,7 +59967,7 @@ pub struct ResponseMcpCallArgumentsDoneEvent {
     #[doc = "The unique identifier of the MCP tool call item being processed."]
     pub item_id: String,
     #[doc = "The finalized arguments for the MCP tool call."]
-    pub arguments: std::collections::HashMap<String, serde_json::Value>,
+    pub arguments: indexmap::IndexMap<String, serde_json::Value>,
     #[doc = "The sequence number of this event."]
     pub sequence_number: u64,
 }
@@ -59996,7 +59996,7 @@ impl serde::Serialize for ResponseMcpCallCompletedEventType {
     }
 }
 #[doc = "The type of the event. Always 'response.mcp_call.completed'."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseMcpCallCompletedEventType;
 impl<'de> serde::Deserialize<'de> for ResponseMcpCallCompletedEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -60041,7 +60041,7 @@ impl serde::Serialize for ResponseMcpCallCompletedEvent {
     }
 }
 #[doc = "Emitted when an MCP  tool call has completed successfully.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseMcpCallCompletedEvent {
     #[doc = "The sequence number of this event."]
     pub sequence_number: u64,
@@ -60071,7 +60071,7 @@ impl serde::Serialize for ResponseMcpCallFailedEventType {
     }
 }
 #[doc = "The type of the event. Always 'response.mcp_call.failed'."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseMcpCallFailedEventType;
 impl<'de> serde::Deserialize<'de> for ResponseMcpCallFailedEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -60116,7 +60116,7 @@ impl serde::Serialize for ResponseMcpCallFailedEvent {
     }
 }
 #[doc = "Emitted when an MCP  tool call has failed.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseMcpCallFailedEvent {
     #[doc = "The sequence number of this event."]
     pub sequence_number: u64,
@@ -60146,7 +60146,7 @@ impl serde::Serialize for ResponseMcpCallInProgressEventType {
     }
 }
 #[doc = "The type of the event. Always 'response.mcp_call.in_progress'."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseMcpCallInProgressEventType;
 impl<'de> serde::Deserialize<'de> for ResponseMcpCallInProgressEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -60248,7 +60248,7 @@ impl serde::Serialize for ResponseMcpListToolsCompletedEventType {
     }
 }
 #[doc = "The type of the event. Always 'response.mcp_list_tools.completed'."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseMcpListToolsCompletedEventType;
 impl<'de> serde::Deserialize<'de> for ResponseMcpListToolsCompletedEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -60293,7 +60293,7 @@ impl serde::Serialize for ResponseMcpListToolsCompletedEvent {
     }
 }
 #[doc = "Emitted when the list of available MCP tools has been successfully retrieved.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseMcpListToolsCompletedEvent {
     #[doc = "The sequence number of this event."]
     pub sequence_number: u64,
@@ -60323,7 +60323,7 @@ impl serde::Serialize for ResponseMcpListToolsFailedEventType {
     }
 }
 #[doc = "The type of the event. Always 'response.mcp_list_tools.failed'."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseMcpListToolsFailedEventType;
 impl<'de> serde::Deserialize<'de> for ResponseMcpListToolsFailedEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -60368,7 +60368,7 @@ impl serde::Serialize for ResponseMcpListToolsFailedEvent {
     }
 }
 #[doc = "Emitted when the attempt to list available MCP tools has failed.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseMcpListToolsFailedEvent {
     #[doc = "The sequence number of this event."]
     pub sequence_number: u64,
@@ -60398,7 +60398,7 @@ impl serde::Serialize for ResponseMcpListToolsInProgressEventType {
     }
 }
 #[doc = "The type of the event. Always 'response.mcp_list_tools.in_progress'."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseMcpListToolsInProgressEventType;
 impl<'de> serde::Deserialize<'de> for ResponseMcpListToolsInProgressEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -60443,12 +60443,12 @@ impl serde::Serialize for ResponseMcpListToolsInProgressEvent {
     }
 }
 #[doc = "Emitted when the system is in the process of retrieving the list of available MCP tools.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseMcpListToolsInProgressEvent {
     #[doc = "The sequence number of this event."]
     pub sequence_number: u64,
 }
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ResponseModality {
     #[doc = "text"]
     #[serde(rename = "text")]
@@ -60484,7 +60484,7 @@ impl serde::Serialize for ResponseOutputItemAddedEventType {
     }
 }
 #[doc = "The type of the event. Always `response.output_item.added`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseOutputItemAddedEventType;
 impl<'de> serde::Deserialize<'de> for ResponseOutputItemAddedEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -60586,7 +60586,7 @@ impl serde::Serialize for ResponseOutputItemDoneEventType {
     }
 }
 #[doc = "The type of the event. Always `response.output_item.done`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseOutputItemDoneEventType;
 impl<'de> serde::Deserialize<'de> for ResponseOutputItemDoneEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -60688,7 +60688,7 @@ impl serde::Serialize for ResponseOutputTextAnnotationAddedEventType {
     }
 }
 #[doc = "The type of the event. Always 'response.output_text_annotation.added'."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseOutputTextAnnotationAddedEventType;
 impl<'de> serde::Deserialize<'de> for ResponseOutputTextAnnotationAddedEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -60718,7 +60718,7 @@ impl<'de> serde::Deserialize<'de> for ResponseOutputTextAnnotationAddedEvent {
             sequence_number: u64,
             #[serde(rename = "annotation")]
             #[allow(dead_code)]
-            annotation: std::collections::HashMap<String, serde_json::Value>,
+            annotation: indexmap::IndexMap<String, serde_json::Value>,
         }
         let ResponseOutputTextAnnotationAddedEvent {
             item_id,
@@ -60760,7 +60760,7 @@ impl serde::Serialize for ResponseOutputTextAnnotationAddedEvent {
             #[serde(rename = "sequence_number")]
             sequence_number: &'a u64,
             #[serde(rename = "annotation")]
-            annotation: &'a std::collections::HashMap<String, serde_json::Value>,
+            annotation: &'a indexmap::IndexMap<String, serde_json::Value>,
         }
         let Self {
             item_id,
@@ -60796,7 +60796,7 @@ pub struct ResponseOutputTextAnnotationAddedEvent {
     #[doc = "The sequence number of this event."]
     pub sequence_number: u64,
     #[doc = "The annotation object being added. (See annotation schema for details.)"]
-    pub annotation: std::collections::HashMap<String, serde_json::Value>,
+    pub annotation: indexmap::IndexMap<String, serde_json::Value>,
 }
 impl<'de> serde::Deserialize<'de> for ResponsePropertiesText {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -60832,7 +60832,7 @@ impl serde::Serialize for ResponsePropertiesText {
     }
 }
 #[doc = "Configuration options for a text response from the model. Can be plain\ntext or structured JSON data. Learn more:\n- [Text inputs and outputs](https://platform.openai.com/docs/guides/text)\n- [Structured Outputs](https://platform.openai.com/docs/guides/structured-outputs)\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponsePropertiesText {
     #[builder(default)]
     pub format: Option<TextResponseFormatConfiguration>,
@@ -60896,7 +60896,7 @@ pub enum ResponsePropertiesToolChoice {
     ToolChoiceFunction(ToolChoiceFunction),
 }
 #[doc = "The truncation strategy to use for the model response.\n- `auto`: If the context of this response and previous ones exceeds\n  the model's context window size, the model will truncate the \n  response to fit the context window by dropping input items in the\n  middle of the conversation. \n- `disabled` (default): If a model response will exceed the context window \n  size for a model, the request will fail with a 400 error.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ResponsePropertiesTruncation {
     #[doc = "auto"]
     #[serde(rename = "auto")]
@@ -61038,7 +61038,7 @@ impl serde::Serialize for ResponseProperties {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseProperties {
     #[doc = "The unique ID of the previous response to the model. Use this to\ncreate multi-turn conversations. Learn more about \n[conversation state](https://platform.openai.com/docs/guides/conversation-state).\n"]
     #[builder(default)]
@@ -61095,7 +61095,7 @@ impl serde::Serialize for ResponseQueuedEventType {
     }
 }
 #[doc = "The type of the event. Always 'response.queued'."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseQueuedEventType;
 impl<'de> serde::Deserialize<'de> for ResponseQueuedEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -61186,7 +61186,7 @@ impl serde::Serialize for ResponseReasoningDeltaEventType {
     }
 }
 #[doc = "The type of the event. Always 'response.reasoning.delta'."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseReasoningDeltaEventType;
 impl<'de> serde::Deserialize<'de> for ResponseReasoningDeltaEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -61210,7 +61210,7 @@ impl<'de> serde::Deserialize<'de> for ResponseReasoningDeltaEvent {
             content_index: u64,
             #[serde(rename = "delta")]
             #[allow(dead_code)]
-            delta: std::collections::HashMap<String, serde_json::Value>,
+            delta: indexmap::IndexMap<String, serde_json::Value>,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
             sequence_number: u64,
@@ -61249,7 +61249,7 @@ impl serde::Serialize for ResponseReasoningDeltaEvent {
             #[serde(rename = "content_index")]
             content_index: &'a u64,
             #[serde(rename = "delta")]
-            delta: &'a std::collections::HashMap<String, serde_json::Value>,
+            delta: &'a indexmap::IndexMap<String, serde_json::Value>,
             #[serde(rename = "sequence_number")]
             sequence_number: &'a u64,
         }
@@ -61281,7 +61281,7 @@ pub struct ResponseReasoningDeltaEvent {
     #[doc = "The index of the reasoning content part within the output item."]
     pub content_index: u64,
     #[doc = "The partial update to the reasoning content."]
-    pub delta: std::collections::HashMap<String, serde_json::Value>,
+    pub delta: indexmap::IndexMap<String, serde_json::Value>,
     #[doc = "The sequence number of this event."]
     pub sequence_number: u64,
 }
@@ -61310,7 +61310,7 @@ impl serde::Serialize for ResponseReasoningDoneEventType {
     }
 }
 #[doc = "The type of the event. Always 'response.reasoning.done'."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseReasoningDoneEventType;
 impl<'de> serde::Deserialize<'de> for ResponseReasoningDoneEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -61434,7 +61434,7 @@ impl serde::Serialize for ResponseReasoningSummaryDeltaEventType {
     }
 }
 #[doc = "The type of the event. Always 'response.reasoning_summary.delta'."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseReasoningSummaryDeltaEventType;
 impl<'de> serde::Deserialize<'de> for ResponseReasoningSummaryDeltaEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -61461,7 +61461,7 @@ impl<'de> serde::Deserialize<'de> for ResponseReasoningSummaryDeltaEvent {
             sequence_number: u64,
             #[serde(rename = "delta")]
             #[allow(dead_code)]
-            delta: std::collections::HashMap<String, serde_json::Value>,
+            delta: indexmap::IndexMap<String, serde_json::Value>,
         }
         let ResponseReasoningSummaryDeltaEvent {
             item_id,
@@ -61499,7 +61499,7 @@ impl serde::Serialize for ResponseReasoningSummaryDeltaEvent {
             #[serde(rename = "sequence_number")]
             sequence_number: &'a u64,
             #[serde(rename = "delta")]
-            delta: &'a std::collections::HashMap<String, serde_json::Value>,
+            delta: &'a indexmap::IndexMap<String, serde_json::Value>,
         }
         let Self {
             item_id,
@@ -61531,7 +61531,7 @@ pub struct ResponseReasoningSummaryDeltaEvent {
     #[doc = "The sequence number of this event."]
     pub sequence_number: u64,
     #[doc = "The partial update to the reasoning summary content."]
-    pub delta: std::collections::HashMap<String, serde_json::Value>,
+    pub delta: indexmap::IndexMap<String, serde_json::Value>,
 }
 impl<'de> serde::Deserialize<'de> for ResponseReasoningSummaryDoneEventType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -61558,7 +61558,7 @@ impl serde::Serialize for ResponseReasoningSummaryDoneEventType {
     }
 }
 #[doc = "The type of the event. Always 'response.reasoning_summary.done'."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseReasoningSummaryDoneEventType;
 impl<'de> serde::Deserialize<'de> for ResponseReasoningSummaryDoneEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -61682,7 +61682,7 @@ impl serde::Serialize for ResponseReasoningSummaryPartAddedEventType {
     }
 }
 #[doc = "The type of the event. Always `response.reasoning_summary_part.added`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseReasoningSummaryPartAddedEventType;
 impl<'de> serde::Deserialize<'de> for ResponseReasoningSummaryPartAddedEventPartType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -61709,7 +61709,7 @@ impl serde::Serialize for ResponseReasoningSummaryPartAddedEventPartType {
     }
 }
 #[doc = "The type of the summary part. Always `summary_text`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseReasoningSummaryPartAddedEventPartType;
 impl<'de> serde::Deserialize<'de> for ResponseReasoningSummaryPartAddedEventPart {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -61880,7 +61880,7 @@ impl serde::Serialize for ResponseReasoningSummaryPartDoneEventType {
     }
 }
 #[doc = "The type of the event. Always `response.reasoning_summary_part.done`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseReasoningSummaryPartDoneEventType;
 impl<'de> serde::Deserialize<'de> for ResponseReasoningSummaryPartDoneEventPartType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -61907,7 +61907,7 @@ impl serde::Serialize for ResponseReasoningSummaryPartDoneEventPartType {
     }
 }
 #[doc = "The type of the summary part. Always `summary_text`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseReasoningSummaryPartDoneEventPartType;
 impl<'de> serde::Deserialize<'de> for ResponseReasoningSummaryPartDoneEventPart {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -62078,7 +62078,7 @@ impl serde::Serialize for ResponseReasoningSummaryTextDeltaEventType {
     }
 }
 #[doc = "The type of the event. Always `response.reasoning_summary_text.delta`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseReasoningSummaryTextDeltaEventType;
 impl<'de> serde::Deserialize<'de> for ResponseReasoningSummaryTextDeltaEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -62202,7 +62202,7 @@ impl serde::Serialize for ResponseReasoningSummaryTextDoneEventType {
     }
 }
 #[doc = "The type of the event. Always `response.reasoning_summary_text.done`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseReasoningSummaryTextDoneEventType;
 impl<'de> serde::Deserialize<'de> for ResponseReasoningSummaryTextDoneEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -62326,7 +62326,7 @@ impl serde::Serialize for ResponseRefusalDeltaEventType {
     }
 }
 #[doc = "The type of the event. Always `response.refusal.delta`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseRefusalDeltaEventType;
 impl<'de> serde::Deserialize<'de> for ResponseRefusalDeltaEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -62450,7 +62450,7 @@ impl serde::Serialize for ResponseRefusalDoneEventType {
     }
 }
 #[doc = "The type of the event. Always `response.refusal.done`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseRefusalDoneEventType;
 impl<'de> serde::Deserialize<'de> for ResponseRefusalDoneEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -63129,7 +63129,7 @@ impl serde::Serialize for ResponseTextDeltaEventType {
     }
 }
 #[doc = "The type of the event. Always `response.output_text.delta`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseTextDeltaEventType;
 impl<'de> serde::Deserialize<'de> for ResponseTextDeltaEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -63253,7 +63253,7 @@ impl serde::Serialize for ResponseTextDoneEventType {
     }
 }
 #[doc = "The type of the event. Always `response.output_text.done`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseTextDoneEventType;
 impl<'de> serde::Deserialize<'de> for ResponseTextDoneEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -63385,7 +63385,7 @@ impl serde::Serialize for ResponseUsageInputTokensDetails {
     }
 }
 #[doc = "A detailed breakdown of the input tokens."]
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseUsageInputTokensDetails {
     #[doc = "The number of tokens that were retrieved from the cache. \n[More on prompt caching](https://platform.openai.com/docs/guides/prompt-caching).\n"]
     pub cached_tokens: u64,
@@ -63424,7 +63424,7 @@ impl serde::Serialize for ResponseUsageOutputTokensDetails {
     }
 }
 #[doc = "A detailed breakdown of the output tokens."]
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseUsageOutputTokensDetails {
     #[doc = "The number of reasoning tokens."]
     pub reasoning_tokens: u64,
@@ -63507,7 +63507,7 @@ impl serde::Serialize for ResponseUsage {
     }
 }
 #[doc = "Represents token usage details including input tokens, output tokens,\na breakdown of output tokens, and the total tokens used.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseUsage {
     #[doc = "The number of input tokens."]
     pub input_tokens: u64,
@@ -63545,7 +63545,7 @@ impl serde::Serialize for ResponseWebSearchCallCompletedEventType {
     }
 }
 #[doc = "The type of the event. Always `response.web_search_call.completed`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseWebSearchCallCompletedEventType;
 impl<'de> serde::Deserialize<'de> for ResponseWebSearchCallCompletedEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -63647,7 +63647,7 @@ impl serde::Serialize for ResponseWebSearchCallInProgressEventType {
     }
 }
 #[doc = "The type of the event. Always `response.web_search_call.in_progress`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseWebSearchCallInProgressEventType;
 impl<'de> serde::Deserialize<'de> for ResponseWebSearchCallInProgressEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -63749,7 +63749,7 @@ impl serde::Serialize for ResponseWebSearchCallSearchingEventType {
     }
 }
 #[doc = "The type of the event. Always `response.web_search_call.searching`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseWebSearchCallSearchingEventType;
 impl<'de> serde::Deserialize<'de> for ResponseWebSearchCallSearchingEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -63886,7 +63886,7 @@ impl serde::Serialize for RunCompletionUsage {
     }
 }
 #[doc = "Usage statistics related to the run. This value will be `null` if the run is not in a terminal state (i.e. `in_progress`, `queued`, etc.)."]
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunCompletionUsage {
     #[doc = "Number of completion tokens used over the course of the run."]
     pub completion_tokens: u64,
@@ -63970,7 +63970,7 @@ impl<'de> serde::Deserialize<'de> for RunGraderRequest {
             grader: RunGraderRequestGrader,
             #[serde(rename = "item")]
             #[allow(dead_code)]
-            item: Option<std::collections::HashMap<String, serde_json::Value>>,
+            item: Option<indexmap::IndexMap<String, serde_json::Value>>,
             #[serde(rename = "model_sample")]
             #[allow(dead_code)]
             model_sample: String,
@@ -64000,7 +64000,7 @@ impl serde::Serialize for RunGraderRequest {
             grader: &'a RunGraderRequestGrader,
             #[serde(rename = "item")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            item: &'a Option<std::collections::HashMap<String, serde_json::Value>>,
+            item: &'a Option<indexmap::IndexMap<String, serde_json::Value>>,
             #[serde(rename = "model_sample")]
             model_sample: &'a String,
         }
@@ -64023,7 +64023,7 @@ pub struct RunGraderRequest {
     pub grader: RunGraderRequestGrader,
     #[doc = "The dataset item provided to the grader. This will be used to populate \nthe `item` namespace. See [the guide](https://platform.openai.com/docs/guides/graders) for more details. \n"]
     #[builder(default)]
-    pub item: Option<std::collections::HashMap<String, serde_json::Value>>,
+    pub item: Option<indexmap::IndexMap<String, serde_json::Value>>,
     #[doc = "The model sample to be evaluated. This value will be used to populate \nthe `sample` namespace. See [the guide](https://platform.openai.com/docs/guides/graders) for more details.\nThe `output_json` variable will be populated if the model sample is a \nvalid JSON string.\n \n"]
     pub model_sample: String,
 }
@@ -64230,7 +64230,7 @@ impl<'de> serde::Deserialize<'de> for RunGraderResponseMetadata {
             execution_time: f64,
             #[serde(rename = "scores")]
             #[allow(dead_code)]
-            scores: std::collections::HashMap<String, serde_json::Value>,
+            scores: indexmap::IndexMap<String, serde_json::Value>,
             #[serde(rename = "token_usage")]
             #[allow(dead_code)]
             token_usage: Option<u64>,
@@ -64276,7 +64276,7 @@ impl serde::Serialize for RunGraderResponseMetadata {
             #[serde(rename = "execution_time")]
             execution_time: &'a f64,
             #[serde(rename = "scores")]
-            scores: &'a std::collections::HashMap<String, serde_json::Value>,
+            scores: &'a indexmap::IndexMap<String, serde_json::Value>,
             #[serde(rename = "token_usage")]
             #[serde(skip_serializing_if = "Option::is_none")]
             token_usage: &'a Option<u64>,
@@ -64311,7 +64311,7 @@ pub struct RunGraderResponseMetadata {
     pub r#type: String,
     pub errors: RunGraderResponseMetadataErrors,
     pub execution_time: f64,
-    pub scores: std::collections::HashMap<String, serde_json::Value>,
+    pub scores: indexmap::IndexMap<String, serde_json::Value>,
     #[builder(default)]
     pub token_usage: Option<u64>,
     #[builder(default)]
@@ -64333,11 +64333,10 @@ impl<'de> serde::Deserialize<'de> for RunGraderResponse {
             metadata: RunGraderResponseMetadata,
             #[serde(rename = "sub_rewards")]
             #[allow(dead_code)]
-            sub_rewards: std::collections::HashMap<String, serde_json::Value>,
+            sub_rewards: indexmap::IndexMap<String, serde_json::Value>,
             #[serde(rename = "model_grader_token_usage_per_model")]
             #[allow(dead_code)]
-            model_grader_token_usage_per_model:
-                std::collections::HashMap<String, serde_json::Value>,
+            model_grader_token_usage_per_model: indexmap::IndexMap<String, serde_json::Value>,
         }
         let RunGraderResponse {
             reward,
@@ -64367,10 +64366,9 @@ impl serde::Serialize for RunGraderResponse {
             #[serde(rename = "metadata")]
             metadata: &'a RunGraderResponseMetadata,
             #[serde(rename = "sub_rewards")]
-            sub_rewards: &'a std::collections::HashMap<String, serde_json::Value>,
+            sub_rewards: &'a indexmap::IndexMap<String, serde_json::Value>,
             #[serde(rename = "model_grader_token_usage_per_model")]
-            model_grader_token_usage_per_model:
-                &'a std::collections::HashMap<String, serde_json::Value>,
+            model_grader_token_usage_per_model: &'a indexmap::IndexMap<String, serde_json::Value>,
         }
         let Self {
             reward,
@@ -64391,8 +64389,8 @@ impl serde::Serialize for RunGraderResponse {
 pub struct RunGraderResponse {
     pub reward: f64,
     pub metadata: RunGraderResponseMetadata,
-    pub sub_rewards: std::collections::HashMap<String, serde_json::Value>,
-    pub model_grader_token_usage_per_model: std::collections::HashMap<String, serde_json::Value>,
+    pub sub_rewards: indexmap::IndexMap<String, serde_json::Value>,
+    pub model_grader_token_usage_per_model: indexmap::IndexMap<String, serde_json::Value>,
 }
 impl<'de> serde::Deserialize<'de> for RunObjectObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -64419,7 +64417,7 @@ impl serde::Serialize for RunObjectObject {
     }
 }
 #[doc = "The object type, which is always `thread.run`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunObjectObject;
 impl<'de> serde::Deserialize<'de> for RunObjectRequiredActionType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -64446,7 +64444,7 @@ impl serde::Serialize for RunObjectRequiredActionType {
     }
 }
 #[doc = "For now, this is always `submit_tool_outputs`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunObjectRequiredActionType;
 impl<'de> serde::Deserialize<'de> for RunObjectRequiredActionSubmitToolOutputs {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -64540,7 +64538,7 @@ pub struct RunObjectRequiredAction {
     pub submit_tool_outputs: RunObjectRequiredActionSubmitToolOutputs,
 }
 #[doc = "One of `server_error`, `rate_limit_exceeded`, or `invalid_prompt`."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RunObjectLastErrorCode {
     #[doc = "server_error"]
     #[serde(rename = "server_error")]
@@ -64598,7 +64596,7 @@ pub struct RunObjectLastError {
     pub message: String,
 }
 #[doc = "The reason why the run is incomplete. This will point to which specific token limit was reached over the course of the run."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RunObjectIncompleteDetailsReason {
     #[doc = "max_completion_tokens"]
     #[serde(rename = "max_completion_tokens")]
@@ -64641,7 +64639,7 @@ impl serde::Serialize for RunObjectIncompleteDetails {
     }
 }
 #[doc = "Details on why the run is incomplete. Will be `null` if the run is not incomplete."]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunObjectIncompleteDetails {
     #[doc = "The reason why the run is incomplete. This will point to which specific token limit was reached over the course of the run."]
     #[builder(default)]
@@ -65062,7 +65060,7 @@ impl serde::Serialize for RunStepCompletionUsage {
     }
 }
 #[doc = "Usage statistics related to the run step. This value will be `null` while the run step's status is `in_progress`."]
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStepCompletionUsage {
     #[doc = "Number of completion tokens used over the course of the run step."]
     pub completion_tokens: u64,
@@ -65096,7 +65094,7 @@ impl serde::Serialize for RunStepDeltaObjectObject {
     }
 }
 #[doc = "The object type, which is always `thread.run.step.delta`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStepDeltaObjectObject;
 impl<'de> serde::Deserialize<'de> for RunStepDeltaObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -65177,7 +65175,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsMessageCreationObjectType {
     }
 }
 #[doc = "Always `message_creation`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStepDeltaStepDetailsMessageCreationObjectType;
 impl<'de> serde::Deserialize<'de> for RunStepDeltaStepDetailsMessageCreationObjectMessageCreation {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -65213,7 +65211,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsMessageCreationObjectMessageCre
             .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStepDeltaStepDetailsMessageCreationObjectMessageCreation {
     #[doc = "The ID of the message that was created by this run step."]
     #[builder(default)]
@@ -65264,7 +65262,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsMessageCreationObject {
     }
 }
 #[doc = "Details of the message creation by the run step."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStepDeltaStepDetailsMessageCreationObject {
     #[builder(default)]
     pub message_creation: Option<RunStepDeltaStepDetailsMessageCreationObjectMessageCreation>,
@@ -65294,7 +65292,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsCodeObjectType {
     }
 }
 #[doc = "The type of tool call. This is always going to be `code_interpreter` for this type of tool call."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStepDeltaStepDetailsToolCallsCodeObjectType;
 impl<'de> serde::Deserialize<'de>
     for RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterOutputs
@@ -65398,7 +65396,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpre
     }
 }
 #[doc = "The Code Interpreter tool call definition."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter {
     #[doc = "The input to the Code Interpreter tool call."]
     #[builder(default)]
@@ -65511,7 +65509,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectT
     }
 }
 #[doc = "Always `image`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectType;
 impl<'de> serde::Deserialize<'de> for RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImage {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -65546,7 +65544,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectI
         RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImage { file_id }.serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImage {
     #[doc = "The [file](https://platform.openai.com/docs/api-reference/files) ID of the image."]
     #[builder(default)]
@@ -65632,7 +65630,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectTy
     }
 }
 #[doc = "Always `logs`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectType;
 impl<'de> serde::Deserialize<'de> for RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -65716,7 +65714,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsFileSearchObjectType {
     }
 }
 #[doc = "The type of tool call. This is always going to be `file_search` for this type of tool call."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStepDeltaStepDetailsToolCallsFileSearchObjectType;
 impl<'de> serde::Deserialize<'de> for RunStepDeltaStepDetailsToolCallsFileSearchObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -65737,7 +65735,7 @@ impl<'de> serde::Deserialize<'de> for RunStepDeltaStepDetailsToolCallsFileSearch
             r#type: RunStepDeltaStepDetailsToolCallsFileSearchObjectType,
             #[serde(rename = "file_search")]
             #[allow(dead_code)]
-            file_search: std::collections::HashMap<String, serde_json::Value>,
+            file_search: indexmap::IndexMap<String, serde_json::Value>,
         }
         let RunStepDeltaStepDetailsToolCallsFileSearchObject {
             index,
@@ -65768,7 +65766,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsFileSearchObject {
             #[serde(rename = "type")]
             r#type: &'a RunStepDeltaStepDetailsToolCallsFileSearchObjectType,
             #[serde(rename = "file_search")]
-            file_search: &'a std::collections::HashMap<String, serde_json::Value>,
+            file_search: &'a indexmap::IndexMap<String, serde_json::Value>,
         }
         let Self {
             index,
@@ -65792,7 +65790,7 @@ pub struct RunStepDeltaStepDetailsToolCallsFileSearchObject {
     #[builder(default)]
     pub id: Option<String>,
     #[doc = "For now, this is always going to be an empty object."]
-    pub file_search: std::collections::HashMap<String, serde_json::Value>,
+    pub file_search: indexmap::IndexMap<String, serde_json::Value>,
 }
 impl<'de> serde::Deserialize<'de> for RunStepDeltaStepDetailsToolCallsFunctionObjectType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -65819,7 +65817,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsFunctionObjectType {
     }
 }
 #[doc = "The type of tool call. This is always going to be `function` for this type of tool call."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStepDeltaStepDetailsToolCallsFunctionObjectType;
 impl<'de> serde::Deserialize<'de> for RunStepDeltaStepDetailsToolCallsFunctionObjectFunction {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -65884,7 +65882,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsFunctionObjectFunction
     }
 }
 #[doc = "The definition of the function that was called."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStepDeltaStepDetailsToolCallsFunctionObjectFunction {
     #[doc = "The name of the function."]
     #[builder(default)]
@@ -65999,7 +65997,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsObjectType {
     }
 }
 #[doc = "Always `tool_calls`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStepDeltaStepDetailsToolCallsObjectType;
 impl<'de> serde::Deserialize<'de> for RunStepDeltaStepDetailsToolCallsObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -66044,7 +66042,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsObject {
     }
 }
 #[doc = "Details of the tool call."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStepDeltaStepDetailsToolCallsObject {
     #[doc = "An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `file_search`, or `function`.\n"]
     #[builder(default)]
@@ -66075,7 +66073,7 @@ impl serde::Serialize for RunStepDetailsMessageCreationObjectType {
     }
 }
 #[doc = "Always `message_creation`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStepDetailsMessageCreationObjectType;
 impl<'de> serde::Deserialize<'de> for RunStepDetailsMessageCreationObjectMessageCreation {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -66186,7 +66184,7 @@ impl serde::Serialize for RunStepDetailsToolCallsCodeObjectType {
     }
 }
 #[doc = "The type of tool call. This is always going to be `code_interpreter` for this type of tool call."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStepDetailsToolCallsCodeObjectType;
 impl<'de> serde::Deserialize<'de> for RunStepDetailsToolCallsCodeObjectCodeInterpreterOutputs {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -66372,7 +66370,7 @@ impl serde::Serialize for RunStepDetailsToolCallsCodeOutputImageObjectType {
     }
 }
 #[doc = "Always `image`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStepDetailsToolCallsCodeOutputImageObjectType;
 impl<'de> serde::Deserialize<'de> for RunStepDetailsToolCallsCodeOutputImageObjectImage {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -66481,7 +66479,7 @@ impl serde::Serialize for RunStepDetailsToolCallsCodeOutputLogsObjectType {
     }
 }
 #[doc = "Always `logs`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStepDetailsToolCallsCodeOutputLogsObjectType;
 impl<'de> serde::Deserialize<'de> for RunStepDetailsToolCallsCodeOutputLogsObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -66555,7 +66553,7 @@ impl serde::Serialize for RunStepDetailsToolCallsFileSearchObjectType {
     }
 }
 #[doc = "The type of tool call. This is always going to be `file_search` for this type of tool call."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStepDetailsToolCallsFileSearchObjectType;
 impl<'de> serde::Deserialize<'de> for RunStepDetailsToolCallsFileSearchObjectFileSearch {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -66610,7 +66608,7 @@ impl serde::Serialize for RunStepDetailsToolCallsFileSearchObjectFileSearch {
     }
 }
 #[doc = "For now, this is always going to be an empty object."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStepDetailsToolCallsFileSearchObjectFileSearch {
     #[builder(default)]
     pub ranking_options: Option<RunStepDetailsToolCallsFileSearchRankingOptionsObject>,
@@ -66725,7 +66723,7 @@ impl serde::Serialize for RunStepDetailsToolCallsFileSearchRankingOptionsObject 
     }
 }
 #[doc = "The ranking options for the file search."]
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStepDetailsToolCallsFileSearchRankingOptionsObject {
     pub ranker: FileSearchRanker,
     #[doc = "The score threshold for the file search. All values must be a floating point number between 0 and 1."]
@@ -66756,7 +66754,7 @@ impl serde::Serialize for RunStepDetailsToolCallsFileSearchResultObjectContentTy
     }
 }
 #[doc = "The type of the content."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct RunStepDetailsToolCallsFileSearchResultObjectContentType;
 impl<'de> serde::Deserialize<'de> for RunStepDetailsToolCallsFileSearchResultObjectContent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -66797,7 +66795,7 @@ impl serde::Serialize for RunStepDetailsToolCallsFileSearchResultObjectContent {
         RunStepDetailsToolCallsFileSearchResultObjectContent { r#type, text }.serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStepDetailsToolCallsFileSearchResultObjectContent {
     #[doc = "The type of the content."]
     #[builder(default)]
@@ -66913,7 +66911,7 @@ impl serde::Serialize for RunStepDetailsToolCallsFunctionObjectType {
     }
 }
 #[doc = "The type of tool call. This is always going to be `function` for this type of tool call."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStepDetailsToolCallsFunctionObjectType;
 impl<'de> serde::Deserialize<'de> for RunStepDetailsToolCallsFunctionObjectFunction {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -67065,7 +67063,7 @@ impl serde::Serialize for RunStepDetailsToolCallsObjectType {
     }
 }
 #[doc = "Always `tool_calls`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStepDetailsToolCallsObjectType;
 impl<'de> serde::Deserialize<'de> for RunStepDetailsToolCallsObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -67139,10 +67137,10 @@ impl serde::Serialize for RunStepObjectObject {
     }
 }
 #[doc = "The object type, which is always `thread.run.step`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStepObjectObject;
 #[doc = "The type of run step, which can be either `message_creation` or `tool_calls`."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RunStepObjectType {
     #[doc = "message_creation"]
     #[serde(rename = "message_creation")]
@@ -67152,7 +67150,7 @@ pub enum RunStepObjectType {
     ToolCalls,
 }
 #[doc = "The status of the run step, which can be either `in_progress`, `cancelled`, `failed`, `completed`, or `expired`."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RunStepObjectStatus {
     #[doc = "in_progress"]
     #[serde(rename = "in_progress")]
@@ -67218,7 +67216,7 @@ pub enum RunStepObjectStepDetails {
     ToolCalls(RunStepDetailsToolCallsObject),
 }
 #[doc = "One of `server_error` or `rate_limit_exceeded`."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RunStepObjectLastErrorCode {
     #[doc = "server_error"]
     #[serde(rename = "server_error")]
@@ -67516,7 +67514,7 @@ impl serde::Serialize for RunStepStreamEventThreadRunStepCreatedEvent {
     }
 }
 #[doc = "thread.run.step.created"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStepStreamEventThreadRunStepCreatedEvent;
 impl<'de> serde::Deserialize<'de> for RunStepStreamEventThreadRunStepCreated {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -67589,7 +67587,7 @@ impl serde::Serialize for RunStepStreamEventThreadRunStepInProgressEvent {
     }
 }
 #[doc = "thread.run.step.in_progress"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStepStreamEventThreadRunStepInProgressEvent;
 impl<'de> serde::Deserialize<'de> for RunStepStreamEventThreadRunStepInProgress {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -67662,7 +67660,7 @@ impl serde::Serialize for RunStepStreamEventThreadRunStepDeltaEvent {
     }
 }
 #[doc = "thread.run.step.delta"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStepStreamEventThreadRunStepDeltaEvent;
 impl<'de> serde::Deserialize<'de> for RunStepStreamEventThreadRunStepDelta {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -67735,7 +67733,7 @@ impl serde::Serialize for RunStepStreamEventThreadRunStepCompletedEvent {
     }
 }
 #[doc = "thread.run.step.completed"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStepStreamEventThreadRunStepCompletedEvent;
 impl<'de> serde::Deserialize<'de> for RunStepStreamEventThreadRunStepCompleted {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -67808,7 +67806,7 @@ impl serde::Serialize for RunStepStreamEventThreadRunStepFailedEvent {
     }
 }
 #[doc = "thread.run.step.failed"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStepStreamEventThreadRunStepFailedEvent;
 impl<'de> serde::Deserialize<'de> for RunStepStreamEventThreadRunStepFailed {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -67881,7 +67879,7 @@ impl serde::Serialize for RunStepStreamEventThreadRunStepCancelledEvent {
     }
 }
 #[doc = "thread.run.step.cancelled"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStepStreamEventThreadRunStepCancelledEvent;
 impl<'de> serde::Deserialize<'de> for RunStepStreamEventThreadRunStepCancelled {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -67954,7 +67952,7 @@ impl serde::Serialize for RunStepStreamEventThreadRunStepExpiredEvent {
     }
 }
 #[doc = "thread.run.step.expired"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStepStreamEventThreadRunStepExpiredEvent;
 impl<'de> serde::Deserialize<'de> for RunStepStreamEventThreadRunStepExpired {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -68123,7 +68121,7 @@ impl serde::Serialize for RunStreamEventThreadRunCreatedEvent {
     }
 }
 #[doc = "thread.run.created"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStreamEventThreadRunCreatedEvent;
 impl<'de> serde::Deserialize<'de> for RunStreamEventThreadRunCreated {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -68196,7 +68194,7 @@ impl serde::Serialize for RunStreamEventThreadRunQueuedEvent {
     }
 }
 #[doc = "thread.run.queued"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStreamEventThreadRunQueuedEvent;
 impl<'de> serde::Deserialize<'de> for RunStreamEventThreadRunQueued {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -68269,7 +68267,7 @@ impl serde::Serialize for RunStreamEventThreadRunInProgressEvent {
     }
 }
 #[doc = "thread.run.in_progress"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStreamEventThreadRunInProgressEvent;
 impl<'de> serde::Deserialize<'de> for RunStreamEventThreadRunInProgress {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -68342,7 +68340,7 @@ impl serde::Serialize for RunStreamEventThreadRunRequiresActionEvent {
     }
 }
 #[doc = "thread.run.requires_action"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStreamEventThreadRunRequiresActionEvent;
 impl<'de> serde::Deserialize<'de> for RunStreamEventThreadRunRequiresAction {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -68415,7 +68413,7 @@ impl serde::Serialize for RunStreamEventThreadRunCompletedEvent {
     }
 }
 #[doc = "thread.run.completed"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStreamEventThreadRunCompletedEvent;
 impl<'de> serde::Deserialize<'de> for RunStreamEventThreadRunCompleted {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -68488,7 +68486,7 @@ impl serde::Serialize for RunStreamEventThreadRunIncompleteEvent {
     }
 }
 #[doc = "thread.run.incomplete"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStreamEventThreadRunIncompleteEvent;
 impl<'de> serde::Deserialize<'de> for RunStreamEventThreadRunIncomplete {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -68561,7 +68559,7 @@ impl serde::Serialize for RunStreamEventThreadRunFailedEvent {
     }
 }
 #[doc = "thread.run.failed"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStreamEventThreadRunFailedEvent;
 impl<'de> serde::Deserialize<'de> for RunStreamEventThreadRunFailed {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -68634,7 +68632,7 @@ impl serde::Serialize for RunStreamEventThreadRunCancellingEvent {
     }
 }
 #[doc = "thread.run.cancelling"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStreamEventThreadRunCancellingEvent;
 impl<'de> serde::Deserialize<'de> for RunStreamEventThreadRunCancelling {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -68707,7 +68705,7 @@ impl serde::Serialize for RunStreamEventThreadRunCancelledEvent {
     }
 }
 #[doc = "thread.run.cancelled"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStreamEventThreadRunCancelledEvent;
 impl<'de> serde::Deserialize<'de> for RunStreamEventThreadRunCancelled {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -68780,7 +68778,7 @@ impl serde::Serialize for RunStreamEventThreadRunExpiredEvent {
     }
 }
 #[doc = "thread.run.expired"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStreamEventThreadRunExpiredEvent;
 impl<'de> serde::Deserialize<'de> for RunStreamEventThreadRunExpired {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -68959,7 +68957,7 @@ impl serde::Serialize for RunToolCallObjectType {
     }
 }
 #[doc = "The type of tool call the output is required for. For now, this is always `function`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunToolCallObjectType;
 impl<'de> serde::Deserialize<'de> for RunToolCallObjectFunction {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -69086,7 +69084,7 @@ impl serde::Serialize for ScreenshotType {
     }
 }
 #[doc = "Specifies the event type. For a screenshot action, this property is \nalways set to `screenshot`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ScreenshotType;
 impl<'de> serde::Deserialize<'de> for Screenshot {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -69123,7 +69121,7 @@ impl serde::Serialize for Screenshot {
     }
 }
 #[doc = "A screenshot action.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct Screenshot {}
 impl<'de> serde::Deserialize<'de> for ScrollType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -69150,7 +69148,7 @@ impl serde::Serialize for ScrollType {
     }
 }
 #[doc = "Specifies the event type. For a scroll action, this property is \nalways set to `scroll`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ScrollType;
 impl<'de> serde::Deserialize<'de> for Scroll {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -69227,7 +69225,7 @@ impl serde::Serialize for Scroll {
     }
 }
 #[doc = "A scroll action.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct Scroll {
     #[doc = "The x-coordinate where the scroll occurred.\n"]
     pub x: u64,
@@ -69239,7 +69237,7 @@ pub struct Scroll {
     pub scroll_y: u64,
 }
 #[doc = "Specifies the latency tier to use for processing the request. This parameter is relevant for customers subscribed to the scale tier service:\n  - If set to 'auto', and the Project is Scale tier enabled, the system\n    will utilize scale tier credits until they are exhausted.\n  - If set to 'auto', and the Project is not Scale tier enabled, the request will be processed using the default service tier with a lower uptime SLA and no latency guarantee.\n  - If set to 'default', the request will be processed using the default service tier with a lower uptime SLA and no latency guarantee.\n  - If set to 'flex', the request will be processed with the Flex Processing service tier. [Learn more](https://platform.openai.com/docs/guides/flex-processing).\n  - When not set, the default behavior is 'auto'.\n\n  When this parameter is set, the response body will include the `service_tier` utilized.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ServiceTier {
     #[doc = "auto"]
     #[default]
@@ -69302,7 +69300,7 @@ impl serde::Serialize for StaticChunkingStrategy {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct StaticChunkingStrategy {
     #[doc = "The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the maximum value is `4096`."]
     pub max_chunk_size_tokens: u64,
@@ -69334,7 +69332,7 @@ impl serde::Serialize for StaticChunkingStrategyRequestParamType {
     }
 }
 #[doc = "Always `static`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct StaticChunkingStrategyRequestParamType;
 impl<'de> serde::Deserialize<'de> for StaticChunkingStrategyRequestParam {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -69378,7 +69376,7 @@ impl serde::Serialize for StaticChunkingStrategyRequestParam {
     }
 }
 #[doc = "Customize your own chunking strategy by setting chunk size and chunk overlap."]
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct StaticChunkingStrategyRequestParam {
     pub r#static: StaticChunkingStrategy,
 }
@@ -69407,7 +69405,7 @@ impl serde::Serialize for StaticChunkingStrategyResponseParamType {
     }
 }
 #[doc = "Always `static`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct StaticChunkingStrategyResponseParamType;
 impl<'de> serde::Deserialize<'de> for StaticChunkingStrategyResponseParam {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -69450,7 +69448,7 @@ impl serde::Serialize for StaticChunkingStrategyResponseParam {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct StaticChunkingStrategyResponseParam {
     pub r#static: StaticChunkingStrategy,
 }
@@ -69551,7 +69549,7 @@ impl serde::Serialize for SubmitToolOutputsRunRequestToolOutputs {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct SubmitToolOutputsRunRequestToolOutputs {
     #[doc = "The ID of the tool call in the `required_action` object within the run object the output is being submitted for."]
     #[builder(default)]
@@ -69700,7 +69698,7 @@ impl serde::Serialize for TextResponseFormatJsonSchemaType {
     }
 }
 #[doc = "The type of response format being defined. Always `json_schema`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct TextResponseFormatJsonSchemaType;
 impl<'de> serde::Deserialize<'de> for TextResponseFormatJsonSchema {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -69816,7 +69814,7 @@ impl serde::Serialize for ThreadObjectObject {
     }
 }
 #[doc = "The object type, which is always `thread`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ThreadObjectObject;
 impl<'de> serde::Deserialize<'de> for ThreadObjectToolResourcesCodeInterpreter {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -69851,7 +69849,7 @@ impl serde::Serialize for ThreadObjectToolResourcesCodeInterpreter {
         ThreadObjectToolResourcesCodeInterpreter { file_ids }.serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ThreadObjectToolResourcesCodeInterpreter {
     #[doc = "A list of [file](https://platform.openai.com/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.\n"]
     #[builder(default)]
@@ -69891,7 +69889,7 @@ impl serde::Serialize for ThreadObjectToolResourcesFileSearch {
         ThreadObjectToolResourcesFileSearch { vector_store_ids }.serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ThreadObjectToolResourcesFileSearch {
     #[doc = "The [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) attached to this thread. There can be a maximum of 1 vector store attached to the thread.\n"]
     #[builder(default)]
@@ -69950,7 +69948,7 @@ impl serde::Serialize for ThreadObjectToolResources {
     }
 }
 #[doc = "A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ThreadObjectToolResources {
     #[builder(default)]
     pub code_interpreter: Option<ThreadObjectToolResourcesCodeInterpreter>,
@@ -70071,7 +70069,7 @@ impl serde::Serialize for ThreadStreamEventThreadCreatedEvent {
     }
 }
 #[doc = "thread.created"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ThreadStreamEventThreadCreatedEvent;
 impl<'de> serde::Deserialize<'de> for ThreadStreamEventThreadCreated {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -70308,7 +70306,7 @@ impl serde::Serialize for ToolChoiceFunctionType {
     }
 }
 #[doc = "For function calling, the type is always `function`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ToolChoiceFunctionType;
 impl<'de> serde::Deserialize<'de> for ToolChoiceFunction {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -70357,7 +70355,7 @@ pub struct ToolChoiceFunction {
     pub name: String,
 }
 #[doc = "Controls which (if any) tool is called by the model.\n\n`none` means the model will not call any tool and instead generates a message.\n\n`auto` means the model can pick between generating a message or calling one or\nmore tools.\n\n`required` means the model must call one or more tools.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ToolChoiceOptions {
     #[doc = "none"]
     #[serde(rename = "none")]
@@ -70370,7 +70368,7 @@ pub enum ToolChoiceOptions {
     Required,
 }
 #[doc = "The type of hosted tool the model should to use. Learn more about\n[built-in tools](https://platform.openai.com/docs/guides/tools).\n\nAllowed values are:\n- `file_search`\n- `web_search_preview`\n- `computer_use_preview`\n- `code_interpreter`\n- `mcp`\n- `image_generation`\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ToolChoiceTypesType {
     #[doc = "file_search"]
     #[serde(rename = "file_search")]
@@ -70426,7 +70424,7 @@ impl serde::Serialize for ToolChoiceTypes {
     }
 }
 #[doc = "Indicates that the model should use a built-in tool to generate a response.\n[Learn more about built-in tools](https://platform.openai.com/docs/guides/tools).\n"]
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ToolChoiceTypes {
     #[doc = "The type of hosted tool the model should to use. Learn more about\n[built-in tools](https://platform.openai.com/docs/guides/tools).\n\nAllowed values are:\n- `file_search`\n- `web_search_preview`\n- `computer_use_preview`\n- `code_interpreter`\n- `mcp`\n- `image_generation`\n"]
     pub r#type: ToolChoiceTypesType,
@@ -70456,7 +70454,7 @@ impl serde::Serialize for TranscriptTextDeltaEventType {
     }
 }
 #[doc = "The type of the event. Always `transcript.text.delta`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct TranscriptTextDeltaEventType;
 impl<'de> serde::Deserialize<'de> for TranscriptTextDeltaEventLogprob {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -70520,7 +70518,7 @@ impl serde::Serialize for TranscriptTextDeltaEventLogprob {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct TranscriptTextDeltaEventLogprob {
     #[doc = "The token that was used to generate the log probability.\n"]
     #[builder(default)]
@@ -70615,7 +70613,7 @@ impl serde::Serialize for TranscriptTextDoneEventType {
     }
 }
 #[doc = "The type of the event. Always `transcript.text.done`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct TranscriptTextDoneEventType;
 impl<'de> serde::Deserialize<'de> for TranscriptTextDoneEventLogprob {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -70679,7 +70677,7 @@ impl serde::Serialize for TranscriptTextDoneEventLogprob {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct TranscriptTextDoneEventLogprob {
     #[doc = "The token that was used to generate the log probability.\n"]
     #[builder(default)]
@@ -70750,7 +70748,7 @@ pub struct TranscriptTextDoneEvent {
 }
 #[doc = "Controls how the audio is cut into chunks. When set to `\"auto\"`, the server first normalizes loudness and then uses voice activity detection (VAD) to choose boundaries. `server_vad` object can be provided to tweak VAD detection parameters manually. If unset, the audio is transcribed as a single block. "]
 pub type TranscriptionChunkingStrategy = String;
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum TranscriptionInclude {
     #[doc = "logprobs"]
     #[serde(rename = "logprobs")]
@@ -70954,7 +70952,7 @@ pub struct TranscriptionWord {
     pub end: f64,
 }
 #[doc = "The truncation strategy to use for the thread. The default is `auto`. If set to `last_messages`, the thread will be truncated to the n most recent messages in the thread. When set to `auto`, messages in the middle of the thread will be dropped to fit the context length of the model, `max_prompt_tokens`."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum TruncationObjectType {
     #[doc = "auto"]
     #[serde(rename = "auto")]
@@ -71015,7 +71013,7 @@ impl serde::Serialize for TruncationObject {
     }
 }
 #[doc = "Controls for how a thread will be truncated prior to the run. Use this to control the intial context window of the run."]
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct TruncationObject {
     #[doc = "The truncation strategy to use for the thread. The default is `auto`. If set to `last_messages`, the thread will be truncated to the n most recent messages in the thread. When set to `auto`, messages in the middle of the thread will be dropped to fit the context length of the model, `max_prompt_tokens`."]
     pub r#type: TruncationObjectType,
@@ -71048,7 +71046,7 @@ impl serde::Serialize for TypeType {
     }
 }
 #[doc = "Specifies the event type. For a type action, this property is \nalways set to `type`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct TypeType;
 impl<'de> serde::Deserialize<'de> for Type {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -71196,7 +71194,7 @@ impl serde::Serialize for UpdateVectorStoreRequest {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct UpdateVectorStoreRequest {
     #[doc = "The name of the vector store."]
     #[builder(default)]
@@ -71207,7 +71205,7 @@ pub struct UpdateVectorStoreRequest {
     pub metadata: Option<Metadata>,
 }
 #[doc = "The status of the Upload."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum UploadStatus {
     #[doc = "pending"]
     #[serde(rename = "pending")]
@@ -71247,7 +71245,7 @@ impl serde::Serialize for UploadObject {
     }
 }
 #[doc = "The object type, which is always \"upload\"."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct UploadObject;
 impl<'de> serde::Deserialize<'de> for Upload {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -71452,7 +71450,7 @@ impl serde::Serialize for UploadPartObject {
     }
 }
 #[doc = "The object type, which is always `upload.part`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct UploadPartObject;
 impl<'de> serde::Deserialize<'de> for UploadPart {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -71554,7 +71552,7 @@ impl serde::Serialize for UsageAudioSpeechesResultObject {
     }
 }
 #[doc = "organization.usage.audio_speeches.result"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct UsageAudioSpeechesResultObject;
 impl<'de> serde::Deserialize<'de> for UsageAudioSpeechesResult {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -71697,7 +71695,7 @@ impl serde::Serialize for UsageAudioTranscriptionsResultObject {
     }
 }
 #[doc = "organization.usage.audio_transcriptions.result"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct UsageAudioTranscriptionsResultObject;
 impl<'de> serde::Deserialize<'de> for UsageAudioTranscriptionsResult {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -71840,7 +71838,7 @@ impl serde::Serialize for UsageCodeInterpreterSessionsResultObject {
     }
 }
 #[doc = "organization.usage.code_interpreter_sessions.result"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct UsageCodeInterpreterSessionsResultObject;
 impl<'de> serde::Deserialize<'de> for UsageCodeInterpreterSessionsResult {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -71901,7 +71899,7 @@ impl serde::Serialize for UsageCodeInterpreterSessionsResult {
     }
 }
 #[doc = "The aggregated code interpreter sessions usage details of the specific time bucket."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct UsageCodeInterpreterSessionsResult {
     #[doc = "The number of code interpreter sessions."]
     #[builder(default)]
@@ -71935,7 +71933,7 @@ impl serde::Serialize for UsageCompletionsResultObject {
     }
 }
 #[doc = "organization.usage.completions.result"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct UsageCompletionsResultObject;
 impl<'de> serde::Deserialize<'de> for UsageCompletionsResult {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -72141,7 +72139,7 @@ impl serde::Serialize for UsageEmbeddingsResultObject {
     }
 }
 #[doc = "organization.usage.embeddings.result"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct UsageEmbeddingsResultObject;
 impl<'de> serde::Deserialize<'de> for UsageEmbeddingsResult {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -72284,7 +72282,7 @@ impl serde::Serialize for UsageImagesResultObject {
     }
 }
 #[doc = "organization.usage.images.result"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct UsageImagesResultObject;
 impl<'de> serde::Deserialize<'de> for UsageImagesResult {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -72453,7 +72451,7 @@ impl serde::Serialize for UsageModerationsResultObject {
     }
 }
 #[doc = "organization.usage.moderations.result"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct UsageModerationsResultObject;
 impl<'de> serde::Deserialize<'de> for UsageModerationsResult {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -72596,7 +72594,7 @@ impl serde::Serialize for UsageResponseObject {
     }
 }
 #[doc = "page"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct UsageResponseObject;
 impl<'de> serde::Deserialize<'de> for UsageResponse {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -72694,7 +72692,7 @@ impl serde::Serialize for UsageTimeBucketObject {
     }
 }
 #[doc = "bucket"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct UsageTimeBucketObject;
 impl<'de> serde::Deserialize<'de> for UsageTimeBucketResult {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -72915,7 +72913,7 @@ impl serde::Serialize for UsageVectorStoresResultObject {
     }
 }
 #[doc = "organization.usage.vector_stores.result"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct UsageVectorStoresResultObject;
 impl<'de> serde::Deserialize<'de> for UsageVectorStoresResult {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -73008,10 +73006,10 @@ impl serde::Serialize for UserObject {
     }
 }
 #[doc = "The object type, which is always `organization.user`"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct UserObject;
 #[doc = "`owner` or `reader`"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum UserRole {
     #[doc = "owner"]
     #[serde(rename = "owner")]
@@ -73142,7 +73140,7 @@ impl serde::Serialize for UserDeleteResponseObject {
     }
 }
 #[doc = "organization.user.deleted"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct UserDeleteResponseObject;
 impl<'de> serde::Deserialize<'de> for UserDeleteResponse {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -73220,7 +73218,7 @@ impl serde::Serialize for UserListResponseObject {
     }
 }
 #[doc = "list"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct UserListResponseObject;
 impl<'de> serde::Deserialize<'de> for UserListResponse {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -73304,7 +73302,7 @@ pub struct UserListResponse {
     pub has_more: bool,
 }
 #[doc = "`owner` or `reader`"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum UserRoleUpdateRequestRole {
     #[doc = "owner"]
     #[serde(rename = "owner")]
@@ -73344,13 +73342,13 @@ impl serde::Serialize for UserRoleUpdateRequest {
         UserRoleUpdateRequest { role }.serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct UserRoleUpdateRequest {
     #[doc = "`owner` or `reader`"]
     pub role: UserRoleUpdateRequestRole,
 }
 #[doc = "Must be set to `server_vad` to enable manual chunking using server side VAD."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum VadConfigType {
     #[doc = "server_vad"]
     #[serde(rename = "server_vad")]
@@ -73427,7 +73425,7 @@ impl serde::Serialize for VadConfig {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct VadConfig {
     #[doc = "Must be set to `server_vad` to enable manual chunking using server side VAD."]
     pub r#type: VadConfigType,
@@ -73645,7 +73643,7 @@ impl serde::Serialize for ValidateGraderResponse {
         ValidateGraderResponse { grader }.serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ValidateGraderResponse {
     #[doc = "The grader used for the fine-tuning job."]
     #[builder(default)]
@@ -73676,7 +73674,7 @@ impl serde::Serialize for VectorStoreExpirationAfterAnchor {
     }
 }
 #[doc = "Anchor timestamp after which the expiration policy applies. Supported anchors: `last_active_at`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct VectorStoreExpirationAfterAnchor;
 impl<'de> serde::Deserialize<'de> for VectorStoreExpirationAfter {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -73720,7 +73718,7 @@ impl serde::Serialize for VectorStoreExpirationAfter {
     }
 }
 #[doc = "The expiration policy for a vector store."]
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct VectorStoreExpirationAfter {
     #[doc = "The number of days after the anchor time that the vector store will expire."]
     pub days: u64,
@@ -73775,7 +73773,7 @@ pub enum VectorStoreFileAttribute {
     Bool(bool),
 }
 #[doc = "Set of 16 key-value pairs that can be attached to an object. This can be \nuseful for storing additional information about the object in a structured \nformat, and querying for objects via API or the dashboard. Keys are strings \nwith a maximum length of 64 characters. Values are strings with a maximum \nlength of 512 characters, booleans, or numbers.\n"]
-pub type VectorStoreFileAttributes = std::collections::HashMap<String, VectorStoreFileAttribute>;
+pub type VectorStoreFileAttributes = indexmap::IndexMap<String, VectorStoreFileAttribute>;
 impl<'de> serde::Deserialize<'de> for VectorStoreFileBatchObjectObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -73801,10 +73799,10 @@ impl serde::Serialize for VectorStoreFileBatchObjectObject {
     }
 }
 #[doc = "The object type, which is always `vector_store.file_batch`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct VectorStoreFileBatchObjectObject;
 #[doc = "The status of the vector store files batch, which can be either `in_progress`, `completed`, `cancelled` or `failed`."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum VectorStoreFileBatchObjectStatus {
     #[doc = "in_progress"]
     #[serde(rename = "in_progress")]
@@ -73896,7 +73894,7 @@ impl serde::Serialize for VectorStoreFileBatchObjectFileCounts {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct VectorStoreFileBatchObjectFileCounts {
     #[doc = "The number of files that are currently being processed."]
     pub in_progress: u64,
@@ -74030,7 +74028,7 @@ impl serde::Serialize for VectorStoreFileContentResponseObject {
     }
 }
 #[doc = "The object type, which is always `vector_store.file_content.page`"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct VectorStoreFileContentResponseObject;
 impl<'de> serde::Deserialize<'de> for VectorStoreFileContentResponseDatum {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -74071,7 +74069,7 @@ impl serde::Serialize for VectorStoreFileContentResponseDatum {
         VectorStoreFileContentResponseDatum { r#type, text }.serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct VectorStoreFileContentResponseDatum {
     #[doc = "The content type (currently only `\"text\"`)"]
     #[builder(default)]
@@ -74182,10 +74180,10 @@ impl serde::Serialize for VectorStoreFileObjectObject {
     }
 }
 #[doc = "The object type, which is always `vector_store.file`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct VectorStoreFileObjectObject;
 #[doc = "The status of the vector store file, which can be either `in_progress`, `completed`, `cancelled`, or `failed`. The status `completed` indicates that the vector store file is ready for use."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum VectorStoreFileObjectStatus {
     #[doc = "in_progress"]
     #[serde(rename = "in_progress")]
@@ -74201,7 +74199,7 @@ pub enum VectorStoreFileObjectStatus {
     Failed,
 }
 #[doc = "One of `server_error` or `rate_limit_exceeded`."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum VectorStoreFileObjectLastErrorCode {
     #[doc = "server_error"]
     #[serde(rename = "server_error")]
@@ -74417,7 +74415,7 @@ impl serde::Serialize for VectorStoreObjectObject {
     }
 }
 #[doc = "The object type, which is always `vector_store`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct VectorStoreObjectObject;
 impl<'de> serde::Deserialize<'de> for VectorStoreObjectFileCounts {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -74496,7 +74494,7 @@ impl serde::Serialize for VectorStoreObjectFileCounts {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct VectorStoreObjectFileCounts {
     #[doc = "The number of files that are currently being processed."]
     pub in_progress: u64,
@@ -74510,7 +74508,7 @@ pub struct VectorStoreObjectFileCounts {
     pub total: u64,
 }
 #[doc = "The status of the vector store, which can be either `expired`, `in_progress`, or `completed`. A status of `completed` indicates that the vector store is ready for use."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum VectorStoreObjectStatus {
     #[doc = "expired"]
     #[serde(rename = "expired")]
@@ -74777,7 +74775,7 @@ pub enum VectorStoreSearchRequestFilters {
     ComparisonFilter(ComparisonFilter),
     CompoundFilter(CompoundFilter),
 }
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum VectorStoreSearchRequestRankingOptionsRanker {
     #[doc = "auto"]
     #[default]
@@ -74840,7 +74838,7 @@ impl serde::Serialize for VectorStoreSearchRequestRankingOptions {
     }
 }
 #[doc = "Ranking options for search."]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct VectorStoreSearchRequestRankingOptions {
     #[builder(default)]
     pub ranker: Option<VectorStoreSearchRequestRankingOptionsRanker>,
@@ -74946,7 +74944,7 @@ pub struct VectorStoreSearchRequest {
     pub ranking_options: Option<VectorStoreSearchRequestRankingOptions>,
 }
 #[doc = "The type of content."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum VectorStoreSearchResultContentObjectType {
     #[doc = "text"]
     #[serde(rename = "text")]
@@ -75112,7 +75110,7 @@ impl serde::Serialize for VectorStoreSearchResultsPageObject {
     }
 }
 #[doc = "The object type, which is always `vector_store.search_results.page`"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct VectorStoreSearchResultsPageObject;
 impl<'de> serde::Deserialize<'de> for VectorStoreSearchResultsPage {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -75225,7 +75223,7 @@ impl serde::Serialize for VoiceIdsSharedAlloy {
     }
 }
 #[doc = "alloy"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct VoiceIdsSharedAlloy;
 impl<'de> serde::Deserialize<'de> for VoiceIdsSharedAsh {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -75252,7 +75250,7 @@ impl serde::Serialize for VoiceIdsSharedAsh {
     }
 }
 #[doc = "ash"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct VoiceIdsSharedAsh;
 impl<'de> serde::Deserialize<'de> for VoiceIdsSharedBallad {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -75279,7 +75277,7 @@ impl serde::Serialize for VoiceIdsSharedBallad {
     }
 }
 #[doc = "ballad"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct VoiceIdsSharedBallad;
 impl<'de> serde::Deserialize<'de> for VoiceIdsSharedCoral {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -75306,7 +75304,7 @@ impl serde::Serialize for VoiceIdsSharedCoral {
     }
 }
 #[doc = "coral"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct VoiceIdsSharedCoral;
 impl<'de> serde::Deserialize<'de> for VoiceIdsSharedEcho {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -75333,7 +75331,7 @@ impl serde::Serialize for VoiceIdsSharedEcho {
     }
 }
 #[doc = "echo"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct VoiceIdsSharedEcho;
 impl<'de> serde::Deserialize<'de> for VoiceIdsSharedFable {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -75360,7 +75358,7 @@ impl serde::Serialize for VoiceIdsSharedFable {
     }
 }
 #[doc = "fable"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct VoiceIdsSharedFable;
 impl<'de> serde::Deserialize<'de> for VoiceIdsSharedOnyx {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -75387,7 +75385,7 @@ impl serde::Serialize for VoiceIdsSharedOnyx {
     }
 }
 #[doc = "onyx"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct VoiceIdsSharedOnyx;
 impl<'de> serde::Deserialize<'de> for VoiceIdsSharedNova {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -75414,7 +75412,7 @@ impl serde::Serialize for VoiceIdsSharedNova {
     }
 }
 #[doc = "nova"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct VoiceIdsSharedNova;
 impl<'de> serde::Deserialize<'de> for VoiceIdsSharedSage {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -75441,7 +75439,7 @@ impl serde::Serialize for VoiceIdsSharedSage {
     }
 }
 #[doc = "sage"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct VoiceIdsSharedSage;
 impl<'de> serde::Deserialize<'de> for VoiceIdsSharedShimmer {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -75468,7 +75466,7 @@ impl serde::Serialize for VoiceIdsSharedShimmer {
     }
 }
 #[doc = "shimmer"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct VoiceIdsSharedShimmer;
 impl<'de> serde::Deserialize<'de> for VoiceIdsSharedVerse {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -75495,7 +75493,7 @@ impl serde::Serialize for VoiceIdsSharedVerse {
     }
 }
 #[doc = "verse"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct VoiceIdsSharedVerse;
 impl<'de> serde::Deserialize<'de> for VoiceIdsShared {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -75627,7 +75625,7 @@ impl serde::Serialize for WaitType {
     }
 }
 #[doc = "Specifies the event type. For a wait action, this property is \nalways set to `wait`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct WaitType;
 impl<'de> serde::Deserialize<'de> for Wait {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -75664,10 +75662,10 @@ impl serde::Serialize for Wait {
     }
 }
 #[doc = "A wait action.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct Wait {}
 #[doc = "High level guidance for the amount of context window space to use for the \nsearch. One of `low`, `medium`, or `high`. `medium` is the default.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum WebSearchContextSize {
     #[doc = "low"]
     #[serde(rename = "low")]
@@ -75753,7 +75751,7 @@ impl serde::Serialize for WebSearchLocation {
     }
 }
 #[doc = "Approximate location parameters for the search."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct WebSearchLocation {
     #[doc = "The two-letter \n[ISO country code](https://en.wikipedia.org/wiki/ISO_3166-1) of the user,\ne.g. `US`.\n"]
     #[builder(default)]
@@ -75793,10 +75791,10 @@ impl serde::Serialize for WebSearchToolCallType {
     }
 }
 #[doc = "The type of the web search tool call. Always `web_search_call`.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct WebSearchToolCallType;
 #[doc = "The status of the web search tool call.\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum WebSearchToolCallStatus {
     #[doc = "in_progress"]
     #[serde(rename = "in_progress")]
@@ -75890,7 +75888,7 @@ impl serde::Serialize for InputTextContentType {
     }
 }
 #[doc = "The type of the input item. Always `input_text`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct InputTextContentType;
 impl<'de> serde::Deserialize<'de> for InputTextContent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -75963,10 +75961,10 @@ impl serde::Serialize for InputImageContentType {
     }
 }
 #[doc = "The type of the input item. Always `input_image`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct InputImageContentType;
 #[doc = "The detail level of the image to be sent to the model. One of `high`, `low`, or `auto`. Defaults to `auto`."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum InputImageContentDetail {
     #[doc = "low"]
     #[serde(rename = "low")]
@@ -76082,7 +76080,7 @@ impl serde::Serialize for InputFileContentType {
     }
 }
 #[doc = "The type of the input item. Always `input_file`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct InputFileContentType;
 impl<'de> serde::Deserialize<'de> for InputFileContent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -76153,7 +76151,7 @@ impl serde::Serialize for InputFileContent {
     }
 }
 #[doc = "A file input to the model."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct InputFileContent {
     #[doc = "The ID of the file to be sent to the model."]
     #[builder(default)]
@@ -76190,7 +76188,7 @@ impl serde::Serialize for FunctionToolType {
     }
 }
 #[doc = "The type of the function tool. Always `function`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct FunctionToolType;
 impl<'de> serde::Deserialize<'de> for FunctionTool {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -76211,7 +76209,7 @@ impl<'de> serde::Deserialize<'de> for FunctionTool {
             description: Option<String>,
             #[serde(rename = "parameters")]
             #[allow(dead_code)]
-            parameters: Option<std::collections::HashMap<String, serde_json::Value>>,
+            parameters: Option<indexmap::IndexMap<String, serde_json::Value>>,
             #[serde(rename = "strict")]
             #[allow(dead_code)]
             strict: Option<bool>,
@@ -76248,7 +76246,7 @@ impl serde::Serialize for FunctionTool {
             description: &'a Option<String>,
             #[serde(rename = "parameters")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            parameters: &'a Option<std::collections::HashMap<String, serde_json::Value>>,
+            parameters: &'a Option<indexmap::IndexMap<String, serde_json::Value>>,
             #[serde(rename = "strict")]
             #[serde(skip_serializing_if = "Option::is_none")]
             strict: &'a Option<bool>,
@@ -76279,13 +76277,13 @@ pub struct FunctionTool {
     pub description: Option<String>,
     #[doc = "A JSON schema object describing the parameters of the function."]
     #[builder(default)]
-    pub parameters: Option<std::collections::HashMap<String, serde_json::Value>>,
+    pub parameters: Option<indexmap::IndexMap<String, serde_json::Value>>,
     #[doc = "Whether to enforce strict parameter validation. Default `true`."]
     #[builder(default)]
     pub strict: Option<bool>,
 }
 #[doc = "The ranker to use for the file search."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RankingOptionsRanker {
     #[doc = "auto"]
     #[serde(rename = "auto")]
@@ -76346,7 +76344,7 @@ impl serde::Serialize for RankingOptions {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Copy, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RankingOptions {
     #[doc = "The ranker to use for the file search."]
     #[builder(default)]
@@ -76424,7 +76422,7 @@ impl serde::Serialize for FileSearchToolType {
     }
 }
 #[doc = "The type of the file search tool. Always `file_search`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct FileSearchToolType;
 impl<'de> serde::Deserialize<'de> for FileSearchTool {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -76543,7 +76541,7 @@ impl serde::Serialize for ApproximateLocationType {
     }
 }
 #[doc = "The type of location approximation. Always `approximate`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ApproximateLocationType;
 impl<'de> serde::Deserialize<'de> for ApproximateLocation {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -76623,7 +76621,7 @@ impl serde::Serialize for ApproximateLocation {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ApproximateLocation {
     #[doc = "The two-letter [ISO country code](https://en.wikipedia.org/wiki/ISO_3166-1) of the user, e.g. `US`."]
     #[builder(default)]
@@ -76639,7 +76637,7 @@ pub struct ApproximateLocation {
     pub timezone: Option<String>,
 }
 #[doc = "The type of the web search tool. One of `web_search_preview` or `web_search_preview_2025_03_11`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum WebSearchPreviewToolType {
     #[doc = "web_search_preview"]
     #[default]
@@ -76650,7 +76648,7 @@ pub enum WebSearchPreviewToolType {
     WebSearchPreview2025_03_11,
 }
 #[doc = "High level guidance for the amount of context window space to use for the search. One of `low`, `medium`, or `high`. `medium` is the default."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum WebSearchPreviewToolSearchContextSize {
     #[doc = "low"]
     #[serde(rename = "low")]
@@ -76724,7 +76722,7 @@ impl serde::Serialize for WebSearchPreviewTool {
     }
 }
 #[doc = "This tool searches the web for relevant results to use in a response. Learn more about the [web search tool](https://platform.openai.com/docs/guides/tools-web-search)."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct WebSearchPreviewTool {
     #[doc = "The type of the web search tool. One of `web_search_preview` or `web_search_preview_2025_03_11`."]
     #[builder(default)]
@@ -76761,10 +76759,10 @@ impl serde::Serialize for ComputerUsePreviewToolType {
     }
 }
 #[doc = "The type of the computer use tool. Always `computer_use_preview`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ComputerUsePreviewToolType;
 #[doc = "The type of computer environment to control."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ComputerUsePreviewToolEnvironment {
     #[doc = "windows"]
     #[serde(rename = "windows")]
@@ -76848,7 +76846,7 @@ impl serde::Serialize for ComputerUsePreviewTool {
     }
 }
 #[doc = "A tool that controls a virtual computer. Learn more about the [computer tool](https://platform.openai.com/docs/guides/tools-computer-use)."]
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ComputerUsePreviewTool {
     #[doc = "The type of computer environment to control."]
     pub environment: ComputerUsePreviewToolEnvironment,
@@ -76882,7 +76880,7 @@ impl serde::Serialize for FileCitationBodyType {
     }
 }
 #[doc = "The type of the file citation. Always `file_citation`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct FileCitationBodyType;
 impl<'de> serde::Deserialize<'de> for FileCitationBody {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -76963,7 +76961,7 @@ impl serde::Serialize for UrlCitationBodyType {
     }
 }
 #[doc = "The type of the URL citation. Always `url_citation`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct UrlCitationBodyType;
 impl<'de> serde::Deserialize<'de> for UrlCitationBody {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -77076,7 +77074,7 @@ impl serde::Serialize for ContainerFileCitationBodyType {
     }
 }
 #[doc = "The type of the container file citation. Always `container_file_citation`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ContainerFileCitationBodyType;
 impl<'de> serde::Deserialize<'de> for ContainerFileCitationBody {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -77387,7 +77385,7 @@ impl serde::Serialize for OutputTextContentType {
     }
 }
 #[doc = "The type of the output text. Always `output_text`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct OutputTextContentType;
 impl<'de> serde::Deserialize<'de> for OutputTextContent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -77490,7 +77488,7 @@ impl serde::Serialize for RefusalContentType {
     }
 }
 #[doc = "The type of the refusal. Always `refusal`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RefusalContentType;
 impl<'de> serde::Deserialize<'de> for RefusalContent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -77620,10 +77618,10 @@ impl serde::Serialize for ComputerCallOutputItemParamType {
     }
 }
 #[doc = "The type of the computer tool call output. Always `computer_call_output`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ComputerCallOutputItemParamType;
 #[doc = "The status of the message input. One of `in_progress`, `completed`, or `incomplete`. Populated when input items are returned via API."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ComputerCallOutputItemParamStatus {
     #[doc = "in_progress"]
     #[serde(rename = "in_progress")]
@@ -77763,10 +77761,10 @@ impl serde::Serialize for FunctionCallOutputItemParamType {
     }
 }
 #[doc = "The type of the function tool call output. Always `function_call_output`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct FunctionCallOutputItemParamType;
 #[doc = "The status of the item. One of `in_progress`, `completed`, or `incomplete`. Populated when items are returned via API."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum FunctionCallOutputItemParamStatus {
     #[doc = "in_progress"]
     #[serde(rename = "in_progress")]
@@ -77869,7 +77867,7 @@ pub struct FunctionCallOutputItemParam {
     pub status: Option<FunctionCallOutputItemParamStatus>,
 }
 #[doc = "The type of item to reference. Always `item_reference`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ItemReferenceParamType {
     #[doc = "item_reference"]
     #[default]
@@ -77923,7 +77921,7 @@ pub struct ItemReferenceParam {
     pub id: String,
 }
 #[doc = "The content type (`input_text`, `input_audio`, `item_reference`, `text`).\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeConversationItemContentType {
     #[doc = "input_text"]
     #[serde(rename = "input_text")]
@@ -78020,7 +78018,7 @@ impl serde::Serialize for RealtimeConversationItemContent {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeConversationItemContent {
     #[doc = "The content type (`input_text`, `input_audio`, `item_reference`, `text`).\n"]
     #[builder(default)]
@@ -78098,7 +78096,7 @@ impl serde::Serialize for ModerationImageUrlInputType {
     }
 }
 #[doc = "Always `image_url`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ModerationImageUrlInputType;
 impl<'de> serde::Deserialize<'de> for ModerationImageUrlInputImageUrl {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -78210,7 +78208,7 @@ impl serde::Serialize for ModerationTextInputType {
     }
 }
 #[doc = "Always `text`."]
-#[derive(Clone, Debug, PartialEq, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ModerationTextInputType;
 impl<'de> serde::Deserialize<'de> for ModerationTextInput {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -78297,14 +78295,14 @@ impl serde::Serialize for ChunkingStrategyResponse {
     }
 }
 #[doc = "The strategy used to chunk the file."]
-#[derive(Clone, Debug, PartialEq, Copy)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum ChunkingStrategyResponse {
     Static(StaticChunkingStrategyResponseParam),
     Other(OtherChunkingStrategyResponseParam),
 }
 #[doc = "The intended purpose of the uploaded file. One of: - `assistants`: Used in the Assistants API - `batch`: Used in the Batch API - `fine-tune`: Used for fine-tuning - `vision`: Images used for vision fine-tuning - `user_data`: Flexible file type for any purpose - `evals`: Used for eval data sets\n"]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum FilePurpose {
     #[doc = "assistants"]
     #[serde(rename = "assistants")]
@@ -78397,7 +78395,7 @@ impl serde::Serialize for BatchError {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct BatchError {
     #[doc = "An error code identifying the error type."]
     #[builder(default)]
@@ -78472,7 +78470,7 @@ impl serde::Serialize for BatchRequestCounts {
     }
 }
 #[doc = "The request counts for different statuses within the batch."]
-#[derive(Clone, Debug, PartialEq, Copy, typed_builder :: TypedBuilder)]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct BatchRequestCounts {
     #[doc = "Total number of requests in the batch."]
     pub total: u64,
@@ -78834,7 +78832,7 @@ pub enum MessageContentDelta {
     Refusal(MessageDeltaContentRefusalObject),
     ImageUrl(MessageDeltaContentImageUrlObject),
 }
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ChatModel {
     #[doc = "gpt-4.1"]
     #[serde(rename = "gpt-4.1")]
@@ -79040,7 +79038,7 @@ impl serde::Serialize for CreateThreadAndRunRequestWithoutStreamToolResourcesCod
             .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateThreadAndRunRequestWithoutStreamToolResourcesCodeInterpreter {
     #[doc = "A list of [file](https://platform.openai.com/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.\n"]
     #[builder(default)]
@@ -79085,7 +79083,7 @@ impl serde::Serialize for CreateThreadAndRunRequestWithoutStreamToolResourcesFil
             .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateThreadAndRunRequestWithoutStreamToolResourcesFileSearch {
     #[doc = "The ID of the [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) attached to this assistant. There can be a maximum of 1 vector store attached to the assistant.\n"]
     #[builder(default)]
@@ -79146,7 +79144,7 @@ impl serde::Serialize for CreateThreadAndRunRequestWithoutStreamToolResources {
     }
 }
 #[doc = "A set of resources that are used by the assistant's tools. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.\n"]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateThreadAndRunRequestWithoutStreamToolResources {
     #[builder(default)]
     pub code_interpreter:
@@ -79663,7 +79661,7 @@ impl serde::Serialize for SubmitToolOutputsRunRequestWithoutStreamToolOutputs {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct SubmitToolOutputsRunRequestWithoutStreamToolOutputs {
     #[doc = "The ID of the tool call in the `required_action` object within the run object the output is being submitted for."]
     #[builder(default)]
@@ -79710,7 +79708,7 @@ pub struct SubmitToolOutputsRunRequestWithoutStream {
     pub tool_outputs: Vec<SubmitToolOutputsRunRequestWithoutStreamToolOutputs>,
 }
 #[doc = "The status of the run, which can be either `queued`, `in_progress`, `requires_action`, `cancelling`, `cancelled`, `failed`, `completed`, `incomplete`, or `expired`."]
-#[derive(Clone, Debug, PartialEq, Copy, serde :: Deserialize, serde :: Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RunStatus {
     #[doc = "queued"]
     #[serde(rename = "queued")]
@@ -79825,7 +79823,7 @@ impl serde::Serialize for RunStepDeltaObjectDelta {
     }
 }
 #[doc = "The delta containing the fields that have changed on the run step."]
-#[derive(Clone, Debug, PartialEq, Default, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStepDeltaObjectDelta {
     #[doc = "The details of the run step."]
     #[builder(default)]

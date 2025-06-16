@@ -1,5 +1,5 @@
 use crate::{
-    Field, Schema, Type, is_copy, is_default, to_description, to_ident_pascal, to_serde_as, to_type,
+    Field, Schema, Type, to_derive, to_description, to_ident_pascal, to_serde_as, to_type,
 };
 use indexmap::IndexMap;
 use std::collections::HashMap;
@@ -23,9 +23,7 @@ pub fn to_item_enum(
     }
 
     let description = to_description(schema.description);
-    let derive = quote::quote!(#[derive(Clone, Debug, PartialEq)]);
-    let derive_copy = is_copy(schema, schemas).then_some(quote::quote!(#[derive(Copy)]));
-    let derive_default = is_default(schema, schemas).then_some(quote::quote!(#[derive(Default)]));
+    let derive = to_derive(schema, schemas);
     let vis = public.then_some(quote::quote!(pub));
     let ident = to_ident_pascal(name);
 
@@ -54,8 +52,6 @@ pub fn to_item_enum(
         syn::parse_quote! {
             #description
             #derive
-            #derive_copy
-            #derive_default
             #[derive(serde::Deserialize, serde::Serialize)]
             #vis enum #ident {
                 #(#variants),*
@@ -240,8 +236,6 @@ pub fn to_item_enum(
             syn::parse_quote! {
                 #description
                 #derive
-                #derive_copy
-                #derive_default
                 #[allow(clippy::large_enum_variant)]
                 #vis enum #ident {
                     #(#variants),*

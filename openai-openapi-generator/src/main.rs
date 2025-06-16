@@ -104,7 +104,7 @@ fn to_type(
         Type::Integer => syn::parse_quote!(u64),
         Type::Map(item) => {
             let type_ = to_type(&to_singular(name), item, schemas, public, items);
-            syn::parse_quote!(std::collections::HashMap<String, #type_>)
+            syn::parse_quote!(indexmap::IndexMap<String, #type_>)
         }
         Type::Ref(ref_) => {
             let ident = to_ident_pascal(ref_);
@@ -236,6 +236,19 @@ fn to_description(description: Option<&str>) -> Option<syn::Attribute> {
     })
 }
 
+fn to_derive(schema: &Schema<'_>, schemas: &IndexMap<&str, Schema<'_>>) -> syn::Attribute {
+    let derives = [
+        Some(quote::quote!(Clone)),
+        is_copy(schema, schemas).then_some(quote::quote!(Copy)),
+        Some(quote::quote!(Debug)),
+        is_default(schema, schemas).then_some(quote::quote!(Default)),
+        Some(quote::quote!(PartialEq)),
+    ]
+    .into_iter()
+    .flatten();
+    syn::parse_quote!(#[derive(#(#derives),*)])
+}
+
 fn is_copy(schema: &Schema<'_>, schemas: &IndexMap<&str, Schema<'_>>) -> bool {
     match &schema.type_ {
         Type::Boolean | Type::Const(_) | Type::Float | Type::Integer | Type::Number => true,
@@ -280,7 +293,7 @@ fn to_serde_as(schema: &Schema<'_>) -> Option<String> {
         Type::Array(item) => to_serde_as(item).map(|item| format!("Vec<{item}>")),
         Type::Binary => Some("serde_with::base64::Base64".to_owned()),
         Type::Map(item) => {
-            to_serde_as(item).map(|item| format!("std::collections::HashMap<String, {item}>"))
+            to_serde_as(item).map(|item| format!("indexmap::IndexMap<String, {item}>"))
         }
         _ => None,
     }

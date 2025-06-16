@@ -487,6 +487,7 @@ dependencies = [
 name = "openai-openapi-types"
 version = "0.3.0"
 dependencies = [
+ "indexmap 2.9.0",
  "serde",
  "serde_json",
  "serde_with",
