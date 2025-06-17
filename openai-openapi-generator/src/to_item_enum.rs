@@ -6,9 +6,9 @@ use std::collections::HashMap;
 
 pub fn to_item_enum(
     name: &str,
-    schema: &Schema<'_>,
-    variants: &Vec<(Schema<'_>, bool)>,
-    schemas: &IndexMap<&str, Schema<'_>>,
+    schema: &Schema,
+    variants: &[(Schema, bool)],
+    schemas: &IndexMap<String, Schema>,
     public: bool,
     items: &mut Vec<syn::Item>,
 ) -> syn::Item {
@@ -22,7 +22,7 @@ pub fn to_item_enum(
         type_: syn::Type,
     }
 
-    let description = to_description(schema.description);
+    let description = to_description(schema.description.as_deref());
     let derive = to_derive(schema, schemas);
     let vis = public.then_some(quote::quote!(pub));
     let ident = to_ident_pascal(name);
@@ -31,7 +31,7 @@ pub fn to_item_enum(
         .iter()
         .map(|(variant, default)| {
             if let (false, Type::Const(value)) = (variant.nullable, &variant.type_) {
-                Some((variant.description, *value, default))
+                Some((variant.description.as_deref(), value.as_str(), default))
             } else {
                 None
             }
@@ -64,9 +64,9 @@ pub fn to_item_enum(
             .zip(variant_names(&variants, schemas))
             .map(|((variant, default), variant_name)| {
                 let (public, description) = if let Type::Const(value) = &variant.type_ {
-                    (false, Some(*value))
+                    (false, Some(value.as_str()))
                 } else {
-                    (true, variant.description)
+                    (true, variant.description.as_deref())
                 };
                 VariantInfo {
                     const_: is_const(variant, schemas),
@@ -245,7 +245,7 @@ pub fn to_item_enum(
     }
 }
 
-fn extract_variants<'a>(schema: &'a Schema<'a>) -> Vec<(&'a Schema<'a>, bool)> {
+fn extract_variants(schema: &Schema) -> Vec<(&Schema, bool)> {
     match &schema.type_ {
         Type::Enum(variants) => variants
             .iter()
@@ -259,7 +259,7 @@ fn extract_variants<'a>(schema: &'a Schema<'a>) -> Vec<(&'a Schema<'a>, bool)> {
     }
 }
 
-fn is_const(schema: &Schema<'_>, schemas: &IndexMap<&str, Schema<'_>>) -> bool {
+fn is_const(schema: &Schema, schemas: &IndexMap<String, Schema>) -> bool {
     match &schema.type_ {
         Type::Const(_) => true,
         Type::Enum(variants) => variants
@@ -271,8 +271,8 @@ fn is_const(schema: &Schema<'_>, schemas: &IndexMap<&str, Schema<'_>>) -> bool {
 }
 
 fn extract_tags<'a>(
-    variants: &'a [(&'a Schema<'a>, bool)],
-    schemas: &'a IndexMap<&'a str, Schema<'a>>,
+    variants: &'a [(&'a Schema, bool)],
+    schemas: &'a IndexMap<String, Schema>,
 ) -> Vec<HashMap<&'a str, &'a str>> {
     variants
         .iter()
@@ -290,7 +290,7 @@ fn extract_tags<'a>(
                         true,
                     ) = (name, schema, required)
                     {
-                        Some((name, *value))
+                        Some((name, value.as_str()))
                     } else {
                         None
                     }
@@ -301,9 +301,9 @@ fn extract_tags<'a>(
 }
 
 fn extract_fields<'a>(
-    schema: &'a Schema<'a>,
-    schemas: &'a IndexMap<&'a str, Schema<'a>>,
-) -> Vec<(&'a str, &'a Schema<'a>, bool)> {
+    schema: &'a Schema,
+    schemas: &'a IndexMap<String, Schema>,
+) -> Vec<(&'a str, &'a Schema, bool)> {
     match &schema.type_ {
         Type::Ref(ref_) => extract_fields(&schemas[ref_], schemas),
         Type::Struct(fields) => fields
@@ -313,7 +313,7 @@ fn extract_fields<'a>(
                     name,
                     schema,
                     required,
-                } => vec![(*name, schema, *required)],
+                } => vec![(name.as_str(), schema, *required)],
                 Field::Ref(ref_) => extract_fields(&schemas[ref_], schemas),
             })
             .collect(),
@@ -321,10 +321,7 @@ fn extract_fields<'a>(
     }
 }
 
-fn variant_names(
-    variants: &[(&Schema<'_>, bool)],
-    schemas: &IndexMap<&str, Schema<'_>>,
-) -> Vec<String> {
+fn variant_names(variants: &[(&Schema, bool)], schemas: &IndexMap<String, Schema>) -> Vec<String> {
     let mut names = vec![Vec::new(); variants.len()];
 
     let tags = extract_tags(variants, schemas);
@@ -412,7 +409,7 @@ fn variant_names(
     names.into_iter().map(|mut name| name.remove(0)).collect()
 }
 
-fn to_type_name<'a>(schema: &'a Schema<'a>) -> Vec<&'a str> {
+fn to_type_name(schema: &Schema) -> Vec<&str> {
     match &schema.type_ {
         Type::Any => vec!["any"],
         Type::Array(item) => {

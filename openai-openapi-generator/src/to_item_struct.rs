@@ -6,9 +6,9 @@ use indexmap::IndexMap;
 
 pub fn to_item_struct(
     name: &str,
-    schema: &Schema<'_>,
-    fields: &Vec<Field>,
-    schemas: &IndexMap<&str, Schema<'_>>,
+    schema: &Schema,
+    fields: &[Field],
+    schemas: &IndexMap<String, Schema>,
     public: bool,
     items: &mut Vec<syn::Item>,
 ) -> syn::Item {
@@ -24,7 +24,7 @@ pub fn to_item_struct(
         type_: syn::Type,
     }
 
-    let description = to_description(schema.description);
+    let description = to_description(schema.description.as_deref());
     let derive = to_derive(schema, schemas);
     let vis = public.then_some(quote::quote!(pub));
     let ident = to_ident_pascal(name);
@@ -48,7 +48,7 @@ pub fn to_item_struct(
                     ) || !required);
                 FieldInfo {
                     default: is_default(schema, schemas),
-                    description: schema.description,
+                    description: schema.description.as_deref(),
                     ident: to_ident_snake(field_name),
                     name: Some(field_name),
                     nullable: is_nullable(schema, schemas),

@@ -26,7 +26,7 @@ fn main() -> anyhow::Result<()> {
         .map(|(name, schema)| {
             parse::parse(schema, &document.components.schemas)
                 .with_context(|| name.clone())
-                .map(|schema| (name.as_str(), schema))
+                .map(|schema| (name.clone(), schema))
         })
         .collect::<Result<IndexMap<_, _>, _>>()?;
 
@@ -52,43 +52,43 @@ fn main() -> anyhow::Result<()> {
 }
 
 #[derive(Debug)]
-struct Schema<'a> {
-    description: Option<&'a str>,
+struct Schema {
+    description: Option<String>,
     nullable: bool,
-    type_: Type<'a>,
+    type_: Type,
 }
 
 #[derive(Debug)]
-enum Type<'a> {
+enum Type {
     Any,
-    Array(Box<Schema<'a>>),
+    Array(Box<Schema>),
     Binary,
     Boolean,
-    Const(&'a str),
-    Enum(Vec<(Schema<'a>, bool)>),
+    Const(String),
+    Enum(Vec<(Schema, bool)>),
     Float,
     Integer,
-    Map(Box<Schema<'a>>),
+    Map(Box<Schema>),
     Number,
-    Ref(&'a str),
+    Ref(String),
     String,
-    Struct(Vec<Field<'a>>),
+    Struct(Vec<Field>),
 }
 
 #[derive(Debug)]
-enum Field<'a> {
+enum Field {
     Property {
-        name: &'a str,
-        schema: Schema<'a>,
+        name: String,
+        schema: Schema,
         required: bool,
     },
-    Ref(&'a str),
+    Ref(String),
 }
 
 fn to_type(
     name: &str,
-    schema: &Schema<'_>,
-    schemas: &IndexMap<&str, Schema<'_>>,
+    schema: &Schema,
+    schemas: &IndexMap<String, Schema>,
     public: bool,
     items: &mut Vec<syn::Item>,
 ) -> syn::Type {
@@ -122,12 +122,12 @@ fn to_type(
 
 fn to_item(
     name: &str,
-    schema: &Schema<'_>,
-    schemas: &IndexMap<&str, Schema<'_>>,
+    schema: &Schema,
+    schemas: &IndexMap<String, Schema>,
     public: bool,
     items: &mut Vec<syn::Item>,
 ) -> syn::Item {
-    let description = to_description(schema.description);
+    let description = to_description(schema.description.as_deref());
     let vis = public.then_some(quote::quote!(pub));
     let ident = to_ident_pascal(name);
     match &schema.type_ {
@@ -236,7 +236,7 @@ fn to_description(description: Option<&str>) -> Option<syn::Attribute> {
     })
 }
 
-fn to_derive(schema: &Schema<'_>, schemas: &IndexMap<&str, Schema<'_>>) -> syn::Attribute {
+fn to_derive(schema: &Schema, schemas: &IndexMap<String, Schema>) -> syn::Attribute {
     let derives = [
         Some(quote::quote!(Clone)),
         is_copy(schema, schemas).then_some(quote::quote!(Copy)),
@@ -249,7 +249,7 @@ fn to_derive(schema: &Schema<'_>, schemas: &IndexMap<&str, Schema<'_>>) -> syn::
     syn::parse_quote!(#[derive(#(#derives),*)])
 }
 
-fn is_copy(schema: &Schema<'_>, schemas: &IndexMap<&str, Schema<'_>>) -> bool {
+fn is_copy(schema: &Schema, schemas: &IndexMap<String, Schema>) -> bool {
     match &schema.type_ {
         Type::Boolean | Type::Const(_) | Type::Float | Type::Integer | Type::Number => true,
         Type::Enum(variants) => variants
@@ -264,7 +264,7 @@ fn is_copy(schema: &Schema<'_>, schemas: &IndexMap<&str, Schema<'_>>) -> bool {
     }
 }
 
-fn is_default(schema: &Schema<'_>, schemas: &IndexMap<&str, Schema<'_>>) -> bool {
+fn is_default(schema: &Schema, schemas: &IndexMap<String, Schema>) -> bool {
     match &schema.type_ {
         Type::Const(_) => true,
         Type::Enum(variants) => variants.iter().any(|(_, default)| *default),
@@ -279,7 +279,7 @@ fn is_default(schema: &Schema<'_>, schemas: &IndexMap<&str, Schema<'_>>) -> bool
     }
 }
 
-fn is_nullable(schema: &Schema<'_>, schemas: &IndexMap<&str, Schema<'_>>) -> bool {
+fn is_nullable(schema: &Schema, schemas: &IndexMap<String, Schema>) -> bool {
     schema.nullable
         || if let Type::Ref(ref_) = &schema.type_ {
             is_nullable(&schemas[ref_], schemas)
@@ -288,7 +288,7 @@ fn is_nullable(schema: &Schema<'_>, schemas: &IndexMap<&str, Schema<'_>>) -> boo
         }
 }
 
-fn to_serde_as(schema: &Schema<'_>) -> Option<String> {
+fn to_serde_as(schema: &Schema) -> Option<String> {
     match &schema.type_ {
         Type::Array(item) => to_serde_as(item).map(|item| format!("Vec<{item}>")),
         Type::Binary => Some("serde_with::base64::Base64".to_owned()),

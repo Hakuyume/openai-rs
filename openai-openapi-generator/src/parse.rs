@@ -2,12 +2,10 @@ use crate::openapi;
 use anyhow::Context;
 use indexmap::IndexMap;
 
-type Schemas<'a> = &'a IndexMap<String, openapi::Schema>;
-
-pub fn parse<'a>(
-    schema: &'a openapi::Schema,
-    schemas: Schemas<'a>,
-) -> anyhow::Result<crate::Schema<'a>> {
+pub fn parse(
+    schema: &openapi::Schema,
+    schemas: &IndexMap<String, openapi::Schema>,
+) -> anyhow::Result<crate::Schema> {
     if let Some(schema) = parse_primitive(schema, schemas) {
         Ok(schema)
     } else if let Some(schema) = parse_array(schema, schemas)? {
@@ -26,10 +24,13 @@ pub fn parse<'a>(
 }
 
 #[openai_openapi_generator_macros::strict(openapi::Schema)]
-fn parse_primitive<'a>(schema: &'a openapi::Schema, _: Schemas<'a>) -> Option<crate::Schema<'a>> {
+fn parse_primitive(
+    schema: &openapi::Schema,
+    _: &IndexMap<String, openapi::Schema>,
+) -> Option<crate::Schema> {
     if let openapi::Schema { description } = schema {
         Some(crate::Schema {
-            description: description.as_deref(),
+            description: description.clone(),
             nullable: false,
             type_: crate::Type::Any,
         })
@@ -39,7 +40,7 @@ fn parse_primitive<'a>(schema: &'a openapi::Schema, _: Schemas<'a>) -> Option<cr
     } = schema
     {
         Some(crate::Schema {
-            description: description.as_deref(),
+            description: description.clone(),
             nullable: false,
             type_: crate::Type::Array(Box::new(crate::Schema {
                 description: None,
@@ -55,7 +56,7 @@ fn parse_primitive<'a>(schema: &'a openapi::Schema, _: Schemas<'a>) -> Option<cr
     } = schema
     {
         Some(crate::Schema {
-            description: description.as_deref(),
+            description: description.clone(),
             nullable: false,
             type_: crate::Type::Binary,
         })
@@ -67,7 +68,7 @@ fn parse_primitive<'a>(schema: &'a openapi::Schema, _: Schemas<'a>) -> Option<cr
     } = schema
     {
         Some(crate::Schema {
-            description: description.as_deref(),
+            description: description.clone(),
             nullable: nullable.unwrap_or_default(),
             type_: crate::Type::Boolean,
         })
@@ -80,7 +81,7 @@ fn parse_primitive<'a>(schema: &'a openapi::Schema, _: Schemas<'a>) -> Option<cr
     } = schema
     {
         if let [value] = &enum_[..] {
-            Some((description.as_deref(), value.as_str()))
+            Some((description, value))
         } else {
             None
         }
@@ -88,9 +89,9 @@ fn parse_primitive<'a>(schema: &'a openapi::Schema, _: Schemas<'a>) -> Option<cr
         None
     } {
         Some(crate::Schema {
-            description,
+            description: description.clone(),
             nullable: false,
-            type_: crate::Type::Const(value),
+            type_: crate::Type::Const(value.clone()),
         })
     } else if let openapi::Schema {
         description,
@@ -99,7 +100,7 @@ fn parse_primitive<'a>(schema: &'a openapi::Schema, _: Schemas<'a>) -> Option<cr
     } = schema
     {
         Some(crate::Schema {
-            description: description.as_deref(),
+            description: description.clone(),
             nullable: false,
             type_: crate::Type::Float,
         })
@@ -113,7 +114,7 @@ fn parse_primitive<'a>(schema: &'a openapi::Schema, _: Schemas<'a>) -> Option<cr
     } = schema
     {
         Some(crate::Schema {
-            description: description.as_deref(),
+            description: description.clone(),
             nullable: nullable.unwrap_or_default(),
             type_: crate::Type::Integer,
         })
@@ -125,7 +126,7 @@ fn parse_primitive<'a>(schema: &'a openapi::Schema, _: Schemas<'a>) -> Option<cr
     } = schema
     {
         Some(crate::Schema {
-            description: description.as_deref(),
+            description: description.clone(),
             nullable: nullable.unwrap_or_default(),
             type_: crate::Type::Number,
         })
@@ -143,7 +144,7 @@ fn parse_primitive<'a>(schema: &'a openapi::Schema, _: Schemas<'a>) -> Option<cr
     } = schema
     {
         Some(crate::Schema {
-            description: description.as_deref(),
+            description: description.clone(),
             nullable: nullable.unwrap_or_default(),
             type_: crate::Type::Map(Box::new(crate::Schema {
                 description: None,
@@ -167,7 +168,7 @@ fn parse_primitive<'a>(schema: &'a openapi::Schema, _: Schemas<'a>) -> Option<cr
     } = schema
     {
         Some(crate::Schema {
-            description: description.as_deref(),
+            description: description.clone(),
             nullable: nullable.unwrap_or_default(),
             type_: crate::Type::String,
         })
@@ -177,10 +178,10 @@ fn parse_primitive<'a>(schema: &'a openapi::Schema, _: Schemas<'a>) -> Option<cr
 }
 
 #[openai_openapi_generator_macros::strict(openapi::Schema)]
-fn parse_array<'a>(
-    schema: &'a openapi::Schema,
-    schemas: Schemas<'a>,
-) -> anyhow::Result<Option<crate::Schema<'a>>> {
+fn parse_array(
+    schema: &openapi::Schema,
+    schemas: &IndexMap<String, openapi::Schema>,
+) -> anyhow::Result<Option<crate::Schema>> {
     if let openapi::Schema {
         default: _,
         description,
@@ -190,7 +191,7 @@ fn parse_array<'a>(
     } = schema
     {
         Ok(Some(crate::Schema {
-            description: description.as_deref(),
+            description: description.clone(),
             nullable: nullable.unwrap_or_default(),
             type_: crate::Type::Array(Box::new(parse(items, schemas).context("items")?)),
         }))
@@ -200,10 +201,10 @@ fn parse_array<'a>(
 }
 
 #[openai_openapi_generator_macros::strict(openapi::Schema)]
-fn parse_map<'a>(
-    schema: &'a openapi::Schema,
-    schemas: Schemas<'a>,
-) -> anyhow::Result<Option<crate::Schema<'a>>> {
+fn parse_map(
+    schema: &openapi::Schema,
+    schemas: &IndexMap<String, openapi::Schema>,
+) -> anyhow::Result<Option<crate::Schema>> {
     if let openapi::Schema {
         additional_properties: Some(openapi::AdditionalProperties::Schema(additional_properties)),
         description,
@@ -213,7 +214,7 @@ fn parse_map<'a>(
     } = schema
     {
         Ok(Some(crate::Schema {
-            description: description.as_deref(),
+            description: description.clone(),
             nullable: nullable.unwrap_or_default(),
             type_: crate::Type::Map(Box::new(
                 parse(additional_properties, schemas).context("additionalProperties")?,
@@ -225,10 +226,10 @@ fn parse_map<'a>(
 }
 
 #[openai_openapi_generator_macros::strict(openapi::Schema)]
-fn parse_ref<'a>(
-    schema: &'a openapi::Schema,
-    schemas: Schemas<'a>,
-) -> anyhow::Result<Option<crate::Schema<'a>>> {
+fn parse_ref(
+    schema: &openapi::Schema,
+    schemas: &IndexMap<String, openapi::Schema>,
+) -> anyhow::Result<Option<crate::Schema>> {
     if let Some((description, nullable, ref_)) = if let openapi::Schema {
         description,
         nullable,
@@ -243,9 +244,9 @@ fn parse_ref<'a>(
     } {
         anyhow::ensure!(schemas.contains_key(ref_));
         Ok(Some(crate::Schema {
-            description: description.as_deref(),
+            description: description.clone(),
             nullable: nullable.unwrap_or_default(),
-            type_: crate::Type::Ref(ref_),
+            type_: crate::Type::Ref(ref_.to_owned()),
         }))
     } else {
         Ok(None)
@@ -253,10 +254,10 @@ fn parse_ref<'a>(
 }
 
 #[openai_openapi_generator_macros::strict(openapi::Schema)]
-fn parse_enum<'a>(
-    schema: &'a openapi::Schema,
-    schemas: Schemas<'a>,
-) -> anyhow::Result<Option<crate::Schema<'a>>> {
+fn parse_enum(
+    schema: &openapi::Schema,
+    schemas: &IndexMap<String, openapi::Schema>,
+) -> anyhow::Result<Option<crate::Schema>> {
     if let Some((description, nullable, of, context)) = if let openapi::Schema {
         any_of: Some(any_of),
         description,
@@ -287,7 +288,7 @@ fn parse_enum<'a>(
             })
             .collect::<Result<_, _>>()?;
         Ok(Some(crate::Schema {
-            description: description.as_deref(),
+            description: description.clone(),
             nullable: nullable.unwrap_or_default(),
             type_: crate::Type::Enum(variants),
         }))
@@ -307,7 +308,7 @@ fn parse_enum<'a>(
                     crate::Schema {
                         description: None,
                         nullable: false,
-                        type_: crate::Type::Const(enum_),
+                        type_: crate::Type::Const(enum_.clone()),
                     },
                     if let Some(serde_json::Value::String(default)) = default {
                         enum_ == default
@@ -318,7 +319,7 @@ fn parse_enum<'a>(
             })
             .collect();
         Ok(Some(crate::Schema {
-            description: description.as_deref(),
+            description: description.clone(),
             nullable: nullable.unwrap_or_default(),
             type_: crate::Type::Enum(variants),
         }))
@@ -328,10 +329,10 @@ fn parse_enum<'a>(
 }
 
 #[openai_openapi_generator_macros::strict(openapi::Schema)]
-fn parse_struct<'a>(
-    schema: &'a openapi::Schema,
-    schemas: Schemas<'a>,
-) -> anyhow::Result<Option<crate::Schema<'a>>> {
+fn parse_struct(
+    schema: &openapi::Schema,
+    schemas: &IndexMap<String, openapi::Schema>,
+) -> anyhow::Result<Option<crate::Schema>> {
     if let Some((description, nullable, fields)) = if let openapi::Schema {
         all_of: Some(all_of),
         description,
@@ -424,20 +425,20 @@ fn parse_struct<'a>(
                                 output.context(context)
                             })
                             .map(|schema| crate::Field::Property {
-                                name: property_name,
+                                name: property_name.clone(),
                                 schema,
                                 required,
                             })
                     },
                     |ref_| {
                         anyhow::ensure!(schemas.contains_key(ref_));
-                        Ok(crate::Field::Ref(ref_))
+                        Ok(crate::Field::Ref(ref_.to_owned()))
                     },
                 )
             })
             .collect::<Result<Vec<_>, _>>()?;
         Ok(Some(crate::Schema {
-            description: description.as_deref(),
+            description: description.clone(),
             nullable: nullable.unwrap_or_default(),
             type_: crate::Type::Struct(fields),
         }))

@@ -3,13 +3,13 @@ use indexmap::IndexMap;
 
 pub fn to_item_const(
     name: &str,
-    schema: &Schema<'_>,
+    schema: &Schema,
     value: &str,
-    schemas: &IndexMap<&str, Schema<'_>>,
+    schemas: &IndexMap<String, Schema>,
     public: bool,
     items: &mut Vec<syn::Item>,
 ) -> syn::Item {
-    let description = to_description(Some(schema.description.unwrap_or(value)));
+    let description = to_description(Some(schema.description.as_deref().unwrap_or(value)));
     let derive = to_derive(schema, schemas);
     let vis = public.then_some(quote::quote!(pub));
     let ident = to_ident_pascal(name);
