@@ -101,7 +101,7 @@ fn to_type(
         Type::Binary => syn::parse_quote!(Vec<u8>),
         Type::Boolean => syn::parse_quote!(bool),
         Type::Float | Type::Number => syn::parse_quote!(f64),
-        Type::Integer => syn::parse_quote!(u64),
+        Type::Integer => syn::parse_quote!(i64),
         Type::Map(item) => {
             let type_ = to_type(&to_singular(name), item, schemas, public, items);
             syn::parse_quote!(indexmap::IndexMap<String, #type_>)

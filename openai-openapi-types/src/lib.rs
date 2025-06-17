@@ -166,7 +166,7 @@ impl<'de> serde::Deserialize<'de> for AdminApiKeyOwner {
             name: Option<String>,
             #[serde(rename = "created_at")]
             #[allow(dead_code)]
-            created_at: Option<u64>,
+            created_at: Option<i64>,
             #[serde(rename = "role")]
             #[allow(dead_code)]
             role: Option<AdminApiKeyOwnerRole>,
@@ -212,7 +212,7 @@ impl serde::Serialize for AdminApiKeyOwner {
             name: &'a Option<String>,
             #[serde(rename = "created_at")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            created_at: &'a Option<u64>,
+            created_at: &'a Option<i64>,
             #[serde(rename = "role")]
             #[serde(skip_serializing_if = "Option::is_none")]
             role: &'a Option<AdminApiKeyOwnerRole>,
@@ -252,7 +252,7 @@ pub struct AdminApiKeyOwner {
     pub name: Option<String>,
     #[doc = "The Unix timestamp (in seconds) of when the user was created"]
     #[builder(default)]
-    pub created_at: Option<u64>,
+    pub created_at: Option<i64>,
     #[doc = "Always `owner`"]
     #[builder(default)]
     pub role: Option<AdminApiKeyOwnerRole>,
@@ -282,10 +282,10 @@ impl<'de> serde::Deserialize<'de> for AdminApiKey {
             value: Option<String>,
             #[serde(rename = "created_at")]
             #[allow(dead_code)]
-            created_at: u64,
+            created_at: i64,
             #[serde(rename = "last_used_at")]
             #[allow(dead_code)]
-            last_used_at: Option<u64>,
+            last_used_at: Option<i64>,
             #[serde(rename = "owner")]
             #[allow(dead_code)]
             owner: AdminApiKeyOwner,
@@ -331,10 +331,10 @@ impl serde::Serialize for AdminApiKey {
             #[serde(skip_serializing_if = "Option::is_none")]
             value: &'a Option<String>,
             #[serde(rename = "created_at")]
-            created_at: &'a u64,
+            created_at: &'a i64,
             #[serde(rename = "last_used_at")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            last_used_at: &'a Option<u64>,
+            last_used_at: &'a Option<i64>,
             #[serde(rename = "owner")]
             owner: &'a AdminApiKeyOwner,
         }
@@ -373,10 +373,10 @@ pub struct AdminApiKey {
     #[builder(default)]
     pub value: Option<String>,
     #[doc = "The Unix timestamp (in seconds) of when the API key was created"]
-    pub created_at: u64,
+    pub created_at: i64,
     #[doc = "The Unix timestamp (in seconds) of when the API key was last used"]
     #[builder(default)]
-    pub last_used_at: Option<u64>,
+    pub last_used_at: Option<i64>,
     #[builder(default)]
     pub owner: AdminApiKeyOwner,
 }
@@ -657,7 +657,7 @@ impl<'de> serde::Deserialize<'de> for AssistantObject {
             object: AssistantObjectObject,
             #[serde(rename = "created_at")]
             #[allow(dead_code)]
-            created_at: u64,
+            created_at: i64,
             #[serde(rename = "name")]
             #[allow(dead_code)]
             name: Option<String>,
@@ -733,7 +733,7 @@ impl serde::Serialize for AssistantObject {
             #[serde(rename = "object")]
             object: &'a AssistantObjectObject,
             #[serde(rename = "created_at")]
-            created_at: &'a u64,
+            created_at: &'a i64,
             #[serde(rename = "name")]
             #[serde(skip_serializing_if = "Option::is_none")]
             name: &'a Option<String>,
@@ -801,7 +801,7 @@ pub struct AssistantObject {
     #[doc = "The identifier, which can be referenced in API endpoints."]
     pub id: String,
     #[doc = "The Unix timestamp (in seconds) for when the assistant was created."]
-    pub created_at: u64,
+    pub created_at: i64,
     #[doc = "The name of the assistant. The maximum length is 256 characters.\n"]
     #[builder(default)]
     pub name: Option<String>,
@@ -1108,7 +1108,7 @@ impl<'de> serde::Deserialize<'de> for AssistantToolsFileSearchFileSearch {
         struct AssistantToolsFileSearchFileSearch {
             #[serde(rename = "max_num_results")]
             #[allow(dead_code)]
-            max_num_results: Option<u64>,
+            max_num_results: Option<i64>,
             #[serde(rename = "ranking_options")]
             #[allow(dead_code)]
             ranking_options: Option<FileSearchRankingOptions>,
@@ -1134,7 +1134,7 @@ impl serde::Serialize for AssistantToolsFileSearchFileSearch {
         struct AssistantToolsFileSearchFileSearch<'a> {
             #[serde(rename = "max_num_results")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            max_num_results: &'a Option<u64>,
+            max_num_results: &'a Option<i64>,
             #[serde(rename = "ranking_options")]
             #[serde(skip_serializing_if = "Option::is_none")]
             ranking_options: &'a Option<FileSearchRankingOptions>,
@@ -1155,7 +1155,7 @@ impl serde::Serialize for AssistantToolsFileSearchFileSearch {
 pub struct AssistantToolsFileSearchFileSearch {
     #[doc = "The maximum number of results the file search tool should output. The default is 20 for `gpt-4*` models and 5 for `gpt-3.5-turbo`. This number should be between 1 and 50 inclusive.\n\nNote that the file search tool may output fewer than `max_num_results` results. See the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search#customizing-file-search-settings) for more information.\n"]
     #[builder(default)]
-    pub max_num_results: Option<u64>,
+    pub max_num_results: Option<i64>,
     #[builder(default)]
     pub ranking_options: Option<FileSearchRankingOptions>,
 }
@@ -2869,22 +2869,22 @@ impl<'de> serde::Deserialize<'de> for AuditLogRateLimitUpdatedChangesRequested {
         struct AuditLogRateLimitUpdatedChangesRequested {
             #[serde(rename = "max_requests_per_1_minute")]
             #[allow(dead_code)]
-            max_requests_per_1_minute: Option<u64>,
+            max_requests_per_1_minute: Option<i64>,
             #[serde(rename = "max_tokens_per_1_minute")]
             #[allow(dead_code)]
-            max_tokens_per_1_minute: Option<u64>,
+            max_tokens_per_1_minute: Option<i64>,
             #[serde(rename = "max_images_per_1_minute")]
             #[allow(dead_code)]
-            max_images_per_1_minute: Option<u64>,
+            max_images_per_1_minute: Option<i64>,
             #[serde(rename = "max_audio_megabytes_per_1_minute")]
             #[allow(dead_code)]
-            max_audio_megabytes_per_1_minute: Option<u64>,
+            max_audio_megabytes_per_1_minute: Option<i64>,
             #[serde(rename = "max_requests_per_1_day")]
             #[allow(dead_code)]
-            max_requests_per_1_day: Option<u64>,
+            max_requests_per_1_day: Option<i64>,
             #[serde(rename = "batch_1_day_max_input_tokens")]
             #[allow(dead_code)]
-            batch_1_day_max_input_tokens: Option<u64>,
+            batch_1_day_max_input_tokens: Option<i64>,
         }
         let AuditLogRateLimitUpdatedChangesRequested {
             max_requests_per_1_minute,
@@ -2915,22 +2915,22 @@ impl serde::Serialize for AuditLogRateLimitUpdatedChangesRequested {
         struct AuditLogRateLimitUpdatedChangesRequested<'a> {
             #[serde(rename = "max_requests_per_1_minute")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            max_requests_per_1_minute: &'a Option<u64>,
+            max_requests_per_1_minute: &'a Option<i64>,
             #[serde(rename = "max_tokens_per_1_minute")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            max_tokens_per_1_minute: &'a Option<u64>,
+            max_tokens_per_1_minute: &'a Option<i64>,
             #[serde(rename = "max_images_per_1_minute")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            max_images_per_1_minute: &'a Option<u64>,
+            max_images_per_1_minute: &'a Option<i64>,
             #[serde(rename = "max_audio_megabytes_per_1_minute")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            max_audio_megabytes_per_1_minute: &'a Option<u64>,
+            max_audio_megabytes_per_1_minute: &'a Option<i64>,
             #[serde(rename = "max_requests_per_1_day")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            max_requests_per_1_day: &'a Option<u64>,
+            max_requests_per_1_day: &'a Option<i64>,
             #[serde(rename = "batch_1_day_max_input_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            batch_1_day_max_input_tokens: &'a Option<u64>,
+            batch_1_day_max_input_tokens: &'a Option<i64>,
         }
         let Self {
             max_requests_per_1_minute,
@@ -2956,22 +2956,22 @@ impl serde::Serialize for AuditLogRateLimitUpdatedChangesRequested {
 pub struct AuditLogRateLimitUpdatedChangesRequested {
     #[doc = "The maximum requests per minute."]
     #[builder(default)]
-    pub max_requests_per_1_minute: Option<u64>,
+    pub max_requests_per_1_minute: Option<i64>,
     #[doc = "The maximum tokens per minute."]
     #[builder(default)]
-    pub max_tokens_per_1_minute: Option<u64>,
+    pub max_tokens_per_1_minute: Option<i64>,
     #[doc = "The maximum images per minute. Only relevant for certain models."]
     #[builder(default)]
-    pub max_images_per_1_minute: Option<u64>,
+    pub max_images_per_1_minute: Option<i64>,
     #[doc = "The maximum audio megabytes per minute. Only relevant for certain models."]
     #[builder(default)]
-    pub max_audio_megabytes_per_1_minute: Option<u64>,
+    pub max_audio_megabytes_per_1_minute: Option<i64>,
     #[doc = "The maximum requests per day. Only relevant for certain models."]
     #[builder(default)]
-    pub max_requests_per_1_day: Option<u64>,
+    pub max_requests_per_1_day: Option<i64>,
     #[doc = "The maximum batch input tokens per day. Only relevant for certain models."]
     #[builder(default)]
-    pub batch_1_day_max_input_tokens: Option<u64>,
+    pub batch_1_day_max_input_tokens: Option<i64>,
 }
 impl<'de> serde::Deserialize<'de> for AuditLogRateLimitUpdated {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -3897,7 +3897,7 @@ impl<'de> serde::Deserialize<'de> for AuditLog {
             r#type: AuditLogEventType,
             #[serde(rename = "effective_at")]
             #[allow(dead_code)]
-            effective_at: u64,
+            effective_at: i64,
             #[serde(rename = "project")]
             #[allow(dead_code)]
             project: Option<AuditLogProject>,
@@ -4070,7 +4070,7 @@ impl serde::Serialize for AuditLog {
             #[serde(rename = "type")]
             r#type: &'a AuditLogEventType,
             #[serde(rename = "effective_at")]
-            effective_at: &'a u64,
+            effective_at: &'a i64,
             #[serde(rename = "project")]
             #[serde(skip_serializing_if = "Option::is_none")]
             project: &'a Option<AuditLogProject>,
@@ -4236,7 +4236,7 @@ pub struct AuditLog {
     pub id: String,
     pub r#type: AuditLogEventType,
     #[doc = "The Unix timestamp (in seconds) of the event."]
-    pub effective_at: u64,
+    pub effective_at: i64,
     #[doc = "The project that the action was scoped to. Absent for actions not scoped to projects."]
     #[builder(default)]
     pub project: Option<AuditLogProject>,
@@ -4946,31 +4946,31 @@ impl<'de> serde::Deserialize<'de> for Batch {
             error_file_id: Option<String>,
             #[serde(rename = "created_at")]
             #[allow(dead_code)]
-            created_at: u64,
+            created_at: i64,
             #[serde(rename = "in_progress_at")]
             #[allow(dead_code)]
-            in_progress_at: Option<u64>,
+            in_progress_at: Option<i64>,
             #[serde(rename = "expires_at")]
             #[allow(dead_code)]
-            expires_at: Option<u64>,
+            expires_at: Option<i64>,
             #[serde(rename = "finalizing_at")]
             #[allow(dead_code)]
-            finalizing_at: Option<u64>,
+            finalizing_at: Option<i64>,
             #[serde(rename = "completed_at")]
             #[allow(dead_code)]
-            completed_at: Option<u64>,
+            completed_at: Option<i64>,
             #[serde(rename = "failed_at")]
             #[allow(dead_code)]
-            failed_at: Option<u64>,
+            failed_at: Option<i64>,
             #[serde(rename = "expired_at")]
             #[allow(dead_code)]
-            expired_at: Option<u64>,
+            expired_at: Option<i64>,
             #[serde(rename = "cancelling_at")]
             #[allow(dead_code)]
-            cancelling_at: Option<u64>,
+            cancelling_at: Option<i64>,
             #[serde(rename = "cancelled_at")]
             #[allow(dead_code)]
-            cancelled_at: Option<u64>,
+            cancelled_at: Option<i64>,
             #[serde(rename = "request_counts")]
             #[allow(dead_code)]
             request_counts: Option<BatchRequestCounts>,
@@ -5053,31 +5053,31 @@ impl serde::Serialize for Batch {
             #[serde(skip_serializing_if = "Option::is_none")]
             error_file_id: &'a Option<String>,
             #[serde(rename = "created_at")]
-            created_at: &'a u64,
+            created_at: &'a i64,
             #[serde(rename = "in_progress_at")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            in_progress_at: &'a Option<u64>,
+            in_progress_at: &'a Option<i64>,
             #[serde(rename = "expires_at")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            expires_at: &'a Option<u64>,
+            expires_at: &'a Option<i64>,
             #[serde(rename = "finalizing_at")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            finalizing_at: &'a Option<u64>,
+            finalizing_at: &'a Option<i64>,
             #[serde(rename = "completed_at")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            completed_at: &'a Option<u64>,
+            completed_at: &'a Option<i64>,
             #[serde(rename = "failed_at")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            failed_at: &'a Option<u64>,
+            failed_at: &'a Option<i64>,
             #[serde(rename = "expired_at")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            expired_at: &'a Option<u64>,
+            expired_at: &'a Option<i64>,
             #[serde(rename = "cancelling_at")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            cancelling_at: &'a Option<u64>,
+            cancelling_at: &'a Option<i64>,
             #[serde(rename = "cancelled_at")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            cancelled_at: &'a Option<u64>,
+            cancelled_at: &'a Option<i64>,
             #[serde(rename = "request_counts")]
             #[serde(skip_serializing_if = "Option::is_none")]
             request_counts: &'a Option<BatchRequestCounts>,
@@ -5151,31 +5151,31 @@ pub struct Batch {
     #[builder(default)]
     pub error_file_id: Option<String>,
     #[doc = "The Unix timestamp (in seconds) for when the batch was created."]
-    pub created_at: u64,
+    pub created_at: i64,
     #[doc = "The Unix timestamp (in seconds) for when the batch started processing."]
     #[builder(default)]
-    pub in_progress_at: Option<u64>,
+    pub in_progress_at: Option<i64>,
     #[doc = "The Unix timestamp (in seconds) for when the batch will expire."]
     #[builder(default)]
-    pub expires_at: Option<u64>,
+    pub expires_at: Option<i64>,
     #[doc = "The Unix timestamp (in seconds) for when the batch started finalizing."]
     #[builder(default)]
-    pub finalizing_at: Option<u64>,
+    pub finalizing_at: Option<i64>,
     #[doc = "The Unix timestamp (in seconds) for when the batch was completed."]
     #[builder(default)]
-    pub completed_at: Option<u64>,
+    pub completed_at: Option<i64>,
     #[doc = "The Unix timestamp (in seconds) for when the batch failed."]
     #[builder(default)]
-    pub failed_at: Option<u64>,
+    pub failed_at: Option<i64>,
     #[doc = "The Unix timestamp (in seconds) for when the batch expired."]
     #[builder(default)]
-    pub expired_at: Option<u64>,
+    pub expired_at: Option<i64>,
     #[doc = "The Unix timestamp (in seconds) for when the batch started cancelling."]
     #[builder(default)]
-    pub cancelling_at: Option<u64>,
+    pub cancelling_at: Option<i64>,
     #[doc = "The Unix timestamp (in seconds) for when the batch was cancelled."]
     #[builder(default)]
-    pub cancelled_at: Option<u64>,
+    pub cancelled_at: Option<i64>,
     #[builder(default)]
     pub request_counts: Option<BatchRequestCounts>,
     #[builder(default)]
@@ -5293,7 +5293,7 @@ impl<'de> serde::Deserialize<'de> for BatchRequestOutputResponse {
         struct BatchRequestOutputResponse {
             #[serde(rename = "status_code")]
             #[allow(dead_code)]
-            status_code: Option<u64>,
+            status_code: Option<i64>,
             #[serde(rename = "request_id")]
             #[allow(dead_code)]
             request_id: Option<String>,
@@ -5324,7 +5324,7 @@ impl serde::Serialize for BatchRequestOutputResponse {
         struct BatchRequestOutputResponse<'a> {
             #[serde(rename = "status_code")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            status_code: &'a Option<u64>,
+            status_code: &'a Option<i64>,
             #[serde(rename = "request_id")]
             #[serde(skip_serializing_if = "Option::is_none")]
             request_id: &'a Option<String>,
@@ -5349,7 +5349,7 @@ impl serde::Serialize for BatchRequestOutputResponse {
 pub struct BatchRequestOutputResponse {
     #[doc = "The HTTP status code of the response"]
     #[builder(default)]
-    pub status_code: Option<u64>,
+    pub status_code: Option<i64>,
     #[doc = "An unique identifier for the OpenAI API request. Please include this request ID when contacting support."]
     #[builder(default)]
     pub request_id: Option<String>,
@@ -5515,10 +5515,10 @@ impl<'de> serde::Deserialize<'de> for CertificateCertificateDetails {
         struct CertificateCertificateDetails {
             #[serde(rename = "valid_at")]
             #[allow(dead_code)]
-            valid_at: Option<u64>,
+            valid_at: Option<i64>,
             #[serde(rename = "expires_at")]
             #[allow(dead_code)]
-            expires_at: Option<u64>,
+            expires_at: Option<i64>,
             #[serde(rename = "content")]
             #[allow(dead_code)]
             content: Option<String>,
@@ -5546,10 +5546,10 @@ impl serde::Serialize for CertificateCertificateDetails {
         struct CertificateCertificateDetails<'a> {
             #[serde(rename = "valid_at")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            valid_at: &'a Option<u64>,
+            valid_at: &'a Option<i64>,
             #[serde(rename = "expires_at")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            expires_at: &'a Option<u64>,
+            expires_at: &'a Option<i64>,
             #[serde(rename = "content")]
             #[serde(skip_serializing_if = "Option::is_none")]
             content: &'a Option<String>,
@@ -5571,10 +5571,10 @@ impl serde::Serialize for CertificateCertificateDetails {
 pub struct CertificateCertificateDetails {
     #[doc = "The Unix timestamp (in seconds) of when the certificate becomes valid."]
     #[builder(default)]
-    pub valid_at: Option<u64>,
+    pub valid_at: Option<i64>,
     #[doc = "The Unix timestamp (in seconds) of when the certificate expires."]
     #[builder(default)]
-    pub expires_at: Option<u64>,
+    pub expires_at: Option<i64>,
     #[doc = "The content of the certificate in PEM format."]
     #[builder(default)]
     pub content: Option<String>,
@@ -5598,7 +5598,7 @@ impl<'de> serde::Deserialize<'de> for Certificate {
             name: String,
             #[serde(rename = "created_at")]
             #[allow(dead_code)]
-            created_at: u64,
+            created_at: i64,
             #[serde(rename = "certificate_details")]
             #[allow(dead_code)]
             certificate_details: CertificateCertificateDetails,
@@ -5640,7 +5640,7 @@ impl serde::Serialize for Certificate {
             #[serde(rename = "name")]
             name: &'a String,
             #[serde(rename = "created_at")]
-            created_at: &'a u64,
+            created_at: &'a i64,
             #[serde(rename = "certificate_details")]
             certificate_details: &'a CertificateCertificateDetails,
             #[serde(rename = "active")]
@@ -5676,7 +5676,7 @@ pub struct Certificate {
     #[doc = "The name of the certificate."]
     pub name: String,
     #[doc = "The Unix timestamp (in seconds) of when the certificate was uploaded."]
-    pub created_at: u64,
+    pub created_at: i64,
     #[builder(default)]
     pub certificate_details: CertificateCertificateDetails,
     #[doc = "Whether the certificate is currently active at the specified scope. Not returned when getting details for a specific certificate."]
@@ -6369,7 +6369,7 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionMessageToolCallChunk {
         struct ChatCompletionMessageToolCallChunk {
             #[serde(rename = "index")]
             #[allow(dead_code)]
-            index: u64,
+            index: i64,
             #[serde(rename = "id")]
             #[allow(dead_code)]
             id: Option<String>,
@@ -6404,7 +6404,7 @@ impl serde::Serialize for ChatCompletionMessageToolCallChunk {
         #[derive(serde :: Serialize)]
         struct ChatCompletionMessageToolCallChunk<'a> {
             #[serde(rename = "index")]
-            index: &'a u64,
+            index: &'a i64,
             #[serde(rename = "id")]
             #[serde(skip_serializing_if = "Option::is_none")]
             id: &'a Option<String>,
@@ -6432,7 +6432,7 @@ impl serde::Serialize for ChatCompletionMessageToolCallChunk {
 }
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ChatCompletionMessageToolCallChunk {
-    pub index: u64,
+    pub index: i64,
     #[doc = "The ID of the tool call."]
     #[builder(default)]
     pub id: Option<String>,
@@ -8336,10 +8336,10 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionResponseMessageAnnotationUrl
         struct ChatCompletionResponseMessageAnnotationUrlCitation {
             #[serde(rename = "end_index")]
             #[allow(dead_code)]
-            end_index: u64,
+            end_index: i64,
             #[serde(rename = "start_index")]
             #[allow(dead_code)]
-            start_index: u64,
+            start_index: i64,
             #[serde(rename = "url")]
             #[allow(dead_code)]
             url: String,
@@ -8371,9 +8371,9 @@ impl serde::Serialize for ChatCompletionResponseMessageAnnotationUrlCitation {
         #[derive(serde :: Serialize)]
         struct ChatCompletionResponseMessageAnnotationUrlCitation<'a> {
             #[serde(rename = "end_index")]
-            end_index: &'a u64,
+            end_index: &'a i64,
             #[serde(rename = "start_index")]
-            start_index: &'a u64,
+            start_index: &'a i64,
             #[serde(rename = "url")]
             url: &'a String,
             #[serde(rename = "title")]
@@ -8398,9 +8398,9 @@ impl serde::Serialize for ChatCompletionResponseMessageAnnotationUrlCitation {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ChatCompletionResponseMessageAnnotationUrlCitation {
     #[doc = "The index of the last character of the URL citation in the message."]
-    pub end_index: u64,
+    pub end_index: i64,
     #[doc = "The index of the first character of the URL citation in the message."]
-    pub start_index: u64,
+    pub start_index: i64,
     #[doc = "The URL of the web resource."]
     pub url: String,
     #[doc = "The title of the web resource."]
@@ -8539,7 +8539,7 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionResponseMessageAudio {
             id: String,
             #[serde(rename = "expires_at")]
             #[allow(dead_code)]
-            expires_at: u64,
+            expires_at: i64,
             #[serde(rename = "data")]
             #[allow(dead_code)]
             data: String,
@@ -8573,7 +8573,7 @@ impl serde::Serialize for ChatCompletionResponseMessageAudio {
             #[serde(rename = "id")]
             id: &'a String,
             #[serde(rename = "expires_at")]
-            expires_at: &'a u64,
+            expires_at: &'a i64,
             #[serde(rename = "data")]
             data: &'a String,
             #[serde(rename = "transcript")]
@@ -8600,7 +8600,7 @@ pub struct ChatCompletionResponseMessageAudio {
     #[doc = "Unique identifier for this audio response."]
     pub id: String,
     #[doc = "The Unix timestamp (in seconds) for when this audio response will\nno longer be accessible on the server for use in multi-turn\nconversations.\n"]
-    pub expires_at: u64,
+    pub expires_at: i64,
     #[doc = "Base64 encoded audio bytes generated by the model, in the format\nspecified in the request.\n"]
     pub data: String,
     #[doc = "Transcript of the audio generated by the model."]
@@ -8972,7 +8972,7 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionTokenLogprobTopLogprob {
             logprob: f64,
             #[serde(rename = "bytes")]
             #[allow(dead_code)]
-            bytes: Option<Vec<u64>>,
+            bytes: Option<Vec<i64>>,
         }
         let ChatCompletionTokenLogprobTopLogprob {
             token,
@@ -9001,7 +9001,7 @@ impl serde::Serialize for ChatCompletionTokenLogprobTopLogprob {
             logprob: &'a f64,
             #[serde(rename = "bytes")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            bytes: &'a Option<Vec<u64>>,
+            bytes: &'a Option<Vec<i64>>,
         }
         let Self {
             token,
@@ -9024,7 +9024,7 @@ pub struct ChatCompletionTokenLogprobTopLogprob {
     pub logprob: f64,
     #[doc = "A list of integers representing the UTF-8 bytes representation of the token. Useful in instances where characters are represented by multiple tokens and their byte representations must be combined to generate the correct text representation. Can be `null` if there is no bytes representation for the token."]
     #[builder(default)]
-    pub bytes: Option<Vec<u64>>,
+    pub bytes: Option<Vec<i64>>,
 }
 impl<'de> serde::Deserialize<'de> for ChatCompletionTokenLogprob {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -9042,7 +9042,7 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionTokenLogprob {
             logprob: f64,
             #[serde(rename = "bytes")]
             #[allow(dead_code)]
-            bytes: Option<Vec<u64>>,
+            bytes: Option<Vec<i64>>,
             #[serde(rename = "top_logprobs")]
             #[allow(dead_code)]
             top_logprobs: Vec<ChatCompletionTokenLogprobTopLogprob>,
@@ -9076,7 +9076,7 @@ impl serde::Serialize for ChatCompletionTokenLogprob {
             logprob: &'a f64,
             #[serde(rename = "bytes")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            bytes: &'a Option<Vec<u64>>,
+            bytes: &'a Option<Vec<i64>>,
             #[serde(rename = "top_logprobs")]
             top_logprobs: &'a Vec<ChatCompletionTokenLogprobTopLogprob>,
         }
@@ -9103,7 +9103,7 @@ pub struct ChatCompletionTokenLogprob {
     pub logprob: f64,
     #[doc = "A list of integers representing the UTF-8 bytes representation of the token. Useful in instances where characters are represented by multiple tokens and their byte representations must be combined to generate the correct text representation. Can be `null` if there is no bytes representation for the token."]
     #[builder(default)]
-    pub bytes: Option<Vec<u64>>,
+    pub bytes: Option<Vec<i64>>,
     #[doc = "List of the most likely tokens and their log probability, at this token position. In rare cases, there may be fewer than the number of requested `top_logprobs` returned."]
     pub top_logprobs: Vec<ChatCompletionTokenLogprobTopLogprob>,
 }
@@ -9439,10 +9439,10 @@ impl<'de> serde::Deserialize<'de> for Click {
             button: ClickButton,
             #[serde(rename = "x")]
             #[allow(dead_code)]
-            x: u64,
+            x: i64,
             #[serde(rename = "y")]
             #[allow(dead_code)]
-            y: u64,
+            y: i64,
         }
         let Click { button, x, y, .. } = Click::deserialize(deserializer)?;
         Ok(Self { button, x, y })
@@ -9461,9 +9461,9 @@ impl serde::Serialize for Click {
             #[serde(rename = "button")]
             button: &'a ClickButton,
             #[serde(rename = "x")]
-            x: &'a u64,
+            x: &'a i64,
             #[serde(rename = "y")]
-            y: &'a u64,
+            y: &'a i64,
         }
         let Self { button, x, y } = self;
         Click {
@@ -9481,9 +9481,9 @@ pub struct Click {
     #[doc = "Indicates which mouse button was pressed during the click. One of `left`, `right`, `wheel`, `back`, or `forward`.\n"]
     pub button: ClickButton,
     #[doc = "The x-coordinate where the click occurred.\n"]
-    pub x: u64,
+    pub x: i64,
     #[doc = "The y-coordinate where the click occurred.\n"]
-    pub y: u64,
+    pub y: i64,
 }
 impl<'de> serde::Deserialize<'de> for CodeInterpreterFileOutputType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -10247,16 +10247,16 @@ impl<'de> serde::Deserialize<'de> for CompletionUsageCompletionTokensDetails {
         struct CompletionUsageCompletionTokensDetails {
             #[serde(rename = "accepted_prediction_tokens")]
             #[allow(dead_code)]
-            accepted_prediction_tokens: Option<u64>,
+            accepted_prediction_tokens: Option<i64>,
             #[serde(rename = "audio_tokens")]
             #[allow(dead_code)]
-            audio_tokens: Option<u64>,
+            audio_tokens: Option<i64>,
             #[serde(rename = "reasoning_tokens")]
             #[allow(dead_code)]
-            reasoning_tokens: Option<u64>,
+            reasoning_tokens: Option<i64>,
             #[serde(rename = "rejected_prediction_tokens")]
             #[allow(dead_code)]
-            rejected_prediction_tokens: Option<u64>,
+            rejected_prediction_tokens: Option<i64>,
         }
         let CompletionUsageCompletionTokensDetails {
             accepted_prediction_tokens,
@@ -10283,16 +10283,16 @@ impl serde::Serialize for CompletionUsageCompletionTokensDetails {
         struct CompletionUsageCompletionTokensDetails<'a> {
             #[serde(rename = "accepted_prediction_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            accepted_prediction_tokens: &'a Option<u64>,
+            accepted_prediction_tokens: &'a Option<i64>,
             #[serde(rename = "audio_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            audio_tokens: &'a Option<u64>,
+            audio_tokens: &'a Option<i64>,
             #[serde(rename = "reasoning_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            reasoning_tokens: &'a Option<u64>,
+            reasoning_tokens: &'a Option<i64>,
             #[serde(rename = "rejected_prediction_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            rejected_prediction_tokens: &'a Option<u64>,
+            rejected_prediction_tokens: &'a Option<i64>,
         }
         let Self {
             accepted_prediction_tokens,
@@ -10314,16 +10314,16 @@ impl serde::Serialize for CompletionUsageCompletionTokensDetails {
 pub struct CompletionUsageCompletionTokensDetails {
     #[doc = "When using Predicted Outputs, the number of tokens in the\nprediction that appeared in the completion.\n"]
     #[builder(default)]
-    pub accepted_prediction_tokens: Option<u64>,
+    pub accepted_prediction_tokens: Option<i64>,
     #[doc = "Audio input tokens generated by the model."]
     #[builder(default)]
-    pub audio_tokens: Option<u64>,
+    pub audio_tokens: Option<i64>,
     #[doc = "Tokens generated by the model for reasoning."]
     #[builder(default)]
-    pub reasoning_tokens: Option<u64>,
+    pub reasoning_tokens: Option<i64>,
     #[doc = "When using Predicted Outputs, the number of tokens in the\nprediction that did not appear in the completion. However, like\nreasoning tokens, these tokens are still counted in the total\ncompletion tokens for purposes of billing, output, and context window\nlimits.\n"]
     #[builder(default)]
-    pub rejected_prediction_tokens: Option<u64>,
+    pub rejected_prediction_tokens: Option<i64>,
 }
 impl<'de> serde::Deserialize<'de> for CompletionUsagePromptTokensDetails {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -10335,10 +10335,10 @@ impl<'de> serde::Deserialize<'de> for CompletionUsagePromptTokensDetails {
         struct CompletionUsagePromptTokensDetails {
             #[serde(rename = "audio_tokens")]
             #[allow(dead_code)]
-            audio_tokens: Option<u64>,
+            audio_tokens: Option<i64>,
             #[serde(rename = "cached_tokens")]
             #[allow(dead_code)]
-            cached_tokens: Option<u64>,
+            cached_tokens: Option<i64>,
         }
         let CompletionUsagePromptTokensDetails {
             audio_tokens,
@@ -10361,10 +10361,10 @@ impl serde::Serialize for CompletionUsagePromptTokensDetails {
         struct CompletionUsagePromptTokensDetails<'a> {
             #[serde(rename = "audio_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            audio_tokens: &'a Option<u64>,
+            audio_tokens: &'a Option<i64>,
             #[serde(rename = "cached_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            cached_tokens: &'a Option<u64>,
+            cached_tokens: &'a Option<i64>,
         }
         let Self {
             audio_tokens,
@@ -10382,10 +10382,10 @@ impl serde::Serialize for CompletionUsagePromptTokensDetails {
 pub struct CompletionUsagePromptTokensDetails {
     #[doc = "Audio input tokens present in the prompt."]
     #[builder(default)]
-    pub audio_tokens: Option<u64>,
+    pub audio_tokens: Option<i64>,
     #[doc = "Cached tokens present in the prompt."]
     #[builder(default)]
-    pub cached_tokens: Option<u64>,
+    pub cached_tokens: Option<i64>,
 }
 impl<'de> serde::Deserialize<'de> for CompletionUsage {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -10397,13 +10397,13 @@ impl<'de> serde::Deserialize<'de> for CompletionUsage {
         struct CompletionUsage {
             #[serde(rename = "completion_tokens")]
             #[allow(dead_code)]
-            completion_tokens: u64,
+            completion_tokens: i64,
             #[serde(rename = "prompt_tokens")]
             #[allow(dead_code)]
-            prompt_tokens: u64,
+            prompt_tokens: i64,
             #[serde(rename = "total_tokens")]
             #[allow(dead_code)]
-            total_tokens: u64,
+            total_tokens: i64,
             #[serde(rename = "completion_tokens_details")]
             #[allow(dead_code)]
             completion_tokens_details: Option<CompletionUsageCompletionTokensDetails>,
@@ -10437,11 +10437,11 @@ impl serde::Serialize for CompletionUsage {
         #[derive(serde :: Serialize)]
         struct CompletionUsage<'a> {
             #[serde(rename = "completion_tokens")]
-            completion_tokens: &'a u64,
+            completion_tokens: &'a i64,
             #[serde(rename = "prompt_tokens")]
-            prompt_tokens: &'a u64,
+            prompt_tokens: &'a i64,
             #[serde(rename = "total_tokens")]
-            total_tokens: &'a u64,
+            total_tokens: &'a i64,
             #[serde(rename = "completion_tokens_details")]
             #[serde(skip_serializing_if = "Option::is_none")]
             completion_tokens_details: &'a Option<CompletionUsageCompletionTokensDetails>,
@@ -10470,11 +10470,11 @@ impl serde::Serialize for CompletionUsage {
 #[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CompletionUsage {
     #[doc = "Number of tokens in the generated completion."]
-    pub completion_tokens: u64,
+    pub completion_tokens: i64,
     #[doc = "Number of tokens in the prompt."]
-    pub prompt_tokens: u64,
+    pub prompt_tokens: i64,
     #[doc = "Total number of tokens used in the request (prompt + completion)."]
-    pub total_tokens: u64,
+    pub total_tokens: i64,
     #[doc = "Breakdown of tokens used in a completion."]
     #[builder(default)]
     pub completion_tokens_details: Option<CompletionUsageCompletionTokensDetails>,
@@ -11271,10 +11271,10 @@ impl<'de> serde::Deserialize<'de> for ContainerFileResource {
             container_id: String,
             #[serde(rename = "created_at")]
             #[allow(dead_code)]
-            created_at: u64,
+            created_at: i64,
             #[serde(rename = "bytes")]
             #[allow(dead_code)]
-            bytes: u64,
+            bytes: i64,
             #[serde(rename = "path")]
             #[allow(dead_code)]
             path: String,
@@ -11318,9 +11318,9 @@ impl serde::Serialize for ContainerFileResource {
             #[serde(rename = "container_id")]
             container_id: &'a String,
             #[serde(rename = "created_at")]
-            created_at: &'a u64,
+            created_at: &'a i64,
             #[serde(rename = "bytes")]
-            bytes: &'a u64,
+            bytes: &'a i64,
             #[serde(rename = "path")]
             path: &'a String,
             #[serde(rename = "source")]
@@ -11356,9 +11356,9 @@ pub struct ContainerFileResource {
     #[doc = "The container this file belongs to."]
     pub container_id: String,
     #[doc = "Unix timestamp (in seconds) when the file was created."]
-    pub created_at: u64,
+    pub created_at: i64,
     #[doc = "Size of the file in bytes."]
-    pub bytes: u64,
+    pub bytes: i64,
     #[doc = "Path of the file in the container."]
     pub path: String,
     #[doc = "Source of the file (e.g., `user`, `assistant`)."]
@@ -11496,7 +11496,7 @@ impl<'de> serde::Deserialize<'de> for ContainerResourceExpiresAfter {
             anchor: Option<ContainerResourceExpiresAfterAnchor>,
             #[serde(rename = "minutes")]
             #[allow(dead_code)]
-            minutes: Option<u64>,
+            minutes: Option<i64>,
         }
         let ContainerResourceExpiresAfter {
             anchor, minutes, ..
@@ -11517,7 +11517,7 @@ impl serde::Serialize for ContainerResourceExpiresAfter {
             anchor: &'a Option<ContainerResourceExpiresAfterAnchor>,
             #[serde(rename = "minutes")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            minutes: &'a Option<u64>,
+            minutes: &'a Option<i64>,
         }
         let Self { anchor, minutes } = self;
         ContainerResourceExpiresAfter { anchor, minutes }.serialize(serializer)
@@ -11531,7 +11531,7 @@ pub struct ContainerResourceExpiresAfter {
     pub anchor: Option<ContainerResourceExpiresAfterAnchor>,
     #[doc = "The number of minutes after the anchor before the container expires."]
     #[builder(default)]
-    pub minutes: Option<u64>,
+    pub minutes: Option<i64>,
 }
 impl<'de> serde::Deserialize<'de> for ContainerResource {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -11552,7 +11552,7 @@ impl<'de> serde::Deserialize<'de> for ContainerResource {
             name: String,
             #[serde(rename = "created_at")]
             #[allow(dead_code)]
-            created_at: u64,
+            created_at: i64,
             #[serde(rename = "status")]
             #[allow(dead_code)]
             status: String,
@@ -11594,7 +11594,7 @@ impl serde::Serialize for ContainerResource {
             #[serde(rename = "name")]
             name: &'a String,
             #[serde(rename = "created_at")]
-            created_at: &'a u64,
+            created_at: &'a i64,
             #[serde(rename = "status")]
             status: &'a String,
             #[serde(rename = "expires_after")]
@@ -11629,7 +11629,7 @@ pub struct ContainerResource {
     #[doc = "Name of the container."]
     pub name: String,
     #[doc = "Unix timestamp (in seconds) when the container was created."]
-    pub created_at: u64,
+    pub created_at: i64,
     #[doc = "Status of the container (e.g., active, deleted)."]
     pub status: String,
     #[doc = "The container will expire after this time period.\nThe anchor is the reference point for the expiration.\nThe minutes is the number of minutes after the anchor before the container expires.\n"]
@@ -11691,10 +11691,10 @@ impl<'de> serde::Deserialize<'de> for Coordinate {
         struct Coordinate {
             #[serde(rename = "x")]
             #[allow(dead_code)]
-            x: u64,
+            x: i64,
             #[serde(rename = "y")]
             #[allow(dead_code)]
-            y: u64,
+            y: i64,
         }
         let Coordinate { x, y, .. } = Coordinate::deserialize(deserializer)?;
         Ok(Self { x, y })
@@ -11709,9 +11709,9 @@ impl serde::Serialize for Coordinate {
         #[derive(serde :: Serialize)]
         struct Coordinate<'a> {
             #[serde(rename = "x")]
-            x: &'a u64,
+            x: &'a i64,
             #[serde(rename = "y")]
-            y: &'a u64,
+            y: &'a i64,
         }
         let Self { x, y } = self;
         Coordinate { x, y }.serialize(serializer)
@@ -11721,9 +11721,9 @@ impl serde::Serialize for Coordinate {
 #[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct Coordinate {
     #[doc = "The x-coordinate.\n"]
-    pub x: u64,
+    pub x: i64,
     #[doc = "The y-coordinate.\n"]
-    pub y: u64,
+    pub y: i64,
 }
 impl<'de> serde::Deserialize<'de> for CostsResultObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -12035,10 +12035,10 @@ impl<'de> serde::Deserialize<'de>
         struct CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticStatic {
             #[serde(rename = "max_chunk_size_tokens")]
             #[allow(dead_code)]
-            max_chunk_size_tokens: u64,
+            max_chunk_size_tokens: i64,
             #[serde(rename = "chunk_overlap_tokens")]
             #[allow(dead_code)]
-            chunk_overlap_tokens: u64,
+            chunk_overlap_tokens: i64,
         }
         let CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticStatic { max_chunk_size_tokens , chunk_overlap_tokens , .. } = CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticStatic :: deserialize (deserializer) ? ;
         Ok(Self {
@@ -12060,9 +12060,9 @@ impl serde::Serialize
             'a,
         > {
             #[serde(rename = "max_chunk_size_tokens")]
-            max_chunk_size_tokens: &'a u64,
+            max_chunk_size_tokens: &'a i64,
             #[serde(rename = "chunk_overlap_tokens")]
-            chunk_overlap_tokens: &'a u64,
+            chunk_overlap_tokens: &'a i64,
         }
         let Self {
             max_chunk_size_tokens,
@@ -12078,9 +12078,9 @@ impl serde::Serialize
 #[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticStatic {
     #[doc = "The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the maximum value is `4096`."]
-    pub max_chunk_size_tokens: u64,
+    pub max_chunk_size_tokens: i64,
     #[doc = "The number of tokens that overlap between chunks. The default value is `400`.\n\nNote that the overlap must not exceed half of `max_chunk_size_tokens`.\n"]
-    pub chunk_overlap_tokens: u64,
+    pub chunk_overlap_tokens: i64,
 }
 impl<'de> serde::Deserialize<'de>
     for CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic
@@ -12426,10 +12426,10 @@ impl<'de> serde::Deserialize<'de>
         struct CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticStatic {
             #[serde(rename = "max_chunk_size_tokens")]
             #[allow(dead_code)]
-            max_chunk_size_tokens: u64,
+            max_chunk_size_tokens: i64,
             #[serde(rename = "chunk_overlap_tokens")]
             #[allow(dead_code)]
-            chunk_overlap_tokens: u64,
+            chunk_overlap_tokens: i64,
         }
         let CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticStatic { max_chunk_size_tokens , chunk_overlap_tokens , .. } = CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticStatic :: deserialize (deserializer) ? ;
         Ok(Self {
@@ -12451,9 +12451,9 @@ impl serde::Serialize
             'a,
         > {
             #[serde(rename = "max_chunk_size_tokens")]
-            max_chunk_size_tokens: &'a u64,
+            max_chunk_size_tokens: &'a i64,
             #[serde(rename = "chunk_overlap_tokens")]
-            chunk_overlap_tokens: &'a u64,
+            chunk_overlap_tokens: &'a i64,
         }
         let Self {
             max_chunk_size_tokens,
@@ -12469,9 +12469,9 @@ impl serde::Serialize
 #[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticStatic {
     #[doc = "The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the maximum value is `4096`."]
-    pub max_chunk_size_tokens: u64,
+    pub max_chunk_size_tokens: i64,
     #[doc = "The number of tokens that overlap between chunks. The default value is `400`.\n\nNote that the overlap must not exceed half of `max_chunk_size_tokens`.\n"]
-    pub chunk_overlap_tokens: u64,
+    pub chunk_overlap_tokens: i64,
 }
 impl<'de> serde::Deserialize<'de>
     for CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic
@@ -13434,7 +13434,7 @@ impl<'de> serde::Deserialize<'de> for CreateChatCompletionRequest {
             reasoning_effort: Option<ReasoningEffort>,
             #[serde(rename = "max_completion_tokens")]
             #[allow(dead_code)]
-            max_completion_tokens: Option<u64>,
+            max_completion_tokens: Option<i64>,
             #[serde(rename = "frequency_penalty")]
             #[allow(dead_code)]
             frequency_penalty: Option<f64>,
@@ -13446,7 +13446,7 @@ impl<'de> serde::Deserialize<'de> for CreateChatCompletionRequest {
             web_search_options: Option<CreateChatCompletionRequestWebSearchOptions>,
             #[serde(rename = "top_logprobs")]
             #[allow(dead_code)]
-            top_logprobs: Option<u64>,
+            top_logprobs: Option<i64>,
             #[serde(rename = "response_format")]
             #[allow(dead_code)]
             response_format: Option<CreateChatCompletionRequestResponseFormat>,
@@ -13464,22 +13464,22 @@ impl<'de> serde::Deserialize<'de> for CreateChatCompletionRequest {
             stop: Option<StopConfiguration>,
             #[serde(rename = "logit_bias")]
             #[allow(dead_code)]
-            logit_bias: Option<indexmap::IndexMap<String, u64>>,
+            logit_bias: Option<indexmap::IndexMap<String, i64>>,
             #[serde(rename = "logprobs")]
             #[allow(dead_code)]
             logprobs: Option<bool>,
             #[serde(rename = "max_tokens")]
             #[allow(dead_code)]
-            max_tokens: Option<u64>,
+            max_tokens: Option<i64>,
             #[serde(rename = "n")]
             #[allow(dead_code)]
-            n: Option<u64>,
+            n: Option<i64>,
             #[serde(rename = "prediction")]
             #[allow(dead_code)]
             prediction: Option<CreateChatCompletionRequestPrediction>,
             #[serde(rename = "seed")]
             #[allow(dead_code)]
-            seed: Option<u64>,
+            seed: Option<i64>,
             #[serde(rename = "stream_options")]
             #[allow(dead_code)]
             stream_options: Option<ChatCompletionStreamOptions>,
@@ -13582,7 +13582,7 @@ impl serde::Serialize for CreateChatCompletionRequest {
             reasoning_effort: &'a Option<ReasoningEffort>,
             #[serde(rename = "max_completion_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            max_completion_tokens: &'a Option<u64>,
+            max_completion_tokens: &'a Option<i64>,
             #[serde(rename = "frequency_penalty")]
             #[serde(skip_serializing_if = "Option::is_none")]
             frequency_penalty: &'a Option<f64>,
@@ -13594,7 +13594,7 @@ impl serde::Serialize for CreateChatCompletionRequest {
             web_search_options: &'a Option<CreateChatCompletionRequestWebSearchOptions>,
             #[serde(rename = "top_logprobs")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            top_logprobs: &'a Option<u64>,
+            top_logprobs: &'a Option<i64>,
             #[serde(rename = "response_format")]
             #[serde(skip_serializing_if = "Option::is_none")]
             response_format: &'a Option<CreateChatCompletionRequestResponseFormat>,
@@ -13612,22 +13612,22 @@ impl serde::Serialize for CreateChatCompletionRequest {
             stop: &'a Option<StopConfiguration>,
             #[serde(rename = "logit_bias")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            logit_bias: &'a Option<indexmap::IndexMap<String, u64>>,
+            logit_bias: &'a Option<indexmap::IndexMap<String, i64>>,
             #[serde(rename = "logprobs")]
             #[serde(skip_serializing_if = "Option::is_none")]
             logprobs: &'a Option<bool>,
             #[serde(rename = "max_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            max_tokens: &'a Option<u64>,
+            max_tokens: &'a Option<i64>,
             #[serde(rename = "n")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            n: &'a Option<u64>,
+            n: &'a Option<i64>,
             #[serde(rename = "prediction")]
             #[serde(skip_serializing_if = "Option::is_none")]
             prediction: &'a Option<CreateChatCompletionRequestPrediction>,
             #[serde(rename = "seed")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            seed: &'a Option<u64>,
+            seed: &'a Option<i64>,
             #[serde(rename = "stream_options")]
             #[serde(skip_serializing_if = "Option::is_none")]
             stream_options: &'a Option<ChatCompletionStreamOptions>,
@@ -13722,7 +13722,7 @@ pub struct CreateChatCompletionRequest {
     pub reasoning_effort: Option<ReasoningEffort>,
     #[doc = "An upper bound for the number of tokens that can be generated for a completion, including visible output tokens and [reasoning tokens](https://platform.openai.com/docs/guides/reasoning).\n"]
     #[builder(default)]
-    pub max_completion_tokens: Option<u64>,
+    pub max_completion_tokens: Option<i64>,
     #[doc = "Number between -2.0 and 2.0. Positive values penalize new tokens based on\ntheir existing frequency in the text so far, decreasing the model's\nlikelihood to repeat the same line verbatim.\n"]
     #[builder(default)]
     pub frequency_penalty: Option<f64>,
@@ -13734,7 +13734,7 @@ pub struct CreateChatCompletionRequest {
     pub web_search_options: Option<CreateChatCompletionRequestWebSearchOptions>,
     #[doc = "An integer between 0 and 20 specifying the number of most likely tokens to\nreturn at each token position, each with an associated log probability.\n`logprobs` must be set to `true` if this parameter is used.\n"]
     #[builder(default)]
-    pub top_logprobs: Option<u64>,
+    pub top_logprobs: Option<i64>,
     #[doc = "An object specifying the format that the model must output.\n\nSetting to `{ \"type\": \"json_schema\", \"json_schema\": {...} }` enables\nStructured Outputs which ensures the model will match your supplied JSON\nschema. Learn more in the [Structured Outputs\nguide](https://platform.openai.com/docs/guides/structured-outputs).\n\nSetting to `{ \"type\": \"json_object\" }` enables the older JSON mode, which\nensures the message the model generates is valid JSON. Using `json_schema`\nis preferred for models that support it.\n"]
     #[builder(default)]
     pub response_format: Option<CreateChatCompletionRequestResponseFormat>,
@@ -13751,22 +13751,22 @@ pub struct CreateChatCompletionRequest {
     pub stop: Option<StopConfiguration>,
     #[doc = "Modify the likelihood of specified tokens appearing in the completion.\n\nAccepts a JSON object that maps tokens (specified by their token ID in the\ntokenizer) to an associated bias value from -100 to 100. Mathematically,\nthe bias is added to the logits generated by the model prior to sampling.\nThe exact effect will vary per model, but values between -1 and 1 should\ndecrease or increase likelihood of selection; values like -100 or 100\nshould result in a ban or exclusive selection of the relevant token.\n"]
     #[builder(default)]
-    pub logit_bias: Option<indexmap::IndexMap<String, u64>>,
+    pub logit_bias: Option<indexmap::IndexMap<String, i64>>,
     #[doc = "Whether to return log probabilities of the output tokens or not. If true,\nreturns the log probabilities of each output token returned in the\n`content` of `message`.\n"]
     #[builder(default)]
     pub logprobs: Option<bool>,
     #[doc = "The maximum number of [tokens](https://platform.openai.com/tokenizer) that can be generated in the\nchat completion. This value can be used to control\n[costs](https://openai.com/api/pricing/) for text generated via API.\n\nThis value is now deprecated in favor of `max_completion_tokens`, and is\nnot compatible with [o-series models](https://platform.openai.com/docs/guides/reasoning).\n"]
     #[builder(default)]
-    pub max_tokens: Option<u64>,
+    pub max_tokens: Option<i64>,
     #[doc = "How many chat completion choices to generate for each input message. Note that you will be charged based on the number of generated tokens across all of the choices. Keep `n` as `1` to minimize costs."]
     #[builder(default)]
-    pub n: Option<u64>,
+    pub n: Option<i64>,
     #[doc = "Configuration for a [Predicted Output](https://platform.openai.com/docs/guides/predicted-outputs),\nwhich can greatly improve response times when large parts of the model\nresponse are known ahead of time. This is most common when you are\nregenerating a file with only minor changes to most of the content.\n"]
     #[builder(default)]
     pub prediction: Option<CreateChatCompletionRequestPrediction>,
     #[doc = "This feature is in Beta.\nIf specified, our system will make a best effort to sample deterministically, such that repeated requests with the same `seed` and parameters should return the same result.\nDeterminism is not guaranteed, and you should refer to the `system_fingerprint` response parameter to monitor changes in the backend.\n"]
     #[builder(default)]
-    pub seed: Option<u64>,
+    pub seed: Option<i64>,
     #[builder(default)]
     pub stream_options: Option<ChatCompletionStreamOptions>,
     #[doc = "A list of tools the model may call. Currently, only functions are supported as a tool. Use this to provide a list of functions the model may generate JSON inputs for. A max of 128 functions are supported.\n"]
@@ -13865,7 +13865,7 @@ impl<'de> serde::Deserialize<'de> for CreateChatCompletionResponseChoice {
             finish_reason: CreateChatCompletionResponseChoiceFinishReason,
             #[serde(rename = "index")]
             #[allow(dead_code)]
-            index: u64,
+            index: i64,
             #[serde(rename = "message")]
             #[allow(dead_code)]
             message: ChatCompletionResponseMessage,
@@ -13899,7 +13899,7 @@ impl serde::Serialize for CreateChatCompletionResponseChoice {
             #[serde(rename = "finish_reason")]
             finish_reason: &'a CreateChatCompletionResponseChoiceFinishReason,
             #[serde(rename = "index")]
-            index: &'a u64,
+            index: &'a i64,
             #[serde(rename = "message")]
             message: &'a ChatCompletionResponseMessage,
             #[serde(rename = "logprobs")]
@@ -13926,7 +13926,7 @@ pub struct CreateChatCompletionResponseChoice {
     #[doc = "The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,\n`length` if the maximum number of tokens specified in the request was reached,\n`content_filter` if content was omitted due to a flag from our content filters,\n`tool_calls` if the model called a tool, or `function_call` (deprecated) if the model called a function.\n"]
     pub finish_reason: CreateChatCompletionResponseChoiceFinishReason,
     #[doc = "The index of the choice in the list of choices."]
-    pub index: u64,
+    pub index: i64,
     #[builder(default)]
     pub message: ChatCompletionResponseMessage,
     #[doc = "Log probability information for the choice."]
@@ -13976,7 +13976,7 @@ impl<'de> serde::Deserialize<'de> for CreateChatCompletionResponse {
             choices: Vec<CreateChatCompletionResponseChoice>,
             #[serde(rename = "created")]
             #[allow(dead_code)]
-            created: u64,
+            created: i64,
             #[serde(rename = "model")]
             #[allow(dead_code)]
             model: String,
@@ -14027,7 +14027,7 @@ impl serde::Serialize for CreateChatCompletionResponse {
             #[serde(rename = "choices")]
             choices: &'a Vec<CreateChatCompletionResponseChoice>,
             #[serde(rename = "created")]
-            created: &'a u64,
+            created: &'a i64,
             #[serde(rename = "model")]
             model: &'a String,
             #[serde(rename = "service_tier")]
@@ -14072,7 +14072,7 @@ pub struct CreateChatCompletionResponse {
     #[doc = "A list of chat completion choices. Can be more than one if `n` is greater than 1."]
     pub choices: Vec<CreateChatCompletionResponseChoice>,
     #[doc = "The Unix timestamp (in seconds) of when the chat completion was created."]
-    pub created: u64,
+    pub created: i64,
     #[doc = "The model used for the chat completion."]
     pub model: String,
     #[builder(default)]
@@ -14171,7 +14171,7 @@ impl<'de> serde::Deserialize<'de> for CreateChatCompletionStreamResponseChoice {
             finish_reason: Option<CreateChatCompletionStreamResponseChoiceFinishReason>,
             #[serde(rename = "index")]
             #[allow(dead_code)]
-            index: u64,
+            index: i64,
         }
         let CreateChatCompletionStreamResponseChoice {
             delta,
@@ -14205,7 +14205,7 @@ impl serde::Serialize for CreateChatCompletionStreamResponseChoice {
             #[serde(skip_serializing_if = "Option::is_none")]
             finish_reason: &'a Option<CreateChatCompletionStreamResponseChoiceFinishReason>,
             #[serde(rename = "index")]
-            index: &'a u64,
+            index: &'a i64,
         }
         let Self {
             delta,
@@ -14233,7 +14233,7 @@ pub struct CreateChatCompletionStreamResponseChoice {
     #[builder(default)]
     pub finish_reason: Option<CreateChatCompletionStreamResponseChoiceFinishReason>,
     #[doc = "The index of the choice in the list of choices."]
-    pub index: u64,
+    pub index: i64,
 }
 impl<'de> serde::Deserialize<'de> for CreateChatCompletionStreamResponseObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -14278,7 +14278,7 @@ impl<'de> serde::Deserialize<'de> for CreateChatCompletionStreamResponse {
             choices: Vec<CreateChatCompletionStreamResponseChoice>,
             #[serde(rename = "created")]
             #[allow(dead_code)]
-            created: u64,
+            created: i64,
             #[serde(rename = "model")]
             #[allow(dead_code)]
             model: String,
@@ -14329,7 +14329,7 @@ impl serde::Serialize for CreateChatCompletionStreamResponse {
             #[serde(rename = "choices")]
             choices: &'a Vec<CreateChatCompletionStreamResponseChoice>,
             #[serde(rename = "created")]
-            created: &'a u64,
+            created: &'a i64,
             #[serde(rename = "model")]
             model: &'a String,
             #[serde(rename = "service_tier")]
@@ -14374,7 +14374,7 @@ pub struct CreateChatCompletionStreamResponse {
     #[doc = "A list of chat completion choices. Can contain more than one elements if `n` is greater than 1. Can also be empty for the\nlast chunk if you set `stream_options: {\"include_usage\": true}`.\n"]
     pub choices: Vec<CreateChatCompletionStreamResponseChoice>,
     #[doc = "The Unix timestamp (in seconds) of when the chat completion was created. Each chunk has the same timestamp."]
-    pub created: u64,
+    pub created: i64,
     #[doc = "The model to generate the completion."]
     pub model: String,
     #[builder(default)]
@@ -14398,8 +14398,8 @@ impl<'de> serde::Deserialize<'de> for CreateCompletionRequestPrompt {
         enum CreateCompletionRequestPrompt {
             String(#[allow(dead_code)] String),
             ArrayOfString(#[allow(dead_code)] Vec<String>),
-            ArrayOfInteger(#[allow(dead_code)] Vec<u64>),
-            ArrayOfArray(#[allow(dead_code)] Vec<Vec<u64>>),
+            ArrayOfInteger(#[allow(dead_code)] Vec<i64>),
+            ArrayOfArray(#[allow(dead_code)] Vec<Vec<i64>>),
         }
         Ok(
             match CreateCompletionRequestPrompt::deserialize(deserializer)? {
@@ -14423,8 +14423,8 @@ impl serde::Serialize for CreateCompletionRequestPrompt {
         enum CreateCompletionRequestPrompt<'a> {
             String(#[allow(dead_code)] &'a String),
             ArrayOfString(#[allow(dead_code)] &'a Vec<String>),
-            ArrayOfInteger(#[allow(dead_code)] &'a Vec<u64>),
-            ArrayOfArray(#[allow(dead_code)] &'a Vec<Vec<u64>>),
+            ArrayOfInteger(#[allow(dead_code)] &'a Vec<i64>),
+            ArrayOfArray(#[allow(dead_code)] &'a Vec<Vec<i64>>),
         }
         match self {
             Self::String(v) => CreateCompletionRequestPrompt::String(v).serialize(serializer),
@@ -14446,8 +14446,8 @@ impl serde::Serialize for CreateCompletionRequestPrompt {
 pub enum CreateCompletionRequestPrompt {
     String(String),
     ArrayOfString(Vec<String>),
-    ArrayOfInteger(Vec<u64>),
-    ArrayOfArray(Vec<Vec<u64>>),
+    ArrayOfInteger(Vec<i64>),
+    ArrayOfArray(Vec<Vec<i64>>),
 }
 impl<'de> serde::Deserialize<'de> for CreateCompletionRequest {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -14465,7 +14465,7 @@ impl<'de> serde::Deserialize<'de> for CreateCompletionRequest {
             prompt: Option<CreateCompletionRequestPrompt>,
             #[serde(rename = "best_of")]
             #[allow(dead_code)]
-            best_of: Option<u64>,
+            best_of: Option<i64>,
             #[serde(rename = "echo")]
             #[allow(dead_code)]
             echo: Option<bool>,
@@ -14474,22 +14474,22 @@ impl<'de> serde::Deserialize<'de> for CreateCompletionRequest {
             frequency_penalty: Option<f64>,
             #[serde(rename = "logit_bias")]
             #[allow(dead_code)]
-            logit_bias: Option<indexmap::IndexMap<String, u64>>,
+            logit_bias: Option<indexmap::IndexMap<String, i64>>,
             #[serde(rename = "logprobs")]
             #[allow(dead_code)]
-            logprobs: Option<u64>,
+            logprobs: Option<i64>,
             #[serde(rename = "max_tokens")]
             #[allow(dead_code)]
-            max_tokens: Option<u64>,
+            max_tokens: Option<i64>,
             #[serde(rename = "n")]
             #[allow(dead_code)]
-            n: Option<u64>,
+            n: Option<i64>,
             #[serde(rename = "presence_penalty")]
             #[allow(dead_code)]
             presence_penalty: Option<f64>,
             #[serde(rename = "seed")]
             #[allow(dead_code)]
-            seed: Option<u64>,
+            seed: Option<i64>,
             #[serde(rename = "stop")]
             #[allow(dead_code)]
             stop: Option<StopConfiguration>,
@@ -14570,7 +14570,7 @@ impl serde::Serialize for CreateCompletionRequest {
             prompt: &'a Option<CreateCompletionRequestPrompt>,
             #[serde(rename = "best_of")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            best_of: &'a Option<u64>,
+            best_of: &'a Option<i64>,
             #[serde(rename = "echo")]
             #[serde(skip_serializing_if = "Option::is_none")]
             echo: &'a Option<bool>,
@@ -14579,22 +14579,22 @@ impl serde::Serialize for CreateCompletionRequest {
             frequency_penalty: &'a Option<f64>,
             #[serde(rename = "logit_bias")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            logit_bias: &'a Option<indexmap::IndexMap<String, u64>>,
+            logit_bias: &'a Option<indexmap::IndexMap<String, i64>>,
             #[serde(rename = "logprobs")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            logprobs: &'a Option<u64>,
+            logprobs: &'a Option<i64>,
             #[serde(rename = "max_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            max_tokens: &'a Option<u64>,
+            max_tokens: &'a Option<i64>,
             #[serde(rename = "n")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            n: &'a Option<u64>,
+            n: &'a Option<i64>,
             #[serde(rename = "presence_penalty")]
             #[serde(skip_serializing_if = "Option::is_none")]
             presence_penalty: &'a Option<f64>,
             #[serde(rename = "seed")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            seed: &'a Option<u64>,
+            seed: &'a Option<i64>,
             #[serde(rename = "stop")]
             #[serde(skip_serializing_if = "Option::is_none")]
             stop: &'a Option<StopConfiguration>,
@@ -14669,7 +14669,7 @@ pub struct CreateCompletionRequest {
     pub prompt: Option<CreateCompletionRequestPrompt>,
     #[doc = "Generates `best_of` completions server-side and returns the \"best\" (the one with the highest log probability per token). Results cannot be streamed.\n\nWhen used with `n`, `best_of` controls the number of candidate completions and `n` specifies how many to return – `best_of` must be greater than `n`.\n\n**Note:** Because this parameter generates many completions, it can quickly consume your token quota. Use carefully and ensure that you have reasonable settings for `max_tokens` and `stop`.\n"]
     #[builder(default)]
-    pub best_of: Option<u64>,
+    pub best_of: Option<i64>,
     #[doc = "Echo back the prompt in addition to the completion\n"]
     #[builder(default)]
     pub echo: Option<bool>,
@@ -14678,22 +14678,22 @@ pub struct CreateCompletionRequest {
     pub frequency_penalty: Option<f64>,
     #[doc = "Modify the likelihood of specified tokens appearing in the completion.\n\nAccepts a JSON object that maps tokens (specified by their token ID in the GPT tokenizer) to an associated bias value from -100 to 100. You can use this [tokenizer tool](https://platform.openai.com/tokenizer?view=bpe) to convert text to token IDs. Mathematically, the bias is added to the logits generated by the model prior to sampling. The exact effect will vary per model, but values between -1 and 1 should decrease or increase likelihood of selection; values like -100 or 100 should result in a ban or exclusive selection of the relevant token.\n\nAs an example, you can pass `{\"50256\": -100}` to prevent the <|endoftext|> token from being generated.\n"]
     #[builder(default)]
-    pub logit_bias: Option<indexmap::IndexMap<String, u64>>,
+    pub logit_bias: Option<indexmap::IndexMap<String, i64>>,
     #[doc = "Include the log probabilities on the `logprobs` most likely output tokens, as well the chosen tokens. For example, if `logprobs` is 5, the API will return a list of the 5 most likely tokens. The API will always return the `logprob` of the sampled token, so there may be up to `logprobs+1` elements in the response.\n\nThe maximum value for `logprobs` is 5.\n"]
     #[builder(default)]
-    pub logprobs: Option<u64>,
+    pub logprobs: Option<i64>,
     #[doc = "The maximum number of [tokens](https://platform.openai.com/tokenizer) that can be generated in the completion.\n\nThe token count of your prompt plus `max_tokens` cannot exceed the model's context length. [Example Python code](https://cookbook.openai.com/examples/how_to_count_tokens_with_tiktoken) for counting tokens.\n"]
     #[builder(default)]
-    pub max_tokens: Option<u64>,
+    pub max_tokens: Option<i64>,
     #[doc = "How many completions to generate for each prompt.\n\n**Note:** Because this parameter generates many completions, it can quickly consume your token quota. Use carefully and ensure that you have reasonable settings for `max_tokens` and `stop`.\n"]
     #[builder(default)]
-    pub n: Option<u64>,
+    pub n: Option<i64>,
     #[doc = "Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.\n\n[See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation)\n"]
     #[builder(default)]
     pub presence_penalty: Option<f64>,
     #[doc = "If specified, our system will make a best effort to sample deterministically, such that repeated requests with the same `seed` and parameters should return the same result.\n\nDeterminism is not guaranteed, and you should refer to the `system_fingerprint` response parameter to monitor changes in the backend.\n"]
     #[builder(default)]
-    pub seed: Option<u64>,
+    pub seed: Option<i64>,
     #[builder(default)]
     pub stop: Option<StopConfiguration>,
     #[doc = "Whether to stream back partial progress. If set, tokens will be sent as data-only [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format) as they become available, with the stream terminated by a `data: [DONE]` message. [Example Python code](https://cookbook.openai.com/examples/how_to_stream_completions).\n"]
@@ -14737,7 +14737,7 @@ impl<'de> serde::Deserialize<'de> for CreateCompletionResponseChoiceLogprobs {
         struct CreateCompletionResponseChoiceLogprobs {
             #[serde(rename = "text_offset")]
             #[allow(dead_code)]
-            text_offset: Option<Vec<u64>>,
+            text_offset: Option<Vec<i64>>,
             #[serde(rename = "token_logprobs")]
             #[allow(dead_code)]
             token_logprobs: Option<Vec<f64>>,
@@ -14773,7 +14773,7 @@ impl serde::Serialize for CreateCompletionResponseChoiceLogprobs {
         struct CreateCompletionResponseChoiceLogprobs<'a> {
             #[serde(rename = "text_offset")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            text_offset: &'a Option<Vec<u64>>,
+            text_offset: &'a Option<Vec<i64>>,
             #[serde(rename = "token_logprobs")]
             #[serde(skip_serializing_if = "Option::is_none")]
             token_logprobs: &'a Option<Vec<f64>>,
@@ -14802,7 +14802,7 @@ impl serde::Serialize for CreateCompletionResponseChoiceLogprobs {
 #[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateCompletionResponseChoiceLogprobs {
     #[builder(default)]
-    pub text_offset: Option<Vec<u64>>,
+    pub text_offset: Option<Vec<i64>>,
     #[builder(default)]
     pub token_logprobs: Option<Vec<f64>>,
     #[builder(default)]
@@ -14823,7 +14823,7 @@ impl<'de> serde::Deserialize<'de> for CreateCompletionResponseChoice {
             finish_reason: CreateCompletionResponseChoiceFinishReason,
             #[serde(rename = "index")]
             #[allow(dead_code)]
-            index: u64,
+            index: i64,
             #[serde(rename = "logprobs")]
             #[allow(dead_code)]
             logprobs: Option<CreateCompletionResponseChoiceLogprobs>,
@@ -14857,7 +14857,7 @@ impl serde::Serialize for CreateCompletionResponseChoice {
             #[serde(rename = "finish_reason")]
             finish_reason: &'a CreateCompletionResponseChoiceFinishReason,
             #[serde(rename = "index")]
-            index: &'a u64,
+            index: &'a i64,
             #[serde(rename = "logprobs")]
             #[serde(skip_serializing_if = "Option::is_none")]
             logprobs: &'a Option<CreateCompletionResponseChoiceLogprobs>,
@@ -14883,7 +14883,7 @@ impl serde::Serialize for CreateCompletionResponseChoice {
 pub struct CreateCompletionResponseChoice {
     #[doc = "The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,\n`length` if the maximum number of tokens specified in the request was reached,\nor `content_filter` if content was omitted due to a flag from our content filters.\n"]
     pub finish_reason: CreateCompletionResponseChoiceFinishReason,
-    pub index: u64,
+    pub index: i64,
     #[builder(default)]
     pub logprobs: Option<CreateCompletionResponseChoiceLogprobs>,
     pub text: String,
@@ -14931,7 +14931,7 @@ impl<'de> serde::Deserialize<'de> for CreateCompletionResponse {
             choices: Vec<CreateCompletionResponseChoice>,
             #[serde(rename = "created")]
             #[allow(dead_code)]
-            created: u64,
+            created: i64,
             #[serde(rename = "model")]
             #[allow(dead_code)]
             model: String,
@@ -14977,7 +14977,7 @@ impl serde::Serialize for CreateCompletionResponse {
             #[serde(rename = "choices")]
             choices: &'a Vec<CreateCompletionResponseChoice>,
             #[serde(rename = "created")]
-            created: &'a u64,
+            created: &'a i64,
             #[serde(rename = "model")]
             model: &'a String,
             #[serde(rename = "system_fingerprint")]
@@ -15017,7 +15017,7 @@ pub struct CreateCompletionResponse {
     #[doc = "The list of completion choices the model generated for the input prompt."]
     pub choices: Vec<CreateCompletionResponseChoice>,
     #[doc = "The Unix timestamp (in seconds) of when the completion was created."]
-    pub created: u64,
+    pub created: i64,
     #[doc = "The model used for completion."]
     pub model: String,
     #[doc = "This fingerprint represents the backend configuration that the model runs with.\n\nCan be used in conjunction with the `seed` request parameter to understand when backend changes have been made that might impact determinism.\n"]
@@ -15046,7 +15046,7 @@ impl<'de> serde::Deserialize<'de> for CreateContainerBodyExpiresAfter {
             anchor: CreateContainerBodyExpiresAfterAnchor,
             #[serde(rename = "minutes")]
             #[allow(dead_code)]
-            minutes: u64,
+            minutes: i64,
         }
         let CreateContainerBodyExpiresAfter {
             anchor, minutes, ..
@@ -15065,7 +15065,7 @@ impl serde::Serialize for CreateContainerBodyExpiresAfter {
             #[serde(rename = "anchor")]
             anchor: &'a CreateContainerBodyExpiresAfterAnchor,
             #[serde(rename = "minutes")]
-            minutes: &'a u64,
+            minutes: &'a i64,
         }
         let Self { anchor, minutes } = self;
         CreateContainerBodyExpiresAfter { anchor, minutes }.serialize(serializer)
@@ -15076,7 +15076,7 @@ impl serde::Serialize for CreateContainerBodyExpiresAfter {
 pub struct CreateContainerBodyExpiresAfter {
     #[doc = "Time anchor for the expiration time. Currently only 'last_active_at' is supported."]
     pub anchor: CreateContainerBodyExpiresAfterAnchor,
-    pub minutes: u64,
+    pub minutes: i64,
 }
 impl<'de> serde::Deserialize<'de> for CreateContainerBody {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -15212,8 +15212,8 @@ impl<'de> serde::Deserialize<'de> for CreateEmbeddingRequestInput {
         enum CreateEmbeddingRequestInput {
             String(#[allow(dead_code)] String),
             ArrayOfString(#[allow(dead_code)] Vec<String>),
-            ArrayOfInteger(#[allow(dead_code)] Vec<u64>),
-            ArrayOfArray(#[allow(dead_code)] Vec<Vec<u64>>),
+            ArrayOfInteger(#[allow(dead_code)] Vec<i64>),
+            ArrayOfArray(#[allow(dead_code)] Vec<Vec<i64>>),
         }
         Ok(
             match CreateEmbeddingRequestInput::deserialize(deserializer)? {
@@ -15237,8 +15237,8 @@ impl serde::Serialize for CreateEmbeddingRequestInput {
         enum CreateEmbeddingRequestInput<'a> {
             String(#[allow(dead_code)] &'a String),
             ArrayOfString(#[allow(dead_code)] &'a Vec<String>),
-            ArrayOfInteger(#[allow(dead_code)] &'a Vec<u64>),
-            ArrayOfArray(#[allow(dead_code)] &'a Vec<Vec<u64>>),
+            ArrayOfInteger(#[allow(dead_code)] &'a Vec<i64>),
+            ArrayOfArray(#[allow(dead_code)] &'a Vec<Vec<i64>>),
         }
         match self {
             Self::String(v) => CreateEmbeddingRequestInput::String(v).serialize(serializer),
@@ -15263,9 +15263,9 @@ pub enum CreateEmbeddingRequestInput {
     #[doc = "The array of strings that will be turned into an embedding."]
     ArrayOfString(Vec<String>),
     #[doc = "The array of integers that will be turned into an embedding."]
-    ArrayOfInteger(Vec<u64>),
+    ArrayOfInteger(Vec<i64>),
     #[doc = "The array of arrays containing integers that will be turned into an embedding."]
-    ArrayOfArray(Vec<Vec<u64>>),
+    ArrayOfArray(Vec<Vec<i64>>),
 }
 #[doc = "The format to return the embeddings in. Can be either `float` or [`base64`](https://pypi.org/project/pybase64/)."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
@@ -15297,7 +15297,7 @@ impl<'de> serde::Deserialize<'de> for CreateEmbeddingRequest {
             encoding_format: Option<CreateEmbeddingRequestEncodingFormat>,
             #[serde(rename = "dimensions")]
             #[allow(dead_code)]
-            dimensions: Option<u64>,
+            dimensions: Option<i64>,
             #[serde(rename = "user")]
             #[allow(dead_code)]
             user: Option<String>,
@@ -15336,7 +15336,7 @@ impl serde::Serialize for CreateEmbeddingRequest {
             encoding_format: &'a Option<CreateEmbeddingRequestEncodingFormat>,
             #[serde(rename = "dimensions")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            dimensions: &'a Option<u64>,
+            dimensions: &'a Option<i64>,
             #[serde(rename = "user")]
             #[serde(skip_serializing_if = "Option::is_none")]
             user: &'a Option<String>,
@@ -15369,7 +15369,7 @@ pub struct CreateEmbeddingRequest {
     pub encoding_format: Option<CreateEmbeddingRequestEncodingFormat>,
     #[doc = "The number of dimensions the resulting output embeddings should have. Only supported in `text-embedding-3` and later models.\n"]
     #[builder(default)]
-    pub dimensions: Option<u64>,
+    pub dimensions: Option<i64>,
     #[doc = "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#end-user-ids).\n"]
     #[builder(default)]
     pub user: Option<String>,
@@ -15411,10 +15411,10 @@ impl<'de> serde::Deserialize<'de> for CreateEmbeddingResponseUsage {
         struct CreateEmbeddingResponseUsage {
             #[serde(rename = "prompt_tokens")]
             #[allow(dead_code)]
-            prompt_tokens: u64,
+            prompt_tokens: i64,
             #[serde(rename = "total_tokens")]
             #[allow(dead_code)]
-            total_tokens: u64,
+            total_tokens: i64,
         }
         let CreateEmbeddingResponseUsage {
             prompt_tokens,
@@ -15436,9 +15436,9 @@ impl serde::Serialize for CreateEmbeddingResponseUsage {
         #[derive(serde :: Serialize)]
         struct CreateEmbeddingResponseUsage<'a> {
             #[serde(rename = "prompt_tokens")]
-            prompt_tokens: &'a u64,
+            prompt_tokens: &'a i64,
             #[serde(rename = "total_tokens")]
-            total_tokens: &'a u64,
+            total_tokens: &'a i64,
         }
         let Self {
             prompt_tokens,
@@ -15455,9 +15455,9 @@ impl serde::Serialize for CreateEmbeddingResponseUsage {
 #[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateEmbeddingResponseUsage {
     #[doc = "The number of tokens used by the prompt."]
-    pub prompt_tokens: u64,
+    pub prompt_tokens: i64,
     #[doc = "The total number of tokens used by the request."]
-    pub total_tokens: u64,
+    pub total_tokens: i64,
 }
 impl<'de> serde::Deserialize<'de> for CreateEmbeddingResponse {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -15893,13 +15893,13 @@ impl<'de> serde::Deserialize<'de> for CreateEvalCompletionsRunDataSourceSampling
             temperature: Option<f64>,
             #[serde(rename = "max_completion_tokens")]
             #[allow(dead_code)]
-            max_completion_tokens: Option<u64>,
+            max_completion_tokens: Option<i64>,
             #[serde(rename = "top_p")]
             #[allow(dead_code)]
             top_p: Option<f64>,
             #[serde(rename = "seed")]
             #[allow(dead_code)]
-            seed: Option<u64>,
+            seed: Option<i64>,
             #[serde(rename = "response_format")]
             #[allow(dead_code)]
             response_format: Option<CreateEvalCompletionsRunDataSourceSamplingParamsResponseFormat>,
@@ -15939,13 +15939,13 @@ impl serde::Serialize for CreateEvalCompletionsRunDataSourceSamplingParams {
             temperature: &'a Option<f64>,
             #[serde(rename = "max_completion_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            max_completion_tokens: &'a Option<u64>,
+            max_completion_tokens: &'a Option<i64>,
             #[serde(rename = "top_p")]
             #[serde(skip_serializing_if = "Option::is_none")]
             top_p: &'a Option<f64>,
             #[serde(rename = "seed")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            seed: &'a Option<u64>,
+            seed: &'a Option<i64>,
             #[serde(rename = "response_format")]
             #[serde(skip_serializing_if = "Option::is_none")]
             response_format:
@@ -15980,13 +15980,13 @@ pub struct CreateEvalCompletionsRunDataSourceSamplingParams {
     pub temperature: Option<f64>,
     #[doc = "The maximum number of tokens in the generated output."]
     #[builder(default)]
-    pub max_completion_tokens: Option<u64>,
+    pub max_completion_tokens: Option<i64>,
     #[doc = "An alternative to temperature for nucleus sampling; 1.0 includes all tokens."]
     #[builder(default)]
     pub top_p: Option<f64>,
     #[doc = "A seed value to initialize the randomness, during sampling."]
     #[builder(default)]
-    pub seed: Option<u64>,
+    pub seed: Option<i64>,
     #[doc = "An object specifying the format that the model must output.\n\nSetting to `{ \"type\": \"json_schema\", \"json_schema\": {...} }` enables\nStructured Outputs which ensures the model will match your supplied JSON\nschema. Learn more in the [Structured Outputs\nguide](https://platform.openai.com/docs/guides/structured-outputs).\n\nSetting to `{ \"type\": \"json_object\" }` enables the older JSON mode, which\nensures the message the model generates is valid JSON. Using `json_schema`\nis preferred for models that support it.\n"]
     #[builder(default)]
     pub response_format: Option<CreateEvalCompletionsRunDataSourceSamplingParamsResponseFormat>,
@@ -17250,13 +17250,13 @@ impl<'de> serde::Deserialize<'de> for CreateEvalResponsesRunDataSourceSamplingPa
             temperature: Option<f64>,
             #[serde(rename = "max_completion_tokens")]
             #[allow(dead_code)]
-            max_completion_tokens: Option<u64>,
+            max_completion_tokens: Option<i64>,
             #[serde(rename = "top_p")]
             #[allow(dead_code)]
             top_p: Option<f64>,
             #[serde(rename = "seed")]
             #[allow(dead_code)]
-            seed: Option<u64>,
+            seed: Option<i64>,
             #[serde(rename = "tools")]
             #[allow(dead_code)]
             tools: Option<Vec<Tool>>,
@@ -17296,13 +17296,13 @@ impl serde::Serialize for CreateEvalResponsesRunDataSourceSamplingParams {
             temperature: &'a Option<f64>,
             #[serde(rename = "max_completion_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            max_completion_tokens: &'a Option<u64>,
+            max_completion_tokens: &'a Option<i64>,
             #[serde(rename = "top_p")]
             #[serde(skip_serializing_if = "Option::is_none")]
             top_p: &'a Option<f64>,
             #[serde(rename = "seed")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            seed: &'a Option<u64>,
+            seed: &'a Option<i64>,
             #[serde(rename = "tools")]
             #[serde(skip_serializing_if = "Option::is_none")]
             tools: &'a Option<Vec<Tool>>,
@@ -17336,13 +17336,13 @@ pub struct CreateEvalResponsesRunDataSourceSamplingParams {
     pub temperature: Option<f64>,
     #[doc = "The maximum number of tokens in the generated output."]
     #[builder(default)]
-    pub max_completion_tokens: Option<u64>,
+    pub max_completion_tokens: Option<i64>,
     #[doc = "An alternative to temperature for nucleus sampling; 1.0 includes all tokens."]
     #[builder(default)]
     pub top_p: Option<f64>,
     #[doc = "A seed value to initialize the randomness, during sampling."]
     #[builder(default)]
-    pub seed: Option<u64>,
+    pub seed: Option<i64>,
     #[doc = "An array of tools the model may call while generating a response. You\ncan specify which tool to use by setting the `tool_choice` parameter.\n\nThe two categories of tools you can provide the model are:\n\n- **Built-in tools**: Tools that are provided by OpenAI that extend the\n  model's capabilities, like [web search](https://platform.openai.com/docs/guides/tools-web-search)\n  or [file search](https://platform.openai.com/docs/guides/tools-file-search). Learn more about\n  [built-in tools](https://platform.openai.com/docs/guides/tools).\n- **Function calls (custom tools)**: Functions that are defined by you,\n  enabling the model to call your own code. Learn more about\n  [function calling](https://platform.openai.com/docs/guides/function-calling).\n"]
     #[builder(default)]
     pub tools: Option<Vec<Tool>>,
@@ -17821,7 +17821,7 @@ impl<'de> serde::Deserialize<'de> for CreateFineTuningJobRequestHyperparametersB
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum CreateFineTuningJobRequestHyperparametersBatchSize {
             Auto(#[allow(dead_code)] CreateFineTuningJobRequestHyperparametersBatchSizeAuto),
-            Integer(#[allow(dead_code)] u64),
+            Integer(#[allow(dead_code)] i64),
         }
         Ok(
             match CreateFineTuningJobRequestHyperparametersBatchSize::deserialize(deserializer)? {
@@ -17842,7 +17842,7 @@ impl serde::Serialize for CreateFineTuningJobRequestHyperparametersBatchSize {
         #[allow(clippy::enum_variant_names)]
         enum CreateFineTuningJobRequestHyperparametersBatchSize<'a> {
             Auto(#[allow(dead_code)] &'a CreateFineTuningJobRequestHyperparametersBatchSizeAuto),
-            Integer(#[allow(dead_code)] &'a u64),
+            Integer(#[allow(dead_code)] &'a i64),
         }
         match self {
             Self::Auto => {
@@ -17861,7 +17861,7 @@ impl serde::Serialize for CreateFineTuningJobRequestHyperparametersBatchSize {
 pub enum CreateFineTuningJobRequestHyperparametersBatchSize {
     #[doc = "auto"]
     Auto,
-    Integer(u64),
+    Integer(i64),
 }
 impl<'de> serde::Deserialize<'de>
     for CreateFineTuningJobRequestHyperparametersLearningRateMultiplierAuto
@@ -17998,7 +17998,7 @@ impl<'de> serde::Deserialize<'de> for CreateFineTuningJobRequestHyperparametersN
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum CreateFineTuningJobRequestHyperparametersNEpochs {
             Auto(#[allow(dead_code)] CreateFineTuningJobRequestHyperparametersNEpochsAuto),
-            Integer(#[allow(dead_code)] u64),
+            Integer(#[allow(dead_code)] i64),
         }
         Ok(
             match CreateFineTuningJobRequestHyperparametersNEpochs::deserialize(deserializer)? {
@@ -18019,7 +18019,7 @@ impl serde::Serialize for CreateFineTuningJobRequestHyperparametersNEpochs {
         #[allow(clippy::enum_variant_names)]
         enum CreateFineTuningJobRequestHyperparametersNEpochs<'a> {
             Auto(#[allow(dead_code)] &'a CreateFineTuningJobRequestHyperparametersNEpochsAuto),
-            Integer(#[allow(dead_code)] &'a u64),
+            Integer(#[allow(dead_code)] &'a i64),
         }
         match self {
             Self::Auto => {
@@ -18038,7 +18038,7 @@ impl serde::Serialize for CreateFineTuningJobRequestHyperparametersNEpochs {
 pub enum CreateFineTuningJobRequestHyperparametersNEpochs {
     #[doc = "auto"]
     Auto,
-    Integer(u64),
+    Integer(i64),
 }
 impl<'de> serde::Deserialize<'de> for CreateFineTuningJobRequestHyperparameters {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -18283,7 +18283,7 @@ impl<'de> serde::Deserialize<'de> for CreateFineTuningJobRequest {
             integrations: Option<Vec<CreateFineTuningJobRequestIntegration>>,
             #[serde(rename = "seed")]
             #[allow(dead_code)]
-            seed: Option<u64>,
+            seed: Option<i64>,
             #[serde(rename = "method")]
             #[allow(dead_code)]
             method: Option<FineTuneMethod>,
@@ -18342,7 +18342,7 @@ impl serde::Serialize for CreateFineTuningJobRequest {
             integrations: &'a Option<Vec<CreateFineTuningJobRequestIntegration>>,
             #[serde(rename = "seed")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            seed: &'a Option<u64>,
+            seed: &'a Option<i64>,
             #[serde(rename = "method")]
             #[serde(skip_serializing_if = "Option::is_none")]
             method: &'a Option<FineTuneMethod>,
@@ -18395,7 +18395,7 @@ pub struct CreateFineTuningJobRequest {
     pub integrations: Option<Vec<CreateFineTuningJobRequestIntegration>>,
     #[doc = "The seed controls the reproducibility of the job. Passing in the same seed and job parameters should produce the same results, but may differ in rare cases.\nIf a seed is not specified, one will be generated for you.\n"]
     #[builder(default)]
-    pub seed: Option<u64>,
+    pub seed: Option<i64>,
     #[builder(default)]
     pub method: Option<FineTuneMethod>,
     #[builder(default)]
@@ -18558,7 +18558,7 @@ impl<'de> serde::Deserialize<'de> for CreateImageEditRequest {
             model: Option<String>,
             #[serde(rename = "n")]
             #[allow(dead_code)]
-            n: Option<u64>,
+            n: Option<i64>,
             #[serde(rename = "size")]
             #[allow(dead_code)]
             size: Option<CreateImageEditRequestSize>,
@@ -18623,7 +18623,7 @@ impl serde::Serialize for CreateImageEditRequest {
             model: &'a Option<String>,
             #[serde(rename = "n")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            n: &'a Option<u64>,
+            n: &'a Option<i64>,
             #[serde(rename = "size")]
             #[serde(skip_serializing_if = "Option::is_none")]
             size: &'a Option<CreateImageEditRequestSize>,
@@ -18681,7 +18681,7 @@ pub struct CreateImageEditRequest {
     pub model: Option<String>,
     #[doc = "The number of images to generate. Must be between 1 and 10."]
     #[builder(default)]
-    pub n: Option<u64>,
+    pub n: Option<i64>,
     #[doc = "The size of the generated images. Must be one of `1024x1024`, `1536x1024` (landscape), `1024x1536` (portrait), or `auto` (default value) for `gpt-image-1`, and one of `256x256`, `512x512`, or `1024x1024` for `dall-e-2`."]
     #[builder(default)]
     pub size: Option<CreateImageEditRequestSize>,
@@ -18824,7 +18824,7 @@ impl<'de> serde::Deserialize<'de> for CreateImageRequest {
             model: Option<String>,
             #[serde(rename = "n")]
             #[allow(dead_code)]
-            n: Option<u64>,
+            n: Option<i64>,
             #[serde(rename = "quality")]
             #[allow(dead_code)]
             quality: Option<CreateImageRequestQuality>,
@@ -18836,7 +18836,7 @@ impl<'de> serde::Deserialize<'de> for CreateImageRequest {
             output_format: Option<CreateImageRequestOutputFormat>,
             #[serde(rename = "output_compression")]
             #[allow(dead_code)]
-            output_compression: Option<u64>,
+            output_compression: Option<i64>,
             #[serde(rename = "size")]
             #[allow(dead_code)]
             size: Option<CreateImageRequestSize>,
@@ -18899,7 +18899,7 @@ impl serde::Serialize for CreateImageRequest {
             model: &'a Option<String>,
             #[serde(rename = "n")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            n: &'a Option<u64>,
+            n: &'a Option<i64>,
             #[serde(rename = "quality")]
             #[serde(skip_serializing_if = "Option::is_none")]
             quality: &'a Option<CreateImageRequestQuality>,
@@ -18911,7 +18911,7 @@ impl serde::Serialize for CreateImageRequest {
             output_format: &'a Option<CreateImageRequestOutputFormat>,
             #[serde(rename = "output_compression")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            output_compression: &'a Option<u64>,
+            output_compression: &'a Option<i64>,
             #[serde(rename = "size")]
             #[serde(skip_serializing_if = "Option::is_none")]
             size: &'a Option<CreateImageRequestSize>,
@@ -18968,7 +18968,7 @@ pub struct CreateImageRequest {
     pub model: Option<String>,
     #[doc = "The number of images to generate. Must be between 1 and 10. For `dall-e-3`, only `n=1` is supported."]
     #[builder(default)]
-    pub n: Option<u64>,
+    pub n: Option<i64>,
     #[doc = "The quality of the image that will be generated. \n\n- `auto` (default value) will automatically select the best quality for the given model.\n- `high`, `medium` and `low` are supported for `gpt-image-1`.\n- `hd` and `standard` are supported for `dall-e-3`.\n- `standard` is the only option for `dall-e-2`.\n"]
     #[builder(default)]
     pub quality: Option<CreateImageRequestQuality>,
@@ -18980,7 +18980,7 @@ pub struct CreateImageRequest {
     pub output_format: Option<CreateImageRequestOutputFormat>,
     #[doc = "The compression level (0-100%) for the generated images. This parameter is only supported for `gpt-image-1` with the `webp` or `jpeg` output formats, and defaults to 100."]
     #[builder(default)]
-    pub output_compression: Option<u64>,
+    pub output_compression: Option<i64>,
     #[doc = "The size of the generated images. Must be one of `1024x1024`, `1536x1024` (landscape), `1024x1536` (portrait), or `auto` (default value) for `gpt-image-1`, one of `256x256`, `512x512`, or `1024x1024` for `dall-e-2`, and one of `1024x1024`, `1792x1024`, or `1024x1792` for `dall-e-3`."]
     #[builder(default)]
     pub size: Option<CreateImageRequestSize>,
@@ -19039,7 +19039,7 @@ impl<'de> serde::Deserialize<'de> for CreateImageVariationRequest {
             model: Option<String>,
             #[serde(rename = "n")]
             #[allow(dead_code)]
-            n: Option<u64>,
+            n: Option<i64>,
             #[serde(rename = "response_format")]
             #[allow(dead_code)]
             response_format: Option<CreateImageVariationRequestResponseFormat>,
@@ -19085,7 +19085,7 @@ impl serde::Serialize for CreateImageVariationRequest {
             model: &'a Option<String>,
             #[serde(rename = "n")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            n: &'a Option<u64>,
+            n: &'a Option<i64>,
             #[serde(rename = "response_format")]
             #[serde(skip_serializing_if = "Option::is_none")]
             response_format: &'a Option<CreateImageVariationRequestResponseFormat>,
@@ -19124,7 +19124,7 @@ pub struct CreateImageVariationRequest {
     pub model: Option<String>,
     #[doc = "The number of images to generate. Must be between 1 and 10."]
     #[builder(default)]
-    pub n: Option<u64>,
+    pub n: Option<i64>,
     #[doc = "The format in which the generated images are returned. Must be one of `url` or `b64_json`. URLs are only valid for 60 minutes after the image has been generated."]
     #[builder(default)]
     pub response_format: Option<CreateImageVariationRequestResponseFormat>,
@@ -20734,10 +20734,10 @@ impl<'de> serde::Deserialize<'de> for CreateRunRequest {
             stream: Option<bool>,
             #[serde(rename = "max_prompt_tokens")]
             #[allow(dead_code)]
-            max_prompt_tokens: Option<u64>,
+            max_prompt_tokens: Option<i64>,
             #[serde(rename = "max_completion_tokens")]
             #[allow(dead_code)]
-            max_completion_tokens: Option<u64>,
+            max_completion_tokens: Option<i64>,
             #[serde(rename = "truncation_strategy")]
             #[allow(dead_code)]
             truncation_strategy: Option<TruncationObject>,
@@ -20834,10 +20834,10 @@ impl serde::Serialize for CreateRunRequest {
             stream: &'a Option<bool>,
             #[serde(rename = "max_prompt_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            max_prompt_tokens: &'a Option<u64>,
+            max_prompt_tokens: &'a Option<i64>,
             #[serde(rename = "max_completion_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            max_completion_tokens: &'a Option<u64>,
+            max_completion_tokens: &'a Option<i64>,
             #[serde(rename = "truncation_strategy")]
             #[serde(skip_serializing_if = "Option::is_none")]
             truncation_strategy: &'a Option<TruncationObject>,
@@ -20926,10 +20926,10 @@ pub struct CreateRunRequest {
     pub stream: Option<bool>,
     #[doc = "The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.\n"]
     #[builder(default)]
-    pub max_prompt_tokens: Option<u64>,
+    pub max_prompt_tokens: Option<i64>,
     #[doc = "The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.\n"]
     #[builder(default)]
-    pub max_completion_tokens: Option<u64>,
+    pub max_completion_tokens: Option<i64>,
     #[builder(default)]
     pub truncation_strategy: Option<TruncationObject>,
     #[builder(default)]
@@ -21248,10 +21248,10 @@ impl<'de> serde::Deserialize<'de> for CreateThreadAndRunRequest {
             stream: Option<bool>,
             #[serde(rename = "max_prompt_tokens")]
             #[allow(dead_code)]
-            max_prompt_tokens: Option<u64>,
+            max_prompt_tokens: Option<i64>,
             #[serde(rename = "max_completion_tokens")]
             #[allow(dead_code)]
-            max_completion_tokens: Option<u64>,
+            max_completion_tokens: Option<i64>,
             #[serde(rename = "truncation_strategy")]
             #[allow(dead_code)]
             truncation_strategy: Option<TruncationObject>,
@@ -21343,10 +21343,10 @@ impl serde::Serialize for CreateThreadAndRunRequest {
             stream: &'a Option<bool>,
             #[serde(rename = "max_prompt_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            max_prompt_tokens: &'a Option<u64>,
+            max_prompt_tokens: &'a Option<i64>,
             #[serde(rename = "max_completion_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            max_completion_tokens: &'a Option<u64>,
+            max_completion_tokens: &'a Option<i64>,
             #[serde(rename = "truncation_strategy")]
             #[serde(skip_serializing_if = "Option::is_none")]
             truncation_strategy: &'a Option<TruncationObject>,
@@ -21430,10 +21430,10 @@ pub struct CreateThreadAndRunRequest {
     pub stream: Option<bool>,
     #[doc = "The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.\n"]
     #[builder(default)]
-    pub max_prompt_tokens: Option<u64>,
+    pub max_prompt_tokens: Option<i64>,
     #[doc = "The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.\n"]
     #[builder(default)]
-    pub max_completion_tokens: Option<u64>,
+    pub max_completion_tokens: Option<i64>,
     #[builder(default)]
     pub truncation_strategy: Option<TruncationObject>,
     #[builder(default)]
@@ -21598,10 +21598,10 @@ impl<'de> serde::Deserialize<'de>
         struct CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticStatic {
             #[serde(rename = "max_chunk_size_tokens")]
             #[allow(dead_code)]
-            max_chunk_size_tokens: u64,
+            max_chunk_size_tokens: i64,
             #[serde(rename = "chunk_overlap_tokens")]
             #[allow(dead_code)]
-            chunk_overlap_tokens: u64,
+            chunk_overlap_tokens: i64,
         }
         let CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticStatic { max_chunk_size_tokens , chunk_overlap_tokens , .. } = CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticStatic :: deserialize (deserializer) ? ;
         Ok(Self {
@@ -21623,9 +21623,9 @@ impl serde::Serialize
             'a,
         > {
             #[serde(rename = "max_chunk_size_tokens")]
-            max_chunk_size_tokens: &'a u64,
+            max_chunk_size_tokens: &'a i64,
             #[serde(rename = "chunk_overlap_tokens")]
-            chunk_overlap_tokens: &'a u64,
+            chunk_overlap_tokens: &'a i64,
         }
         let Self {
             max_chunk_size_tokens,
@@ -21641,9 +21641,9 @@ impl serde::Serialize
 #[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticStatic {
     #[doc = "The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the maximum value is `4096`."]
-    pub max_chunk_size_tokens: u64,
+    pub max_chunk_size_tokens: i64,
     #[doc = "The number of tokens that overlap between chunks. The default value is `400`.\n\nNote that the overlap must not exceed half of `max_chunk_size_tokens`.\n"]
-    pub chunk_overlap_tokens: u64,
+    pub chunk_overlap_tokens: i64,
 }
 impl<'de> serde::Deserialize<'de>
     for CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic
@@ -22005,10 +22005,10 @@ impl<'de> serde::Deserialize<'de>
         struct CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticStatic {
             #[serde(rename = "max_chunk_size_tokens")]
             #[allow(dead_code)]
-            max_chunk_size_tokens: u64,
+            max_chunk_size_tokens: i64,
             #[serde(rename = "chunk_overlap_tokens")]
             #[allow(dead_code)]
-            chunk_overlap_tokens: u64,
+            chunk_overlap_tokens: i64,
         }
         let CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticStatic { max_chunk_size_tokens , chunk_overlap_tokens , .. } = CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticStatic :: deserialize (deserializer) ? ;
         Ok(Self {
@@ -22030,9 +22030,9 @@ impl serde::Serialize
             'a,
         > {
             #[serde(rename = "max_chunk_size_tokens")]
-            max_chunk_size_tokens: &'a u64,
+            max_chunk_size_tokens: &'a i64,
             #[serde(rename = "chunk_overlap_tokens")]
-            chunk_overlap_tokens: &'a u64,
+            chunk_overlap_tokens: &'a i64,
         }
         let Self {
             max_chunk_size_tokens,
@@ -22048,9 +22048,9 @@ impl serde::Serialize
 #[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticStatic {
     #[doc = "The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the maximum value is `4096`."]
-    pub max_chunk_size_tokens: u64,
+    pub max_chunk_size_tokens: i64,
     #[doc = "The number of tokens that overlap between chunks. The default value is `400`.\n\nNote that the overlap must not exceed half of `max_chunk_size_tokens`.\n"]
-    pub chunk_overlap_tokens: u64,
+    pub chunk_overlap_tokens: i64,
 }
 impl<'de> serde::Deserialize<'de>
     for CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic
@@ -23184,7 +23184,7 @@ impl<'de> serde::Deserialize<'de> for CreateUploadRequest {
             purpose: CreateUploadRequestPurpose,
             #[serde(rename = "bytes")]
             #[allow(dead_code)]
-            bytes: u64,
+            bytes: i64,
             #[serde(rename = "mime_type")]
             #[allow(dead_code)]
             mime_type: String,
@@ -23217,7 +23217,7 @@ impl serde::Serialize for CreateUploadRequest {
             #[serde(rename = "purpose")]
             purpose: &'a CreateUploadRequestPurpose,
             #[serde(rename = "bytes")]
-            bytes: &'a u64,
+            bytes: &'a i64,
             #[serde(rename = "mime_type")]
             mime_type: &'a String,
         }
@@ -23243,7 +23243,7 @@ pub struct CreateUploadRequest {
     #[doc = "The intended purpose of the uploaded file.\n\nSee the [documentation on File purposes](https://platform.openai.com/docs/api-reference/files/create#files-create-purpose).\n"]
     pub purpose: CreateUploadRequestPurpose,
     #[doc = "The number of bytes in the file you are uploading.\n"]
-    pub bytes: u64,
+    pub bytes: i64,
     #[doc = "The MIME type of the file.\n\nThis must fall within the supported MIME types for your file purpose. See the supported MIME types for assistants and vision.\n"]
     pub mime_type: String,
 }
@@ -24313,10 +24313,10 @@ impl<'de> serde::Deserialize<'de> for DoubleClick {
             r#type: DoubleClickType,
             #[serde(rename = "x")]
             #[allow(dead_code)]
-            x: u64,
+            x: i64,
             #[serde(rename = "y")]
             #[allow(dead_code)]
-            y: u64,
+            y: i64,
         }
         let DoubleClick { x, y, .. } = DoubleClick::deserialize(deserializer)?;
         Ok(Self { x, y })
@@ -24333,9 +24333,9 @@ impl serde::Serialize for DoubleClick {
             #[serde(rename = "type")]
             r#type: &'a DoubleClickType,
             #[serde(rename = "x")]
-            x: &'a u64,
+            x: &'a i64,
             #[serde(rename = "y")]
-            y: &'a u64,
+            y: &'a i64,
         }
         let Self { x, y } = self;
         DoubleClick {
@@ -24350,9 +24350,9 @@ impl serde::Serialize for DoubleClick {
 #[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct DoubleClick {
     #[doc = "The x-coordinate where the double click occurred.\n"]
-    pub x: u64,
+    pub x: i64,
     #[doc = "The y-coordinate where the double click occurred.\n"]
-    pub y: u64,
+    pub y: i64,
 }
 impl<'de> serde::Deserialize<'de> for DragType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -24626,7 +24626,7 @@ impl<'de> serde::Deserialize<'de> for Embedding {
         struct Embedding {
             #[serde(rename = "index")]
             #[allow(dead_code)]
-            index: u64,
+            index: i64,
             #[serde(rename = "embedding")]
             #[allow(dead_code)]
             embedding: Vec<f64>,
@@ -24649,7 +24649,7 @@ impl serde::Serialize for Embedding {
         #[derive(serde :: Serialize)]
         struct Embedding<'a> {
             #[serde(rename = "index")]
-            index: &'a u64,
+            index: &'a i64,
             #[serde(rename = "embedding")]
             embedding: &'a Vec<f64>,
             #[serde(rename = "object")]
@@ -24668,7 +24668,7 @@ impl serde::Serialize for Embedding {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct Embedding {
     #[doc = "The index of the embedding in the list of embeddings."]
-    pub index: u64,
+    pub index: i64,
     #[doc = "The embedding vector, which is a list of floats. The length of vector depends on the model as listed in the [embedding guide](https://platform.openai.com/docs/guides/embeddings).\n"]
     pub embedding: Vec<f64>,
 }
@@ -25021,7 +25021,7 @@ impl<'de> serde::Deserialize<'de> for Eval {
             testing_criteria: Vec<EvalTestingCriteria>,
             #[serde(rename = "created_at")]
             #[allow(dead_code)]
-            created_at: u64,
+            created_at: i64,
             #[serde(rename = "metadata")]
             #[allow(dead_code)]
             metadata: Option<Metadata>,
@@ -25064,7 +25064,7 @@ impl serde::Serialize for Eval {
             #[serde(rename = "testing_criteria")]
             testing_criteria: &'a Vec<EvalTestingCriteria>,
             #[serde(rename = "created_at")]
-            created_at: &'a u64,
+            created_at: &'a i64,
             #[serde(rename = "metadata")]
             #[serde(skip_serializing_if = "Option::is_none")]
             metadata: &'a Option<Metadata>,
@@ -25101,7 +25101,7 @@ pub struct Eval {
     #[doc = "A list of testing criteria."]
     pub testing_criteria: Vec<EvalTestingCriteria>,
     #[doc = "The Unix timestamp (in seconds) for when the eval was created."]
-    pub created_at: u64,
+    pub created_at: i64,
     #[builder(default)]
     pub metadata: Option<Metadata>,
 }
@@ -26152,10 +26152,10 @@ impl<'de> serde::Deserialize<'de> for EvalResponsesSource {
             instructions_search: Option<String>,
             #[serde(rename = "created_after")]
             #[allow(dead_code)]
-            created_after: Option<u64>,
+            created_after: Option<i64>,
             #[serde(rename = "created_before")]
             #[allow(dead_code)]
-            created_before: Option<u64>,
+            created_before: Option<i64>,
             #[serde(rename = "reasoning_effort")]
             #[allow(dead_code)]
             reasoning_effort: Option<ReasoningEffort>,
@@ -26220,10 +26220,10 @@ impl serde::Serialize for EvalResponsesSource {
             instructions_search: &'a Option<String>,
             #[serde(rename = "created_after")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            created_after: &'a Option<u64>,
+            created_after: &'a Option<i64>,
             #[serde(rename = "created_before")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            created_before: &'a Option<u64>,
+            created_before: &'a Option<i64>,
             #[serde(rename = "reasoning_effort")]
             #[serde(skip_serializing_if = "Option::is_none")]
             reasoning_effort: &'a Option<ReasoningEffort>,
@@ -26282,10 +26282,10 @@ pub struct EvalResponsesSource {
     pub instructions_search: Option<String>,
     #[doc = "Only include items created after this timestamp (inclusive). This is a query parameter used to select responses."]
     #[builder(default)]
-    pub created_after: Option<u64>,
+    pub created_after: Option<i64>,
     #[doc = "Only include items created before this timestamp (inclusive). This is a query parameter used to select responses."]
     #[builder(default)]
-    pub created_before: Option<u64>,
+    pub created_before: Option<i64>,
     #[doc = "Optional reasoning effort parameter. This is a query parameter used to select responses."]
     #[builder(default)]
     pub reasoning_effort: Option<ReasoningEffort>,
@@ -26339,16 +26339,16 @@ impl<'de> serde::Deserialize<'de> for EvalRunResultCounts {
         struct EvalRunResultCounts {
             #[serde(rename = "total")]
             #[allow(dead_code)]
-            total: u64,
+            total: i64,
             #[serde(rename = "errored")]
             #[allow(dead_code)]
-            errored: u64,
+            errored: i64,
             #[serde(rename = "failed")]
             #[allow(dead_code)]
-            failed: u64,
+            failed: i64,
             #[serde(rename = "passed")]
             #[allow(dead_code)]
-            passed: u64,
+            passed: i64,
         }
         let EvalRunResultCounts {
             total,
@@ -26374,13 +26374,13 @@ impl serde::Serialize for EvalRunResultCounts {
         #[derive(serde :: Serialize)]
         struct EvalRunResultCounts<'a> {
             #[serde(rename = "total")]
-            total: &'a u64,
+            total: &'a i64,
             #[serde(rename = "errored")]
-            errored: &'a u64,
+            errored: &'a i64,
             #[serde(rename = "failed")]
-            failed: &'a u64,
+            failed: &'a i64,
             #[serde(rename = "passed")]
-            passed: &'a u64,
+            passed: &'a i64,
         }
         let Self {
             total,
@@ -26401,13 +26401,13 @@ impl serde::Serialize for EvalRunResultCounts {
 #[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct EvalRunResultCounts {
     #[doc = "Total number of executed output items."]
-    pub total: u64,
+    pub total: i64,
     #[doc = "Number of output items that resulted in an error."]
-    pub errored: u64,
+    pub errored: i64,
     #[doc = "Number of output items that failed to pass the evaluation."]
-    pub failed: u64,
+    pub failed: i64,
     #[doc = "Number of output items that passed the evaluation."]
-    pub passed: u64,
+    pub passed: i64,
 }
 impl<'de> serde::Deserialize<'de> for EvalRunPerModelUsage {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -26422,19 +26422,19 @@ impl<'de> serde::Deserialize<'de> for EvalRunPerModelUsage {
             model_name: String,
             #[serde(rename = "invocation_count")]
             #[allow(dead_code)]
-            invocation_count: u64,
+            invocation_count: i64,
             #[serde(rename = "prompt_tokens")]
             #[allow(dead_code)]
-            prompt_tokens: u64,
+            prompt_tokens: i64,
             #[serde(rename = "completion_tokens")]
             #[allow(dead_code)]
-            completion_tokens: u64,
+            completion_tokens: i64,
             #[serde(rename = "total_tokens")]
             #[allow(dead_code)]
-            total_tokens: u64,
+            total_tokens: i64,
             #[serde(rename = "cached_tokens")]
             #[allow(dead_code)]
-            cached_tokens: u64,
+            cached_tokens: i64,
         }
         let EvalRunPerModelUsage {
             model_name,
@@ -26466,15 +26466,15 @@ impl serde::Serialize for EvalRunPerModelUsage {
             #[serde(rename = "model_name")]
             model_name: &'a String,
             #[serde(rename = "invocation_count")]
-            invocation_count: &'a u64,
+            invocation_count: &'a i64,
             #[serde(rename = "prompt_tokens")]
-            prompt_tokens: &'a u64,
+            prompt_tokens: &'a i64,
             #[serde(rename = "completion_tokens")]
-            completion_tokens: &'a u64,
+            completion_tokens: &'a i64,
             #[serde(rename = "total_tokens")]
-            total_tokens: &'a u64,
+            total_tokens: &'a i64,
             #[serde(rename = "cached_tokens")]
-            cached_tokens: &'a u64,
+            cached_tokens: &'a i64,
         }
         let Self {
             model_name,
@@ -26500,15 +26500,15 @@ pub struct EvalRunPerModelUsage {
     #[doc = "The name of the model."]
     pub model_name: String,
     #[doc = "The number of invocations."]
-    pub invocation_count: u64,
+    pub invocation_count: i64,
     #[doc = "The number of prompt tokens used."]
-    pub prompt_tokens: u64,
+    pub prompt_tokens: i64,
     #[doc = "The number of completion tokens generated."]
-    pub completion_tokens: u64,
+    pub completion_tokens: i64,
     #[doc = "The total number of tokens used."]
-    pub total_tokens: u64,
+    pub total_tokens: i64,
     #[doc = "The number of tokens retrieved from cache."]
-    pub cached_tokens: u64,
+    pub cached_tokens: i64,
 }
 impl<'de> serde::Deserialize<'de> for EvalRunPerTestingCriteriaResult {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -26523,10 +26523,10 @@ impl<'de> serde::Deserialize<'de> for EvalRunPerTestingCriteriaResult {
             testing_criteria: String,
             #[serde(rename = "passed")]
             #[allow(dead_code)]
-            passed: u64,
+            passed: i64,
             #[serde(rename = "failed")]
             #[allow(dead_code)]
-            failed: u64,
+            failed: i64,
         }
         let EvalRunPerTestingCriteriaResult {
             testing_criteria,
@@ -26552,9 +26552,9 @@ impl serde::Serialize for EvalRunPerTestingCriteriaResult {
             #[serde(rename = "testing_criteria")]
             testing_criteria: &'a String,
             #[serde(rename = "passed")]
-            passed: &'a u64,
+            passed: &'a i64,
             #[serde(rename = "failed")]
-            failed: &'a u64,
+            failed: &'a i64,
         }
         let Self {
             testing_criteria,
@@ -26574,9 +26574,9 @@ pub struct EvalRunPerTestingCriteriaResult {
     #[doc = "A description of the testing criteria."]
     pub testing_criteria: String,
     #[doc = "Number of tests passed for this criteria."]
-    pub passed: u64,
+    pub passed: i64,
     #[doc = "Number of tests failed for this criteria."]
-    pub failed: u64,
+    pub failed: i64,
 }
 impl<'de> serde::Deserialize<'de> for EvalRunDataSource {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -26656,7 +26656,7 @@ impl<'de> serde::Deserialize<'de> for EvalRun {
             name: String,
             #[serde(rename = "created_at")]
             #[allow(dead_code)]
-            created_at: u64,
+            created_at: i64,
             #[serde(rename = "report_url")]
             #[allow(dead_code)]
             report_url: String,
@@ -26733,7 +26733,7 @@ impl serde::Serialize for EvalRun {
             #[serde(rename = "name")]
             name: &'a String,
             #[serde(rename = "created_at")]
-            created_at: &'a u64,
+            created_at: &'a i64,
             #[serde(rename = "report_url")]
             report_url: &'a String,
             #[serde(rename = "result_counts")]
@@ -26798,7 +26798,7 @@ pub struct EvalRun {
     #[doc = "The name of the evaluation run."]
     pub name: String,
     #[doc = "Unix timestamp (in seconds) when the evaluation run was created."]
-    pub created_at: u64,
+    pub created_at: i64,
     #[doc = "The URL to the rendered evaluation run report on the UI dashboard."]
     pub report_url: String,
     #[doc = "Counters summarizing the outcomes of the evaluation run."]
@@ -27056,16 +27056,16 @@ impl<'de> serde::Deserialize<'de> for EvalRunOutputItemSampleUsage {
         struct EvalRunOutputItemSampleUsage {
             #[serde(rename = "total_tokens")]
             #[allow(dead_code)]
-            total_tokens: u64,
+            total_tokens: i64,
             #[serde(rename = "completion_tokens")]
             #[allow(dead_code)]
-            completion_tokens: u64,
+            completion_tokens: i64,
             #[serde(rename = "prompt_tokens")]
             #[allow(dead_code)]
-            prompt_tokens: u64,
+            prompt_tokens: i64,
             #[serde(rename = "cached_tokens")]
             #[allow(dead_code)]
-            cached_tokens: u64,
+            cached_tokens: i64,
         }
         let EvalRunOutputItemSampleUsage {
             total_tokens,
@@ -27091,13 +27091,13 @@ impl serde::Serialize for EvalRunOutputItemSampleUsage {
         #[derive(serde :: Serialize)]
         struct EvalRunOutputItemSampleUsage<'a> {
             #[serde(rename = "total_tokens")]
-            total_tokens: &'a u64,
+            total_tokens: &'a i64,
             #[serde(rename = "completion_tokens")]
-            completion_tokens: &'a u64,
+            completion_tokens: &'a i64,
             #[serde(rename = "prompt_tokens")]
-            prompt_tokens: &'a u64,
+            prompt_tokens: &'a i64,
             #[serde(rename = "cached_tokens")]
-            cached_tokens: &'a u64,
+            cached_tokens: &'a i64,
         }
         let Self {
             total_tokens,
@@ -27118,13 +27118,13 @@ impl serde::Serialize for EvalRunOutputItemSampleUsage {
 #[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct EvalRunOutputItemSampleUsage {
     #[doc = "The total number of tokens used."]
-    pub total_tokens: u64,
+    pub total_tokens: i64,
     #[doc = "The number of completion tokens generated."]
-    pub completion_tokens: u64,
+    pub completion_tokens: i64,
     #[doc = "The number of prompt tokens used."]
-    pub prompt_tokens: u64,
+    pub prompt_tokens: i64,
     #[doc = "The number of tokens retrieved from cache."]
-    pub cached_tokens: u64,
+    pub cached_tokens: i64,
 }
 impl<'de> serde::Deserialize<'de> for EvalRunOutputItemSample {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -27157,13 +27157,13 @@ impl<'de> serde::Deserialize<'de> for EvalRunOutputItemSample {
             temperature: f64,
             #[serde(rename = "max_completion_tokens")]
             #[allow(dead_code)]
-            max_completion_tokens: u64,
+            max_completion_tokens: i64,
             #[serde(rename = "top_p")]
             #[allow(dead_code)]
             top_p: f64,
             #[serde(rename = "seed")]
             #[allow(dead_code)]
-            seed: u64,
+            seed: i64,
         }
         let EvalRunOutputItemSample {
             input,
@@ -27215,11 +27215,11 @@ impl serde::Serialize for EvalRunOutputItemSample {
             #[serde(rename = "temperature")]
             temperature: &'a f64,
             #[serde(rename = "max_completion_tokens")]
-            max_completion_tokens: &'a u64,
+            max_completion_tokens: &'a i64,
             #[serde(rename = "top_p")]
             top_p: &'a f64,
             #[serde(rename = "seed")]
-            seed: &'a u64,
+            seed: &'a i64,
         }
         let Self {
             input,
@@ -27265,11 +27265,11 @@ pub struct EvalRunOutputItemSample {
     #[doc = "The sampling temperature used."]
     pub temperature: f64,
     #[doc = "The maximum number of tokens allowed for completion."]
-    pub max_completion_tokens: u64,
+    pub max_completion_tokens: i64,
     #[doc = "The top_p value used for sampling."]
     pub top_p: f64,
     #[doc = "The seed used for generating the sample."]
-    pub seed: u64,
+    pub seed: i64,
 }
 impl<'de> serde::Deserialize<'de> for EvalRunOutputItem {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -27293,13 +27293,13 @@ impl<'de> serde::Deserialize<'de> for EvalRunOutputItem {
             eval_id: String,
             #[serde(rename = "created_at")]
             #[allow(dead_code)]
-            created_at: u64,
+            created_at: i64,
             #[serde(rename = "status")]
             #[allow(dead_code)]
             status: String,
             #[serde(rename = "datasource_item_id")]
             #[allow(dead_code)]
-            datasource_item_id: u64,
+            datasource_item_id: i64,
             #[serde(rename = "datasource_item")]
             #[allow(dead_code)]
             datasource_item: indexmap::IndexMap<String, serde_json::Value>,
@@ -27352,11 +27352,11 @@ impl serde::Serialize for EvalRunOutputItem {
             #[serde(rename = "eval_id")]
             eval_id: &'a String,
             #[serde(rename = "created_at")]
-            created_at: &'a u64,
+            created_at: &'a i64,
             #[serde(rename = "status")]
             status: &'a String,
             #[serde(rename = "datasource_item_id")]
-            datasource_item_id: &'a u64,
+            datasource_item_id: &'a i64,
             #[serde(rename = "datasource_item")]
             datasource_item: &'a indexmap::IndexMap<String, serde_json::Value>,
             #[serde(rename = "results")]
@@ -27400,11 +27400,11 @@ pub struct EvalRunOutputItem {
     #[doc = "The identifier of the evaluation group."]
     pub eval_id: String,
     #[doc = "Unix timestamp (in seconds) when the evaluation run was created."]
-    pub created_at: u64,
+    pub created_at: i64,
     #[doc = "The status of the evaluation run."]
     pub status: String,
     #[doc = "The identifier for the data source item."]
-    pub datasource_item_id: u64,
+    pub datasource_item_id: i64,
     #[doc = "Details of the input data source item."]
     pub datasource_item: indexmap::IndexMap<String, serde_json::Value>,
     #[doc = "A list of results from the evaluation run."]
@@ -27655,13 +27655,13 @@ impl<'de> serde::Deserialize<'de> for EvalStoredCompletionsSource {
             model: Option<String>,
             #[serde(rename = "created_after")]
             #[allow(dead_code)]
-            created_after: Option<u64>,
+            created_after: Option<i64>,
             #[serde(rename = "created_before")]
             #[allow(dead_code)]
-            created_before: Option<u64>,
+            created_before: Option<i64>,
             #[serde(rename = "limit")]
             #[allow(dead_code)]
-            limit: Option<u64>,
+            limit: Option<i64>,
         }
         let EvalStoredCompletionsSource {
             metadata,
@@ -27698,13 +27698,13 @@ impl serde::Serialize for EvalStoredCompletionsSource {
             model: &'a Option<String>,
             #[serde(rename = "created_after")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            created_after: &'a Option<u64>,
+            created_after: &'a Option<i64>,
             #[serde(rename = "created_before")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            created_before: &'a Option<u64>,
+            created_before: &'a Option<i64>,
             #[serde(rename = "limit")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            limit: &'a Option<u64>,
+            limit: &'a Option<i64>,
         }
         let Self {
             metadata,
@@ -27734,13 +27734,13 @@ pub struct EvalStoredCompletionsSource {
     pub model: Option<String>,
     #[doc = "An optional Unix timestamp to filter items created after this time."]
     #[builder(default)]
-    pub created_after: Option<u64>,
+    pub created_after: Option<i64>,
     #[doc = "An optional Unix timestamp to filter items created before this time."]
     #[builder(default)]
-    pub created_before: Option<u64>,
+    pub created_before: Option<i64>,
     #[doc = "An optional maximum number of items to return."]
     #[builder(default)]
-    pub limit: Option<u64>,
+    pub limit: Option<i64>,
 }
 impl<'de> serde::Deserialize<'de> for FilePathType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -27785,7 +27785,7 @@ impl<'de> serde::Deserialize<'de> for FilePath {
             file_id: String,
             #[serde(rename = "index")]
             #[allow(dead_code)]
-            index: u64,
+            index: i64,
         }
         let FilePath { file_id, index, .. } = FilePath::deserialize(deserializer)?;
         Ok(Self { file_id, index })
@@ -27804,7 +27804,7 @@ impl serde::Serialize for FilePath {
             #[serde(rename = "file_id")]
             file_id: &'a String,
             #[serde(rename = "index")]
-            index: &'a u64,
+            index: &'a i64,
         }
         let Self { file_id, index } = self;
         FilePath {
@@ -27821,7 +27821,7 @@ pub struct FilePath {
     #[doc = "The ID of the file.\n"]
     pub file_id: String,
     #[doc = "The index of the file in the list of files.\n"]
-    pub index: u64,
+    pub index: i64,
 }
 #[doc = "The ranker to use for the file search. If not specified will use the `auto` ranker."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
@@ -28135,7 +28135,7 @@ impl<'de> serde::Deserialize<'de> for FineTuneChatCompletionRequestAssistantMess
         struct FineTuneChatCompletionRequestAssistantMessage {
             #[serde(rename = "weight")]
             #[allow(dead_code)]
-            weight: Option<u64>,
+            weight: Option<i64>,
             #[serde(flatten)]
             #[allow(dead_code)]
             chat_completion_request_assistant_message: ChatCompletionRequestAssistantMessage,
@@ -28161,7 +28161,7 @@ impl serde::Serialize for FineTuneChatCompletionRequestAssistantMessage {
         struct FineTuneChatCompletionRequestAssistantMessage<'a> {
             #[serde(rename = "weight")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            weight: &'a Option<u64>,
+            weight: &'a Option<i64>,
             #[serde(flatten)]
             chat_completion_request_assistant_message: &'a ChatCompletionRequestAssistantMessage,
         }
@@ -28180,7 +28180,7 @@ impl serde::Serialize for FineTuneChatCompletionRequestAssistantMessage {
 pub struct FineTuneChatCompletionRequestAssistantMessage {
     #[doc = "Controls whether the assistant message is trained against (0 or 1)"]
     #[builder(default)]
-    pub weight: Option<u64>,
+    pub weight: Option<i64>,
     #[builder(default)]
     pub chat_completion_request_assistant_message: ChatCompletionRequestAssistantMessage,
 }
@@ -28450,7 +28450,7 @@ impl<'de> serde::Deserialize<'de> for FineTuneDpoHyperparametersBatchSize {
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum FineTuneDpoHyperparametersBatchSize {
             Auto(#[allow(dead_code)] FineTuneDpoHyperparametersBatchSizeAuto),
-            Integer(#[allow(dead_code)] u64),
+            Integer(#[allow(dead_code)] i64),
         }
         Ok(
             match FineTuneDpoHyperparametersBatchSize::deserialize(deserializer)? {
@@ -28471,7 +28471,7 @@ impl serde::Serialize for FineTuneDpoHyperparametersBatchSize {
         #[allow(clippy::enum_variant_names)]
         enum FineTuneDpoHyperparametersBatchSize<'a> {
             Auto(#[allow(dead_code)] &'a FineTuneDpoHyperparametersBatchSizeAuto),
-            Integer(#[allow(dead_code)] &'a u64),
+            Integer(#[allow(dead_code)] &'a i64),
         }
         match self {
             Self::Auto => {
@@ -28489,7 +28489,7 @@ impl serde::Serialize for FineTuneDpoHyperparametersBatchSize {
 pub enum FineTuneDpoHyperparametersBatchSize {
     #[doc = "auto"]
     Auto,
-    Integer(u64),
+    Integer(i64),
 }
 impl<'de> serde::Deserialize<'de> for FineTuneDpoHyperparametersLearningRateMultiplierAuto {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -28609,7 +28609,7 @@ impl<'de> serde::Deserialize<'de> for FineTuneDpoHyperparametersNEpochs {
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum FineTuneDpoHyperparametersNEpochs {
             Auto(#[allow(dead_code)] FineTuneDpoHyperparametersNEpochsAuto),
-            Integer(#[allow(dead_code)] u64),
+            Integer(#[allow(dead_code)] i64),
         }
         Ok(
             match FineTuneDpoHyperparametersNEpochs::deserialize(deserializer)? {
@@ -28630,7 +28630,7 @@ impl serde::Serialize for FineTuneDpoHyperparametersNEpochs {
         #[allow(clippy::enum_variant_names)]
         enum FineTuneDpoHyperparametersNEpochs<'a> {
             Auto(#[allow(dead_code)] &'a FineTuneDpoHyperparametersNEpochsAuto),
-            Integer(#[allow(dead_code)] &'a u64),
+            Integer(#[allow(dead_code)] &'a i64),
         }
         match self {
             Self::Auto => {
@@ -28646,7 +28646,7 @@ impl serde::Serialize for FineTuneDpoHyperparametersNEpochs {
 pub enum FineTuneDpoHyperparametersNEpochs {
     #[doc = "auto"]
     Auto,
-    Integer(u64),
+    Integer(i64),
 }
 impl<'de> serde::Deserialize<'de> for FineTuneDpoHyperparameters {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -29205,7 +29205,7 @@ impl<'de> serde::Deserialize<'de> for FineTuneReinforcementHyperparametersBatchS
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum FineTuneReinforcementHyperparametersBatchSize {
             Auto(#[allow(dead_code)] FineTuneReinforcementHyperparametersBatchSizeAuto),
-            Integer(#[allow(dead_code)] u64),
+            Integer(#[allow(dead_code)] i64),
         }
         Ok(
             match FineTuneReinforcementHyperparametersBatchSize::deserialize(deserializer)? {
@@ -29226,7 +29226,7 @@ impl serde::Serialize for FineTuneReinforcementHyperparametersBatchSize {
         #[allow(clippy::enum_variant_names)]
         enum FineTuneReinforcementHyperparametersBatchSize<'a> {
             Auto(#[allow(dead_code)] &'a FineTuneReinforcementHyperparametersBatchSizeAuto),
-            Integer(#[allow(dead_code)] &'a u64),
+            Integer(#[allow(dead_code)] &'a i64),
         }
         match self {
             Self::Auto => FineTuneReinforcementHyperparametersBatchSize::Auto(&Default::default())
@@ -29243,7 +29243,7 @@ impl serde::Serialize for FineTuneReinforcementHyperparametersBatchSize {
 pub enum FineTuneReinforcementHyperparametersBatchSize {
     #[doc = "auto"]
     Auto,
-    Integer(u64),
+    Integer(i64),
 }
 impl<'de> serde::Deserialize<'de>
     for FineTuneReinforcementHyperparametersLearningRateMultiplierAuto
@@ -29375,7 +29375,7 @@ impl<'de> serde::Deserialize<'de> for FineTuneReinforcementHyperparametersNEpoch
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum FineTuneReinforcementHyperparametersNEpochs {
             Auto(#[allow(dead_code)] FineTuneReinforcementHyperparametersNEpochsAuto),
-            Integer(#[allow(dead_code)] u64),
+            Integer(#[allow(dead_code)] i64),
         }
         Ok(
             match FineTuneReinforcementHyperparametersNEpochs::deserialize(deserializer)? {
@@ -29396,7 +29396,7 @@ impl serde::Serialize for FineTuneReinforcementHyperparametersNEpochs {
         #[allow(clippy::enum_variant_names)]
         enum FineTuneReinforcementHyperparametersNEpochs<'a> {
             Auto(#[allow(dead_code)] &'a FineTuneReinforcementHyperparametersNEpochsAuto),
-            Integer(#[allow(dead_code)] &'a u64),
+            Integer(#[allow(dead_code)] &'a i64),
         }
         match self {
             Self::Auto => FineTuneReinforcementHyperparametersNEpochs::Auto(&Default::default())
@@ -29413,7 +29413,7 @@ impl serde::Serialize for FineTuneReinforcementHyperparametersNEpochs {
 pub enum FineTuneReinforcementHyperparametersNEpochs {
     #[doc = "auto"]
     Auto,
-    Integer(u64),
+    Integer(i64),
 }
 #[doc = "Level of reasoning effort.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
@@ -29550,7 +29550,7 @@ impl<'de> serde::Deserialize<'de> for FineTuneReinforcementHyperparametersEvalIn
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum FineTuneReinforcementHyperparametersEvalInterval {
             Auto(#[allow(dead_code)] FineTuneReinforcementHyperparametersEvalIntervalAuto),
-            Integer(#[allow(dead_code)] u64),
+            Integer(#[allow(dead_code)] i64),
         }
         Ok(
             match FineTuneReinforcementHyperparametersEvalInterval::deserialize(deserializer)? {
@@ -29571,7 +29571,7 @@ impl serde::Serialize for FineTuneReinforcementHyperparametersEvalInterval {
         #[allow(clippy::enum_variant_names)]
         enum FineTuneReinforcementHyperparametersEvalInterval<'a> {
             Auto(#[allow(dead_code)] &'a FineTuneReinforcementHyperparametersEvalIntervalAuto),
-            Integer(#[allow(dead_code)] &'a u64),
+            Integer(#[allow(dead_code)] &'a i64),
         }
         match self {
             Self::Auto => {
@@ -29590,7 +29590,7 @@ impl serde::Serialize for FineTuneReinforcementHyperparametersEvalInterval {
 pub enum FineTuneReinforcementHyperparametersEvalInterval {
     #[doc = "auto"]
     Auto,
-    Integer(u64),
+    Integer(i64),
 }
 impl<'de> serde::Deserialize<'de> for FineTuneReinforcementHyperparametersEvalSamplesAuto {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -29630,7 +29630,7 @@ impl<'de> serde::Deserialize<'de> for FineTuneReinforcementHyperparametersEvalSa
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum FineTuneReinforcementHyperparametersEvalSamples {
             Auto(#[allow(dead_code)] FineTuneReinforcementHyperparametersEvalSamplesAuto),
-            Integer(#[allow(dead_code)] u64),
+            Integer(#[allow(dead_code)] i64),
         }
         Ok(
             match FineTuneReinforcementHyperparametersEvalSamples::deserialize(deserializer)? {
@@ -29651,7 +29651,7 @@ impl serde::Serialize for FineTuneReinforcementHyperparametersEvalSamples {
         #[allow(clippy::enum_variant_names)]
         enum FineTuneReinforcementHyperparametersEvalSamples<'a> {
             Auto(#[allow(dead_code)] &'a FineTuneReinforcementHyperparametersEvalSamplesAuto),
-            Integer(#[allow(dead_code)] &'a u64),
+            Integer(#[allow(dead_code)] &'a i64),
         }
         match self {
             Self::Auto => {
@@ -29670,7 +29670,7 @@ impl serde::Serialize for FineTuneReinforcementHyperparametersEvalSamples {
 pub enum FineTuneReinforcementHyperparametersEvalSamples {
     #[doc = "auto"]
     Auto,
-    Integer(u64),
+    Integer(i64),
 }
 impl<'de> serde::Deserialize<'de> for FineTuneReinforcementHyperparameters {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -30078,7 +30078,7 @@ impl<'de> serde::Deserialize<'de> for FineTuneSupervisedHyperparametersBatchSize
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum FineTuneSupervisedHyperparametersBatchSize {
             Auto(#[allow(dead_code)] FineTuneSupervisedHyperparametersBatchSizeAuto),
-            Integer(#[allow(dead_code)] u64),
+            Integer(#[allow(dead_code)] i64),
         }
         Ok(
             match FineTuneSupervisedHyperparametersBatchSize::deserialize(deserializer)? {
@@ -30099,7 +30099,7 @@ impl serde::Serialize for FineTuneSupervisedHyperparametersBatchSize {
         #[allow(clippy::enum_variant_names)]
         enum FineTuneSupervisedHyperparametersBatchSize<'a> {
             Auto(#[allow(dead_code)] &'a FineTuneSupervisedHyperparametersBatchSizeAuto),
-            Integer(#[allow(dead_code)] &'a u64),
+            Integer(#[allow(dead_code)] &'a i64),
         }
         match self {
             Self::Auto => FineTuneSupervisedHyperparametersBatchSize::Auto(&Default::default())
@@ -30116,7 +30116,7 @@ impl serde::Serialize for FineTuneSupervisedHyperparametersBatchSize {
 pub enum FineTuneSupervisedHyperparametersBatchSize {
     #[doc = "auto"]
     Auto,
-    Integer(u64),
+    Integer(i64),
 }
 impl<'de> serde::Deserialize<'de> for FineTuneSupervisedHyperparametersLearningRateMultiplierAuto {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -30241,7 +30241,7 @@ impl<'de> serde::Deserialize<'de> for FineTuneSupervisedHyperparametersNEpochs {
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum FineTuneSupervisedHyperparametersNEpochs {
             Auto(#[allow(dead_code)] FineTuneSupervisedHyperparametersNEpochsAuto),
-            Integer(#[allow(dead_code)] u64),
+            Integer(#[allow(dead_code)] i64),
         }
         Ok(
             match FineTuneSupervisedHyperparametersNEpochs::deserialize(deserializer)? {
@@ -30262,7 +30262,7 @@ impl serde::Serialize for FineTuneSupervisedHyperparametersNEpochs {
         #[allow(clippy::enum_variant_names)]
         enum FineTuneSupervisedHyperparametersNEpochs<'a> {
             Auto(#[allow(dead_code)] &'a FineTuneSupervisedHyperparametersNEpochsAuto),
-            Integer(#[allow(dead_code)] &'a u64),
+            Integer(#[allow(dead_code)] &'a i64),
         }
         match self {
             Self::Auto => FineTuneSupervisedHyperparametersNEpochs::Auto(&Default::default())
@@ -30279,7 +30279,7 @@ impl serde::Serialize for FineTuneSupervisedHyperparametersNEpochs {
 pub enum FineTuneSupervisedHyperparametersNEpochs {
     #[doc = "auto"]
     Auto,
-    Integer(u64),
+    Integer(i64),
 }
 impl<'de> serde::Deserialize<'de> for FineTuneSupervisedHyperparameters {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -30438,7 +30438,7 @@ impl<'de> serde::Deserialize<'de> for FineTuningCheckpointPermission {
             id: String,
             #[serde(rename = "created_at")]
             #[allow(dead_code)]
-            created_at: u64,
+            created_at: i64,
             #[serde(rename = "project_id")]
             #[allow(dead_code)]
             project_id: String,
@@ -30470,7 +30470,7 @@ impl serde::Serialize for FineTuningCheckpointPermission {
             #[serde(rename = "id")]
             id: &'a String,
             #[serde(rename = "created_at")]
-            created_at: &'a u64,
+            created_at: &'a i64,
             #[serde(rename = "project_id")]
             project_id: &'a String,
             #[serde(rename = "object")]
@@ -30496,7 +30496,7 @@ pub struct FineTuningCheckpointPermission {
     #[doc = "The permission identifier, which can be referenced in the API endpoints."]
     pub id: String,
     #[doc = "The Unix timestamp (in seconds) for when the permission was created."]
-    pub created_at: u64,
+    pub created_at: i64,
     #[doc = "The project identifier that the permission is for."]
     pub project_id: String,
 }
@@ -30767,7 +30767,7 @@ impl<'de> serde::Deserialize<'de> for FineTuningJobHyperparametersBatchSize {
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum FineTuningJobHyperparametersBatchSize {
             Auto(#[allow(dead_code)] FineTuningJobHyperparametersBatchSizeAuto),
-            Integer(#[allow(dead_code)] u64),
+            Integer(#[allow(dead_code)] i64),
         }
         Ok(
             match FineTuningJobHyperparametersBatchSize::deserialize(deserializer)? {
@@ -30788,7 +30788,7 @@ impl serde::Serialize for FineTuningJobHyperparametersBatchSize {
         #[allow(clippy::enum_variant_names)]
         enum FineTuningJobHyperparametersBatchSize<'a> {
             Auto(#[allow(dead_code)] &'a FineTuningJobHyperparametersBatchSizeAuto),
-            Integer(#[allow(dead_code)] &'a u64),
+            Integer(#[allow(dead_code)] &'a i64),
         }
         match self {
             Self::Auto => FineTuningJobHyperparametersBatchSize::Auto(&Default::default())
@@ -30805,7 +30805,7 @@ impl serde::Serialize for FineTuningJobHyperparametersBatchSize {
 pub enum FineTuningJobHyperparametersBatchSize {
     #[doc = "auto"]
     Auto,
-    Integer(u64),
+    Integer(i64),
 }
 impl<'de> serde::Deserialize<'de> for FineTuningJobHyperparametersLearningRateMultiplierAuto {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -30925,7 +30925,7 @@ impl<'de> serde::Deserialize<'de> for FineTuningJobHyperparametersNEpochs {
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum FineTuningJobHyperparametersNEpochs {
             Auto(#[allow(dead_code)] FineTuningJobHyperparametersNEpochsAuto),
-            Integer(#[allow(dead_code)] u64),
+            Integer(#[allow(dead_code)] i64),
         }
         Ok(
             match FineTuningJobHyperparametersNEpochs::deserialize(deserializer)? {
@@ -30946,7 +30946,7 @@ impl serde::Serialize for FineTuningJobHyperparametersNEpochs {
         #[allow(clippy::enum_variant_names)]
         enum FineTuningJobHyperparametersNEpochs<'a> {
             Auto(#[allow(dead_code)] &'a FineTuningJobHyperparametersNEpochsAuto),
-            Integer(#[allow(dead_code)] &'a u64),
+            Integer(#[allow(dead_code)] &'a i64),
         }
         match self {
             Self::Auto => {
@@ -30964,7 +30964,7 @@ impl serde::Serialize for FineTuningJobHyperparametersNEpochs {
 pub enum FineTuningJobHyperparametersNEpochs {
     #[doc = "auto"]
     Auto,
-    Integer(u64),
+    Integer(i64),
 }
 impl<'de> serde::Deserialize<'de> for FineTuningJobHyperparameters {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -31145,7 +31145,7 @@ impl<'de> serde::Deserialize<'de> for FineTuningJob {
             id: String,
             #[serde(rename = "created_at")]
             #[allow(dead_code)]
-            created_at: u64,
+            created_at: i64,
             #[serde(rename = "error")]
             #[allow(dead_code)]
             error: Option<FineTuningJobError>,
@@ -31154,7 +31154,7 @@ impl<'de> serde::Deserialize<'de> for FineTuningJob {
             fine_tuned_model: Option<String>,
             #[serde(rename = "finished_at")]
             #[allow(dead_code)]
-            finished_at: Option<u64>,
+            finished_at: Option<i64>,
             #[serde(rename = "hyperparameters")]
             #[allow(dead_code)]
             hyperparameters: FineTuningJobHyperparameters,
@@ -31175,7 +31175,7 @@ impl<'de> serde::Deserialize<'de> for FineTuningJob {
             status: FineTuningJobStatus,
             #[serde(rename = "trained_tokens")]
             #[allow(dead_code)]
-            trained_tokens: Option<u64>,
+            trained_tokens: Option<i64>,
             #[serde(rename = "training_file")]
             #[allow(dead_code)]
             training_file: String,
@@ -31187,10 +31187,10 @@ impl<'de> serde::Deserialize<'de> for FineTuningJob {
             integrations: Option<Vec<FineTuningJobIntegration>>,
             #[serde(rename = "seed")]
             #[allow(dead_code)]
-            seed: u64,
+            seed: i64,
             #[serde(rename = "estimated_finish")]
             #[allow(dead_code)]
-            estimated_finish: Option<u64>,
+            estimated_finish: Option<i64>,
             #[serde(rename = "method")]
             #[allow(dead_code)]
             method: Option<FineTuneMethod>,
@@ -31252,7 +31252,7 @@ impl serde::Serialize for FineTuningJob {
             #[serde(rename = "id")]
             id: &'a String,
             #[serde(rename = "created_at")]
-            created_at: &'a u64,
+            created_at: &'a i64,
             #[serde(rename = "error")]
             #[serde(skip_serializing_if = "Option::is_none")]
             error: &'a Option<FineTuningJobError>,
@@ -31261,7 +31261,7 @@ impl serde::Serialize for FineTuningJob {
             fine_tuned_model: &'a Option<String>,
             #[serde(rename = "finished_at")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            finished_at: &'a Option<u64>,
+            finished_at: &'a Option<i64>,
             #[serde(rename = "hyperparameters")]
             hyperparameters: &'a FineTuningJobHyperparameters,
             #[serde(rename = "model")]
@@ -31276,7 +31276,7 @@ impl serde::Serialize for FineTuningJob {
             status: &'a FineTuningJobStatus,
             #[serde(rename = "trained_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            trained_tokens: &'a Option<u64>,
+            trained_tokens: &'a Option<i64>,
             #[serde(rename = "training_file")]
             training_file: &'a String,
             #[serde(rename = "validation_file")]
@@ -31286,10 +31286,10 @@ impl serde::Serialize for FineTuningJob {
             #[serde(skip_serializing_if = "Option::is_none")]
             integrations: &'a Option<Vec<FineTuningJobIntegration>>,
             #[serde(rename = "seed")]
-            seed: &'a u64,
+            seed: &'a i64,
             #[serde(rename = "estimated_finish")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            estimated_finish: &'a Option<u64>,
+            estimated_finish: &'a Option<i64>,
             #[serde(rename = "method")]
             #[serde(skip_serializing_if = "Option::is_none")]
             method: &'a Option<FineTuneMethod>,
@@ -31347,7 +31347,7 @@ pub struct FineTuningJob {
     #[doc = "The object identifier, which can be referenced in the API endpoints."]
     pub id: String,
     #[doc = "The Unix timestamp (in seconds) for when the fine-tuning job was created."]
-    pub created_at: u64,
+    pub created_at: i64,
     #[doc = "For fine-tuning jobs that have `failed`, this will contain more information on the cause of the failure."]
     #[builder(default)]
     pub error: Option<FineTuningJobError>,
@@ -31356,7 +31356,7 @@ pub struct FineTuningJob {
     pub fine_tuned_model: Option<String>,
     #[doc = "The Unix timestamp (in seconds) for when the fine-tuning job was finished. The value will be null if the fine-tuning job is still running."]
     #[builder(default)]
-    pub finished_at: Option<u64>,
+    pub finished_at: Option<i64>,
     #[doc = "The hyperparameters used for the fine-tuning job. This value will only be returned when running `supervised` jobs."]
     #[builder(default)]
     pub hyperparameters: FineTuningJobHyperparameters,
@@ -31370,7 +31370,7 @@ pub struct FineTuningJob {
     pub status: FineTuningJobStatus,
     #[doc = "The total number of billable tokens processed by this fine-tuning job. The value will be null if the fine-tuning job is still running."]
     #[builder(default)]
-    pub trained_tokens: Option<u64>,
+    pub trained_tokens: Option<i64>,
     #[doc = "The file ID used for training. You can retrieve the training data with the [Files API](https://platform.openai.com/docs/api-reference/files/retrieve-contents)."]
     pub training_file: String,
     #[doc = "The file ID used for validation. You can retrieve the validation results with the [Files API](https://platform.openai.com/docs/api-reference/files/retrieve-contents)."]
@@ -31380,10 +31380,10 @@ pub struct FineTuningJob {
     #[builder(default)]
     pub integrations: Option<Vec<FineTuningJobIntegration>>,
     #[doc = "The seed used for the fine-tuning job."]
-    pub seed: u64,
+    pub seed: i64,
     #[doc = "The Unix timestamp (in seconds) for when the fine-tuning job is estimated to finish. The value will be null if the fine-tuning job is not running."]
     #[builder(default)]
-    pub estimated_finish: Option<u64>,
+    pub estimated_finish: Option<i64>,
     #[builder(default)]
     pub method: Option<FineTuneMethod>,
     #[builder(default)]
@@ -31549,13 +31549,13 @@ impl<'de> serde::Deserialize<'de> for FineTuningJobCheckpoint {
             id: String,
             #[serde(rename = "created_at")]
             #[allow(dead_code)]
-            created_at: u64,
+            created_at: i64,
             #[serde(rename = "fine_tuned_model_checkpoint")]
             #[allow(dead_code)]
             fine_tuned_model_checkpoint: String,
             #[serde(rename = "step_number")]
             #[allow(dead_code)]
-            step_number: u64,
+            step_number: i64,
             #[serde(rename = "metrics")]
             #[allow(dead_code)]
             metrics: FineTuningJobCheckpointMetrics,
@@ -31596,11 +31596,11 @@ impl serde::Serialize for FineTuningJobCheckpoint {
             #[serde(rename = "id")]
             id: &'a String,
             #[serde(rename = "created_at")]
-            created_at: &'a u64,
+            created_at: &'a i64,
             #[serde(rename = "fine_tuned_model_checkpoint")]
             fine_tuned_model_checkpoint: &'a String,
             #[serde(rename = "step_number")]
-            step_number: &'a u64,
+            step_number: &'a i64,
             #[serde(rename = "metrics")]
             metrics: &'a FineTuningJobCheckpointMetrics,
             #[serde(rename = "fine_tuning_job_id")]
@@ -31634,11 +31634,11 @@ pub struct FineTuningJobCheckpoint {
     #[doc = "The checkpoint identifier, which can be referenced in the API endpoints."]
     pub id: String,
     #[doc = "The Unix timestamp (in seconds) for when the checkpoint was created."]
-    pub created_at: u64,
+    pub created_at: i64,
     #[doc = "The name of the fine-tuned checkpoint model that is created."]
     pub fine_tuned_model_checkpoint: String,
     #[doc = "The step number that the checkpoint was created at."]
-    pub step_number: u64,
+    pub step_number: i64,
     #[doc = "Metrics at the step number during the fine-tuning job."]
     #[builder(default)]
     pub metrics: FineTuningJobCheckpointMetrics,
@@ -31711,7 +31711,7 @@ impl<'de> serde::Deserialize<'de> for FineTuningJobEvent {
             id: String,
             #[serde(rename = "created_at")]
             #[allow(dead_code)]
-            created_at: u64,
+            created_at: i64,
             #[serde(rename = "level")]
             #[allow(dead_code)]
             level: FineTuningJobEventLevel,
@@ -31757,7 +31757,7 @@ impl serde::Serialize for FineTuningJobEvent {
             #[serde(rename = "id")]
             id: &'a String,
             #[serde(rename = "created_at")]
-            created_at: &'a u64,
+            created_at: &'a i64,
             #[serde(rename = "level")]
             level: &'a FineTuningJobEventLevel,
             #[serde(rename = "message")]
@@ -31795,7 +31795,7 @@ pub struct FineTuningJobEvent {
     #[doc = "The object identifier."]
     pub id: String,
     #[doc = "The Unix timestamp (in seconds) for when the fine-tuning job was created."]
-    pub created_at: u64,
+    pub created_at: i64,
     #[doc = "The log level of the event."]
     pub level: FineTuningJobEventLevel,
     #[doc = "The message of the event."]
@@ -33325,7 +33325,7 @@ impl<'de> serde::Deserialize<'de> for ImageGenTool {
             output_format: Option<ImageGenToolOutputFormat>,
             #[serde(rename = "output_compression")]
             #[allow(dead_code)]
-            output_compression: Option<u64>,
+            output_compression: Option<i64>,
             #[serde(rename = "moderation")]
             #[allow(dead_code)]
             moderation: Option<ImageGenToolModeration>,
@@ -33337,7 +33337,7 @@ impl<'de> serde::Deserialize<'de> for ImageGenTool {
             input_image_mask: Option<ImageGenToolInputImageMask>,
             #[serde(rename = "partial_images")]
             #[allow(dead_code)]
-            partial_images: Option<u64>,
+            partial_images: Option<i64>,
         }
         let ImageGenTool {
             model,
@@ -33388,7 +33388,7 @@ impl serde::Serialize for ImageGenTool {
             output_format: &'a Option<ImageGenToolOutputFormat>,
             #[serde(rename = "output_compression")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            output_compression: &'a Option<u64>,
+            output_compression: &'a Option<i64>,
             #[serde(rename = "moderation")]
             #[serde(skip_serializing_if = "Option::is_none")]
             moderation: &'a Option<ImageGenToolModeration>,
@@ -33400,7 +33400,7 @@ impl serde::Serialize for ImageGenTool {
             input_image_mask: &'a Option<ImageGenToolInputImageMask>,
             #[serde(rename = "partial_images")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            partial_images: &'a Option<u64>,
+            partial_images: &'a Option<i64>,
         }
         let Self {
             model,
@@ -33445,7 +33445,7 @@ pub struct ImageGenTool {
     pub output_format: Option<ImageGenToolOutputFormat>,
     #[doc = "Compression level for the output image. Default: 100.\n"]
     #[builder(default)]
-    pub output_compression: Option<u64>,
+    pub output_compression: Option<i64>,
     #[doc = "Moderation level for the generated image. Default: `auto`.\n"]
     #[builder(default)]
     pub moderation: Option<ImageGenToolModeration>,
@@ -33457,7 +33457,7 @@ pub struct ImageGenTool {
     pub input_image_mask: Option<ImageGenToolInputImageMask>,
     #[doc = "Number of partial images to generate in streaming mode, from 0 (default value) to 3.\n"]
     #[builder(default)]
-    pub partial_images: Option<u64>,
+    pub partial_images: Option<i64>,
 }
 impl<'de> serde::Deserialize<'de> for ImageGenToolCallType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -33578,10 +33578,10 @@ impl<'de> serde::Deserialize<'de> for ImagesResponseUsageInputTokensDetails {
         struct ImagesResponseUsageInputTokensDetails {
             #[serde(rename = "text_tokens")]
             #[allow(dead_code)]
-            text_tokens: u64,
+            text_tokens: i64,
             #[serde(rename = "image_tokens")]
             #[allow(dead_code)]
-            image_tokens: u64,
+            image_tokens: i64,
         }
         let ImagesResponseUsageInputTokensDetails {
             text_tokens,
@@ -33603,9 +33603,9 @@ impl serde::Serialize for ImagesResponseUsageInputTokensDetails {
         #[derive(serde :: Serialize)]
         struct ImagesResponseUsageInputTokensDetails<'a> {
             #[serde(rename = "text_tokens")]
-            text_tokens: &'a u64,
+            text_tokens: &'a i64,
             #[serde(rename = "image_tokens")]
-            image_tokens: &'a u64,
+            image_tokens: &'a i64,
         }
         let Self {
             text_tokens,
@@ -33622,9 +33622,9 @@ impl serde::Serialize for ImagesResponseUsageInputTokensDetails {
 #[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ImagesResponseUsageInputTokensDetails {
     #[doc = "The number of text tokens in the input prompt."]
-    pub text_tokens: u64,
+    pub text_tokens: i64,
     #[doc = "The number of image tokens in the input prompt."]
-    pub image_tokens: u64,
+    pub image_tokens: i64,
 }
 impl<'de> serde::Deserialize<'de> for ImagesResponseUsage {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -33636,13 +33636,13 @@ impl<'de> serde::Deserialize<'de> for ImagesResponseUsage {
         struct ImagesResponseUsage {
             #[serde(rename = "total_tokens")]
             #[allow(dead_code)]
-            total_tokens: u64,
+            total_tokens: i64,
             #[serde(rename = "input_tokens")]
             #[allow(dead_code)]
-            input_tokens: u64,
+            input_tokens: i64,
             #[serde(rename = "output_tokens")]
             #[allow(dead_code)]
-            output_tokens: u64,
+            output_tokens: i64,
             #[serde(rename = "input_tokens_details")]
             #[allow(dead_code)]
             input_tokens_details: ImagesResponseUsageInputTokensDetails,
@@ -33671,11 +33671,11 @@ impl serde::Serialize for ImagesResponseUsage {
         #[derive(serde :: Serialize)]
         struct ImagesResponseUsage<'a> {
             #[serde(rename = "total_tokens")]
-            total_tokens: &'a u64,
+            total_tokens: &'a i64,
             #[serde(rename = "input_tokens")]
-            input_tokens: &'a u64,
+            input_tokens: &'a i64,
             #[serde(rename = "output_tokens")]
-            output_tokens: &'a u64,
+            output_tokens: &'a i64,
             #[serde(rename = "input_tokens_details")]
             input_tokens_details: &'a ImagesResponseUsageInputTokensDetails,
         }
@@ -33698,11 +33698,11 @@ impl serde::Serialize for ImagesResponseUsage {
 #[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ImagesResponseUsage {
     #[doc = "The total number of tokens (images and text) used for the image generation."]
-    pub total_tokens: u64,
+    pub total_tokens: i64,
     #[doc = "The number of tokens (images and text) in the input prompt."]
-    pub input_tokens: u64,
+    pub input_tokens: i64,
     #[doc = "The number of image tokens in the output image."]
-    pub output_tokens: u64,
+    pub output_tokens: i64,
     #[doc = "The input tokens detailed information for the image generation."]
     pub input_tokens_details: ImagesResponseUsageInputTokensDetails,
 }
@@ -33716,7 +33716,7 @@ impl<'de> serde::Deserialize<'de> for ImagesResponse {
         struct ImagesResponse {
             #[serde(rename = "created")]
             #[allow(dead_code)]
-            created: u64,
+            created: i64,
             #[serde(rename = "data")]
             #[allow(dead_code)]
             data: Option<Vec<Image>>,
@@ -33746,7 +33746,7 @@ impl serde::Serialize for ImagesResponse {
         #[derive(serde :: Serialize)]
         struct ImagesResponse<'a> {
             #[serde(rename = "created")]
-            created: &'a u64,
+            created: &'a i64,
             #[serde(rename = "data")]
             #[serde(skip_serializing_if = "Option::is_none")]
             data: &'a Option<Vec<Image>>,
@@ -33771,7 +33771,7 @@ impl serde::Serialize for ImagesResponse {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ImagesResponse {
     #[doc = "The Unix timestamp (in seconds) of when the image was created."]
-    pub created: u64,
+    pub created: i64,
     #[doc = "The list of generated images."]
     #[builder(default)]
     pub data: Option<Vec<Image>>,
@@ -34302,13 +34302,13 @@ impl<'de> serde::Deserialize<'de> for Invite {
             status: InviteStatus,
             #[serde(rename = "invited_at")]
             #[allow(dead_code)]
-            invited_at: u64,
+            invited_at: i64,
             #[serde(rename = "expires_at")]
             #[allow(dead_code)]
-            expires_at: u64,
+            expires_at: i64,
             #[serde(rename = "accepted_at")]
             #[allow(dead_code)]
-            accepted_at: Option<u64>,
+            accepted_at: Option<i64>,
             #[serde(rename = "projects")]
             #[allow(dead_code)]
             projects: Option<Vec<InviteProjects>>,
@@ -34355,12 +34355,12 @@ impl serde::Serialize for Invite {
             #[serde(rename = "status")]
             status: &'a InviteStatus,
             #[serde(rename = "invited_at")]
-            invited_at: &'a u64,
+            invited_at: &'a i64,
             #[serde(rename = "expires_at")]
-            expires_at: &'a u64,
+            expires_at: &'a i64,
             #[serde(rename = "accepted_at")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            accepted_at: &'a Option<u64>,
+            accepted_at: &'a Option<i64>,
             #[serde(rename = "projects")]
             #[serde(skip_serializing_if = "Option::is_none")]
             projects: &'a Option<Vec<InviteProjects>>,
@@ -34401,12 +34401,12 @@ pub struct Invite {
     #[doc = "`accepted`,`expired`, or `pending`"]
     pub status: InviteStatus,
     #[doc = "The Unix timestamp (in seconds) of when the invite was sent."]
-    pub invited_at: u64,
+    pub invited_at: i64,
     #[doc = "The Unix timestamp (in seconds) of when the invite expires."]
-    pub expires_at: u64,
+    pub expires_at: i64,
     #[doc = "The Unix timestamp (in seconds) of when the invite was accepted."]
     #[builder(default)]
-    pub accepted_at: Option<u64>,
+    pub accepted_at: Option<i64>,
     #[doc = "The projects that were granted membership upon acceptance of the invite."]
     #[builder(default)]
     pub projects: Option<Vec<InviteProjects>>,
@@ -36504,7 +36504,7 @@ impl<'de> serde::Deserialize<'de> for LocalShellExecAction {
             command: Vec<String>,
             #[serde(rename = "timeout_ms")]
             #[allow(dead_code)]
-            timeout_ms: Option<u64>,
+            timeout_ms: Option<i64>,
             #[serde(rename = "working_directory")]
             #[allow(dead_code)]
             working_directory: Option<String>,
@@ -36546,7 +36546,7 @@ impl serde::Serialize for LocalShellExecAction {
             command: &'a Vec<String>,
             #[serde(rename = "timeout_ms")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            timeout_ms: &'a Option<u64>,
+            timeout_ms: &'a Option<i64>,
             #[serde(rename = "working_directory")]
             #[serde(skip_serializing_if = "Option::is_none")]
             working_directory: &'a Option<String>,
@@ -36581,7 +36581,7 @@ pub struct LocalShellExecAction {
     pub command: Vec<String>,
     #[doc = "Optional timeout in milliseconds for the command.\n"]
     #[builder(default)]
-    pub timeout_ms: Option<u64>,
+    pub timeout_ms: Option<i64>,
     #[doc = "Optional working directory to run the command in.\n"]
     #[builder(default)]
     pub working_directory: Option<String>,
@@ -36902,7 +36902,7 @@ impl<'de> serde::Deserialize<'de> for LogProbProperties {
             logprob: f64,
             #[serde(rename = "bytes")]
             #[allow(dead_code)]
-            bytes: Vec<u64>,
+            bytes: Vec<i64>,
         }
         let LogProbProperties {
             token,
@@ -36930,7 +36930,7 @@ impl serde::Serialize for LogProbProperties {
             #[serde(rename = "logprob")]
             logprob: &'a f64,
             #[serde(rename = "bytes")]
-            bytes: &'a Vec<u64>,
+            bytes: &'a Vec<i64>,
         }
         let Self {
             token,
@@ -36953,7 +36953,7 @@ pub struct LogProbProperties {
     #[doc = "The log probability of the token.\n"]
     pub logprob: f64,
     #[doc = "The bytes that were used to generate the log probability.\n"]
-    pub bytes: Vec<u64>,
+    pub bytes: Vec<i64>,
 }
 impl<'de> serde::Deserialize<'de> for McpApprovalRequestType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -38515,10 +38515,10 @@ impl<'de> serde::Deserialize<'de> for MessageContentTextAnnotationsFileCitationO
             file_citation: MessageContentTextAnnotationsFileCitationObjectFileCitation,
             #[serde(rename = "start_index")]
             #[allow(dead_code)]
-            start_index: u64,
+            start_index: i64,
             #[serde(rename = "end_index")]
             #[allow(dead_code)]
-            end_index: u64,
+            end_index: i64,
         }
         let MessageContentTextAnnotationsFileCitationObject {
             text,
@@ -38550,9 +38550,9 @@ impl serde::Serialize for MessageContentTextAnnotationsFileCitationObject {
             #[serde(rename = "file_citation")]
             file_citation: &'a MessageContentTextAnnotationsFileCitationObjectFileCitation,
             #[serde(rename = "start_index")]
-            start_index: &'a u64,
+            start_index: &'a i64,
             #[serde(rename = "end_index")]
-            end_index: &'a u64,
+            end_index: &'a i64,
         }
         let Self {
             text,
@@ -38576,8 +38576,8 @@ pub struct MessageContentTextAnnotationsFileCitationObject {
     #[doc = "The text in the message content that needs to be replaced."]
     pub text: String,
     pub file_citation: MessageContentTextAnnotationsFileCitationObjectFileCitation,
-    pub start_index: u64,
-    pub end_index: u64,
+    pub start_index: i64,
+    pub end_index: i64,
 }
 impl<'de> serde::Deserialize<'de> for MessageContentTextAnnotationsFilePathObjectType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -38662,10 +38662,10 @@ impl<'de> serde::Deserialize<'de> for MessageContentTextAnnotationsFilePathObjec
             file_path: MessageContentTextAnnotationsFilePathObjectFilePath,
             #[serde(rename = "start_index")]
             #[allow(dead_code)]
-            start_index: u64,
+            start_index: i64,
             #[serde(rename = "end_index")]
             #[allow(dead_code)]
-            end_index: u64,
+            end_index: i64,
         }
         let MessageContentTextAnnotationsFilePathObject {
             text,
@@ -38697,9 +38697,9 @@ impl serde::Serialize for MessageContentTextAnnotationsFilePathObject {
             #[serde(rename = "file_path")]
             file_path: &'a MessageContentTextAnnotationsFilePathObjectFilePath,
             #[serde(rename = "start_index")]
-            start_index: &'a u64,
+            start_index: &'a i64,
             #[serde(rename = "end_index")]
-            end_index: &'a u64,
+            end_index: &'a i64,
         }
         let Self {
             text,
@@ -38723,8 +38723,8 @@ pub struct MessageContentTextAnnotationsFilePathObject {
     #[doc = "The text in the message content that needs to be replaced."]
     pub text: String,
     pub file_path: MessageContentTextAnnotationsFilePathObjectFilePath,
-    pub start_index: u64,
-    pub end_index: u64,
+    pub start_index: i64,
+    pub end_index: i64,
 }
 impl<'de> serde::Deserialize<'de> for MessageContentTextObjectType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -38943,7 +38943,7 @@ impl<'de> serde::Deserialize<'de> for MessageDeltaContentImageFileObject {
         struct MessageDeltaContentImageFileObject {
             #[serde(rename = "index")]
             #[allow(dead_code)]
-            index: u64,
+            index: i64,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: MessageDeltaContentImageFileObjectType,
@@ -38966,7 +38966,7 @@ impl serde::Serialize for MessageDeltaContentImageFileObject {
         #[derive(serde :: Serialize)]
         struct MessageDeltaContentImageFileObject<'a> {
             #[serde(rename = "index")]
-            index: &'a u64,
+            index: &'a i64,
             #[serde(rename = "type")]
             r#type: &'a MessageDeltaContentImageFileObjectType,
             #[serde(rename = "image_file")]
@@ -38986,7 +38986,7 @@ impl serde::Serialize for MessageDeltaContentImageFileObject {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct MessageDeltaContentImageFileObject {
     #[doc = "The index of the content part in the message."]
-    pub index: u64,
+    pub index: i64,
     #[builder(default)]
     pub image_file: Option<MessageDeltaContentImageFileObjectImageFile>,
 }
@@ -39089,7 +39089,7 @@ impl<'de> serde::Deserialize<'de> for MessageDeltaContentImageUrlObject {
         struct MessageDeltaContentImageUrlObject {
             #[serde(rename = "index")]
             #[allow(dead_code)]
-            index: u64,
+            index: i64,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: MessageDeltaContentImageUrlObjectType,
@@ -39112,7 +39112,7 @@ impl serde::Serialize for MessageDeltaContentImageUrlObject {
         #[derive(serde :: Serialize)]
         struct MessageDeltaContentImageUrlObject<'a> {
             #[serde(rename = "index")]
-            index: &'a u64,
+            index: &'a i64,
             #[serde(rename = "type")]
             r#type: &'a MessageDeltaContentImageUrlObjectType,
             #[serde(rename = "image_url")]
@@ -39132,7 +39132,7 @@ impl serde::Serialize for MessageDeltaContentImageUrlObject {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct MessageDeltaContentImageUrlObject {
     #[doc = "The index of the content part in the message."]
-    pub index: u64,
+    pub index: i64,
     #[builder(default)]
     pub image_url: Option<MessageDeltaContentImageUrlObjectImageUrl>,
 }
@@ -39173,7 +39173,7 @@ impl<'de> serde::Deserialize<'de> for MessageDeltaContentRefusalObject {
         struct MessageDeltaContentRefusalObject {
             #[serde(rename = "index")]
             #[allow(dead_code)]
-            index: u64,
+            index: i64,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: MessageDeltaContentRefusalObjectType,
@@ -39195,7 +39195,7 @@ impl serde::Serialize for MessageDeltaContentRefusalObject {
         #[derive(serde :: Serialize)]
         struct MessageDeltaContentRefusalObject<'a> {
             #[serde(rename = "index")]
-            index: &'a u64,
+            index: &'a i64,
             #[serde(rename = "type")]
             r#type: &'a MessageDeltaContentRefusalObjectType,
             #[serde(rename = "refusal")]
@@ -39215,7 +39215,7 @@ impl serde::Serialize for MessageDeltaContentRefusalObject {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct MessageDeltaContentRefusalObject {
     #[doc = "The index of the refusal part in the message."]
-    pub index: u64,
+    pub index: i64,
     #[builder(default)]
     pub refusal: Option<String>,
 }
@@ -39310,7 +39310,7 @@ impl<'de> serde::Deserialize<'de> for MessageDeltaContentTextAnnotationsFileCita
         struct MessageDeltaContentTextAnnotationsFileCitationObject {
             #[serde(rename = "index")]
             #[allow(dead_code)]
-            index: u64,
+            index: i64,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: MessageDeltaContentTextAnnotationsFileCitationObjectType,
@@ -39322,10 +39322,10 @@ impl<'de> serde::Deserialize<'de> for MessageDeltaContentTextAnnotationsFileCita
             file_citation: Option<MessageDeltaContentTextAnnotationsFileCitationObjectFileCitation>,
             #[serde(rename = "start_index")]
             #[allow(dead_code)]
-            start_index: Option<u64>,
+            start_index: Option<i64>,
             #[serde(rename = "end_index")]
             #[allow(dead_code)]
-            end_index: Option<u64>,
+            end_index: Option<i64>,
         }
         let MessageDeltaContentTextAnnotationsFileCitationObject {
             index,
@@ -39353,7 +39353,7 @@ impl serde::Serialize for MessageDeltaContentTextAnnotationsFileCitationObject {
         #[derive(serde :: Serialize)]
         struct MessageDeltaContentTextAnnotationsFileCitationObject<'a> {
             #[serde(rename = "index")]
-            index: &'a u64,
+            index: &'a i64,
             #[serde(rename = "type")]
             r#type: &'a MessageDeltaContentTextAnnotationsFileCitationObjectType,
             #[serde(rename = "text")]
@@ -39365,10 +39365,10 @@ impl serde::Serialize for MessageDeltaContentTextAnnotationsFileCitationObject {
                 &'a Option<MessageDeltaContentTextAnnotationsFileCitationObjectFileCitation>,
             #[serde(rename = "start_index")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            start_index: &'a Option<u64>,
+            start_index: &'a Option<i64>,
             #[serde(rename = "end_index")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            end_index: &'a Option<u64>,
+            end_index: &'a Option<i64>,
         }
         let Self {
             index,
@@ -39392,16 +39392,16 @@ impl serde::Serialize for MessageDeltaContentTextAnnotationsFileCitationObject {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct MessageDeltaContentTextAnnotationsFileCitationObject {
     #[doc = "The index of the annotation in the text content part."]
-    pub index: u64,
+    pub index: i64,
     #[doc = "The text in the message content that needs to be replaced."]
     #[builder(default)]
     pub text: Option<String>,
     #[builder(default)]
     pub file_citation: Option<MessageDeltaContentTextAnnotationsFileCitationObjectFileCitation>,
     #[builder(default)]
-    pub start_index: Option<u64>,
+    pub start_index: Option<i64>,
     #[builder(default)]
-    pub end_index: Option<u64>,
+    pub end_index: Option<i64>,
 }
 impl<'de> serde::Deserialize<'de> for MessageDeltaContentTextAnnotationsFilePathObjectType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -39479,7 +39479,7 @@ impl<'de> serde::Deserialize<'de> for MessageDeltaContentTextAnnotationsFilePath
         struct MessageDeltaContentTextAnnotationsFilePathObject {
             #[serde(rename = "index")]
             #[allow(dead_code)]
-            index: u64,
+            index: i64,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: MessageDeltaContentTextAnnotationsFilePathObjectType,
@@ -39491,10 +39491,10 @@ impl<'de> serde::Deserialize<'de> for MessageDeltaContentTextAnnotationsFilePath
             file_path: Option<MessageDeltaContentTextAnnotationsFilePathObjectFilePath>,
             #[serde(rename = "start_index")]
             #[allow(dead_code)]
-            start_index: Option<u64>,
+            start_index: Option<i64>,
             #[serde(rename = "end_index")]
             #[allow(dead_code)]
-            end_index: Option<u64>,
+            end_index: Option<i64>,
         }
         let MessageDeltaContentTextAnnotationsFilePathObject {
             index,
@@ -39522,7 +39522,7 @@ impl serde::Serialize for MessageDeltaContentTextAnnotationsFilePathObject {
         #[derive(serde :: Serialize)]
         struct MessageDeltaContentTextAnnotationsFilePathObject<'a> {
             #[serde(rename = "index")]
-            index: &'a u64,
+            index: &'a i64,
             #[serde(rename = "type")]
             r#type: &'a MessageDeltaContentTextAnnotationsFilePathObjectType,
             #[serde(rename = "text")]
@@ -39533,10 +39533,10 @@ impl serde::Serialize for MessageDeltaContentTextAnnotationsFilePathObject {
             file_path: &'a Option<MessageDeltaContentTextAnnotationsFilePathObjectFilePath>,
             #[serde(rename = "start_index")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            start_index: &'a Option<u64>,
+            start_index: &'a Option<i64>,
             #[serde(rename = "end_index")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            end_index: &'a Option<u64>,
+            end_index: &'a Option<i64>,
         }
         let Self {
             index,
@@ -39560,16 +39560,16 @@ impl serde::Serialize for MessageDeltaContentTextAnnotationsFilePathObject {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct MessageDeltaContentTextAnnotationsFilePathObject {
     #[doc = "The index of the annotation in the text content part."]
-    pub index: u64,
+    pub index: i64,
     #[doc = "The text in the message content that needs to be replaced."]
     #[builder(default)]
     pub text: Option<String>,
     #[builder(default)]
     pub file_path: Option<MessageDeltaContentTextAnnotationsFilePathObjectFilePath>,
     #[builder(default)]
-    pub start_index: Option<u64>,
+    pub start_index: Option<i64>,
     #[builder(default)]
-    pub end_index: Option<u64>,
+    pub end_index: Option<i64>,
 }
 impl<'de> serde::Deserialize<'de> for MessageDeltaContentTextObjectType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -39656,7 +39656,7 @@ impl<'de> serde::Deserialize<'de> for MessageDeltaContentTextObject {
         struct MessageDeltaContentTextObject {
             #[serde(rename = "index")]
             #[allow(dead_code)]
-            index: u64,
+            index: i64,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: MessageDeltaContentTextObjectType,
@@ -39678,7 +39678,7 @@ impl serde::Serialize for MessageDeltaContentTextObject {
         #[derive(serde :: Serialize)]
         struct MessageDeltaContentTextObject<'a> {
             #[serde(rename = "index")]
-            index: &'a u64,
+            index: &'a i64,
             #[serde(rename = "type")]
             r#type: &'a MessageDeltaContentTextObjectType,
             #[serde(rename = "text")]
@@ -39698,7 +39698,7 @@ impl serde::Serialize for MessageDeltaContentTextObject {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct MessageDeltaContentTextObject {
     #[doc = "The index of the content part in the message."]
-    pub index: u64,
+    pub index: i64,
     #[builder(default)]
     pub text: Option<MessageDeltaContentTextObjectText>,
 }
@@ -40064,7 +40064,7 @@ impl<'de> serde::Deserialize<'de> for MessageObject {
             object: MessageObjectObject,
             #[serde(rename = "created_at")]
             #[allow(dead_code)]
-            created_at: u64,
+            created_at: i64,
             #[serde(rename = "thread_id")]
             #[allow(dead_code)]
             thread_id: String,
@@ -40076,10 +40076,10 @@ impl<'de> serde::Deserialize<'de> for MessageObject {
             incomplete_details: Option<MessageObjectIncompleteDetails>,
             #[serde(rename = "completed_at")]
             #[allow(dead_code)]
-            completed_at: Option<u64>,
+            completed_at: Option<i64>,
             #[serde(rename = "incomplete_at")]
             #[allow(dead_code)]
-            incomplete_at: Option<u64>,
+            incomplete_at: Option<i64>,
             #[serde(rename = "role")]
             #[allow(dead_code)]
             role: MessageObjectRole,
@@ -40145,7 +40145,7 @@ impl serde::Serialize for MessageObject {
             #[serde(rename = "object")]
             object: &'a MessageObjectObject,
             #[serde(rename = "created_at")]
-            created_at: &'a u64,
+            created_at: &'a i64,
             #[serde(rename = "thread_id")]
             thread_id: &'a String,
             #[serde(rename = "status")]
@@ -40155,10 +40155,10 @@ impl serde::Serialize for MessageObject {
             incomplete_details: &'a Option<MessageObjectIncompleteDetails>,
             #[serde(rename = "completed_at")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            completed_at: &'a Option<u64>,
+            completed_at: &'a Option<i64>,
             #[serde(rename = "incomplete_at")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            incomplete_at: &'a Option<u64>,
+            incomplete_at: &'a Option<i64>,
             #[serde(rename = "role")]
             role: &'a MessageObjectRole,
             #[serde(rename = "content")]
@@ -40216,7 +40216,7 @@ pub struct MessageObject {
     #[doc = "The identifier, which can be referenced in API endpoints."]
     pub id: String,
     #[doc = "The Unix timestamp (in seconds) for when the message was created."]
-    pub created_at: u64,
+    pub created_at: i64,
     #[doc = "The [thread](https://platform.openai.com/docs/api-reference/threads) ID that this message belongs to."]
     pub thread_id: String,
     #[doc = "The status of the message, which can be either `in_progress`, `incomplete`, or `completed`."]
@@ -40226,10 +40226,10 @@ pub struct MessageObject {
     pub incomplete_details: Option<MessageObjectIncompleteDetails>,
     #[doc = "The Unix timestamp (in seconds) for when the message was completed."]
     #[builder(default)]
-    pub completed_at: Option<u64>,
+    pub completed_at: Option<i64>,
     #[doc = "The Unix timestamp (in seconds) for when the message was marked as incomplete."]
     #[builder(default)]
-    pub incomplete_at: Option<u64>,
+    pub incomplete_at: Option<i64>,
     #[doc = "The entity that produced the message. One of `user` or `assistant`."]
     pub role: MessageObjectRole,
     #[doc = "The content of the message in array of text and/or images."]
@@ -40807,7 +40807,7 @@ impl<'de> serde::Deserialize<'de> for Model {
             id: String,
             #[serde(rename = "created")]
             #[allow(dead_code)]
-            created: u64,
+            created: i64,
             #[serde(rename = "object")]
             #[allow(dead_code)]
             object: ModelObject,
@@ -40839,7 +40839,7 @@ impl serde::Serialize for Model {
             #[serde(rename = "id")]
             id: &'a String,
             #[serde(rename = "created")]
-            created: &'a u64,
+            created: &'a i64,
             #[serde(rename = "object")]
             object: &'a ModelObject,
             #[serde(rename = "owned_by")]
@@ -40865,7 +40865,7 @@ pub struct Model {
     #[doc = "The model identifier, which can be referenced in the API endpoints."]
     pub id: String,
     #[doc = "The Unix timestamp (in seconds) when the model was created."]
-    pub created: u64,
+    pub created: i64,
     #[doc = "The organization that owns the model."]
     pub owned_by: String,
 }
@@ -42023,10 +42023,10 @@ impl<'de> serde::Deserialize<'de> for Move {
             r#type: MoveType,
             #[serde(rename = "x")]
             #[allow(dead_code)]
-            x: u64,
+            x: i64,
             #[serde(rename = "y")]
             #[allow(dead_code)]
-            y: u64,
+            y: i64,
         }
         let Move { x, y, .. } = Move::deserialize(deserializer)?;
         Ok(Self { x, y })
@@ -42043,9 +42043,9 @@ impl serde::Serialize for Move {
             #[serde(rename = "type")]
             r#type: &'a MoveType,
             #[serde(rename = "x")]
-            x: &'a u64,
+            x: &'a i64,
             #[serde(rename = "y")]
-            y: &'a u64,
+            y: &'a i64,
         }
         let Self { x, y } = self;
         Move {
@@ -42060,9 +42060,9 @@ impl serde::Serialize for Move {
 #[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct Move {
     #[doc = "The x-coordinate to move to.\n"]
-    pub x: u64,
+    pub x: i64,
     #[doc = "The y-coordinate to move to.\n"]
-    pub y: u64,
+    pub y: i64,
 }
 impl<'de> serde::Deserialize<'de> for OpenAiFileObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -42142,13 +42142,13 @@ impl<'de> serde::Deserialize<'de> for OpenAiFile {
             id: String,
             #[serde(rename = "bytes")]
             #[allow(dead_code)]
-            bytes: u64,
+            bytes: i64,
             #[serde(rename = "created_at")]
             #[allow(dead_code)]
-            created_at: u64,
+            created_at: i64,
             #[serde(rename = "expires_at")]
             #[allow(dead_code)]
-            expires_at: Option<u64>,
+            expires_at: Option<i64>,
             #[serde(rename = "filename")]
             #[allow(dead_code)]
             filename: String,
@@ -42199,12 +42199,12 @@ impl serde::Serialize for OpenAiFile {
             #[serde(rename = "id")]
             id: &'a String,
             #[serde(rename = "bytes")]
-            bytes: &'a u64,
+            bytes: &'a i64,
             #[serde(rename = "created_at")]
-            created_at: &'a u64,
+            created_at: &'a i64,
             #[serde(rename = "expires_at")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            expires_at: &'a Option<u64>,
+            expires_at: &'a Option<i64>,
             #[serde(rename = "filename")]
             filename: &'a String,
             #[serde(rename = "object")]
@@ -42247,12 +42247,12 @@ pub struct OpenAiFile {
     #[doc = "The file identifier, which can be referenced in the API endpoints."]
     pub id: String,
     #[doc = "The size of the file, in bytes."]
-    pub bytes: u64,
+    pub bytes: i64,
     #[doc = "The Unix timestamp (in seconds) for when the file was created."]
-    pub created_at: u64,
+    pub created_at: i64,
     #[doc = "The Unix timestamp (in seconds) for when the file will expire."]
     #[builder(default)]
-    pub expires_at: Option<u64>,
+    pub expires_at: Option<i64>,
     #[doc = "The name of the file."]
     pub filename: String,
     #[doc = "The intended purpose of the file. Supported values are `assistants`, `assistants_output`, `batch`, `batch_output`, `fine-tune`, `fine-tune-results` and `vision`."]
@@ -42879,10 +42879,10 @@ impl<'de> serde::Deserialize<'de> for Project {
             name: String,
             #[serde(rename = "created_at")]
             #[allow(dead_code)]
-            created_at: u64,
+            created_at: i64,
             #[serde(rename = "archived_at")]
             #[allow(dead_code)]
-            archived_at: Option<u64>,
+            archived_at: Option<i64>,
             #[serde(rename = "status")]
             #[allow(dead_code)]
             status: ProjectStatus,
@@ -42919,10 +42919,10 @@ impl serde::Serialize for Project {
             #[serde(rename = "name")]
             name: &'a String,
             #[serde(rename = "created_at")]
-            created_at: &'a u64,
+            created_at: &'a i64,
             #[serde(rename = "archived_at")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            archived_at: &'a Option<u64>,
+            archived_at: &'a Option<i64>,
             #[serde(rename = "status")]
             status: &'a ProjectStatus,
         }
@@ -42952,10 +42952,10 @@ pub struct Project {
     #[doc = "The name of the project. This appears in reporting."]
     pub name: String,
     #[doc = "The Unix timestamp (in seconds) of when the project was created."]
-    pub created_at: u64,
+    pub created_at: i64,
     #[doc = "The Unix timestamp (in seconds) of when the project was archived or `null`."]
     #[builder(default)]
-    pub archived_at: Option<u64>,
+    pub archived_at: Option<i64>,
     #[doc = "`active` or `archived`"]
     pub status: ProjectStatus,
 }
@@ -43087,10 +43087,10 @@ impl<'de> serde::Deserialize<'de> for ProjectApiKey {
             name: String,
             #[serde(rename = "created_at")]
             #[allow(dead_code)]
-            created_at: u64,
+            created_at: i64,
             #[serde(rename = "last_used_at")]
             #[allow(dead_code)]
-            last_used_at: u64,
+            last_used_at: i64,
             #[serde(rename = "id")]
             #[allow(dead_code)]
             id: String,
@@ -43132,9 +43132,9 @@ impl serde::Serialize for ProjectApiKey {
             #[serde(rename = "name")]
             name: &'a String,
             #[serde(rename = "created_at")]
-            created_at: &'a u64,
+            created_at: &'a i64,
             #[serde(rename = "last_used_at")]
-            last_used_at: &'a u64,
+            last_used_at: &'a i64,
             #[serde(rename = "id")]
             id: &'a String,
             #[serde(rename = "owner")]
@@ -43168,9 +43168,9 @@ pub struct ProjectApiKey {
     #[doc = "The name of the API key"]
     pub name: String,
     #[doc = "The Unix timestamp (in seconds) of when the API key was created"]
-    pub created_at: u64,
+    pub created_at: i64,
     #[doc = "The Unix timestamp (in seconds) of when the API key was last used."]
-    pub last_used_at: u64,
+    pub last_used_at: i64,
     #[doc = "The identifier, which can be referenced in API endpoints"]
     pub id: String,
     #[builder(default)]
@@ -43553,22 +43553,22 @@ impl<'de> serde::Deserialize<'de> for ProjectRateLimit {
             model: String,
             #[serde(rename = "max_requests_per_1_minute")]
             #[allow(dead_code)]
-            max_requests_per_1_minute: u64,
+            max_requests_per_1_minute: i64,
             #[serde(rename = "max_tokens_per_1_minute")]
             #[allow(dead_code)]
-            max_tokens_per_1_minute: u64,
+            max_tokens_per_1_minute: i64,
             #[serde(rename = "max_images_per_1_minute")]
             #[allow(dead_code)]
-            max_images_per_1_minute: Option<u64>,
+            max_images_per_1_minute: Option<i64>,
             #[serde(rename = "max_audio_megabytes_per_1_minute")]
             #[allow(dead_code)]
-            max_audio_megabytes_per_1_minute: Option<u64>,
+            max_audio_megabytes_per_1_minute: Option<i64>,
             #[serde(rename = "max_requests_per_1_day")]
             #[allow(dead_code)]
-            max_requests_per_1_day: Option<u64>,
+            max_requests_per_1_day: Option<i64>,
             #[serde(rename = "batch_1_day_max_input_tokens")]
             #[allow(dead_code)]
-            batch_1_day_max_input_tokens: Option<u64>,
+            batch_1_day_max_input_tokens: Option<i64>,
         }
         let ProjectRateLimit {
             id,
@@ -43608,21 +43608,21 @@ impl serde::Serialize for ProjectRateLimit {
             #[serde(rename = "model")]
             model: &'a String,
             #[serde(rename = "max_requests_per_1_minute")]
-            max_requests_per_1_minute: &'a u64,
+            max_requests_per_1_minute: &'a i64,
             #[serde(rename = "max_tokens_per_1_minute")]
-            max_tokens_per_1_minute: &'a u64,
+            max_tokens_per_1_minute: &'a i64,
             #[serde(rename = "max_images_per_1_minute")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            max_images_per_1_minute: &'a Option<u64>,
+            max_images_per_1_minute: &'a Option<i64>,
             #[serde(rename = "max_audio_megabytes_per_1_minute")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            max_audio_megabytes_per_1_minute: &'a Option<u64>,
+            max_audio_megabytes_per_1_minute: &'a Option<i64>,
             #[serde(rename = "max_requests_per_1_day")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            max_requests_per_1_day: &'a Option<u64>,
+            max_requests_per_1_day: &'a Option<i64>,
             #[serde(rename = "batch_1_day_max_input_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            batch_1_day_max_input_tokens: &'a Option<u64>,
+            batch_1_day_max_input_tokens: &'a Option<i64>,
         }
         let Self {
             id,
@@ -43656,21 +43656,21 @@ pub struct ProjectRateLimit {
     #[doc = "The model this rate limit applies to."]
     pub model: String,
     #[doc = "The maximum requests per minute."]
-    pub max_requests_per_1_minute: u64,
+    pub max_requests_per_1_minute: i64,
     #[doc = "The maximum tokens per minute."]
-    pub max_tokens_per_1_minute: u64,
+    pub max_tokens_per_1_minute: i64,
     #[doc = "The maximum images per minute. Only present for relevant models."]
     #[builder(default)]
-    pub max_images_per_1_minute: Option<u64>,
+    pub max_images_per_1_minute: Option<i64>,
     #[doc = "The maximum audio megabytes per minute. Only present for relevant models."]
     #[builder(default)]
-    pub max_audio_megabytes_per_1_minute: Option<u64>,
+    pub max_audio_megabytes_per_1_minute: Option<i64>,
     #[doc = "The maximum requests per day. Only present for relevant models."]
     #[builder(default)]
-    pub max_requests_per_1_day: Option<u64>,
+    pub max_requests_per_1_day: Option<i64>,
     #[doc = "The maximum batch input tokens per day. Only present for relevant models."]
     #[builder(default)]
-    pub batch_1_day_max_input_tokens: Option<u64>,
+    pub batch_1_day_max_input_tokens: Option<i64>,
 }
 impl<'de> serde::Deserialize<'de> for ProjectRateLimitListResponseObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -43790,22 +43790,22 @@ impl<'de> serde::Deserialize<'de> for ProjectRateLimitUpdateRequest {
         struct ProjectRateLimitUpdateRequest {
             #[serde(rename = "max_requests_per_1_minute")]
             #[allow(dead_code)]
-            max_requests_per_1_minute: Option<u64>,
+            max_requests_per_1_minute: Option<i64>,
             #[serde(rename = "max_tokens_per_1_minute")]
             #[allow(dead_code)]
-            max_tokens_per_1_minute: Option<u64>,
+            max_tokens_per_1_minute: Option<i64>,
             #[serde(rename = "max_images_per_1_minute")]
             #[allow(dead_code)]
-            max_images_per_1_minute: Option<u64>,
+            max_images_per_1_minute: Option<i64>,
             #[serde(rename = "max_audio_megabytes_per_1_minute")]
             #[allow(dead_code)]
-            max_audio_megabytes_per_1_minute: Option<u64>,
+            max_audio_megabytes_per_1_minute: Option<i64>,
             #[serde(rename = "max_requests_per_1_day")]
             #[allow(dead_code)]
-            max_requests_per_1_day: Option<u64>,
+            max_requests_per_1_day: Option<i64>,
             #[serde(rename = "batch_1_day_max_input_tokens")]
             #[allow(dead_code)]
-            batch_1_day_max_input_tokens: Option<u64>,
+            batch_1_day_max_input_tokens: Option<i64>,
         }
         let ProjectRateLimitUpdateRequest {
             max_requests_per_1_minute,
@@ -43836,22 +43836,22 @@ impl serde::Serialize for ProjectRateLimitUpdateRequest {
         struct ProjectRateLimitUpdateRequest<'a> {
             #[serde(rename = "max_requests_per_1_minute")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            max_requests_per_1_minute: &'a Option<u64>,
+            max_requests_per_1_minute: &'a Option<i64>,
             #[serde(rename = "max_tokens_per_1_minute")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            max_tokens_per_1_minute: &'a Option<u64>,
+            max_tokens_per_1_minute: &'a Option<i64>,
             #[serde(rename = "max_images_per_1_minute")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            max_images_per_1_minute: &'a Option<u64>,
+            max_images_per_1_minute: &'a Option<i64>,
             #[serde(rename = "max_audio_megabytes_per_1_minute")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            max_audio_megabytes_per_1_minute: &'a Option<u64>,
+            max_audio_megabytes_per_1_minute: &'a Option<i64>,
             #[serde(rename = "max_requests_per_1_day")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            max_requests_per_1_day: &'a Option<u64>,
+            max_requests_per_1_day: &'a Option<i64>,
             #[serde(rename = "batch_1_day_max_input_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            batch_1_day_max_input_tokens: &'a Option<u64>,
+            batch_1_day_max_input_tokens: &'a Option<i64>,
         }
         let Self {
             max_requests_per_1_minute,
@@ -43876,22 +43876,22 @@ impl serde::Serialize for ProjectRateLimitUpdateRequest {
 pub struct ProjectRateLimitUpdateRequest {
     #[doc = "The maximum requests per minute."]
     #[builder(default)]
-    pub max_requests_per_1_minute: Option<u64>,
+    pub max_requests_per_1_minute: Option<i64>,
     #[doc = "The maximum tokens per minute."]
     #[builder(default)]
-    pub max_tokens_per_1_minute: Option<u64>,
+    pub max_tokens_per_1_minute: Option<i64>,
     #[doc = "The maximum images per minute. Only relevant for certain models."]
     #[builder(default)]
-    pub max_images_per_1_minute: Option<u64>,
+    pub max_images_per_1_minute: Option<i64>,
     #[doc = "The maximum audio megabytes per minute. Only relevant for certain models."]
     #[builder(default)]
-    pub max_audio_megabytes_per_1_minute: Option<u64>,
+    pub max_audio_megabytes_per_1_minute: Option<i64>,
     #[doc = "The maximum requests per day. Only relevant for certain models."]
     #[builder(default)]
-    pub max_requests_per_1_day: Option<u64>,
+    pub max_requests_per_1_day: Option<i64>,
     #[doc = "The maximum batch input tokens per day. Only relevant for certain models."]
     #[builder(default)]
-    pub batch_1_day_max_input_tokens: Option<u64>,
+    pub batch_1_day_max_input_tokens: Option<i64>,
 }
 impl<'de> serde::Deserialize<'de> for ProjectServiceAccountObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -43952,7 +43952,7 @@ impl<'de> serde::Deserialize<'de> for ProjectServiceAccount {
             role: ProjectServiceAccountRole,
             #[serde(rename = "created_at")]
             #[allow(dead_code)]
-            created_at: u64,
+            created_at: i64,
         }
         let ProjectServiceAccount {
             id,
@@ -43986,7 +43986,7 @@ impl serde::Serialize for ProjectServiceAccount {
             #[serde(rename = "role")]
             role: &'a ProjectServiceAccountRole,
             #[serde(rename = "created_at")]
-            created_at: &'a u64,
+            created_at: &'a i64,
         }
         let Self {
             id,
@@ -44014,7 +44014,7 @@ pub struct ProjectServiceAccount {
     #[doc = "`owner` or `member`"]
     pub role: ProjectServiceAccountRole,
     #[doc = "The Unix timestamp (in seconds) of when the service account was created"]
-    pub created_at: u64,
+    pub created_at: i64,
 }
 impl<'de> serde::Deserialize<'de> for ProjectServiceAccountApiKeyObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -44062,7 +44062,7 @@ impl<'de> serde::Deserialize<'de> for ProjectServiceAccountApiKey {
             name: String,
             #[serde(rename = "created_at")]
             #[allow(dead_code)]
-            created_at: u64,
+            created_at: i64,
             #[serde(rename = "id")]
             #[allow(dead_code)]
             id: String,
@@ -44097,7 +44097,7 @@ impl serde::Serialize for ProjectServiceAccountApiKey {
             #[serde(rename = "name")]
             name: &'a String,
             #[serde(rename = "created_at")]
-            created_at: &'a u64,
+            created_at: &'a i64,
             #[serde(rename = "id")]
             id: &'a String,
         }
@@ -44121,7 +44121,7 @@ impl serde::Serialize for ProjectServiceAccountApiKey {
 pub struct ProjectServiceAccountApiKey {
     pub value: String,
     pub name: String,
-    pub created_at: u64,
+    pub created_at: i64,
     pub id: String,
 }
 impl<'de> serde::Deserialize<'de> for ProjectServiceAccountCreateRequest {
@@ -44237,7 +44237,7 @@ impl<'de> serde::Deserialize<'de> for ProjectServiceAccountCreateResponse {
             role: ProjectServiceAccountCreateResponseRole,
             #[serde(rename = "created_at")]
             #[allow(dead_code)]
-            created_at: u64,
+            created_at: i64,
             #[serde(rename = "api_key")]
             #[allow(dead_code)]
             api_key: ProjectServiceAccountApiKey,
@@ -44274,7 +44274,7 @@ impl serde::Serialize for ProjectServiceAccountCreateResponse {
             #[serde(rename = "role")]
             role: &'a ProjectServiceAccountCreateResponseRole,
             #[serde(rename = "created_at")]
-            created_at: &'a u64,
+            created_at: &'a i64,
             #[serde(rename = "api_key")]
             api_key: &'a ProjectServiceAccountApiKey,
         }
@@ -44299,7 +44299,7 @@ impl serde::Serialize for ProjectServiceAccountCreateResponse {
 pub struct ProjectServiceAccountCreateResponse {
     pub id: String,
     pub name: String,
-    pub created_at: u64,
+    pub created_at: i64,
     pub api_key: ProjectServiceAccountApiKey,
 }
 impl<'de> serde::Deserialize<'de> for ProjectServiceAccountDeleteResponseObject {
@@ -44587,7 +44587,7 @@ impl<'de> serde::Deserialize<'de> for ProjectUser {
             role: ProjectUserRole,
             #[serde(rename = "added_at")]
             #[allow(dead_code)]
-            added_at: u64,
+            added_at: i64,
         }
         let ProjectUser {
             id,
@@ -44625,7 +44625,7 @@ impl serde::Serialize for ProjectUser {
             #[serde(rename = "role")]
             role: &'a ProjectUserRole,
             #[serde(rename = "added_at")]
-            added_at: &'a u64,
+            added_at: &'a i64,
         }
         let Self {
             id,
@@ -44657,7 +44657,7 @@ pub struct ProjectUser {
     #[doc = "`owner` or `member`"]
     pub role: ProjectUserRole,
     #[doc = "The Unix timestamp (in seconds) of when the project was added."]
-    pub added_at: u64,
+    pub added_at: i64,
 }
 #[doc = "`owner` or `member`"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
@@ -45383,10 +45383,10 @@ impl<'de> serde::Deserialize<'de> for RealtimeClientEventConversationItemTruncat
             item_id: String,
             #[serde(rename = "content_index")]
             #[allow(dead_code)]
-            content_index: u64,
+            content_index: i64,
             #[serde(rename = "audio_end_ms")]
             #[allow(dead_code)]
-            audio_end_ms: u64,
+            audio_end_ms: i64,
         }
         let RealtimeClientEventConversationItemTruncate {
             event_id,
@@ -45419,9 +45419,9 @@ impl serde::Serialize for RealtimeClientEventConversationItemTruncate {
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "content_index")]
-            content_index: &'a u64,
+            content_index: &'a i64,
             #[serde(rename = "audio_end_ms")]
-            audio_end_ms: &'a u64,
+            audio_end_ms: &'a i64,
         }
         let Self {
             event_id,
@@ -45448,9 +45448,9 @@ pub struct RealtimeClientEventConversationItemTruncate {
     #[doc = "The ID of the assistant message item to truncate. Only assistant message \nitems can be truncated.\n"]
     pub item_id: String,
     #[doc = "The index of the content part to truncate. Set this to 0."]
-    pub content_index: u64,
+    pub content_index: i64,
     #[doc = "Inclusive duration up to which audio is truncated, in milliseconds. If \nthe audio_end_ms is greater than the actual audio duration, the server \nwill respond with an error.\n"]
-    pub audio_end_ms: u64,
+    pub audio_end_ms: i64,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeClientEventInputAudioBufferAppendType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -46786,13 +46786,13 @@ impl<'de> serde::Deserialize<'de> for RealtimeResponseUsageInputTokenDetails {
         struct RealtimeResponseUsageInputTokenDetails {
             #[serde(rename = "cached_tokens")]
             #[allow(dead_code)]
-            cached_tokens: Option<u64>,
+            cached_tokens: Option<i64>,
             #[serde(rename = "text_tokens")]
             #[allow(dead_code)]
-            text_tokens: Option<u64>,
+            text_tokens: Option<i64>,
             #[serde(rename = "audio_tokens")]
             #[allow(dead_code)]
-            audio_tokens: Option<u64>,
+            audio_tokens: Option<i64>,
         }
         let RealtimeResponseUsageInputTokenDetails {
             cached_tokens,
@@ -46817,13 +46817,13 @@ impl serde::Serialize for RealtimeResponseUsageInputTokenDetails {
         struct RealtimeResponseUsageInputTokenDetails<'a> {
             #[serde(rename = "cached_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            cached_tokens: &'a Option<u64>,
+            cached_tokens: &'a Option<i64>,
             #[serde(rename = "text_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            text_tokens: &'a Option<u64>,
+            text_tokens: &'a Option<i64>,
             #[serde(rename = "audio_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            audio_tokens: &'a Option<u64>,
+            audio_tokens: &'a Option<i64>,
         }
         let Self {
             cached_tokens,
@@ -46843,13 +46843,13 @@ impl serde::Serialize for RealtimeResponseUsageInputTokenDetails {
 pub struct RealtimeResponseUsageInputTokenDetails {
     #[doc = "The number of cached tokens used in the Response."]
     #[builder(default)]
-    pub cached_tokens: Option<u64>,
+    pub cached_tokens: Option<i64>,
     #[doc = "The number of text tokens used in the Response."]
     #[builder(default)]
-    pub text_tokens: Option<u64>,
+    pub text_tokens: Option<i64>,
     #[doc = "The number of audio tokens used in the Response."]
     #[builder(default)]
-    pub audio_tokens: Option<u64>,
+    pub audio_tokens: Option<i64>,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeResponseUsageOutputTokenDetails {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -46861,10 +46861,10 @@ impl<'de> serde::Deserialize<'de> for RealtimeResponseUsageOutputTokenDetails {
         struct RealtimeResponseUsageOutputTokenDetails {
             #[serde(rename = "text_tokens")]
             #[allow(dead_code)]
-            text_tokens: Option<u64>,
+            text_tokens: Option<i64>,
             #[serde(rename = "audio_tokens")]
             #[allow(dead_code)]
-            audio_tokens: Option<u64>,
+            audio_tokens: Option<i64>,
         }
         let RealtimeResponseUsageOutputTokenDetails {
             text_tokens,
@@ -46887,10 +46887,10 @@ impl serde::Serialize for RealtimeResponseUsageOutputTokenDetails {
         struct RealtimeResponseUsageOutputTokenDetails<'a> {
             #[serde(rename = "text_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            text_tokens: &'a Option<u64>,
+            text_tokens: &'a Option<i64>,
             #[serde(rename = "audio_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            audio_tokens: &'a Option<u64>,
+            audio_tokens: &'a Option<i64>,
         }
         let Self {
             text_tokens,
@@ -46908,10 +46908,10 @@ impl serde::Serialize for RealtimeResponseUsageOutputTokenDetails {
 pub struct RealtimeResponseUsageOutputTokenDetails {
     #[doc = "The number of text tokens used in the Response."]
     #[builder(default)]
-    pub text_tokens: Option<u64>,
+    pub text_tokens: Option<i64>,
     #[doc = "The number of audio tokens used in the Response."]
     #[builder(default)]
-    pub audio_tokens: Option<u64>,
+    pub audio_tokens: Option<i64>,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeResponseUsage {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -46923,13 +46923,13 @@ impl<'de> serde::Deserialize<'de> for RealtimeResponseUsage {
         struct RealtimeResponseUsage {
             #[serde(rename = "total_tokens")]
             #[allow(dead_code)]
-            total_tokens: Option<u64>,
+            total_tokens: Option<i64>,
             #[serde(rename = "input_tokens")]
             #[allow(dead_code)]
-            input_tokens: Option<u64>,
+            input_tokens: Option<i64>,
             #[serde(rename = "output_tokens")]
             #[allow(dead_code)]
-            output_tokens: Option<u64>,
+            output_tokens: Option<i64>,
             #[serde(rename = "input_token_details")]
             #[allow(dead_code)]
             input_token_details: Option<RealtimeResponseUsageInputTokenDetails>,
@@ -46964,13 +46964,13 @@ impl serde::Serialize for RealtimeResponseUsage {
         struct RealtimeResponseUsage<'a> {
             #[serde(rename = "total_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            total_tokens: &'a Option<u64>,
+            total_tokens: &'a Option<i64>,
             #[serde(rename = "input_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            input_tokens: &'a Option<u64>,
+            input_tokens: &'a Option<i64>,
             #[serde(rename = "output_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            output_tokens: &'a Option<u64>,
+            output_tokens: &'a Option<i64>,
             #[serde(rename = "input_token_details")]
             #[serde(skip_serializing_if = "Option::is_none")]
             input_token_details: &'a Option<RealtimeResponseUsageInputTokenDetails>,
@@ -47000,13 +47000,13 @@ impl serde::Serialize for RealtimeResponseUsage {
 pub struct RealtimeResponseUsage {
     #[doc = "The total number of tokens in the Response including input and output \ntext and audio tokens.\n"]
     #[builder(default)]
-    pub total_tokens: Option<u64>,
+    pub total_tokens: Option<i64>,
     #[doc = "The number of input tokens used in the Response, including text and \naudio tokens.\n"]
     #[builder(default)]
-    pub input_tokens: Option<u64>,
+    pub input_tokens: Option<i64>,
     #[doc = "The number of output tokens sent in the Response, including text and \naudio tokens.\n"]
     #[builder(default)]
-    pub output_tokens: Option<u64>,
+    pub output_tokens: Option<i64>,
     #[doc = "Details about the input tokens used in the Response."]
     #[builder(default)]
     pub input_token_details: Option<RealtimeResponseUsageInputTokenDetails>,
@@ -47074,7 +47074,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeResponseMaxOutputTokens {
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum RealtimeResponseMaxOutputTokens {
             Inf(#[allow(dead_code)] RealtimeResponseMaxOutputTokensInf),
-            Integer(#[allow(dead_code)] u64),
+            Integer(#[allow(dead_code)] i64),
         }
         Ok(
             match RealtimeResponseMaxOutputTokens::deserialize(deserializer)? {
@@ -47094,7 +47094,7 @@ impl serde::Serialize for RealtimeResponseMaxOutputTokens {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum RealtimeResponseMaxOutputTokens<'a> {
-            Integer(#[allow(dead_code)] &'a u64),
+            Integer(#[allow(dead_code)] &'a i64),
             Inf(#[allow(dead_code)] &'a RealtimeResponseMaxOutputTokensInf),
         }
         match self {
@@ -47109,7 +47109,7 @@ impl serde::Serialize for RealtimeResponseMaxOutputTokens {
 #[derive(Clone, Copy, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeResponseMaxOutputTokens {
-    Integer(u64),
+    Integer(i64),
     #[doc = "inf"]
     Inf,
 }
@@ -47491,7 +47491,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeResponseCreateParamsMaxResponseOut
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum RealtimeResponseCreateParamsMaxResponseOutputTokens {
             Inf(#[allow(dead_code)] RealtimeResponseCreateParamsMaxResponseOutputTokensInf),
-            Integer(#[allow(dead_code)] u64),
+            Integer(#[allow(dead_code)] i64),
         }
         Ok(
             match RealtimeResponseCreateParamsMaxResponseOutputTokens::deserialize(deserializer)? {
@@ -47511,7 +47511,7 @@ impl serde::Serialize for RealtimeResponseCreateParamsMaxResponseOutputTokens {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum RealtimeResponseCreateParamsMaxResponseOutputTokens<'a> {
-            Integer(#[allow(dead_code)] &'a u64),
+            Integer(#[allow(dead_code)] &'a i64),
             Inf(#[allow(dead_code)] &'a RealtimeResponseCreateParamsMaxResponseOutputTokensInf),
         }
         match self {
@@ -47528,7 +47528,7 @@ impl serde::Serialize for RealtimeResponseCreateParamsMaxResponseOutputTokens {
 #[derive(Clone, Copy, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeResponseCreateParamsMaxResponseOutputTokens {
-    Integer(u64),
+    Integer(i64),
     #[doc = "inf"]
     Inf,
 }
@@ -48605,7 +48605,7 @@ impl<'de> serde::Deserialize<'de>
             item_id: String,
             #[serde(rename = "content_index")]
             #[allow(dead_code)]
-            content_index: u64,
+            content_index: i64,
             #[serde(rename = "transcript")]
             #[allow(dead_code)]
             transcript: String,
@@ -48647,7 +48647,7 @@ impl serde::Serialize for RealtimeServerEventConversationItemInputAudioTranscrip
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "content_index")]
-            content_index: &'a u64,
+            content_index: &'a i64,
             #[serde(rename = "transcript")]
             transcript: &'a String,
             #[serde(rename = "logprobs")]
@@ -48680,7 +48680,7 @@ pub struct RealtimeServerEventConversationItemInputAudioTranscriptionCompleted {
     #[doc = "The ID of the user message item containing the audio."]
     pub item_id: String,
     #[doc = "The index of the content part containing the audio."]
-    pub content_index: u64,
+    pub content_index: i64,
     #[doc = "The transcribed text."]
     pub transcript: String,
     #[doc = "The log probabilities of the transcription."]
@@ -48737,7 +48737,7 @@ impl<'de> serde::Deserialize<'de>
             item_id: String,
             #[serde(rename = "content_index")]
             #[allow(dead_code)]
-            content_index: Option<u64>,
+            content_index: Option<i64>,
             #[serde(rename = "delta")]
             #[allow(dead_code)]
             delta: Option<String>,
@@ -48780,7 +48780,7 @@ impl serde::Serialize for RealtimeServerEventConversationItemInputAudioTranscrip
             item_id: &'a String,
             #[serde(rename = "content_index")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            content_index: &'a Option<u64>,
+            content_index: &'a Option<i64>,
             #[serde(rename = "delta")]
             #[serde(skip_serializing_if = "Option::is_none")]
             delta: &'a Option<String>,
@@ -48815,7 +48815,7 @@ pub struct RealtimeServerEventConversationItemInputAudioTranscriptionDelta {
     pub item_id: String,
     #[doc = "The index of the content part in the item's content array."]
     #[builder(default)]
-    pub content_index: Option<u64>,
+    pub content_index: Option<i64>,
     #[doc = "The text delta."]
     #[builder(default)]
     pub delta: Option<String>,
@@ -48965,7 +48965,7 @@ impl<'de> serde::Deserialize<'de>
             item_id: String,
             #[serde(rename = "content_index")]
             #[allow(dead_code)]
-            content_index: u64,
+            content_index: i64,
             #[serde(rename = "error")]
             #[allow(dead_code)]
             error: RealtimeServerEventConversationItemInputAudioTranscriptionFailedError,
@@ -49002,7 +49002,7 @@ impl serde::Serialize for RealtimeServerEventConversationItemInputAudioTranscrip
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "content_index")]
-            content_index: &'a u64,
+            content_index: &'a i64,
             #[serde(rename = "error")]
             error: &'a RealtimeServerEventConversationItemInputAudioTranscriptionFailedError,
         }
@@ -49030,7 +49030,7 @@ pub struct RealtimeServerEventConversationItemInputAudioTranscriptionFailed {
     #[doc = "The ID of the user message item."]
     pub item_id: String,
     #[doc = "The index of the content part containing the audio."]
-    pub content_index: u64,
+    pub content_index: i64,
     #[doc = "Details of the transcription error."]
     #[builder(default)]
     pub error: RealtimeServerEventConversationItemInputAudioTranscriptionFailedError,
@@ -49163,10 +49163,10 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventConversationItemTruncat
             item_id: String,
             #[serde(rename = "content_index")]
             #[allow(dead_code)]
-            content_index: u64,
+            content_index: i64,
             #[serde(rename = "audio_end_ms")]
             #[allow(dead_code)]
-            audio_end_ms: u64,
+            audio_end_ms: i64,
         }
         let RealtimeServerEventConversationItemTruncated {
             event_id,
@@ -49198,9 +49198,9 @@ impl serde::Serialize for RealtimeServerEventConversationItemTruncated {
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "content_index")]
-            content_index: &'a u64,
+            content_index: &'a i64,
             #[serde(rename = "audio_end_ms")]
-            audio_end_ms: &'a u64,
+            audio_end_ms: &'a i64,
         }
         let Self {
             event_id,
@@ -49226,9 +49226,9 @@ pub struct RealtimeServerEventConversationItemTruncated {
     #[doc = "The ID of the assistant message item that was truncated."]
     pub item_id: String,
     #[doc = "The index of the content part that was truncated."]
-    pub content_index: u64,
+    pub content_index: i64,
     #[doc = "The duration up to which the audio was truncated, in milliseconds.\n"]
-    pub audio_end_ms: u64,
+    pub audio_end_ms: i64,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeServerEventErrorType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -49629,7 +49629,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventInputAudioBufferSpeechS
             r#type: RealtimeServerEventInputAudioBufferSpeechStartedType,
             #[serde(rename = "audio_start_ms")]
             #[allow(dead_code)]
-            audio_start_ms: u64,
+            audio_start_ms: i64,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
@@ -49660,7 +49660,7 @@ impl serde::Serialize for RealtimeServerEventInputAudioBufferSpeechStarted {
             #[serde(rename = "type")]
             r#type: &'a RealtimeServerEventInputAudioBufferSpeechStartedType,
             #[serde(rename = "audio_start_ms")]
-            audio_start_ms: &'a u64,
+            audio_start_ms: &'a i64,
             #[serde(rename = "item_id")]
             item_id: &'a String,
         }
@@ -49684,7 +49684,7 @@ pub struct RealtimeServerEventInputAudioBufferSpeechStarted {
     #[doc = "The unique ID of the server event."]
     pub event_id: String,
     #[doc = "Milliseconds from the start of all audio written to the buffer during the \nsession when speech was first detected. This will correspond to the \nbeginning of audio sent to the model, and thus includes the \n`prefix_padding_ms` configured in the Session.\n"]
-    pub audio_start_ms: u64,
+    pub audio_start_ms: i64,
     #[doc = "The ID of the user message item that will be created when speech stops.\n"]
     pub item_id: String,
 }
@@ -49731,7 +49731,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventInputAudioBufferSpeechS
             r#type: RealtimeServerEventInputAudioBufferSpeechStoppedType,
             #[serde(rename = "audio_end_ms")]
             #[allow(dead_code)]
-            audio_end_ms: u64,
+            audio_end_ms: i64,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
@@ -49762,7 +49762,7 @@ impl serde::Serialize for RealtimeServerEventInputAudioBufferSpeechStopped {
             #[serde(rename = "type")]
             r#type: &'a RealtimeServerEventInputAudioBufferSpeechStoppedType,
             #[serde(rename = "audio_end_ms")]
-            audio_end_ms: &'a u64,
+            audio_end_ms: &'a i64,
             #[serde(rename = "item_id")]
             item_id: &'a String,
         }
@@ -49786,7 +49786,7 @@ pub struct RealtimeServerEventInputAudioBufferSpeechStopped {
     #[doc = "The unique ID of the server event."]
     pub event_id: String,
     #[doc = "Milliseconds since the session started when speech stopped. This will \ncorrespond to the end of audio sent to the model, and thus includes the \n`min_silence_duration_ms` configured in the Session.\n"]
-    pub audio_end_ms: u64,
+    pub audio_end_ms: i64,
     #[doc = "The ID of the user message item that will be created."]
     pub item_id: String,
 }
@@ -50113,10 +50113,10 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventRateLimitsUpdatedRateLi
             name: Option<RealtimeServerEventRateLimitsUpdatedRateLimitsName>,
             #[serde(rename = "limit")]
             #[allow(dead_code)]
-            limit: Option<u64>,
+            limit: Option<i64>,
             #[serde(rename = "remaining")]
             #[allow(dead_code)]
-            remaining: Option<u64>,
+            remaining: Option<i64>,
             #[serde(rename = "reset_seconds")]
             #[allow(dead_code)]
             reset_seconds: Option<f64>,
@@ -50149,10 +50149,10 @@ impl serde::Serialize for RealtimeServerEventRateLimitsUpdatedRateLimits {
             name: &'a Option<RealtimeServerEventRateLimitsUpdatedRateLimitsName>,
             #[serde(rename = "limit")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            limit: &'a Option<u64>,
+            limit: &'a Option<i64>,
             #[serde(rename = "remaining")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            remaining: &'a Option<u64>,
+            remaining: &'a Option<i64>,
             #[serde(rename = "reset_seconds")]
             #[serde(skip_serializing_if = "Option::is_none")]
             reset_seconds: &'a Option<f64>,
@@ -50179,10 +50179,10 @@ pub struct RealtimeServerEventRateLimitsUpdatedRateLimits {
     pub name: Option<RealtimeServerEventRateLimitsUpdatedRateLimitsName>,
     #[doc = "The maximum allowed value for the rate limit."]
     #[builder(default)]
-    pub limit: Option<u64>,
+    pub limit: Option<i64>,
     #[doc = "The remaining value before the limit is reached."]
     #[builder(default)]
-    pub remaining: Option<u64>,
+    pub remaining: Option<i64>,
     #[doc = "Seconds until the rate limit resets."]
     #[builder(default)]
     pub reset_seconds: Option<f64>,
@@ -50300,10 +50300,10 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseAudioDelta {
             item_id: String,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "content_index")]
             #[allow(dead_code)]
-            content_index: u64,
+            content_index: i64,
             #[serde(rename = "delta")]
             #[allow(dead_code)]
             delta: String,
@@ -50344,9 +50344,9 @@ impl serde::Serialize for RealtimeServerEventResponseAudioDelta {
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "content_index")]
-            content_index: &'a u64,
+            content_index: &'a i64,
             #[serde(rename = "delta")]
             delta: &'a String,
         }
@@ -50380,9 +50380,9 @@ pub struct RealtimeServerEventResponseAudioDelta {
     #[doc = "The ID of the item."]
     pub item_id: String,
     #[doc = "The index of the output item in the response."]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The index of the content part in the item's content array."]
-    pub content_index: u64,
+    pub content_index: i64,
     #[doc = "Base64-encoded audio data delta."]
     pub delta: String,
 }
@@ -50435,10 +50435,10 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseAudioDone {
             item_id: String,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "content_index")]
             #[allow(dead_code)]
-            content_index: u64,
+            content_index: i64,
         }
         let RealtimeServerEventResponseAudioDone {
             event_id,
@@ -50474,9 +50474,9 @@ impl serde::Serialize for RealtimeServerEventResponseAudioDone {
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "content_index")]
-            content_index: &'a u64,
+            content_index: &'a i64,
         }
         let Self {
             event_id,
@@ -50506,9 +50506,9 @@ pub struct RealtimeServerEventResponseAudioDone {
     #[doc = "The ID of the item."]
     pub item_id: String,
     #[doc = "The index of the output item in the response."]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The index of the content part in the item's content array."]
-    pub content_index: u64,
+    pub content_index: i64,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseAudioTranscriptDeltaType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -50559,10 +50559,10 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseAudioTranscript
             item_id: String,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "content_index")]
             #[allow(dead_code)]
-            content_index: u64,
+            content_index: i64,
             #[serde(rename = "delta")]
             #[allow(dead_code)]
             delta: String,
@@ -50603,9 +50603,9 @@ impl serde::Serialize for RealtimeServerEventResponseAudioTranscriptDelta {
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "content_index")]
-            content_index: &'a u64,
+            content_index: &'a i64,
             #[serde(rename = "delta")]
             delta: &'a String,
         }
@@ -50639,9 +50639,9 @@ pub struct RealtimeServerEventResponseAudioTranscriptDelta {
     #[doc = "The ID of the item."]
     pub item_id: String,
     #[doc = "The index of the output item in the response."]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The index of the content part in the item's content array."]
-    pub content_index: u64,
+    pub content_index: i64,
     #[doc = "The transcript delta."]
     pub delta: String,
 }
@@ -50694,10 +50694,10 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseAudioTranscript
             item_id: String,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "content_index")]
             #[allow(dead_code)]
-            content_index: u64,
+            content_index: i64,
             #[serde(rename = "transcript")]
             #[allow(dead_code)]
             transcript: String,
@@ -50738,9 +50738,9 @@ impl serde::Serialize for RealtimeServerEventResponseAudioTranscriptDone {
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "content_index")]
-            content_index: &'a u64,
+            content_index: &'a i64,
             #[serde(rename = "transcript")]
             transcript: &'a String,
         }
@@ -50774,9 +50774,9 @@ pub struct RealtimeServerEventResponseAudioTranscriptDone {
     #[doc = "The ID of the item."]
     pub item_id: String,
     #[doc = "The index of the output item in the response."]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The index of the content part in the item's content array."]
-    pub content_index: u64,
+    pub content_index: i64,
     #[doc = "The final transcript of the audio."]
     pub transcript: String,
 }
@@ -50927,10 +50927,10 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseContentPartAdde
             item_id: String,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "content_index")]
             #[allow(dead_code)]
-            content_index: u64,
+            content_index: i64,
             #[serde(rename = "part")]
             #[allow(dead_code)]
             part: RealtimeServerEventResponseContentPartAddedPart,
@@ -50971,9 +50971,9 @@ impl serde::Serialize for RealtimeServerEventResponseContentPartAdded {
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "content_index")]
-            content_index: &'a u64,
+            content_index: &'a i64,
             #[serde(rename = "part")]
             part: &'a RealtimeServerEventResponseContentPartAddedPart,
         }
@@ -51007,9 +51007,9 @@ pub struct RealtimeServerEventResponseContentPartAdded {
     #[doc = "The ID of the item to which the content part was added."]
     pub item_id: String,
     #[doc = "The index of the output item in the response."]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The index of the content part in the item's content array."]
-    pub content_index: u64,
+    pub content_index: i64,
     #[doc = "The content part that was added."]
     #[builder(default)]
     pub part: RealtimeServerEventResponseContentPartAddedPart,
@@ -51161,10 +51161,10 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseContentPartDone
             item_id: String,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "content_index")]
             #[allow(dead_code)]
-            content_index: u64,
+            content_index: i64,
             #[serde(rename = "part")]
             #[allow(dead_code)]
             part: RealtimeServerEventResponseContentPartDonePart,
@@ -51205,9 +51205,9 @@ impl serde::Serialize for RealtimeServerEventResponseContentPartDone {
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "content_index")]
-            content_index: &'a u64,
+            content_index: &'a i64,
             #[serde(rename = "part")]
             part: &'a RealtimeServerEventResponseContentPartDonePart,
         }
@@ -51241,9 +51241,9 @@ pub struct RealtimeServerEventResponseContentPartDone {
     #[doc = "The ID of the item."]
     pub item_id: String,
     #[doc = "The index of the output item in the response."]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The index of the content part in the item's content array."]
-    pub content_index: u64,
+    pub content_index: i64,
     #[doc = "The content part that is done."]
     #[builder(default)]
     pub part: RealtimeServerEventResponseContentPartDonePart,
@@ -51463,7 +51463,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseFunctionCallArg
             item_id: String,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "call_id")]
             #[allow(dead_code)]
             call_id: String,
@@ -51507,7 +51507,7 @@ impl serde::Serialize for RealtimeServerEventResponseFunctionCallArgumentsDelta 
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "call_id")]
             call_id: &'a String,
             #[serde(rename = "delta")]
@@ -51543,7 +51543,7 @@ pub struct RealtimeServerEventResponseFunctionCallArgumentsDelta {
     #[doc = "The ID of the function call item."]
     pub item_id: String,
     #[doc = "The index of the output item in the response."]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The ID of the function call."]
     pub call_id: String,
     #[doc = "The arguments delta as a JSON string."]
@@ -51598,7 +51598,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseFunctionCallArg
             item_id: String,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "call_id")]
             #[allow(dead_code)]
             call_id: String,
@@ -51642,7 +51642,7 @@ impl serde::Serialize for RealtimeServerEventResponseFunctionCallArgumentsDone {
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "call_id")]
             call_id: &'a String,
             #[serde(rename = "arguments")]
@@ -51678,7 +51678,7 @@ pub struct RealtimeServerEventResponseFunctionCallArgumentsDone {
     #[doc = "The ID of the function call item."]
     pub item_id: String,
     #[doc = "The index of the output item in the response."]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The ID of the function call."]
     pub call_id: String,
     #[doc = "The final arguments as a JSON string."]
@@ -51730,7 +51730,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseOutputItemAdded
             response_id: String,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "item")]
             #[allow(dead_code)]
             item: RealtimeConversationItem,
@@ -51765,7 +51765,7 @@ impl serde::Serialize for RealtimeServerEventResponseOutputItemAdded {
             #[serde(rename = "response_id")]
             response_id: &'a String,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "item")]
             item: &'a RealtimeConversationItem,
         }
@@ -51793,7 +51793,7 @@ pub struct RealtimeServerEventResponseOutputItemAdded {
     #[doc = "The ID of the Response to which the item belongs."]
     pub response_id: String,
     #[doc = "The index of the output item in the Response."]
-    pub output_index: u64,
+    pub output_index: i64,
     #[builder(default)]
     pub item: RealtimeConversationItem,
 }
@@ -51843,7 +51843,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseOutputItemDone 
             response_id: String,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "item")]
             #[allow(dead_code)]
             item: RealtimeConversationItem,
@@ -51878,7 +51878,7 @@ impl serde::Serialize for RealtimeServerEventResponseOutputItemDone {
             #[serde(rename = "response_id")]
             response_id: &'a String,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "item")]
             item: &'a RealtimeConversationItem,
         }
@@ -51906,7 +51906,7 @@ pub struct RealtimeServerEventResponseOutputItemDone {
     #[doc = "The ID of the Response to which the item belongs."]
     pub response_id: String,
     #[doc = "The index of the output item in the Response."]
-    pub output_index: u64,
+    pub output_index: i64,
     #[builder(default)]
     pub item: RealtimeConversationItem,
 }
@@ -51959,10 +51959,10 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseTextDelta {
             item_id: String,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "content_index")]
             #[allow(dead_code)]
-            content_index: u64,
+            content_index: i64,
             #[serde(rename = "delta")]
             #[allow(dead_code)]
             delta: String,
@@ -52003,9 +52003,9 @@ impl serde::Serialize for RealtimeServerEventResponseTextDelta {
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "content_index")]
-            content_index: &'a u64,
+            content_index: &'a i64,
             #[serde(rename = "delta")]
             delta: &'a String,
         }
@@ -52039,9 +52039,9 @@ pub struct RealtimeServerEventResponseTextDelta {
     #[doc = "The ID of the item."]
     pub item_id: String,
     #[doc = "The index of the output item in the response."]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The index of the content part in the item's content array."]
-    pub content_index: u64,
+    pub content_index: i64,
     #[doc = "The text delta."]
     pub delta: String,
 }
@@ -52094,10 +52094,10 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseTextDone {
             item_id: String,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "content_index")]
             #[allow(dead_code)]
-            content_index: u64,
+            content_index: i64,
             #[serde(rename = "text")]
             #[allow(dead_code)]
             text: String,
@@ -52138,9 +52138,9 @@ impl serde::Serialize for RealtimeServerEventResponseTextDone {
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "content_index")]
-            content_index: &'a u64,
+            content_index: &'a i64,
             #[serde(rename = "text")]
             text: &'a String,
         }
@@ -52174,9 +52174,9 @@ pub struct RealtimeServerEventResponseTextDone {
     #[doc = "The ID of the item."]
     pub item_id: String,
     #[doc = "The index of the output item in the response."]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The index of the content part in the item's content array."]
-    pub content_index: u64,
+    pub content_index: i64,
     #[doc = "The final text content."]
     pub text: String,
 }
@@ -52609,10 +52609,10 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionTurnDetection {
             threshold: Option<f64>,
             #[serde(rename = "prefix_padding_ms")]
             #[allow(dead_code)]
-            prefix_padding_ms: Option<u64>,
+            prefix_padding_ms: Option<i64>,
             #[serde(rename = "silence_duration_ms")]
             #[allow(dead_code)]
-            silence_duration_ms: Option<u64>,
+            silence_duration_ms: Option<i64>,
             #[serde(rename = "create_response")]
             #[allow(dead_code)]
             create_response: Option<bool>,
@@ -52660,10 +52660,10 @@ impl serde::Serialize for RealtimeSessionTurnDetection {
             threshold: &'a Option<f64>,
             #[serde(rename = "prefix_padding_ms")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            prefix_padding_ms: &'a Option<u64>,
+            prefix_padding_ms: &'a Option<i64>,
             #[serde(rename = "silence_duration_ms")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            silence_duration_ms: &'a Option<u64>,
+            silence_duration_ms: &'a Option<i64>,
             #[serde(rename = "create_response")]
             #[serde(skip_serializing_if = "Option::is_none")]
             create_response: &'a Option<bool>,
@@ -52706,10 +52706,10 @@ pub struct RealtimeSessionTurnDetection {
     pub threshold: Option<f64>,
     #[doc = "Used only for `server_vad` mode. Amount of audio to include before the VAD detected speech (in \nmilliseconds). Defaults to 300ms.\n"]
     #[builder(default)]
-    pub prefix_padding_ms: Option<u64>,
+    pub prefix_padding_ms: Option<i64>,
     #[doc = "Used only for `server_vad` mode. Duration of silence to detect speech stop (in milliseconds). Defaults \nto 500ms. With shorter values the model will respond more quickly, \nbut may jump in on short pauses from the user.\n"]
     #[builder(default)]
-    pub silence_duration_ms: Option<u64>,
+    pub silence_duration_ms: Option<i64>,
     #[doc = "Whether or not to automatically generate a response when a VAD stop event occurs.\n"]
     #[builder(default)]
     pub create_response: Option<bool>,
@@ -53068,7 +53068,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionMaxResponseOutputTokens {
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum RealtimeSessionMaxResponseOutputTokens {
             Inf(#[allow(dead_code)] RealtimeSessionMaxResponseOutputTokensInf),
-            Integer(#[allow(dead_code)] u64),
+            Integer(#[allow(dead_code)] i64),
         }
         Ok(
             match RealtimeSessionMaxResponseOutputTokens::deserialize(deserializer)? {
@@ -53088,7 +53088,7 @@ impl serde::Serialize for RealtimeSessionMaxResponseOutputTokens {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum RealtimeSessionMaxResponseOutputTokens<'a> {
-            Integer(#[allow(dead_code)] &'a u64),
+            Integer(#[allow(dead_code)] &'a i64),
             Inf(#[allow(dead_code)] &'a RealtimeSessionMaxResponseOutputTokensInf),
         }
         match self {
@@ -53104,7 +53104,7 @@ impl serde::Serialize for RealtimeSessionMaxResponseOutputTokens {
 #[derive(Clone, Copy, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionMaxResponseOutputTokens {
-    Integer(u64),
+    Integer(i64),
     #[doc = "inf"]
     Inf,
 }
@@ -53533,10 +53533,10 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateRequestTurnDetection 
             threshold: Option<f64>,
             #[serde(rename = "prefix_padding_ms")]
             #[allow(dead_code)]
-            prefix_padding_ms: Option<u64>,
+            prefix_padding_ms: Option<i64>,
             #[serde(rename = "silence_duration_ms")]
             #[allow(dead_code)]
-            silence_duration_ms: Option<u64>,
+            silence_duration_ms: Option<i64>,
             #[serde(rename = "create_response")]
             #[allow(dead_code)]
             create_response: Option<bool>,
@@ -53584,10 +53584,10 @@ impl serde::Serialize for RealtimeSessionCreateRequestTurnDetection {
             threshold: &'a Option<f64>,
             #[serde(rename = "prefix_padding_ms")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            prefix_padding_ms: &'a Option<u64>,
+            prefix_padding_ms: &'a Option<i64>,
             #[serde(rename = "silence_duration_ms")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            silence_duration_ms: &'a Option<u64>,
+            silence_duration_ms: &'a Option<i64>,
             #[serde(rename = "create_response")]
             #[serde(skip_serializing_if = "Option::is_none")]
             create_response: &'a Option<bool>,
@@ -53630,10 +53630,10 @@ pub struct RealtimeSessionCreateRequestTurnDetection {
     pub threshold: Option<f64>,
     #[doc = "Used only for `server_vad` mode. Amount of audio to include before the VAD detected speech (in\nmilliseconds). Defaults to 300ms.\n"]
     #[builder(default)]
-    pub prefix_padding_ms: Option<u64>,
+    pub prefix_padding_ms: Option<i64>,
     #[doc = "Used only for `server_vad` mode. Duration of silence to detect speech stop (in milliseconds). Defaults\nto 500ms. With shorter values the model will respond more quickly,\nbut may jump in on short pauses from the user.\n"]
     #[builder(default)]
-    pub silence_duration_ms: Option<u64>,
+    pub silence_duration_ms: Option<i64>,
     #[doc = "Whether or not to automatically generate a response when a VAD stop event occurs.\n"]
     #[builder(default)]
     pub create_response: Option<bool>,
@@ -53996,7 +53996,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateRequestMaxResponseOut
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum RealtimeSessionCreateRequestMaxResponseOutputTokens {
             Inf(#[allow(dead_code)] RealtimeSessionCreateRequestMaxResponseOutputTokensInf),
-            Integer(#[allow(dead_code)] u64),
+            Integer(#[allow(dead_code)] i64),
         }
         Ok(
             match RealtimeSessionCreateRequestMaxResponseOutputTokens::deserialize(deserializer)? {
@@ -54016,7 +54016,7 @@ impl serde::Serialize for RealtimeSessionCreateRequestMaxResponseOutputTokens {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum RealtimeSessionCreateRequestMaxResponseOutputTokens<'a> {
-            Integer(#[allow(dead_code)] &'a u64),
+            Integer(#[allow(dead_code)] &'a i64),
             Inf(#[allow(dead_code)] &'a RealtimeSessionCreateRequestMaxResponseOutputTokensInf),
         }
         match self {
@@ -54033,7 +54033,7 @@ impl serde::Serialize for RealtimeSessionCreateRequestMaxResponseOutputTokens {
 #[derive(Clone, Copy, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionCreateRequestMaxResponseOutputTokens {
-    Integer(u64),
+    Integer(i64),
     #[doc = "inf"]
     Inf,
 }
@@ -54058,7 +54058,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateRequestClientSecretEx
             anchor: Option<RealtimeSessionCreateRequestClientSecretExpiresAtAnchor>,
             #[serde(rename = "seconds")]
             #[allow(dead_code)]
-            seconds: Option<u64>,
+            seconds: Option<i64>,
         }
         let RealtimeSessionCreateRequestClientSecretExpiresAt {
             anchor, seconds, ..
@@ -54079,7 +54079,7 @@ impl serde::Serialize for RealtimeSessionCreateRequestClientSecretExpiresAt {
             anchor: &'a Option<RealtimeSessionCreateRequestClientSecretExpiresAtAnchor>,
             #[serde(rename = "seconds")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            seconds: &'a Option<u64>,
+            seconds: &'a Option<i64>,
         }
         let Self { anchor, seconds } = self;
         RealtimeSessionCreateRequestClientSecretExpiresAt { anchor, seconds }.serialize(serializer)
@@ -54093,7 +54093,7 @@ pub struct RealtimeSessionCreateRequestClientSecretExpiresAt {
     pub anchor: Option<RealtimeSessionCreateRequestClientSecretExpiresAtAnchor>,
     #[doc = "The number of seconds from the anchor point to the expiration. Select a value between `10` and `7200`.\n"]
     #[builder(default)]
-    pub seconds: Option<u64>,
+    pub seconds: Option<i64>,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateRequestClientSecret {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -54396,7 +54396,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateResponseClientSecret 
             value: String,
             #[serde(rename = "expires_at")]
             #[allow(dead_code)]
-            expires_at: u64,
+            expires_at: i64,
         }
         let RealtimeSessionCreateResponseClientSecret {
             value, expires_at, ..
@@ -54415,7 +54415,7 @@ impl serde::Serialize for RealtimeSessionCreateResponseClientSecret {
             #[serde(rename = "value")]
             value: &'a String,
             #[serde(rename = "expires_at")]
-            expires_at: &'a u64,
+            expires_at: &'a i64,
         }
         let Self { value, expires_at } = self;
         RealtimeSessionCreateResponseClientSecret { value, expires_at }.serialize(serializer)
@@ -54427,7 +54427,7 @@ pub struct RealtimeSessionCreateResponseClientSecret {
     #[doc = "Ephemeral key usable in client environments to authenticate connections\nto the Realtime API. Use this in client-side environments rather than\na standard API token, which should only be used server-side.\n"]
     pub value: String,
     #[doc = "Timestamp for when the token expires. Currently, all tokens expire\nafter one minute.\n"]
-    pub expires_at: u64,
+    pub expires_at: i64,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeSessionCreateResponseModality {
@@ -54646,10 +54646,10 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateResponseTurnDetection
             threshold: Option<f64>,
             #[serde(rename = "prefix_padding_ms")]
             #[allow(dead_code)]
-            prefix_padding_ms: Option<u64>,
+            prefix_padding_ms: Option<i64>,
             #[serde(rename = "silence_duration_ms")]
             #[allow(dead_code)]
-            silence_duration_ms: Option<u64>,
+            silence_duration_ms: Option<i64>,
         }
         let RealtimeSessionCreateResponseTurnDetection {
             r#type,
@@ -54682,10 +54682,10 @@ impl serde::Serialize for RealtimeSessionCreateResponseTurnDetection {
             threshold: &'a Option<f64>,
             #[serde(rename = "prefix_padding_ms")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            prefix_padding_ms: &'a Option<u64>,
+            prefix_padding_ms: &'a Option<i64>,
             #[serde(rename = "silence_duration_ms")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            silence_duration_ms: &'a Option<u64>,
+            silence_duration_ms: &'a Option<i64>,
         }
         let Self {
             r#type,
@@ -54713,10 +54713,10 @@ pub struct RealtimeSessionCreateResponseTurnDetection {
     pub threshold: Option<f64>,
     #[doc = "Amount of audio to include before the VAD detected speech (in \nmilliseconds). Defaults to 300ms.\n"]
     #[builder(default)]
-    pub prefix_padding_ms: Option<u64>,
+    pub prefix_padding_ms: Option<i64>,
     #[doc = "Duration of silence to detect speech stop (in milliseconds). Defaults \nto 500ms. With shorter values the model will respond more quickly, \nbut may jump in on short pauses from the user.\n"]
     #[builder(default)]
-    pub silence_duration_ms: Option<u64>,
+    pub silence_duration_ms: Option<i64>,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateResponseToolType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -54870,7 +54870,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateResponseMaxResponseOu
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum RealtimeSessionCreateResponseMaxResponseOutputTokens {
             Inf(#[allow(dead_code)] RealtimeSessionCreateResponseMaxResponseOutputTokensInf),
-            Integer(#[allow(dead_code)] u64),
+            Integer(#[allow(dead_code)] i64),
         }
         Ok(
             match RealtimeSessionCreateResponseMaxResponseOutputTokens::deserialize(deserializer)? {
@@ -54892,7 +54892,7 @@ impl serde::Serialize for RealtimeSessionCreateResponseMaxResponseOutputTokens {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum RealtimeSessionCreateResponseMaxResponseOutputTokens<'a> {
-            Integer(#[allow(dead_code)] &'a u64),
+            Integer(#[allow(dead_code)] &'a i64),
             Inf(#[allow(dead_code)] &'a RealtimeSessionCreateResponseMaxResponseOutputTokensInf),
         }
         match self {
@@ -54909,7 +54909,7 @@ impl serde::Serialize for RealtimeSessionCreateResponseMaxResponseOutputTokens {
 #[derive(Clone, Copy, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionCreateResponseMaxResponseOutputTokens {
-    Integer(u64),
+    Integer(i64),
     #[doc = "inf"]
     Inf,
 }
@@ -55295,10 +55295,10 @@ impl<'de> serde::Deserialize<'de> for RealtimeTranscriptionSessionCreateRequestT
             threshold: Option<f64>,
             #[serde(rename = "prefix_padding_ms")]
             #[allow(dead_code)]
-            prefix_padding_ms: Option<u64>,
+            prefix_padding_ms: Option<i64>,
             #[serde(rename = "silence_duration_ms")]
             #[allow(dead_code)]
-            silence_duration_ms: Option<u64>,
+            silence_duration_ms: Option<i64>,
             #[serde(rename = "create_response")]
             #[allow(dead_code)]
             create_response: Option<bool>,
@@ -55346,10 +55346,10 @@ impl serde::Serialize for RealtimeTranscriptionSessionCreateRequestTurnDetection
             threshold: &'a Option<f64>,
             #[serde(rename = "prefix_padding_ms")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            prefix_padding_ms: &'a Option<u64>,
+            prefix_padding_ms: &'a Option<i64>,
             #[serde(rename = "silence_duration_ms")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            silence_duration_ms: &'a Option<u64>,
+            silence_duration_ms: &'a Option<i64>,
             #[serde(rename = "create_response")]
             #[serde(skip_serializing_if = "Option::is_none")]
             create_response: &'a Option<bool>,
@@ -55392,10 +55392,10 @@ pub struct RealtimeTranscriptionSessionCreateRequestTurnDetection {
     pub threshold: Option<f64>,
     #[doc = "Used only for `server_vad` mode. Amount of audio to include before the VAD detected speech (in\nmilliseconds). Defaults to 300ms.\n"]
     #[builder(default)]
-    pub prefix_padding_ms: Option<u64>,
+    pub prefix_padding_ms: Option<i64>,
     #[doc = "Used only for `server_vad` mode. Duration of silence to detect speech stop (in milliseconds). Defaults\nto 500ms. With shorter values the model will respond more quickly,\nbut may jump in on short pauses from the user.\n"]
     #[builder(default)]
-    pub silence_duration_ms: Option<u64>,
+    pub silence_duration_ms: Option<i64>,
     #[doc = "Whether or not to automatically generate a response when a VAD stop event occurs. Not available for transcription sessions.\n"]
     #[builder(default)]
     pub create_response: Option<bool>,
@@ -55482,7 +55482,7 @@ impl<'de> serde::Deserialize<'de>
             anchor: Option<RealtimeTranscriptionSessionCreateRequestClientSecretExpiresAtAnchor>,
             #[serde(rename = "seconds")]
             #[allow(dead_code)]
-            seconds: Option<u64>,
+            seconds: Option<i64>,
         }
         let RealtimeTranscriptionSessionCreateRequestClientSecretExpiresAt {
             anchor, seconds, ..
@@ -55506,7 +55506,7 @@ impl serde::Serialize for RealtimeTranscriptionSessionCreateRequestClientSecretE
                 &'a Option<RealtimeTranscriptionSessionCreateRequestClientSecretExpiresAtAnchor>,
             #[serde(rename = "seconds")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            seconds: &'a Option<u64>,
+            seconds: &'a Option<i64>,
         }
         let Self { anchor, seconds } = self;
         RealtimeTranscriptionSessionCreateRequestClientSecretExpiresAt { anchor, seconds }
@@ -55521,7 +55521,7 @@ pub struct RealtimeTranscriptionSessionCreateRequestClientSecretExpiresAt {
     pub anchor: Option<RealtimeTranscriptionSessionCreateRequestClientSecretExpiresAtAnchor>,
     #[doc = "The number of seconds from the anchor point to the expiration. Select a value between `10` and `7200`.\n"]
     #[builder(default)]
-    pub seconds: Option<u64>,
+    pub seconds: Option<i64>,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeTranscriptionSessionCreateRequestClientSecret {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -55710,7 +55710,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeTranscriptionSessionCreateResponse
             value: String,
             #[serde(rename = "expires_at")]
             #[allow(dead_code)]
-            expires_at: u64,
+            expires_at: i64,
         }
         let RealtimeTranscriptionSessionCreateResponseClientSecret {
             value, expires_at, ..
@@ -55729,7 +55729,7 @@ impl serde::Serialize for RealtimeTranscriptionSessionCreateResponseClientSecret
             #[serde(rename = "value")]
             value: &'a String,
             #[serde(rename = "expires_at")]
-            expires_at: &'a u64,
+            expires_at: &'a i64,
         }
         let Self { value, expires_at } = self;
         RealtimeTranscriptionSessionCreateResponseClientSecret { value, expires_at }
@@ -55742,7 +55742,7 @@ pub struct RealtimeTranscriptionSessionCreateResponseClientSecret {
     #[doc = "Ephemeral key usable in client environments to authenticate connections\nto the Realtime API. Use this in client-side environments rather than\na standard API token, which should only be used server-side.\n"]
     pub value: String,
     #[doc = "Timestamp for when the token expires. Currently, all tokens expire\nafter one minute.\n"]
-    pub expires_at: u64,
+    pub expires_at: i64,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeTranscriptionSessionCreateResponseModality {
@@ -55862,10 +55862,10 @@ impl<'de> serde::Deserialize<'de> for RealtimeTranscriptionSessionCreateResponse
             threshold: Option<f64>,
             #[serde(rename = "prefix_padding_ms")]
             #[allow(dead_code)]
-            prefix_padding_ms: Option<u64>,
+            prefix_padding_ms: Option<i64>,
             #[serde(rename = "silence_duration_ms")]
             #[allow(dead_code)]
-            silence_duration_ms: Option<u64>,
+            silence_duration_ms: Option<i64>,
         }
         let RealtimeTranscriptionSessionCreateResponseTurnDetection {
             r#type,
@@ -55898,10 +55898,10 @@ impl serde::Serialize for RealtimeTranscriptionSessionCreateResponseTurnDetectio
             threshold: &'a Option<f64>,
             #[serde(rename = "prefix_padding_ms")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            prefix_padding_ms: &'a Option<u64>,
+            prefix_padding_ms: &'a Option<i64>,
             #[serde(rename = "silence_duration_ms")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            silence_duration_ms: &'a Option<u64>,
+            silence_duration_ms: &'a Option<i64>,
         }
         let Self {
             r#type,
@@ -55929,10 +55929,10 @@ pub struct RealtimeTranscriptionSessionCreateResponseTurnDetection {
     pub threshold: Option<f64>,
     #[doc = "Amount of audio to include before the VAD detected speech (in \nmilliseconds). Defaults to 300ms.\n"]
     #[builder(default)]
-    pub prefix_padding_ms: Option<u64>,
+    pub prefix_padding_ms: Option<i64>,
     #[doc = "Duration of silence to detect speech stop (in milliseconds). Defaults \nto 500ms. With shorter values the model will respond more quickly, \nbut may jump in on short pauses from the user.\n"]
     #[builder(default)]
-    pub silence_duration_ms: Option<u64>,
+    pub silence_duration_ms: Option<i64>,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeTranscriptionSessionCreateResponse {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -56476,7 +56476,7 @@ impl<'de> serde::Deserialize<'de> for Response {
             status: Option<ResponseStatus>,
             #[serde(rename = "created_at")]
             #[allow(dead_code)]
-            created_at: u64,
+            created_at: i64,
             #[serde(rename = "error")]
             #[allow(dead_code)]
             error: Option<ResponseError>,
@@ -56545,7 +56545,7 @@ impl serde::Serialize for Response {
             #[serde(skip_serializing_if = "Option::is_none")]
             status: &'a Option<ResponseStatus>,
             #[serde(rename = "created_at")]
-            created_at: &'a u64,
+            created_at: &'a i64,
             #[serde(rename = "error")]
             #[serde(skip_serializing_if = "Option::is_none")]
             error: &'a Option<ResponseError>,
@@ -56605,7 +56605,7 @@ pub struct Response {
     #[builder(default)]
     pub status: Option<ResponseStatus>,
     #[doc = "Unix timestamp (in seconds) of when this Response was created.\n"]
-    pub created_at: u64,
+    pub created_at: i64,
     #[builder(default)]
     pub error: Option<ResponseError>,
     #[doc = "Details about why the response is incomplete.\n"]
@@ -56661,7 +56661,7 @@ impl<'de> serde::Deserialize<'de> for ResponseAudioDeltaEvent {
             r#type: ResponseAudioDeltaEventType,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
             #[serde(rename = "delta")]
             #[allow(dead_code)]
             delta: String,
@@ -56688,7 +56688,7 @@ impl serde::Serialize for ResponseAudioDeltaEvent {
             #[serde(rename = "type")]
             r#type: &'a ResponseAudioDeltaEventType,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
             #[serde(rename = "delta")]
             delta: &'a String,
         }
@@ -56708,7 +56708,7 @@ impl serde::Serialize for ResponseAudioDeltaEvent {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseAudioDeltaEvent {
     #[doc = "A sequence number for this chunk of the stream response.\n"]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
     #[doc = "A chunk of Base64 encoded response audio bytes.\n"]
     pub delta: String,
 }
@@ -56752,7 +56752,7 @@ impl<'de> serde::Deserialize<'de> for ResponseAudioDoneEvent {
             r#type: ResponseAudioDoneEventType,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
         }
         let ResponseAudioDoneEvent {
             sequence_number, ..
@@ -56771,7 +56771,7 @@ impl serde::Serialize for ResponseAudioDoneEvent {
             #[serde(rename = "type")]
             r#type: &'a ResponseAudioDoneEventType,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
         }
         let Self { sequence_number } = self;
         ResponseAudioDoneEvent {
@@ -56785,7 +56785,7 @@ impl serde::Serialize for ResponseAudioDoneEvent {
 #[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseAudioDoneEvent {
     #[doc = "The sequence number of the delta.\n"]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseAudioTranscriptDeltaEventType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -56830,7 +56830,7 @@ impl<'de> serde::Deserialize<'de> for ResponseAudioTranscriptDeltaEvent {
             delta: String,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
         }
         let ResponseAudioTranscriptDeltaEvent {
             delta,
@@ -56856,7 +56856,7 @@ impl serde::Serialize for ResponseAudioTranscriptDeltaEvent {
             #[serde(rename = "delta")]
             delta: &'a String,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
         }
         let Self {
             delta,
@@ -56876,7 +56876,7 @@ pub struct ResponseAudioTranscriptDeltaEvent {
     #[doc = "The partial transcript of the audio response.\n"]
     pub delta: String,
     #[doc = "The sequence number of this event."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseAudioTranscriptDoneEventType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -56918,7 +56918,7 @@ impl<'de> serde::Deserialize<'de> for ResponseAudioTranscriptDoneEvent {
             r#type: ResponseAudioTranscriptDoneEventType,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
         }
         let ResponseAudioTranscriptDoneEvent {
             sequence_number, ..
@@ -56937,7 +56937,7 @@ impl serde::Serialize for ResponseAudioTranscriptDoneEvent {
             #[serde(rename = "type")]
             r#type: &'a ResponseAudioTranscriptDoneEventType,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
         }
         let Self { sequence_number } = self;
         ResponseAudioTranscriptDoneEvent {
@@ -56951,7 +56951,7 @@ impl serde::Serialize for ResponseAudioTranscriptDoneEvent {
 #[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseAudioTranscriptDoneEvent {
     #[doc = "The sequence number of this event."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallCodeDeltaEventType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -56993,13 +56993,13 @@ impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallCodeDeltaEvent 
             r#type: ResponseCodeInterpreterCallCodeDeltaEventType,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "delta")]
             #[allow(dead_code)]
             delta: String,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
         }
         let ResponseCodeInterpreterCallCodeDeltaEvent {
             output_index,
@@ -57025,11 +57025,11 @@ impl serde::Serialize for ResponseCodeInterpreterCallCodeDeltaEvent {
             #[serde(rename = "type")]
             r#type: &'a ResponseCodeInterpreterCallCodeDeltaEventType,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "delta")]
             delta: &'a String,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
         }
         let Self {
             output_index,
@@ -57049,11 +57049,11 @@ impl serde::Serialize for ResponseCodeInterpreterCallCodeDeltaEvent {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseCodeInterpreterCallCodeDeltaEvent {
     #[doc = "The index of the output item that the code interpreter call is in progress.\n"]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The partial code snippet added by the code interpreter.\n"]
     pub delta: String,
     #[doc = "The sequence number of this event."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallCodeDoneEventType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -57095,13 +57095,13 @@ impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallCodeDoneEvent {
             r#type: ResponseCodeInterpreterCallCodeDoneEventType,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "code")]
             #[allow(dead_code)]
             code: String,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
         }
         let ResponseCodeInterpreterCallCodeDoneEvent {
             output_index,
@@ -57127,11 +57127,11 @@ impl serde::Serialize for ResponseCodeInterpreterCallCodeDoneEvent {
             #[serde(rename = "type")]
             r#type: &'a ResponseCodeInterpreterCallCodeDoneEventType,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "code")]
             code: &'a String,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
         }
         let Self {
             output_index,
@@ -57151,11 +57151,11 @@ impl serde::Serialize for ResponseCodeInterpreterCallCodeDoneEvent {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseCodeInterpreterCallCodeDoneEvent {
     #[doc = "The index of the output item that the code interpreter call is in progress.\n"]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The final code snippet output by the code interpreter.\n"]
     pub code: String,
     #[doc = "The sequence number of this event."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallCompletedEventType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -57197,13 +57197,13 @@ impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallCompletedEvent 
             r#type: ResponseCodeInterpreterCallCompletedEventType,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "code_interpreter_call")]
             #[allow(dead_code)]
             code_interpreter_call: CodeInterpreterToolCall,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
         }
         let ResponseCodeInterpreterCallCompletedEvent {
             output_index,
@@ -57229,11 +57229,11 @@ impl serde::Serialize for ResponseCodeInterpreterCallCompletedEvent {
             #[serde(rename = "type")]
             r#type: &'a ResponseCodeInterpreterCallCompletedEventType,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "code_interpreter_call")]
             code_interpreter_call: &'a CodeInterpreterToolCall,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
         }
         let Self {
             output_index,
@@ -57253,10 +57253,10 @@ impl serde::Serialize for ResponseCodeInterpreterCallCompletedEvent {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseCodeInterpreterCallCompletedEvent {
     #[doc = "The index of the output item that the code interpreter call is in progress.\n"]
-    pub output_index: u64,
+    pub output_index: i64,
     pub code_interpreter_call: CodeInterpreterToolCall,
     #[doc = "The sequence number of this event."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallInProgressEventType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -57298,13 +57298,13 @@ impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallInProgressEvent
             r#type: ResponseCodeInterpreterCallInProgressEventType,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "code_interpreter_call")]
             #[allow(dead_code)]
             code_interpreter_call: CodeInterpreterToolCall,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
         }
         let ResponseCodeInterpreterCallInProgressEvent {
             output_index,
@@ -57330,11 +57330,11 @@ impl serde::Serialize for ResponseCodeInterpreterCallInProgressEvent {
             #[serde(rename = "type")]
             r#type: &'a ResponseCodeInterpreterCallInProgressEventType,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "code_interpreter_call")]
             code_interpreter_call: &'a CodeInterpreterToolCall,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
         }
         let Self {
             output_index,
@@ -57354,10 +57354,10 @@ impl serde::Serialize for ResponseCodeInterpreterCallInProgressEvent {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseCodeInterpreterCallInProgressEvent {
     #[doc = "The index of the output item that the code interpreter call is in progress.\n"]
-    pub output_index: u64,
+    pub output_index: i64,
     pub code_interpreter_call: CodeInterpreterToolCall,
     #[doc = "The sequence number of this event."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallInterpretingEventType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -57399,10 +57399,10 @@ impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallInterpretingEve
             r#type: ResponseCodeInterpreterCallInterpretingEventType,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "code_interpreter_call")]
             #[allow(dead_code)]
             code_interpreter_call: CodeInterpreterToolCall,
@@ -57431,9 +57431,9 @@ impl serde::Serialize for ResponseCodeInterpreterCallInterpretingEvent {
             #[serde(rename = "type")]
             r#type: &'a ResponseCodeInterpreterCallInterpretingEventType,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "code_interpreter_call")]
             code_interpreter_call: &'a CodeInterpreterToolCall,
         }
@@ -57455,9 +57455,9 @@ impl serde::Serialize for ResponseCodeInterpreterCallInterpretingEvent {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseCodeInterpreterCallInterpretingEvent {
     #[doc = "The sequence number of this event."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
     #[doc = "The index of the output item that the code interpreter call is in progress.\n"]
-    pub output_index: u64,
+    pub output_index: i64,
     pub code_interpreter_call: CodeInterpreterToolCall,
 }
 impl<'de> serde::Deserialize<'de> for ResponseCompletedEventType {
@@ -57503,7 +57503,7 @@ impl<'de> serde::Deserialize<'de> for ResponseCompletedEvent {
             response: Response,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
         }
         let ResponseCompletedEvent {
             response,
@@ -57529,7 +57529,7 @@ impl serde::Serialize for ResponseCompletedEvent {
             #[serde(rename = "response")]
             response: &'a Response,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
         }
         let Self {
             response,
@@ -57549,7 +57549,7 @@ pub struct ResponseCompletedEvent {
     #[doc = "Properties of the completed response.\n"]
     pub response: Response,
     #[doc = "The sequence number for this event."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseContentPartAddedEventType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -57594,16 +57594,16 @@ impl<'de> serde::Deserialize<'de> for ResponseContentPartAddedEvent {
             item_id: String,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "content_index")]
             #[allow(dead_code)]
-            content_index: u64,
+            content_index: i64,
             #[serde(rename = "part")]
             #[allow(dead_code)]
             part: OutputContent,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
         }
         let ResponseContentPartAddedEvent {
             item_id,
@@ -57635,13 +57635,13 @@ impl serde::Serialize for ResponseContentPartAddedEvent {
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "content_index")]
-            content_index: &'a u64,
+            content_index: &'a i64,
             #[serde(rename = "part")]
             part: &'a OutputContent,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
         }
         let Self {
             item_id,
@@ -57667,13 +57667,13 @@ pub struct ResponseContentPartAddedEvent {
     #[doc = "The ID of the output item that the content part was added to.\n"]
     pub item_id: String,
     #[doc = "The index of the output item that the content part was added to.\n"]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The index of the content part that was added.\n"]
-    pub content_index: u64,
+    pub content_index: i64,
     #[doc = "The content part that was added.\n"]
     pub part: OutputContent,
     #[doc = "The sequence number of this event."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseContentPartDoneEventType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -57718,13 +57718,13 @@ impl<'de> serde::Deserialize<'de> for ResponseContentPartDoneEvent {
             item_id: String,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "content_index")]
             #[allow(dead_code)]
-            content_index: u64,
+            content_index: i64,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
             #[serde(rename = "part")]
             #[allow(dead_code)]
             part: OutputContent,
@@ -57759,11 +57759,11 @@ impl serde::Serialize for ResponseContentPartDoneEvent {
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "content_index")]
-            content_index: &'a u64,
+            content_index: &'a i64,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
             #[serde(rename = "part")]
             part: &'a OutputContent,
         }
@@ -57791,11 +57791,11 @@ pub struct ResponseContentPartDoneEvent {
     #[doc = "The ID of the output item that the content part was added to.\n"]
     pub item_id: String,
     #[doc = "The index of the output item that the content part was added to.\n"]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The index of the content part that is done.\n"]
-    pub content_index: u64,
+    pub content_index: i64,
     #[doc = "The sequence number of this event."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
     #[doc = "The content part that is done.\n"]
     pub part: OutputContent,
 }
@@ -57842,7 +57842,7 @@ impl<'de> serde::Deserialize<'de> for ResponseCreatedEvent {
             response: Response,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
         }
         let ResponseCreatedEvent {
             response,
@@ -57868,7 +57868,7 @@ impl serde::Serialize for ResponseCreatedEvent {
             #[serde(rename = "response")]
             response: &'a Response,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
         }
         let Self {
             response,
@@ -57888,7 +57888,7 @@ pub struct ResponseCreatedEvent {
     #[doc = "The response that was created.\n"]
     pub response: Response,
     #[doc = "The sequence number for this event."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseError {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -58040,7 +58040,7 @@ impl<'de> serde::Deserialize<'de> for ResponseErrorEvent {
             param: Option<String>,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
         }
         let ResponseErrorEvent {
             code,
@@ -58076,7 +58076,7 @@ impl serde::Serialize for ResponseErrorEvent {
             #[serde(skip_serializing_if = "Option::is_none")]
             param: &'a Option<String>,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
         }
         let Self {
             code,
@@ -58106,7 +58106,7 @@ pub struct ResponseErrorEvent {
     #[builder(default)]
     pub param: Option<String>,
     #[doc = "The sequence number of this event."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseFailedEventType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -58148,7 +58148,7 @@ impl<'de> serde::Deserialize<'de> for ResponseFailedEvent {
             r#type: ResponseFailedEventType,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
             #[serde(rename = "response")]
             #[allow(dead_code)]
             response: Response,
@@ -58175,7 +58175,7 @@ impl serde::Serialize for ResponseFailedEvent {
             #[serde(rename = "type")]
             r#type: &'a ResponseFailedEventType,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
             #[serde(rename = "response")]
             response: &'a Response,
         }
@@ -58195,7 +58195,7 @@ impl serde::Serialize for ResponseFailedEvent {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseFailedEvent {
     #[doc = "The sequence number of this event."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
     #[doc = "The response that failed.\n"]
     pub response: Response,
 }
@@ -58239,13 +58239,13 @@ impl<'de> serde::Deserialize<'de> for ResponseFileSearchCallCompletedEvent {
             r#type: ResponseFileSearchCallCompletedEventType,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
         }
         let ResponseFileSearchCallCompletedEvent {
             output_index,
@@ -58271,11 +58271,11 @@ impl serde::Serialize for ResponseFileSearchCallCompletedEvent {
             #[serde(rename = "type")]
             r#type: &'a ResponseFileSearchCallCompletedEventType,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
         }
         let Self {
             output_index,
@@ -58295,11 +58295,11 @@ impl serde::Serialize for ResponseFileSearchCallCompletedEvent {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseFileSearchCallCompletedEvent {
     #[doc = "The index of the output item that the file search call is initiated.\n"]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The ID of the output item that the file search call is initiated.\n"]
     pub item_id: String,
     #[doc = "The sequence number of this event."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseFileSearchCallInProgressEventType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -58341,13 +58341,13 @@ impl<'de> serde::Deserialize<'de> for ResponseFileSearchCallInProgressEvent {
             r#type: ResponseFileSearchCallInProgressEventType,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
         }
         let ResponseFileSearchCallInProgressEvent {
             output_index,
@@ -58373,11 +58373,11 @@ impl serde::Serialize for ResponseFileSearchCallInProgressEvent {
             #[serde(rename = "type")]
             r#type: &'a ResponseFileSearchCallInProgressEventType,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
         }
         let Self {
             output_index,
@@ -58397,11 +58397,11 @@ impl serde::Serialize for ResponseFileSearchCallInProgressEvent {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseFileSearchCallInProgressEvent {
     #[doc = "The index of the output item that the file search call is initiated.\n"]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The ID of the output item that the file search call is initiated.\n"]
     pub item_id: String,
     #[doc = "The sequence number of this event."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseFileSearchCallSearchingEventType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -58443,13 +58443,13 @@ impl<'de> serde::Deserialize<'de> for ResponseFileSearchCallSearchingEvent {
             r#type: ResponseFileSearchCallSearchingEventType,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
         }
         let ResponseFileSearchCallSearchingEvent {
             output_index,
@@ -58475,11 +58475,11 @@ impl serde::Serialize for ResponseFileSearchCallSearchingEvent {
             #[serde(rename = "type")]
             r#type: &'a ResponseFileSearchCallSearchingEventType,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
         }
         let Self {
             output_index,
@@ -58499,11 +58499,11 @@ impl serde::Serialize for ResponseFileSearchCallSearchingEvent {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseFileSearchCallSearchingEvent {
     #[doc = "The index of the output item that the file search call is searching.\n"]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The ID of the output item that the file search call is initiated.\n"]
     pub item_id: String,
     #[doc = "The sequence number of this event."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseFormatJsonObjectType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -58837,10 +58837,10 @@ impl<'de> serde::Deserialize<'de> for ResponseFunctionCallArgumentsDeltaEvent {
             item_id: String,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
             #[serde(rename = "delta")]
             #[allow(dead_code)]
             delta: String,
@@ -58873,9 +58873,9 @@ impl serde::Serialize for ResponseFunctionCallArgumentsDeltaEvent {
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
             #[serde(rename = "delta")]
             delta: &'a String,
         }
@@ -58901,9 +58901,9 @@ pub struct ResponseFunctionCallArgumentsDeltaEvent {
     #[doc = "The ID of the output item that the function-call arguments delta is added to.\n"]
     pub item_id: String,
     #[doc = "The index of the output item that the function-call arguments delta is added to.\n"]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The sequence number of this event."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
     #[doc = "The function-call arguments delta that is added.\n"]
     pub delta: String,
 }
@@ -58950,10 +58950,10 @@ impl<'de> serde::Deserialize<'de> for ResponseFunctionCallArgumentsDoneEvent {
             item_id: String,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
             #[serde(rename = "arguments")]
             #[allow(dead_code)]
             arguments: String,
@@ -58986,9 +58986,9 @@ impl serde::Serialize for ResponseFunctionCallArgumentsDoneEvent {
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
             #[serde(rename = "arguments")]
             arguments: &'a String,
         }
@@ -59014,9 +59014,9 @@ pub struct ResponseFunctionCallArgumentsDoneEvent {
     #[doc = "The ID of the item."]
     pub item_id: String,
     #[doc = "The index of the output item."]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The sequence number of this event."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
     #[doc = "The function-call arguments."]
     pub arguments: String,
 }
@@ -59060,10 +59060,10 @@ impl<'de> serde::Deserialize<'de> for ResponseImageGenCallCompletedEvent {
             r#type: ResponseImageGenCallCompletedEventType,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
@@ -59092,9 +59092,9 @@ impl serde::Serialize for ResponseImageGenCallCompletedEvent {
             #[serde(rename = "type")]
             r#type: &'a ResponseImageGenCallCompletedEventType,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
             #[serde(rename = "item_id")]
             item_id: &'a String,
         }
@@ -59116,9 +59116,9 @@ impl serde::Serialize for ResponseImageGenCallCompletedEvent {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseImageGenCallCompletedEvent {
     #[doc = "The index of the output item in the response's output array."]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The sequence number of this event."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
     #[doc = "The unique identifier of the image generation item being processed."]
     pub item_id: String,
 }
@@ -59162,13 +59162,13 @@ impl<'de> serde::Deserialize<'de> for ResponseImageGenCallGeneratingEvent {
             r#type: ResponseImageGenCallGeneratingEventType,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
         }
         let ResponseImageGenCallGeneratingEvent {
             output_index,
@@ -59194,11 +59194,11 @@ impl serde::Serialize for ResponseImageGenCallGeneratingEvent {
             #[serde(rename = "type")]
             r#type: &'a ResponseImageGenCallGeneratingEventType,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
         }
         let Self {
             output_index,
@@ -59218,11 +59218,11 @@ impl serde::Serialize for ResponseImageGenCallGeneratingEvent {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseImageGenCallGeneratingEvent {
     #[doc = "The index of the output item in the response's output array."]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The unique identifier of the image generation item being processed."]
     pub item_id: String,
     #[doc = "The sequence number of the image generation item being processed."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseImageGenCallInProgressEventType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -59264,13 +59264,13 @@ impl<'de> serde::Deserialize<'de> for ResponseImageGenCallInProgressEvent {
             r#type: ResponseImageGenCallInProgressEventType,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
         }
         let ResponseImageGenCallInProgressEvent {
             output_index,
@@ -59296,11 +59296,11 @@ impl serde::Serialize for ResponseImageGenCallInProgressEvent {
             #[serde(rename = "type")]
             r#type: &'a ResponseImageGenCallInProgressEventType,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
         }
         let Self {
             output_index,
@@ -59320,11 +59320,11 @@ impl serde::Serialize for ResponseImageGenCallInProgressEvent {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseImageGenCallInProgressEvent {
     #[doc = "The index of the output item in the response's output array."]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The unique identifier of the image generation item being processed."]
     pub item_id: String,
     #[doc = "The sequence number of the image generation item being processed."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseImageGenCallPartialImageEventType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -59366,16 +59366,16 @@ impl<'de> serde::Deserialize<'de> for ResponseImageGenCallPartialImageEvent {
             r#type: ResponseImageGenCallPartialImageEventType,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
             #[serde(rename = "partial_image_index")]
             #[allow(dead_code)]
-            partial_image_index: u64,
+            partial_image_index: i64,
             #[serde(rename = "partial_image_b64")]
             #[allow(dead_code)]
             partial_image_b64: String,
@@ -59408,13 +59408,13 @@ impl serde::Serialize for ResponseImageGenCallPartialImageEvent {
             #[serde(rename = "type")]
             r#type: &'a ResponseImageGenCallPartialImageEventType,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
             #[serde(rename = "partial_image_index")]
-            partial_image_index: &'a u64,
+            partial_image_index: &'a i64,
             #[serde(rename = "partial_image_b64")]
             partial_image_b64: &'a String,
         }
@@ -59440,13 +59440,13 @@ impl serde::Serialize for ResponseImageGenCallPartialImageEvent {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseImageGenCallPartialImageEvent {
     #[doc = "The index of the output item in the response's output array."]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The unique identifier of the image generation item being processed."]
     pub item_id: String,
     #[doc = "The sequence number of the image generation item being processed."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
     #[doc = "0-based index for the partial image (backend is 1-based, but this is 0-based for the user)."]
-    pub partial_image_index: u64,
+    pub partial_image_index: i64,
     #[doc = "Base64-encoded partial image data, suitable for rendering as an image."]
     pub partial_image_b64: String,
 }
@@ -59493,7 +59493,7 @@ impl<'de> serde::Deserialize<'de> for ResponseInProgressEvent {
             response: Response,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
         }
         let ResponseInProgressEvent {
             response,
@@ -59519,7 +59519,7 @@ impl serde::Serialize for ResponseInProgressEvent {
             #[serde(rename = "response")]
             response: &'a Response,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
         }
         let Self {
             response,
@@ -59539,7 +59539,7 @@ pub struct ResponseInProgressEvent {
     #[doc = "The response that is in progress.\n"]
     pub response: Response,
     #[doc = "The sequence number of this event."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseIncompleteEventType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -59584,7 +59584,7 @@ impl<'de> serde::Deserialize<'de> for ResponseIncompleteEvent {
             response: Response,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
         }
         let ResponseIncompleteEvent {
             response,
@@ -59610,7 +59610,7 @@ impl serde::Serialize for ResponseIncompleteEvent {
             #[serde(rename = "response")]
             response: &'a Response,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
         }
         let Self {
             response,
@@ -59630,7 +59630,7 @@ pub struct ResponseIncompleteEvent {
     #[doc = "The response that was incomplete.\n"]
     pub response: Response,
     #[doc = "The sequence number of this event."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseItemListObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -59785,7 +59785,7 @@ impl<'de> serde::Deserialize<'de> for ResponseMcpCallArgumentsDeltaEvent {
             r#type: ResponseMcpCallArgumentsDeltaEventType,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
@@ -59794,7 +59794,7 @@ impl<'de> serde::Deserialize<'de> for ResponseMcpCallArgumentsDeltaEvent {
             delta: indexmap::IndexMap<String, serde_json::Value>,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
         }
         let ResponseMcpCallArgumentsDeltaEvent {
             output_index,
@@ -59822,13 +59822,13 @@ impl serde::Serialize for ResponseMcpCallArgumentsDeltaEvent {
             #[serde(rename = "type")]
             r#type: &'a ResponseMcpCallArgumentsDeltaEventType,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "delta")]
             delta: &'a indexmap::IndexMap<String, serde_json::Value>,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
         }
         let Self {
             output_index,
@@ -59850,13 +59850,13 @@ impl serde::Serialize for ResponseMcpCallArgumentsDeltaEvent {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseMcpCallArgumentsDeltaEvent {
     #[doc = "The index of the output item in the response's output array."]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The unique identifier of the MCP tool call item being processed."]
     pub item_id: String,
     #[doc = "The partial update to the arguments for the MCP tool call."]
     pub delta: indexmap::IndexMap<String, serde_json::Value>,
     #[doc = "The sequence number of this event."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseMcpCallArgumentsDoneEventType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -59898,7 +59898,7 @@ impl<'de> serde::Deserialize<'de> for ResponseMcpCallArgumentsDoneEvent {
             r#type: ResponseMcpCallArgumentsDoneEventType,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
@@ -59907,7 +59907,7 @@ impl<'de> serde::Deserialize<'de> for ResponseMcpCallArgumentsDoneEvent {
             arguments: indexmap::IndexMap<String, serde_json::Value>,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
         }
         let ResponseMcpCallArgumentsDoneEvent {
             output_index,
@@ -59935,13 +59935,13 @@ impl serde::Serialize for ResponseMcpCallArgumentsDoneEvent {
             #[serde(rename = "type")]
             r#type: &'a ResponseMcpCallArgumentsDoneEventType,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "arguments")]
             arguments: &'a indexmap::IndexMap<String, serde_json::Value>,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
         }
         let Self {
             output_index,
@@ -59963,13 +59963,13 @@ impl serde::Serialize for ResponseMcpCallArgumentsDoneEvent {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseMcpCallArgumentsDoneEvent {
     #[doc = "The index of the output item in the response's output array."]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The unique identifier of the MCP tool call item being processed."]
     pub item_id: String,
     #[doc = "The finalized arguments for the MCP tool call."]
     pub arguments: indexmap::IndexMap<String, serde_json::Value>,
     #[doc = "The sequence number of this event."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseMcpCallCompletedEventType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -60011,7 +60011,7 @@ impl<'de> serde::Deserialize<'de> for ResponseMcpCallCompletedEvent {
             r#type: ResponseMcpCallCompletedEventType,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
         }
         let ResponseMcpCallCompletedEvent {
             sequence_number, ..
@@ -60030,7 +60030,7 @@ impl serde::Serialize for ResponseMcpCallCompletedEvent {
             #[serde(rename = "type")]
             r#type: &'a ResponseMcpCallCompletedEventType,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
         }
         let Self { sequence_number } = self;
         ResponseMcpCallCompletedEvent {
@@ -60044,7 +60044,7 @@ impl serde::Serialize for ResponseMcpCallCompletedEvent {
 #[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseMcpCallCompletedEvent {
     #[doc = "The sequence number of this event."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseMcpCallFailedEventType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -60086,7 +60086,7 @@ impl<'de> serde::Deserialize<'de> for ResponseMcpCallFailedEvent {
             r#type: ResponseMcpCallFailedEventType,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
         }
         let ResponseMcpCallFailedEvent {
             sequence_number, ..
@@ -60105,7 +60105,7 @@ impl serde::Serialize for ResponseMcpCallFailedEvent {
             #[serde(rename = "type")]
             r#type: &'a ResponseMcpCallFailedEventType,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
         }
         let Self { sequence_number } = self;
         ResponseMcpCallFailedEvent {
@@ -60119,7 +60119,7 @@ impl serde::Serialize for ResponseMcpCallFailedEvent {
 #[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseMcpCallFailedEvent {
     #[doc = "The sequence number of this event."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseMcpCallInProgressEventType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -60161,10 +60161,10 @@ impl<'de> serde::Deserialize<'de> for ResponseMcpCallInProgressEvent {
             r#type: ResponseMcpCallInProgressEventType,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
@@ -60193,9 +60193,9 @@ impl serde::Serialize for ResponseMcpCallInProgressEvent {
             #[serde(rename = "type")]
             r#type: &'a ResponseMcpCallInProgressEventType,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "item_id")]
             item_id: &'a String,
         }
@@ -60217,9 +60217,9 @@ impl serde::Serialize for ResponseMcpCallInProgressEvent {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseMcpCallInProgressEvent {
     #[doc = "The sequence number of this event."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
     #[doc = "The index of the output item in the response's output array."]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The unique identifier of the MCP tool call item being processed."]
     pub item_id: String,
 }
@@ -60263,7 +60263,7 @@ impl<'de> serde::Deserialize<'de> for ResponseMcpListToolsCompletedEvent {
             r#type: ResponseMcpListToolsCompletedEventType,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
         }
         let ResponseMcpListToolsCompletedEvent {
             sequence_number, ..
@@ -60282,7 +60282,7 @@ impl serde::Serialize for ResponseMcpListToolsCompletedEvent {
             #[serde(rename = "type")]
             r#type: &'a ResponseMcpListToolsCompletedEventType,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
         }
         let Self { sequence_number } = self;
         ResponseMcpListToolsCompletedEvent {
@@ -60296,7 +60296,7 @@ impl serde::Serialize for ResponseMcpListToolsCompletedEvent {
 #[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseMcpListToolsCompletedEvent {
     #[doc = "The sequence number of this event."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseMcpListToolsFailedEventType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -60338,7 +60338,7 @@ impl<'de> serde::Deserialize<'de> for ResponseMcpListToolsFailedEvent {
             r#type: ResponseMcpListToolsFailedEventType,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
         }
         let ResponseMcpListToolsFailedEvent {
             sequence_number, ..
@@ -60357,7 +60357,7 @@ impl serde::Serialize for ResponseMcpListToolsFailedEvent {
             #[serde(rename = "type")]
             r#type: &'a ResponseMcpListToolsFailedEventType,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
         }
         let Self { sequence_number } = self;
         ResponseMcpListToolsFailedEvent {
@@ -60371,7 +60371,7 @@ impl serde::Serialize for ResponseMcpListToolsFailedEvent {
 #[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseMcpListToolsFailedEvent {
     #[doc = "The sequence number of this event."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseMcpListToolsInProgressEventType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -60413,7 +60413,7 @@ impl<'de> serde::Deserialize<'de> for ResponseMcpListToolsInProgressEvent {
             r#type: ResponseMcpListToolsInProgressEventType,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
         }
         let ResponseMcpListToolsInProgressEvent {
             sequence_number, ..
@@ -60432,7 +60432,7 @@ impl serde::Serialize for ResponseMcpListToolsInProgressEvent {
             #[serde(rename = "type")]
             r#type: &'a ResponseMcpListToolsInProgressEventType,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
         }
         let Self { sequence_number } = self;
         ResponseMcpListToolsInProgressEvent {
@@ -60446,7 +60446,7 @@ impl serde::Serialize for ResponseMcpListToolsInProgressEvent {
 #[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseMcpListToolsInProgressEvent {
     #[doc = "The sequence number of this event."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ResponseModality {
@@ -60499,10 +60499,10 @@ impl<'de> serde::Deserialize<'de> for ResponseOutputItemAddedEvent {
             r#type: ResponseOutputItemAddedEventType,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
             #[serde(rename = "item")]
             #[allow(dead_code)]
             item: OutputItem,
@@ -60531,9 +60531,9 @@ impl serde::Serialize for ResponseOutputItemAddedEvent {
             #[serde(rename = "type")]
             r#type: &'a ResponseOutputItemAddedEventType,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
             #[serde(rename = "item")]
             item: &'a OutputItem,
         }
@@ -60555,9 +60555,9 @@ impl serde::Serialize for ResponseOutputItemAddedEvent {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseOutputItemAddedEvent {
     #[doc = "The index of the output item that was added.\n"]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The sequence number of this event.\n"]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
     #[doc = "The output item that was added.\n"]
     pub item: OutputItem,
 }
@@ -60601,10 +60601,10 @@ impl<'de> serde::Deserialize<'de> for ResponseOutputItemDoneEvent {
             r#type: ResponseOutputItemDoneEventType,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
             #[serde(rename = "item")]
             #[allow(dead_code)]
             item: OutputItem,
@@ -60633,9 +60633,9 @@ impl serde::Serialize for ResponseOutputItemDoneEvent {
             #[serde(rename = "type")]
             r#type: &'a ResponseOutputItemDoneEventType,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
             #[serde(rename = "item")]
             item: &'a OutputItem,
         }
@@ -60657,9 +60657,9 @@ impl serde::Serialize for ResponseOutputItemDoneEvent {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseOutputItemDoneEvent {
     #[doc = "The index of the output item that was marked done.\n"]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The sequence number of this event.\n"]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
     #[doc = "The output item that was marked done.\n"]
     pub item: OutputItem,
 }
@@ -60706,16 +60706,16 @@ impl<'de> serde::Deserialize<'de> for ResponseOutputTextAnnotationAddedEvent {
             item_id: String,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "content_index")]
             #[allow(dead_code)]
-            content_index: u64,
+            content_index: i64,
             #[serde(rename = "annotation_index")]
             #[allow(dead_code)]
-            annotation_index: u64,
+            annotation_index: i64,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
             #[serde(rename = "annotation")]
             #[allow(dead_code)]
             annotation: indexmap::IndexMap<String, serde_json::Value>,
@@ -60752,13 +60752,13 @@ impl serde::Serialize for ResponseOutputTextAnnotationAddedEvent {
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "content_index")]
-            content_index: &'a u64,
+            content_index: &'a i64,
             #[serde(rename = "annotation_index")]
-            annotation_index: &'a u64,
+            annotation_index: &'a i64,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
             #[serde(rename = "annotation")]
             annotation: &'a indexmap::IndexMap<String, serde_json::Value>,
         }
@@ -60788,13 +60788,13 @@ pub struct ResponseOutputTextAnnotationAddedEvent {
     #[doc = "The unique identifier of the item to which the annotation is being added."]
     pub item_id: String,
     #[doc = "The index of the output item in the response's output array."]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The index of the content part within the output item."]
-    pub content_index: u64,
+    pub content_index: i64,
     #[doc = "The index of the annotation within the content part."]
-    pub annotation_index: u64,
+    pub annotation_index: i64,
     #[doc = "The sequence number of this event."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
     #[doc = "The annotation object being added. (See annotation schema for details.)"]
     pub annotation: indexmap::IndexMap<String, serde_json::Value>,
 }
@@ -60928,7 +60928,7 @@ impl<'de> serde::Deserialize<'de> for ResponseProperties {
             background: Option<bool>,
             #[serde(rename = "max_output_tokens")]
             #[allow(dead_code)]
-            max_output_tokens: Option<u64>,
+            max_output_tokens: Option<i64>,
             #[serde(rename = "instructions")]
             #[allow(dead_code)]
             instructions: Option<String>,
@@ -60994,7 +60994,7 @@ impl serde::Serialize for ResponseProperties {
             background: &'a Option<bool>,
             #[serde(rename = "max_output_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            max_output_tokens: &'a Option<u64>,
+            max_output_tokens: &'a Option<i64>,
             #[serde(rename = "instructions")]
             #[serde(skip_serializing_if = "Option::is_none")]
             instructions: &'a Option<String>,
@@ -61053,7 +61053,7 @@ pub struct ResponseProperties {
     pub background: Option<bool>,
     #[doc = "An upper bound for the number of tokens that can be generated for a response, including visible output tokens and [reasoning tokens](https://platform.openai.com/docs/guides/reasoning).\n"]
     #[builder(default)]
-    pub max_output_tokens: Option<u64>,
+    pub max_output_tokens: Option<i64>,
     #[doc = "Inserts a system (or developer) message as the first item in the model's context.\n\nWhen using along with `previous_response_id`, the instructions from a previous\nresponse will not be carried over to the next response. This makes it simple\nto swap out system (or developer) messages in new responses.\n"]
     #[builder(default)]
     pub instructions: Option<String>,
@@ -61113,7 +61113,7 @@ impl<'de> serde::Deserialize<'de> for ResponseQueuedEvent {
             response: Response,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
         }
         let ResponseQueuedEvent {
             response,
@@ -61139,7 +61139,7 @@ impl serde::Serialize for ResponseQueuedEvent {
             #[serde(rename = "response")]
             response: &'a Response,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
         }
         let Self {
             response,
@@ -61159,7 +61159,7 @@ pub struct ResponseQueuedEvent {
     #[doc = "The full response object that is queued."]
     pub response: Response,
     #[doc = "The sequence number for this event."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseReasoningDeltaEventType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -61204,16 +61204,16 @@ impl<'de> serde::Deserialize<'de> for ResponseReasoningDeltaEvent {
             item_id: String,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "content_index")]
             #[allow(dead_code)]
-            content_index: u64,
+            content_index: i64,
             #[serde(rename = "delta")]
             #[allow(dead_code)]
             delta: indexmap::IndexMap<String, serde_json::Value>,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
         }
         let ResponseReasoningDeltaEvent {
             item_id,
@@ -61245,13 +61245,13 @@ impl serde::Serialize for ResponseReasoningDeltaEvent {
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "content_index")]
-            content_index: &'a u64,
+            content_index: &'a i64,
             #[serde(rename = "delta")]
             delta: &'a indexmap::IndexMap<String, serde_json::Value>,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
         }
         let Self {
             item_id,
@@ -61277,13 +61277,13 @@ pub struct ResponseReasoningDeltaEvent {
     #[doc = "The unique identifier of the item for which reasoning is being updated."]
     pub item_id: String,
     #[doc = "The index of the output item in the response's output array."]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The index of the reasoning content part within the output item."]
-    pub content_index: u64,
+    pub content_index: i64,
     #[doc = "The partial update to the reasoning content."]
     pub delta: indexmap::IndexMap<String, serde_json::Value>,
     #[doc = "The sequence number of this event."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseReasoningDoneEventType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -61328,16 +61328,16 @@ impl<'de> serde::Deserialize<'de> for ResponseReasoningDoneEvent {
             item_id: String,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "content_index")]
             #[allow(dead_code)]
-            content_index: u64,
+            content_index: i64,
             #[serde(rename = "text")]
             #[allow(dead_code)]
             text: String,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
         }
         let ResponseReasoningDoneEvent {
             item_id,
@@ -61369,13 +61369,13 @@ impl serde::Serialize for ResponseReasoningDoneEvent {
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "content_index")]
-            content_index: &'a u64,
+            content_index: &'a i64,
             #[serde(rename = "text")]
             text: &'a String,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
         }
         let Self {
             item_id,
@@ -61401,13 +61401,13 @@ pub struct ResponseReasoningDoneEvent {
     #[doc = "The unique identifier of the item for which reasoning is finalized."]
     pub item_id: String,
     #[doc = "The index of the output item in the response's output array."]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The index of the reasoning content part within the output item."]
-    pub content_index: u64,
+    pub content_index: i64,
     #[doc = "The finalized reasoning text."]
     pub text: String,
     #[doc = "The sequence number of this event."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseReasoningSummaryDeltaEventType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -61452,13 +61452,13 @@ impl<'de> serde::Deserialize<'de> for ResponseReasoningSummaryDeltaEvent {
             item_id: String,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "summary_index")]
             #[allow(dead_code)]
-            summary_index: u64,
+            summary_index: i64,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
             #[serde(rename = "delta")]
             #[allow(dead_code)]
             delta: indexmap::IndexMap<String, serde_json::Value>,
@@ -61493,11 +61493,11 @@ impl serde::Serialize for ResponseReasoningSummaryDeltaEvent {
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "summary_index")]
-            summary_index: &'a u64,
+            summary_index: &'a i64,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
             #[serde(rename = "delta")]
             delta: &'a indexmap::IndexMap<String, serde_json::Value>,
         }
@@ -61525,11 +61525,11 @@ pub struct ResponseReasoningSummaryDeltaEvent {
     #[doc = "The unique identifier of the item for which the reasoning summary is being updated."]
     pub item_id: String,
     #[doc = "The index of the output item in the response's output array."]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The index of the summary part within the output item."]
-    pub summary_index: u64,
+    pub summary_index: i64,
     #[doc = "The sequence number of this event."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
     #[doc = "The partial update to the reasoning summary content."]
     pub delta: indexmap::IndexMap<String, serde_json::Value>,
 }
@@ -61576,16 +61576,16 @@ impl<'de> serde::Deserialize<'de> for ResponseReasoningSummaryDoneEvent {
             item_id: String,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "summary_index")]
             #[allow(dead_code)]
-            summary_index: u64,
+            summary_index: i64,
             #[serde(rename = "text")]
             #[allow(dead_code)]
             text: String,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
         }
         let ResponseReasoningSummaryDoneEvent {
             item_id,
@@ -61617,13 +61617,13 @@ impl serde::Serialize for ResponseReasoningSummaryDoneEvent {
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "summary_index")]
-            summary_index: &'a u64,
+            summary_index: &'a i64,
             #[serde(rename = "text")]
             text: &'a String,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
         }
         let Self {
             item_id,
@@ -61649,13 +61649,13 @@ pub struct ResponseReasoningSummaryDoneEvent {
     #[doc = "The unique identifier of the item for which the reasoning summary is finalized."]
     pub item_id: String,
     #[doc = "The index of the output item in the response's output array."]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The index of the summary part within the output item."]
-    pub summary_index: u64,
+    pub summary_index: i64,
     #[doc = "The finalized reasoning summary text."]
     pub text: String,
     #[doc = "The sequence number of this event."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseReasoningSummaryPartAddedEventType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -61774,13 +61774,13 @@ impl<'de> serde::Deserialize<'de> for ResponseReasoningSummaryPartAddedEvent {
             item_id: String,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "summary_index")]
             #[allow(dead_code)]
-            summary_index: u64,
+            summary_index: i64,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
             #[serde(rename = "part")]
             #[allow(dead_code)]
             part: ResponseReasoningSummaryPartAddedEventPart,
@@ -61815,11 +61815,11 @@ impl serde::Serialize for ResponseReasoningSummaryPartAddedEvent {
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "summary_index")]
-            summary_index: &'a u64,
+            summary_index: &'a i64,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
             #[serde(rename = "part")]
             part: &'a ResponseReasoningSummaryPartAddedEventPart,
         }
@@ -61847,11 +61847,11 @@ pub struct ResponseReasoningSummaryPartAddedEvent {
     #[doc = "The ID of the item this summary part is associated with.\n"]
     pub item_id: String,
     #[doc = "The index of the output item this summary part is associated with.\n"]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The index of the summary part within the reasoning summary.\n"]
-    pub summary_index: u64,
+    pub summary_index: i64,
     #[doc = "The sequence number of this event.\n"]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
     #[doc = "The summary part that was added.\n"]
     pub part: ResponseReasoningSummaryPartAddedEventPart,
 }
@@ -61972,13 +61972,13 @@ impl<'de> serde::Deserialize<'de> for ResponseReasoningSummaryPartDoneEvent {
             item_id: String,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "summary_index")]
             #[allow(dead_code)]
-            summary_index: u64,
+            summary_index: i64,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
             #[serde(rename = "part")]
             #[allow(dead_code)]
             part: ResponseReasoningSummaryPartDoneEventPart,
@@ -62013,11 +62013,11 @@ impl serde::Serialize for ResponseReasoningSummaryPartDoneEvent {
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "summary_index")]
-            summary_index: &'a u64,
+            summary_index: &'a i64,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
             #[serde(rename = "part")]
             part: &'a ResponseReasoningSummaryPartDoneEventPart,
         }
@@ -62045,11 +62045,11 @@ pub struct ResponseReasoningSummaryPartDoneEvent {
     #[doc = "The ID of the item this summary part is associated with.\n"]
     pub item_id: String,
     #[doc = "The index of the output item this summary part is associated with.\n"]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The index of the summary part within the reasoning summary.\n"]
-    pub summary_index: u64,
+    pub summary_index: i64,
     #[doc = "The sequence number of this event.\n"]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
     #[doc = "The completed summary part.\n"]
     pub part: ResponseReasoningSummaryPartDoneEventPart,
 }
@@ -62096,16 +62096,16 @@ impl<'de> serde::Deserialize<'de> for ResponseReasoningSummaryTextDeltaEvent {
             item_id: String,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "summary_index")]
             #[allow(dead_code)]
-            summary_index: u64,
+            summary_index: i64,
             #[serde(rename = "delta")]
             #[allow(dead_code)]
             delta: String,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
         }
         let ResponseReasoningSummaryTextDeltaEvent {
             item_id,
@@ -62137,13 +62137,13 @@ impl serde::Serialize for ResponseReasoningSummaryTextDeltaEvent {
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "summary_index")]
-            summary_index: &'a u64,
+            summary_index: &'a i64,
             #[serde(rename = "delta")]
             delta: &'a String,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
         }
         let Self {
             item_id,
@@ -62169,13 +62169,13 @@ pub struct ResponseReasoningSummaryTextDeltaEvent {
     #[doc = "The ID of the item this summary text delta is associated with.\n"]
     pub item_id: String,
     #[doc = "The index of the output item this summary text delta is associated with.\n"]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The index of the summary part within the reasoning summary.\n"]
-    pub summary_index: u64,
+    pub summary_index: i64,
     #[doc = "The text delta that was added to the summary.\n"]
     pub delta: String,
     #[doc = "The sequence number of this event.\n"]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseReasoningSummaryTextDoneEventType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -62220,16 +62220,16 @@ impl<'de> serde::Deserialize<'de> for ResponseReasoningSummaryTextDoneEvent {
             item_id: String,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "summary_index")]
             #[allow(dead_code)]
-            summary_index: u64,
+            summary_index: i64,
             #[serde(rename = "text")]
             #[allow(dead_code)]
             text: String,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
         }
         let ResponseReasoningSummaryTextDoneEvent {
             item_id,
@@ -62261,13 +62261,13 @@ impl serde::Serialize for ResponseReasoningSummaryTextDoneEvent {
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "summary_index")]
-            summary_index: &'a u64,
+            summary_index: &'a i64,
             #[serde(rename = "text")]
             text: &'a String,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
         }
         let Self {
             item_id,
@@ -62293,13 +62293,13 @@ pub struct ResponseReasoningSummaryTextDoneEvent {
     #[doc = "The ID of the item this summary text is associated with.\n"]
     pub item_id: String,
     #[doc = "The index of the output item this summary text is associated with.\n"]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The index of the summary part within the reasoning summary.\n"]
-    pub summary_index: u64,
+    pub summary_index: i64,
     #[doc = "The full text of the completed reasoning summary.\n"]
     pub text: String,
     #[doc = "The sequence number of this event.\n"]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseRefusalDeltaEventType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -62344,16 +62344,16 @@ impl<'de> serde::Deserialize<'de> for ResponseRefusalDeltaEvent {
             item_id: String,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "content_index")]
             #[allow(dead_code)]
-            content_index: u64,
+            content_index: i64,
             #[serde(rename = "delta")]
             #[allow(dead_code)]
             delta: String,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
         }
         let ResponseRefusalDeltaEvent {
             item_id,
@@ -62385,13 +62385,13 @@ impl serde::Serialize for ResponseRefusalDeltaEvent {
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "content_index")]
-            content_index: &'a u64,
+            content_index: &'a i64,
             #[serde(rename = "delta")]
             delta: &'a String,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
         }
         let Self {
             item_id,
@@ -62417,13 +62417,13 @@ pub struct ResponseRefusalDeltaEvent {
     #[doc = "The ID of the output item that the refusal text is added to.\n"]
     pub item_id: String,
     #[doc = "The index of the output item that the refusal text is added to.\n"]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The index of the content part that the refusal text is added to.\n"]
-    pub content_index: u64,
+    pub content_index: i64,
     #[doc = "The refusal text that is added.\n"]
     pub delta: String,
     #[doc = "The sequence number of this event.\n"]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseRefusalDoneEventType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -62468,16 +62468,16 @@ impl<'de> serde::Deserialize<'de> for ResponseRefusalDoneEvent {
             item_id: String,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "content_index")]
             #[allow(dead_code)]
-            content_index: u64,
+            content_index: i64,
             #[serde(rename = "refusal")]
             #[allow(dead_code)]
             refusal: String,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
         }
         let ResponseRefusalDoneEvent {
             item_id,
@@ -62509,13 +62509,13 @@ impl serde::Serialize for ResponseRefusalDoneEvent {
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "content_index")]
-            content_index: &'a u64,
+            content_index: &'a i64,
             #[serde(rename = "refusal")]
             refusal: &'a String,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
         }
         let Self {
             item_id,
@@ -62541,13 +62541,13 @@ pub struct ResponseRefusalDoneEvent {
     #[doc = "The ID of the output item that the refusal text is finalized.\n"]
     pub item_id: String,
     #[doc = "The index of the output item that the refusal text is finalized.\n"]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The index of the content part that the refusal text is finalized.\n"]
-    pub content_index: u64,
+    pub content_index: i64,
     #[doc = "The refusal text that is finalized.\n"]
     pub refusal: String,
     #[doc = "The sequence number of this event.\n"]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseStreamEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -63147,16 +63147,16 @@ impl<'de> serde::Deserialize<'de> for ResponseTextDeltaEvent {
             item_id: String,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "content_index")]
             #[allow(dead_code)]
-            content_index: u64,
+            content_index: i64,
             #[serde(rename = "delta")]
             #[allow(dead_code)]
             delta: String,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
         }
         let ResponseTextDeltaEvent {
             item_id,
@@ -63188,13 +63188,13 @@ impl serde::Serialize for ResponseTextDeltaEvent {
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "content_index")]
-            content_index: &'a u64,
+            content_index: &'a i64,
             #[serde(rename = "delta")]
             delta: &'a String,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
         }
         let Self {
             item_id,
@@ -63220,13 +63220,13 @@ pub struct ResponseTextDeltaEvent {
     #[doc = "The ID of the output item that the text delta was added to.\n"]
     pub item_id: String,
     #[doc = "The index of the output item that the text delta was added to.\n"]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The index of the content part that the text delta was added to.\n"]
-    pub content_index: u64,
+    pub content_index: i64,
     #[doc = "The text delta that was added.\n"]
     pub delta: String,
     #[doc = "The sequence number for this event."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseTextDoneEventType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -63271,16 +63271,16 @@ impl<'de> serde::Deserialize<'de> for ResponseTextDoneEvent {
             item_id: String,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "content_index")]
             #[allow(dead_code)]
-            content_index: u64,
+            content_index: i64,
             #[serde(rename = "text")]
             #[allow(dead_code)]
             text: String,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
         }
         let ResponseTextDoneEvent {
             item_id,
@@ -63312,13 +63312,13 @@ impl serde::Serialize for ResponseTextDoneEvent {
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "content_index")]
-            content_index: &'a u64,
+            content_index: &'a i64,
             #[serde(rename = "text")]
             text: &'a String,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
         }
         let Self {
             item_id,
@@ -63344,13 +63344,13 @@ pub struct ResponseTextDoneEvent {
     #[doc = "The ID of the output item that the text content is finalized.\n"]
     pub item_id: String,
     #[doc = "The index of the output item that the text content is finalized.\n"]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "The index of the content part that the text content is finalized.\n"]
-    pub content_index: u64,
+    pub content_index: i64,
     #[doc = "The text content that is finalized.\n"]
     pub text: String,
     #[doc = "The sequence number for this event."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseUsageInputTokensDetails {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -63362,7 +63362,7 @@ impl<'de> serde::Deserialize<'de> for ResponseUsageInputTokensDetails {
         struct ResponseUsageInputTokensDetails {
             #[serde(rename = "cached_tokens")]
             #[allow(dead_code)]
-            cached_tokens: u64,
+            cached_tokens: i64,
         }
         let ResponseUsageInputTokensDetails { cached_tokens, .. } =
             ResponseUsageInputTokensDetails::deserialize(deserializer)?;
@@ -63378,7 +63378,7 @@ impl serde::Serialize for ResponseUsageInputTokensDetails {
         #[derive(serde :: Serialize)]
         struct ResponseUsageInputTokensDetails<'a> {
             #[serde(rename = "cached_tokens")]
-            cached_tokens: &'a u64,
+            cached_tokens: &'a i64,
         }
         let Self { cached_tokens } = self;
         ResponseUsageInputTokensDetails { cached_tokens }.serialize(serializer)
@@ -63388,7 +63388,7 @@ impl serde::Serialize for ResponseUsageInputTokensDetails {
 #[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseUsageInputTokensDetails {
     #[doc = "The number of tokens that were retrieved from the cache. \n[More on prompt caching](https://platform.openai.com/docs/guides/prompt-caching).\n"]
-    pub cached_tokens: u64,
+    pub cached_tokens: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseUsageOutputTokensDetails {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -63400,7 +63400,7 @@ impl<'de> serde::Deserialize<'de> for ResponseUsageOutputTokensDetails {
         struct ResponseUsageOutputTokensDetails {
             #[serde(rename = "reasoning_tokens")]
             #[allow(dead_code)]
-            reasoning_tokens: u64,
+            reasoning_tokens: i64,
         }
         let ResponseUsageOutputTokensDetails {
             reasoning_tokens, ..
@@ -63417,7 +63417,7 @@ impl serde::Serialize for ResponseUsageOutputTokensDetails {
         #[derive(serde :: Serialize)]
         struct ResponseUsageOutputTokensDetails<'a> {
             #[serde(rename = "reasoning_tokens")]
-            reasoning_tokens: &'a u64,
+            reasoning_tokens: &'a i64,
         }
         let Self { reasoning_tokens } = self;
         ResponseUsageOutputTokensDetails { reasoning_tokens }.serialize(serializer)
@@ -63427,7 +63427,7 @@ impl serde::Serialize for ResponseUsageOutputTokensDetails {
 #[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseUsageOutputTokensDetails {
     #[doc = "The number of reasoning tokens."]
-    pub reasoning_tokens: u64,
+    pub reasoning_tokens: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseUsage {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -63439,19 +63439,19 @@ impl<'de> serde::Deserialize<'de> for ResponseUsage {
         struct ResponseUsage {
             #[serde(rename = "input_tokens")]
             #[allow(dead_code)]
-            input_tokens: u64,
+            input_tokens: i64,
             #[serde(rename = "input_tokens_details")]
             #[allow(dead_code)]
             input_tokens_details: ResponseUsageInputTokensDetails,
             #[serde(rename = "output_tokens")]
             #[allow(dead_code)]
-            output_tokens: u64,
+            output_tokens: i64,
             #[serde(rename = "output_tokens_details")]
             #[allow(dead_code)]
             output_tokens_details: ResponseUsageOutputTokensDetails,
             #[serde(rename = "total_tokens")]
             #[allow(dead_code)]
-            total_tokens: u64,
+            total_tokens: i64,
         }
         let ResponseUsage {
             input_tokens,
@@ -63479,15 +63479,15 @@ impl serde::Serialize for ResponseUsage {
         #[derive(serde :: Serialize)]
         struct ResponseUsage<'a> {
             #[serde(rename = "input_tokens")]
-            input_tokens: &'a u64,
+            input_tokens: &'a i64,
             #[serde(rename = "input_tokens_details")]
             input_tokens_details: &'a ResponseUsageInputTokensDetails,
             #[serde(rename = "output_tokens")]
-            output_tokens: &'a u64,
+            output_tokens: &'a i64,
             #[serde(rename = "output_tokens_details")]
             output_tokens_details: &'a ResponseUsageOutputTokensDetails,
             #[serde(rename = "total_tokens")]
-            total_tokens: &'a u64,
+            total_tokens: &'a i64,
         }
         let Self {
             input_tokens,
@@ -63510,15 +63510,15 @@ impl serde::Serialize for ResponseUsage {
 #[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseUsage {
     #[doc = "The number of input tokens."]
-    pub input_tokens: u64,
+    pub input_tokens: i64,
     #[doc = "A detailed breakdown of the input tokens."]
     pub input_tokens_details: ResponseUsageInputTokensDetails,
     #[doc = "The number of output tokens."]
-    pub output_tokens: u64,
+    pub output_tokens: i64,
     #[doc = "A detailed breakdown of the output tokens."]
     pub output_tokens_details: ResponseUsageOutputTokensDetails,
     #[doc = "The total number of tokens used."]
-    pub total_tokens: u64,
+    pub total_tokens: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseWebSearchCallCompletedEventType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -63560,13 +63560,13 @@ impl<'de> serde::Deserialize<'de> for ResponseWebSearchCallCompletedEvent {
             r#type: ResponseWebSearchCallCompletedEventType,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
         }
         let ResponseWebSearchCallCompletedEvent {
             output_index,
@@ -63592,11 +63592,11 @@ impl serde::Serialize for ResponseWebSearchCallCompletedEvent {
             #[serde(rename = "type")]
             r#type: &'a ResponseWebSearchCallCompletedEventType,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
         }
         let Self {
             output_index,
@@ -63616,11 +63616,11 @@ impl serde::Serialize for ResponseWebSearchCallCompletedEvent {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseWebSearchCallCompletedEvent {
     #[doc = "The index of the output item that the web search call is associated with.\n"]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "Unique ID for the output item associated with the web search call.\n"]
     pub item_id: String,
     #[doc = "The sequence number of the web search call being processed."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseWebSearchCallInProgressEventType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -63662,13 +63662,13 @@ impl<'de> serde::Deserialize<'de> for ResponseWebSearchCallInProgressEvent {
             r#type: ResponseWebSearchCallInProgressEventType,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
         }
         let ResponseWebSearchCallInProgressEvent {
             output_index,
@@ -63694,11 +63694,11 @@ impl serde::Serialize for ResponseWebSearchCallInProgressEvent {
             #[serde(rename = "type")]
             r#type: &'a ResponseWebSearchCallInProgressEventType,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
         }
         let Self {
             output_index,
@@ -63718,11 +63718,11 @@ impl serde::Serialize for ResponseWebSearchCallInProgressEvent {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseWebSearchCallInProgressEvent {
     #[doc = "The index of the output item that the web search call is associated with.\n"]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "Unique ID for the output item associated with the web search call.\n"]
     pub item_id: String,
     #[doc = "The sequence number of the web search call being processed."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseWebSearchCallSearchingEventType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -63764,13 +63764,13 @@ impl<'de> serde::Deserialize<'de> for ResponseWebSearchCallSearchingEvent {
             r#type: ResponseWebSearchCallSearchingEventType,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
-            output_index: u64,
+            output_index: i64,
             #[serde(rename = "item_id")]
             #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
-            sequence_number: u64,
+            sequence_number: i64,
         }
         let ResponseWebSearchCallSearchingEvent {
             output_index,
@@ -63796,11 +63796,11 @@ impl serde::Serialize for ResponseWebSearchCallSearchingEvent {
             #[serde(rename = "type")]
             r#type: &'a ResponseWebSearchCallSearchingEventType,
             #[serde(rename = "output_index")]
-            output_index: &'a u64,
+            output_index: &'a i64,
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "sequence_number")]
-            sequence_number: &'a u64,
+            sequence_number: &'a i64,
         }
         let Self {
             output_index,
@@ -63820,11 +63820,11 @@ impl serde::Serialize for ResponseWebSearchCallSearchingEvent {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseWebSearchCallSearchingEvent {
     #[doc = "The index of the output item that the web search call is associated with.\n"]
-    pub output_index: u64,
+    pub output_index: i64,
     #[doc = "Unique ID for the output item associated with the web search call.\n"]
     pub item_id: String,
     #[doc = "The sequence number of the web search call being processed."]
-    pub sequence_number: u64,
+    pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for RunCompletionUsage {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -63836,13 +63836,13 @@ impl<'de> serde::Deserialize<'de> for RunCompletionUsage {
         struct RunCompletionUsage {
             #[serde(rename = "completion_tokens")]
             #[allow(dead_code)]
-            completion_tokens: u64,
+            completion_tokens: i64,
             #[serde(rename = "prompt_tokens")]
             #[allow(dead_code)]
-            prompt_tokens: u64,
+            prompt_tokens: i64,
             #[serde(rename = "total_tokens")]
             #[allow(dead_code)]
-            total_tokens: u64,
+            total_tokens: i64,
         }
         let RunCompletionUsage {
             completion_tokens,
@@ -63866,11 +63866,11 @@ impl serde::Serialize for RunCompletionUsage {
         #[derive(serde :: Serialize)]
         struct RunCompletionUsage<'a> {
             #[serde(rename = "completion_tokens")]
-            completion_tokens: &'a u64,
+            completion_tokens: &'a i64,
             #[serde(rename = "prompt_tokens")]
-            prompt_tokens: &'a u64,
+            prompt_tokens: &'a i64,
             #[serde(rename = "total_tokens")]
-            total_tokens: &'a u64,
+            total_tokens: &'a i64,
         }
         let Self {
             completion_tokens,
@@ -63889,11 +63889,11 @@ impl serde::Serialize for RunCompletionUsage {
 #[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunCompletionUsage {
     #[doc = "Number of completion tokens used over the course of the run."]
-    pub completion_tokens: u64,
+    pub completion_tokens: i64,
     #[doc = "Number of prompt tokens used over the course of the run."]
-    pub prompt_tokens: u64,
+    pub prompt_tokens: i64,
     #[doc = "Total number of tokens used (prompt + completion)."]
-    pub total_tokens: u64,
+    pub total_tokens: i64,
 }
 impl<'de> serde::Deserialize<'de> for RunGraderRequestGrader {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -64233,7 +64233,7 @@ impl<'de> serde::Deserialize<'de> for RunGraderResponseMetadata {
             scores: indexmap::IndexMap<String, serde_json::Value>,
             #[serde(rename = "token_usage")]
             #[allow(dead_code)]
-            token_usage: Option<u64>,
+            token_usage: Option<i64>,
             #[serde(rename = "sampled_model_name")]
             #[allow(dead_code)]
             sampled_model_name: Option<String>,
@@ -64279,7 +64279,7 @@ impl serde::Serialize for RunGraderResponseMetadata {
             scores: &'a indexmap::IndexMap<String, serde_json::Value>,
             #[serde(rename = "token_usage")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            token_usage: &'a Option<u64>,
+            token_usage: &'a Option<i64>,
             #[serde(rename = "sampled_model_name")]
             #[serde(skip_serializing_if = "Option::is_none")]
             sampled_model_name: &'a Option<String>,
@@ -64313,7 +64313,7 @@ pub struct RunGraderResponseMetadata {
     pub execution_time: f64,
     pub scores: indexmap::IndexMap<String, serde_json::Value>,
     #[builder(default)]
-    pub token_usage: Option<u64>,
+    pub token_usage: Option<i64>,
     #[builder(default)]
     pub sampled_model_name: Option<String>,
 }
@@ -64661,7 +64661,7 @@ impl<'de> serde::Deserialize<'de> for RunObject {
             object: RunObjectObject,
             #[serde(rename = "created_at")]
             #[allow(dead_code)]
-            created_at: u64,
+            created_at: i64,
             #[serde(rename = "thread_id")]
             #[allow(dead_code)]
             thread_id: String,
@@ -64679,19 +64679,19 @@ impl<'de> serde::Deserialize<'de> for RunObject {
             last_error: Option<RunObjectLastError>,
             #[serde(rename = "expires_at")]
             #[allow(dead_code)]
-            expires_at: Option<u64>,
+            expires_at: Option<i64>,
             #[serde(rename = "started_at")]
             #[allow(dead_code)]
-            started_at: Option<u64>,
+            started_at: Option<i64>,
             #[serde(rename = "cancelled_at")]
             #[allow(dead_code)]
-            cancelled_at: Option<u64>,
+            cancelled_at: Option<i64>,
             #[serde(rename = "failed_at")]
             #[allow(dead_code)]
-            failed_at: Option<u64>,
+            failed_at: Option<i64>,
             #[serde(rename = "completed_at")]
             #[allow(dead_code)]
-            completed_at: Option<u64>,
+            completed_at: Option<i64>,
             #[serde(rename = "incomplete_details")]
             #[allow(dead_code)]
             incomplete_details: Option<RunObjectIncompleteDetails>,
@@ -64718,10 +64718,10 @@ impl<'de> serde::Deserialize<'de> for RunObject {
             top_p: Option<f64>,
             #[serde(rename = "max_prompt_tokens")]
             #[allow(dead_code)]
-            max_prompt_tokens: Option<u64>,
+            max_prompt_tokens: Option<i64>,
             #[serde(rename = "max_completion_tokens")]
             #[allow(dead_code)]
-            max_completion_tokens: Option<u64>,
+            max_completion_tokens: Option<i64>,
             #[serde(rename = "truncation_strategy")]
             #[allow(dead_code)]
             truncation_strategy: Option<TruncationObject>,
@@ -64807,7 +64807,7 @@ impl serde::Serialize for RunObject {
             #[serde(rename = "object")]
             object: &'a RunObjectObject,
             #[serde(rename = "created_at")]
-            created_at: &'a u64,
+            created_at: &'a i64,
             #[serde(rename = "thread_id")]
             thread_id: &'a String,
             #[serde(rename = "assistant_id")]
@@ -64822,19 +64822,19 @@ impl serde::Serialize for RunObject {
             last_error: &'a Option<RunObjectLastError>,
             #[serde(rename = "expires_at")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            expires_at: &'a Option<u64>,
+            expires_at: &'a Option<i64>,
             #[serde(rename = "started_at")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            started_at: &'a Option<u64>,
+            started_at: &'a Option<i64>,
             #[serde(rename = "cancelled_at")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            cancelled_at: &'a Option<u64>,
+            cancelled_at: &'a Option<i64>,
             #[serde(rename = "failed_at")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            failed_at: &'a Option<u64>,
+            failed_at: &'a Option<i64>,
             #[serde(rename = "completed_at")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            completed_at: &'a Option<u64>,
+            completed_at: &'a Option<i64>,
             #[serde(rename = "incomplete_details")]
             #[serde(skip_serializing_if = "Option::is_none")]
             incomplete_details: &'a Option<RunObjectIncompleteDetails>,
@@ -64858,10 +64858,10 @@ impl serde::Serialize for RunObject {
             top_p: &'a Option<f64>,
             #[serde(rename = "max_prompt_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            max_prompt_tokens: &'a Option<u64>,
+            max_prompt_tokens: &'a Option<i64>,
             #[serde(rename = "max_completion_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            max_completion_tokens: &'a Option<u64>,
+            max_completion_tokens: &'a Option<i64>,
             #[serde(rename = "truncation_strategy")]
             #[serde(skip_serializing_if = "Option::is_none")]
             truncation_strategy: &'a Option<TruncationObject>,
@@ -64940,7 +64940,7 @@ pub struct RunObject {
     #[doc = "The identifier, which can be referenced in API endpoints."]
     pub id: String,
     #[doc = "The Unix timestamp (in seconds) for when the run was created."]
-    pub created_at: u64,
+    pub created_at: i64,
     #[doc = "The ID of the [thread](https://platform.openai.com/docs/api-reference/threads) that was executed on as a part of this run."]
     pub thread_id: String,
     #[doc = "The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for execution of this run."]
@@ -64954,19 +64954,19 @@ pub struct RunObject {
     pub last_error: Option<RunObjectLastError>,
     #[doc = "The Unix timestamp (in seconds) for when the run will expire."]
     #[builder(default)]
-    pub expires_at: Option<u64>,
+    pub expires_at: Option<i64>,
     #[doc = "The Unix timestamp (in seconds) for when the run was started."]
     #[builder(default)]
-    pub started_at: Option<u64>,
+    pub started_at: Option<i64>,
     #[doc = "The Unix timestamp (in seconds) for when the run was cancelled."]
     #[builder(default)]
-    pub cancelled_at: Option<u64>,
+    pub cancelled_at: Option<i64>,
     #[doc = "The Unix timestamp (in seconds) for when the run failed."]
     #[builder(default)]
-    pub failed_at: Option<u64>,
+    pub failed_at: Option<i64>,
     #[doc = "The Unix timestamp (in seconds) for when the run was completed."]
     #[builder(default)]
-    pub completed_at: Option<u64>,
+    pub completed_at: Option<i64>,
     #[doc = "Details on why the run is incomplete. Will be `null` if the run is not incomplete."]
     #[builder(default)]
     pub incomplete_details: Option<RunObjectIncompleteDetails>,
@@ -64988,10 +64988,10 @@ pub struct RunObject {
     pub top_p: Option<f64>,
     #[doc = "The maximum number of prompt tokens specified to have been used over the course of the run.\n"]
     #[builder(default)]
-    pub max_prompt_tokens: Option<u64>,
+    pub max_prompt_tokens: Option<i64>,
     #[doc = "The maximum number of completion tokens specified to have been used over the course of the run.\n"]
     #[builder(default)]
-    pub max_completion_tokens: Option<u64>,
+    pub max_completion_tokens: Option<i64>,
     #[builder(default)]
     pub truncation_strategy: Option<TruncationObject>,
     #[builder(default)]
@@ -65010,13 +65010,13 @@ impl<'de> serde::Deserialize<'de> for RunStepCompletionUsage {
         struct RunStepCompletionUsage {
             #[serde(rename = "completion_tokens")]
             #[allow(dead_code)]
-            completion_tokens: u64,
+            completion_tokens: i64,
             #[serde(rename = "prompt_tokens")]
             #[allow(dead_code)]
-            prompt_tokens: u64,
+            prompt_tokens: i64,
             #[serde(rename = "total_tokens")]
             #[allow(dead_code)]
-            total_tokens: u64,
+            total_tokens: i64,
         }
         let RunStepCompletionUsage {
             completion_tokens,
@@ -65040,11 +65040,11 @@ impl serde::Serialize for RunStepCompletionUsage {
         #[derive(serde :: Serialize)]
         struct RunStepCompletionUsage<'a> {
             #[serde(rename = "completion_tokens")]
-            completion_tokens: &'a u64,
+            completion_tokens: &'a i64,
             #[serde(rename = "prompt_tokens")]
-            prompt_tokens: &'a u64,
+            prompt_tokens: &'a i64,
             #[serde(rename = "total_tokens")]
-            total_tokens: &'a u64,
+            total_tokens: &'a i64,
         }
         let Self {
             completion_tokens,
@@ -65063,11 +65063,11 @@ impl serde::Serialize for RunStepCompletionUsage {
 #[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStepCompletionUsage {
     #[doc = "Number of completion tokens used over the course of the run step."]
-    pub completion_tokens: u64,
+    pub completion_tokens: i64,
     #[doc = "Number of prompt tokens used over the course of the run step."]
-    pub prompt_tokens: u64,
+    pub prompt_tokens: i64,
     #[doc = "Total number of tokens used (prompt + completion)."]
-    pub total_tokens: u64,
+    pub total_tokens: i64,
 }
 impl<'de> serde::Deserialize<'de> for RunStepDeltaObjectObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -65415,7 +65415,7 @@ impl<'de> serde::Deserialize<'de> for RunStepDeltaStepDetailsToolCallsCodeObject
         struct RunStepDeltaStepDetailsToolCallsCodeObject {
             #[serde(rename = "index")]
             #[allow(dead_code)]
-            index: u64,
+            index: i64,
             #[serde(rename = "id")]
             #[allow(dead_code)]
             id: Option<String>,
@@ -65448,7 +65448,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsCodeObject {
         #[derive(serde :: Serialize)]
         struct RunStepDeltaStepDetailsToolCallsCodeObject<'a> {
             #[serde(rename = "index")]
-            index: &'a u64,
+            index: &'a i64,
             #[serde(rename = "id")]
             #[serde(skip_serializing_if = "Option::is_none")]
             id: &'a Option<String>,
@@ -65476,7 +65476,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsCodeObject {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStepDeltaStepDetailsToolCallsCodeObject {
     #[doc = "The index of the tool call in the tool calls array."]
-    pub index: u64,
+    pub index: i64,
     #[doc = "The ID of the tool call."]
     #[builder(default)]
     pub id: Option<String>,
@@ -65560,7 +65560,7 @@ impl<'de> serde::Deserialize<'de> for RunStepDeltaStepDetailsToolCallsCodeOutput
         struct RunStepDeltaStepDetailsToolCallsCodeOutputImageObject {
             #[serde(rename = "index")]
             #[allow(dead_code)]
-            index: u64,
+            index: i64,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectType,
@@ -65582,7 +65582,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsCodeOutputImageObject 
         #[derive(serde :: Serialize)]
         struct RunStepDeltaStepDetailsToolCallsCodeOutputImageObject<'a> {
             #[serde(rename = "index")]
-            index: &'a u64,
+            index: &'a i64,
             #[serde(rename = "type")]
             r#type: &'a RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectType,
             #[serde(rename = "image")]
@@ -65601,7 +65601,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsCodeOutputImageObject 
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStepDeltaStepDetailsToolCallsCodeOutputImageObject {
     #[doc = "The index of the output in the outputs array."]
-    pub index: u64,
+    pub index: i64,
     #[builder(default)]
     pub image: Option<RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImage>,
 }
@@ -65642,7 +65642,7 @@ impl<'de> serde::Deserialize<'de> for RunStepDeltaStepDetailsToolCallsCodeOutput
         struct RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject {
             #[serde(rename = "index")]
             #[allow(dead_code)]
-            index: u64,
+            index: i64,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectType,
@@ -65664,7 +65664,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject {
         #[derive(serde :: Serialize)]
         struct RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject<'a> {
             #[serde(rename = "index")]
-            index: &'a u64,
+            index: &'a i64,
             #[serde(rename = "type")]
             r#type: &'a RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectType,
             #[serde(rename = "logs")]
@@ -65684,7 +65684,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject {
     #[doc = "The index of the output in the outputs array."]
-    pub index: u64,
+    pub index: i64,
     #[doc = "The text output from the Code Interpreter tool call."]
     #[builder(default)]
     pub logs: Option<String>,
@@ -65726,7 +65726,7 @@ impl<'de> serde::Deserialize<'de> for RunStepDeltaStepDetailsToolCallsFileSearch
         struct RunStepDeltaStepDetailsToolCallsFileSearchObject {
             #[serde(rename = "index")]
             #[allow(dead_code)]
-            index: u64,
+            index: i64,
             #[serde(rename = "id")]
             #[allow(dead_code)]
             id: Option<String>,
@@ -65759,7 +65759,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsFileSearchObject {
         #[derive(serde :: Serialize)]
         struct RunStepDeltaStepDetailsToolCallsFileSearchObject<'a> {
             #[serde(rename = "index")]
-            index: &'a u64,
+            index: &'a i64,
             #[serde(rename = "id")]
             #[serde(skip_serializing_if = "Option::is_none")]
             id: &'a Option<String>,
@@ -65785,7 +65785,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsFileSearchObject {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStepDeltaStepDetailsToolCallsFileSearchObject {
     #[doc = "The index of the tool call in the tool calls array."]
-    pub index: u64,
+    pub index: i64,
     #[doc = "The ID of the tool call object."]
     #[builder(default)]
     pub id: Option<String>,
@@ -65904,7 +65904,7 @@ impl<'de> serde::Deserialize<'de> for RunStepDeltaStepDetailsToolCallsFunctionOb
         struct RunStepDeltaStepDetailsToolCallsFunctionObject {
             #[serde(rename = "index")]
             #[allow(dead_code)]
-            index: u64,
+            index: i64,
             #[serde(rename = "id")]
             #[allow(dead_code)]
             id: Option<String>,
@@ -65937,7 +65937,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsFunctionObject {
         #[derive(serde :: Serialize)]
         struct RunStepDeltaStepDetailsToolCallsFunctionObject<'a> {
             #[serde(rename = "index")]
-            index: &'a u64,
+            index: &'a i64,
             #[serde(rename = "id")]
             #[serde(skip_serializing_if = "Option::is_none")]
             id: &'a Option<String>,
@@ -65964,7 +65964,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsFunctionObject {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStepDeltaStepDetailsToolCallsFunctionObject {
     #[doc = "The index of the tool call in the tool calls array."]
-    pub index: u64,
+    pub index: i64,
     #[doc = "The ID of the tool call object."]
     #[builder(default)]
     pub id: Option<String>,
@@ -67286,7 +67286,7 @@ impl<'de> serde::Deserialize<'de> for RunStepObject {
             object: RunStepObjectObject,
             #[serde(rename = "created_at")]
             #[allow(dead_code)]
-            created_at: u64,
+            created_at: i64,
             #[serde(rename = "assistant_id")]
             #[allow(dead_code)]
             assistant_id: String,
@@ -67310,16 +67310,16 @@ impl<'de> serde::Deserialize<'de> for RunStepObject {
             last_error: Option<RunStepObjectLastError>,
             #[serde(rename = "expired_at")]
             #[allow(dead_code)]
-            expired_at: Option<u64>,
+            expired_at: Option<i64>,
             #[serde(rename = "cancelled_at")]
             #[allow(dead_code)]
-            cancelled_at: Option<u64>,
+            cancelled_at: Option<i64>,
             #[serde(rename = "failed_at")]
             #[allow(dead_code)]
-            failed_at: Option<u64>,
+            failed_at: Option<i64>,
             #[serde(rename = "completed_at")]
             #[allow(dead_code)]
-            completed_at: Option<u64>,
+            completed_at: Option<i64>,
             #[serde(rename = "metadata")]
             #[allow(dead_code)]
             metadata: Option<Metadata>,
@@ -67377,7 +67377,7 @@ impl serde::Serialize for RunStepObject {
             #[serde(rename = "object")]
             object: &'a RunStepObjectObject,
             #[serde(rename = "created_at")]
-            created_at: &'a u64,
+            created_at: &'a i64,
             #[serde(rename = "assistant_id")]
             assistant_id: &'a String,
             #[serde(rename = "thread_id")]
@@ -67395,16 +67395,16 @@ impl serde::Serialize for RunStepObject {
             last_error: &'a Option<RunStepObjectLastError>,
             #[serde(rename = "expired_at")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            expired_at: &'a Option<u64>,
+            expired_at: &'a Option<i64>,
             #[serde(rename = "cancelled_at")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            cancelled_at: &'a Option<u64>,
+            cancelled_at: &'a Option<i64>,
             #[serde(rename = "failed_at")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            failed_at: &'a Option<u64>,
+            failed_at: &'a Option<i64>,
             #[serde(rename = "completed_at")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            completed_at: &'a Option<u64>,
+            completed_at: &'a Option<i64>,
             #[serde(rename = "metadata")]
             #[serde(skip_serializing_if = "Option::is_none")]
             metadata: &'a Option<Metadata>,
@@ -67456,7 +67456,7 @@ pub struct RunStepObject {
     #[doc = "The identifier of the run step, which can be referenced in API endpoints."]
     pub id: String,
     #[doc = "The Unix timestamp (in seconds) for when the run step was created."]
-    pub created_at: u64,
+    pub created_at: i64,
     #[doc = "The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) associated with the run step."]
     pub assistant_id: String,
     #[doc = "The ID of the [thread](https://platform.openai.com/docs/api-reference/threads) that was run."]
@@ -67474,16 +67474,16 @@ pub struct RunStepObject {
     pub last_error: Option<RunStepObjectLastError>,
     #[doc = "The Unix timestamp (in seconds) for when the run step expired. A step is considered expired if the parent run is expired."]
     #[builder(default)]
-    pub expired_at: Option<u64>,
+    pub expired_at: Option<i64>,
     #[doc = "The Unix timestamp (in seconds) for when the run step was cancelled."]
     #[builder(default)]
-    pub cancelled_at: Option<u64>,
+    pub cancelled_at: Option<i64>,
     #[doc = "The Unix timestamp (in seconds) for when the run step failed."]
     #[builder(default)]
-    pub failed_at: Option<u64>,
+    pub failed_at: Option<i64>,
     #[doc = "The Unix timestamp (in seconds) for when the run step completed."]
     #[builder(default)]
-    pub completed_at: Option<u64>,
+    pub completed_at: Option<i64>,
     #[builder(default)]
     pub metadata: Option<Metadata>,
     #[builder(default)]
@@ -69163,16 +69163,16 @@ impl<'de> serde::Deserialize<'de> for Scroll {
             r#type: ScrollType,
             #[serde(rename = "x")]
             #[allow(dead_code)]
-            x: u64,
+            x: i64,
             #[serde(rename = "y")]
             #[allow(dead_code)]
-            y: u64,
+            y: i64,
             #[serde(rename = "scroll_x")]
             #[allow(dead_code)]
-            scroll_x: u64,
+            scroll_x: i64,
             #[serde(rename = "scroll_y")]
             #[allow(dead_code)]
-            scroll_y: u64,
+            scroll_y: i64,
         }
         let Scroll {
             x,
@@ -69200,13 +69200,13 @@ impl serde::Serialize for Scroll {
             #[serde(rename = "type")]
             r#type: &'a ScrollType,
             #[serde(rename = "x")]
-            x: &'a u64,
+            x: &'a i64,
             #[serde(rename = "y")]
-            y: &'a u64,
+            y: &'a i64,
             #[serde(rename = "scroll_x")]
-            scroll_x: &'a u64,
+            scroll_x: &'a i64,
             #[serde(rename = "scroll_y")]
-            scroll_y: &'a u64,
+            scroll_y: &'a i64,
         }
         let Self {
             x,
@@ -69228,13 +69228,13 @@ impl serde::Serialize for Scroll {
 #[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct Scroll {
     #[doc = "The x-coordinate where the scroll occurred.\n"]
-    pub x: u64,
+    pub x: i64,
     #[doc = "The y-coordinate where the scroll occurred.\n"]
-    pub y: u64,
+    pub y: i64,
     #[doc = "The horizontal scroll distance.\n"]
-    pub scroll_x: u64,
+    pub scroll_x: i64,
     #[doc = "The vertical scroll distance.\n"]
-    pub scroll_y: u64,
+    pub scroll_y: i64,
 }
 #[doc = "Specifies the latency tier to use for processing the request. This parameter is relevant for customers subscribed to the scale tier service:\n  - If set to 'auto', and the Project is Scale tier enabled, the system\n    will utilize scale tier credits until they are exhausted.\n  - If set to 'auto', and the Project is not Scale tier enabled, the request will be processed using the default service tier with a lower uptime SLA and no latency guarantee.\n  - If set to 'default', the request will be processed using the default service tier with a lower uptime SLA and no latency guarantee.\n  - If set to 'flex', the request will be processed with the Flex Processing service tier. [Learn more](https://platform.openai.com/docs/guides/flex-processing).\n  - When not set, the default behavior is 'auto'.\n\n  When this parameter is set, the response body will include the `service_tier` utilized.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
@@ -69260,10 +69260,10 @@ impl<'de> serde::Deserialize<'de> for StaticChunkingStrategy {
         struct StaticChunkingStrategy {
             #[serde(rename = "max_chunk_size_tokens")]
             #[allow(dead_code)]
-            max_chunk_size_tokens: u64,
+            max_chunk_size_tokens: i64,
             #[serde(rename = "chunk_overlap_tokens")]
             #[allow(dead_code)]
-            chunk_overlap_tokens: u64,
+            chunk_overlap_tokens: i64,
         }
         let StaticChunkingStrategy {
             max_chunk_size_tokens,
@@ -69285,9 +69285,9 @@ impl serde::Serialize for StaticChunkingStrategy {
         #[derive(serde :: Serialize)]
         struct StaticChunkingStrategy<'a> {
             #[serde(rename = "max_chunk_size_tokens")]
-            max_chunk_size_tokens: &'a u64,
+            max_chunk_size_tokens: &'a i64,
             #[serde(rename = "chunk_overlap_tokens")]
-            chunk_overlap_tokens: &'a u64,
+            chunk_overlap_tokens: &'a i64,
         }
         let Self {
             max_chunk_size_tokens,
@@ -69303,9 +69303,9 @@ impl serde::Serialize for StaticChunkingStrategy {
 #[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct StaticChunkingStrategy {
     #[doc = "The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the maximum value is `4096`."]
-    pub max_chunk_size_tokens: u64,
+    pub max_chunk_size_tokens: i64,
     #[doc = "The number of tokens that overlap between chunks. The default value is `400`.\n\nNote that the overlap must not exceed half of `max_chunk_size_tokens`.\n"]
-    pub chunk_overlap_tokens: u64,
+    pub chunk_overlap_tokens: i64,
 }
 impl<'de> serde::Deserialize<'de> for StaticChunkingStrategyRequestParamType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -69971,7 +69971,7 @@ impl<'de> serde::Deserialize<'de> for ThreadObject {
             object: ThreadObjectObject,
             #[serde(rename = "created_at")]
             #[allow(dead_code)]
-            created_at: u64,
+            created_at: i64,
             #[serde(rename = "tool_resources")]
             #[allow(dead_code)]
             tool_resources: Option<ThreadObjectToolResources>,
@@ -70007,7 +70007,7 @@ impl serde::Serialize for ThreadObject {
             #[serde(rename = "object")]
             object: &'a ThreadObjectObject,
             #[serde(rename = "created_at")]
-            created_at: &'a u64,
+            created_at: &'a i64,
             #[serde(rename = "tool_resources")]
             #[serde(skip_serializing_if = "Option::is_none")]
             tool_resources: &'a Option<ThreadObjectToolResources>,
@@ -70037,7 +70037,7 @@ pub struct ThreadObject {
     #[doc = "The identifier, which can be referenced in API endpoints."]
     pub id: String,
     #[doc = "The Unix timestamp (in seconds) for when the thread was created."]
-    pub created_at: u64,
+    pub created_at: i64,
     #[doc = "A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.\n"]
     #[builder(default)]
     pub tool_resources: Option<ThreadObjectToolResources>,
@@ -70472,7 +70472,7 @@ impl<'de> serde::Deserialize<'de> for TranscriptTextDeltaEventLogprob {
             logprob: Option<f64>,
             #[serde(rename = "bytes")]
             #[allow(dead_code)]
-            bytes: Option<Vec<u64>>,
+            bytes: Option<Vec<i64>>,
         }
         let TranscriptTextDeltaEventLogprob {
             token,
@@ -70503,7 +70503,7 @@ impl serde::Serialize for TranscriptTextDeltaEventLogprob {
             logprob: &'a Option<f64>,
             #[serde(rename = "bytes")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            bytes: &'a Option<Vec<u64>>,
+            bytes: &'a Option<Vec<i64>>,
         }
         let Self {
             token,
@@ -70528,7 +70528,7 @@ pub struct TranscriptTextDeltaEventLogprob {
     pub logprob: Option<f64>,
     #[doc = "The bytes that were used to generate the log probability.\n"]
     #[builder(default)]
-    pub bytes: Option<Vec<u64>>,
+    pub bytes: Option<Vec<i64>>,
 }
 impl<'de> serde::Deserialize<'de> for TranscriptTextDeltaEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -70631,7 +70631,7 @@ impl<'de> serde::Deserialize<'de> for TranscriptTextDoneEventLogprob {
             logprob: Option<f64>,
             #[serde(rename = "bytes")]
             #[allow(dead_code)]
-            bytes: Option<Vec<u64>>,
+            bytes: Option<Vec<i64>>,
         }
         let TranscriptTextDoneEventLogprob {
             token,
@@ -70662,7 +70662,7 @@ impl serde::Serialize for TranscriptTextDoneEventLogprob {
             logprob: &'a Option<f64>,
             #[serde(rename = "bytes")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            bytes: &'a Option<Vec<u64>>,
+            bytes: &'a Option<Vec<i64>>,
         }
         let Self {
             token,
@@ -70687,7 +70687,7 @@ pub struct TranscriptTextDoneEventLogprob {
     pub logprob: Option<f64>,
     #[doc = "The bytes that were used to generate the log probability.\n"]
     #[builder(default)]
-    pub bytes: Option<Vec<u64>>,
+    pub bytes: Option<Vec<i64>>,
 }
 impl<'de> serde::Deserialize<'de> for TranscriptTextDoneEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -70764,10 +70764,10 @@ impl<'de> serde::Deserialize<'de> for TranscriptionSegment {
         struct TranscriptionSegment {
             #[serde(rename = "id")]
             #[allow(dead_code)]
-            id: u64,
+            id: i64,
             #[serde(rename = "seek")]
             #[allow(dead_code)]
-            seek: u64,
+            seek: i64,
             #[serde(rename = "start")]
             #[allow(dead_code)]
             start: f64,
@@ -70779,7 +70779,7 @@ impl<'de> serde::Deserialize<'de> for TranscriptionSegment {
             text: String,
             #[serde(rename = "tokens")]
             #[allow(dead_code)]
-            tokens: Vec<u64>,
+            tokens: Vec<i64>,
             #[serde(rename = "temperature")]
             #[allow(dead_code)]
             temperature: f64,
@@ -70829,9 +70829,9 @@ impl serde::Serialize for TranscriptionSegment {
         #[derive(serde :: Serialize)]
         struct TranscriptionSegment<'a> {
             #[serde(rename = "id")]
-            id: &'a u64,
+            id: &'a i64,
             #[serde(rename = "seek")]
-            seek: &'a u64,
+            seek: &'a i64,
             #[serde(rename = "start")]
             start: &'a f64,
             #[serde(rename = "end")]
@@ -70839,7 +70839,7 @@ impl serde::Serialize for TranscriptionSegment {
             #[serde(rename = "text")]
             text: &'a String,
             #[serde(rename = "tokens")]
-            tokens: &'a Vec<u64>,
+            tokens: &'a Vec<i64>,
             #[serde(rename = "temperature")]
             temperature: &'a f64,
             #[serde(rename = "avg_logprob")]
@@ -70879,9 +70879,9 @@ impl serde::Serialize for TranscriptionSegment {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct TranscriptionSegment {
     #[doc = "Unique identifier of the segment."]
-    pub id: u64,
+    pub id: i64,
     #[doc = "Seek offset of the segment."]
-    pub seek: u64,
+    pub seek: i64,
     #[doc = "Start time of the segment in seconds."]
     pub start: f64,
     #[doc = "End time of the segment in seconds."]
@@ -70889,7 +70889,7 @@ pub struct TranscriptionSegment {
     #[doc = "Text content of the segment."]
     pub text: String,
     #[doc = "Array of token IDs for the text content."]
-    pub tokens: Vec<u64>,
+    pub tokens: Vec<i64>,
     #[doc = "Temperature parameter used for generating the segment."]
     pub temperature: f64,
     #[doc = "Average logprob of the segment. If the value is lower than -1, consider the logprobs failed."]
@@ -70974,7 +70974,7 @@ impl<'de> serde::Deserialize<'de> for TruncationObject {
             r#type: TruncationObjectType,
             #[serde(rename = "last_messages")]
             #[allow(dead_code)]
-            last_messages: Option<u64>,
+            last_messages: Option<i64>,
         }
         let TruncationObject {
             r#type,
@@ -70999,7 +70999,7 @@ impl serde::Serialize for TruncationObject {
             r#type: &'a TruncationObjectType,
             #[serde(rename = "last_messages")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            last_messages: &'a Option<u64>,
+            last_messages: &'a Option<i64>,
         }
         let Self {
             r#type,
@@ -71019,7 +71019,7 @@ pub struct TruncationObject {
     pub r#type: TruncationObjectType,
     #[doc = "The number of most recent messages from the thread when constructing the context for the run."]
     #[builder(default)]
-    pub last_messages: Option<u64>,
+    pub last_messages: Option<i64>,
 }
 impl<'de> serde::Deserialize<'de> for TypeType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -71260,13 +71260,13 @@ impl<'de> serde::Deserialize<'de> for Upload {
             id: String,
             #[serde(rename = "created_at")]
             #[allow(dead_code)]
-            created_at: u64,
+            created_at: i64,
             #[serde(rename = "filename")]
             #[allow(dead_code)]
             filename: String,
             #[serde(rename = "bytes")]
             #[allow(dead_code)]
-            bytes: u64,
+            bytes: i64,
             #[serde(rename = "purpose")]
             #[allow(dead_code)]
             purpose: String,
@@ -71275,7 +71275,7 @@ impl<'de> serde::Deserialize<'de> for Upload {
             status: UploadStatus,
             #[serde(rename = "expires_at")]
             #[allow(dead_code)]
-            expires_at: u64,
+            expires_at: i64,
             #[serde(rename = "object")]
             #[allow(dead_code)]
             object: UploadObject,
@@ -71317,17 +71317,17 @@ impl serde::Serialize for Upload {
             #[serde(rename = "id")]
             id: &'a String,
             #[serde(rename = "created_at")]
-            created_at: &'a u64,
+            created_at: &'a i64,
             #[serde(rename = "filename")]
             filename: &'a String,
             #[serde(rename = "bytes")]
-            bytes: &'a u64,
+            bytes: &'a i64,
             #[serde(rename = "purpose")]
             purpose: &'a String,
             #[serde(rename = "status")]
             status: &'a UploadStatus,
             #[serde(rename = "expires_at")]
-            expires_at: &'a u64,
+            expires_at: &'a i64,
             #[serde(rename = "object")]
             object: &'a UploadObject,
             #[serde(rename = "file")]
@@ -71364,17 +71364,17 @@ pub struct Upload {
     #[doc = "The Upload unique identifier, which can be referenced in API endpoints."]
     pub id: String,
     #[doc = "The Unix timestamp (in seconds) for when the Upload was created."]
-    pub created_at: u64,
+    pub created_at: i64,
     #[doc = "The name of the file to be uploaded."]
     pub filename: String,
     #[doc = "The intended number of bytes to be uploaded."]
-    pub bytes: u64,
+    pub bytes: i64,
     #[doc = "The intended purpose of the file. [Please refer here](https://platform.openai.com/docs/api-reference/files/object#files/object-purpose) for acceptable values."]
     pub purpose: String,
     #[doc = "The status of the Upload."]
     pub status: UploadStatus,
     #[doc = "The Unix timestamp (in seconds) for when the Upload will expire."]
-    pub expires_at: u64,
+    pub expires_at: i64,
     #[doc = "The ready File object after the Upload is completed."]
     #[builder(default)]
     pub file: Option<OpenAiFile>,
@@ -71465,7 +71465,7 @@ impl<'de> serde::Deserialize<'de> for UploadPart {
             id: String,
             #[serde(rename = "created_at")]
             #[allow(dead_code)]
-            created_at: u64,
+            created_at: i64,
             #[serde(rename = "upload_id")]
             #[allow(dead_code)]
             upload_id: String,
@@ -71497,7 +71497,7 @@ impl serde::Serialize for UploadPart {
             #[serde(rename = "id")]
             id: &'a String,
             #[serde(rename = "created_at")]
-            created_at: &'a u64,
+            created_at: &'a i64,
             #[serde(rename = "upload_id")]
             upload_id: &'a String,
             #[serde(rename = "object")]
@@ -71523,7 +71523,7 @@ pub struct UploadPart {
     #[doc = "The upload Part unique identifier, which can be referenced in API endpoints."]
     pub id: String,
     #[doc = "The Unix timestamp (in seconds) for when the Part was created."]
-    pub created_at: u64,
+    pub created_at: i64,
     #[doc = "The ID of the Upload object that this Part was added to."]
     pub upload_id: String,
 }
@@ -71567,10 +71567,10 @@ impl<'de> serde::Deserialize<'de> for UsageAudioSpeechesResult {
             object: UsageAudioSpeechesResultObject,
             #[serde(rename = "characters")]
             #[allow(dead_code)]
-            characters: u64,
+            characters: i64,
             #[serde(rename = "num_model_requests")]
             #[allow(dead_code)]
-            num_model_requests: u64,
+            num_model_requests: i64,
             #[serde(rename = "project_id")]
             #[allow(dead_code)]
             project_id: Option<String>,
@@ -71614,9 +71614,9 @@ impl serde::Serialize for UsageAudioSpeechesResult {
             #[serde(rename = "object")]
             object: &'a UsageAudioSpeechesResultObject,
             #[serde(rename = "characters")]
-            characters: &'a u64,
+            characters: &'a i64,
             #[serde(rename = "num_model_requests")]
-            num_model_requests: &'a u64,
+            num_model_requests: &'a i64,
             #[serde(rename = "project_id")]
             #[serde(skip_serializing_if = "Option::is_none")]
             project_id: &'a Option<String>,
@@ -71654,9 +71654,9 @@ impl serde::Serialize for UsageAudioSpeechesResult {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct UsageAudioSpeechesResult {
     #[doc = "The number of characters processed."]
-    pub characters: u64,
+    pub characters: i64,
     #[doc = "The count of requests made to the model."]
-    pub num_model_requests: u64,
+    pub num_model_requests: i64,
     #[doc = "When `group_by=project_id`, this field provides the project ID of the grouped usage result."]
     #[builder(default)]
     pub project_id: Option<String>,
@@ -71710,10 +71710,10 @@ impl<'de> serde::Deserialize<'de> for UsageAudioTranscriptionsResult {
             object: UsageAudioTranscriptionsResultObject,
             #[serde(rename = "seconds")]
             #[allow(dead_code)]
-            seconds: u64,
+            seconds: i64,
             #[serde(rename = "num_model_requests")]
             #[allow(dead_code)]
-            num_model_requests: u64,
+            num_model_requests: i64,
             #[serde(rename = "project_id")]
             #[allow(dead_code)]
             project_id: Option<String>,
@@ -71757,9 +71757,9 @@ impl serde::Serialize for UsageAudioTranscriptionsResult {
             #[serde(rename = "object")]
             object: &'a UsageAudioTranscriptionsResultObject,
             #[serde(rename = "seconds")]
-            seconds: &'a u64,
+            seconds: &'a i64,
             #[serde(rename = "num_model_requests")]
-            num_model_requests: &'a u64,
+            num_model_requests: &'a i64,
             #[serde(rename = "project_id")]
             #[serde(skip_serializing_if = "Option::is_none")]
             project_id: &'a Option<String>,
@@ -71797,9 +71797,9 @@ impl serde::Serialize for UsageAudioTranscriptionsResult {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct UsageAudioTranscriptionsResult {
     #[doc = "The number of seconds processed."]
-    pub seconds: u64,
+    pub seconds: i64,
     #[doc = "The count of requests made to the model."]
-    pub num_model_requests: u64,
+    pub num_model_requests: i64,
     #[doc = "When `group_by=project_id`, this field provides the project ID of the grouped usage result."]
     #[builder(default)]
     pub project_id: Option<String>,
@@ -71853,7 +71853,7 @@ impl<'de> serde::Deserialize<'de> for UsageCodeInterpreterSessionsResult {
             object: UsageCodeInterpreterSessionsResultObject,
             #[serde(rename = "num_sessions")]
             #[allow(dead_code)]
-            num_sessions: Option<u64>,
+            num_sessions: Option<i64>,
             #[serde(rename = "project_id")]
             #[allow(dead_code)]
             project_id: Option<String>,
@@ -71881,7 +71881,7 @@ impl serde::Serialize for UsageCodeInterpreterSessionsResult {
             object: &'a UsageCodeInterpreterSessionsResultObject,
             #[serde(rename = "num_sessions")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            num_sessions: &'a Option<u64>,
+            num_sessions: &'a Option<i64>,
             #[serde(rename = "project_id")]
             #[serde(skip_serializing_if = "Option::is_none")]
             project_id: &'a Option<String>,
@@ -71903,7 +71903,7 @@ impl serde::Serialize for UsageCodeInterpreterSessionsResult {
 pub struct UsageCodeInterpreterSessionsResult {
     #[doc = "The number of code interpreter sessions."]
     #[builder(default)]
-    pub num_sessions: Option<u64>,
+    pub num_sessions: Option<i64>,
     #[doc = "When `group_by=project_id`, this field provides the project ID of the grouped usage result."]
     #[builder(default)]
     pub project_id: Option<String>,
@@ -71948,22 +71948,22 @@ impl<'de> serde::Deserialize<'de> for UsageCompletionsResult {
             object: UsageCompletionsResultObject,
             #[serde(rename = "input_tokens")]
             #[allow(dead_code)]
-            input_tokens: u64,
+            input_tokens: i64,
             #[serde(rename = "input_cached_tokens")]
             #[allow(dead_code)]
-            input_cached_tokens: Option<u64>,
+            input_cached_tokens: Option<i64>,
             #[serde(rename = "output_tokens")]
             #[allow(dead_code)]
-            output_tokens: u64,
+            output_tokens: i64,
             #[serde(rename = "input_audio_tokens")]
             #[allow(dead_code)]
-            input_audio_tokens: Option<u64>,
+            input_audio_tokens: Option<i64>,
             #[serde(rename = "output_audio_tokens")]
             #[allow(dead_code)]
-            output_audio_tokens: Option<u64>,
+            output_audio_tokens: Option<i64>,
             #[serde(rename = "num_model_requests")]
             #[allow(dead_code)]
-            num_model_requests: u64,
+            num_model_requests: i64,
             #[serde(rename = "project_id")]
             #[allow(dead_code)]
             project_id: Option<String>,
@@ -72020,20 +72020,20 @@ impl serde::Serialize for UsageCompletionsResult {
             #[serde(rename = "object")]
             object: &'a UsageCompletionsResultObject,
             #[serde(rename = "input_tokens")]
-            input_tokens: &'a u64,
+            input_tokens: &'a i64,
             #[serde(rename = "input_cached_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            input_cached_tokens: &'a Option<u64>,
+            input_cached_tokens: &'a Option<i64>,
             #[serde(rename = "output_tokens")]
-            output_tokens: &'a u64,
+            output_tokens: &'a i64,
             #[serde(rename = "input_audio_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            input_audio_tokens: &'a Option<u64>,
+            input_audio_tokens: &'a Option<i64>,
             #[serde(rename = "output_audio_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            output_audio_tokens: &'a Option<u64>,
+            output_audio_tokens: &'a Option<i64>,
             #[serde(rename = "num_model_requests")]
-            num_model_requests: &'a u64,
+            num_model_requests: &'a i64,
             #[serde(rename = "project_id")]
             #[serde(skip_serializing_if = "Option::is_none")]
             project_id: &'a Option<String>,
@@ -72084,20 +72084,20 @@ impl serde::Serialize for UsageCompletionsResult {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct UsageCompletionsResult {
     #[doc = "The aggregated number of text input tokens used, including cached tokens. For customers subscribe to scale tier, this includes scale tier tokens."]
-    pub input_tokens: u64,
+    pub input_tokens: i64,
     #[doc = "The aggregated number of text input tokens that has been cached from previous requests. For customers subscribe to scale tier, this includes scale tier tokens."]
     #[builder(default)]
-    pub input_cached_tokens: Option<u64>,
+    pub input_cached_tokens: Option<i64>,
     #[doc = "The aggregated number of text output tokens used. For customers subscribe to scale tier, this includes scale tier tokens."]
-    pub output_tokens: u64,
+    pub output_tokens: i64,
     #[doc = "The aggregated number of audio input tokens used, including cached tokens."]
     #[builder(default)]
-    pub input_audio_tokens: Option<u64>,
+    pub input_audio_tokens: Option<i64>,
     #[doc = "The aggregated number of audio output tokens used."]
     #[builder(default)]
-    pub output_audio_tokens: Option<u64>,
+    pub output_audio_tokens: Option<i64>,
     #[doc = "The count of requests made to the model."]
-    pub num_model_requests: u64,
+    pub num_model_requests: i64,
     #[doc = "When `group_by=project_id`, this field provides the project ID of the grouped usage result."]
     #[builder(default)]
     pub project_id: Option<String>,
@@ -72154,10 +72154,10 @@ impl<'de> serde::Deserialize<'de> for UsageEmbeddingsResult {
             object: UsageEmbeddingsResultObject,
             #[serde(rename = "input_tokens")]
             #[allow(dead_code)]
-            input_tokens: u64,
+            input_tokens: i64,
             #[serde(rename = "num_model_requests")]
             #[allow(dead_code)]
-            num_model_requests: u64,
+            num_model_requests: i64,
             #[serde(rename = "project_id")]
             #[allow(dead_code)]
             project_id: Option<String>,
@@ -72201,9 +72201,9 @@ impl serde::Serialize for UsageEmbeddingsResult {
             #[serde(rename = "object")]
             object: &'a UsageEmbeddingsResultObject,
             #[serde(rename = "input_tokens")]
-            input_tokens: &'a u64,
+            input_tokens: &'a i64,
             #[serde(rename = "num_model_requests")]
-            num_model_requests: &'a u64,
+            num_model_requests: &'a i64,
             #[serde(rename = "project_id")]
             #[serde(skip_serializing_if = "Option::is_none")]
             project_id: &'a Option<String>,
@@ -72241,9 +72241,9 @@ impl serde::Serialize for UsageEmbeddingsResult {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct UsageEmbeddingsResult {
     #[doc = "The aggregated number of input tokens used."]
-    pub input_tokens: u64,
+    pub input_tokens: i64,
     #[doc = "The count of requests made to the model."]
-    pub num_model_requests: u64,
+    pub num_model_requests: i64,
     #[doc = "When `group_by=project_id`, this field provides the project ID of the grouped usage result."]
     #[builder(default)]
     pub project_id: Option<String>,
@@ -72297,10 +72297,10 @@ impl<'de> serde::Deserialize<'de> for UsageImagesResult {
             object: UsageImagesResultObject,
             #[serde(rename = "images")]
             #[allow(dead_code)]
-            images: u64,
+            images: i64,
             #[serde(rename = "num_model_requests")]
             #[allow(dead_code)]
-            num_model_requests: u64,
+            num_model_requests: i64,
             #[serde(rename = "source")]
             #[allow(dead_code)]
             source: Option<String>,
@@ -72354,9 +72354,9 @@ impl serde::Serialize for UsageImagesResult {
             #[serde(rename = "object")]
             object: &'a UsageImagesResultObject,
             #[serde(rename = "images")]
-            images: &'a u64,
+            images: &'a i64,
             #[serde(rename = "num_model_requests")]
-            num_model_requests: &'a u64,
+            num_model_requests: &'a i64,
             #[serde(rename = "source")]
             #[serde(skip_serializing_if = "Option::is_none")]
             source: &'a Option<String>,
@@ -72404,9 +72404,9 @@ impl serde::Serialize for UsageImagesResult {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct UsageImagesResult {
     #[doc = "The number of images processed."]
-    pub images: u64,
+    pub images: i64,
     #[doc = "The count of requests made to the model."]
-    pub num_model_requests: u64,
+    pub num_model_requests: i64,
     #[doc = "When `group_by=source`, this field provides the source of the grouped usage result, possible values are `image.generation`, `image.edit`, `image.variation`."]
     #[builder(default)]
     pub source: Option<String>,
@@ -72466,10 +72466,10 @@ impl<'de> serde::Deserialize<'de> for UsageModerationsResult {
             object: UsageModerationsResultObject,
             #[serde(rename = "input_tokens")]
             #[allow(dead_code)]
-            input_tokens: u64,
+            input_tokens: i64,
             #[serde(rename = "num_model_requests")]
             #[allow(dead_code)]
-            num_model_requests: u64,
+            num_model_requests: i64,
             #[serde(rename = "project_id")]
             #[allow(dead_code)]
             project_id: Option<String>,
@@ -72513,9 +72513,9 @@ impl serde::Serialize for UsageModerationsResult {
             #[serde(rename = "object")]
             object: &'a UsageModerationsResultObject,
             #[serde(rename = "input_tokens")]
-            input_tokens: &'a u64,
+            input_tokens: &'a i64,
             #[serde(rename = "num_model_requests")]
-            num_model_requests: &'a u64,
+            num_model_requests: &'a i64,
             #[serde(rename = "project_id")]
             #[serde(skip_serializing_if = "Option::is_none")]
             project_id: &'a Option<String>,
@@ -72553,9 +72553,9 @@ impl serde::Serialize for UsageModerationsResult {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct UsageModerationsResult {
     #[doc = "The aggregated number of input tokens used."]
-    pub input_tokens: u64,
+    pub input_tokens: i64,
     #[doc = "The count of requests made to the model."]
-    pub num_model_requests: u64,
+    pub num_model_requests: i64,
     #[doc = "When `group_by=project_id`, this field provides the project ID of the grouped usage result."]
     #[builder(default)]
     pub project_id: Option<String>,
@@ -72830,10 +72830,10 @@ impl<'de> serde::Deserialize<'de> for UsageTimeBucket {
             object: UsageTimeBucketObject,
             #[serde(rename = "start_time")]
             #[allow(dead_code)]
-            start_time: u64,
+            start_time: i64,
             #[serde(rename = "end_time")]
             #[allow(dead_code)]
-            end_time: u64,
+            end_time: i64,
             #[serde(rename = "result")]
             #[allow(dead_code)]
             result: Vec<UsageTimeBucketResult>,
@@ -72862,9 +72862,9 @@ impl serde::Serialize for UsageTimeBucket {
             #[serde(rename = "object")]
             object: &'a UsageTimeBucketObject,
             #[serde(rename = "start_time")]
-            start_time: &'a u64,
+            start_time: &'a i64,
             #[serde(rename = "end_time")]
-            end_time: &'a u64,
+            end_time: &'a i64,
             #[serde(rename = "result")]
             result: &'a Vec<UsageTimeBucketResult>,
         }
@@ -72884,8 +72884,8 @@ impl serde::Serialize for UsageTimeBucket {
 }
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct UsageTimeBucket {
-    pub start_time: u64,
-    pub end_time: u64,
+    pub start_time: i64,
+    pub end_time: i64,
     pub result: Vec<UsageTimeBucketResult>,
 }
 impl<'de> serde::Deserialize<'de> for UsageVectorStoresResultObject {
@@ -72928,7 +72928,7 @@ impl<'de> serde::Deserialize<'de> for UsageVectorStoresResult {
             object: UsageVectorStoresResultObject,
             #[serde(rename = "usage_bytes")]
             #[allow(dead_code)]
-            usage_bytes: u64,
+            usage_bytes: i64,
             #[serde(rename = "project_id")]
             #[allow(dead_code)]
             project_id: Option<String>,
@@ -72955,7 +72955,7 @@ impl serde::Serialize for UsageVectorStoresResult {
             #[serde(rename = "object")]
             object: &'a UsageVectorStoresResultObject,
             #[serde(rename = "usage_bytes")]
-            usage_bytes: &'a u64,
+            usage_bytes: &'a i64,
             #[serde(rename = "project_id")]
             #[serde(skip_serializing_if = "Option::is_none")]
             project_id: &'a Option<String>,
@@ -72976,7 +72976,7 @@ impl serde::Serialize for UsageVectorStoresResult {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct UsageVectorStoresResult {
     #[doc = "The vector stores usage in bytes."]
-    pub usage_bytes: u64,
+    pub usage_bytes: i64,
     #[doc = "When `group_by=project_id`, this field provides the project ID of the grouped usage result."]
     #[builder(default)]
     pub project_id: Option<String>,
@@ -73043,7 +73043,7 @@ impl<'de> serde::Deserialize<'de> for User {
             role: UserRole,
             #[serde(rename = "added_at")]
             #[allow(dead_code)]
-            added_at: u64,
+            added_at: i64,
         }
         let User {
             id,
@@ -73081,7 +73081,7 @@ impl serde::Serialize for User {
             #[serde(rename = "role")]
             role: &'a UserRole,
             #[serde(rename = "added_at")]
-            added_at: &'a u64,
+            added_at: &'a i64,
         }
         let Self {
             id,
@@ -73113,7 +73113,7 @@ pub struct User {
     #[doc = "`owner` or `reader`"]
     pub role: UserRole,
     #[doc = "The Unix timestamp (in seconds) of when the user was added."]
-    pub added_at: u64,
+    pub added_at: i64,
 }
 impl<'de> serde::Deserialize<'de> for UserDeleteResponseObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -73367,10 +73367,10 @@ impl<'de> serde::Deserialize<'de> for VadConfig {
             r#type: VadConfigType,
             #[serde(rename = "prefix_padding_ms")]
             #[allow(dead_code)]
-            prefix_padding_ms: Option<u64>,
+            prefix_padding_ms: Option<i64>,
             #[serde(rename = "silence_duration_ms")]
             #[allow(dead_code)]
-            silence_duration_ms: Option<u64>,
+            silence_duration_ms: Option<i64>,
             #[serde(rename = "threshold")]
             #[allow(dead_code)]
             threshold: Option<f64>,
@@ -73402,10 +73402,10 @@ impl serde::Serialize for VadConfig {
             r#type: &'a VadConfigType,
             #[serde(rename = "prefix_padding_ms")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            prefix_padding_ms: &'a Option<u64>,
+            prefix_padding_ms: &'a Option<i64>,
             #[serde(rename = "silence_duration_ms")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            silence_duration_ms: &'a Option<u64>,
+            silence_duration_ms: &'a Option<i64>,
             #[serde(rename = "threshold")]
             #[serde(skip_serializing_if = "Option::is_none")]
             threshold: &'a Option<f64>,
@@ -73431,10 +73431,10 @@ pub struct VadConfig {
     pub r#type: VadConfigType,
     #[doc = "Amount of audio to include before the VAD detected speech (in \nmilliseconds).\n"]
     #[builder(default)]
-    pub prefix_padding_ms: Option<u64>,
+    pub prefix_padding_ms: Option<i64>,
     #[doc = "Duration of silence to detect speech stop (in milliseconds).\nWith shorter values the model will respond more quickly, \nbut may jump in on short pauses from the user.\n"]
     #[builder(default)]
-    pub silence_duration_ms: Option<u64>,
+    pub silence_duration_ms: Option<i64>,
     #[doc = "Sensitivity threshold (0.0 to 1.0) for voice activity detection. A \nhigher threshold will require louder audio to activate the model, and \nthus might perform better in noisy environments.\n"]
     #[builder(default)]
     pub threshold: Option<f64>,
@@ -73689,7 +73689,7 @@ impl<'de> serde::Deserialize<'de> for VectorStoreExpirationAfter {
             anchor: VectorStoreExpirationAfterAnchor,
             #[serde(rename = "days")]
             #[allow(dead_code)]
-            days: u64,
+            days: i64,
         }
         let VectorStoreExpirationAfter { days, .. } =
             VectorStoreExpirationAfter::deserialize(deserializer)?;
@@ -73707,7 +73707,7 @@ impl serde::Serialize for VectorStoreExpirationAfter {
             #[serde(rename = "anchor")]
             anchor: &'a VectorStoreExpirationAfterAnchor,
             #[serde(rename = "days")]
-            days: &'a u64,
+            days: &'a i64,
         }
         let Self { days } = self;
         VectorStoreExpirationAfter {
@@ -73721,7 +73721,7 @@ impl serde::Serialize for VectorStoreExpirationAfter {
 #[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct VectorStoreExpirationAfter {
     #[doc = "The number of days after the anchor time that the vector store will expire."]
-    pub days: u64,
+    pub days: i64,
 }
 impl<'de> serde::Deserialize<'de> for VectorStoreFileAttribute {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -73827,19 +73827,19 @@ impl<'de> serde::Deserialize<'de> for VectorStoreFileBatchObjectFileCounts {
         struct VectorStoreFileBatchObjectFileCounts {
             #[serde(rename = "in_progress")]
             #[allow(dead_code)]
-            in_progress: u64,
+            in_progress: i64,
             #[serde(rename = "completed")]
             #[allow(dead_code)]
-            completed: u64,
+            completed: i64,
             #[serde(rename = "failed")]
             #[allow(dead_code)]
-            failed: u64,
+            failed: i64,
             #[serde(rename = "cancelled")]
             #[allow(dead_code)]
-            cancelled: u64,
+            cancelled: i64,
             #[serde(rename = "total")]
             #[allow(dead_code)]
-            total: u64,
+            total: i64,
         }
         let VectorStoreFileBatchObjectFileCounts {
             in_progress,
@@ -73867,15 +73867,15 @@ impl serde::Serialize for VectorStoreFileBatchObjectFileCounts {
         #[derive(serde :: Serialize)]
         struct VectorStoreFileBatchObjectFileCounts<'a> {
             #[serde(rename = "in_progress")]
-            in_progress: &'a u64,
+            in_progress: &'a i64,
             #[serde(rename = "completed")]
-            completed: &'a u64,
+            completed: &'a i64,
             #[serde(rename = "failed")]
-            failed: &'a u64,
+            failed: &'a i64,
             #[serde(rename = "cancelled")]
-            cancelled: &'a u64,
+            cancelled: &'a i64,
             #[serde(rename = "total")]
-            total: &'a u64,
+            total: &'a i64,
         }
         let Self {
             in_progress,
@@ -73897,15 +73897,15 @@ impl serde::Serialize for VectorStoreFileBatchObjectFileCounts {
 #[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct VectorStoreFileBatchObjectFileCounts {
     #[doc = "The number of files that are currently being processed."]
-    pub in_progress: u64,
+    pub in_progress: i64,
     #[doc = "The number of files that have been processed."]
-    pub completed: u64,
+    pub completed: i64,
     #[doc = "The number of files that have failed to process."]
-    pub failed: u64,
+    pub failed: i64,
     #[doc = "The number of files that where cancelled."]
-    pub cancelled: u64,
+    pub cancelled: i64,
     #[doc = "The total number of files."]
-    pub total: u64,
+    pub total: i64,
 }
 impl<'de> serde::Deserialize<'de> for VectorStoreFileBatchObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -73923,7 +73923,7 @@ impl<'de> serde::Deserialize<'de> for VectorStoreFileBatchObject {
             object: VectorStoreFileBatchObjectObject,
             #[serde(rename = "created_at")]
             #[allow(dead_code)]
-            created_at: u64,
+            created_at: i64,
             #[serde(rename = "vector_store_id")]
             #[allow(dead_code)]
             vector_store_id: String,
@@ -73964,7 +73964,7 @@ impl serde::Serialize for VectorStoreFileBatchObject {
             #[serde(rename = "object")]
             object: &'a VectorStoreFileBatchObjectObject,
             #[serde(rename = "created_at")]
-            created_at: &'a u64,
+            created_at: &'a i64,
             #[serde(rename = "vector_store_id")]
             vector_store_id: &'a String,
             #[serde(rename = "status")]
@@ -73996,7 +73996,7 @@ pub struct VectorStoreFileBatchObject {
     #[doc = "The identifier, which can be referenced in API endpoints."]
     pub id: String,
     #[doc = "The Unix timestamp (in seconds) for when the vector store files batch was created."]
-    pub created_at: u64,
+    pub created_at: i64,
     #[doc = "The ID of the [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) that the [File](https://platform.openai.com/docs/api-reference/files) is attached to."]
     pub vector_store_id: String,
     #[doc = "The status of the vector store files batch, which can be either `in_progress`, `completed`, `cancelled` or `failed`."]
@@ -74272,10 +74272,10 @@ impl<'de> serde::Deserialize<'de> for VectorStoreFileObject {
             object: VectorStoreFileObjectObject,
             #[serde(rename = "usage_bytes")]
             #[allow(dead_code)]
-            usage_bytes: u64,
+            usage_bytes: i64,
             #[serde(rename = "created_at")]
             #[allow(dead_code)]
-            created_at: u64,
+            created_at: i64,
             #[serde(rename = "vector_store_id")]
             #[allow(dead_code)]
             vector_store_id: String,
@@ -74328,9 +74328,9 @@ impl serde::Serialize for VectorStoreFileObject {
             #[serde(rename = "object")]
             object: &'a VectorStoreFileObjectObject,
             #[serde(rename = "usage_bytes")]
-            usage_bytes: &'a u64,
+            usage_bytes: &'a i64,
             #[serde(rename = "created_at")]
-            created_at: &'a u64,
+            created_at: &'a i64,
             #[serde(rename = "vector_store_id")]
             vector_store_id: &'a String,
             #[serde(rename = "status")]
@@ -74375,9 +74375,9 @@ pub struct VectorStoreFileObject {
     #[doc = "The identifier, which can be referenced in API endpoints."]
     pub id: String,
     #[doc = "The total vector store usage in bytes. Note that this may be different from the original file size."]
-    pub usage_bytes: u64,
+    pub usage_bytes: i64,
     #[doc = "The Unix timestamp (in seconds) for when the vector store file was created."]
-    pub created_at: u64,
+    pub created_at: i64,
     #[doc = "The ID of the [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) that the [File](https://platform.openai.com/docs/api-reference/files) is attached to."]
     pub vector_store_id: String,
     #[doc = "The status of the vector store file, which can be either `in_progress`, `completed`, `cancelled`, or `failed`. The status `completed` indicates that the vector store file is ready for use."]
@@ -74427,19 +74427,19 @@ impl<'de> serde::Deserialize<'de> for VectorStoreObjectFileCounts {
         struct VectorStoreObjectFileCounts {
             #[serde(rename = "in_progress")]
             #[allow(dead_code)]
-            in_progress: u64,
+            in_progress: i64,
             #[serde(rename = "completed")]
             #[allow(dead_code)]
-            completed: u64,
+            completed: i64,
             #[serde(rename = "failed")]
             #[allow(dead_code)]
-            failed: u64,
+            failed: i64,
             #[serde(rename = "cancelled")]
             #[allow(dead_code)]
-            cancelled: u64,
+            cancelled: i64,
             #[serde(rename = "total")]
             #[allow(dead_code)]
-            total: u64,
+            total: i64,
         }
         let VectorStoreObjectFileCounts {
             in_progress,
@@ -74467,15 +74467,15 @@ impl serde::Serialize for VectorStoreObjectFileCounts {
         #[derive(serde :: Serialize)]
         struct VectorStoreObjectFileCounts<'a> {
             #[serde(rename = "in_progress")]
-            in_progress: &'a u64,
+            in_progress: &'a i64,
             #[serde(rename = "completed")]
-            completed: &'a u64,
+            completed: &'a i64,
             #[serde(rename = "failed")]
-            failed: &'a u64,
+            failed: &'a i64,
             #[serde(rename = "cancelled")]
-            cancelled: &'a u64,
+            cancelled: &'a i64,
             #[serde(rename = "total")]
-            total: &'a u64,
+            total: &'a i64,
         }
         let Self {
             in_progress,
@@ -74497,15 +74497,15 @@ impl serde::Serialize for VectorStoreObjectFileCounts {
 #[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct VectorStoreObjectFileCounts {
     #[doc = "The number of files that are currently being processed."]
-    pub in_progress: u64,
+    pub in_progress: i64,
     #[doc = "The number of files that have been successfully processed."]
-    pub completed: u64,
+    pub completed: i64,
     #[doc = "The number of files that have failed to process."]
-    pub failed: u64,
+    pub failed: i64,
     #[doc = "The number of files that were cancelled."]
-    pub cancelled: u64,
+    pub cancelled: i64,
     #[doc = "The total number of files."]
-    pub total: u64,
+    pub total: i64,
 }
 #[doc = "The status of the vector store, which can be either `expired`, `in_progress`, or `completed`. A status of `completed` indicates that the vector store is ready for use."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
@@ -74536,13 +74536,13 @@ impl<'de> serde::Deserialize<'de> for VectorStoreObject {
             object: VectorStoreObjectObject,
             #[serde(rename = "created_at")]
             #[allow(dead_code)]
-            created_at: u64,
+            created_at: i64,
             #[serde(rename = "name")]
             #[allow(dead_code)]
             name: String,
             #[serde(rename = "usage_bytes")]
             #[allow(dead_code)]
-            usage_bytes: u64,
+            usage_bytes: i64,
             #[serde(rename = "file_counts")]
             #[allow(dead_code)]
             file_counts: VectorStoreObjectFileCounts,
@@ -74554,10 +74554,10 @@ impl<'de> serde::Deserialize<'de> for VectorStoreObject {
             expires_after: Option<VectorStoreExpirationAfter>,
             #[serde(rename = "expires_at")]
             #[allow(dead_code)]
-            expires_at: Option<u64>,
+            expires_at: Option<i64>,
             #[serde(rename = "last_active_at")]
             #[allow(dead_code)]
-            last_active_at: Option<u64>,
+            last_active_at: Option<i64>,
             #[serde(rename = "metadata")]
             #[allow(dead_code)]
             metadata: Option<Metadata>,
@@ -74602,11 +74602,11 @@ impl serde::Serialize for VectorStoreObject {
             #[serde(rename = "object")]
             object: &'a VectorStoreObjectObject,
             #[serde(rename = "created_at")]
-            created_at: &'a u64,
+            created_at: &'a i64,
             #[serde(rename = "name")]
             name: &'a String,
             #[serde(rename = "usage_bytes")]
-            usage_bytes: &'a u64,
+            usage_bytes: &'a i64,
             #[serde(rename = "file_counts")]
             file_counts: &'a VectorStoreObjectFileCounts,
             #[serde(rename = "status")]
@@ -74616,10 +74616,10 @@ impl serde::Serialize for VectorStoreObject {
             expires_after: &'a Option<VectorStoreExpirationAfter>,
             #[serde(rename = "expires_at")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            expires_at: &'a Option<u64>,
+            expires_at: &'a Option<i64>,
             #[serde(rename = "last_active_at")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            last_active_at: &'a Option<u64>,
+            last_active_at: &'a Option<i64>,
             #[serde(rename = "metadata")]
             #[serde(skip_serializing_if = "Option::is_none")]
             metadata: &'a Option<Metadata>,
@@ -74658,11 +74658,11 @@ pub struct VectorStoreObject {
     #[doc = "The identifier, which can be referenced in API endpoints."]
     pub id: String,
     #[doc = "The Unix timestamp (in seconds) for when the vector store was created."]
-    pub created_at: u64,
+    pub created_at: i64,
     #[doc = "The name of the vector store."]
     pub name: String,
     #[doc = "The total number of bytes used by the files in the vector store."]
-    pub usage_bytes: u64,
+    pub usage_bytes: i64,
     pub file_counts: VectorStoreObjectFileCounts,
     #[doc = "The status of the vector store, which can be either `expired`, `in_progress`, or `completed`. A status of `completed` indicates that the vector store is ready for use."]
     pub status: VectorStoreObjectStatus,
@@ -74670,10 +74670,10 @@ pub struct VectorStoreObject {
     pub expires_after: Option<VectorStoreExpirationAfter>,
     #[doc = "The Unix timestamp (in seconds) for when the vector store will expire."]
     #[builder(default)]
-    pub expires_at: Option<u64>,
+    pub expires_at: Option<i64>,
     #[doc = "The Unix timestamp (in seconds) for when the vector store was last active."]
     #[builder(default)]
-    pub last_active_at: Option<u64>,
+    pub last_active_at: Option<i64>,
     #[builder(default)]
     pub metadata: Option<Metadata>,
 }
@@ -74861,7 +74861,7 @@ impl<'de> serde::Deserialize<'de> for VectorStoreSearchRequest {
             rewrite_query: Option<bool>,
             #[serde(rename = "max_num_results")]
             #[allow(dead_code)]
-            max_num_results: Option<u64>,
+            max_num_results: Option<i64>,
             #[serde(rename = "filters")]
             #[allow(dead_code)]
             filters: Option<VectorStoreSearchRequestFilters>,
@@ -74901,7 +74901,7 @@ impl serde::Serialize for VectorStoreSearchRequest {
             rewrite_query: &'a Option<bool>,
             #[serde(rename = "max_num_results")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            max_num_results: &'a Option<u64>,
+            max_num_results: &'a Option<i64>,
             #[serde(rename = "filters")]
             #[serde(skip_serializing_if = "Option::is_none")]
             filters: &'a Option<VectorStoreSearchRequestFilters>,
@@ -74935,7 +74935,7 @@ pub struct VectorStoreSearchRequest {
     pub rewrite_query: Option<bool>,
     #[doc = "The maximum number of results to return. This number should be between 1 and 50 inclusive."]
     #[builder(default)]
-    pub max_num_results: Option<u64>,
+    pub max_num_results: Option<i64>,
     #[doc = "A filter to apply based on file attributes."]
     #[builder(default)]
     pub filters: Option<VectorStoreSearchRequestFilters>,
@@ -76440,7 +76440,7 @@ impl<'de> serde::Deserialize<'de> for FileSearchTool {
             vector_store_ids: Vec<String>,
             #[serde(rename = "max_num_results")]
             #[allow(dead_code)]
-            max_num_results: Option<u64>,
+            max_num_results: Option<i64>,
             #[serde(rename = "ranking_options")]
             #[allow(dead_code)]
             ranking_options: Option<RankingOptions>,
@@ -76477,7 +76477,7 @@ impl serde::Serialize for FileSearchTool {
             vector_store_ids: &'a Vec<String>,
             #[serde(rename = "max_num_results")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            max_num_results: &'a Option<u64>,
+            max_num_results: &'a Option<i64>,
             #[serde(rename = "ranking_options")]
             #[serde(skip_serializing_if = "Option::is_none")]
             ranking_options: &'a Option<RankingOptions>,
@@ -76508,7 +76508,7 @@ pub struct FileSearchTool {
     pub vector_store_ids: Vec<String>,
     #[doc = "The maximum number of results to return. This number should be between 1 and 50 inclusive."]
     #[builder(default)]
-    pub max_num_results: Option<u64>,
+    pub max_num_results: Option<i64>,
     #[doc = "Ranking options for search."]
     #[builder(default)]
     pub ranking_options: Option<RankingOptions>,
@@ -76796,10 +76796,10 @@ impl<'de> serde::Deserialize<'de> for ComputerUsePreviewTool {
             environment: ComputerUsePreviewToolEnvironment,
             #[serde(rename = "display_width")]
             #[allow(dead_code)]
-            display_width: u64,
+            display_width: i64,
             #[serde(rename = "display_height")]
             #[allow(dead_code)]
-            display_height: u64,
+            display_height: i64,
         }
         let ComputerUsePreviewTool {
             environment,
@@ -76827,9 +76827,9 @@ impl serde::Serialize for ComputerUsePreviewTool {
             #[serde(rename = "environment")]
             environment: &'a ComputerUsePreviewToolEnvironment,
             #[serde(rename = "display_width")]
-            display_width: &'a u64,
+            display_width: &'a i64,
             #[serde(rename = "display_height")]
-            display_height: &'a u64,
+            display_height: &'a i64,
         }
         let Self {
             environment,
@@ -76851,9 +76851,9 @@ pub struct ComputerUsePreviewTool {
     #[doc = "The type of computer environment to control."]
     pub environment: ComputerUsePreviewToolEnvironment,
     #[doc = "The width of the computer display."]
-    pub display_width: u64,
+    pub display_width: i64,
     #[doc = "The height of the computer display."]
-    pub display_height: u64,
+    pub display_height: i64,
 }
 impl<'de> serde::Deserialize<'de> for FileCitationBodyType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -76898,7 +76898,7 @@ impl<'de> serde::Deserialize<'de> for FileCitationBody {
             file_id: String,
             #[serde(rename = "index")]
             #[allow(dead_code)]
-            index: u64,
+            index: i64,
         }
         let FileCitationBody { file_id, index, .. } = FileCitationBody::deserialize(deserializer)?;
         Ok(Self { file_id, index })
@@ -76917,7 +76917,7 @@ impl serde::Serialize for FileCitationBody {
             #[serde(rename = "file_id")]
             file_id: &'a String,
             #[serde(rename = "index")]
-            index: &'a u64,
+            index: &'a i64,
         }
         let Self { file_id, index } = self;
         FileCitationBody {
@@ -76934,7 +76934,7 @@ pub struct FileCitationBody {
     #[doc = "The ID of the file."]
     pub file_id: String,
     #[doc = "The index of the file in the list of files."]
-    pub index: u64,
+    pub index: i64,
 }
 impl<'de> serde::Deserialize<'de> for UrlCitationBodyType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -76979,10 +76979,10 @@ impl<'de> serde::Deserialize<'de> for UrlCitationBody {
             url: String,
             #[serde(rename = "start_index")]
             #[allow(dead_code)]
-            start_index: u64,
+            start_index: i64,
             #[serde(rename = "end_index")]
             #[allow(dead_code)]
-            end_index: u64,
+            end_index: i64,
             #[serde(rename = "title")]
             #[allow(dead_code)]
             title: String,
@@ -77015,9 +77015,9 @@ impl serde::Serialize for UrlCitationBody {
             #[serde(rename = "url")]
             url: &'a String,
             #[serde(rename = "start_index")]
-            start_index: &'a u64,
+            start_index: &'a i64,
             #[serde(rename = "end_index")]
-            end_index: &'a u64,
+            end_index: &'a i64,
             #[serde(rename = "title")]
             title: &'a String,
         }
@@ -77043,9 +77043,9 @@ pub struct UrlCitationBody {
     #[doc = "The URL of the web resource."]
     pub url: String,
     #[doc = "The index of the first character of the URL citation in the message."]
-    pub start_index: u64,
+    pub start_index: i64,
     #[doc = "The index of the last character of the URL citation in the message."]
-    pub end_index: u64,
+    pub end_index: i64,
     #[doc = "The title of the web resource."]
     pub title: String,
 }
@@ -77095,10 +77095,10 @@ impl<'de> serde::Deserialize<'de> for ContainerFileCitationBody {
             file_id: String,
             #[serde(rename = "start_index")]
             #[allow(dead_code)]
-            start_index: u64,
+            start_index: i64,
             #[serde(rename = "end_index")]
             #[allow(dead_code)]
-            end_index: u64,
+            end_index: i64,
         }
         let ContainerFileCitationBody {
             container_id,
@@ -77130,9 +77130,9 @@ impl serde::Serialize for ContainerFileCitationBody {
             #[serde(rename = "file_id")]
             file_id: &'a String,
             #[serde(rename = "start_index")]
-            start_index: &'a u64,
+            start_index: &'a i64,
             #[serde(rename = "end_index")]
-            end_index: &'a u64,
+            end_index: &'a i64,
         }
         let Self {
             container_id,
@@ -77158,9 +77158,9 @@ pub struct ContainerFileCitationBody {
     #[doc = "The ID of the file."]
     pub file_id: String,
     #[doc = "The index of the first character of the container file citation in the message."]
-    pub start_index: u64,
+    pub start_index: i64,
     #[doc = "The index of the last character of the container file citation in the message."]
-    pub end_index: u64,
+    pub end_index: i64,
 }
 impl<'de> serde::Deserialize<'de> for Annotation {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -77234,7 +77234,7 @@ impl<'de> serde::Deserialize<'de> for TopLogProb {
             logprob: f64,
             #[serde(rename = "bytes")]
             #[allow(dead_code)]
-            bytes: Vec<u64>,
+            bytes: Vec<i64>,
         }
         let TopLogProb {
             token,
@@ -77262,7 +77262,7 @@ impl serde::Serialize for TopLogProb {
             #[serde(rename = "logprob")]
             logprob: &'a f64,
             #[serde(rename = "bytes")]
-            bytes: &'a Vec<u64>,
+            bytes: &'a Vec<i64>,
         }
         let Self {
             token,
@@ -77282,7 +77282,7 @@ impl serde::Serialize for TopLogProb {
 pub struct TopLogProb {
     pub token: String,
     pub logprob: f64,
-    pub bytes: Vec<u64>,
+    pub bytes: Vec<i64>,
 }
 impl<'de> serde::Deserialize<'de> for LogProb {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -77300,7 +77300,7 @@ impl<'de> serde::Deserialize<'de> for LogProb {
             logprob: f64,
             #[serde(rename = "bytes")]
             #[allow(dead_code)]
-            bytes: Vec<u64>,
+            bytes: Vec<i64>,
             #[serde(rename = "top_logprobs")]
             #[allow(dead_code)]
             top_logprobs: Vec<TopLogProb>,
@@ -77333,7 +77333,7 @@ impl serde::Serialize for LogProb {
             #[serde(rename = "logprob")]
             logprob: &'a f64,
             #[serde(rename = "bytes")]
-            bytes: &'a Vec<u64>,
+            bytes: &'a Vec<i64>,
             #[serde(rename = "top_logprobs")]
             top_logprobs: &'a Vec<TopLogProb>,
         }
@@ -77357,7 +77357,7 @@ impl serde::Serialize for LogProb {
 pub struct LogProb {
     pub token: String,
     pub logprob: f64,
-    pub bytes: Vec<u64>,
+    pub bytes: Vec<i64>,
     pub top_logprobs: Vec<TopLogProb>,
 }
 impl<'de> serde::Deserialize<'de> for OutputTextContentType {
@@ -78342,7 +78342,7 @@ impl<'de> serde::Deserialize<'de> for BatchError {
             param: Option<String>,
             #[serde(rename = "line")]
             #[allow(dead_code)]
-            line: Option<u64>,
+            line: Option<i64>,
         }
         let BatchError {
             code,
@@ -78378,7 +78378,7 @@ impl serde::Serialize for BatchError {
             param: &'a Option<String>,
             #[serde(rename = "line")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            line: &'a Option<u64>,
+            line: &'a Option<i64>,
         }
         let Self {
             code,
@@ -78408,7 +78408,7 @@ pub struct BatchError {
     pub param: Option<String>,
     #[doc = "The line number of the input file where the error occurred, if applicable."]
     #[builder(default)]
-    pub line: Option<u64>,
+    pub line: Option<i64>,
 }
 impl<'de> serde::Deserialize<'de> for BatchRequestCounts {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -78420,13 +78420,13 @@ impl<'de> serde::Deserialize<'de> for BatchRequestCounts {
         struct BatchRequestCounts {
             #[serde(rename = "total")]
             #[allow(dead_code)]
-            total: u64,
+            total: i64,
             #[serde(rename = "completed")]
             #[allow(dead_code)]
-            completed: u64,
+            completed: i64,
             #[serde(rename = "failed")]
             #[allow(dead_code)]
-            failed: u64,
+            failed: i64,
         }
         let BatchRequestCounts {
             total,
@@ -78450,11 +78450,11 @@ impl serde::Serialize for BatchRequestCounts {
         #[derive(serde :: Serialize)]
         struct BatchRequestCounts<'a> {
             #[serde(rename = "total")]
-            total: &'a u64,
+            total: &'a i64,
             #[serde(rename = "completed")]
-            completed: &'a u64,
+            completed: &'a i64,
             #[serde(rename = "failed")]
-            failed: &'a u64,
+            failed: &'a i64,
         }
         let Self {
             total,
@@ -78473,11 +78473,11 @@ impl serde::Serialize for BatchRequestCounts {
 #[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct BatchRequestCounts {
     #[doc = "Total number of requests in the batch."]
-    pub total: u64,
+    pub total: i64,
     #[doc = "Number of requests that have been completed successfully."]
-    pub completed: u64,
+    pub completed: i64,
     #[doc = "Number of requests that have failed."]
-    pub failed: u64,
+    pub failed: i64,
 }
 impl<'de> serde::Deserialize<'de> for AssistantTool {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -79189,10 +79189,10 @@ impl<'de> serde::Deserialize<'de> for CreateThreadAndRunRequestWithoutStream {
             top_p: Option<f64>,
             #[serde(rename = "max_prompt_tokens")]
             #[allow(dead_code)]
-            max_prompt_tokens: Option<u64>,
+            max_prompt_tokens: Option<i64>,
             #[serde(rename = "max_completion_tokens")]
             #[allow(dead_code)]
-            max_completion_tokens: Option<u64>,
+            max_completion_tokens: Option<i64>,
             #[serde(rename = "truncation_strategy")]
             #[allow(dead_code)]
             truncation_strategy: Option<TruncationObject>,
@@ -79279,10 +79279,10 @@ impl serde::Serialize for CreateThreadAndRunRequestWithoutStream {
             top_p: &'a Option<f64>,
             #[serde(rename = "max_prompt_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            max_prompt_tokens: &'a Option<u64>,
+            max_prompt_tokens: &'a Option<i64>,
             #[serde(rename = "max_completion_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            max_completion_tokens: &'a Option<u64>,
+            max_completion_tokens: &'a Option<i64>,
             #[serde(rename = "truncation_strategy")]
             #[serde(skip_serializing_if = "Option::is_none")]
             truncation_strategy: &'a Option<TruncationObject>,
@@ -79361,10 +79361,10 @@ pub struct CreateThreadAndRunRequestWithoutStream {
     pub top_p: Option<f64>,
     #[doc = "The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.\n"]
     #[builder(default)]
-    pub max_prompt_tokens: Option<u64>,
+    pub max_prompt_tokens: Option<i64>,
     #[doc = "The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.\n"]
     #[builder(default)]
-    pub max_completion_tokens: Option<u64>,
+    pub max_completion_tokens: Option<i64>,
     #[builder(default)]
     pub truncation_strategy: Option<TruncationObject>,
     #[builder(default)]
@@ -79414,10 +79414,10 @@ impl<'de> serde::Deserialize<'de> for CreateRunRequestWithoutStream {
             top_p: Option<f64>,
             #[serde(rename = "max_prompt_tokens")]
             #[allow(dead_code)]
-            max_prompt_tokens: Option<u64>,
+            max_prompt_tokens: Option<i64>,
             #[serde(rename = "max_completion_tokens")]
             #[allow(dead_code)]
-            max_completion_tokens: Option<u64>,
+            max_completion_tokens: Option<i64>,
             #[serde(rename = "truncation_strategy")]
             #[allow(dead_code)]
             truncation_strategy: Option<TruncationObject>,
@@ -79509,10 +79509,10 @@ impl serde::Serialize for CreateRunRequestWithoutStream {
             top_p: &'a Option<f64>,
             #[serde(rename = "max_prompt_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            max_prompt_tokens: &'a Option<u64>,
+            max_prompt_tokens: &'a Option<i64>,
             #[serde(rename = "max_completion_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            max_completion_tokens: &'a Option<u64>,
+            max_completion_tokens: &'a Option<i64>,
             #[serde(rename = "truncation_strategy")]
             #[serde(skip_serializing_if = "Option::is_none")]
             truncation_strategy: &'a Option<TruncationObject>,
@@ -79596,10 +79596,10 @@ pub struct CreateRunRequestWithoutStream {
     pub top_p: Option<f64>,
     #[doc = "The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.\n"]
     #[builder(default)]
-    pub max_prompt_tokens: Option<u64>,
+    pub max_prompt_tokens: Option<i64>,
     #[doc = "The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.\n"]
     #[builder(default)]
-    pub max_completion_tokens: Option<u64>,
+    pub max_completion_tokens: Option<i64>,
     #[builder(default)]
     pub truncation_strategy: Option<TruncationObject>,
     #[builder(default)]
