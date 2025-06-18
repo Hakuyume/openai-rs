@@ -137,40 +137,6 @@ pub fn patch(name: &str, schema: &mut openapi::Schema) {
         }
     }
 
-    if let openapi::Schema {
-        one_of: Some(one_of),
-    } = schema
-    {
-        if let [
-            openapi::Schema {
-                description,
-                properties,
-                required,
-                type_,
-            },
-        ] = &mut one_of[..]
-        {
-            schema.description = description.take();
-            schema.properties = properties.take();
-            schema.required = required.take();
-            schema.type_ = type_.take();
-            schema.one_of = None;
-        }
-    }
-
-    if let Some(one_of) = &mut schema.one_of {
-        if let Some(properties) = schema.properties.take() {
-            for one_of in &mut *one_of {
-                one_of.properties = Some(properties.clone());
-            }
-        }
-        if let Some(type_) = schema.type_.take() {
-            for one_of in &mut *one_of {
-                one_of.type_ = Some(type_);
-            }
-        }
-    }
-
     if schema.recursive_ref.as_deref() == Some("#") {
         schema.recursive_ref = None;
         schema.ref_ = Some(format!("#/components/schemas/{name}"));
