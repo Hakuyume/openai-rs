@@ -1,6 +1,7 @@
 use crate::openapi;
 use anyhow::Context;
 use indexmap::IndexMap;
+use std::iter;
 
 pub fn parse(
     schema: &openapi::Schema,
@@ -72,22 +73,15 @@ fn parse_primitive(
             nullable: nullable.unwrap_or_default(),
             type_: crate::Type::Boolean,
         })
-    } else if let Some((description, value)) = if let openapi::Schema {
+    } else if let openapi::Schema {
         enum_: Some(enum_),
         default: _,
         description,
         type_: Some(openapi::Type::String),
         x_stainless_const: Some(true),
     } = schema
+        && let [value] = &enum_[..]
     {
-        if let [value] = &enum_[..] {
-            Some((description, value))
-        } else {
-            None
-        }
-    } else {
-        None
-    } {
         Some(crate::Schema {
             description: description.clone(),
             nullable: false,
@@ -230,18 +224,14 @@ fn parse_ref(
     schema: &openapi::Schema,
     schemas: &IndexMap<String, openapi::Schema>,
 ) -> anyhow::Result<Option<crate::Schema>> {
-    if let Some((description, nullable, ref_)) = if let openapi::Schema {
+    if let openapi::Schema {
         description,
         nullable,
         ref_: Some(ref_),
         type_: _,
     } = schema
+        && let Some(ref_) = ref_.strip_prefix("#/components/schemas/")
     {
-        ref_.strip_prefix("#/components/schemas/")
-            .map(|ref_| (description, nullable, ref_))
-    } else {
-        None
-    } {
         anyhow::ensure!(schemas.contains_key(ref_));
         Ok(Some(crate::Schema {
             description: description.clone(),
@@ -342,58 +332,58 @@ fn parse_struct(
     schema: &openapi::Schema,
     schemas: &IndexMap<String, openapi::Schema>,
 ) -> anyhow::Result<Option<crate::Schema>> {
-    if let Some((description, nullable, fields)) = if let openapi::Schema {
+    if let openapi::Schema {
         all_of: Some(all_of),
         description,
         nullable,
-        required: required_outer,
+        required,
         type_: None | Some(openapi::Type::Object),
     } = schema
-    {
-        all_of
+        && let Some(fields) = all_of
             .iter()
             .enumerate()
-            .try_fold(Vec::new(), |mut fields, (i, all_of)| {
+            .flat_map(|(i, all_of)| {
                 if let openapi::Schema {
                     properties: Some(properties),
                     required: required_inner,
                     type_: Some(openapi::Type::Object),
                 } = all_of
                 {
-                    for (property_name, property) in properties {
-                        fields.push((
-                            either::Left((
-                                property_name,
-                                property,
-                                required_outer
-                                    .as_ref()
-                                    .is_some_and(|required| required.contains(property_name))
-                                    || required_inner
+                    either::Left(properties.iter().map(move |(property_name, property)| {
+                        Some(
+                            parse(property, schemas)
+                                .context(format!("properties[{property_name:?}]"))
+                                .context(format!("allOf[{i}]"))
+                                .map(|schema| crate::Field::Property {
+                                    name: property_name.clone(),
+                                    schema,
+                                    required: required
                                         .as_ref()
-                                        .is_some_and(|required| required.contains(property_name)),
-                            )),
-                            vec![
-                                format!("properties[{property_name:?}]"),
-                                format!("allOf[{i}]"),
-                            ],
-                        ));
-                    }
-                    Some(fields)
-                } else if let Some(ref_) = if let openapi::Schema { ref_: Some(ref_) } = all_of {
-                    ref_.strip_prefix("#/components/schemas/")
+                                        .is_some_and(|required| required.contains(property_name))
+                                        || required_inner.as_ref().is_some_and(|required| {
+                                            required.contains(property_name)
+                                        }),
+                                }),
+                        )
+                    }))
+                } else if let openapi::Schema { ref_: Some(ref_) } = all_of
+                    && let Some(ref_) = ref_.strip_prefix("#/components/schemas/")
+                    && schemas.contains_key(ref_)
+                {
+                    //     .context("ref")
+                    //     .context(format!("allOf[{i}]")))
+                    either::Right(iter::once(Some(Ok(crate::Field::Ref(ref_.to_owned())))))
                 } else {
-                    None
-                } {
-                    fields.push((
-                        either::Right(ref_),
-                        vec!["ref".to_owned(), format!("allOf[{i}]")],
-                    ));
-                    Some(fields)
-                } else {
-                    None
+                    either::Right(iter::once(None))
                 }
             })
-            .map(|fields| (description, nullable, fields))
+            .collect::<Option<Result<Vec<_>, _>>>()
+    {
+        Ok(Some(crate::Schema {
+            description: description.clone(),
+            nullable: nullable.unwrap_or_default(),
+            type_: crate::Type::Struct(fields?),
+        }))
     } else if let openapi::Schema {
         additional_properties: None | Some(openapi::AdditionalProperties::Bool(false)),
         description,
@@ -407,43 +397,15 @@ fn parse_struct(
         let fields = properties
             .iter()
             .map(|(property_name, property)| {
-                (
-                    either::Left((
-                        property_name,
-                        property,
-                        required
+                parse(property, schemas)
+                    .context(format!("properties[{property_name:?}]"))
+                    .map(|schema| crate::Field::Property {
+                        name: property_name.clone(),
+                        schema,
+                        required: required
                             .as_ref()
                             .is_some_and(|required| required.contains(property_name)),
-                    )),
-                    vec![format!("properties[{property_name:?}]")],
-                )
-            })
-            .collect();
-        Some((description, nullable, fields))
-    } else {
-        None
-    } {
-        let fields = fields
-            .into_iter()
-            .map(|(field, contexts)| {
-                field.either(
-                    |(property_name, property, required)| {
-                        contexts
-                            .into_iter()
-                            .fold(parse(property, schemas), |output, context| {
-                                output.context(context)
-                            })
-                            .map(|schema| crate::Field::Property {
-                                name: property_name.clone(),
-                                schema,
-                                required,
-                            })
-                    },
-                    |ref_| {
-                        anyhow::ensure!(schemas.contains_key(ref_));
-                        Ok(crate::Field::Ref(ref_.to_owned()))
-                    },
-                )
+                    })
             })
             .collect::<Result<Vec<_>, _>>()?;
         Ok(Some(crate::Schema {
