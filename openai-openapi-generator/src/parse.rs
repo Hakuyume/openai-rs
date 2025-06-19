@@ -258,14 +258,27 @@ fn parse_enum(
     schema: &openapi::Schema,
     schemas: &IndexMap<String, openapi::Schema>,
 ) -> anyhow::Result<Option<crate::Schema>> {
-    if let Some((description, nullable, of, context)) = if let openapi::Schema {
+    if let openapi::Schema {
         any_of: Some(any_of),
         description,
         discriminator: _,
         nullable,
     } = schema
     {
-        Some((description, nullable, any_of, "anyOf"))
+        let variants = any_of
+            .iter()
+            .enumerate()
+            .map(|(i, any_of)| {
+                parse(any_of, schemas)
+                    .with_context(|| format!("anyOf[{i}]"))
+                    .map(|any_of| (any_of, false))
+            })
+            .collect::<Result<_, _>>()?;
+        Ok(Some(crate::Schema {
+            description: description.clone(),
+            nullable: nullable.unwrap_or_default(),
+            type_: crate::Type::Enum(variants),
+        }))
     } else if let openapi::Schema {
         default: _,
         description,
@@ -274,17 +287,13 @@ fn parse_enum(
         one_of: Some(one_of),
     } = schema
     {
-        Some((description, nullable, one_of, "oneOf"))
-    } else {
-        None
-    } {
-        let variants = of
+        let variants = one_of
             .iter()
             .enumerate()
-            .map(|(i, of)| {
-                parse(of, schemas)
-                    .with_context(|| format!("{context}[{i}]"))
-                    .map(|of| (of, false))
+            .map(|(i, one_of)| {
+                parse(one_of, schemas)
+                    .with_context(|| format!("oneOf[{i}]"))
+                    .map(|one_of| (one_of, false))
             })
             .collect::<Result<_, _>>()?;
         Ok(Some(crate::Schema {
