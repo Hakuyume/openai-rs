@@ -8,7 +8,7 @@ mod visit;
 
 use anyhow::Context;
 use heck::{ToPascalCase, ToSnakeCase};
-use indexmap::IndexMap;
+use indexmap::{IndexMap, IndexSet};
 use quote::ToTokens;
 use std::io;
 
@@ -72,17 +72,10 @@ enum Type {
     Number,
     Ref(String),
     String,
-    Struct(Vec<Field>),
-}
-
-#[derive(Debug)]
-enum Field {
-    Property {
-        name: String,
-        schema: Schema,
-        required: bool,
+    Struct {
+        fields: Vec<either::Either<(String, Schema), String>>,
+        required: IndexSet<String>,
     },
-    Ref(String),
 }
 
 fn to_type(
@@ -100,12 +93,13 @@ fn to_type(
         }
         Type::Binary => syn::parse_quote!(Vec<u8>),
         Type::Boolean => syn::parse_quote!(bool),
-        Type::Float | Type::Number => syn::parse_quote!(f64),
+        Type::Float => syn::parse_quote!(f64),
         Type::Integer => syn::parse_quote!(i64),
         Type::Map(item) => {
             let type_ = to_type(&to_singular(name), item, schemas, public, items);
             syn::parse_quote!(indexmap::IndexMap<String, #type_>)
         }
+        Type::Number => syn::parse_quote!(serde_json::Number),
         Type::Ref(ref_) => {
             let ident = to_ident_pascal(ref_);
             syn::parse_quote!(#ident)
@@ -137,8 +131,8 @@ fn to_item(
         Type::Enum(variants) => {
             to_item_enum::to_item_enum(name, schema, variants, schemas, public, items)
         }
-        Type::Struct(fields) => {
-            to_item_struct::to_item_struct(name, schema, fields, schemas, public, items)
+        Type::Struct { fields, required } => {
+            to_item_struct::to_item_struct(name, schema, fields, required, schemas, public, items)
         }
         _ => {
             let type_ = to_type(name, schema, schemas, public, items);
@@ -165,6 +159,7 @@ fn to_singular(name: &str) -> String {
         ("result", "results"),
         ("store", "stores"),
         ("tool", "tools"),
+        ("variable", "variables"),
     ];
     vocab
         .iter()
@@ -251,14 +246,14 @@ fn to_derive(schema: &Schema, schemas: &IndexMap<String, Schema>) -> syn::Attrib
 
 fn is_copy(schema: &Schema, schemas: &IndexMap<String, Schema>) -> bool {
     match &schema.type_ {
-        Type::Boolean | Type::Const(_) | Type::Float | Type::Integer | Type::Number => true,
+        Type::Boolean | Type::Const(_) | Type::Float | Type::Integer => true,
         Type::Enum(variants) => variants
             .iter()
             .all(|(variant, _)| is_copy(variant, schemas)),
         Type::Ref(ref_) => is_copy(&schemas[ref_], schemas),
-        Type::Struct(fields) => fields.iter().all(|field| match field {
-            Field::Property { schema, .. } => is_copy(schema, schemas),
-            Field::Ref(ref_) => is_copy(&schemas[ref_], schemas),
+        Type::Struct { fields, .. } => fields.iter().all(|field| match field {
+            either::Left((_, schema)) => is_copy(schema, schemas),
+            either::Right(ref_) => is_copy(&schemas[ref_], schemas),
         }),
         _ => false,
     }
@@ -269,11 +264,11 @@ fn is_default(schema: &Schema, schemas: &IndexMap<String, Schema>) -> bool {
         Type::Const(_) => true,
         Type::Enum(variants) => variants.iter().any(|(_, default)| *default),
         Type::Ref(ref_) => is_default(&schemas[ref_], schemas),
-        Type::Struct(fields) => fields.iter().all(|field| match field {
-            Field::Property {
-                schema, required, ..
-            } => is_default(schema, schemas) || schema.nullable || !required,
-            Field::Ref(ref_) => is_default(&schemas[ref_], schemas),
+        Type::Struct { fields, required } => fields.iter().all(|field| match field {
+            either::Left((name, schema)) => {
+                is_default(schema, schemas) || schema.nullable || !required.contains(name)
+            }
+            either::Right(ref_) => is_default(&schemas[ref_], schemas),
         }),
         _ => false,
     }

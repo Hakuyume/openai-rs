@@ -502,6 +502,57 @@ impl serde::Serialize for AssistantObjectObject {
 #[doc = "The object type, which is always `assistant`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct AssistantObjectObject;
+impl<'de> serde::Deserialize<'de> for AssistantObjectTool {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
+        enum AssistantObjectTool {
+            CodeInterpreter(#[allow(dead_code)] AssistantToolsCode),
+            FileSearch(#[allow(dead_code)] AssistantToolsFileSearch),
+            Function(#[allow(dead_code)] AssistantToolsFunction),
+        }
+        Ok(match AssistantObjectTool::deserialize(deserializer)? {
+            AssistantObjectTool::CodeInterpreter(v) => Self::CodeInterpreter(v),
+            AssistantObjectTool::FileSearch(v) => Self::FileSearch(v),
+            AssistantObjectTool::Function(v) => Self::Function(v),
+        })
+    }
+}
+impl serde::Serialize for AssistantObjectTool {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names)]
+        enum AssistantObjectTool<'a> {
+            CodeInterpreter(#[allow(dead_code)] &'a AssistantToolsCode),
+            FileSearch(#[allow(dead_code)] &'a AssistantToolsFileSearch),
+            Function(#[allow(dead_code)] &'a AssistantToolsFunction),
+        }
+        match self {
+            Self::CodeInterpreter(v) => {
+                AssistantObjectTool::CodeInterpreter(v).serialize(serializer)
+            }
+            Self::FileSearch(v) => AssistantObjectTool::FileSearch(v).serialize(serializer),
+            Self::Function(v) => AssistantObjectTool::Function(v).serialize(serializer),
+        }
+    }
+}
+#[derive(Clone, Debug, PartialEq)]
+#[allow(clippy::large_enum_variant)]
+pub enum AssistantObjectTool {
+    CodeInterpreter(AssistantToolsCode),
+    FileSearch(AssistantToolsFileSearch),
+    Function(AssistantToolsFunction),
+}
 impl<'de> serde::Deserialize<'de> for AssistantObjectToolResourcesCodeInterpreter {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -672,7 +723,7 @@ impl<'de> serde::Deserialize<'de> for AssistantObject {
             instructions: Option<String>,
             #[serde(rename = "tools")]
             #[allow(dead_code)]
-            tools: Vec<AssistantTool>,
+            tools: Vec<AssistantObjectTool>,
             #[serde(rename = "tool_resources")]
             #[allow(dead_code)]
             tool_resources: Option<AssistantObjectToolResources>,
@@ -681,10 +732,10 @@ impl<'de> serde::Deserialize<'de> for AssistantObject {
             metadata: Option<Metadata>,
             #[serde(rename = "temperature")]
             #[allow(dead_code)]
-            temperature: Option<f64>,
+            temperature: Option<serde_json::Number>,
             #[serde(rename = "top_p")]
             #[allow(dead_code)]
-            top_p: Option<f64>,
+            top_p: Option<serde_json::Number>,
             #[serde(rename = "response_format")]
             #[allow(dead_code)]
             response_format: Option<AssistantsApiResponseFormatOption>,
@@ -746,7 +797,7 @@ impl serde::Serialize for AssistantObject {
             #[serde(skip_serializing_if = "Option::is_none")]
             instructions: &'a Option<String>,
             #[serde(rename = "tools")]
-            tools: &'a Vec<AssistantTool>,
+            tools: &'a Vec<AssistantObjectTool>,
             #[serde(rename = "tool_resources")]
             #[serde(skip_serializing_if = "Option::is_none")]
             tool_resources: &'a Option<AssistantObjectToolResources>,
@@ -755,10 +806,10 @@ impl serde::Serialize for AssistantObject {
             metadata: &'a Option<Metadata>,
             #[serde(rename = "temperature")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            temperature: &'a Option<f64>,
+            temperature: &'a Option<serde_json::Number>,
             #[serde(rename = "top_p")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            top_p: &'a Option<f64>,
+            top_p: &'a Option<serde_json::Number>,
             #[serde(rename = "response_format")]
             #[serde(skip_serializing_if = "Option::is_none")]
             response_format: &'a Option<AssistantsApiResponseFormatOption>,
@@ -814,7 +865,7 @@ pub struct AssistantObject {
     #[builder(default)]
     pub instructions: Option<String>,
     #[doc = "A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `file_search`, or `function`.\n"]
-    pub tools: Vec<AssistantTool>,
+    pub tools: Vec<AssistantObjectTool>,
     #[doc = "A set of resources that are used by the assistant's tools. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.\n"]
     #[builder(default)]
     pub tool_resources: Option<AssistantObjectToolResources>,
@@ -822,10 +873,10 @@ pub struct AssistantObject {
     pub metadata: Option<Metadata>,
     #[doc = "What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.\n"]
     #[builder(default)]
-    pub temperature: Option<f64>,
+    pub temperature: Option<serde_json::Number>,
     #[doc = "An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.\n\nWe generally recommend altering this or temperature but not both.\n"]
     #[builder(default)]
-    pub top_p: Option<f64>,
+    pub top_p: Option<serde_json::Number>,
     #[builder(default)]
     pub response_format: Option<AssistantsApiResponseFormatOption>,
 }
@@ -844,6 +895,7 @@ impl<'de> serde::Deserialize<'de> for AssistantStreamEvent {
             RunStepStreamEvent(#[allow(dead_code)] RunStepStreamEvent),
             MessageStreamEvent(#[allow(dead_code)] MessageStreamEvent),
             ErrorEvent(#[allow(dead_code)] ErrorEvent),
+            DoneEvent(#[allow(dead_code)] DoneEvent),
         }
         Ok(match AssistantStreamEvent::deserialize(deserializer)? {
             AssistantStreamEvent::ThreadStreamEvent(v) => Self::ThreadStreamEvent(v),
@@ -851,6 +903,7 @@ impl<'de> serde::Deserialize<'de> for AssistantStreamEvent {
             AssistantStreamEvent::RunStepStreamEvent(v) => Self::RunStepStreamEvent(v),
             AssistantStreamEvent::MessageStreamEvent(v) => Self::MessageStreamEvent(v),
             AssistantStreamEvent::ErrorEvent(v) => Self::ErrorEvent(v),
+            AssistantStreamEvent::DoneEvent(v) => Self::DoneEvent(v),
         })
     }
 }
@@ -869,6 +922,7 @@ impl serde::Serialize for AssistantStreamEvent {
             RunStepStreamEvent(#[allow(dead_code)] &'a RunStepStreamEvent),
             MessageStreamEvent(#[allow(dead_code)] &'a MessageStreamEvent),
             ErrorEvent(#[allow(dead_code)] &'a ErrorEvent),
+            DoneEvent(#[allow(dead_code)] &'a DoneEvent),
         }
         match self {
             Self::ThreadStreamEvent(v) => {
@@ -884,6 +938,7 @@ impl serde::Serialize for AssistantStreamEvent {
                 AssistantStreamEvent::MessageStreamEvent(v).serialize(serializer)
             }
             Self::ErrorEvent(v) => AssistantStreamEvent::ErrorEvent(v).serialize(serializer),
+            Self::DoneEvent(v) => AssistantStreamEvent::DoneEvent(v).serialize(serializer),
         }
     }
 }
@@ -896,6 +951,7 @@ pub enum AssistantStreamEvent {
     RunStepStreamEvent(RunStepStreamEvent),
     MessageStreamEvent(MessageStreamEvent),
     ErrorEvent(ErrorEvent),
+    DoneEvent(DoneEvent),
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum AssistantSupportedModels {
@@ -1151,7 +1207,7 @@ impl serde::Serialize for AssistantToolsFileSearchFileSearch {
     }
 }
 #[doc = "Overrides for the file search tool."]
-#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AssistantToolsFileSearchFileSearch {
     #[doc = "The maximum number of results the file search tool should output. The default is 20 for `gpt-4*` models and 5 for `gpt-3.5-turbo`. This number should be between 1 and 50 inclusive.\n\nNote that the file search tool may output fewer than `max_num_results` results. See the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search#customizing-file-search-settings) for more information.\n"]
     #[builder(default)]
@@ -1201,7 +1257,7 @@ impl serde::Serialize for AssistantToolsFileSearch {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct AssistantToolsFileSearch {
     #[doc = "Overrides for the file search tool."]
     #[builder(default)]
@@ -4835,6 +4891,93 @@ impl serde::Serialize for BatchErrorsObject {
 #[doc = "The object type, which is always `list`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct BatchErrorsObject;
+impl<'de> serde::Deserialize<'de> for BatchErrorsDatum {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct BatchErrorsDatum {
+            #[serde(rename = "code")]
+            #[allow(dead_code)]
+            code: Option<String>,
+            #[serde(rename = "message")]
+            #[allow(dead_code)]
+            message: Option<String>,
+            #[serde(rename = "param")]
+            #[allow(dead_code)]
+            param: Option<String>,
+            #[serde(rename = "line")]
+            #[allow(dead_code)]
+            line: Option<i64>,
+        }
+        let BatchErrorsDatum {
+            code,
+            message,
+            param,
+            line,
+            ..
+        } = BatchErrorsDatum::deserialize(deserializer)?;
+        Ok(Self {
+            code,
+            message,
+            param,
+            line,
+        })
+    }
+}
+impl serde::Serialize for BatchErrorsDatum {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct BatchErrorsDatum<'a> {
+            #[serde(rename = "code")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            code: &'a Option<String>,
+            #[serde(rename = "message")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            message: &'a Option<String>,
+            #[serde(rename = "param")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            param: &'a Option<String>,
+            #[serde(rename = "line")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            line: &'a Option<i64>,
+        }
+        let Self {
+            code,
+            message,
+            param,
+            line,
+        } = self;
+        BatchErrorsDatum {
+            code,
+            message,
+            param,
+            line,
+        }
+        .serialize(serializer)
+    }
+}
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
+pub struct BatchErrorsDatum {
+    #[doc = "An error code identifying the error type."]
+    #[builder(default)]
+    pub code: Option<String>,
+    #[doc = "A human-readable message providing more details about the error."]
+    #[builder(default)]
+    pub message: Option<String>,
+    #[doc = "The name of the parameter that caused the error, if applicable."]
+    #[builder(default)]
+    pub param: Option<String>,
+    #[doc = "The line number of the input file where the error occurred, if applicable."]
+    #[builder(default)]
+    pub line: Option<i64>,
+}
 impl<'de> serde::Deserialize<'de> for BatchErrors {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -4848,7 +4991,7 @@ impl<'de> serde::Deserialize<'de> for BatchErrors {
             object: Option<BatchErrorsObject>,
             #[serde(rename = "data")]
             #[allow(dead_code)]
-            data: Option<Vec<BatchError>>,
+            data: Option<Vec<BatchErrorsDatum>>,
         }
         let BatchErrors { object, data, .. } = BatchErrors::deserialize(deserializer)?;
         Ok(Self { object, data })
@@ -4867,7 +5010,7 @@ impl serde::Serialize for BatchErrors {
             object: &'a Option<BatchErrorsObject>,
             #[serde(rename = "data")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            data: &'a Option<Vec<BatchError>>,
+            data: &'a Option<Vec<BatchErrorsDatum>>,
         }
         let Self { object, data } = self;
         BatchErrors { object, data }.serialize(serializer)
@@ -4879,7 +5022,7 @@ pub struct BatchErrors {
     #[builder(default)]
     pub object: Option<BatchErrorsObject>,
     #[builder(default)]
-    pub data: Option<Vec<BatchError>>,
+    pub data: Option<Vec<BatchErrorsDatum>>,
 }
 #[doc = "The current status of the batch."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
@@ -4908,6 +5051,75 @@ pub enum BatchStatus {
     #[doc = "cancelled"]
     #[serde(rename = "cancelled")]
     Cancelled,
+}
+impl<'de> serde::Deserialize<'de> for BatchRequestCounts {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct BatchRequestCounts {
+            #[serde(rename = "total")]
+            #[allow(dead_code)]
+            total: i64,
+            #[serde(rename = "completed")]
+            #[allow(dead_code)]
+            completed: i64,
+            #[serde(rename = "failed")]
+            #[allow(dead_code)]
+            failed: i64,
+        }
+        let BatchRequestCounts {
+            total,
+            completed,
+            failed,
+            ..
+        } = BatchRequestCounts::deserialize(deserializer)?;
+        Ok(Self {
+            total,
+            completed,
+            failed,
+        })
+    }
+}
+impl serde::Serialize for BatchRequestCounts {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct BatchRequestCounts<'a> {
+            #[serde(rename = "total")]
+            total: &'a i64,
+            #[serde(rename = "completed")]
+            completed: &'a i64,
+            #[serde(rename = "failed")]
+            failed: &'a i64,
+        }
+        let Self {
+            total,
+            completed,
+            failed,
+        } = self;
+        BatchRequestCounts {
+            total,
+            completed,
+            failed,
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "The request counts for different statuses within the batch."]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct BatchRequestCounts {
+    #[doc = "Total number of requests in the batch."]
+    pub total: i64,
+    #[doc = "Number of requests that have been completed successfully."]
+    pub completed: i64,
+    #[doc = "Number of requests that have failed."]
+    pub failed: i64,
 }
 impl<'de> serde::Deserialize<'de> for Batch {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -5176,6 +5388,7 @@ pub struct Batch {
     #[doc = "The Unix timestamp (in seconds) for when the batch was cancelled."]
     #[builder(default)]
     pub cancelled_at: Option<i64>,
+    #[doc = "The request counts for different statuses within the batch."]
     #[builder(default)]
     pub request_counts: Option<BatchRequestCounts>,
     #[builder(default)]
@@ -6021,20 +6234,48 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionMessageListDatum {
         #[serde_with::serde_as]
         #[derive(serde :: Deserialize)]
         struct ChatCompletionMessageListDatum {
-            #[serde(flatten)]
+            #[serde(rename = "content")]
             #[allow(dead_code)]
-            chat_completion_response_message: ChatCompletionResponseMessage,
+            content: Option<String>,
+            #[serde(rename = "refusal")]
+            #[allow(dead_code)]
+            refusal: Option<String>,
+            #[serde(rename = "tool_calls")]
+            #[allow(dead_code)]
+            tool_calls: Option<ChatCompletionMessageToolCalls>,
+            #[serde(rename = "annotations")]
+            #[allow(dead_code)]
+            annotations: Option<Vec<ChatCompletionResponseMessageAnnotation>>,
+            #[serde(rename = "role")]
+            #[allow(dead_code)]
+            role: ChatCompletionResponseMessageRole,
+            #[serde(rename = "function_call")]
+            #[allow(dead_code)]
+            function_call: Option<ChatCompletionResponseMessageFunctionCall>,
+            #[serde(rename = "audio")]
+            #[allow(dead_code)]
+            audio: Option<ChatCompletionResponseMessageAudio>,
             #[serde(rename = "id")]
             #[allow(dead_code)]
             id: String,
         }
         let ChatCompletionMessageListDatum {
-            chat_completion_response_message,
+            content,
+            refusal,
+            tool_calls,
+            annotations,
+            function_call,
+            audio,
             id,
             ..
         } = ChatCompletionMessageListDatum::deserialize(deserializer)?;
         Ok(Self {
-            chat_completion_response_message,
+            content,
+            refusal,
+            tool_calls,
+            annotations,
+            function_call,
+            audio,
             id,
         })
     }
@@ -6047,17 +6288,46 @@ impl serde::Serialize for ChatCompletionMessageListDatum {
         #[serde_with::serde_as]
         #[derive(serde :: Serialize)]
         struct ChatCompletionMessageListDatum<'a> {
-            #[serde(flatten)]
-            chat_completion_response_message: &'a ChatCompletionResponseMessage,
+            #[serde(rename = "content")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            content: &'a Option<String>,
+            #[serde(rename = "refusal")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            refusal: &'a Option<String>,
+            #[serde(rename = "tool_calls")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            tool_calls: &'a Option<ChatCompletionMessageToolCalls>,
+            #[serde(rename = "annotations")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            annotations: &'a Option<Vec<ChatCompletionResponseMessageAnnotation>>,
+            #[serde(rename = "role")]
+            role: &'a ChatCompletionResponseMessageRole,
+            #[serde(rename = "function_call")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            function_call: &'a Option<ChatCompletionResponseMessageFunctionCall>,
+            #[serde(rename = "audio")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            audio: &'a Option<ChatCompletionResponseMessageAudio>,
             #[serde(rename = "id")]
             id: &'a String,
         }
         let Self {
-            chat_completion_response_message,
+            content,
+            refusal,
+            tool_calls,
+            annotations,
+            function_call,
+            audio,
             id,
         } = self;
         ChatCompletionMessageListDatum {
-            chat_completion_response_message,
+            content,
+            refusal,
+            tool_calls,
+            annotations,
+            role: &Default::default(),
+            function_call,
+            audio,
             id,
         }
         .serialize(serializer)
@@ -6065,8 +6335,23 @@ impl serde::Serialize for ChatCompletionMessageListDatum {
 }
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ChatCompletionMessageListDatum {
+    #[doc = "The contents of the message."]
     #[builder(default)]
-    pub chat_completion_response_message: ChatCompletionResponseMessage,
+    pub content: Option<String>,
+    #[doc = "The refusal message generated by the model."]
+    #[builder(default)]
+    pub refusal: Option<String>,
+    #[builder(default)]
+    pub tool_calls: Option<ChatCompletionMessageToolCalls>,
+    #[doc = "Annotations for the message, when applicable, as when using the\n[web search tool](https://platform.openai.com/docs/guides/tools-web-search?api-mode=chat).\n"]
+    #[builder(default)]
+    pub annotations: Option<Vec<ChatCompletionResponseMessageAnnotation>>,
+    #[doc = "Deprecated and replaced by `tool_calls`. The name and arguments of a function that should be called, as generated by the model."]
+    #[builder(default)]
+    pub function_call: Option<ChatCompletionResponseMessageFunctionCall>,
+    #[doc = "If the audio output modality is requested, this object contains data\nabout the audio response from the model. [Learn more](https://platform.openai.com/docs/guides/audio).\n"]
+    #[builder(default)]
+    pub audio: Option<ChatCompletionResponseMessageAudio>,
     #[doc = "The identifier of the chat message."]
     pub id: String,
 }
@@ -8969,7 +9254,7 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionTokenLogprobTopLogprob {
             token: String,
             #[serde(rename = "logprob")]
             #[allow(dead_code)]
-            logprob: f64,
+            logprob: serde_json::Number,
             #[serde(rename = "bytes")]
             #[allow(dead_code)]
             bytes: Option<Vec<i64>>,
@@ -8998,7 +9283,7 @@ impl serde::Serialize for ChatCompletionTokenLogprobTopLogprob {
             #[serde(rename = "token")]
             token: &'a String,
             #[serde(rename = "logprob")]
-            logprob: &'a f64,
+            logprob: &'a serde_json::Number,
             #[serde(rename = "bytes")]
             #[serde(skip_serializing_if = "Option::is_none")]
             bytes: &'a Option<Vec<i64>>,
@@ -9021,7 +9306,7 @@ pub struct ChatCompletionTokenLogprobTopLogprob {
     #[doc = "The token."]
     pub token: String,
     #[doc = "The log probability of this token, if it is within the top 20 most likely tokens. Otherwise, the value `-9999.0` is used to signify that the token is very unlikely."]
-    pub logprob: f64,
+    pub logprob: serde_json::Number,
     #[doc = "A list of integers representing the UTF-8 bytes representation of the token. Useful in instances where characters are represented by multiple tokens and their byte representations must be combined to generate the correct text representation. Can be `null` if there is no bytes representation for the token."]
     #[builder(default)]
     pub bytes: Option<Vec<i64>>,
@@ -9039,7 +9324,7 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionTokenLogprob {
             token: String,
             #[serde(rename = "logprob")]
             #[allow(dead_code)]
-            logprob: f64,
+            logprob: serde_json::Number,
             #[serde(rename = "bytes")]
             #[allow(dead_code)]
             bytes: Option<Vec<i64>>,
@@ -9073,7 +9358,7 @@ impl serde::Serialize for ChatCompletionTokenLogprob {
             #[serde(rename = "token")]
             token: &'a String,
             #[serde(rename = "logprob")]
-            logprob: &'a f64,
+            logprob: &'a serde_json::Number,
             #[serde(rename = "bytes")]
             #[serde(skip_serializing_if = "Option::is_none")]
             bytes: &'a Option<Vec<i64>>,
@@ -9100,7 +9385,7 @@ pub struct ChatCompletionTokenLogprob {
     #[doc = "The token."]
     pub token: String,
     #[doc = "The log probability of this token, if it is within the top 20 most likely tokens. Otherwise, the value `-9999.0` is used to signify that the token is very unlikely."]
-    pub logprob: f64,
+    pub logprob: serde_json::Number,
     #[doc = "A list of integers representing the UTF-8 bytes representation of the token. Useful in instances where characters are represented by multiple tokens and their byte representations must be combined to generate the correct text representation. Can be `null` if there is no bytes representation for the token."]
     #[builder(default)]
     pub bytes: Option<Vec<i64>>,
@@ -9370,7 +9655,7 @@ impl serde::Serialize for ChunkingStrategyRequestParam {
         }
     }
 }
-#[doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy. Only applicable if `file_ids` is non-empty."]
+#[doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy."]
 #[derive(Clone, Copy, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum ChunkingStrategyRequestParam {
@@ -9602,6 +9887,154 @@ impl serde::Serialize for CodeInterpreterFileOutput {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CodeInterpreterFileOutput {
     pub files: Vec<CodeInterpreterFileOutputFile>,
+}
+impl<'de> serde::Deserialize<'de> for CodeInterpreterOutputImageType {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "image" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"image",
+            ))
+        }
+    }
+}
+impl serde::Serialize for CodeInterpreterOutputImageType {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "image".serialize(serializer)
+    }
+}
+#[doc = "The type of the output. Always 'image'."]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CodeInterpreterOutputImageType;
+impl<'de> serde::Deserialize<'de> for CodeInterpreterOutputImage {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct CodeInterpreterOutputImage {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: CodeInterpreterOutputImageType,
+            #[serde(rename = "url")]
+            #[allow(dead_code)]
+            url: String,
+        }
+        let CodeInterpreterOutputImage { url, .. } =
+            CodeInterpreterOutputImage::deserialize(deserializer)?;
+        Ok(Self { url })
+    }
+}
+impl serde::Serialize for CodeInterpreterOutputImage {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct CodeInterpreterOutputImage<'a> {
+            #[serde(rename = "type")]
+            r#type: &'a CodeInterpreterOutputImageType,
+            #[serde(rename = "url")]
+            url: &'a String,
+        }
+        let Self { url } = self;
+        CodeInterpreterOutputImage {
+            r#type: &Default::default(),
+            url,
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "The image output from the code interpreter.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct CodeInterpreterOutputImage {
+    #[doc = "The URL of the image output from the code interpreter."]
+    pub url: String,
+}
+impl<'de> serde::Deserialize<'de> for CodeInterpreterOutputLogsType {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "logs" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"logs",
+            ))
+        }
+    }
+}
+impl serde::Serialize for CodeInterpreterOutputLogsType {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "logs".serialize(serializer)
+    }
+}
+#[doc = "The type of the output. Always 'logs'."]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CodeInterpreterOutputLogsType;
+impl<'de> serde::Deserialize<'de> for CodeInterpreterOutputLogs {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct CodeInterpreterOutputLogs {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: CodeInterpreterOutputLogsType,
+            #[serde(rename = "logs")]
+            #[allow(dead_code)]
+            logs: String,
+        }
+        let CodeInterpreterOutputLogs { logs, .. } =
+            CodeInterpreterOutputLogs::deserialize(deserializer)?;
+        Ok(Self { logs })
+    }
+}
+impl serde::Serialize for CodeInterpreterOutputLogs {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct CodeInterpreterOutputLogs<'a> {
+            #[serde(rename = "type")]
+            r#type: &'a CodeInterpreterOutputLogsType,
+            #[serde(rename = "logs")]
+            logs: &'a String,
+        }
+        let Self { logs } = self;
+        CodeInterpreterOutputLogs {
+            r#type: &Default::default(),
+            logs,
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "The logs output from the code interpreter.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct CodeInterpreterOutputLogs {
+    #[doc = "The logs output from the code interpreter."]
+    pub logs: String,
 }
 impl<'de> serde::Deserialize<'de> for CodeInterpreterTextOutputType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -9911,12 +10344,64 @@ pub enum CodeInterpreterToolCallStatus {
     #[doc = "in_progress"]
     #[serde(rename = "in_progress")]
     InProgress,
-    #[doc = "interpreting"]
-    #[serde(rename = "interpreting")]
-    Interpreting,
     #[doc = "completed"]
     #[serde(rename = "completed")]
     Completed,
+    #[doc = "incomplete"]
+    #[serde(rename = "incomplete")]
+    Incomplete,
+    #[doc = "interpreting"]
+    #[serde(rename = "interpreting")]
+    Interpreting,
+    #[doc = "failed"]
+    #[serde(rename = "failed")]
+    Failed,
+}
+impl<'de> serde::Deserialize<'de> for CodeInterpreterToolCallOutputs {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
+        enum CodeInterpreterToolCallOutputs {
+            Logs(#[allow(dead_code)] CodeInterpreterOutputLogs),
+            Image(#[allow(dead_code)] CodeInterpreterOutputImage),
+        }
+        Ok(
+            match CodeInterpreterToolCallOutputs::deserialize(deserializer)? {
+                CodeInterpreterToolCallOutputs::Logs(v) => Self::Logs(v),
+                CodeInterpreterToolCallOutputs::Image(v) => Self::Image(v),
+            },
+        )
+    }
+}
+impl serde::Serialize for CodeInterpreterToolCallOutputs {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names)]
+        enum CodeInterpreterToolCallOutputs<'a> {
+            Logs(#[allow(dead_code)] &'a CodeInterpreterOutputLogs),
+            Image(#[allow(dead_code)] &'a CodeInterpreterOutputImage),
+        }
+        match self {
+            Self::Logs(v) => CodeInterpreterToolCallOutputs::Logs(v).serialize(serializer),
+            Self::Image(v) => CodeInterpreterToolCallOutputs::Image(v).serialize(serializer),
+        }
+    }
+}
+#[derive(Clone, Debug, PartialEq)]
+#[allow(clippy::large_enum_variant)]
+pub enum CodeInterpreterToolCallOutputs {
+    Logs(CodeInterpreterOutputLogs),
+    Image(CodeInterpreterOutputImage),
 }
 impl<'de> serde::Deserialize<'de> for CodeInterpreterToolCall {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -9926,39 +10411,39 @@ impl<'de> serde::Deserialize<'de> for CodeInterpreterToolCall {
         #[serde_with::serde_as]
         #[derive(serde :: Deserialize)]
         struct CodeInterpreterToolCall {
-            #[serde(rename = "id")]
-            #[allow(dead_code)]
-            id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: CodeInterpreterToolCallType,
-            #[serde(rename = "container_id")]
+            #[serde(rename = "id")]
             #[allow(dead_code)]
-            container_id: Option<String>,
-            #[serde(rename = "code")]
-            #[allow(dead_code)]
-            code: String,
+            id: String,
             #[serde(rename = "status")]
             #[allow(dead_code)]
             status: CodeInterpreterToolCallStatus,
-            #[serde(rename = "results")]
+            #[serde(rename = "container_id")]
             #[allow(dead_code)]
-            results: Vec<CodeInterpreterToolOutput>,
+            container_id: String,
+            #[serde(rename = "code")]
+            #[allow(dead_code)]
+            code: Option<String>,
+            #[serde(rename = "outputs")]
+            #[allow(dead_code)]
+            outputs: Option<Vec<CodeInterpreterToolCallOutputs>>,
         }
         let CodeInterpreterToolCall {
             id,
+            status,
             container_id,
             code,
-            status,
-            results,
+            outputs,
             ..
         } = CodeInterpreterToolCall::deserialize(deserializer)?;
         Ok(Self {
             id,
+            status,
             container_id,
             code,
-            status,
-            results,
+            outputs,
         })
     }
 }
@@ -9970,34 +10455,35 @@ impl serde::Serialize for CodeInterpreterToolCall {
         #[serde_with::serde_as]
         #[derive(serde :: Serialize)]
         struct CodeInterpreterToolCall<'a> {
-            #[serde(rename = "id")]
-            id: &'a String,
             #[serde(rename = "type")]
             r#type: &'a CodeInterpreterToolCallType,
-            #[serde(rename = "container_id")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            container_id: &'a Option<String>,
-            #[serde(rename = "code")]
-            code: &'a String,
+            #[serde(rename = "id")]
+            id: &'a String,
             #[serde(rename = "status")]
             status: &'a CodeInterpreterToolCallStatus,
-            #[serde(rename = "results")]
-            results: &'a Vec<CodeInterpreterToolOutput>,
+            #[serde(rename = "container_id")]
+            container_id: &'a String,
+            #[serde(rename = "code")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            code: &'a Option<String>,
+            #[serde(rename = "outputs")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            outputs: &'a Option<Vec<CodeInterpreterToolCallOutputs>>,
         }
         let Self {
             id,
+            status,
             container_id,
             code,
-            status,
-            results,
+            outputs,
         } = self;
         CodeInterpreterToolCall {
-            id,
             r#type: &Default::default(),
+            id,
+            status,
             container_id,
             code,
-            status,
-            results,
+            outputs,
         }
         .serialize(serializer)
     }
@@ -10007,62 +10493,16 @@ impl serde::Serialize for CodeInterpreterToolCall {
 pub struct CodeInterpreterToolCall {
     #[doc = "The unique ID of the code interpreter tool call.\n"]
     pub id: String,
-    #[doc = "The ID of the container used to run the code.\n"]
-    #[builder(default)]
-    pub container_id: Option<String>,
-    #[doc = "The code to run.\n"]
-    pub code: String,
     #[doc = "The status of the code interpreter tool call.\n"]
     pub status: CodeInterpreterToolCallStatus,
-    #[doc = "The results of the code interpreter tool call.\n"]
-    pub results: Vec<CodeInterpreterToolOutput>,
-}
-impl<'de> serde::Deserialize<'de> for CodeInterpreterToolOutput {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CodeInterpreterToolOutput {
-            Logs(#[allow(dead_code)] CodeInterpreterTextOutput),
-            Files(#[allow(dead_code)] CodeInterpreterFileOutput),
-        }
-        Ok(
-            match CodeInterpreterToolOutput::deserialize(deserializer)? {
-                CodeInterpreterToolOutput::Logs(v) => Self::Logs(v),
-                CodeInterpreterToolOutput::Files(v) => Self::Files(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for CodeInterpreterToolOutput {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CodeInterpreterToolOutput<'a> {
-            Logs(#[allow(dead_code)] &'a CodeInterpreterTextOutput),
-            Files(#[allow(dead_code)] &'a CodeInterpreterFileOutput),
-        }
-        match self {
-            Self::Logs(v) => CodeInterpreterToolOutput::Logs(v).serialize(serializer),
-            Self::Files(v) => CodeInterpreterToolOutput::Files(v).serialize(serializer),
-        }
-    }
-}
-#[doc = "The output of a code interpreter tool.\n"]
-#[derive(Clone, Debug, PartialEq)]
-#[allow(clippy::large_enum_variant)]
-pub enum CodeInterpreterToolOutput {
-    Logs(CodeInterpreterTextOutput),
-    Files(CodeInterpreterFileOutput),
+    #[doc = "The ID of the container used to run the code.\n"]
+    pub container_id: String,
+    #[doc = "The code to run, or null if not available.\n"]
+    #[builder(default)]
+    pub code: Option<String>,
+    #[doc = "The outputs generated by the code interpreter, such as logs or images. \nCan be null if no outputs are available.\n"]
+    #[builder(default)]
+    pub outputs: Option<Vec<CodeInterpreterToolCallOutputs>>,
 }
 #[doc = "Specifies the comparison operator: `eq`, `ne`, `gt`, `gte`, `lt`, `lte`.\n- `eq`: equals\n- `ne`: not equal\n- `gt`: greater than\n- `gte`: greater than or equal\n- `lt`: less than\n- `lte`: less than or equal\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
@@ -10098,7 +10538,7 @@ impl<'de> serde::Deserialize<'de> for ComparisonFilterValue {
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum ComparisonFilterValue {
             String(#[allow(dead_code)] String),
-            Number(#[allow(dead_code)] f64),
+            Number(#[allow(dead_code)] serde_json::Number),
             Bool(#[allow(dead_code)] bool),
         }
         Ok(match ComparisonFilterValue::deserialize(deserializer)? {
@@ -10119,7 +10559,7 @@ impl serde::Serialize for ComparisonFilterValue {
         #[allow(clippy::enum_variant_names)]
         enum ComparisonFilterValue<'a> {
             String(#[allow(dead_code)] &'a String),
-            Number(#[allow(dead_code)] &'a f64),
+            Number(#[allow(dead_code)] &'a serde_json::Number),
             Bool(#[allow(dead_code)] &'a bool),
         }
         match self {
@@ -10134,7 +10574,7 @@ impl serde::Serialize for ComparisonFilterValue {
 #[allow(clippy::large_enum_variant)]
 pub enum ComparisonFilterValue {
     String(String),
-    Number(f64),
+    Number(serde_json::Number),
     Bool(bool),
 }
 impl<'de> serde::Deserialize<'de> for ComparisonFilter {
@@ -11039,20 +11479,38 @@ impl<'de> serde::Deserialize<'de> for ComputerToolCallOutputResource {
         #[serde_with::serde_as]
         #[derive(serde :: Deserialize)]
         struct ComputerToolCallOutputResource {
-            #[serde(flatten)]
+            #[serde(rename = "type")]
             #[allow(dead_code)]
-            computer_tool_call_output: ComputerToolCallOutput,
+            r#type: ComputerToolCallOutputType,
+            #[serde(rename = "call_id")]
+            #[allow(dead_code)]
+            call_id: String,
+            #[serde(rename = "acknowledged_safety_checks")]
+            #[allow(dead_code)]
+            acknowledged_safety_checks: Option<Vec<ComputerToolCallSafetyCheck>>,
+            #[serde(rename = "output")]
+            #[allow(dead_code)]
+            output: ComputerScreenshotImage,
+            #[serde(rename = "status")]
+            #[allow(dead_code)]
+            status: Option<ComputerToolCallOutputStatus>,
             #[serde(rename = "id")]
             #[allow(dead_code)]
             id: String,
         }
         let ComputerToolCallOutputResource {
-            computer_tool_call_output,
+            call_id,
+            acknowledged_safety_checks,
+            output,
+            status,
             id,
             ..
         } = ComputerToolCallOutputResource::deserialize(deserializer)?;
         Ok(Self {
-            computer_tool_call_output,
+            call_id,
+            acknowledged_safety_checks,
+            output,
+            status,
             id,
         })
     }
@@ -11065,17 +11523,34 @@ impl serde::Serialize for ComputerToolCallOutputResource {
         #[serde_with::serde_as]
         #[derive(serde :: Serialize)]
         struct ComputerToolCallOutputResource<'a> {
-            #[serde(flatten)]
-            computer_tool_call_output: &'a ComputerToolCallOutput,
+            #[serde(rename = "type")]
+            r#type: &'a ComputerToolCallOutputType,
+            #[serde(rename = "call_id")]
+            call_id: &'a String,
+            #[serde(rename = "acknowledged_safety_checks")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            acknowledged_safety_checks: &'a Option<Vec<ComputerToolCallSafetyCheck>>,
+            #[serde(rename = "output")]
+            output: &'a ComputerScreenshotImage,
+            #[serde(rename = "status")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            status: &'a Option<ComputerToolCallOutputStatus>,
             #[serde(rename = "id")]
             id: &'a String,
         }
         let Self {
-            computer_tool_call_output,
+            call_id,
+            acknowledged_safety_checks,
+            output,
+            status,
             id,
         } = self;
         ComputerToolCallOutputResource {
-            computer_tool_call_output,
+            r#type: &Default::default(),
+            call_id,
+            acknowledged_safety_checks,
+            output,
+            status,
             id,
         }
         .serialize(serializer)
@@ -11083,7 +11558,16 @@ impl serde::Serialize for ComputerToolCallOutputResource {
 }
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ComputerToolCallOutputResource {
-    pub computer_tool_call_output: ComputerToolCallOutput,
+    #[doc = "The ID of the computer tool call that produced the output.\n"]
+    pub call_id: String,
+    #[doc = "The safety checks reported by the API that have been acknowledged by the \ndeveloper.\n"]
+    #[builder(default)]
+    pub acknowledged_safety_checks: Option<Vec<ComputerToolCallSafetyCheck>>,
+    #[builder(default)]
+    pub output: ComputerScreenshotImage,
+    #[doc = "The status of the message input. One of `in_progress`, `completed`, or\n`incomplete`. Populated when input items are returned via API.\n"]
+    #[builder(default)]
+    pub status: Option<ComputerToolCallOutputStatus>,
     #[doc = "The unique ID of the computer call tool output.\n"]
     pub id: String,
 }
@@ -11762,7 +12246,7 @@ impl<'de> serde::Deserialize<'de> for CostsResultAmount {
         struct CostsResultAmount {
             #[serde(rename = "value")]
             #[allow(dead_code)]
-            value: Option<f64>,
+            value: Option<serde_json::Number>,
             #[serde(rename = "currency")]
             #[allow(dead_code)]
             currency: Option<String>,
@@ -11783,7 +12267,7 @@ impl serde::Serialize for CostsResultAmount {
         struct CostsResultAmount<'a> {
             #[serde(rename = "value")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            value: &'a Option<f64>,
+            value: &'a Option<serde_json::Number>,
             #[serde(rename = "currency")]
             #[serde(skip_serializing_if = "Option::is_none")]
             currency: &'a Option<String>,
@@ -11797,7 +12281,7 @@ impl serde::Serialize for CostsResultAmount {
 pub struct CostsResultAmount {
     #[doc = "The numeric value of the cost."]
     #[builder(default)]
-    pub value: Option<f64>,
+    pub value: Option<serde_json::Number>,
     #[doc = "Lowercase ISO-4217 currency e.g. \"usd\""]
     #[builder(default)]
     pub currency: Option<String>,
@@ -11882,6 +12366,59 @@ pub struct CostsResult {
     #[doc = "When `group_by=project_id`, this field provides the project ID of the grouped costs result."]
     #[builder(default)]
     pub project_id: Option<String>,
+}
+impl<'de> serde::Deserialize<'de> for CreateAssistantRequestTool {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
+        enum CreateAssistantRequestTool {
+            CodeInterpreter(#[allow(dead_code)] AssistantToolsCode),
+            FileSearch(#[allow(dead_code)] AssistantToolsFileSearch),
+            Function(#[allow(dead_code)] AssistantToolsFunction),
+        }
+        Ok(
+            match CreateAssistantRequestTool::deserialize(deserializer)? {
+                CreateAssistantRequestTool::CodeInterpreter(v) => Self::CodeInterpreter(v),
+                CreateAssistantRequestTool::FileSearch(v) => Self::FileSearch(v),
+                CreateAssistantRequestTool::Function(v) => Self::Function(v),
+            },
+        )
+    }
+}
+impl serde::Serialize for CreateAssistantRequestTool {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names)]
+        enum CreateAssistantRequestTool<'a> {
+            CodeInterpreter(#[allow(dead_code)] &'a AssistantToolsCode),
+            FileSearch(#[allow(dead_code)] &'a AssistantToolsFileSearch),
+            Function(#[allow(dead_code)] &'a AssistantToolsFunction),
+        }
+        match self {
+            Self::CodeInterpreter(v) => {
+                CreateAssistantRequestTool::CodeInterpreter(v).serialize(serializer)
+            }
+            Self::FileSearch(v) => CreateAssistantRequestTool::FileSearch(v).serialize(serializer),
+            Self::Function(v) => CreateAssistantRequestTool::Function(v).serialize(serializer),
+        }
+    }
+}
+#[derive(Clone, Debug, PartialEq)]
+#[allow(clippy::large_enum_variant)]
+pub enum CreateAssistantRequestTool {
+    CodeInterpreter(AssistantToolsCode),
+    FileSearch(AssistantToolsFileSearch),
+    Function(AssistantToolsFunction),
 }
 impl<'de> serde::Deserialize<'de> for CreateAssistantRequestToolResourcesCodeInterpreter {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -12838,7 +13375,7 @@ impl<'de> serde::Deserialize<'de> for CreateAssistantRequest {
             reasoning_effort: Option<ReasoningEffort>,
             #[serde(rename = "tools")]
             #[allow(dead_code)]
-            tools: Option<Vec<AssistantTool>>,
+            tools: Option<Vec<CreateAssistantRequestTool>>,
             #[serde(rename = "tool_resources")]
             #[allow(dead_code)]
             tool_resources: Option<CreateAssistantRequestToolResources>,
@@ -12847,10 +13384,10 @@ impl<'de> serde::Deserialize<'de> for CreateAssistantRequest {
             metadata: Option<Metadata>,
             #[serde(rename = "temperature")]
             #[allow(dead_code)]
-            temperature: Option<f64>,
+            temperature: Option<serde_json::Number>,
             #[serde(rename = "top_p")]
             #[allow(dead_code)]
-            top_p: Option<f64>,
+            top_p: Option<serde_json::Number>,
             #[serde(rename = "response_format")]
             #[allow(dead_code)]
             response_format: Option<AssistantsApiResponseFormatOption>,
@@ -12908,7 +13445,7 @@ impl serde::Serialize for CreateAssistantRequest {
             reasoning_effort: &'a Option<ReasoningEffort>,
             #[serde(rename = "tools")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            tools: &'a Option<Vec<AssistantTool>>,
+            tools: &'a Option<Vec<CreateAssistantRequestTool>>,
             #[serde(rename = "tool_resources")]
             #[serde(skip_serializing_if = "Option::is_none")]
             tool_resources: &'a Option<CreateAssistantRequestToolResources>,
@@ -12917,10 +13454,10 @@ impl serde::Serialize for CreateAssistantRequest {
             metadata: &'a Option<Metadata>,
             #[serde(rename = "temperature")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            temperature: &'a Option<f64>,
+            temperature: &'a Option<serde_json::Number>,
             #[serde(rename = "top_p")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            top_p: &'a Option<f64>,
+            top_p: &'a Option<serde_json::Number>,
             #[serde(rename = "response_format")]
             #[serde(skip_serializing_if = "Option::is_none")]
             response_format: &'a Option<AssistantsApiResponseFormatOption>,
@@ -12971,7 +13508,7 @@ pub struct CreateAssistantRequest {
     pub reasoning_effort: Option<ReasoningEffort>,
     #[doc = "A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `file_search`, or `function`.\n"]
     #[builder(default)]
-    pub tools: Option<Vec<AssistantTool>>,
+    pub tools: Option<Vec<CreateAssistantRequestTool>>,
     #[doc = "A set of resources that are used by the assistant's tools. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.\n"]
     #[builder(default)]
     pub tool_resources: Option<CreateAssistantRequestToolResources>,
@@ -12979,10 +13516,10 @@ pub struct CreateAssistantRequest {
     pub metadata: Option<Metadata>,
     #[doc = "What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.\n"]
     #[builder(default)]
-    pub temperature: Option<f64>,
+    pub temperature: Option<serde_json::Number>,
     #[doc = "An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.\n\nWe generally recommend altering this or temperature but not both.\n"]
     #[builder(default)]
-    pub top_p: Option<f64>,
+    pub top_p: Option<serde_json::Number>,
     #[builder(default)]
     pub response_format: Option<AssistantsApiResponseFormatOption>,
 }
@@ -13417,9 +13954,21 @@ impl<'de> serde::Deserialize<'de> for CreateChatCompletionRequest {
         #[serde_with::serde_as]
         #[derive(serde :: Deserialize)]
         struct CreateChatCompletionRequest {
-            #[serde(flatten)]
+            #[serde(rename = "metadata")]
             #[allow(dead_code)]
-            create_model_response_properties: CreateModelResponseProperties,
+            metadata: Option<Metadata>,
+            #[serde(rename = "temperature")]
+            #[allow(dead_code)]
+            temperature: Option<serde_json::Number>,
+            #[serde(rename = "top_p")]
+            #[allow(dead_code)]
+            top_p: Option<serde_json::Number>,
+            #[serde(rename = "user")]
+            #[allow(dead_code)]
+            user: Option<String>,
+            #[serde(rename = "service_tier")]
+            #[allow(dead_code)]
+            service_tier: Option<ServiceTier>,
             #[serde(rename = "messages")]
             #[allow(dead_code)]
             messages: Vec<ChatCompletionRequestMessage>,
@@ -13437,10 +13986,10 @@ impl<'de> serde::Deserialize<'de> for CreateChatCompletionRequest {
             max_completion_tokens: Option<i64>,
             #[serde(rename = "frequency_penalty")]
             #[allow(dead_code)]
-            frequency_penalty: Option<f64>,
+            frequency_penalty: Option<serde_json::Number>,
             #[serde(rename = "presence_penalty")]
             #[allow(dead_code)]
-            presence_penalty: Option<f64>,
+            presence_penalty: Option<serde_json::Number>,
             #[serde(rename = "web_search_options")]
             #[allow(dead_code)]
             web_search_options: Option<CreateChatCompletionRequestWebSearchOptions>,
@@ -13500,7 +14049,11 @@ impl<'de> serde::Deserialize<'de> for CreateChatCompletionRequest {
             functions: Option<Vec<ChatCompletionFunctions>>,
         }
         let CreateChatCompletionRequest {
-            create_model_response_properties,
+            metadata,
+            temperature,
+            top_p,
+            user,
+            service_tier,
             messages,
             model,
             modalities,
@@ -13530,7 +14083,11 @@ impl<'de> serde::Deserialize<'de> for CreateChatCompletionRequest {
             ..
         } = CreateChatCompletionRequest::deserialize(deserializer)?;
         Ok(Self {
-            create_model_response_properties,
+            metadata,
+            temperature,
+            top_p,
+            user,
+            service_tier,
             messages,
             model,
             modalities,
@@ -13568,8 +14125,21 @@ impl serde::Serialize for CreateChatCompletionRequest {
         #[serde_with::serde_as]
         #[derive(serde :: Serialize)]
         struct CreateChatCompletionRequest<'a> {
-            #[serde(flatten)]
-            create_model_response_properties: &'a CreateModelResponseProperties,
+            #[serde(rename = "metadata")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            metadata: &'a Option<Metadata>,
+            #[serde(rename = "temperature")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            temperature: &'a Option<serde_json::Number>,
+            #[serde(rename = "top_p")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            top_p: &'a Option<serde_json::Number>,
+            #[serde(rename = "user")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            user: &'a Option<String>,
+            #[serde(rename = "service_tier")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            service_tier: &'a Option<ServiceTier>,
             #[serde(rename = "messages")]
             messages: &'a Vec<ChatCompletionRequestMessage>,
             #[serde(rename = "model")]
@@ -13585,10 +14155,10 @@ impl serde::Serialize for CreateChatCompletionRequest {
             max_completion_tokens: &'a Option<i64>,
             #[serde(rename = "frequency_penalty")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            frequency_penalty: &'a Option<f64>,
+            frequency_penalty: &'a Option<serde_json::Number>,
             #[serde(rename = "presence_penalty")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            presence_penalty: &'a Option<f64>,
+            presence_penalty: &'a Option<serde_json::Number>,
             #[serde(rename = "web_search_options")]
             #[serde(skip_serializing_if = "Option::is_none")]
             web_search_options: &'a Option<CreateChatCompletionRequestWebSearchOptions>,
@@ -13648,7 +14218,11 @@ impl serde::Serialize for CreateChatCompletionRequest {
             functions: &'a Option<Vec<ChatCompletionFunctions>>,
         }
         let Self {
-            create_model_response_properties,
+            metadata,
+            temperature,
+            top_p,
+            user,
+            service_tier,
             messages,
             model,
             modalities,
@@ -13677,7 +14251,11 @@ impl serde::Serialize for CreateChatCompletionRequest {
             functions,
         } = self;
         CreateChatCompletionRequest {
-            create_model_response_properties,
+            metadata,
+            temperature,
+            top_p,
+            user,
+            service_tier,
             messages,
             model,
             modalities,
@@ -13711,7 +14289,18 @@ impl serde::Serialize for CreateChatCompletionRequest {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateChatCompletionRequest {
     #[builder(default)]
-    pub create_model_response_properties: CreateModelResponseProperties,
+    pub metadata: Option<Metadata>,
+    #[doc = "What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.\nWe generally recommend altering this or `top_p` but not both.\n"]
+    #[builder(default)]
+    pub temperature: Option<serde_json::Number>,
+    #[doc = "An alternative to sampling with temperature, called nucleus sampling,\nwhere the model considers the results of the tokens with top_p probability\nmass. So 0.1 means only the tokens comprising the top 10% probability mass\nare considered.\n\nWe generally recommend altering this or `temperature` but not both.\n"]
+    #[builder(default)]
+    pub top_p: Option<serde_json::Number>,
+    #[doc = "A stable identifier for your end-users. \nUsed to boost cache hit rates by better bucketing similar requests and  to help OpenAI detect and prevent abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#end-user-ids).\n"]
+    #[builder(default)]
+    pub user: Option<String>,
+    #[builder(default)]
+    pub service_tier: Option<ServiceTier>,
     #[doc = "A list of messages comprising the conversation so far. Depending on the\n[model](https://platform.openai.com/docs/models) you use, different message types (modalities) are\nsupported, like [text](https://platform.openai.com/docs/guides/text-generation),\n[images](https://platform.openai.com/docs/guides/vision), and [audio](https://platform.openai.com/docs/guides/audio).\n"]
     pub messages: Vec<ChatCompletionRequestMessage>,
     #[doc = "Model ID used to generate the response, like `gpt-4o` or `o3`. OpenAI\noffers a wide range of models with different capabilities, performance\ncharacteristics, and price points. Refer to the [model guide](https://platform.openai.com/docs/models)\nto browse and compare available models.\n"]
@@ -13725,10 +14314,10 @@ pub struct CreateChatCompletionRequest {
     pub max_completion_tokens: Option<i64>,
     #[doc = "Number between -2.0 and 2.0. Positive values penalize new tokens based on\ntheir existing frequency in the text so far, decreasing the model's\nlikelihood to repeat the same line verbatim.\n"]
     #[builder(default)]
-    pub frequency_penalty: Option<f64>,
+    pub frequency_penalty: Option<serde_json::Number>,
     #[doc = "Number between -2.0 and 2.0. Positive values penalize new tokens based on\nwhether they appear in the text so far, increasing the model's likelihood\nto talk about new topics.\n"]
     #[builder(default)]
-    pub presence_penalty: Option<f64>,
+    pub presence_penalty: Option<serde_json::Number>,
     #[doc = "This tool searches the web for relevant results to use in a response.\nLearn more about the [web search tool](https://platform.openai.com/docs/guides/tools-web-search?api-mode=chat).\n"]
     #[builder(default)]
     pub web_search_options: Option<CreateChatCompletionRequestWebSearchOptions>,
@@ -13741,7 +14330,7 @@ pub struct CreateChatCompletionRequest {
     #[doc = "Parameters for audio output. Required when audio output is requested with\n`modalities: [\"audio\"]`. [Learn more](https://platform.openai.com/docs/guides/audio).\n"]
     #[builder(default)]
     pub audio: Option<CreateChatCompletionRequestAudio>,
-    #[doc = "Whether or not to store the output of this chat completion request for \nuse in our [model distillation](https://platform.openai.com/docs/guides/distillation) or\n[evals](https://platform.openai.com/docs/guides/evals) products.\n"]
+    #[doc = "Whether or not to store the output of this chat completion request for \nuse in our [model distillation](https://platform.openai.com/docs/guides/distillation) or\n[evals](https://platform.openai.com/docs/guides/evals) products. \n\nSupports text and image inputs. Note: image inputs over 10MB will be dropped.\n"]
     #[builder(default)]
     pub store: Option<bool>,
     #[doc = "If set to true, the model response data will be streamed to the client\nas it is generated using [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format).\nSee the [Streaming section below](https://platform.openai.com/docs/api-reference/chat/streaming)\nfor more information, along with the [streaming responses](https://platform.openai.com/docs/guides/streaming-responses)\nguide for more information on how to handle the streaming events.\n"]
@@ -14471,7 +15060,7 @@ impl<'de> serde::Deserialize<'de> for CreateCompletionRequest {
             echo: Option<bool>,
             #[serde(rename = "frequency_penalty")]
             #[allow(dead_code)]
-            frequency_penalty: Option<f64>,
+            frequency_penalty: Option<serde_json::Number>,
             #[serde(rename = "logit_bias")]
             #[allow(dead_code)]
             logit_bias: Option<indexmap::IndexMap<String, i64>>,
@@ -14486,7 +15075,7 @@ impl<'de> serde::Deserialize<'de> for CreateCompletionRequest {
             n: Option<i64>,
             #[serde(rename = "presence_penalty")]
             #[allow(dead_code)]
-            presence_penalty: Option<f64>,
+            presence_penalty: Option<serde_json::Number>,
             #[serde(rename = "seed")]
             #[allow(dead_code)]
             seed: Option<i64>,
@@ -14504,10 +15093,10 @@ impl<'de> serde::Deserialize<'de> for CreateCompletionRequest {
             suffix: Option<String>,
             #[serde(rename = "temperature")]
             #[allow(dead_code)]
-            temperature: Option<f64>,
+            temperature: Option<serde_json::Number>,
             #[serde(rename = "top_p")]
             #[allow(dead_code)]
-            top_p: Option<f64>,
+            top_p: Option<serde_json::Number>,
             #[serde(rename = "user")]
             #[allow(dead_code)]
             user: Option<String>,
@@ -14576,7 +15165,7 @@ impl serde::Serialize for CreateCompletionRequest {
             echo: &'a Option<bool>,
             #[serde(rename = "frequency_penalty")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            frequency_penalty: &'a Option<f64>,
+            frequency_penalty: &'a Option<serde_json::Number>,
             #[serde(rename = "logit_bias")]
             #[serde(skip_serializing_if = "Option::is_none")]
             logit_bias: &'a Option<indexmap::IndexMap<String, i64>>,
@@ -14591,7 +15180,7 @@ impl serde::Serialize for CreateCompletionRequest {
             n: &'a Option<i64>,
             #[serde(rename = "presence_penalty")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            presence_penalty: &'a Option<f64>,
+            presence_penalty: &'a Option<serde_json::Number>,
             #[serde(rename = "seed")]
             #[serde(skip_serializing_if = "Option::is_none")]
             seed: &'a Option<i64>,
@@ -14609,10 +15198,10 @@ impl serde::Serialize for CreateCompletionRequest {
             suffix: &'a Option<String>,
             #[serde(rename = "temperature")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            temperature: &'a Option<f64>,
+            temperature: &'a Option<serde_json::Number>,
             #[serde(rename = "top_p")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            top_p: &'a Option<f64>,
+            top_p: &'a Option<serde_json::Number>,
             #[serde(rename = "user")]
             #[serde(skip_serializing_if = "Option::is_none")]
             user: &'a Option<String>,
@@ -14675,7 +15264,7 @@ pub struct CreateCompletionRequest {
     pub echo: Option<bool>,
     #[doc = "Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.\n\n[See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation)\n"]
     #[builder(default)]
-    pub frequency_penalty: Option<f64>,
+    pub frequency_penalty: Option<serde_json::Number>,
     #[doc = "Modify the likelihood of specified tokens appearing in the completion.\n\nAccepts a JSON object that maps tokens (specified by their token ID in the GPT tokenizer) to an associated bias value from -100 to 100. You can use this [tokenizer tool](https://platform.openai.com/tokenizer?view=bpe) to convert text to token IDs. Mathematically, the bias is added to the logits generated by the model prior to sampling. The exact effect will vary per model, but values between -1 and 1 should decrease or increase likelihood of selection; values like -100 or 100 should result in a ban or exclusive selection of the relevant token.\n\nAs an example, you can pass `{\"50256\": -100}` to prevent the <|endoftext|> token from being generated.\n"]
     #[builder(default)]
     pub logit_bias: Option<indexmap::IndexMap<String, i64>>,
@@ -14690,7 +15279,7 @@ pub struct CreateCompletionRequest {
     pub n: Option<i64>,
     #[doc = "Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.\n\n[See more information about frequency and presence penalties.](https://platform.openai.com/docs/guides/text-generation)\n"]
     #[builder(default)]
-    pub presence_penalty: Option<f64>,
+    pub presence_penalty: Option<serde_json::Number>,
     #[doc = "If specified, our system will make a best effort to sample deterministically, such that repeated requests with the same `seed` and parameters should return the same result.\n\nDeterminism is not guaranteed, and you should refer to the `system_fingerprint` response parameter to monitor changes in the backend.\n"]
     #[builder(default)]
     pub seed: Option<i64>,
@@ -14706,10 +15295,10 @@ pub struct CreateCompletionRequest {
     pub suffix: Option<String>,
     #[doc = "What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.\n\nWe generally recommend altering this or `top_p` but not both.\n"]
     #[builder(default)]
-    pub temperature: Option<f64>,
+    pub temperature: Option<serde_json::Number>,
     #[doc = "An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.\n\nWe generally recommend altering this or `temperature` but not both.\n"]
     #[builder(default)]
-    pub top_p: Option<f64>,
+    pub top_p: Option<serde_json::Number>,
     #[doc = "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#end-user-ids).\n"]
     #[builder(default)]
     pub user: Option<String>,
@@ -14740,13 +15329,13 @@ impl<'de> serde::Deserialize<'de> for CreateCompletionResponseChoiceLogprobs {
             text_offset: Option<Vec<i64>>,
             #[serde(rename = "token_logprobs")]
             #[allow(dead_code)]
-            token_logprobs: Option<Vec<f64>>,
+            token_logprobs: Option<Vec<serde_json::Number>>,
             #[serde(rename = "tokens")]
             #[allow(dead_code)]
             tokens: Option<Vec<String>>,
             #[serde(rename = "top_logprobs")]
             #[allow(dead_code)]
-            top_logprobs: Option<Vec<indexmap::IndexMap<String, f64>>>,
+            top_logprobs: Option<Vec<indexmap::IndexMap<String, serde_json::Number>>>,
         }
         let CreateCompletionResponseChoiceLogprobs {
             text_offset,
@@ -14776,13 +15365,13 @@ impl serde::Serialize for CreateCompletionResponseChoiceLogprobs {
             text_offset: &'a Option<Vec<i64>>,
             #[serde(rename = "token_logprobs")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            token_logprobs: &'a Option<Vec<f64>>,
+            token_logprobs: &'a Option<Vec<serde_json::Number>>,
             #[serde(rename = "tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
             tokens: &'a Option<Vec<String>>,
             #[serde(rename = "top_logprobs")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            top_logprobs: &'a Option<Vec<indexmap::IndexMap<String, f64>>>,
+            top_logprobs: &'a Option<Vec<indexmap::IndexMap<String, serde_json::Number>>>,
         }
         let Self {
             text_offset,
@@ -14804,11 +15393,11 @@ pub struct CreateCompletionResponseChoiceLogprobs {
     #[builder(default)]
     pub text_offset: Option<Vec<i64>>,
     #[builder(default)]
-    pub token_logprobs: Option<Vec<f64>>,
+    pub token_logprobs: Option<Vec<serde_json::Number>>,
     #[builder(default)]
     pub tokens: Option<Vec<String>>,
     #[builder(default)]
-    pub top_logprobs: Option<Vec<indexmap::IndexMap<String, f64>>>,
+    pub top_logprobs: Option<Vec<indexmap::IndexMap<String, serde_json::Number>>>,
 }
 impl<'de> serde::Deserialize<'de> for CreateCompletionResponseChoice {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -15890,13 +16479,13 @@ impl<'de> serde::Deserialize<'de> for CreateEvalCompletionsRunDataSourceSampling
         struct CreateEvalCompletionsRunDataSourceSamplingParams {
             #[serde(rename = "temperature")]
             #[allow(dead_code)]
-            temperature: Option<f64>,
+            temperature: Option<serde_json::Number>,
             #[serde(rename = "max_completion_tokens")]
             #[allow(dead_code)]
             max_completion_tokens: Option<i64>,
             #[serde(rename = "top_p")]
             #[allow(dead_code)]
-            top_p: Option<f64>,
+            top_p: Option<serde_json::Number>,
             #[serde(rename = "seed")]
             #[allow(dead_code)]
             seed: Option<i64>,
@@ -15936,13 +16525,13 @@ impl serde::Serialize for CreateEvalCompletionsRunDataSourceSamplingParams {
         struct CreateEvalCompletionsRunDataSourceSamplingParams<'a> {
             #[serde(rename = "temperature")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            temperature: &'a Option<f64>,
+            temperature: &'a Option<serde_json::Number>,
             #[serde(rename = "max_completion_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
             max_completion_tokens: &'a Option<i64>,
             #[serde(rename = "top_p")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            top_p: &'a Option<f64>,
+            top_p: &'a Option<serde_json::Number>,
             #[serde(rename = "seed")]
             #[serde(skip_serializing_if = "Option::is_none")]
             seed: &'a Option<i64>,
@@ -15977,13 +16566,13 @@ impl serde::Serialize for CreateEvalCompletionsRunDataSourceSamplingParams {
 pub struct CreateEvalCompletionsRunDataSourceSamplingParams {
     #[doc = "A higher temperature increases randomness in the outputs."]
     #[builder(default)]
-    pub temperature: Option<f64>,
+    pub temperature: Option<serde_json::Number>,
     #[doc = "The maximum number of tokens in the generated output."]
     #[builder(default)]
     pub max_completion_tokens: Option<i64>,
     #[doc = "An alternative to temperature for nucleus sampling; 1.0 includes all tokens."]
     #[builder(default)]
-    pub top_p: Option<f64>,
+    pub top_p: Option<serde_json::Number>,
     #[doc = "A seed value to initialize the randomness, during sampling."]
     #[builder(default)]
     pub seed: Option<i64>,
@@ -17247,13 +17836,13 @@ impl<'de> serde::Deserialize<'de> for CreateEvalResponsesRunDataSourceSamplingPa
         struct CreateEvalResponsesRunDataSourceSamplingParams {
             #[serde(rename = "temperature")]
             #[allow(dead_code)]
-            temperature: Option<f64>,
+            temperature: Option<serde_json::Number>,
             #[serde(rename = "max_completion_tokens")]
             #[allow(dead_code)]
             max_completion_tokens: Option<i64>,
             #[serde(rename = "top_p")]
             #[allow(dead_code)]
-            top_p: Option<f64>,
+            top_p: Option<serde_json::Number>,
             #[serde(rename = "seed")]
             #[allow(dead_code)]
             seed: Option<i64>,
@@ -17293,13 +17882,13 @@ impl serde::Serialize for CreateEvalResponsesRunDataSourceSamplingParams {
         struct CreateEvalResponsesRunDataSourceSamplingParams<'a> {
             #[serde(rename = "temperature")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            temperature: &'a Option<f64>,
+            temperature: &'a Option<serde_json::Number>,
             #[serde(rename = "max_completion_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
             max_completion_tokens: &'a Option<i64>,
             #[serde(rename = "top_p")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            top_p: &'a Option<f64>,
+            top_p: &'a Option<serde_json::Number>,
             #[serde(rename = "seed")]
             #[serde(skip_serializing_if = "Option::is_none")]
             seed: &'a Option<i64>,
@@ -17333,13 +17922,13 @@ impl serde::Serialize for CreateEvalResponsesRunDataSourceSamplingParams {
 pub struct CreateEvalResponsesRunDataSourceSamplingParams {
     #[doc = "A higher temperature increases randomness in the outputs."]
     #[builder(default)]
-    pub temperature: Option<f64>,
+    pub temperature: Option<serde_json::Number>,
     #[doc = "The maximum number of tokens in the generated output."]
     #[builder(default)]
     pub max_completion_tokens: Option<i64>,
     #[doc = "An alternative to temperature for nucleus sampling; 1.0 includes all tokens."]
     #[builder(default)]
-    pub top_p: Option<f64>,
+    pub top_p: Option<serde_json::Number>,
     #[doc = "A seed value to initialize the randomness, during sampling."]
     #[builder(default)]
     pub seed: Option<i64>,
@@ -17702,6 +18291,28 @@ pub struct CreateEvalStoredCompletionsDataSourceConfig {
     #[builder(default)]
     pub metadata: Option<indexmap::IndexMap<String, serde_json::Value>>,
 }
+#[doc = "The intended purpose of the uploaded file. One of: - `assistants`: Used in the Assistants API - `batch`: Used in the Batch API - `fine-tune`: Used for fine-tuning - `vision`: Images used for vision fine-tuning - `user_data`: Flexible file type for any purpose - `evals`: Used for eval data sets\n"]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+pub enum CreateFileRequestPurpose {
+    #[doc = "assistants"]
+    #[serde(rename = "assistants")]
+    Assistants,
+    #[doc = "batch"]
+    #[serde(rename = "batch")]
+    Batch,
+    #[doc = "fine-tune"]
+    #[serde(rename = "fine-tune")]
+    FineTune,
+    #[doc = "vision"]
+    #[serde(rename = "vision")]
+    Vision,
+    #[doc = "user_data"]
+    #[serde(rename = "user_data")]
+    UserData,
+    #[doc = "evals"]
+    #[serde(rename = "evals")]
+    Evals,
+}
 impl<'de> serde::Deserialize<'de> for CreateFileRequest {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -17716,7 +18327,7 @@ impl<'de> serde::Deserialize<'de> for CreateFileRequest {
             file: Vec<u8>,
             #[serde(rename = "purpose")]
             #[allow(dead_code)]
-            purpose: FilePurpose,
+            purpose: CreateFileRequestPurpose,
         }
         let CreateFileRequest { file, purpose, .. } = CreateFileRequest::deserialize(deserializer)?;
         Ok(Self { file, purpose })
@@ -17734,7 +18345,7 @@ impl serde::Serialize for CreateFileRequest {
             #[serde(rename = "file")]
             file: &'a Vec<u8>,
             #[serde(rename = "purpose")]
-            purpose: &'a FilePurpose,
+            purpose: &'a CreateFileRequestPurpose,
         }
         let Self { file, purpose } = self;
         CreateFileRequest { file, purpose }.serialize(serializer)
@@ -17744,7 +18355,8 @@ impl serde::Serialize for CreateFileRequest {
 pub struct CreateFileRequest {
     #[doc = "The File object (not file name) to be uploaded.\n"]
     pub file: Vec<u8>,
-    pub purpose: FilePurpose,
+    #[doc = "The intended purpose of the uploaded file. One of: - `assistants`: Used in the Assistants API - `batch`: Used in the Batch API - `fine-tune`: Used for fine-tuning - `vision`: Images used for vision fine-tuning - `user_data`: Flexible file type for any purpose - `evals`: Used for eval data sets\n"]
+    pub purpose: CreateFileRequestPurpose,
 }
 impl<'de> serde::Deserialize<'de> for CreateFineTuningCheckpointPermissionRequest {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -17908,7 +18520,7 @@ impl<'de> serde::Deserialize<'de>
                 #[allow(dead_code)]
                 CreateFineTuningJobRequestHyperparametersLearningRateMultiplierAuto,
             ),
-            Number(#[allow(dead_code)] f64),
+            Number(#[allow(dead_code)] serde_json::Number),
         }
         Ok(
             match CreateFineTuningJobRequestHyperparametersLearningRateMultiplier::deserialize(
@@ -17938,7 +18550,7 @@ impl serde::Serialize for CreateFineTuningJobRequestHyperparametersLearningRateM
                 #[allow(dead_code)]
                 &'a CreateFineTuningJobRequestHyperparametersLearningRateMultiplierAuto,
             ),
-            Number(#[allow(dead_code)] &'a f64),
+            Number(#[allow(dead_code)] &'a serde_json::Number),
         }
         match self {
             Self::Auto => CreateFineTuningJobRequestHyperparametersLearningRateMultiplier::Auto(
@@ -17953,12 +18565,12 @@ impl serde::Serialize for CreateFineTuningJobRequestHyperparametersLearningRateM
     }
 }
 #[doc = "Scaling factor for the learning rate. A smaller learning rate may be useful to avoid\noverfitting.\n"]
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateFineTuningJobRequestHyperparametersLearningRateMultiplier {
     #[doc = "auto"]
     Auto,
-    Number(f64),
+    Number(serde_json::Number),
 }
 impl<'de> serde::Deserialize<'de> for CreateFineTuningJobRequestHyperparametersNEpochsAuto {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -18105,7 +18717,7 @@ impl serde::Serialize for CreateFineTuningJobRequestHyperparameters {
     }
 }
 #[doc = "The hyperparameters used for the fine-tuning job.\nThis value is now deprecated in favor of `method`, and should be passed in under the `method` parameter.\n"]
-#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateFineTuningJobRequestHyperparameters {
     #[doc = "Number of examples in each batch. A larger batch size means that model parameters\nare updated less frequently, but with lower variance.\n"]
     #[builder(default)]
@@ -18379,7 +18991,7 @@ impl serde::Serialize for CreateFineTuningJobRequest {
 pub struct CreateFineTuningJobRequest {
     #[doc = "The name of the model to fine-tune. You can select one of the\n[supported models](https://platform.openai.com/docs/guides/fine-tuning#which-models-can-be-fine-tuned).\n"]
     pub model: String,
-    #[doc = "The ID of an uploaded file that contains training data.\n\nSee [upload file](https://platform.openai.com/docs/api-reference/files/create) for how to upload a file.\n\nYour dataset must be formatted as a JSONL file. Additionally, you must upload your file with the purpose `fine-tune`.\n\nThe contents of the file should differ depending on if the model uses the [chat](https://platform.openai.com/docs/api-reference/fine-tuning/chat-input), [completions](https://platform.openai.com/docs/api-reference/fine-tuning/completions-input) format, or if the fine-tuning method uses the [preference](https://platform.openai.com/docs/api-reference/fine-tuning/preference-input) format.\n\nSee the [fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning) for more details.\n"]
+    #[doc = "The ID of an uploaded file that contains training data.\n\nSee [upload file](https://platform.openai.com/docs/api-reference/files/create) for how to upload a file.\n\nYour dataset must be formatted as a JSONL file. Additionally, you must upload your file with the purpose `fine-tune`.\n\nThe contents of the file should differ depending on if the model uses the [chat](https://platform.openai.com/docs/api-reference/fine-tuning/chat-input), [completions](https://platform.openai.com/docs/api-reference/fine-tuning/completions-input) format, or if the fine-tuning method uses the [preference](https://platform.openai.com/docs/api-reference/fine-tuning/preference-input) format.\n\nSee the [fine-tuning guide](https://platform.openai.com/docs/guides/model-optimization) for more details.\n"]
     pub training_file: String,
     #[doc = "The hyperparameters used for the fine-tuning job.\nThis value is now deprecated in favor of `method`, and should be passed in under the `method` parameter.\n"]
     #[builder(default)]
@@ -18387,7 +18999,7 @@ pub struct CreateFineTuningJobRequest {
     #[doc = "A string of up to 64 characters that will be added to your fine-tuned model name.\n\nFor example, a `suffix` of \"custom-model-name\" would produce a model name like `ft:gpt-4o-mini:openai:custom-model-name:7p4lURel`.\n"]
     #[builder(default)]
     pub suffix: Option<String>,
-    #[doc = "The ID of an uploaded file that contains validation data.\n\nIf you provide this file, the data is used to generate validation\nmetrics periodically during fine-tuning. These metrics can be viewed in\nthe fine-tuning results file.\nThe same data should not be present in both train and validation files.\n\nYour dataset must be formatted as a JSONL file. You must upload your file with the purpose `fine-tune`.\n\nSee the [fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning) for more details.\n"]
+    #[doc = "The ID of an uploaded file that contains validation data.\n\nIf you provide this file, the data is used to generate validation\nmetrics periodically during fine-tuning. These metrics can be viewed in\nthe fine-tuning results file.\nThe same data should not be present in both train and validation files.\n\nYour dataset must be formatted as a JSONL file. You must upload your file with the purpose `fine-tune`.\n\nSee the [fine-tuning guide](https://platform.openai.com/docs/guides/model-optimization) for more details.\n"]
     #[builder(default)]
     pub validation_file: Option<String>,
     #[doc = "A list of integrations to enable for your fine-tuning job."]
@@ -18512,6 +19124,20 @@ pub enum CreateImageEditRequestResponseFormat {
     #[serde(rename = "b64_json")]
     B64Json,
 }
+#[doc = "The format in which the generated images are returned. This parameter is\nonly supported for `gpt-image-1`. Must be one of `png`, `jpeg`, or `webp`.\nThe default value is `png`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
+pub enum CreateImageEditRequestOutputFormat {
+    #[doc = "png"]
+    #[default]
+    #[serde(rename = "png")]
+    Png,
+    #[doc = "jpeg"]
+    #[serde(rename = "jpeg")]
+    Jpeg,
+    #[doc = "webp"]
+    #[serde(rename = "webp")]
+    Webp,
+}
 #[doc = "The quality of the image that will be generated. `high`, `medium` and `low` are only supported for `gpt-image-1`. `dall-e-2` only supports `standard` quality. Defaults to `auto`.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateImageEditRequestQuality {
@@ -18565,6 +19191,12 @@ impl<'de> serde::Deserialize<'de> for CreateImageEditRequest {
             #[serde(rename = "response_format")]
             #[allow(dead_code)]
             response_format: Option<CreateImageEditRequestResponseFormat>,
+            #[serde(rename = "output_format")]
+            #[allow(dead_code)]
+            output_format: Option<CreateImageEditRequestOutputFormat>,
+            #[serde(rename = "output_compression")]
+            #[allow(dead_code)]
+            output_compression: Option<i64>,
             #[serde(rename = "user")]
             #[allow(dead_code)]
             user: Option<String>,
@@ -18581,6 +19213,8 @@ impl<'de> serde::Deserialize<'de> for CreateImageEditRequest {
             n,
             size,
             response_format,
+            output_format,
+            output_compression,
             user,
             quality,
             ..
@@ -18594,6 +19228,8 @@ impl<'de> serde::Deserialize<'de> for CreateImageEditRequest {
             n,
             size,
             response_format,
+            output_format,
+            output_compression,
             user,
             quality,
         })
@@ -18630,6 +19266,12 @@ impl serde::Serialize for CreateImageEditRequest {
             #[serde(rename = "response_format")]
             #[serde(skip_serializing_if = "Option::is_none")]
             response_format: &'a Option<CreateImageEditRequestResponseFormat>,
+            #[serde(rename = "output_format")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            output_format: &'a Option<CreateImageEditRequestOutputFormat>,
+            #[serde(rename = "output_compression")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            output_compression: &'a Option<i64>,
             #[serde(rename = "user")]
             #[serde(skip_serializing_if = "Option::is_none")]
             user: &'a Option<String>,
@@ -18646,6 +19288,8 @@ impl serde::Serialize for CreateImageEditRequest {
             n,
             size,
             response_format,
+            output_format,
+            output_compression,
             user,
             quality,
         } = self;
@@ -18658,6 +19302,8 @@ impl serde::Serialize for CreateImageEditRequest {
             n,
             size,
             response_format,
+            output_format,
+            output_compression,
             user,
             quality,
         }
@@ -18688,6 +19334,12 @@ pub struct CreateImageEditRequest {
     #[doc = "The format in which the generated images are returned. Must be one of `url` or `b64_json`. URLs are only valid for 60 minutes after the image has been generated. This parameter is only supported for `dall-e-2`, as `gpt-image-1` will always return base64-encoded images."]
     #[builder(default)]
     pub response_format: Option<CreateImageEditRequestResponseFormat>,
+    #[doc = "The format in which the generated images are returned. This parameter is\nonly supported for `gpt-image-1`. Must be one of `png`, `jpeg`, or `webp`.\nThe default value is `png`.\n"]
+    #[builder(default)]
+    pub output_format: Option<CreateImageEditRequestOutputFormat>,
+    #[doc = "The compression level (0-100%) for the generated images. This parameter \nis only supported for `gpt-image-1` with the `webp` or `jpeg` output \nformats, and defaults to 100.\n"]
+    #[builder(default)]
+    pub output_compression: Option<i64>,
     #[doc = "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#end-user-ids).\n"]
     #[builder(default)]
     pub user: Option<String>,
@@ -19423,7 +20075,303 @@ pub struct CreateMessageRequest {
     #[builder(default)]
     pub metadata: Option<Metadata>,
 }
-pub type CreateModelResponseProperties = ModelResponseProperties;
+impl<'de> serde::Deserialize<'de> for CreateModelResponseProperties {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct CreateModelResponseProperties {
+            #[serde(rename = "metadata")]
+            #[allow(dead_code)]
+            metadata: Option<Metadata>,
+            #[serde(rename = "temperature")]
+            #[allow(dead_code)]
+            temperature: Option<serde_json::Number>,
+            #[serde(rename = "top_p")]
+            #[allow(dead_code)]
+            top_p: Option<serde_json::Number>,
+            #[serde(rename = "user")]
+            #[allow(dead_code)]
+            user: Option<String>,
+            #[serde(rename = "service_tier")]
+            #[allow(dead_code)]
+            service_tier: Option<ServiceTier>,
+            #[serde(rename = "top_logprobs")]
+            #[allow(dead_code)]
+            top_logprobs: Option<i64>,
+        }
+        let CreateModelResponseProperties {
+            metadata,
+            temperature,
+            top_p,
+            user,
+            service_tier,
+            top_logprobs,
+            ..
+        } = CreateModelResponseProperties::deserialize(deserializer)?;
+        Ok(Self {
+            metadata,
+            temperature,
+            top_p,
+            user,
+            service_tier,
+            top_logprobs,
+        })
+    }
+}
+impl serde::Serialize for CreateModelResponseProperties {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct CreateModelResponseProperties<'a> {
+            #[serde(rename = "metadata")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            metadata: &'a Option<Metadata>,
+            #[serde(rename = "temperature")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            temperature: &'a Option<serde_json::Number>,
+            #[serde(rename = "top_p")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            top_p: &'a Option<serde_json::Number>,
+            #[serde(rename = "user")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            user: &'a Option<String>,
+            #[serde(rename = "service_tier")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            service_tier: &'a Option<ServiceTier>,
+            #[serde(rename = "top_logprobs")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            top_logprobs: &'a Option<i64>,
+        }
+        let Self {
+            metadata,
+            temperature,
+            top_p,
+            user,
+            service_tier,
+            top_logprobs,
+        } = self;
+        CreateModelResponseProperties {
+            metadata,
+            temperature,
+            top_p,
+            user,
+            service_tier,
+            top_logprobs,
+        }
+        .serialize(serializer)
+    }
+}
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
+pub struct CreateModelResponseProperties {
+    #[builder(default)]
+    pub metadata: Option<Metadata>,
+    #[doc = "What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.\nWe generally recommend altering this or `top_p` but not both.\n"]
+    #[builder(default)]
+    pub temperature: Option<serde_json::Number>,
+    #[doc = "An alternative to sampling with temperature, called nucleus sampling,\nwhere the model considers the results of the tokens with top_p probability\nmass. So 0.1 means only the tokens comprising the top 10% probability mass\nare considered.\n\nWe generally recommend altering this or `temperature` but not both.\n"]
+    #[builder(default)]
+    pub top_p: Option<serde_json::Number>,
+    #[doc = "A stable identifier for your end-users. \nUsed to boost cache hit rates by better bucketing similar requests and  to help OpenAI detect and prevent abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#end-user-ids).\n"]
+    #[builder(default)]
+    pub user: Option<String>,
+    #[builder(default)]
+    pub service_tier: Option<ServiceTier>,
+    #[doc = "An integer between 0 and 20 specifying the number of most likely tokens to\nreturn at each token position, each with an associated log probability.\n"]
+    #[builder(default)]
+    pub top_logprobs: Option<i64>,
+}
+impl<'de> serde::Deserialize<'de> for CreateModerationRequestInput2ImageUrlType {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "image_url" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"image_url",
+            ))
+        }
+    }
+}
+impl serde::Serialize for CreateModerationRequestInput2ImageUrlType {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "image_url".serialize(serializer)
+    }
+}
+#[doc = "Always `image_url`."]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateModerationRequestInput2ImageUrlType;
+impl<'de> serde::Deserialize<'de> for CreateModerationRequestInput2ImageUrlImageUrl {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct CreateModerationRequestInput2ImageUrlImageUrl {
+            #[serde(rename = "url")]
+            #[allow(dead_code)]
+            url: String,
+        }
+        let CreateModerationRequestInput2ImageUrlImageUrl { url, .. } =
+            CreateModerationRequestInput2ImageUrlImageUrl::deserialize(deserializer)?;
+        Ok(Self { url })
+    }
+}
+impl serde::Serialize for CreateModerationRequestInput2ImageUrlImageUrl {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct CreateModerationRequestInput2ImageUrlImageUrl<'a> {
+            #[serde(rename = "url")]
+            url: &'a String,
+        }
+        let Self { url } = self;
+        CreateModerationRequestInput2ImageUrlImageUrl { url }.serialize(serializer)
+    }
+}
+#[doc = "Contains either an image URL or a data URL for a base64 encoded image."]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct CreateModerationRequestInput2ImageUrlImageUrl {
+    #[doc = "Either a URL of the image or the base64 encoded image data."]
+    pub url: String,
+}
+impl<'de> serde::Deserialize<'de> for CreateModerationRequestInput2ImageUrl {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct CreateModerationRequestInput2ImageUrl {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: CreateModerationRequestInput2ImageUrlType,
+            #[serde(rename = "image_url")]
+            #[allow(dead_code)]
+            image_url: CreateModerationRequestInput2ImageUrlImageUrl,
+        }
+        let CreateModerationRequestInput2ImageUrl { image_url, .. } =
+            CreateModerationRequestInput2ImageUrl::deserialize(deserializer)?;
+        Ok(Self { image_url })
+    }
+}
+impl serde::Serialize for CreateModerationRequestInput2ImageUrl {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct CreateModerationRequestInput2ImageUrl<'a> {
+            #[serde(rename = "type")]
+            r#type: &'a CreateModerationRequestInput2ImageUrlType,
+            #[serde(rename = "image_url")]
+            image_url: &'a CreateModerationRequestInput2ImageUrlImageUrl,
+        }
+        let Self { image_url } = self;
+        CreateModerationRequestInput2ImageUrl {
+            r#type: &Default::default(),
+            image_url,
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "An object describing an image to classify."]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct CreateModerationRequestInput2ImageUrl {
+    #[doc = "Contains either an image URL or a data URL for a base64 encoded image."]
+    pub image_url: CreateModerationRequestInput2ImageUrlImageUrl,
+}
+impl<'de> serde::Deserialize<'de> for CreateModerationRequestInput2TextType {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "text" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"text",
+            ))
+        }
+    }
+}
+impl serde::Serialize for CreateModerationRequestInput2TextType {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "text".serialize(serializer)
+    }
+}
+#[doc = "Always `text`."]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateModerationRequestInput2TextType;
+impl<'de> serde::Deserialize<'de> for CreateModerationRequestInput2Text {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct CreateModerationRequestInput2Text {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: CreateModerationRequestInput2TextType,
+            #[serde(rename = "text")]
+            #[allow(dead_code)]
+            text: String,
+        }
+        let CreateModerationRequestInput2Text { text, .. } =
+            CreateModerationRequestInput2Text::deserialize(deserializer)?;
+        Ok(Self { text })
+    }
+}
+impl serde::Serialize for CreateModerationRequestInput2Text {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct CreateModerationRequestInput2Text<'a> {
+            #[serde(rename = "type")]
+            r#type: &'a CreateModerationRequestInput2TextType,
+            #[serde(rename = "text")]
+            text: &'a String,
+        }
+        let Self { text } = self;
+        CreateModerationRequestInput2Text {
+            r#type: &Default::default(),
+            text,
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "An object describing text to classify."]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct CreateModerationRequestInput2Text {
+    #[doc = "A string of text to classify."]
+    pub text: String,
+}
 impl<'de> serde::Deserialize<'de> for CreateModerationRequestInput2 {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -19434,8 +20382,8 @@ impl<'de> serde::Deserialize<'de> for CreateModerationRequestInput2 {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum CreateModerationRequestInput2 {
-            ImageUrl(#[allow(dead_code)] ModerationImageUrlInput),
-            Text(#[allow(dead_code)] ModerationTextInput),
+            ImageUrl(#[allow(dead_code)] CreateModerationRequestInput2ImageUrl),
+            Text(#[allow(dead_code)] CreateModerationRequestInput2Text),
         }
         Ok(
             match CreateModerationRequestInput2::deserialize(deserializer)? {
@@ -19455,8 +20403,8 @@ impl serde::Serialize for CreateModerationRequestInput2 {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum CreateModerationRequestInput2<'a> {
-            ImageUrl(#[allow(dead_code)] &'a ModerationImageUrlInput),
-            Text(#[allow(dead_code)] &'a ModerationTextInput),
+            ImageUrl(#[allow(dead_code)] &'a CreateModerationRequestInput2ImageUrl),
+            Text(#[allow(dead_code)] &'a CreateModerationRequestInput2Text),
         }
         match self {
             Self::ImageUrl(v) => CreateModerationRequestInput2::ImageUrl(v).serialize(serializer),
@@ -19467,8 +20415,10 @@ impl serde::Serialize for CreateModerationRequestInput2 {
 #[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateModerationRequestInput2 {
-    ImageUrl(ModerationImageUrlInput),
-    Text(ModerationTextInput),
+    #[doc = "An object describing an image to classify."]
+    ImageUrl(CreateModerationRequestInput2ImageUrl),
+    #[doc = "An object describing text to classify."]
+    Text(CreateModerationRequestInput2Text),
 }
 impl<'de> serde::Deserialize<'de> for CreateModerationRequestInput {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -19766,43 +20716,43 @@ impl<'de> serde::Deserialize<'de> for CreateModerationResponseResultCategoryScor
         struct CreateModerationResponseResultCategoryScores {
             #[serde(rename = "hate")]
             #[allow(dead_code)]
-            hate: f64,
+            hate: serde_json::Number,
             #[serde(rename = "hate/threatening")]
             #[allow(dead_code)]
-            hate_threatening: f64,
+            hate_threatening: serde_json::Number,
             #[serde(rename = "harassment")]
             #[allow(dead_code)]
-            harassment: f64,
+            harassment: serde_json::Number,
             #[serde(rename = "harassment/threatening")]
             #[allow(dead_code)]
-            harassment_threatening: f64,
+            harassment_threatening: serde_json::Number,
             #[serde(rename = "illicit")]
             #[allow(dead_code)]
-            illicit: f64,
+            illicit: serde_json::Number,
             #[serde(rename = "illicit/violent")]
             #[allow(dead_code)]
-            illicit_violent: f64,
+            illicit_violent: serde_json::Number,
             #[serde(rename = "self-harm")]
             #[allow(dead_code)]
-            self_harm: f64,
+            self_harm: serde_json::Number,
             #[serde(rename = "self-harm/intent")]
             #[allow(dead_code)]
-            self_harm_intent: f64,
+            self_harm_intent: serde_json::Number,
             #[serde(rename = "self-harm/instructions")]
             #[allow(dead_code)]
-            self_harm_instructions: f64,
+            self_harm_instructions: serde_json::Number,
             #[serde(rename = "sexual")]
             #[allow(dead_code)]
-            sexual: f64,
+            sexual: serde_json::Number,
             #[serde(rename = "sexual/minors")]
             #[allow(dead_code)]
-            sexual_minors: f64,
+            sexual_minors: serde_json::Number,
             #[serde(rename = "violence")]
             #[allow(dead_code)]
-            violence: f64,
+            violence: serde_json::Number,
             #[serde(rename = "violence/graphic")]
             #[allow(dead_code)]
-            violence_graphic: f64,
+            violence_graphic: serde_json::Number,
         }
         let CreateModerationResponseResultCategoryScores {
             hate,
@@ -19846,31 +20796,31 @@ impl serde::Serialize for CreateModerationResponseResultCategoryScores {
         #[derive(serde :: Serialize)]
         struct CreateModerationResponseResultCategoryScores<'a> {
             #[serde(rename = "hate")]
-            hate: &'a f64,
+            hate: &'a serde_json::Number,
             #[serde(rename = "hate/threatening")]
-            hate_threatening: &'a f64,
+            hate_threatening: &'a serde_json::Number,
             #[serde(rename = "harassment")]
-            harassment: &'a f64,
+            harassment: &'a serde_json::Number,
             #[serde(rename = "harassment/threatening")]
-            harassment_threatening: &'a f64,
+            harassment_threatening: &'a serde_json::Number,
             #[serde(rename = "illicit")]
-            illicit: &'a f64,
+            illicit: &'a serde_json::Number,
             #[serde(rename = "illicit/violent")]
-            illicit_violent: &'a f64,
+            illicit_violent: &'a serde_json::Number,
             #[serde(rename = "self-harm")]
-            self_harm: &'a f64,
+            self_harm: &'a serde_json::Number,
             #[serde(rename = "self-harm/intent")]
-            self_harm_intent: &'a f64,
+            self_harm_intent: &'a serde_json::Number,
             #[serde(rename = "self-harm/instructions")]
-            self_harm_instructions: &'a f64,
+            self_harm_instructions: &'a serde_json::Number,
             #[serde(rename = "sexual")]
-            sexual: &'a f64,
+            sexual: &'a serde_json::Number,
             #[serde(rename = "sexual/minors")]
-            sexual_minors: &'a f64,
+            sexual_minors: &'a serde_json::Number,
             #[serde(rename = "violence")]
-            violence: &'a f64,
+            violence: &'a serde_json::Number,
             #[serde(rename = "violence/graphic")]
-            violence_graphic: &'a f64,
+            violence_graphic: &'a serde_json::Number,
         }
         let Self {
             hate,
@@ -19906,34 +20856,34 @@ impl serde::Serialize for CreateModerationResponseResultCategoryScores {
     }
 }
 #[doc = "A list of the categories along with their scores as predicted by model."]
-#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateModerationResponseResultCategoryScores {
     #[doc = "The score for the category 'hate'."]
-    pub hate: f64,
+    pub hate: serde_json::Number,
     #[doc = "The score for the category 'hate/threatening'."]
-    pub hate_threatening: f64,
+    pub hate_threatening: serde_json::Number,
     #[doc = "The score for the category 'harassment'."]
-    pub harassment: f64,
+    pub harassment: serde_json::Number,
     #[doc = "The score for the category 'harassment/threatening'."]
-    pub harassment_threatening: f64,
+    pub harassment_threatening: serde_json::Number,
     #[doc = "The score for the category 'illicit'."]
-    pub illicit: f64,
+    pub illicit: serde_json::Number,
     #[doc = "The score for the category 'illicit/violent'."]
-    pub illicit_violent: f64,
+    pub illicit_violent: serde_json::Number,
     #[doc = "The score for the category 'self-harm'."]
-    pub self_harm: f64,
+    pub self_harm: serde_json::Number,
     #[doc = "The score for the category 'self-harm/intent'."]
-    pub self_harm_intent: f64,
+    pub self_harm_intent: serde_json::Number,
     #[doc = "The score for the category 'self-harm/instructions'."]
-    pub self_harm_instructions: f64,
+    pub self_harm_instructions: serde_json::Number,
     #[doc = "The score for the category 'sexual'."]
-    pub sexual: f64,
+    pub sexual: serde_json::Number,
     #[doc = "The score for the category 'sexual/minors'."]
-    pub sexual_minors: f64,
+    pub sexual_minors: serde_json::Number,
     #[doc = "The score for the category 'violence'."]
-    pub violence: f64,
+    pub violence: serde_json::Number,
     #[doc = "The score for the category 'violence/graphic'."]
-    pub violence_graphic: f64,
+    pub violence_graphic: serde_json::Number,
 }
 impl<'de> serde::Deserialize<'de> for CreateModerationResponseResultCategoryAppliedInputTypesHate {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -20566,9 +21516,9 @@ impl serde::Serialize for CreateResponseInput {
 #[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateResponseInput {
-    #[doc = "A text input to the model, equivalent to a text input with the \n`user` role.\n"]
+    #[doc = "A text input to the model, equivalent to a text input with the\n`user` role.\n"]
     String(String),
-    #[doc = "A list of one or many input items to the model, containing \ndifferent content types.\n"]
+    #[doc = "A list of one or many input items to the model, containing\ndifferent content types.\n"]
     Array(Vec<InputItem>),
 }
 impl<'de> serde::Deserialize<'de> for CreateResponse {
@@ -20579,15 +21529,60 @@ impl<'de> serde::Deserialize<'de> for CreateResponse {
         #[serde_with::serde_as]
         #[derive(serde :: Deserialize)]
         struct CreateResponse {
-            #[serde(flatten)]
+            #[serde(rename = "metadata")]
             #[allow(dead_code)]
-            create_model_response_properties: CreateModelResponseProperties,
-            #[serde(flatten)]
+            metadata: Option<Metadata>,
+            #[serde(rename = "temperature")]
             #[allow(dead_code)]
-            response_properties: ResponseProperties,
+            temperature: Option<serde_json::Number>,
+            #[serde(rename = "top_p")]
+            #[allow(dead_code)]
+            top_p: Option<serde_json::Number>,
+            #[serde(rename = "user")]
+            #[allow(dead_code)]
+            user: Option<String>,
+            #[serde(rename = "service_tier")]
+            #[allow(dead_code)]
+            service_tier: Option<ServiceTier>,
+            #[serde(rename = "top_logprobs")]
+            #[allow(dead_code)]
+            top_logprobs: Option<i64>,
+            #[serde(rename = "previous_response_id")]
+            #[allow(dead_code)]
+            previous_response_id: Option<String>,
+            #[serde(rename = "model")]
+            #[allow(dead_code)]
+            model: Option<ModelIdsResponses>,
+            #[serde(rename = "reasoning")]
+            #[allow(dead_code)]
+            reasoning: Option<Reasoning>,
+            #[serde(rename = "background")]
+            #[allow(dead_code)]
+            background: Option<bool>,
+            #[serde(rename = "max_output_tokens")]
+            #[allow(dead_code)]
+            max_output_tokens: Option<i64>,
+            #[serde(rename = "max_tool_calls")]
+            #[allow(dead_code)]
+            max_tool_calls: Option<i64>,
+            #[serde(rename = "text")]
+            #[allow(dead_code)]
+            text: Option<ResponsePropertiesText>,
+            #[serde(rename = "tools")]
+            #[allow(dead_code)]
+            tools: Option<Vec<Tool>>,
+            #[serde(rename = "tool_choice")]
+            #[allow(dead_code)]
+            tool_choice: Option<ResponsePropertiesToolChoice>,
+            #[serde(rename = "prompt")]
+            #[allow(dead_code)]
+            prompt: Option<Prompt>,
+            #[serde(rename = "truncation")]
+            #[allow(dead_code)]
+            truncation: Option<ResponsePropertiesTruncation>,
             #[serde(rename = "input")]
             #[allow(dead_code)]
-            input: CreateResponseInput,
+            input: Option<CreateResponseInput>,
             #[serde(rename = "include")]
             #[allow(dead_code)]
             include: Option<Vec<Includable>>,
@@ -20597,27 +21592,62 @@ impl<'de> serde::Deserialize<'de> for CreateResponse {
             #[serde(rename = "store")]
             #[allow(dead_code)]
             store: Option<bool>,
+            #[serde(rename = "instructions")]
+            #[allow(dead_code)]
+            instructions: Option<String>,
             #[serde(rename = "stream")]
             #[allow(dead_code)]
             stream: Option<bool>,
         }
         let CreateResponse {
-            create_model_response_properties,
-            response_properties,
+            metadata,
+            temperature,
+            top_p,
+            user,
+            service_tier,
+            top_logprobs,
+            previous_response_id,
+            model,
+            reasoning,
+            background,
+            max_output_tokens,
+            max_tool_calls,
+            text,
+            tools,
+            tool_choice,
+            prompt,
+            truncation,
             input,
             include,
             parallel_tool_calls,
             store,
+            instructions,
             stream,
             ..
         } = CreateResponse::deserialize(deserializer)?;
         Ok(Self {
-            create_model_response_properties,
-            response_properties,
+            metadata,
+            temperature,
+            top_p,
+            user,
+            service_tier,
+            top_logprobs,
+            previous_response_id,
+            model,
+            reasoning,
+            background,
+            max_output_tokens,
+            max_tool_calls,
+            text,
+            tools,
+            tool_choice,
+            prompt,
+            truncation,
             input,
             include,
             parallel_tool_calls,
             store,
+            instructions,
             stream,
         })
     }
@@ -20630,12 +21660,60 @@ impl serde::Serialize for CreateResponse {
         #[serde_with::serde_as]
         #[derive(serde :: Serialize)]
         struct CreateResponse<'a> {
-            #[serde(flatten)]
-            create_model_response_properties: &'a CreateModelResponseProperties,
-            #[serde(flatten)]
-            response_properties: &'a ResponseProperties,
+            #[serde(rename = "metadata")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            metadata: &'a Option<Metadata>,
+            #[serde(rename = "temperature")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            temperature: &'a Option<serde_json::Number>,
+            #[serde(rename = "top_p")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            top_p: &'a Option<serde_json::Number>,
+            #[serde(rename = "user")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            user: &'a Option<String>,
+            #[serde(rename = "service_tier")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            service_tier: &'a Option<ServiceTier>,
+            #[serde(rename = "top_logprobs")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            top_logprobs: &'a Option<i64>,
+            #[serde(rename = "previous_response_id")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            previous_response_id: &'a Option<String>,
+            #[serde(rename = "model")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            model: &'a Option<ModelIdsResponses>,
+            #[serde(rename = "reasoning")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            reasoning: &'a Option<Reasoning>,
+            #[serde(rename = "background")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            background: &'a Option<bool>,
+            #[serde(rename = "max_output_tokens")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            max_output_tokens: &'a Option<i64>,
+            #[serde(rename = "max_tool_calls")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            max_tool_calls: &'a Option<i64>,
+            #[serde(rename = "text")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            text: &'a Option<ResponsePropertiesText>,
+            #[serde(rename = "tools")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            tools: &'a Option<Vec<Tool>>,
+            #[serde(rename = "tool_choice")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            tool_choice: &'a Option<ResponsePropertiesToolChoice>,
+            #[serde(rename = "prompt")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            prompt: &'a Option<Prompt>,
+            #[serde(rename = "truncation")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            truncation: &'a Option<ResponsePropertiesTruncation>,
             #[serde(rename = "input")]
-            input: &'a CreateResponseInput,
+            #[serde(skip_serializing_if = "Option::is_none")]
+            input: &'a Option<CreateResponseInput>,
             #[serde(rename = "include")]
             #[serde(skip_serializing_if = "Option::is_none")]
             include: &'a Option<Vec<Includable>>,
@@ -20645,40 +21723,119 @@ impl serde::Serialize for CreateResponse {
             #[serde(rename = "store")]
             #[serde(skip_serializing_if = "Option::is_none")]
             store: &'a Option<bool>,
+            #[serde(rename = "instructions")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            instructions: &'a Option<String>,
             #[serde(rename = "stream")]
             #[serde(skip_serializing_if = "Option::is_none")]
             stream: &'a Option<bool>,
         }
         let Self {
-            create_model_response_properties,
-            response_properties,
+            metadata,
+            temperature,
+            top_p,
+            user,
+            service_tier,
+            top_logprobs,
+            previous_response_id,
+            model,
+            reasoning,
+            background,
+            max_output_tokens,
+            max_tool_calls,
+            text,
+            tools,
+            tool_choice,
+            prompt,
+            truncation,
             input,
             include,
             parallel_tool_calls,
             store,
+            instructions,
             stream,
         } = self;
         CreateResponse {
-            create_model_response_properties,
-            response_properties,
+            metadata,
+            temperature,
+            top_p,
+            user,
+            service_tier,
+            top_logprobs,
+            previous_response_id,
+            model,
+            reasoning,
+            background,
+            max_output_tokens,
+            max_tool_calls,
+            text,
+            tools,
+            tool_choice,
+            prompt,
+            truncation,
             input,
             include,
             parallel_tool_calls,
             store,
+            instructions,
             stream,
         }
         .serialize(serializer)
     }
 }
-#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateResponse {
     #[builder(default)]
-    pub create_model_response_properties: CreateModelResponseProperties,
+    pub metadata: Option<Metadata>,
+    #[doc = "What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.\nWe generally recommend altering this or `top_p` but not both.\n"]
     #[builder(default)]
-    pub response_properties: ResponseProperties,
+    pub temperature: Option<serde_json::Number>,
+    #[doc = "An alternative to sampling with temperature, called nucleus sampling,\nwhere the model considers the results of the tokens with top_p probability\nmass. So 0.1 means only the tokens comprising the top 10% probability mass\nare considered.\n\nWe generally recommend altering this or `temperature` but not both.\n"]
+    #[builder(default)]
+    pub top_p: Option<serde_json::Number>,
+    #[doc = "A stable identifier for your end-users. \nUsed to boost cache hit rates by better bucketing similar requests and  to help OpenAI detect and prevent abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#end-user-ids).\n"]
+    #[builder(default)]
+    pub user: Option<String>,
+    #[builder(default)]
+    pub service_tier: Option<ServiceTier>,
+    #[doc = "An integer between 0 and 20 specifying the number of most likely tokens to\nreturn at each token position, each with an associated log probability.\n"]
+    #[builder(default)]
+    pub top_logprobs: Option<i64>,
+    #[doc = "The unique ID of the previous response to the model. Use this to\ncreate multi-turn conversations. Learn more about \n[conversation state](https://platform.openai.com/docs/guides/conversation-state).\n"]
+    #[builder(default)]
+    pub previous_response_id: Option<String>,
+    #[doc = "Model ID used to generate the response, like `gpt-4o` or `o3`. OpenAI\noffers a wide range of models with different capabilities, performance\ncharacteristics, and price points. Refer to the [model guide](https://platform.openai.com/docs/models)\nto browse and compare available models.\n"]
+    #[builder(default)]
+    pub model: Option<ModelIdsResponses>,
+    #[builder(default)]
+    pub reasoning: Option<Reasoning>,
+    #[doc = "Whether to run the model response in the background. \n[Learn more](https://platform.openai.com/docs/guides/background).\n"]
+    #[builder(default)]
+    pub background: Option<bool>,
+    #[doc = "An upper bound for the number of tokens that can be generated for a response, including visible output tokens and [reasoning tokens](https://platform.openai.com/docs/guides/reasoning).\n"]
+    #[builder(default)]
+    pub max_output_tokens: Option<i64>,
+    #[doc = "The maximum number of total calls to built-in tools that can be processed in a response. This maximum number applies across all built-in tool calls, not per individual tool. Any further attempts to call a tool by the model will be ignored.\n"]
+    #[builder(default)]
+    pub max_tool_calls: Option<i64>,
+    #[doc = "Configuration options for a text response from the model. Can be plain\ntext or structured JSON data. Learn more:\n- [Text inputs and outputs](https://platform.openai.com/docs/guides/text)\n- [Structured Outputs](https://platform.openai.com/docs/guides/structured-outputs)\n"]
+    #[builder(default)]
+    pub text: Option<ResponsePropertiesText>,
+    #[doc = "An array of tools the model may call while generating a response. You \ncan specify which tool to use by setting the `tool_choice` parameter.\n\nThe two categories of tools you can provide the model are:\n\n- **Built-in tools**: Tools that are provided by OpenAI that extend the\n  model's capabilities, like [web search](https://platform.openai.com/docs/guides/tools-web-search)\n  or [file search](https://platform.openai.com/docs/guides/tools-file-search). Learn more about\n  [built-in tools](https://platform.openai.com/docs/guides/tools).\n- **Function calls (custom tools)**: Functions that are defined by you,\n  enabling the model to call your own code. Learn more about\n  [function calling](https://platform.openai.com/docs/guides/function-calling).\n"]
+    #[builder(default)]
+    pub tools: Option<Vec<Tool>>,
+    #[doc = "How the model should select which tool (or tools) to use when generating\na response. See the `tools` parameter to see how to specify which tools\nthe model can call.\n"]
+    #[builder(default)]
+    pub tool_choice: Option<ResponsePropertiesToolChoice>,
+    #[builder(default)]
+    pub prompt: Option<Prompt>,
+    #[doc = "The truncation strategy to use for the model response.\n- `auto`: If the context of this response and previous ones exceeds\n  the model's context window size, the model will truncate the \n  response to fit the context window by dropping input items in the\n  middle of the conversation. \n- `disabled` (default): If a model response will exceed the context window \n  size for a model, the request will fail with a 400 error.\n"]
+    #[builder(default)]
+    pub truncation: Option<ResponsePropertiesTruncation>,
     #[doc = "Text, image, or file inputs to the model, used to generate a response.\n\nLearn more:\n- [Text inputs and outputs](https://platform.openai.com/docs/guides/text)\n- [Image inputs](https://platform.openai.com/docs/guides/images)\n- [File inputs](https://platform.openai.com/docs/guides/pdf-files)\n- [Conversation state](https://platform.openai.com/docs/guides/conversation-state)\n- [Function calling](https://platform.openai.com/docs/guides/function-calling)\n"]
-    pub input: CreateResponseInput,
-    #[doc = "Specify additional output data to include in the model response. Currently\nsupported values are:\n- `file_search_call.results`: Include the search results of\n  the file search tool call.\n- `message.input_image.image_url`: Include image urls from the input message.\n- `computer_call_output.output.image_url`: Include image urls from the computer call output.\n- `reasoning.encrypted_content`: Includes an encrypted version of reasoning\n  tokens in reasoning item outputs. This enables reasoning items to be used in\n  multi-turn conversations when using the Responses API statelessly (like\n  when the `store` parameter is set to `false`, or when an organization is\n  enrolled in the zero data retention program).\n- `code_interpreter_call.outputs`: Includes the outputs of python code execution\n  in code interpreter tool call items.\n"]
+    #[builder(default)]
+    pub input: Option<CreateResponseInput>,
+    #[doc = "Specify additional output data to include in the model response. Currently\nsupported values are:\n- `code_interpreter_call.outputs`: Includes the outputs of python code execution\n  in code interpreter tool call items.\n- `computer_call_output.output.image_url`: Include image urls from the computer call output.\n- `file_search_call.results`: Include the search results of\n  the file search tool call.\n- `message.input_image.image_url`: Include image urls from the input message.\n- `message.output_text.logprobs`: Include logprobs with assistant messages.\n- `reasoning.encrypted_content`: Includes an encrypted version of reasoning\n  tokens in reasoning item outputs. This enables reasoning items to be used in\n  multi-turn conversations when using the Responses API statelessly (like\n  when the `store` parameter is set to `false`, or when an organization is\n  enrolled in the zero data retention program).\n"]
     #[builder(default)]
     pub include: Option<Vec<Includable>>,
     #[doc = "Whether to allow the model to run tool calls in parallel.\n"]
@@ -20687,9 +21844,63 @@ pub struct CreateResponse {
     #[doc = "Whether to store the generated model response for later retrieval via\nAPI.\n"]
     #[builder(default)]
     pub store: Option<bool>,
+    #[doc = "A system (or developer) message inserted into the model's context.\n\nWhen using along with `previous_response_id`, the instructions from a previous\nresponse will not be carried over to the next response. This makes it simple\nto swap out system (or developer) messages in new responses.\n"]
+    #[builder(default)]
+    pub instructions: Option<String>,
     #[doc = "If set to true, the model response data will be streamed to the client\nas it is generated using [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format).\nSee the [Streaming section below](https://platform.openai.com/docs/api-reference/responses-streaming)\nfor more information.\n"]
     #[builder(default)]
     pub stream: Option<bool>,
+}
+impl<'de> serde::Deserialize<'de> for CreateRunRequestTool {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
+        enum CreateRunRequestTool {
+            CodeInterpreter(#[allow(dead_code)] AssistantToolsCode),
+            FileSearch(#[allow(dead_code)] AssistantToolsFileSearch),
+            Function(#[allow(dead_code)] AssistantToolsFunction),
+        }
+        Ok(match CreateRunRequestTool::deserialize(deserializer)? {
+            CreateRunRequestTool::CodeInterpreter(v) => Self::CodeInterpreter(v),
+            CreateRunRequestTool::FileSearch(v) => Self::FileSearch(v),
+            CreateRunRequestTool::Function(v) => Self::Function(v),
+        })
+    }
+}
+impl serde::Serialize for CreateRunRequestTool {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names)]
+        enum CreateRunRequestTool<'a> {
+            CodeInterpreter(#[allow(dead_code)] &'a AssistantToolsCode),
+            FileSearch(#[allow(dead_code)] &'a AssistantToolsFileSearch),
+            Function(#[allow(dead_code)] &'a AssistantToolsFunction),
+        }
+        match self {
+            Self::CodeInterpreter(v) => {
+                CreateRunRequestTool::CodeInterpreter(v).serialize(serializer)
+            }
+            Self::FileSearch(v) => CreateRunRequestTool::FileSearch(v).serialize(serializer),
+            Self::Function(v) => CreateRunRequestTool::Function(v).serialize(serializer),
+        }
+    }
+}
+#[derive(Clone, Debug, PartialEq)]
+#[allow(clippy::large_enum_variant)]
+pub enum CreateRunRequestTool {
+    CodeInterpreter(AssistantToolsCode),
+    FileSearch(AssistantToolsFileSearch),
+    Function(AssistantToolsFunction),
 }
 impl<'de> serde::Deserialize<'de> for CreateRunRequest {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -20719,16 +21930,16 @@ impl<'de> serde::Deserialize<'de> for CreateRunRequest {
             additional_messages: Option<Vec<CreateMessageRequest>>,
             #[serde(rename = "tools")]
             #[allow(dead_code)]
-            tools: Option<Vec<AssistantTool>>,
+            tools: Option<Vec<CreateRunRequestTool>>,
             #[serde(rename = "metadata")]
             #[allow(dead_code)]
             metadata: Option<Metadata>,
             #[serde(rename = "temperature")]
             #[allow(dead_code)]
-            temperature: Option<f64>,
+            temperature: Option<serde_json::Number>,
             #[serde(rename = "top_p")]
             #[allow(dead_code)]
-            top_p: Option<f64>,
+            top_p: Option<serde_json::Number>,
             #[serde(rename = "stream")]
             #[allow(dead_code)]
             stream: Option<bool>,
@@ -20819,16 +22030,16 @@ impl serde::Serialize for CreateRunRequest {
             additional_messages: &'a Option<Vec<CreateMessageRequest>>,
             #[serde(rename = "tools")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            tools: &'a Option<Vec<AssistantTool>>,
+            tools: &'a Option<Vec<CreateRunRequestTool>>,
             #[serde(rename = "metadata")]
             #[serde(skip_serializing_if = "Option::is_none")]
             metadata: &'a Option<Metadata>,
             #[serde(rename = "temperature")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            temperature: &'a Option<f64>,
+            temperature: &'a Option<serde_json::Number>,
             #[serde(rename = "top_p")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            top_p: &'a Option<f64>,
+            top_p: &'a Option<serde_json::Number>,
             #[serde(rename = "stream")]
             #[serde(skip_serializing_if = "Option::is_none")]
             stream: &'a Option<bool>,
@@ -20912,15 +22123,15 @@ pub struct CreateRunRequest {
     pub additional_messages: Option<Vec<CreateMessageRequest>>,
     #[doc = "Override the tools the assistant can use for this run. This is useful for modifying the behavior on a per-run basis."]
     #[builder(default)]
-    pub tools: Option<Vec<AssistantTool>>,
+    pub tools: Option<Vec<CreateRunRequestTool>>,
     #[builder(default)]
     pub metadata: Option<Metadata>,
     #[doc = "What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.\n"]
     #[builder(default)]
-    pub temperature: Option<f64>,
+    pub temperature: Option<serde_json::Number>,
     #[doc = "An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.\n\nWe generally recommend altering this or temperature but not both.\n"]
     #[builder(default)]
-    pub top_p: Option<f64>,
+    pub top_p: Option<serde_json::Number>,
     #[doc = "If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.\n"]
     #[builder(default)]
     pub stream: Option<bool>,
@@ -20962,6 +22173,17 @@ pub enum CreateSpeechRequestResponseFormat {
     #[serde(rename = "pcm")]
     Pcm,
 }
+#[doc = "The format to stream the audio in. Supported formats are `sse` and `audio`. `sse` is not supported for `tts-1` or `tts-1-hd`."]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
+pub enum CreateSpeechRequestStreamFormat {
+    #[doc = "sse"]
+    #[serde(rename = "sse")]
+    Sse,
+    #[doc = "audio"]
+    #[default]
+    #[serde(rename = "audio")]
+    Audio,
+}
 impl<'de> serde::Deserialize<'de> for CreateSpeechRequest {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -20987,7 +22209,10 @@ impl<'de> serde::Deserialize<'de> for CreateSpeechRequest {
             response_format: Option<CreateSpeechRequestResponseFormat>,
             #[serde(rename = "speed")]
             #[allow(dead_code)]
-            speed: Option<f64>,
+            speed: Option<serde_json::Number>,
+            #[serde(rename = "stream_format")]
+            #[allow(dead_code)]
+            stream_format: Option<CreateSpeechRequestStreamFormat>,
         }
         let CreateSpeechRequest {
             model,
@@ -20996,6 +22221,7 @@ impl<'de> serde::Deserialize<'de> for CreateSpeechRequest {
             voice,
             response_format,
             speed,
+            stream_format,
             ..
         } = CreateSpeechRequest::deserialize(deserializer)?;
         Ok(Self {
@@ -21005,6 +22231,7 @@ impl<'de> serde::Deserialize<'de> for CreateSpeechRequest {
             voice,
             response_format,
             speed,
+            stream_format,
         })
     }
 }
@@ -21030,7 +22257,10 @@ impl serde::Serialize for CreateSpeechRequest {
             response_format: &'a Option<CreateSpeechRequestResponseFormat>,
             #[serde(rename = "speed")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            speed: &'a Option<f64>,
+            speed: &'a Option<serde_json::Number>,
+            #[serde(rename = "stream_format")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            stream_format: &'a Option<CreateSpeechRequestStreamFormat>,
         }
         let Self {
             model,
@@ -21039,6 +22269,7 @@ impl serde::Serialize for CreateSpeechRequest {
             voice,
             response_format,
             speed,
+            stream_format,
         } = self;
         CreateSpeechRequest {
             model,
@@ -21047,6 +22278,7 @@ impl serde::Serialize for CreateSpeechRequest {
             voice,
             response_format,
             speed,
+            stream_format,
         }
         .serialize(serializer)
     }
@@ -21065,9 +22297,117 @@ pub struct CreateSpeechRequest {
     #[doc = "The format to audio in. Supported formats are `mp3`, `opus`, `aac`, `flac`, `wav`, and `pcm`."]
     #[builder(default)]
     pub response_format: Option<CreateSpeechRequestResponseFormat>,
-    #[doc = "The speed of the generated audio. Select a value from `0.25` to `4.0`. `1.0` is the default. Does not work with `gpt-4o-mini-tts`."]
+    #[doc = "The speed of the generated audio. Select a value from `0.25` to `4.0`. `1.0` is the default."]
     #[builder(default)]
-    pub speed: Option<f64>,
+    pub speed: Option<serde_json::Number>,
+    #[doc = "The format to stream the audio in. Supported formats are `sse` and `audio`. `sse` is not supported for `tts-1` or `tts-1-hd`."]
+    #[builder(default)]
+    pub stream_format: Option<CreateSpeechRequestStreamFormat>,
+}
+impl<'de> serde::Deserialize<'de> for CreateSpeechResponseStreamEvent {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
+        enum CreateSpeechResponseStreamEvent {
+            SpeechAudioDelta(#[allow(dead_code)] SpeechAudioDeltaEvent),
+            SpeechAudioDone(#[allow(dead_code)] SpeechAudioDoneEvent),
+        }
+        Ok(
+            match CreateSpeechResponseStreamEvent::deserialize(deserializer)? {
+                CreateSpeechResponseStreamEvent::SpeechAudioDelta(v) => Self::SpeechAudioDelta(v),
+                CreateSpeechResponseStreamEvent::SpeechAudioDone(v) => Self::SpeechAudioDone(v),
+            },
+        )
+    }
+}
+impl serde::Serialize for CreateSpeechResponseStreamEvent {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names)]
+        enum CreateSpeechResponseStreamEvent<'a> {
+            SpeechAudioDelta(#[allow(dead_code)] &'a SpeechAudioDeltaEvent),
+            SpeechAudioDone(#[allow(dead_code)] &'a SpeechAudioDoneEvent),
+        }
+        match self {
+            Self::SpeechAudioDelta(v) => {
+                CreateSpeechResponseStreamEvent::SpeechAudioDelta(v).serialize(serializer)
+            }
+            Self::SpeechAudioDone(v) => {
+                CreateSpeechResponseStreamEvent::SpeechAudioDone(v).serialize(serializer)
+            }
+        }
+    }
+}
+#[derive(Clone, Debug, PartialEq)]
+#[allow(clippy::large_enum_variant)]
+pub enum CreateSpeechResponseStreamEvent {
+    SpeechAudioDelta(SpeechAudioDeltaEvent),
+    SpeechAudioDone(SpeechAudioDoneEvent),
+}
+impl<'de> serde::Deserialize<'de> for CreateThreadAndRunRequestTool {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
+        enum CreateThreadAndRunRequestTool {
+            CodeInterpreter(#[allow(dead_code)] AssistantToolsCode),
+            FileSearch(#[allow(dead_code)] AssistantToolsFileSearch),
+            Function(#[allow(dead_code)] AssistantToolsFunction),
+        }
+        Ok(
+            match CreateThreadAndRunRequestTool::deserialize(deserializer)? {
+                CreateThreadAndRunRequestTool::CodeInterpreter(v) => Self::CodeInterpreter(v),
+                CreateThreadAndRunRequestTool::FileSearch(v) => Self::FileSearch(v),
+                CreateThreadAndRunRequestTool::Function(v) => Self::Function(v),
+            },
+        )
+    }
+}
+impl serde::Serialize for CreateThreadAndRunRequestTool {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names)]
+        enum CreateThreadAndRunRequestTool<'a> {
+            CodeInterpreter(#[allow(dead_code)] &'a AssistantToolsCode),
+            FileSearch(#[allow(dead_code)] &'a AssistantToolsFileSearch),
+            Function(#[allow(dead_code)] &'a AssistantToolsFunction),
+        }
+        match self {
+            Self::CodeInterpreter(v) => {
+                CreateThreadAndRunRequestTool::CodeInterpreter(v).serialize(serializer)
+            }
+            Self::FileSearch(v) => {
+                CreateThreadAndRunRequestTool::FileSearch(v).serialize(serializer)
+            }
+            Self::Function(v) => CreateThreadAndRunRequestTool::Function(v).serialize(serializer),
+        }
+    }
+}
+#[derive(Clone, Debug, PartialEq)]
+#[allow(clippy::large_enum_variant)]
+pub enum CreateThreadAndRunRequestTool {
+    CodeInterpreter(AssistantToolsCode),
+    FileSearch(AssistantToolsFileSearch),
+    Function(AssistantToolsFunction),
 }
 impl<'de> serde::Deserialize<'de> for CreateThreadAndRunRequestToolResourcesCodeInterpreter {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -21230,7 +22570,7 @@ impl<'de> serde::Deserialize<'de> for CreateThreadAndRunRequest {
             instructions: Option<String>,
             #[serde(rename = "tools")]
             #[allow(dead_code)]
-            tools: Option<Vec<AssistantTool>>,
+            tools: Option<Vec<CreateThreadAndRunRequestTool>>,
             #[serde(rename = "tool_resources")]
             #[allow(dead_code)]
             tool_resources: Option<CreateThreadAndRunRequestToolResources>,
@@ -21239,10 +22579,10 @@ impl<'de> serde::Deserialize<'de> for CreateThreadAndRunRequest {
             metadata: Option<Metadata>,
             #[serde(rename = "temperature")]
             #[allow(dead_code)]
-            temperature: Option<f64>,
+            temperature: Option<serde_json::Number>,
             #[serde(rename = "top_p")]
             #[allow(dead_code)]
-            top_p: Option<f64>,
+            top_p: Option<serde_json::Number>,
             #[serde(rename = "stream")]
             #[allow(dead_code)]
             stream: Option<bool>,
@@ -21325,7 +22665,7 @@ impl serde::Serialize for CreateThreadAndRunRequest {
             instructions: &'a Option<String>,
             #[serde(rename = "tools")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            tools: &'a Option<Vec<AssistantTool>>,
+            tools: &'a Option<Vec<CreateThreadAndRunRequestTool>>,
             #[serde(rename = "tool_resources")]
             #[serde(skip_serializing_if = "Option::is_none")]
             tool_resources: &'a Option<CreateThreadAndRunRequestToolResources>,
@@ -21334,10 +22674,10 @@ impl serde::Serialize for CreateThreadAndRunRequest {
             metadata: &'a Option<Metadata>,
             #[serde(rename = "temperature")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            temperature: &'a Option<f64>,
+            temperature: &'a Option<serde_json::Number>,
             #[serde(rename = "top_p")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            top_p: &'a Option<f64>,
+            top_p: &'a Option<serde_json::Number>,
             #[serde(rename = "stream")]
             #[serde(skip_serializing_if = "Option::is_none")]
             stream: &'a Option<bool>,
@@ -21413,7 +22753,7 @@ pub struct CreateThreadAndRunRequest {
     pub instructions: Option<String>,
     #[doc = "Override the tools the assistant can use for this run. This is useful for modifying the behavior on a per-run basis."]
     #[builder(default)]
-    pub tools: Option<Vec<AssistantTool>>,
+    pub tools: Option<Vec<CreateThreadAndRunRequestTool>>,
     #[doc = "A set of resources that are used by the assistant's tools. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.\n"]
     #[builder(default)]
     pub tool_resources: Option<CreateThreadAndRunRequestToolResources>,
@@ -21421,10 +22761,10 @@ pub struct CreateThreadAndRunRequest {
     pub metadata: Option<Metadata>,
     #[doc = "What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.\n"]
     #[builder(default)]
-    pub temperature: Option<f64>,
+    pub temperature: Option<serde_json::Number>,
     #[doc = "An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.\n\nWe generally recommend altering this or temperature but not both.\n"]
     #[builder(default)]
-    pub top_p: Option<f64>,
+    pub top_p: Option<serde_json::Number>,
     #[doc = "If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.\n"]
     #[builder(default)]
     pub stream: Option<bool>,
@@ -22511,19 +23851,19 @@ impl<'de> serde::Deserialize<'de> for CreateTranscriptionRequest {
             response_format: Option<AudioResponseFormat>,
             #[serde(rename = "temperature")]
             #[allow(dead_code)]
-            temperature: Option<f64>,
+            temperature: Option<serde_json::Number>,
+            #[serde(rename = "include[]")]
+            #[allow(dead_code)]
+            include: Option<Vec<TranscriptionInclude>>,
+            #[serde(rename = "timestamp_granularities[]")]
+            #[allow(dead_code)]
+            timestamp_granularities: Option<Vec<CreateTranscriptionRequestTimestampGranularities>>,
             #[serde(rename = "stream")]
             #[allow(dead_code)]
             stream: Option<bool>,
             #[serde(rename = "chunking_strategy")]
             #[allow(dead_code)]
-            chunking_strategy: Option<TranscriptionChunkingStrategy>,
-            #[serde(rename = "timestamp_granularities")]
-            #[allow(dead_code)]
-            timestamp_granularities: Option<Vec<CreateTranscriptionRequestTimestampGranularities>>,
-            #[serde(rename = "include")]
-            #[allow(dead_code)]
-            include: Option<Vec<TranscriptionInclude>>,
+            chunking_strategy: Option<String>,
         }
         let CreateTranscriptionRequest {
             file,
@@ -22532,10 +23872,10 @@ impl<'de> serde::Deserialize<'de> for CreateTranscriptionRequest {
             prompt,
             response_format,
             temperature,
+            include,
+            timestamp_granularities,
             stream,
             chunking_strategy,
-            timestamp_granularities,
-            include,
             ..
         } = CreateTranscriptionRequest::deserialize(deserializer)?;
         Ok(Self {
@@ -22545,10 +23885,10 @@ impl<'de> serde::Deserialize<'de> for CreateTranscriptionRequest {
             prompt,
             response_format,
             temperature,
+            include,
+            timestamp_granularities,
             stream,
             chunking_strategy,
-            timestamp_granularities,
-            include,
         })
     }
 }
@@ -22576,20 +23916,20 @@ impl serde::Serialize for CreateTranscriptionRequest {
             response_format: &'a Option<AudioResponseFormat>,
             #[serde(rename = "temperature")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            temperature: &'a Option<f64>,
+            temperature: &'a Option<serde_json::Number>,
+            #[serde(rename = "include[]")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            include: &'a Option<Vec<TranscriptionInclude>>,
+            #[serde(rename = "timestamp_granularities[]")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            timestamp_granularities:
+                &'a Option<Vec<CreateTranscriptionRequestTimestampGranularities>>,
             #[serde(rename = "stream")]
             #[serde(skip_serializing_if = "Option::is_none")]
             stream: &'a Option<bool>,
             #[serde(rename = "chunking_strategy")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            chunking_strategy: &'a Option<TranscriptionChunkingStrategy>,
-            #[serde(rename = "timestamp_granularities")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            timestamp_granularities:
-                &'a Option<Vec<CreateTranscriptionRequestTimestampGranularities>>,
-            #[serde(rename = "include")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            include: &'a Option<Vec<TranscriptionInclude>>,
+            chunking_strategy: &'a Option<String>,
         }
         let Self {
             file,
@@ -22598,10 +23938,10 @@ impl serde::Serialize for CreateTranscriptionRequest {
             prompt,
             response_format,
             temperature,
+            include,
+            timestamp_granularities,
             stream,
             chunking_strategy,
-            timestamp_granularities,
-            include,
         } = self;
         CreateTranscriptionRequest {
             file,
@@ -22610,10 +23950,10 @@ impl serde::Serialize for CreateTranscriptionRequest {
             prompt,
             response_format,
             temperature,
+            include,
+            timestamp_granularities,
             stream,
             chunking_strategy,
-            timestamp_granularities,
-            include,
         }
         .serialize(serializer)
     }
@@ -22634,18 +23974,19 @@ pub struct CreateTranscriptionRequest {
     pub response_format: Option<AudioResponseFormat>,
     #[doc = "The sampling temperature, between 0 and 1. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. If set to 0, the model will use [log probability](https://en.wikipedia.org/wiki/Log_probability) to automatically increase the temperature until certain thresholds are hit.\n"]
     #[builder(default)]
-    pub temperature: Option<f64>,
-    #[doc = "If set to true, the model response data will be streamed to the client\nas it is generated using [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format). \nSee the [Streaming section of the Speech-to-Text guide](https://platform.openai.com/docs/guides/speech-to-text?lang=curl#streaming-transcriptions)\nfor more information.\n\nNote: Streaming is not supported for the `whisper-1` model and will be ignored.\n"]
-    #[builder(default)]
-    pub stream: Option<bool>,
-    #[builder(default)]
-    pub chunking_strategy: Option<TranscriptionChunkingStrategy>,
-    #[doc = "The timestamp granularities to populate for this transcription. `response_format` must be set `verbose_json` to use timestamp granularities. Either or both of these options are supported: `word`, or `segment`. Note: There is no additional latency for segment timestamps, but generating word timestamps incurs additional latency.\n"]
-    #[builder(default)]
-    pub timestamp_granularities: Option<Vec<CreateTranscriptionRequestTimestampGranularities>>,
+    pub temperature: Option<serde_json::Number>,
     #[doc = "Additional information to include in the transcription response. \n`logprobs` will return the log probabilities of the tokens in the \nresponse to understand the model's confidence in the transcription. \n`logprobs` only works with response_format set to `json` and only with \nthe models `gpt-4o-transcribe` and `gpt-4o-mini-transcribe`.\n"]
     #[builder(default)]
     pub include: Option<Vec<TranscriptionInclude>>,
+    #[doc = "The timestamp granularities to populate for this transcription. `response_format` must be set `verbose_json` to use timestamp granularities. Either or both of these options are supported: `word`, or `segment`. Note: There is no additional latency for segment timestamps, but generating word timestamps incurs additional latency.\n"]
+    #[builder(default)]
+    pub timestamp_granularities: Option<Vec<CreateTranscriptionRequestTimestampGranularities>>,
+    #[doc = "If set to true, the model response data will be streamed to the client\nas it is generated using [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format). \nSee the [Streaming section of the Speech-to-Text guide](https://platform.openai.com/docs/guides/speech-to-text?lang=curl#streaming-transcriptions)\nfor more information.\n\nNote: Streaming is not supported for the `whisper-1` model and will be ignored.\n"]
+    #[builder(default)]
+    pub stream: Option<bool>,
+    #[doc = "Controls how the audio is cut into chunks. When set to `\"auto\"`, the server first normalizes loudness and then uses voice activity detection (VAD) to choose boundaries. `server_vad` object can be provided to tweak VAD detection parameters manually. If unset, the audio is transcribed as a single block. "]
+    #[builder(default)]
+    pub chunking_strategy: Option<String>,
 }
 impl<'de> serde::Deserialize<'de> for CreateTranscriptionResponseJsonLogprob {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -22660,10 +24001,10 @@ impl<'de> serde::Deserialize<'de> for CreateTranscriptionResponseJsonLogprob {
             token: Option<String>,
             #[serde(rename = "logprob")]
             #[allow(dead_code)]
-            logprob: Option<f64>,
+            logprob: Option<serde_json::Number>,
             #[serde(rename = "bytes")]
             #[allow(dead_code)]
-            bytes: Option<Vec<f64>>,
+            bytes: Option<Vec<serde_json::Number>>,
         }
         let CreateTranscriptionResponseJsonLogprob {
             token,
@@ -22691,10 +24032,10 @@ impl serde::Serialize for CreateTranscriptionResponseJsonLogprob {
             token: &'a Option<String>,
             #[serde(rename = "logprob")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            logprob: &'a Option<f64>,
+            logprob: &'a Option<serde_json::Number>,
             #[serde(rename = "bytes")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            bytes: &'a Option<Vec<f64>>,
+            bytes: &'a Option<Vec<serde_json::Number>>,
         }
         let Self {
             token,
@@ -22716,10 +24057,61 @@ pub struct CreateTranscriptionResponseJsonLogprob {
     pub token: Option<String>,
     #[doc = "The log probability of the token."]
     #[builder(default)]
-    pub logprob: Option<f64>,
+    pub logprob: Option<serde_json::Number>,
     #[doc = "The bytes of the token."]
     #[builder(default)]
-    pub bytes: Option<Vec<f64>>,
+    pub bytes: Option<Vec<serde_json::Number>>,
+}
+impl<'de> serde::Deserialize<'de> for CreateTranscriptionResponseJsonUsage {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
+        enum CreateTranscriptionResponseJsonUsage {
+            Tokens(#[allow(dead_code)] TranscriptTextUsageTokens),
+            Duration(#[allow(dead_code)] TranscriptTextUsageDuration),
+        }
+        Ok(
+            match CreateTranscriptionResponseJsonUsage::deserialize(deserializer)? {
+                CreateTranscriptionResponseJsonUsage::Tokens(v) => Self::Tokens(v),
+                CreateTranscriptionResponseJsonUsage::Duration(v) => Self::Duration(v),
+            },
+        )
+    }
+}
+impl serde::Serialize for CreateTranscriptionResponseJsonUsage {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names)]
+        enum CreateTranscriptionResponseJsonUsage<'a> {
+            Tokens(#[allow(dead_code)] &'a TranscriptTextUsageTokens),
+            Duration(#[allow(dead_code)] &'a TranscriptTextUsageDuration),
+        }
+        match self {
+            Self::Tokens(v) => {
+                CreateTranscriptionResponseJsonUsage::Tokens(v).serialize(serializer)
+            }
+            Self::Duration(v) => {
+                CreateTranscriptionResponseJsonUsage::Duration(v).serialize(serializer)
+            }
+        }
+    }
+}
+#[doc = "Token usage statistics for the request."]
+#[derive(Clone, Debug, PartialEq)]
+#[allow(clippy::large_enum_variant)]
+pub enum CreateTranscriptionResponseJsonUsage {
+    Tokens(TranscriptTextUsageTokens),
+    Duration(TranscriptTextUsageDuration),
 }
 impl<'de> serde::Deserialize<'de> for CreateTranscriptionResponseJson {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -22735,10 +24127,21 @@ impl<'de> serde::Deserialize<'de> for CreateTranscriptionResponseJson {
             #[serde(rename = "logprobs")]
             #[allow(dead_code)]
             logprobs: Option<Vec<CreateTranscriptionResponseJsonLogprob>>,
+            #[serde(rename = "usage")]
+            #[allow(dead_code)]
+            usage: Option<CreateTranscriptionResponseJsonUsage>,
         }
-        let CreateTranscriptionResponseJson { text, logprobs, .. } =
-            CreateTranscriptionResponseJson::deserialize(deserializer)?;
-        Ok(Self { text, logprobs })
+        let CreateTranscriptionResponseJson {
+            text,
+            logprobs,
+            usage,
+            ..
+        } = CreateTranscriptionResponseJson::deserialize(deserializer)?;
+        Ok(Self {
+            text,
+            logprobs,
+            usage,
+        })
     }
 }
 impl serde::Serialize for CreateTranscriptionResponseJson {
@@ -22754,9 +24157,21 @@ impl serde::Serialize for CreateTranscriptionResponseJson {
             #[serde(rename = "logprobs")]
             #[serde(skip_serializing_if = "Option::is_none")]
             logprobs: &'a Option<Vec<CreateTranscriptionResponseJsonLogprob>>,
+            #[serde(rename = "usage")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            usage: &'a Option<CreateTranscriptionResponseJsonUsage>,
         }
-        let Self { text, logprobs } = self;
-        CreateTranscriptionResponseJson { text, logprobs }.serialize(serializer)
+        let Self {
+            text,
+            logprobs,
+            usage,
+        } = self;
+        CreateTranscriptionResponseJson {
+            text,
+            logprobs,
+            usage,
+        }
+        .serialize(serializer)
     }
 }
 #[doc = "Represents a transcription response returned by model, based on the provided input."]
@@ -22767,6 +24182,9 @@ pub struct CreateTranscriptionResponseJson {
     #[doc = "The log probabilities of the tokens in the transcription. Only returned with the models `gpt-4o-transcribe` and `gpt-4o-mini-transcribe` if `logprobs` is added to the `include` array.\n"]
     #[builder(default)]
     pub logprobs: Option<Vec<CreateTranscriptionResponseJsonLogprob>>,
+    #[doc = "Token usage statistics for the request."]
+    #[builder(default)]
+    pub usage: Option<CreateTranscriptionResponseJsonUsage>,
 }
 impl<'de> serde::Deserialize<'de> for CreateTranscriptionResponseStreamEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -22835,7 +24253,7 @@ impl<'de> serde::Deserialize<'de> for CreateTranscriptionResponseVerboseJson {
             language: String,
             #[serde(rename = "duration")]
             #[allow(dead_code)]
-            duration: f64,
+            duration: serde_json::Number,
             #[serde(rename = "text")]
             #[allow(dead_code)]
             text: String,
@@ -22845,6 +24263,9 @@ impl<'de> serde::Deserialize<'de> for CreateTranscriptionResponseVerboseJson {
             #[serde(rename = "segments")]
             #[allow(dead_code)]
             segments: Option<Vec<TranscriptionSegment>>,
+            #[serde(rename = "usage")]
+            #[allow(dead_code)]
+            usage: Option<TranscriptTextUsageDuration>,
         }
         let CreateTranscriptionResponseVerboseJson {
             language,
@@ -22852,6 +24273,7 @@ impl<'de> serde::Deserialize<'de> for CreateTranscriptionResponseVerboseJson {
             text,
             words,
             segments,
+            usage,
             ..
         } = CreateTranscriptionResponseVerboseJson::deserialize(deserializer)?;
         Ok(Self {
@@ -22860,6 +24282,7 @@ impl<'de> serde::Deserialize<'de> for CreateTranscriptionResponseVerboseJson {
             text,
             words,
             segments,
+            usage,
         })
     }
 }
@@ -22874,7 +24297,7 @@ impl serde::Serialize for CreateTranscriptionResponseVerboseJson {
             #[serde(rename = "language")]
             language: &'a String,
             #[serde(rename = "duration")]
-            duration: &'a f64,
+            duration: &'a serde_json::Number,
             #[serde(rename = "text")]
             text: &'a String,
             #[serde(rename = "words")]
@@ -22883,6 +24306,9 @@ impl serde::Serialize for CreateTranscriptionResponseVerboseJson {
             #[serde(rename = "segments")]
             #[serde(skip_serializing_if = "Option::is_none")]
             segments: &'a Option<Vec<TranscriptionSegment>>,
+            #[serde(rename = "usage")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            usage: &'a Option<TranscriptTextUsageDuration>,
         }
         let Self {
             language,
@@ -22890,6 +24316,7 @@ impl serde::Serialize for CreateTranscriptionResponseVerboseJson {
             text,
             words,
             segments,
+            usage,
         } = self;
         CreateTranscriptionResponseVerboseJson {
             language,
@@ -22897,6 +24324,7 @@ impl serde::Serialize for CreateTranscriptionResponseVerboseJson {
             text,
             words,
             segments,
+            usage,
         }
         .serialize(serializer)
     }
@@ -22907,7 +24335,7 @@ pub struct CreateTranscriptionResponseVerboseJson {
     #[doc = "The language of the input audio."]
     pub language: String,
     #[doc = "The duration of the input audio."]
-    pub duration: f64,
+    pub duration: serde_json::Number,
     #[doc = "The transcribed text."]
     pub text: String,
     #[doc = "Extracted words and their corresponding timestamps."]
@@ -22916,6 +24344,8 @@ pub struct CreateTranscriptionResponseVerboseJson {
     #[doc = "Segments of the transcribed text and their corresponding details."]
     #[builder(default)]
     pub segments: Option<Vec<TranscriptionSegment>>,
+    #[builder(default)]
+    pub usage: Option<TranscriptTextUsageDuration>,
 }
 #[doc = "The format of the output, in one of these options: `json`, `text`, `srt`, `verbose_json`, or `vtt`.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
@@ -22960,7 +24390,7 @@ impl<'de> serde::Deserialize<'de> for CreateTranslationRequest {
             response_format: Option<CreateTranslationRequestResponseFormat>,
             #[serde(rename = "temperature")]
             #[allow(dead_code)]
-            temperature: Option<f64>,
+            temperature: Option<serde_json::Number>,
         }
         let CreateTranslationRequest {
             file,
@@ -23000,7 +24430,7 @@ impl serde::Serialize for CreateTranslationRequest {
             response_format: &'a Option<CreateTranslationRequestResponseFormat>,
             #[serde(rename = "temperature")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            temperature: &'a Option<f64>,
+            temperature: &'a Option<serde_json::Number>,
         }
         let Self {
             file,
@@ -23033,7 +24463,7 @@ pub struct CreateTranslationRequest {
     pub response_format: Option<CreateTranslationRequestResponseFormat>,
     #[doc = "The sampling temperature, between 0 and 1. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. If set to 0, the model will use [log probability](https://en.wikipedia.org/wiki/Log_probability) to automatically increase the temperature until certain thresholds are hit.\n"]
     #[builder(default)]
-    pub temperature: Option<f64>,
+    pub temperature: Option<serde_json::Number>,
 }
 impl<'de> serde::Deserialize<'de> for CreateTranslationResponseJson {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -23084,7 +24514,7 @@ impl<'de> serde::Deserialize<'de> for CreateTranslationResponseVerboseJson {
             language: String,
             #[serde(rename = "duration")]
             #[allow(dead_code)]
-            duration: f64,
+            duration: serde_json::Number,
             #[serde(rename = "text")]
             #[allow(dead_code)]
             text: String,
@@ -23118,7 +24548,7 @@ impl serde::Serialize for CreateTranslationResponseVerboseJson {
             #[serde(rename = "language")]
             language: &'a String,
             #[serde(rename = "duration")]
-            duration: &'a f64,
+            duration: &'a serde_json::Number,
             #[serde(rename = "text")]
             text: &'a String,
             #[serde(rename = "segments")]
@@ -23145,7 +24575,7 @@ pub struct CreateTranslationResponseVerboseJson {
     #[doc = "The language of the output translation (always `english`)."]
     pub language: String,
     #[doc = "The duration of the input audio."]
-    pub duration: f64,
+    pub duration: serde_json::Number,
     #[doc = "The translated text."]
     pub text: String,
     #[doc = "Segments of the translated text and their corresponding details."]
@@ -23387,6 +24817,57 @@ pub struct CreateVectorStoreFileRequest {
     #[builder(default)]
     pub attributes: Option<VectorStoreFileAttributes>,
 }
+impl<'de> serde::Deserialize<'de> for CreateVectorStoreRequestChunkingStrategy {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
+        enum CreateVectorStoreRequestChunkingStrategy {
+            Auto(#[allow(dead_code)] AutoChunkingStrategyRequestParam),
+            Static(#[allow(dead_code)] StaticChunkingStrategyRequestParam),
+        }
+        Ok(
+            match CreateVectorStoreRequestChunkingStrategy::deserialize(deserializer)? {
+                CreateVectorStoreRequestChunkingStrategy::Auto(v) => Self::Auto(v),
+                CreateVectorStoreRequestChunkingStrategy::Static(v) => Self::Static(v),
+            },
+        )
+    }
+}
+impl serde::Serialize for CreateVectorStoreRequestChunkingStrategy {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names)]
+        enum CreateVectorStoreRequestChunkingStrategy<'a> {
+            Auto(#[allow(dead_code)] &'a AutoChunkingStrategyRequestParam),
+            Static(#[allow(dead_code)] &'a StaticChunkingStrategyRequestParam),
+        }
+        match self {
+            Self::Auto(v) => {
+                CreateVectorStoreRequestChunkingStrategy::Auto(v).serialize(serializer)
+            }
+            Self::Static(v) => {
+                CreateVectorStoreRequestChunkingStrategy::Static(v).serialize(serializer)
+            }
+        }
+    }
+}
+#[doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy. Only applicable if `file_ids` is non-empty."]
+#[derive(Clone, Copy, Debug, PartialEq)]
+#[allow(clippy::large_enum_variant)]
+pub enum CreateVectorStoreRequestChunkingStrategy {
+    Auto(AutoChunkingStrategyRequestParam),
+    Static(StaticChunkingStrategyRequestParam),
+}
 impl<'de> serde::Deserialize<'de> for CreateVectorStoreRequest {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -23406,7 +24887,7 @@ impl<'de> serde::Deserialize<'de> for CreateVectorStoreRequest {
             expires_after: Option<VectorStoreExpirationAfter>,
             #[serde(rename = "chunking_strategy")]
             #[allow(dead_code)]
-            chunking_strategy: Option<ChunkingStrategyRequestParam>,
+            chunking_strategy: Option<CreateVectorStoreRequestChunkingStrategy>,
             #[serde(rename = "metadata")]
             #[allow(dead_code)]
             metadata: Option<Metadata>,
@@ -23447,7 +24928,7 @@ impl serde::Serialize for CreateVectorStoreRequest {
             expires_after: &'a Option<VectorStoreExpirationAfter>,
             #[serde(rename = "chunking_strategy")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            chunking_strategy: &'a Option<ChunkingStrategyRequestParam>,
+            chunking_strategy: &'a Option<CreateVectorStoreRequestChunkingStrategy>,
             #[serde(rename = "metadata")]
             #[serde(skip_serializing_if = "Option::is_none")]
             metadata: &'a Option<Metadata>,
@@ -23479,8 +24960,9 @@ pub struct CreateVectorStoreRequest {
     pub name: Option<String>,
     #[builder(default)]
     pub expires_after: Option<VectorStoreExpirationAfter>,
+    #[doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy. Only applicable if `file_ids` is non-empty."]
     #[builder(default)]
-    pub chunking_strategy: Option<ChunkingStrategyRequestParam>,
+    pub chunking_strategy: Option<CreateVectorStoreRequestChunkingStrategy>,
     #[builder(default)]
     pub metadata: Option<Metadata>,
 }
@@ -25231,14 +26713,40 @@ impl<'de> serde::Deserialize<'de> for EvalGraderLabelModel {
         #[serde_with::serde_as]
         #[derive(serde :: Deserialize)]
         struct EvalGraderLabelModel {
-            #[serde(flatten)]
+            #[serde(rename = "type")]
             #[allow(dead_code)]
-            grader_label_model: GraderLabelModel,
+            r#type: GraderLabelModelType,
+            #[serde(rename = "name")]
+            #[allow(dead_code)]
+            name: String,
+            #[serde(rename = "model")]
+            #[allow(dead_code)]
+            model: String,
+            #[serde(rename = "input")]
+            #[allow(dead_code)]
+            input: Vec<EvalItem>,
+            #[serde(rename = "labels")]
+            #[allow(dead_code)]
+            labels: Vec<String>,
+            #[serde(rename = "passing_labels")]
+            #[allow(dead_code)]
+            passing_labels: Vec<String>,
         }
         let EvalGraderLabelModel {
-            grader_label_model, ..
+            name,
+            model,
+            input,
+            labels,
+            passing_labels,
+            ..
         } = EvalGraderLabelModel::deserialize(deserializer)?;
-        Ok(Self { grader_label_model })
+        Ok(Self {
+            name,
+            model,
+            input,
+            labels,
+            passing_labels,
+        })
     }
 }
 impl serde::Serialize for EvalGraderLabelModel {
@@ -25249,16 +26757,48 @@ impl serde::Serialize for EvalGraderLabelModel {
         #[serde_with::serde_as]
         #[derive(serde :: Serialize)]
         struct EvalGraderLabelModel<'a> {
-            #[serde(flatten)]
-            grader_label_model: &'a GraderLabelModel,
+            #[serde(rename = "type")]
+            r#type: &'a GraderLabelModelType,
+            #[serde(rename = "name")]
+            name: &'a String,
+            #[serde(rename = "model")]
+            model: &'a String,
+            #[serde(rename = "input")]
+            input: &'a Vec<EvalItem>,
+            #[serde(rename = "labels")]
+            labels: &'a Vec<String>,
+            #[serde(rename = "passing_labels")]
+            passing_labels: &'a Vec<String>,
         }
-        let Self { grader_label_model } = self;
-        EvalGraderLabelModel { grader_label_model }.serialize(serializer)
+        let Self {
+            name,
+            model,
+            input,
+            labels,
+            passing_labels,
+        } = self;
+        EvalGraderLabelModel {
+            r#type: &Default::default(),
+            name,
+            model,
+            input,
+            labels,
+            passing_labels,
+        }
+        .serialize(serializer)
     }
 }
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct EvalGraderLabelModel {
-    pub grader_label_model: GraderLabelModel,
+    #[doc = "The name of the grader."]
+    pub name: String,
+    #[doc = "The model to use for the evaluation. Must support structured outputs."]
+    pub model: String,
+    pub input: Vec<EvalItem>,
+    #[doc = "The labels to assign to each item in the evaluation."]
+    pub labels: Vec<String>,
+    #[doc = "The labels that indicate a passing result. Must be a subset of labels."]
+    pub passing_labels: Vec<String>,
 }
 impl<'de> serde::Deserialize<'de> for EvalGraderPython {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -25268,20 +26808,33 @@ impl<'de> serde::Deserialize<'de> for EvalGraderPython {
         #[serde_with::serde_as]
         #[derive(serde :: Deserialize)]
         struct EvalGraderPython {
-            #[serde(flatten)]
+            #[serde(rename = "type")]
             #[allow(dead_code)]
-            grader_python: GraderPython,
+            r#type: GraderPythonType,
+            #[serde(rename = "name")]
+            #[allow(dead_code)]
+            name: String,
+            #[serde(rename = "source")]
+            #[allow(dead_code)]
+            source: String,
+            #[serde(rename = "image_tag")]
+            #[allow(dead_code)]
+            image_tag: Option<String>,
             #[serde(rename = "pass_threshold")]
             #[allow(dead_code)]
-            pass_threshold: Option<f64>,
+            pass_threshold: Option<serde_json::Number>,
         }
         let EvalGraderPython {
-            grader_python,
+            name,
+            source,
+            image_tag,
             pass_threshold,
             ..
         } = EvalGraderPython::deserialize(deserializer)?;
         Ok(Self {
-            grader_python,
+            name,
+            source,
+            image_tag,
             pass_threshold,
         })
     }
@@ -25294,18 +26847,30 @@ impl serde::Serialize for EvalGraderPython {
         #[serde_with::serde_as]
         #[derive(serde :: Serialize)]
         struct EvalGraderPython<'a> {
-            #[serde(flatten)]
-            grader_python: &'a GraderPython,
+            #[serde(rename = "type")]
+            r#type: &'a GraderPythonType,
+            #[serde(rename = "name")]
+            name: &'a String,
+            #[serde(rename = "source")]
+            source: &'a String,
+            #[serde(rename = "image_tag")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            image_tag: &'a Option<String>,
             #[serde(rename = "pass_threshold")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            pass_threshold: &'a Option<f64>,
+            pass_threshold: &'a Option<serde_json::Number>,
         }
         let Self {
-            grader_python,
+            name,
+            source,
+            image_tag,
             pass_threshold,
         } = self;
         EvalGraderPython {
-            grader_python,
+            r#type: &Default::default(),
+            name,
+            source,
+            image_tag,
             pass_threshold,
         }
         .serialize(serializer)
@@ -25313,10 +26878,16 @@ impl serde::Serialize for EvalGraderPython {
 }
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct EvalGraderPython {
-    pub grader_python: GraderPython,
+    #[doc = "The name of the grader."]
+    pub name: String,
+    #[doc = "The source code of the python script."]
+    pub source: String,
+    #[doc = "The image tag to use for the python script."]
+    #[builder(default)]
+    pub image_tag: Option<String>,
     #[doc = "The threshold for the score."]
     #[builder(default)]
-    pub pass_threshold: Option<f64>,
+    pub pass_threshold: Option<serde_json::Number>,
 }
 impl<'de> serde::Deserialize<'de> for EvalGraderScoreModel {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -25326,20 +26897,43 @@ impl<'de> serde::Deserialize<'de> for EvalGraderScoreModel {
         #[serde_with::serde_as]
         #[derive(serde :: Deserialize)]
         struct EvalGraderScoreModel {
-            #[serde(flatten)]
+            #[serde(rename = "type")]
             #[allow(dead_code)]
-            grader_score_model: GraderScoreModel,
+            r#type: GraderScoreModelType,
+            #[serde(rename = "name")]
+            #[allow(dead_code)]
+            name: String,
+            #[serde(rename = "model")]
+            #[allow(dead_code)]
+            model: String,
+            #[serde(rename = "sampling_params")]
+            #[allow(dead_code)]
+            sampling_params: Option<indexmap::IndexMap<String, serde_json::Value>>,
+            #[serde(rename = "input")]
+            #[allow(dead_code)]
+            input: Vec<EvalItem>,
+            #[serde(rename = "range")]
+            #[allow(dead_code)]
+            range: Option<Vec<serde_json::Number>>,
             #[serde(rename = "pass_threshold")]
             #[allow(dead_code)]
-            pass_threshold: Option<f64>,
+            pass_threshold: Option<serde_json::Number>,
         }
         let EvalGraderScoreModel {
-            grader_score_model,
+            name,
+            model,
+            sampling_params,
+            input,
+            range,
             pass_threshold,
             ..
         } = EvalGraderScoreModel::deserialize(deserializer)?;
         Ok(Self {
-            grader_score_model,
+            name,
+            model,
+            sampling_params,
+            input,
+            range,
             pass_threshold,
         })
     }
@@ -25352,18 +26946,39 @@ impl serde::Serialize for EvalGraderScoreModel {
         #[serde_with::serde_as]
         #[derive(serde :: Serialize)]
         struct EvalGraderScoreModel<'a> {
-            #[serde(flatten)]
-            grader_score_model: &'a GraderScoreModel,
+            #[serde(rename = "type")]
+            r#type: &'a GraderScoreModelType,
+            #[serde(rename = "name")]
+            name: &'a String,
+            #[serde(rename = "model")]
+            model: &'a String,
+            #[serde(rename = "sampling_params")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            sampling_params: &'a Option<indexmap::IndexMap<String, serde_json::Value>>,
+            #[serde(rename = "input")]
+            input: &'a Vec<EvalItem>,
+            #[serde(rename = "range")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            range: &'a Option<Vec<serde_json::Number>>,
             #[serde(rename = "pass_threshold")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            pass_threshold: &'a Option<f64>,
+            pass_threshold: &'a Option<serde_json::Number>,
         }
         let Self {
-            grader_score_model,
+            name,
+            model,
+            sampling_params,
+            input,
+            range,
             pass_threshold,
         } = self;
         EvalGraderScoreModel {
-            grader_score_model,
+            r#type: &Default::default(),
+            name,
+            model,
+            sampling_params,
+            input,
+            range,
             pass_threshold,
         }
         .serialize(serializer)
@@ -25371,10 +26986,21 @@ impl serde::Serialize for EvalGraderScoreModel {
 }
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct EvalGraderScoreModel {
-    pub grader_score_model: GraderScoreModel,
+    #[doc = "The name of the grader."]
+    pub name: String,
+    #[doc = "The model to use for the evaluation."]
+    pub model: String,
+    #[doc = "The sampling parameters for the model."]
+    #[builder(default)]
+    pub sampling_params: Option<indexmap::IndexMap<String, serde_json::Value>>,
+    #[doc = "The input text. This may include template strings."]
+    pub input: Vec<EvalItem>,
+    #[doc = "The range of the score. Defaults to `[0, 1]`."]
+    #[builder(default)]
+    pub range: Option<Vec<serde_json::Number>>,
     #[doc = "The threshold for the score."]
     #[builder(default)]
-    pub pass_threshold: Option<f64>,
+    pub pass_threshold: Option<serde_json::Number>,
 }
 impl<'de> serde::Deserialize<'de> for EvalGraderStringCheck {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -25384,16 +27010,34 @@ impl<'de> serde::Deserialize<'de> for EvalGraderStringCheck {
         #[serde_with::serde_as]
         #[derive(serde :: Deserialize)]
         struct EvalGraderStringCheck {
-            #[serde(flatten)]
+            #[serde(rename = "type")]
             #[allow(dead_code)]
-            grader_string_check: GraderStringCheck,
+            r#type: GraderStringCheckType,
+            #[serde(rename = "name")]
+            #[allow(dead_code)]
+            name: String,
+            #[serde(rename = "input")]
+            #[allow(dead_code)]
+            input: String,
+            #[serde(rename = "reference")]
+            #[allow(dead_code)]
+            reference: String,
+            #[serde(rename = "operation")]
+            #[allow(dead_code)]
+            operation: GraderStringCheckOperation,
         }
         let EvalGraderStringCheck {
-            grader_string_check,
+            name,
+            input,
+            reference,
+            operation,
             ..
         } = EvalGraderStringCheck::deserialize(deserializer)?;
         Ok(Self {
-            grader_string_check,
+            name,
+            input,
+            reference,
+            operation,
         })
     }
 }
@@ -25405,21 +27049,43 @@ impl serde::Serialize for EvalGraderStringCheck {
         #[serde_with::serde_as]
         #[derive(serde :: Serialize)]
         struct EvalGraderStringCheck<'a> {
-            #[serde(flatten)]
-            grader_string_check: &'a GraderStringCheck,
+            #[serde(rename = "type")]
+            r#type: &'a GraderStringCheckType,
+            #[serde(rename = "name")]
+            name: &'a String,
+            #[serde(rename = "input")]
+            input: &'a String,
+            #[serde(rename = "reference")]
+            reference: &'a String,
+            #[serde(rename = "operation")]
+            operation: &'a GraderStringCheckOperation,
         }
         let Self {
-            grader_string_check,
+            name,
+            input,
+            reference,
+            operation,
         } = self;
         EvalGraderStringCheck {
-            grader_string_check,
+            r#type: &Default::default(),
+            name,
+            input,
+            reference,
+            operation,
         }
         .serialize(serializer)
     }
 }
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct EvalGraderStringCheck {
-    pub grader_string_check: GraderStringCheck,
+    #[doc = "The name of the grader."]
+    pub name: String,
+    #[doc = "The input text. This may include template strings."]
+    pub input: String,
+    #[doc = "The reference text. This may include template strings."]
+    pub reference: String,
+    #[doc = "The string check operation to perform. One of `eq`, `ne`, `like`, or `ilike`."]
+    pub operation: GraderStringCheckOperation,
 }
 impl<'de> serde::Deserialize<'de> for EvalGraderTextSimilarity {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -25429,20 +27095,38 @@ impl<'de> serde::Deserialize<'de> for EvalGraderTextSimilarity {
         #[serde_with::serde_as]
         #[derive(serde :: Deserialize)]
         struct EvalGraderTextSimilarity {
-            #[serde(flatten)]
+            #[serde(rename = "type")]
             #[allow(dead_code)]
-            grader_text_similarity: GraderTextSimilarity,
+            r#type: GraderTextSimilarityType,
+            #[serde(rename = "name")]
+            #[allow(dead_code)]
+            name: String,
+            #[serde(rename = "input")]
+            #[allow(dead_code)]
+            input: String,
+            #[serde(rename = "reference")]
+            #[allow(dead_code)]
+            reference: String,
+            #[serde(rename = "evaluation_metric")]
+            #[allow(dead_code)]
+            evaluation_metric: GraderTextSimilarityEvaluationMetric,
             #[serde(rename = "pass_threshold")]
             #[allow(dead_code)]
-            pass_threshold: f64,
+            pass_threshold: serde_json::Number,
         }
         let EvalGraderTextSimilarity {
-            grader_text_similarity,
+            name,
+            input,
+            reference,
+            evaluation_metric,
             pass_threshold,
             ..
         } = EvalGraderTextSimilarity::deserialize(deserializer)?;
         Ok(Self {
-            grader_text_similarity,
+            name,
+            input,
+            reference,
+            evaluation_metric,
             pass_threshold,
         })
     }
@@ -25455,17 +27139,32 @@ impl serde::Serialize for EvalGraderTextSimilarity {
         #[serde_with::serde_as]
         #[derive(serde :: Serialize)]
         struct EvalGraderTextSimilarity<'a> {
-            #[serde(flatten)]
-            grader_text_similarity: &'a GraderTextSimilarity,
+            #[serde(rename = "type")]
+            r#type: &'a GraderTextSimilarityType,
+            #[serde(rename = "name")]
+            name: &'a String,
+            #[serde(rename = "input")]
+            input: &'a String,
+            #[serde(rename = "reference")]
+            reference: &'a String,
+            #[serde(rename = "evaluation_metric")]
+            evaluation_metric: &'a GraderTextSimilarityEvaluationMetric,
             #[serde(rename = "pass_threshold")]
-            pass_threshold: &'a f64,
+            pass_threshold: &'a serde_json::Number,
         }
         let Self {
-            grader_text_similarity,
+            name,
+            input,
+            reference,
+            evaluation_metric,
             pass_threshold,
         } = self;
         EvalGraderTextSimilarity {
-            grader_text_similarity,
+            r#type: &Default::default(),
+            name,
+            input,
+            reference,
+            evaluation_metric,
             pass_threshold,
         }
         .serialize(serializer)
@@ -25473,9 +27172,16 @@ impl serde::Serialize for EvalGraderTextSimilarity {
 }
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct EvalGraderTextSimilarity {
-    pub grader_text_similarity: GraderTextSimilarity,
+    #[doc = "The name of the grader."]
+    pub name: String,
+    #[doc = "The text being graded."]
+    pub input: String,
+    #[doc = "The text being graded against."]
+    pub reference: String,
+    #[doc = "The evaluation metric to use. One of `fuzzy_match`, `bleu`, `gleu`, `meteor`, `rouge_1`, `rouge_2`, `rouge_3`, `rouge_4`, `rouge_5`, or `rouge_l`."]
+    pub evaluation_metric: GraderTextSimilarityEvaluationMetric,
     #[doc = "The threshold for the score."]
-    pub pass_threshold: f64,
+    pub pass_threshold: serde_json::Number,
 }
 #[doc = "The role of the message input. One of `user`, `assistant`, `system`, or\n`developer`.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
@@ -26161,10 +27867,10 @@ impl<'de> serde::Deserialize<'de> for EvalResponsesSource {
             reasoning_effort: Option<ReasoningEffort>,
             #[serde(rename = "temperature")]
             #[allow(dead_code)]
-            temperature: Option<f64>,
+            temperature: Option<serde_json::Number>,
             #[serde(rename = "top_p")]
             #[allow(dead_code)]
-            top_p: Option<f64>,
+            top_p: Option<serde_json::Number>,
             #[serde(rename = "users")]
             #[allow(dead_code)]
             users: Option<Vec<String>>,
@@ -26229,10 +27935,10 @@ impl serde::Serialize for EvalResponsesSource {
             reasoning_effort: &'a Option<ReasoningEffort>,
             #[serde(rename = "temperature")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            temperature: &'a Option<f64>,
+            temperature: &'a Option<serde_json::Number>,
             #[serde(rename = "top_p")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            top_p: &'a Option<f64>,
+            top_p: &'a Option<serde_json::Number>,
             #[serde(rename = "users")]
             #[serde(skip_serializing_if = "Option::is_none")]
             users: &'a Option<Vec<String>>,
@@ -26291,10 +27997,10 @@ pub struct EvalResponsesSource {
     pub reasoning_effort: Option<ReasoningEffort>,
     #[doc = "Sampling temperature. This is a query parameter used to select responses."]
     #[builder(default)]
-    pub temperature: Option<f64>,
+    pub temperature: Option<serde_json::Number>,
     #[doc = "Nucleus sampling parameter. This is a query parameter used to select responses."]
     #[builder(default)]
-    pub top_p: Option<f64>,
+    pub top_p: Option<serde_json::Number>,
     #[doc = "List of user identifiers. This is a query parameter used to select responses."]
     #[builder(default)]
     pub users: Option<Vec<String>>,
@@ -27154,13 +28860,13 @@ impl<'de> serde::Deserialize<'de> for EvalRunOutputItemSample {
             error: EvalApiError,
             #[serde(rename = "temperature")]
             #[allow(dead_code)]
-            temperature: f64,
+            temperature: serde_json::Number,
             #[serde(rename = "max_completion_tokens")]
             #[allow(dead_code)]
             max_completion_tokens: i64,
             #[serde(rename = "top_p")]
             #[allow(dead_code)]
-            top_p: f64,
+            top_p: serde_json::Number,
             #[serde(rename = "seed")]
             #[allow(dead_code)]
             seed: i64,
@@ -27213,11 +28919,11 @@ impl serde::Serialize for EvalRunOutputItemSample {
             #[serde(rename = "error")]
             error: &'a EvalApiError,
             #[serde(rename = "temperature")]
-            temperature: &'a f64,
+            temperature: &'a serde_json::Number,
             #[serde(rename = "max_completion_tokens")]
             max_completion_tokens: &'a i64,
             #[serde(rename = "top_p")]
-            top_p: &'a f64,
+            top_p: &'a serde_json::Number,
             #[serde(rename = "seed")]
             seed: &'a i64,
         }
@@ -27263,11 +28969,11 @@ pub struct EvalRunOutputItemSample {
     pub usage: EvalRunOutputItemSampleUsage,
     pub error: EvalApiError,
     #[doc = "The sampling temperature used."]
-    pub temperature: f64,
+    pub temperature: serde_json::Number,
     #[doc = "The maximum number of tokens allowed for completion."]
     pub max_completion_tokens: i64,
     #[doc = "The top_p value used for sampling."]
-    pub top_p: f64,
+    pub top_p: serde_json::Number,
     #[doc = "The seed used for generating the sample."]
     pub seed: i64,
 }
@@ -27846,7 +29552,7 @@ impl<'de> serde::Deserialize<'de> for FileSearchRankingOptions {
             ranker: Option<FileSearchRanker>,
             #[serde(rename = "score_threshold")]
             #[allow(dead_code)]
-            score_threshold: f64,
+            score_threshold: serde_json::Number,
         }
         let FileSearchRankingOptions {
             ranker,
@@ -27871,7 +29577,7 @@ impl serde::Serialize for FileSearchRankingOptions {
             #[serde(skip_serializing_if = "Option::is_none")]
             ranker: &'a Option<FileSearchRanker>,
             #[serde(rename = "score_threshold")]
-            score_threshold: &'a f64,
+            score_threshold: &'a serde_json::Number,
         }
         let Self {
             ranker,
@@ -27885,12 +29591,12 @@ impl serde::Serialize for FileSearchRankingOptions {
     }
 }
 #[doc = "The ranking options for the file search. If not specified, the file search tool will use the `auto` ranker and a score_threshold of 0.\n\nSee the [file search tool documentation](https://platform.openai.com/docs/assistants/tools/file-search#customizing-file-search-settings) for more information.\n"]
-#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct FileSearchRankingOptions {
     #[builder(default)]
     pub ranker: Option<FileSearchRanker>,
     #[doc = "The score threshold for the file search. All values must be a floating point number between 0 and 1."]
-    pub score_threshold: f64,
+    pub score_threshold: serde_json::Number,
 }
 impl<'de> serde::Deserialize<'de> for FileSearchToolCallType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -28136,18 +29842,46 @@ impl<'de> serde::Deserialize<'de> for FineTuneChatCompletionRequestAssistantMess
             #[serde(rename = "weight")]
             #[allow(dead_code)]
             weight: Option<i64>,
-            #[serde(flatten)]
+            #[serde(rename = "content")]
             #[allow(dead_code)]
-            chat_completion_request_assistant_message: ChatCompletionRequestAssistantMessage,
+            content: Option<ChatCompletionRequestAssistantMessageContent>,
+            #[serde(rename = "refusal")]
+            #[allow(dead_code)]
+            refusal: Option<String>,
+            #[serde(rename = "role")]
+            #[allow(dead_code)]
+            role: ChatCompletionRequestAssistantMessageRole,
+            #[serde(rename = "name")]
+            #[allow(dead_code)]
+            name: Option<String>,
+            #[serde(rename = "audio")]
+            #[allow(dead_code)]
+            audio: Option<ChatCompletionRequestAssistantMessageAudio>,
+            #[serde(rename = "tool_calls")]
+            #[allow(dead_code)]
+            tool_calls: Option<ChatCompletionMessageToolCalls>,
+            #[serde(rename = "function_call")]
+            #[allow(dead_code)]
+            function_call: Option<ChatCompletionRequestAssistantMessageFunctionCall>,
         }
         let FineTuneChatCompletionRequestAssistantMessage {
             weight,
-            chat_completion_request_assistant_message,
+            content,
+            refusal,
+            name,
+            audio,
+            tool_calls,
+            function_call,
             ..
         } = FineTuneChatCompletionRequestAssistantMessage::deserialize(deserializer)?;
         Ok(Self {
             weight,
-            chat_completion_request_assistant_message,
+            content,
+            refusal,
+            name,
+            audio,
+            tool_calls,
+            function_call,
         })
     }
 }
@@ -28162,16 +29896,45 @@ impl serde::Serialize for FineTuneChatCompletionRequestAssistantMessage {
             #[serde(rename = "weight")]
             #[serde(skip_serializing_if = "Option::is_none")]
             weight: &'a Option<i64>,
-            #[serde(flatten)]
-            chat_completion_request_assistant_message: &'a ChatCompletionRequestAssistantMessage,
+            #[serde(rename = "content")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            content: &'a Option<ChatCompletionRequestAssistantMessageContent>,
+            #[serde(rename = "refusal")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            refusal: &'a Option<String>,
+            #[serde(rename = "role")]
+            role: &'a ChatCompletionRequestAssistantMessageRole,
+            #[serde(rename = "name")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            name: &'a Option<String>,
+            #[serde(rename = "audio")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            audio: &'a Option<ChatCompletionRequestAssistantMessageAudio>,
+            #[serde(rename = "tool_calls")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            tool_calls: &'a Option<ChatCompletionMessageToolCalls>,
+            #[serde(rename = "function_call")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            function_call: &'a Option<ChatCompletionRequestAssistantMessageFunctionCall>,
         }
         let Self {
             weight,
-            chat_completion_request_assistant_message,
+            content,
+            refusal,
+            name,
+            audio,
+            tool_calls,
+            function_call,
         } = self;
         FineTuneChatCompletionRequestAssistantMessage {
             weight,
-            chat_completion_request_assistant_message,
+            content,
+            refusal,
+            role: &Default::default(),
+            name,
+            audio,
+            tool_calls,
+            function_call,
         }
         .serialize(serializer)
     }
@@ -28181,8 +29944,23 @@ pub struct FineTuneChatCompletionRequestAssistantMessage {
     #[doc = "Controls whether the assistant message is trained against (0 or 1)"]
     #[builder(default)]
     pub weight: Option<i64>,
+    #[doc = "The contents of the assistant message. Required unless `tool_calls` or `function_call` is specified.\n"]
     #[builder(default)]
-    pub chat_completion_request_assistant_message: ChatCompletionRequestAssistantMessage,
+    pub content: Option<ChatCompletionRequestAssistantMessageContent>,
+    #[doc = "The refusal message by the assistant."]
+    #[builder(default)]
+    pub refusal: Option<String>,
+    #[doc = "An optional name for the participant. Provides the model information to differentiate between participants of the same role."]
+    #[builder(default)]
+    pub name: Option<String>,
+    #[doc = "Data about a previous audio response from the model. \n[Learn more](https://platform.openai.com/docs/guides/audio).\n"]
+    #[builder(default)]
+    pub audio: Option<ChatCompletionRequestAssistantMessageAudio>,
+    #[builder(default)]
+    pub tool_calls: Option<ChatCompletionMessageToolCalls>,
+    #[doc = "Deprecated and replaced by `tool_calls`. The name and arguments of a function that should be called, as generated by the model."]
+    #[builder(default)]
+    pub function_call: Option<ChatCompletionRequestAssistantMessageFunctionCall>,
 }
 impl<'de> serde::Deserialize<'de> for FineTuneChatRequestInputMessages {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -28321,7 +30099,7 @@ impl serde::Serialize for FineTuneChatRequestInput {
         .serialize(serializer)
     }
 }
-#[doc = "The per-line training example of a fine-tuning input file for chat models using the supervised method."]
+#[doc = "The per-line training example of a fine-tuning input file for chat models using the supervised method.\nInput messages may contain text or image content only. Audio and file input messages\nare not currently supported for fine-tuning.\n"]
 #[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct FineTuneChatRequestInput {
     #[builder(default)]
@@ -28373,7 +30151,7 @@ impl<'de> serde::Deserialize<'de> for FineTuneDpoHyperparametersBeta {
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum FineTuneDpoHyperparametersBeta {
             Auto(#[allow(dead_code)] FineTuneDpoHyperparametersBetaAuto),
-            Number(#[allow(dead_code)] f64),
+            Number(#[allow(dead_code)] serde_json::Number),
         }
         Ok(
             match FineTuneDpoHyperparametersBeta::deserialize(deserializer)? {
@@ -28394,7 +30172,7 @@ impl serde::Serialize for FineTuneDpoHyperparametersBeta {
         #[allow(clippy::enum_variant_names)]
         enum FineTuneDpoHyperparametersBeta<'a> {
             Auto(#[allow(dead_code)] &'a FineTuneDpoHyperparametersBetaAuto),
-            Number(#[allow(dead_code)] &'a f64),
+            Number(#[allow(dead_code)] &'a serde_json::Number),
         }
         match self {
             Self::Auto => {
@@ -28405,12 +30183,12 @@ impl serde::Serialize for FineTuneDpoHyperparametersBeta {
     }
 }
 #[doc = "The beta value for the DPO method. A higher beta value will increase the weight of the penalty between the policy and reference model.\n"]
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuneDpoHyperparametersBeta {
     #[doc = "auto"]
     Auto,
-    Number(f64),
+    Number(serde_json::Number),
 }
 impl<'de> serde::Deserialize<'de> for FineTuneDpoHyperparametersBatchSizeAuto {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -28529,7 +30307,7 @@ impl<'de> serde::Deserialize<'de> for FineTuneDpoHyperparametersLearningRateMult
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum FineTuneDpoHyperparametersLearningRateMultiplier {
             Auto(#[allow(dead_code)] FineTuneDpoHyperparametersLearningRateMultiplierAuto),
-            Number(#[allow(dead_code)] f64),
+            Number(#[allow(dead_code)] serde_json::Number),
         }
         Ok(
             match FineTuneDpoHyperparametersLearningRateMultiplier::deserialize(deserializer)? {
@@ -28550,7 +30328,7 @@ impl serde::Serialize for FineTuneDpoHyperparametersLearningRateMultiplier {
         #[allow(clippy::enum_variant_names)]
         enum FineTuneDpoHyperparametersLearningRateMultiplier<'a> {
             Auto(#[allow(dead_code)] &'a FineTuneDpoHyperparametersLearningRateMultiplierAuto),
-            Number(#[allow(dead_code)] &'a f64),
+            Number(#[allow(dead_code)] &'a serde_json::Number),
         }
         match self {
             Self::Auto => {
@@ -28564,12 +30342,12 @@ impl serde::Serialize for FineTuneDpoHyperparametersLearningRateMultiplier {
     }
 }
 #[doc = "Scaling factor for the learning rate. A smaller learning rate may be useful to avoid overfitting.\n"]
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuneDpoHyperparametersLearningRateMultiplier {
     #[doc = "auto"]
     Auto,
-    Number(f64),
+    Number(serde_json::Number),
 }
 impl<'de> serde::Deserialize<'de> for FineTuneDpoHyperparametersNEpochsAuto {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -28721,7 +30499,7 @@ impl serde::Serialize for FineTuneDpoHyperparameters {
     }
 }
 #[doc = "The hyperparameters used for the DPO fine-tuning job."]
-#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct FineTuneDpoHyperparameters {
     #[doc = "The beta value for the DPO method. A higher beta value will increase the weight of the penalty between the policy and reference model.\n"]
     #[builder(default)]
@@ -28771,7 +30549,7 @@ impl serde::Serialize for FineTuneDpoMethod {
     }
 }
 #[doc = "Configuration for the DPO fine-tuning method."]
-#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct FineTuneDpoMethod {
     #[builder(default)]
     pub hyperparameters: Option<FineTuneDpoHyperparameters>,
@@ -29155,7 +30933,7 @@ impl serde::Serialize for FineTunePreferenceRequestInput {
         .serialize(serializer)
     }
 }
-#[doc = "The per-line training example of a fine-tuning input file for chat models using the dpo method."]
+#[doc = "The per-line training example of a fine-tuning input file for chat models using the dpo method.\nInput messages may contain text or image content only. Audio and file input messages\nare not currently supported for fine-tuning.\n"]
 #[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct FineTunePreferenceRequestInput {
     #[builder(default)]
@@ -29287,7 +31065,7 @@ impl<'de> serde::Deserialize<'de> for FineTuneReinforcementHyperparametersLearni
             Auto(
                 #[allow(dead_code)] FineTuneReinforcementHyperparametersLearningRateMultiplierAuto,
             ),
-            Number(#[allow(dead_code)] f64),
+            Number(#[allow(dead_code)] serde_json::Number),
         }
         Ok(
             match FineTuneReinforcementHyperparametersLearningRateMultiplier::deserialize(
@@ -29315,7 +31093,7 @@ impl serde::Serialize for FineTuneReinforcementHyperparametersLearningRateMultip
                 #[allow(dead_code)]
                 &'a FineTuneReinforcementHyperparametersLearningRateMultiplierAuto,
             ),
-            Number(#[allow(dead_code)] &'a f64),
+            Number(#[allow(dead_code)] &'a serde_json::Number),
         }
         match self {
             Self::Auto => FineTuneReinforcementHyperparametersLearningRateMultiplier::Auto(
@@ -29330,12 +31108,12 @@ impl serde::Serialize for FineTuneReinforcementHyperparametersLearningRateMultip
     }
 }
 #[doc = "Scaling factor for the learning rate. A smaller learning rate may be useful to avoid overfitting.\n"]
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuneReinforcementHyperparametersLearningRateMultiplier {
     #[doc = "auto"]
     Auto,
-    Number(f64),
+    Number(serde_json::Number),
 }
 impl<'de> serde::Deserialize<'de> for FineTuneReinforcementHyperparametersNEpochsAuto {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -29470,7 +31248,7 @@ impl<'de> serde::Deserialize<'de> for FineTuneReinforcementHyperparametersComput
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum FineTuneReinforcementHyperparametersComputeMultiplier {
             Auto(#[allow(dead_code)] FineTuneReinforcementHyperparametersComputeMultiplierAuto),
-            Number(#[allow(dead_code)] f64),
+            Number(#[allow(dead_code)] serde_json::Number),
         }
         Ok(
             match FineTuneReinforcementHyperparametersComputeMultiplier::deserialize(deserializer)?
@@ -29492,7 +31270,7 @@ impl serde::Serialize for FineTuneReinforcementHyperparametersComputeMultiplier 
         #[allow(clippy::enum_variant_names)]
         enum FineTuneReinforcementHyperparametersComputeMultiplier<'a> {
             Auto(#[allow(dead_code)] &'a FineTuneReinforcementHyperparametersComputeMultiplierAuto),
-            Number(#[allow(dead_code)] &'a f64),
+            Number(#[allow(dead_code)] &'a serde_json::Number),
         }
         match self {
             Self::Auto => {
@@ -29505,12 +31283,12 @@ impl serde::Serialize for FineTuneReinforcementHyperparametersComputeMultiplier 
     }
 }
 #[doc = "Multiplier on amount of compute used for exploring search space during training.\n"]
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuneReinforcementHyperparametersComputeMultiplier {
     #[doc = "auto"]
     Auto,
-    Number(f64),
+    Number(serde_json::Number),
 }
 impl<'de> serde::Deserialize<'de> for FineTuneReinforcementHyperparametersEvalIntervalAuto {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -29777,7 +31555,7 @@ impl serde::Serialize for FineTuneReinforcementHyperparameters {
     }
 }
 #[doc = "The hyperparameters used for the reinforcement fine-tuning job."]
-#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct FineTuneReinforcementHyperparameters {
     #[doc = "Number of examples in each batch. A larger batch size means that model parameters are updated less frequently, but with lower variance.\n"]
     #[builder(default)]
@@ -30032,7 +31810,7 @@ impl serde::Serialize for FineTuneReinforcementRequestInput {
         FineTuneReinforcementRequestInput { messages, tools }.serialize(serializer)
     }
 }
-#[doc = "Per-line training example for reinforcement fine-tuning. Note that `messages` and `tools` are the only reserved keywords. Any other arbitrary key-value data can be included on training datapoints and will be available to reference during grading under the `{{ item.XXX }}` template variable."]
+#[doc = "Per-line training example for reinforcement fine-tuning. Note that `messages` and `tools` are the only reserved keywords.\nAny other arbitrary key-value data can be included on training datapoints and will be available to reference during grading under the `{{ item.XXX }}` template variable.\nInput messages may contain text or image content only. Audio and file input messages\nare not currently supported for fine-tuning.\n"]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct FineTuneReinforcementRequestInput {
     pub messages: Vec<FineTuneReinforcementRequestInputMessages>,
@@ -30156,7 +31934,7 @@ impl<'de> serde::Deserialize<'de> for FineTuneSupervisedHyperparametersLearningR
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum FineTuneSupervisedHyperparametersLearningRateMultiplier {
             Auto(#[allow(dead_code)] FineTuneSupervisedHyperparametersLearningRateMultiplierAuto),
-            Number(#[allow(dead_code)] f64),
+            Number(#[allow(dead_code)] serde_json::Number),
         }
         Ok(
             match FineTuneSupervisedHyperparametersLearningRateMultiplier::deserialize(
@@ -30183,7 +31961,7 @@ impl serde::Serialize for FineTuneSupervisedHyperparametersLearningRateMultiplie
             Auto(
                 #[allow(dead_code)] &'a FineTuneSupervisedHyperparametersLearningRateMultiplierAuto,
             ),
-            Number(#[allow(dead_code)] &'a f64),
+            Number(#[allow(dead_code)] &'a serde_json::Number),
         }
         match self {
             Self::Auto => {
@@ -30196,12 +31974,12 @@ impl serde::Serialize for FineTuneSupervisedHyperparametersLearningRateMultiplie
     }
 }
 #[doc = "Scaling factor for the learning rate. A smaller learning rate may be useful to avoid overfitting.\n"]
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuneSupervisedHyperparametersLearningRateMultiplier {
     #[doc = "auto"]
     Auto,
-    Number(f64),
+    Number(serde_json::Number),
 }
 impl<'de> serde::Deserialize<'de> for FineTuneSupervisedHyperparametersNEpochsAuto {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -30346,7 +32124,7 @@ impl serde::Serialize for FineTuneSupervisedHyperparameters {
     }
 }
 #[doc = "The hyperparameters used for the fine-tuning job."]
-#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct FineTuneSupervisedHyperparameters {
     #[doc = "Number of examples in each batch. A larger batch size means that model parameters are updated less frequently, but with lower variance.\n"]
     #[builder(default)]
@@ -30393,7 +32171,7 @@ impl serde::Serialize for FineTuneSupervisedMethod {
     }
 }
 #[doc = "Configuration for the supervised fine-tuning method."]
-#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct FineTuneSupervisedMethod {
     #[builder(default)]
     pub hyperparameters: Option<FineTuneSupervisedHyperparameters>,
@@ -30845,7 +32623,7 @@ impl<'de> serde::Deserialize<'de> for FineTuningJobHyperparametersLearningRateMu
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum FineTuningJobHyperparametersLearningRateMultiplier {
             Auto(#[allow(dead_code)] FineTuningJobHyperparametersLearningRateMultiplierAuto),
-            Number(#[allow(dead_code)] f64),
+            Number(#[allow(dead_code)] serde_json::Number),
         }
         Ok(
             match FineTuningJobHyperparametersLearningRateMultiplier::deserialize(deserializer)? {
@@ -30866,7 +32644,7 @@ impl serde::Serialize for FineTuningJobHyperparametersLearningRateMultiplier {
         #[allow(clippy::enum_variant_names)]
         enum FineTuningJobHyperparametersLearningRateMultiplier<'a> {
             Auto(#[allow(dead_code)] &'a FineTuningJobHyperparametersLearningRateMultiplierAuto),
-            Number(#[allow(dead_code)] &'a f64),
+            Number(#[allow(dead_code)] &'a serde_json::Number),
         }
         match self {
             Self::Auto => {
@@ -30880,12 +32658,12 @@ impl serde::Serialize for FineTuningJobHyperparametersLearningRateMultiplier {
     }
 }
 #[doc = "Scaling factor for the learning rate. A smaller learning rate may be useful to avoid\noverfitting.\n"]
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuningJobHyperparametersLearningRateMultiplier {
     #[doc = "auto"]
     Auto,
-    Number(f64),
+    Number(serde_json::Number),
 }
 impl<'de> serde::Deserialize<'de> for FineTuningJobHyperparametersNEpochsAuto {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -31030,7 +32808,7 @@ impl serde::Serialize for FineTuningJobHyperparameters {
     }
 }
 #[doc = "The hyperparameters used for the fine-tuning job. This value will only be returned when running `supervised` jobs."]
-#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct FineTuningJobHyperparameters {
     #[doc = "Number of examples in each batch. A larger batch size means that model parameters\nare updated less frequently, but with lower variance.\n"]
     #[builder(default)]
@@ -31399,25 +33177,25 @@ impl<'de> serde::Deserialize<'de> for FineTuningJobCheckpointMetrics {
         struct FineTuningJobCheckpointMetrics {
             #[serde(rename = "step")]
             #[allow(dead_code)]
-            step: Option<f64>,
+            step: Option<serde_json::Number>,
             #[serde(rename = "train_loss")]
             #[allow(dead_code)]
-            train_loss: Option<f64>,
+            train_loss: Option<serde_json::Number>,
             #[serde(rename = "train_mean_token_accuracy")]
             #[allow(dead_code)]
-            train_mean_token_accuracy: Option<f64>,
+            train_mean_token_accuracy: Option<serde_json::Number>,
             #[serde(rename = "valid_loss")]
             #[allow(dead_code)]
-            valid_loss: Option<f64>,
+            valid_loss: Option<serde_json::Number>,
             #[serde(rename = "valid_mean_token_accuracy")]
             #[allow(dead_code)]
-            valid_mean_token_accuracy: Option<f64>,
+            valid_mean_token_accuracy: Option<serde_json::Number>,
             #[serde(rename = "full_valid_loss")]
             #[allow(dead_code)]
-            full_valid_loss: Option<f64>,
+            full_valid_loss: Option<serde_json::Number>,
             #[serde(rename = "full_valid_mean_token_accuracy")]
             #[allow(dead_code)]
-            full_valid_mean_token_accuracy: Option<f64>,
+            full_valid_mean_token_accuracy: Option<serde_json::Number>,
         }
         let FineTuningJobCheckpointMetrics {
             step,
@@ -31450,25 +33228,25 @@ impl serde::Serialize for FineTuningJobCheckpointMetrics {
         struct FineTuningJobCheckpointMetrics<'a> {
             #[serde(rename = "step")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            step: &'a Option<f64>,
+            step: &'a Option<serde_json::Number>,
             #[serde(rename = "train_loss")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            train_loss: &'a Option<f64>,
+            train_loss: &'a Option<serde_json::Number>,
             #[serde(rename = "train_mean_token_accuracy")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            train_mean_token_accuracy: &'a Option<f64>,
+            train_mean_token_accuracy: &'a Option<serde_json::Number>,
             #[serde(rename = "valid_loss")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            valid_loss: &'a Option<f64>,
+            valid_loss: &'a Option<serde_json::Number>,
             #[serde(rename = "valid_mean_token_accuracy")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            valid_mean_token_accuracy: &'a Option<f64>,
+            valid_mean_token_accuracy: &'a Option<serde_json::Number>,
             #[serde(rename = "full_valid_loss")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            full_valid_loss: &'a Option<f64>,
+            full_valid_loss: &'a Option<serde_json::Number>,
             #[serde(rename = "full_valid_mean_token_accuracy")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            full_valid_mean_token_accuracy: &'a Option<f64>,
+            full_valid_mean_token_accuracy: &'a Option<serde_json::Number>,
         }
         let Self {
             step,
@@ -31492,22 +33270,22 @@ impl serde::Serialize for FineTuningJobCheckpointMetrics {
     }
 }
 #[doc = "Metrics at the step number during the fine-tuning job."]
-#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct FineTuningJobCheckpointMetrics {
     #[builder(default)]
-    pub step: Option<f64>,
+    pub step: Option<serde_json::Number>,
     #[builder(default)]
-    pub train_loss: Option<f64>,
+    pub train_loss: Option<serde_json::Number>,
     #[builder(default)]
-    pub train_mean_token_accuracy: Option<f64>,
+    pub train_mean_token_accuracy: Option<serde_json::Number>,
     #[builder(default)]
-    pub valid_loss: Option<f64>,
+    pub valid_loss: Option<serde_json::Number>,
     #[builder(default)]
-    pub valid_mean_token_accuracy: Option<f64>,
+    pub valid_mean_token_accuracy: Option<serde_json::Number>,
     #[builder(default)]
-    pub full_valid_loss: Option<f64>,
+    pub full_valid_loss: Option<serde_json::Number>,
     #[builder(default)]
-    pub full_valid_mean_token_accuracy: Option<f64>,
+    pub full_valid_mean_token_accuracy: Option<serde_json::Number>,
 }
 impl<'de> serde::Deserialize<'de> for FineTuningJobCheckpointObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -32172,20 +33950,33 @@ impl<'de> serde::Deserialize<'de> for FunctionToolCallOutputResource {
         #[serde_with::serde_as]
         #[derive(serde :: Deserialize)]
         struct FunctionToolCallOutputResource {
-            #[serde(flatten)]
+            #[serde(rename = "type")]
             #[allow(dead_code)]
-            function_tool_call_output: FunctionToolCallOutput,
+            r#type: FunctionToolCallOutputType,
+            #[serde(rename = "call_id")]
+            #[allow(dead_code)]
+            call_id: String,
+            #[serde(rename = "output")]
+            #[allow(dead_code)]
+            output: String,
+            #[serde(rename = "status")]
+            #[allow(dead_code)]
+            status: Option<FunctionToolCallOutputStatus>,
             #[serde(rename = "id")]
             #[allow(dead_code)]
             id: String,
         }
         let FunctionToolCallOutputResource {
-            function_tool_call_output,
+            call_id,
+            output,
+            status,
             id,
             ..
         } = FunctionToolCallOutputResource::deserialize(deserializer)?;
         Ok(Self {
-            function_tool_call_output,
+            call_id,
+            output,
+            status,
             id,
         })
     }
@@ -32198,17 +33989,29 @@ impl serde::Serialize for FunctionToolCallOutputResource {
         #[serde_with::serde_as]
         #[derive(serde :: Serialize)]
         struct FunctionToolCallOutputResource<'a> {
-            #[serde(flatten)]
-            function_tool_call_output: &'a FunctionToolCallOutput,
+            #[serde(rename = "type")]
+            r#type: &'a FunctionToolCallOutputType,
+            #[serde(rename = "call_id")]
+            call_id: &'a String,
+            #[serde(rename = "output")]
+            output: &'a String,
+            #[serde(rename = "status")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            status: &'a Option<FunctionToolCallOutputStatus>,
             #[serde(rename = "id")]
             id: &'a String,
         }
         let Self {
-            function_tool_call_output,
+            call_id,
+            output,
+            status,
             id,
         } = self;
         FunctionToolCallOutputResource {
-            function_tool_call_output,
+            r#type: &Default::default(),
+            call_id,
+            output,
+            status,
             id,
         }
         .serialize(serializer)
@@ -32216,7 +34019,13 @@ impl serde::Serialize for FunctionToolCallOutputResource {
 }
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct FunctionToolCallOutputResource {
-    pub function_tool_call_output: FunctionToolCallOutput,
+    #[doc = "The unique ID of the function tool call generated by the model.\n"]
+    pub call_id: String,
+    #[doc = "A JSON string of the output of the function tool call.\n"]
+    pub output: String,
+    #[doc = "The status of the item. One of `in_progress`, `completed`, or\n`incomplete`. Populated when items are returned via API.\n"]
+    #[builder(default)]
+    pub status: Option<FunctionToolCallOutputStatus>,
     #[doc = "The unique ID of the function call tool output.\n"]
     pub id: String,
 }
@@ -32228,20 +34037,38 @@ impl<'de> serde::Deserialize<'de> for FunctionToolCallResource {
         #[serde_with::serde_as]
         #[derive(serde :: Deserialize)]
         struct FunctionToolCallResource {
-            #[serde(flatten)]
+            #[serde(rename = "type")]
             #[allow(dead_code)]
-            function_tool_call: FunctionToolCall,
+            r#type: FunctionToolCallType,
+            #[serde(rename = "call_id")]
+            #[allow(dead_code)]
+            call_id: String,
+            #[serde(rename = "name")]
+            #[allow(dead_code)]
+            name: String,
+            #[serde(rename = "arguments")]
+            #[allow(dead_code)]
+            arguments: String,
+            #[serde(rename = "status")]
+            #[allow(dead_code)]
+            status: Option<FunctionToolCallStatus>,
             #[serde(rename = "id")]
             #[allow(dead_code)]
             id: String,
         }
         let FunctionToolCallResource {
-            function_tool_call,
+            call_id,
+            name,
+            arguments,
+            status,
             id,
             ..
         } = FunctionToolCallResource::deserialize(deserializer)?;
         Ok(Self {
-            function_tool_call,
+            call_id,
+            name,
+            arguments,
+            status,
             id,
         })
     }
@@ -32254,17 +34081,33 @@ impl serde::Serialize for FunctionToolCallResource {
         #[serde_with::serde_as]
         #[derive(serde :: Serialize)]
         struct FunctionToolCallResource<'a> {
-            #[serde(flatten)]
-            function_tool_call: &'a FunctionToolCall,
+            #[serde(rename = "type")]
+            r#type: &'a FunctionToolCallType,
+            #[serde(rename = "call_id")]
+            call_id: &'a String,
+            #[serde(rename = "name")]
+            name: &'a String,
+            #[serde(rename = "arguments")]
+            arguments: &'a String,
+            #[serde(rename = "status")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            status: &'a Option<FunctionToolCallStatus>,
             #[serde(rename = "id")]
             id: &'a String,
         }
         let Self {
-            function_tool_call,
+            call_id,
+            name,
+            arguments,
+            status,
             id,
         } = self;
         FunctionToolCallResource {
-            function_tool_call,
+            r#type: &Default::default(),
+            call_id,
+            name,
+            arguments,
+            status,
             id,
         }
         .serialize(serializer)
@@ -32272,7 +34115,15 @@ impl serde::Serialize for FunctionToolCallResource {
 }
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct FunctionToolCallResource {
-    pub function_tool_call: FunctionToolCall,
+    #[doc = "The unique ID of the function tool call generated by the model.\n"]
+    pub call_id: String,
+    #[doc = "The name of the function to run.\n"]
+    pub name: String,
+    #[doc = "A JSON string of the arguments to pass to the function.\n"]
+    pub arguments: String,
+    #[doc = "The status of the item. One of `in_progress`, `completed`, or\n`incomplete`. Populated when items are returned via API.\n"]
+    #[builder(default)]
+    pub status: Option<FunctionToolCallStatus>,
     #[doc = "The unique ID of the function tool call.\n"]
     pub id: String,
 }
@@ -32715,7 +34566,7 @@ impl<'de> serde::Deserialize<'de> for GraderScoreModel {
             input: Vec<EvalItem>,
             #[serde(rename = "range")]
             #[allow(dead_code)]
-            range: Option<Vec<f64>>,
+            range: Option<Vec<serde_json::Number>>,
         }
         let GraderScoreModel {
             name,
@@ -32755,7 +34606,7 @@ impl serde::Serialize for GraderScoreModel {
             input: &'a Vec<EvalItem>,
             #[serde(rename = "range")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            range: &'a Option<Vec<f64>>,
+            range: &'a Option<Vec<serde_json::Number>>,
         }
         let Self {
             name,
@@ -32789,7 +34640,7 @@ pub struct GraderScoreModel {
     pub input: Vec<EvalItem>,
     #[doc = "The range of the score. Defaults to `[0, 1]`."]
     #[builder(default)]
-    pub range: Option<Vec<f64>>,
+    pub range: Option<Vec<serde_json::Number>>,
 }
 impl<'de> serde::Deserialize<'de> for GraderStringCheckType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -33568,6 +35419,55 @@ pub struct ImageGenToolCall {
     #[builder(default)]
     pub result: Option<String>,
 }
+#[doc = "The background parameter used for the image generation. Either `transparent` or `opaque`."]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+pub enum ImagesResponseBackground {
+    #[doc = "transparent"]
+    #[serde(rename = "transparent")]
+    Transparent,
+    #[doc = "opaque"]
+    #[serde(rename = "opaque")]
+    Opaque,
+}
+#[doc = "The output format of the image generation. Either `png`, `webp`, or `jpeg`."]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+pub enum ImagesResponseOutputFormat {
+    #[doc = "png"]
+    #[serde(rename = "png")]
+    Png,
+    #[doc = "webp"]
+    #[serde(rename = "webp")]
+    Webp,
+    #[doc = "jpeg"]
+    #[serde(rename = "jpeg")]
+    Jpeg,
+}
+#[doc = "The size of the image generated. Either `1024x1024`, `1024x1536`, or `1536x1024`."]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+pub enum ImagesResponseSize {
+    #[doc = "1024x1024"]
+    #[serde(rename = "1024x1024")]
+    _1024x1024,
+    #[doc = "1024x1536"]
+    #[serde(rename = "1024x1536")]
+    _1024x1536,
+    #[doc = "1536x1024"]
+    #[serde(rename = "1536x1024")]
+    _1536x1024,
+}
+#[doc = "The quality of the image generated. Either `low`, `medium`, or `high`."]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+pub enum ImagesResponseQuality {
+    #[doc = "low"]
+    #[serde(rename = "low")]
+    Low,
+    #[doc = "medium"]
+    #[serde(rename = "medium")]
+    Medium,
+    #[doc = "high"]
+    #[serde(rename = "high")]
+    High,
+}
 impl<'de> serde::Deserialize<'de> for ImagesResponseUsageInputTokensDetails {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -33720,6 +35620,18 @@ impl<'de> serde::Deserialize<'de> for ImagesResponse {
             #[serde(rename = "data")]
             #[allow(dead_code)]
             data: Option<Vec<Image>>,
+            #[serde(rename = "background")]
+            #[allow(dead_code)]
+            background: Option<ImagesResponseBackground>,
+            #[serde(rename = "output_format")]
+            #[allow(dead_code)]
+            output_format: Option<ImagesResponseOutputFormat>,
+            #[serde(rename = "size")]
+            #[allow(dead_code)]
+            size: Option<ImagesResponseSize>,
+            #[serde(rename = "quality")]
+            #[allow(dead_code)]
+            quality: Option<ImagesResponseQuality>,
             #[serde(rename = "usage")]
             #[allow(dead_code)]
             usage: Option<ImagesResponseUsage>,
@@ -33727,12 +35639,20 @@ impl<'de> serde::Deserialize<'de> for ImagesResponse {
         let ImagesResponse {
             created,
             data,
+            background,
+            output_format,
+            size,
+            quality,
             usage,
             ..
         } = ImagesResponse::deserialize(deserializer)?;
         Ok(Self {
             created,
             data,
+            background,
+            output_format,
+            size,
+            quality,
             usage,
         })
     }
@@ -33750,6 +35670,18 @@ impl serde::Serialize for ImagesResponse {
             #[serde(rename = "data")]
             #[serde(skip_serializing_if = "Option::is_none")]
             data: &'a Option<Vec<Image>>,
+            #[serde(rename = "background")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            background: &'a Option<ImagesResponseBackground>,
+            #[serde(rename = "output_format")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            output_format: &'a Option<ImagesResponseOutputFormat>,
+            #[serde(rename = "size")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            size: &'a Option<ImagesResponseSize>,
+            #[serde(rename = "quality")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            quality: &'a Option<ImagesResponseQuality>,
             #[serde(rename = "usage")]
             #[serde(skip_serializing_if = "Option::is_none")]
             usage: &'a Option<ImagesResponseUsage>,
@@ -33757,11 +35689,19 @@ impl serde::Serialize for ImagesResponse {
         let Self {
             created,
             data,
+            background,
+            output_format,
+            size,
+            quality,
             usage,
         } = self;
         ImagesResponse {
             created,
             data,
+            background,
+            output_format,
+            size,
+            quality,
             usage,
         }
         .serialize(serializer)
@@ -33775,28 +35715,43 @@ pub struct ImagesResponse {
     #[doc = "The list of generated images."]
     #[builder(default)]
     pub data: Option<Vec<Image>>,
+    #[doc = "The background parameter used for the image generation. Either `transparent` or `opaque`."]
+    #[builder(default)]
+    pub background: Option<ImagesResponseBackground>,
+    #[doc = "The output format of the image generation. Either `png`, `webp`, or `jpeg`."]
+    #[builder(default)]
+    pub output_format: Option<ImagesResponseOutputFormat>,
+    #[doc = "The size of the image generated. Either `1024x1024`, `1024x1536`, or `1536x1024`."]
+    #[builder(default)]
+    pub size: Option<ImagesResponseSize>,
+    #[doc = "The quality of the image generated. Either `low`, `medium`, or `high`."]
+    #[builder(default)]
+    pub quality: Option<ImagesResponseQuality>,
     #[doc = "For `gpt-image-1` only, the token usage information for the image generation.\n"]
     #[builder(default)]
     pub usage: Option<ImagesResponseUsage>,
 }
-#[doc = "Specify additional output data to include in the model response. Currently\nsupported values are:\n- `file_search_call.results`: Include the search results of\n  the file search tool call.\n- `message.input_image.image_url`: Include image urls from the input message.\n- `computer_call_output.output.image_url`: Include image urls from the computer call output.\n- `reasoning.encrypted_content`: Includes an encrypted version of reasoning\n  tokens in reasoning item outputs. This enables reasoning items to be used in\n  multi-turn conversations when using the Responses API statelessly (like\n  when the `store` parameter is set to `false`, or when an organization is\n  enrolled in the zero data retention program).\n- `code_interpreter_call.outputs`: Includes the outputs of python code execution\n  in code interpreter tool call items.\n"]
+#[doc = "Specify additional output data to include in the model response. Currently\nsupported values are:\n- `code_interpreter_call.outputs`: Includes the outputs of python code execution\n  in code interpreter tool call items.\n- `computer_call_output.output.image_url`: Include image urls from the computer call output.\n- `file_search_call.results`: Include the search results of\n  the file search tool call.\n- `message.input_image.image_url`: Include image urls from the input message.\n- `message.output_text.logprobs`: Include logprobs with assistant messages.\n- `reasoning.encrypted_content`: Includes an encrypted version of reasoning\n  tokens in reasoning item outputs. This enables reasoning items to be used in\n  multi-turn conversations when using the Responses API statelessly (like\n  when the `store` parameter is set to `false`, or when an organization is\n  enrolled in the zero data retention program).\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum Includable {
+    #[doc = "code_interpreter_call.outputs"]
+    #[serde(rename = "code_interpreter_call.outputs")]
+    CodeInterpreterCallOutputs,
+    #[doc = "computer_call_output.output.image_url"]
+    #[serde(rename = "computer_call_output.output.image_url")]
+    ComputerCallOutputOutputImageUrl,
     #[doc = "file_search_call.results"]
     #[serde(rename = "file_search_call.results")]
     FileSearchCallResults,
     #[doc = "message.input_image.image_url"]
     #[serde(rename = "message.input_image.image_url")]
     MessageInputImageImageUrl,
-    #[doc = "computer_call_output.output.image_url"]
-    #[serde(rename = "computer_call_output.output.image_url")]
-    ComputerCallOutputOutputImageUrl,
+    #[doc = "message.output_text.logprobs"]
+    #[serde(rename = "message.output_text.logprobs")]
+    MessageOutputTextLogprobs,
     #[doc = "reasoning.encrypted_content"]
     #[serde(rename = "reasoning.encrypted_content")]
     ReasoningEncryptedContent,
-    #[doc = "code_interpreter_call.outputs"]
-    #[serde(rename = "code_interpreter_call.outputs")]
-    CodeInterpreterCallOutputs,
 }
 impl<'de> serde::Deserialize<'de> for InputAudioType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -34134,17 +36089,37 @@ impl<'de> serde::Deserialize<'de> for InputMessageResource {
         #[serde_with::serde_as]
         #[derive(serde :: Deserialize)]
         struct InputMessageResource {
-            #[serde(flatten)]
+            #[serde(rename = "type")]
             #[allow(dead_code)]
-            input_message: InputMessage,
+            r#type: Option<InputMessageType>,
+            #[serde(rename = "role")]
+            #[allow(dead_code)]
+            role: InputMessageRole,
+            #[serde(rename = "status")]
+            #[allow(dead_code)]
+            status: Option<InputMessageStatus>,
+            #[serde(rename = "content")]
+            #[allow(dead_code)]
+            content: InputMessageContentList,
             #[serde(rename = "id")]
             #[allow(dead_code)]
             id: String,
         }
         let InputMessageResource {
-            input_message, id, ..
+            r#type,
+            role,
+            status,
+            content,
+            id,
+            ..
         } = InputMessageResource::deserialize(deserializer)?;
-        Ok(Self { input_message, id })
+        Ok(Self {
+            r#type,
+            role,
+            status,
+            content,
+            id,
+        })
     }
 }
 impl serde::Serialize for InputMessageResource {
@@ -34155,18 +36130,47 @@ impl serde::Serialize for InputMessageResource {
         #[serde_with::serde_as]
         #[derive(serde :: Serialize)]
         struct InputMessageResource<'a> {
-            #[serde(flatten)]
-            input_message: &'a InputMessage,
+            #[serde(rename = "type")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            r#type: &'a Option<InputMessageType>,
+            #[serde(rename = "role")]
+            role: &'a InputMessageRole,
+            #[serde(rename = "status")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            status: &'a Option<InputMessageStatus>,
+            #[serde(rename = "content")]
+            content: &'a InputMessageContentList,
             #[serde(rename = "id")]
             id: &'a String,
         }
-        let Self { input_message, id } = self;
-        InputMessageResource { input_message, id }.serialize(serializer)
+        let Self {
+            r#type,
+            role,
+            status,
+            content,
+            id,
+        } = self;
+        InputMessageResource {
+            r#type,
+            role,
+            status,
+            content,
+            id,
+        }
+        .serialize(serializer)
     }
 }
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct InputMessageResource {
-    pub input_message: InputMessage,
+    #[doc = "The type of the message input. Always set to `message`.\n"]
+    #[builder(default)]
+    pub r#type: Option<InputMessageType>,
+    #[doc = "The role of the message input. One of `user`, `system`, or `developer`.\n"]
+    pub role: InputMessageRole,
+    #[doc = "The status of item. One of `in_progress`, `completed`, or\n`incomplete`. Populated when items are returned via API.\n"]
+    #[builder(default)]
+    pub status: Option<InputMessageStatus>,
+    pub content: InputMessageContentList,
     #[doc = "The unique ID of the message input.\n"]
     pub id: String,
 }
@@ -36899,7 +38903,7 @@ impl<'de> serde::Deserialize<'de> for LogProbProperties {
             token: String,
             #[serde(rename = "logprob")]
             #[allow(dead_code)]
-            logprob: f64,
+            logprob: serde_json::Number,
             #[serde(rename = "bytes")]
             #[allow(dead_code)]
             bytes: Vec<i64>,
@@ -36928,7 +38932,7 @@ impl serde::Serialize for LogProbProperties {
             #[serde(rename = "token")]
             token: &'a String,
             #[serde(rename = "logprob")]
-            logprob: &'a f64,
+            logprob: &'a serde_json::Number,
             #[serde(rename = "bytes")]
             bytes: &'a Vec<i64>,
         }
@@ -36951,7 +38955,7 @@ pub struct LogProbProperties {
     #[doc = "The token that was used to generate the log probability.\n"]
     pub token: String,
     #[doc = "The log probability of the token.\n"]
-    pub logprob: f64,
+    pub logprob: serde_json::Number,
     #[doc = "The bytes that were used to generate the log probability.\n"]
     pub bytes: Vec<i64>,
 }
@@ -38753,6 +40757,56 @@ impl serde::Serialize for MessageContentTextObjectType {
 #[doc = "Always `text`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct MessageContentTextObjectType;
+impl<'de> serde::Deserialize<'de> for MessageContentTextObjectTextAnnotation {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
+        enum MessageContentTextObjectTextAnnotation {
+            FileCitation(#[allow(dead_code)] MessageContentTextAnnotationsFileCitationObject),
+            FilePath(#[allow(dead_code)] MessageContentTextAnnotationsFilePathObject),
+        }
+        Ok(
+            match MessageContentTextObjectTextAnnotation::deserialize(deserializer)? {
+                MessageContentTextObjectTextAnnotation::FileCitation(v) => Self::FileCitation(v),
+                MessageContentTextObjectTextAnnotation::FilePath(v) => Self::FilePath(v),
+            },
+        )
+    }
+}
+impl serde::Serialize for MessageContentTextObjectTextAnnotation {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names)]
+        enum MessageContentTextObjectTextAnnotation<'a> {
+            FileCitation(#[allow(dead_code)] &'a MessageContentTextAnnotationsFileCitationObject),
+            FilePath(#[allow(dead_code)] &'a MessageContentTextAnnotationsFilePathObject),
+        }
+        match self {
+            Self::FileCitation(v) => {
+                MessageContentTextObjectTextAnnotation::FileCitation(v).serialize(serializer)
+            }
+            Self::FilePath(v) => {
+                MessageContentTextObjectTextAnnotation::FilePath(v).serialize(serializer)
+            }
+        }
+    }
+}
+#[derive(Clone, Debug, PartialEq)]
+#[allow(clippy::large_enum_variant)]
+pub enum MessageContentTextObjectTextAnnotation {
+    FileCitation(MessageContentTextAnnotationsFileCitationObject),
+    FilePath(MessageContentTextAnnotationsFilePathObject),
+}
 impl<'de> serde::Deserialize<'de> for MessageContentTextObjectText {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -38766,7 +40820,7 @@ impl<'de> serde::Deserialize<'de> for MessageContentTextObjectText {
             value: String,
             #[serde(rename = "annotations")]
             #[allow(dead_code)]
-            annotations: Vec<TextAnnotation>,
+            annotations: Vec<MessageContentTextObjectTextAnnotation>,
         }
         let MessageContentTextObjectText {
             value, annotations, ..
@@ -38785,7 +40839,7 @@ impl serde::Serialize for MessageContentTextObjectText {
             #[serde(rename = "value")]
             value: &'a String,
             #[serde(rename = "annotations")]
-            annotations: &'a Vec<TextAnnotation>,
+            annotations: &'a Vec<MessageContentTextObjectTextAnnotation>,
         }
         let Self { value, annotations } = self;
         MessageContentTextObjectText { value, annotations }.serialize(serializer)
@@ -38795,7 +40849,7 @@ impl serde::Serialize for MessageContentTextObjectText {
 pub struct MessageContentTextObjectText {
     #[doc = "The data that makes up the text."]
     pub value: String,
-    pub annotations: Vec<TextAnnotation>,
+    pub annotations: Vec<MessageContentTextObjectTextAnnotation>,
 }
 impl<'de> serde::Deserialize<'de> for MessageContentTextObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -39598,6 +41652,60 @@ impl serde::Serialize for MessageDeltaContentTextObjectType {
 #[doc = "Always `text`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct MessageDeltaContentTextObjectType;
+impl<'de> serde::Deserialize<'de> for MessageDeltaContentTextObjectTextAnnotation {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
+        enum MessageDeltaContentTextObjectTextAnnotation {
+            FileCitation(#[allow(dead_code)] MessageDeltaContentTextAnnotationsFileCitationObject),
+            FilePath(#[allow(dead_code)] MessageDeltaContentTextAnnotationsFilePathObject),
+        }
+        Ok(
+            match MessageDeltaContentTextObjectTextAnnotation::deserialize(deserializer)? {
+                MessageDeltaContentTextObjectTextAnnotation::FileCitation(v) => {
+                    Self::FileCitation(v)
+                }
+                MessageDeltaContentTextObjectTextAnnotation::FilePath(v) => Self::FilePath(v),
+            },
+        )
+    }
+}
+impl serde::Serialize for MessageDeltaContentTextObjectTextAnnotation {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names)]
+        enum MessageDeltaContentTextObjectTextAnnotation<'a> {
+            FileCitation(
+                #[allow(dead_code)] &'a MessageDeltaContentTextAnnotationsFileCitationObject,
+            ),
+            FilePath(#[allow(dead_code)] &'a MessageDeltaContentTextAnnotationsFilePathObject),
+        }
+        match self {
+            Self::FileCitation(v) => {
+                MessageDeltaContentTextObjectTextAnnotation::FileCitation(v).serialize(serializer)
+            }
+            Self::FilePath(v) => {
+                MessageDeltaContentTextObjectTextAnnotation::FilePath(v).serialize(serializer)
+            }
+        }
+    }
+}
+#[derive(Clone, Debug, PartialEq)]
+#[allow(clippy::large_enum_variant)]
+pub enum MessageDeltaContentTextObjectTextAnnotation {
+    FileCitation(MessageDeltaContentTextAnnotationsFileCitationObject),
+    FilePath(MessageDeltaContentTextAnnotationsFilePathObject),
+}
 impl<'de> serde::Deserialize<'de> for MessageDeltaContentTextObjectText {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -39611,7 +41719,7 @@ impl<'de> serde::Deserialize<'de> for MessageDeltaContentTextObjectText {
             value: Option<String>,
             #[serde(rename = "annotations")]
             #[allow(dead_code)]
-            annotations: Option<Vec<TextAnnotationDelta>>,
+            annotations: Option<Vec<MessageDeltaContentTextObjectTextAnnotation>>,
         }
         let MessageDeltaContentTextObjectText {
             value, annotations, ..
@@ -39632,7 +41740,7 @@ impl serde::Serialize for MessageDeltaContentTextObjectText {
             value: &'a Option<String>,
             #[serde(rename = "annotations")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            annotations: &'a Option<Vec<TextAnnotationDelta>>,
+            annotations: &'a Option<Vec<MessageDeltaContentTextObjectTextAnnotation>>,
         }
         let Self { value, annotations } = self;
         MessageDeltaContentTextObjectText { value, annotations }.serialize(serializer)
@@ -39644,7 +41752,7 @@ pub struct MessageDeltaContentTextObjectText {
     #[builder(default)]
     pub value: Option<String>,
     #[builder(default)]
-    pub annotations: Option<Vec<TextAnnotationDelta>>,
+    pub annotations: Option<Vec<MessageDeltaContentTextObjectTextAnnotation>>,
 }
 impl<'de> serde::Deserialize<'de> for MessageDeltaContentTextObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -39739,6 +41847,64 @@ pub enum MessageDeltaObjectDeltaRole {
     #[serde(rename = "assistant")]
     Assistant,
 }
+impl<'de> serde::Deserialize<'de> for MessageDeltaObjectDeltaContent {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
+        enum MessageDeltaObjectDeltaContent {
+            ImageFile(#[allow(dead_code)] MessageDeltaContentImageFileObject),
+            Text(#[allow(dead_code)] MessageDeltaContentTextObject),
+            Refusal(#[allow(dead_code)] MessageDeltaContentRefusalObject),
+            ImageUrl(#[allow(dead_code)] MessageDeltaContentImageUrlObject),
+        }
+        Ok(
+            match MessageDeltaObjectDeltaContent::deserialize(deserializer)? {
+                MessageDeltaObjectDeltaContent::ImageFile(v) => Self::ImageFile(v),
+                MessageDeltaObjectDeltaContent::Text(v) => Self::Text(v),
+                MessageDeltaObjectDeltaContent::Refusal(v) => Self::Refusal(v),
+                MessageDeltaObjectDeltaContent::ImageUrl(v) => Self::ImageUrl(v),
+            },
+        )
+    }
+}
+impl serde::Serialize for MessageDeltaObjectDeltaContent {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names)]
+        enum MessageDeltaObjectDeltaContent<'a> {
+            ImageFile(#[allow(dead_code)] &'a MessageDeltaContentImageFileObject),
+            Text(#[allow(dead_code)] &'a MessageDeltaContentTextObject),
+            Refusal(#[allow(dead_code)] &'a MessageDeltaContentRefusalObject),
+            ImageUrl(#[allow(dead_code)] &'a MessageDeltaContentImageUrlObject),
+        }
+        match self {
+            Self::ImageFile(v) => {
+                MessageDeltaObjectDeltaContent::ImageFile(v).serialize(serializer)
+            }
+            Self::Text(v) => MessageDeltaObjectDeltaContent::Text(v).serialize(serializer),
+            Self::Refusal(v) => MessageDeltaObjectDeltaContent::Refusal(v).serialize(serializer),
+            Self::ImageUrl(v) => MessageDeltaObjectDeltaContent::ImageUrl(v).serialize(serializer),
+        }
+    }
+}
+#[derive(Clone, Debug, PartialEq)]
+#[allow(clippy::large_enum_variant)]
+pub enum MessageDeltaObjectDeltaContent {
+    ImageFile(MessageDeltaContentImageFileObject),
+    Text(MessageDeltaContentTextObject),
+    Refusal(MessageDeltaContentRefusalObject),
+    ImageUrl(MessageDeltaContentImageUrlObject),
+}
 impl<'de> serde::Deserialize<'de> for MessageDeltaObjectDelta {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -39752,7 +41918,7 @@ impl<'de> serde::Deserialize<'de> for MessageDeltaObjectDelta {
             role: Option<MessageDeltaObjectDeltaRole>,
             #[serde(rename = "content")]
             #[allow(dead_code)]
-            content: Option<Vec<MessageContentDelta>>,
+            content: Option<Vec<MessageDeltaObjectDeltaContent>>,
         }
         let MessageDeltaObjectDelta { role, content, .. } =
             MessageDeltaObjectDelta::deserialize(deserializer)?;
@@ -39772,7 +41938,7 @@ impl serde::Serialize for MessageDeltaObjectDelta {
             role: &'a Option<MessageDeltaObjectDeltaRole>,
             #[serde(rename = "content")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            content: &'a Option<Vec<MessageContentDelta>>,
+            content: &'a Option<Vec<MessageDeltaObjectDeltaContent>>,
         }
         let Self { role, content } = self;
         MessageDeltaObjectDelta { role, content }.serialize(serializer)
@@ -39786,7 +41952,7 @@ pub struct MessageDeltaObjectDelta {
     pub role: Option<MessageDeltaObjectDeltaRole>,
     #[doc = "The content of the message in array of text and/or images."]
     #[builder(default)]
-    pub content: Option<Vec<MessageContentDelta>>,
+    pub content: Option<Vec<MessageDeltaObjectDeltaContent>>,
 }
 impl<'de> serde::Deserialize<'de> for MessageDeltaObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -39950,6 +42116,60 @@ pub enum MessageObjectRole {
     #[serde(rename = "assistant")]
     Assistant,
 }
+impl<'de> serde::Deserialize<'de> for MessageObjectContent {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
+        enum MessageObjectContent {
+            ImageFile(#[allow(dead_code)] MessageContentImageFileObject),
+            ImageUrl(#[allow(dead_code)] MessageContentImageUrlObject),
+            Text(#[allow(dead_code)] MessageContentTextObject),
+            Refusal(#[allow(dead_code)] MessageContentRefusalObject),
+        }
+        Ok(match MessageObjectContent::deserialize(deserializer)? {
+            MessageObjectContent::ImageFile(v) => Self::ImageFile(v),
+            MessageObjectContent::ImageUrl(v) => Self::ImageUrl(v),
+            MessageObjectContent::Text(v) => Self::Text(v),
+            MessageObjectContent::Refusal(v) => Self::Refusal(v),
+        })
+    }
+}
+impl serde::Serialize for MessageObjectContent {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names)]
+        enum MessageObjectContent<'a> {
+            ImageFile(#[allow(dead_code)] &'a MessageContentImageFileObject),
+            ImageUrl(#[allow(dead_code)] &'a MessageContentImageUrlObject),
+            Text(#[allow(dead_code)] &'a MessageContentTextObject),
+            Refusal(#[allow(dead_code)] &'a MessageContentRefusalObject),
+        }
+        match self {
+            Self::ImageFile(v) => MessageObjectContent::ImageFile(v).serialize(serializer),
+            Self::ImageUrl(v) => MessageObjectContent::ImageUrl(v).serialize(serializer),
+            Self::Text(v) => MessageObjectContent::Text(v).serialize(serializer),
+            Self::Refusal(v) => MessageObjectContent::Refusal(v).serialize(serializer),
+        }
+    }
+}
+#[derive(Clone, Debug, PartialEq)]
+#[allow(clippy::large_enum_variant)]
+pub enum MessageObjectContent {
+    ImageFile(MessageContentImageFileObject),
+    ImageUrl(MessageContentImageUrlObject),
+    Text(MessageContentTextObject),
+    Refusal(MessageContentRefusalObject),
+}
 impl<'de> serde::Deserialize<'de> for MessageObjectAttachmentsTool {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -40085,7 +42305,7 @@ impl<'de> serde::Deserialize<'de> for MessageObject {
             role: MessageObjectRole,
             #[serde(rename = "content")]
             #[allow(dead_code)]
-            content: Vec<MessageContent>,
+            content: Vec<MessageObjectContent>,
             #[serde(rename = "assistant_id")]
             #[allow(dead_code)]
             assistant_id: Option<String>,
@@ -40162,7 +42382,7 @@ impl serde::Serialize for MessageObject {
             #[serde(rename = "role")]
             role: &'a MessageObjectRole,
             #[serde(rename = "content")]
-            content: &'a Vec<MessageContent>,
+            content: &'a Vec<MessageObjectContent>,
             #[serde(rename = "assistant_id")]
             #[serde(skip_serializing_if = "Option::is_none")]
             assistant_id: &'a Option<String>,
@@ -40233,7 +42453,7 @@ pub struct MessageObject {
     #[doc = "The entity that produced the message. One of `user` or `assistant`."]
     pub role: MessageObjectRole,
     #[doc = "The content of the message in array of text and/or images."]
-    pub content: Vec<MessageContent>,
+    pub content: Vec<MessageObjectContent>,
     #[doc = "If applicable, the ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) that authored this message."]
     #[builder(default)]
     pub assistant_id: Option<String>,
@@ -41021,6 +43241,114 @@ impl serde::Serialize for ModelIdsResponsesO3Pro2025_06_10 {
 #[doc = "o3-pro-2025-06-10"]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ModelIdsResponsesO3Pro2025_06_10;
+impl<'de> serde::Deserialize<'de> for ModelIdsResponsesO3DeepResearch {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "o3-deep-research" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"o3-deep-research",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsResponsesO3DeepResearch {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "o3-deep-research".serialize(serializer)
+    }
+}
+#[doc = "o3-deep-research"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsResponsesO3DeepResearch;
+impl<'de> serde::Deserialize<'de> for ModelIdsResponsesO3DeepResearch2025_06_26 {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "o3-deep-research-2025-06-26" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"o3-deep-research-2025-06-26",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsResponsesO3DeepResearch2025_06_26 {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "o3-deep-research-2025-06-26".serialize(serializer)
+    }
+}
+#[doc = "o3-deep-research-2025-06-26"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsResponsesO3DeepResearch2025_06_26;
+impl<'de> serde::Deserialize<'de> for ModelIdsResponsesO4MiniDeepResearch {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "o4-mini-deep-research" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"o4-mini-deep-research",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsResponsesO4MiniDeepResearch {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "o4-mini-deep-research".serialize(serializer)
+    }
+}
+#[doc = "o4-mini-deep-research"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsResponsesO4MiniDeepResearch;
+impl<'de> serde::Deserialize<'de> for ModelIdsResponsesO4MiniDeepResearch2025_06_26 {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "o4-mini-deep-research-2025-06-26" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"o4-mini-deep-research-2025-06-26",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsResponsesO4MiniDeepResearch2025_06_26 {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "o4-mini-deep-research-2025-06-26".serialize(serializer)
+    }
+}
+#[doc = "o4-mini-deep-research-2025-06-26"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsResponsesO4MiniDeepResearch2025_06_26;
 impl<'de> serde::Deserialize<'de> for ModelIdsResponsesComputerUsePreview {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -41089,6 +43417,12 @@ impl<'de> serde::Deserialize<'de> for ModelIdsResponses {
             O1Pro2025_03_19(#[allow(dead_code)] ModelIdsResponsesO1Pro2025_03_19),
             O3Pro(#[allow(dead_code)] ModelIdsResponsesO3Pro),
             O3Pro2025_06_10(#[allow(dead_code)] ModelIdsResponsesO3Pro2025_06_10),
+            O3DeepResearch(#[allow(dead_code)] ModelIdsResponsesO3DeepResearch),
+            O3DeepResearch2025_06_26(#[allow(dead_code)] ModelIdsResponsesO3DeepResearch2025_06_26),
+            O4MiniDeepResearch(#[allow(dead_code)] ModelIdsResponsesO4MiniDeepResearch),
+            O4MiniDeepResearch2025_06_26(
+                #[allow(dead_code)] ModelIdsResponsesO4MiniDeepResearch2025_06_26,
+            ),
             ComputerUsePreview(#[allow(dead_code)] ModelIdsResponsesComputerUsePreview),
             ComputerUsePreview2025_03_11(
                 #[allow(dead_code)] ModelIdsResponsesComputerUsePreview2025_03_11,
@@ -41101,6 +43435,12 @@ impl<'de> serde::Deserialize<'de> for ModelIdsResponses {
             ModelIdsResponses::O1Pro2025_03_19(_) => Self::O1Pro2025_03_19,
             ModelIdsResponses::O3Pro(_) => Self::O3Pro,
             ModelIdsResponses::O3Pro2025_06_10(_) => Self::O3Pro2025_06_10,
+            ModelIdsResponses::O3DeepResearch(_) => Self::O3DeepResearch,
+            ModelIdsResponses::O3DeepResearch2025_06_26(_) => Self::O3DeepResearch2025_06_26,
+            ModelIdsResponses::O4MiniDeepResearch(_) => Self::O4MiniDeepResearch,
+            ModelIdsResponses::O4MiniDeepResearch2025_06_26(_) => {
+                Self::O4MiniDeepResearch2025_06_26
+            }
             ModelIdsResponses::ComputerUsePreview(_) => Self::ComputerUsePreview,
             ModelIdsResponses::ComputerUsePreview2025_03_11(_) => {
                 Self::ComputerUsePreview2025_03_11
@@ -41123,6 +43463,14 @@ impl serde::Serialize for ModelIdsResponses {
             O1Pro2025_03_19(#[allow(dead_code)] &'a ModelIdsResponsesO1Pro2025_03_19),
             O3Pro(#[allow(dead_code)] &'a ModelIdsResponsesO3Pro),
             O3Pro2025_06_10(#[allow(dead_code)] &'a ModelIdsResponsesO3Pro2025_06_10),
+            O3DeepResearch(#[allow(dead_code)] &'a ModelIdsResponsesO3DeepResearch),
+            O3DeepResearch2025_06_26(
+                #[allow(dead_code)] &'a ModelIdsResponsesO3DeepResearch2025_06_26,
+            ),
+            O4MiniDeepResearch(#[allow(dead_code)] &'a ModelIdsResponsesO4MiniDeepResearch),
+            O4MiniDeepResearch2025_06_26(
+                #[allow(dead_code)] &'a ModelIdsResponsesO4MiniDeepResearch2025_06_26,
+            ),
             ComputerUsePreview(#[allow(dead_code)] &'a ModelIdsResponsesComputerUsePreview),
             ComputerUsePreview2025_03_11(
                 #[allow(dead_code)] &'a ModelIdsResponsesComputerUsePreview2025_03_11,
@@ -41137,6 +43485,20 @@ impl serde::Serialize for ModelIdsResponses {
             Self::O3Pro => ModelIdsResponses::O3Pro(&Default::default()).serialize(serializer),
             Self::O3Pro2025_06_10 => {
                 ModelIdsResponses::O3Pro2025_06_10(&Default::default()).serialize(serializer)
+            }
+            Self::O3DeepResearch => {
+                ModelIdsResponses::O3DeepResearch(&Default::default()).serialize(serializer)
+            }
+            Self::O3DeepResearch2025_06_26 => {
+                ModelIdsResponses::O3DeepResearch2025_06_26(&Default::default())
+                    .serialize(serializer)
+            }
+            Self::O4MiniDeepResearch => {
+                ModelIdsResponses::O4MiniDeepResearch(&Default::default()).serialize(serializer)
+            }
+            Self::O4MiniDeepResearch2025_06_26 => {
+                ModelIdsResponses::O4MiniDeepResearch2025_06_26(&Default::default())
+                    .serialize(serializer)
             }
             Self::ComputerUsePreview => {
                 ModelIdsResponses::ComputerUsePreview(&Default::default()).serialize(serializer)
@@ -41160,11 +43522,1504 @@ pub enum ModelIdsResponses {
     O3Pro,
     #[doc = "o3-pro-2025-06-10"]
     O3Pro2025_06_10,
+    #[doc = "o3-deep-research"]
+    O3DeepResearch,
+    #[doc = "o3-deep-research-2025-06-26"]
+    O3DeepResearch2025_06_26,
+    #[doc = "o4-mini-deep-research"]
+    O4MiniDeepResearch,
+    #[doc = "o4-mini-deep-research-2025-06-26"]
+    O4MiniDeepResearch2025_06_26,
     #[doc = "computer-use-preview"]
     ComputerUsePreview,
     #[doc = "computer-use-preview-2025-03-11"]
     ComputerUsePreview2025_03_11,
 }
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt4_1 {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-4.1" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-4.1",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt4_1 {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-4.1".serialize(serializer)
+    }
+}
+#[doc = "gpt-4.1"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt4_1;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt4_1Mini {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-4.1-mini" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-4.1-mini",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt4_1Mini {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-4.1-mini".serialize(serializer)
+    }
+}
+#[doc = "gpt-4.1-mini"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt4_1Mini;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt4_1Nano {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-4.1-nano" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-4.1-nano",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt4_1Nano {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-4.1-nano".serialize(serializer)
+    }
+}
+#[doc = "gpt-4.1-nano"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt4_1Nano;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt4_1_2025_04_14 {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-4.1-2025-04-14" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-4.1-2025-04-14",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt4_1_2025_04_14 {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-4.1-2025-04-14".serialize(serializer)
+    }
+}
+#[doc = "gpt-4.1-2025-04-14"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt4_1_2025_04_14;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt4_1Mini2025_04_14 {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-4.1-mini-2025-04-14" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-4.1-mini-2025-04-14",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt4_1Mini2025_04_14 {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-4.1-mini-2025-04-14".serialize(serializer)
+    }
+}
+#[doc = "gpt-4.1-mini-2025-04-14"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt4_1Mini2025_04_14;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt4_1Nano2025_04_14 {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-4.1-nano-2025-04-14" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-4.1-nano-2025-04-14",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt4_1Nano2025_04_14 {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-4.1-nano-2025-04-14".serialize(serializer)
+    }
+}
+#[doc = "gpt-4.1-nano-2025-04-14"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt4_1Nano2025_04_14;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedO4Mini {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "o4-mini" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"o4-mini",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedO4Mini {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "o4-mini".serialize(serializer)
+    }
+}
+#[doc = "o4-mini"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedO4Mini;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedO4Mini2025_04_16 {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "o4-mini-2025-04-16" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"o4-mini-2025-04-16",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedO4Mini2025_04_16 {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "o4-mini-2025-04-16".serialize(serializer)
+    }
+}
+#[doc = "o4-mini-2025-04-16"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedO4Mini2025_04_16;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedO3 {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "o3" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"o3",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedO3 {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "o3".serialize(serializer)
+    }
+}
+#[doc = "o3"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedO3;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedO3_2025_04_16 {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "o3-2025-04-16" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"o3-2025-04-16",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedO3_2025_04_16 {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "o3-2025-04-16".serialize(serializer)
+    }
+}
+#[doc = "o3-2025-04-16"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedO3_2025_04_16;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedO3Mini {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "o3-mini" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"o3-mini",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedO3Mini {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "o3-mini".serialize(serializer)
+    }
+}
+#[doc = "o3-mini"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedO3Mini;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedO3Mini2025_01_31 {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "o3-mini-2025-01-31" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"o3-mini-2025-01-31",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedO3Mini2025_01_31 {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "o3-mini-2025-01-31".serialize(serializer)
+    }
+}
+#[doc = "o3-mini-2025-01-31"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedO3Mini2025_01_31;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedO1 {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "o1" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"o1",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedO1 {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "o1".serialize(serializer)
+    }
+}
+#[doc = "o1"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedO1;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedO1_2024_12_17 {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "o1-2024-12-17" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"o1-2024-12-17",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedO1_2024_12_17 {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "o1-2024-12-17".serialize(serializer)
+    }
+}
+#[doc = "o1-2024-12-17"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedO1_2024_12_17;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedO1Preview {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "o1-preview" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"o1-preview",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedO1Preview {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "o1-preview".serialize(serializer)
+    }
+}
+#[doc = "o1-preview"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedO1Preview;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedO1Preview2024_09_12 {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "o1-preview-2024-09-12" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"o1-preview-2024-09-12",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedO1Preview2024_09_12 {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "o1-preview-2024-09-12".serialize(serializer)
+    }
+}
+#[doc = "o1-preview-2024-09-12"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedO1Preview2024_09_12;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedO1Mini {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "o1-mini" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"o1-mini",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedO1Mini {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "o1-mini".serialize(serializer)
+    }
+}
+#[doc = "o1-mini"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedO1Mini;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedO1Mini2024_09_12 {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "o1-mini-2024-09-12" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"o1-mini-2024-09-12",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedO1Mini2024_09_12 {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "o1-mini-2024-09-12".serialize(serializer)
+    }
+}
+#[doc = "o1-mini-2024-09-12"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedO1Mini2024_09_12;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt4o {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-4o" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-4o",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt4o {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-4o".serialize(serializer)
+    }
+}
+#[doc = "gpt-4o"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt4o;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt4o2024_11_20 {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-4o-2024-11-20" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-4o-2024-11-20",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt4o2024_11_20 {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-4o-2024-11-20".serialize(serializer)
+    }
+}
+#[doc = "gpt-4o-2024-11-20"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt4o2024_11_20;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt4o2024_08_06 {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-4o-2024-08-06" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-4o-2024-08-06",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt4o2024_08_06 {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-4o-2024-08-06".serialize(serializer)
+    }
+}
+#[doc = "gpt-4o-2024-08-06"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt4o2024_08_06;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt4o2024_05_13 {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-4o-2024-05-13" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-4o-2024-05-13",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt4o2024_05_13 {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-4o-2024-05-13".serialize(serializer)
+    }
+}
+#[doc = "gpt-4o-2024-05-13"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt4o2024_05_13;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt4oAudioPreview {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-4o-audio-preview" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-4o-audio-preview",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt4oAudioPreview {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-4o-audio-preview".serialize(serializer)
+    }
+}
+#[doc = "gpt-4o-audio-preview"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt4oAudioPreview;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt4oAudioPreview2024_10_01 {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-4o-audio-preview-2024-10-01" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-4o-audio-preview-2024-10-01",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt4oAudioPreview2024_10_01 {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-4o-audio-preview-2024-10-01".serialize(serializer)
+    }
+}
+#[doc = "gpt-4o-audio-preview-2024-10-01"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt4oAudioPreview2024_10_01;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt4oAudioPreview2024_12_17 {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-4o-audio-preview-2024-12-17" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-4o-audio-preview-2024-12-17",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt4oAudioPreview2024_12_17 {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-4o-audio-preview-2024-12-17".serialize(serializer)
+    }
+}
+#[doc = "gpt-4o-audio-preview-2024-12-17"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt4oAudioPreview2024_12_17;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt4oAudioPreview2025_06_03 {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-4o-audio-preview-2025-06-03" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-4o-audio-preview-2025-06-03",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt4oAudioPreview2025_06_03 {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-4o-audio-preview-2025-06-03".serialize(serializer)
+    }
+}
+#[doc = "gpt-4o-audio-preview-2025-06-03"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt4oAudioPreview2025_06_03;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt4oMiniAudioPreview {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-4o-mini-audio-preview" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-4o-mini-audio-preview",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt4oMiniAudioPreview {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-4o-mini-audio-preview".serialize(serializer)
+    }
+}
+#[doc = "gpt-4o-mini-audio-preview"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt4oMiniAudioPreview;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt4oMiniAudioPreview2024_12_17 {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-4o-mini-audio-preview-2024-12-17" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-4o-mini-audio-preview-2024-12-17",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt4oMiniAudioPreview2024_12_17 {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-4o-mini-audio-preview-2024-12-17".serialize(serializer)
+    }
+}
+#[doc = "gpt-4o-mini-audio-preview-2024-12-17"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt4oMiniAudioPreview2024_12_17;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt4oSearchPreview {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-4o-search-preview" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-4o-search-preview",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt4oSearchPreview {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-4o-search-preview".serialize(serializer)
+    }
+}
+#[doc = "gpt-4o-search-preview"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt4oSearchPreview;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt4oMiniSearchPreview {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-4o-mini-search-preview" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-4o-mini-search-preview",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt4oMiniSearchPreview {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-4o-mini-search-preview".serialize(serializer)
+    }
+}
+#[doc = "gpt-4o-mini-search-preview"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt4oMiniSearchPreview;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt4oSearchPreview2025_03_11 {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-4o-search-preview-2025-03-11" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-4o-search-preview-2025-03-11",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt4oSearchPreview2025_03_11 {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-4o-search-preview-2025-03-11".serialize(serializer)
+    }
+}
+#[doc = "gpt-4o-search-preview-2025-03-11"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt4oSearchPreview2025_03_11;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt4oMiniSearchPreview2025_03_11 {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-4o-mini-search-preview-2025-03-11" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-4o-mini-search-preview-2025-03-11",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt4oMiniSearchPreview2025_03_11 {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-4o-mini-search-preview-2025-03-11".serialize(serializer)
+    }
+}
+#[doc = "gpt-4o-mini-search-preview-2025-03-11"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt4oMiniSearchPreview2025_03_11;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedChatgpt4oLatest {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "chatgpt-4o-latest" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"chatgpt-4o-latest",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedChatgpt4oLatest {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "chatgpt-4o-latest".serialize(serializer)
+    }
+}
+#[doc = "chatgpt-4o-latest"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedChatgpt4oLatest;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedCodexMiniLatest {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "codex-mini-latest" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"codex-mini-latest",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedCodexMiniLatest {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "codex-mini-latest".serialize(serializer)
+    }
+}
+#[doc = "codex-mini-latest"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedCodexMiniLatest;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt4oMini {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-4o-mini" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-4o-mini",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt4oMini {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-4o-mini".serialize(serializer)
+    }
+}
+#[doc = "gpt-4o-mini"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt4oMini;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt4oMini2024_07_18 {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-4o-mini-2024-07-18" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-4o-mini-2024-07-18",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt4oMini2024_07_18 {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-4o-mini-2024-07-18".serialize(serializer)
+    }
+}
+#[doc = "gpt-4o-mini-2024-07-18"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt4oMini2024_07_18;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt4Turbo {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-4-turbo" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-4-turbo",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt4Turbo {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-4-turbo".serialize(serializer)
+    }
+}
+#[doc = "gpt-4-turbo"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt4Turbo;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt4Turbo2024_04_09 {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-4-turbo-2024-04-09" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-4-turbo-2024-04-09",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt4Turbo2024_04_09 {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-4-turbo-2024-04-09".serialize(serializer)
+    }
+}
+#[doc = "gpt-4-turbo-2024-04-09"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt4Turbo2024_04_09;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt4_0125Preview {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-4-0125-preview" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-4-0125-preview",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt4_0125Preview {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-4-0125-preview".serialize(serializer)
+    }
+}
+#[doc = "gpt-4-0125-preview"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt4_0125Preview;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt4TurboPreview {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-4-turbo-preview" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-4-turbo-preview",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt4TurboPreview {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-4-turbo-preview".serialize(serializer)
+    }
+}
+#[doc = "gpt-4-turbo-preview"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt4TurboPreview;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt4_1106Preview {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-4-1106-preview" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-4-1106-preview",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt4_1106Preview {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-4-1106-preview".serialize(serializer)
+    }
+}
+#[doc = "gpt-4-1106-preview"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt4_1106Preview;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt4VisionPreview {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-4-vision-preview" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-4-vision-preview",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt4VisionPreview {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-4-vision-preview".serialize(serializer)
+    }
+}
+#[doc = "gpt-4-vision-preview"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt4VisionPreview;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt4 {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-4" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-4",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt4 {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-4".serialize(serializer)
+    }
+}
+#[doc = "gpt-4"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt4;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt4_0314 {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-4-0314" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-4-0314",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt4_0314 {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-4-0314".serialize(serializer)
+    }
+}
+#[doc = "gpt-4-0314"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt4_0314;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt4_0613 {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-4-0613" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-4-0613",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt4_0613 {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-4-0613".serialize(serializer)
+    }
+}
+#[doc = "gpt-4-0613"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt4_0613;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt4_32k {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-4-32k" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-4-32k",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt4_32k {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-4-32k".serialize(serializer)
+    }
+}
+#[doc = "gpt-4-32k"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt4_32k;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt4_32k0314 {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-4-32k-0314" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-4-32k-0314",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt4_32k0314 {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-4-32k-0314".serialize(serializer)
+    }
+}
+#[doc = "gpt-4-32k-0314"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt4_32k0314;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt4_32k0613 {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-4-32k-0613" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-4-32k-0613",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt4_32k0613 {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-4-32k-0613".serialize(serializer)
+    }
+}
+#[doc = "gpt-4-32k-0613"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt4_32k0613;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt3_5Turbo {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-3.5-turbo" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-3.5-turbo",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt3_5Turbo {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-3.5-turbo".serialize(serializer)
+    }
+}
+#[doc = "gpt-3.5-turbo"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt3_5Turbo;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt3_5Turbo16k {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-3.5-turbo-16k" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-3.5-turbo-16k",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt3_5Turbo16k {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-3.5-turbo-16k".serialize(serializer)
+    }
+}
+#[doc = "gpt-3.5-turbo-16k"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt3_5Turbo16k;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt3_5Turbo0301 {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-3.5-turbo-0301" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-3.5-turbo-0301",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt3_5Turbo0301 {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-3.5-turbo-0301".serialize(serializer)
+    }
+}
+#[doc = "gpt-3.5-turbo-0301"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt3_5Turbo0301;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt3_5Turbo0613 {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-3.5-turbo-0613" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-3.5-turbo-0613",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt3_5Turbo0613 {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-3.5-turbo-0613".serialize(serializer)
+    }
+}
+#[doc = "gpt-3.5-turbo-0613"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt3_5Turbo0613;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt3_5Turbo1106 {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-3.5-turbo-1106" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-3.5-turbo-1106",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt3_5Turbo1106 {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-3.5-turbo-1106".serialize(serializer)
+    }
+}
+#[doc = "gpt-3.5-turbo-1106"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt3_5Turbo1106;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt3_5Turbo0125 {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-3.5-turbo-0125" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-3.5-turbo-0125",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt3_5Turbo0125 {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-3.5-turbo-0125".serialize(serializer)
+    }
+}
+#[doc = "gpt-3.5-turbo-0125"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt3_5Turbo0125;
+impl<'de> serde::Deserialize<'de> for ModelIdsSharedGpt3_5Turbo16k0613 {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "gpt-3.5-turbo-16k-0613" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"gpt-3.5-turbo-16k-0613",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ModelIdsSharedGpt3_5Turbo16k0613 {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "gpt-3.5-turbo-16k-0613".serialize(serializer)
+    }
+}
+#[doc = "gpt-3.5-turbo-16k-0613"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModelIdsSharedGpt3_5Turbo16k0613;
 impl<'de> serde::Deserialize<'de> for ModelIdsShared {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -41175,12 +45030,136 @@ impl<'de> serde::Deserialize<'de> for ModelIdsShared {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum ModelIdsShared {
-            ChatModel(#[allow(dead_code)] ChatModel),
+            Gpt4_1(#[allow(dead_code)] ModelIdsSharedGpt4_1),
+            Gpt4_1Mini(#[allow(dead_code)] ModelIdsSharedGpt4_1Mini),
+            Gpt4_1Nano(#[allow(dead_code)] ModelIdsSharedGpt4_1Nano),
+            Gpt4_1_2025_04_14(#[allow(dead_code)] ModelIdsSharedGpt4_1_2025_04_14),
+            Gpt4_1Mini2025_04_14(#[allow(dead_code)] ModelIdsSharedGpt4_1Mini2025_04_14),
+            Gpt4_1Nano2025_04_14(#[allow(dead_code)] ModelIdsSharedGpt4_1Nano2025_04_14),
+            O4Mini(#[allow(dead_code)] ModelIdsSharedO4Mini),
+            O4Mini2025_04_16(#[allow(dead_code)] ModelIdsSharedO4Mini2025_04_16),
+            O3(#[allow(dead_code)] ModelIdsSharedO3),
+            O3_2025_04_16(#[allow(dead_code)] ModelIdsSharedO3_2025_04_16),
+            O3Mini(#[allow(dead_code)] ModelIdsSharedO3Mini),
+            O3Mini2025_01_31(#[allow(dead_code)] ModelIdsSharedO3Mini2025_01_31),
+            O1(#[allow(dead_code)] ModelIdsSharedO1),
+            O1_2024_12_17(#[allow(dead_code)] ModelIdsSharedO1_2024_12_17),
+            O1Preview(#[allow(dead_code)] ModelIdsSharedO1Preview),
+            O1Preview2024_09_12(#[allow(dead_code)] ModelIdsSharedO1Preview2024_09_12),
+            O1Mini(#[allow(dead_code)] ModelIdsSharedO1Mini),
+            O1Mini2024_09_12(#[allow(dead_code)] ModelIdsSharedO1Mini2024_09_12),
+            Gpt4o(#[allow(dead_code)] ModelIdsSharedGpt4o),
+            Gpt4o2024_11_20(#[allow(dead_code)] ModelIdsSharedGpt4o2024_11_20),
+            Gpt4o2024_08_06(#[allow(dead_code)] ModelIdsSharedGpt4o2024_08_06),
+            Gpt4o2024_05_13(#[allow(dead_code)] ModelIdsSharedGpt4o2024_05_13),
+            Gpt4oAudioPreview(#[allow(dead_code)] ModelIdsSharedGpt4oAudioPreview),
+            Gpt4oAudioPreview2024_10_01(
+                #[allow(dead_code)] ModelIdsSharedGpt4oAudioPreview2024_10_01,
+            ),
+            Gpt4oAudioPreview2024_12_17(
+                #[allow(dead_code)] ModelIdsSharedGpt4oAudioPreview2024_12_17,
+            ),
+            Gpt4oAudioPreview2025_06_03(
+                #[allow(dead_code)] ModelIdsSharedGpt4oAudioPreview2025_06_03,
+            ),
+            Gpt4oMiniAudioPreview(#[allow(dead_code)] ModelIdsSharedGpt4oMiniAudioPreview),
+            Gpt4oMiniAudioPreview2024_12_17(
+                #[allow(dead_code)] ModelIdsSharedGpt4oMiniAudioPreview2024_12_17,
+            ),
+            Gpt4oSearchPreview(#[allow(dead_code)] ModelIdsSharedGpt4oSearchPreview),
+            Gpt4oMiniSearchPreview(#[allow(dead_code)] ModelIdsSharedGpt4oMiniSearchPreview),
+            Gpt4oSearchPreview2025_03_11(
+                #[allow(dead_code)] ModelIdsSharedGpt4oSearchPreview2025_03_11,
+            ),
+            Gpt4oMiniSearchPreview2025_03_11(
+                #[allow(dead_code)] ModelIdsSharedGpt4oMiniSearchPreview2025_03_11,
+            ),
+            Chatgpt4oLatest(#[allow(dead_code)] ModelIdsSharedChatgpt4oLatest),
+            CodexMiniLatest(#[allow(dead_code)] ModelIdsSharedCodexMiniLatest),
+            Gpt4oMini(#[allow(dead_code)] ModelIdsSharedGpt4oMini),
+            Gpt4oMini2024_07_18(#[allow(dead_code)] ModelIdsSharedGpt4oMini2024_07_18),
+            Gpt4Turbo(#[allow(dead_code)] ModelIdsSharedGpt4Turbo),
+            Gpt4Turbo2024_04_09(#[allow(dead_code)] ModelIdsSharedGpt4Turbo2024_04_09),
+            Gpt4_0125Preview(#[allow(dead_code)] ModelIdsSharedGpt4_0125Preview),
+            Gpt4TurboPreview(#[allow(dead_code)] ModelIdsSharedGpt4TurboPreview),
+            Gpt4_1106Preview(#[allow(dead_code)] ModelIdsSharedGpt4_1106Preview),
+            Gpt4VisionPreview(#[allow(dead_code)] ModelIdsSharedGpt4VisionPreview),
+            Gpt4(#[allow(dead_code)] ModelIdsSharedGpt4),
+            Gpt4_0314(#[allow(dead_code)] ModelIdsSharedGpt4_0314),
+            Gpt4_0613(#[allow(dead_code)] ModelIdsSharedGpt4_0613),
+            Gpt4_32k(#[allow(dead_code)] ModelIdsSharedGpt4_32k),
+            Gpt4_32k0314(#[allow(dead_code)] ModelIdsSharedGpt4_32k0314),
+            Gpt4_32k0613(#[allow(dead_code)] ModelIdsSharedGpt4_32k0613),
+            Gpt3_5Turbo(#[allow(dead_code)] ModelIdsSharedGpt3_5Turbo),
+            Gpt3_5Turbo16k(#[allow(dead_code)] ModelIdsSharedGpt3_5Turbo16k),
+            Gpt3_5Turbo0301(#[allow(dead_code)] ModelIdsSharedGpt3_5Turbo0301),
+            Gpt3_5Turbo0613(#[allow(dead_code)] ModelIdsSharedGpt3_5Turbo0613),
+            Gpt3_5Turbo1106(#[allow(dead_code)] ModelIdsSharedGpt3_5Turbo1106),
+            Gpt3_5Turbo0125(#[allow(dead_code)] ModelIdsSharedGpt3_5Turbo0125),
+            Gpt3_5Turbo16k0613(#[allow(dead_code)] ModelIdsSharedGpt3_5Turbo16k0613),
             Other(#[allow(dead_code)] String),
         }
         Ok(match ModelIdsShared::deserialize(deserializer)? {
             ModelIdsShared::Other(v) => Self::Other(v),
-            ModelIdsShared::ChatModel(v) => Self::ChatModel(v),
+            ModelIdsShared::Gpt4_1(_) => Self::Gpt4_1,
+            ModelIdsShared::Gpt4_1Mini(_) => Self::Gpt4_1Mini,
+            ModelIdsShared::Gpt4_1Nano(_) => Self::Gpt4_1Nano,
+            ModelIdsShared::Gpt4_1_2025_04_14(_) => Self::Gpt4_1_2025_04_14,
+            ModelIdsShared::Gpt4_1Mini2025_04_14(_) => Self::Gpt4_1Mini2025_04_14,
+            ModelIdsShared::Gpt4_1Nano2025_04_14(_) => Self::Gpt4_1Nano2025_04_14,
+            ModelIdsShared::O4Mini(_) => Self::O4Mini,
+            ModelIdsShared::O4Mini2025_04_16(_) => Self::O4Mini2025_04_16,
+            ModelIdsShared::O3(_) => Self::O3,
+            ModelIdsShared::O3_2025_04_16(_) => Self::O3_2025_04_16,
+            ModelIdsShared::O3Mini(_) => Self::O3Mini,
+            ModelIdsShared::O3Mini2025_01_31(_) => Self::O3Mini2025_01_31,
+            ModelIdsShared::O1(_) => Self::O1,
+            ModelIdsShared::O1_2024_12_17(_) => Self::O1_2024_12_17,
+            ModelIdsShared::O1Preview(_) => Self::O1Preview,
+            ModelIdsShared::O1Preview2024_09_12(_) => Self::O1Preview2024_09_12,
+            ModelIdsShared::O1Mini(_) => Self::O1Mini,
+            ModelIdsShared::O1Mini2024_09_12(_) => Self::O1Mini2024_09_12,
+            ModelIdsShared::Gpt4o(_) => Self::Gpt4o,
+            ModelIdsShared::Gpt4o2024_11_20(_) => Self::Gpt4o2024_11_20,
+            ModelIdsShared::Gpt4o2024_08_06(_) => Self::Gpt4o2024_08_06,
+            ModelIdsShared::Gpt4o2024_05_13(_) => Self::Gpt4o2024_05_13,
+            ModelIdsShared::Gpt4oAudioPreview(_) => Self::Gpt4oAudioPreview,
+            ModelIdsShared::Gpt4oAudioPreview2024_10_01(_) => Self::Gpt4oAudioPreview2024_10_01,
+            ModelIdsShared::Gpt4oAudioPreview2024_12_17(_) => Self::Gpt4oAudioPreview2024_12_17,
+            ModelIdsShared::Gpt4oAudioPreview2025_06_03(_) => Self::Gpt4oAudioPreview2025_06_03,
+            ModelIdsShared::Gpt4oMiniAudioPreview(_) => Self::Gpt4oMiniAudioPreview,
+            ModelIdsShared::Gpt4oMiniAudioPreview2024_12_17(_) => {
+                Self::Gpt4oMiniAudioPreview2024_12_17
+            }
+            ModelIdsShared::Gpt4oSearchPreview(_) => Self::Gpt4oSearchPreview,
+            ModelIdsShared::Gpt4oMiniSearchPreview(_) => Self::Gpt4oMiniSearchPreview,
+            ModelIdsShared::Gpt4oSearchPreview2025_03_11(_) => Self::Gpt4oSearchPreview2025_03_11,
+            ModelIdsShared::Gpt4oMiniSearchPreview2025_03_11(_) => {
+                Self::Gpt4oMiniSearchPreview2025_03_11
+            }
+            ModelIdsShared::Chatgpt4oLatest(_) => Self::Chatgpt4oLatest,
+            ModelIdsShared::CodexMiniLatest(_) => Self::CodexMiniLatest,
+            ModelIdsShared::Gpt4oMini(_) => Self::Gpt4oMini,
+            ModelIdsShared::Gpt4oMini2024_07_18(_) => Self::Gpt4oMini2024_07_18,
+            ModelIdsShared::Gpt4Turbo(_) => Self::Gpt4Turbo,
+            ModelIdsShared::Gpt4Turbo2024_04_09(_) => Self::Gpt4Turbo2024_04_09,
+            ModelIdsShared::Gpt4_0125Preview(_) => Self::Gpt4_0125Preview,
+            ModelIdsShared::Gpt4TurboPreview(_) => Self::Gpt4TurboPreview,
+            ModelIdsShared::Gpt4_1106Preview(_) => Self::Gpt4_1106Preview,
+            ModelIdsShared::Gpt4VisionPreview(_) => Self::Gpt4VisionPreview,
+            ModelIdsShared::Gpt4(_) => Self::Gpt4,
+            ModelIdsShared::Gpt4_0314(_) => Self::Gpt4_0314,
+            ModelIdsShared::Gpt4_0613(_) => Self::Gpt4_0613,
+            ModelIdsShared::Gpt4_32k(_) => Self::Gpt4_32k,
+            ModelIdsShared::Gpt4_32k0314(_) => Self::Gpt4_32k0314,
+            ModelIdsShared::Gpt4_32k0613(_) => Self::Gpt4_32k0613,
+            ModelIdsShared::Gpt3_5Turbo(_) => Self::Gpt3_5Turbo,
+            ModelIdsShared::Gpt3_5Turbo16k(_) => Self::Gpt3_5Turbo16k,
+            ModelIdsShared::Gpt3_5Turbo0301(_) => Self::Gpt3_5Turbo0301,
+            ModelIdsShared::Gpt3_5Turbo0613(_) => Self::Gpt3_5Turbo0613,
+            ModelIdsShared::Gpt3_5Turbo1106(_) => Self::Gpt3_5Turbo1106,
+            ModelIdsShared::Gpt3_5Turbo0125(_) => Self::Gpt3_5Turbo0125,
+            ModelIdsShared::Gpt3_5Turbo16k0613(_) => Self::Gpt3_5Turbo16k0613,
         })
     }
 }
@@ -41195,11 +45174,219 @@ impl serde::Serialize for ModelIdsShared {
         #[allow(clippy::enum_variant_names)]
         enum ModelIdsShared<'a> {
             Other(#[allow(dead_code)] &'a String),
-            ChatModel(#[allow(dead_code)] &'a ChatModel),
+            Gpt4_1(#[allow(dead_code)] &'a ModelIdsSharedGpt4_1),
+            Gpt4_1Mini(#[allow(dead_code)] &'a ModelIdsSharedGpt4_1Mini),
+            Gpt4_1Nano(#[allow(dead_code)] &'a ModelIdsSharedGpt4_1Nano),
+            Gpt4_1_2025_04_14(#[allow(dead_code)] &'a ModelIdsSharedGpt4_1_2025_04_14),
+            Gpt4_1Mini2025_04_14(#[allow(dead_code)] &'a ModelIdsSharedGpt4_1Mini2025_04_14),
+            Gpt4_1Nano2025_04_14(#[allow(dead_code)] &'a ModelIdsSharedGpt4_1Nano2025_04_14),
+            O4Mini(#[allow(dead_code)] &'a ModelIdsSharedO4Mini),
+            O4Mini2025_04_16(#[allow(dead_code)] &'a ModelIdsSharedO4Mini2025_04_16),
+            O3(#[allow(dead_code)] &'a ModelIdsSharedO3),
+            O3_2025_04_16(#[allow(dead_code)] &'a ModelIdsSharedO3_2025_04_16),
+            O3Mini(#[allow(dead_code)] &'a ModelIdsSharedO3Mini),
+            O3Mini2025_01_31(#[allow(dead_code)] &'a ModelIdsSharedO3Mini2025_01_31),
+            O1(#[allow(dead_code)] &'a ModelIdsSharedO1),
+            O1_2024_12_17(#[allow(dead_code)] &'a ModelIdsSharedO1_2024_12_17),
+            O1Preview(#[allow(dead_code)] &'a ModelIdsSharedO1Preview),
+            O1Preview2024_09_12(#[allow(dead_code)] &'a ModelIdsSharedO1Preview2024_09_12),
+            O1Mini(#[allow(dead_code)] &'a ModelIdsSharedO1Mini),
+            O1Mini2024_09_12(#[allow(dead_code)] &'a ModelIdsSharedO1Mini2024_09_12),
+            Gpt4o(#[allow(dead_code)] &'a ModelIdsSharedGpt4o),
+            Gpt4o2024_11_20(#[allow(dead_code)] &'a ModelIdsSharedGpt4o2024_11_20),
+            Gpt4o2024_08_06(#[allow(dead_code)] &'a ModelIdsSharedGpt4o2024_08_06),
+            Gpt4o2024_05_13(#[allow(dead_code)] &'a ModelIdsSharedGpt4o2024_05_13),
+            Gpt4oAudioPreview(#[allow(dead_code)] &'a ModelIdsSharedGpt4oAudioPreview),
+            Gpt4oAudioPreview2024_10_01(
+                #[allow(dead_code)] &'a ModelIdsSharedGpt4oAudioPreview2024_10_01,
+            ),
+            Gpt4oAudioPreview2024_12_17(
+                #[allow(dead_code)] &'a ModelIdsSharedGpt4oAudioPreview2024_12_17,
+            ),
+            Gpt4oAudioPreview2025_06_03(
+                #[allow(dead_code)] &'a ModelIdsSharedGpt4oAudioPreview2025_06_03,
+            ),
+            Gpt4oMiniAudioPreview(#[allow(dead_code)] &'a ModelIdsSharedGpt4oMiniAudioPreview),
+            Gpt4oMiniAudioPreview2024_12_17(
+                #[allow(dead_code)] &'a ModelIdsSharedGpt4oMiniAudioPreview2024_12_17,
+            ),
+            Gpt4oSearchPreview(#[allow(dead_code)] &'a ModelIdsSharedGpt4oSearchPreview),
+            Gpt4oMiniSearchPreview(#[allow(dead_code)] &'a ModelIdsSharedGpt4oMiniSearchPreview),
+            Gpt4oSearchPreview2025_03_11(
+                #[allow(dead_code)] &'a ModelIdsSharedGpt4oSearchPreview2025_03_11,
+            ),
+            Gpt4oMiniSearchPreview2025_03_11(
+                #[allow(dead_code)] &'a ModelIdsSharedGpt4oMiniSearchPreview2025_03_11,
+            ),
+            Chatgpt4oLatest(#[allow(dead_code)] &'a ModelIdsSharedChatgpt4oLatest),
+            CodexMiniLatest(#[allow(dead_code)] &'a ModelIdsSharedCodexMiniLatest),
+            Gpt4oMini(#[allow(dead_code)] &'a ModelIdsSharedGpt4oMini),
+            Gpt4oMini2024_07_18(#[allow(dead_code)] &'a ModelIdsSharedGpt4oMini2024_07_18),
+            Gpt4Turbo(#[allow(dead_code)] &'a ModelIdsSharedGpt4Turbo),
+            Gpt4Turbo2024_04_09(#[allow(dead_code)] &'a ModelIdsSharedGpt4Turbo2024_04_09),
+            Gpt4_0125Preview(#[allow(dead_code)] &'a ModelIdsSharedGpt4_0125Preview),
+            Gpt4TurboPreview(#[allow(dead_code)] &'a ModelIdsSharedGpt4TurboPreview),
+            Gpt4_1106Preview(#[allow(dead_code)] &'a ModelIdsSharedGpt4_1106Preview),
+            Gpt4VisionPreview(#[allow(dead_code)] &'a ModelIdsSharedGpt4VisionPreview),
+            Gpt4(#[allow(dead_code)] &'a ModelIdsSharedGpt4),
+            Gpt4_0314(#[allow(dead_code)] &'a ModelIdsSharedGpt4_0314),
+            Gpt4_0613(#[allow(dead_code)] &'a ModelIdsSharedGpt4_0613),
+            Gpt4_32k(#[allow(dead_code)] &'a ModelIdsSharedGpt4_32k),
+            Gpt4_32k0314(#[allow(dead_code)] &'a ModelIdsSharedGpt4_32k0314),
+            Gpt4_32k0613(#[allow(dead_code)] &'a ModelIdsSharedGpt4_32k0613),
+            Gpt3_5Turbo(#[allow(dead_code)] &'a ModelIdsSharedGpt3_5Turbo),
+            Gpt3_5Turbo16k(#[allow(dead_code)] &'a ModelIdsSharedGpt3_5Turbo16k),
+            Gpt3_5Turbo0301(#[allow(dead_code)] &'a ModelIdsSharedGpt3_5Turbo0301),
+            Gpt3_5Turbo0613(#[allow(dead_code)] &'a ModelIdsSharedGpt3_5Turbo0613),
+            Gpt3_5Turbo1106(#[allow(dead_code)] &'a ModelIdsSharedGpt3_5Turbo1106),
+            Gpt3_5Turbo0125(#[allow(dead_code)] &'a ModelIdsSharedGpt3_5Turbo0125),
+            Gpt3_5Turbo16k0613(#[allow(dead_code)] &'a ModelIdsSharedGpt3_5Turbo16k0613),
         }
         match self {
             Self::Other(v) => ModelIdsShared::Other(v).serialize(serializer),
-            Self::ChatModel(v) => ModelIdsShared::ChatModel(v).serialize(serializer),
+            Self::Gpt4_1 => ModelIdsShared::Gpt4_1(&Default::default()).serialize(serializer),
+            Self::Gpt4_1Mini => {
+                ModelIdsShared::Gpt4_1Mini(&Default::default()).serialize(serializer)
+            }
+            Self::Gpt4_1Nano => {
+                ModelIdsShared::Gpt4_1Nano(&Default::default()).serialize(serializer)
+            }
+            Self::Gpt4_1_2025_04_14 => {
+                ModelIdsShared::Gpt4_1_2025_04_14(&Default::default()).serialize(serializer)
+            }
+            Self::Gpt4_1Mini2025_04_14 => {
+                ModelIdsShared::Gpt4_1Mini2025_04_14(&Default::default()).serialize(serializer)
+            }
+            Self::Gpt4_1Nano2025_04_14 => {
+                ModelIdsShared::Gpt4_1Nano2025_04_14(&Default::default()).serialize(serializer)
+            }
+            Self::O4Mini => ModelIdsShared::O4Mini(&Default::default()).serialize(serializer),
+            Self::O4Mini2025_04_16 => {
+                ModelIdsShared::O4Mini2025_04_16(&Default::default()).serialize(serializer)
+            }
+            Self::O3 => ModelIdsShared::O3(&Default::default()).serialize(serializer),
+            Self::O3_2025_04_16 => {
+                ModelIdsShared::O3_2025_04_16(&Default::default()).serialize(serializer)
+            }
+            Self::O3Mini => ModelIdsShared::O3Mini(&Default::default()).serialize(serializer),
+            Self::O3Mini2025_01_31 => {
+                ModelIdsShared::O3Mini2025_01_31(&Default::default()).serialize(serializer)
+            }
+            Self::O1 => ModelIdsShared::O1(&Default::default()).serialize(serializer),
+            Self::O1_2024_12_17 => {
+                ModelIdsShared::O1_2024_12_17(&Default::default()).serialize(serializer)
+            }
+            Self::O1Preview => ModelIdsShared::O1Preview(&Default::default()).serialize(serializer),
+            Self::O1Preview2024_09_12 => {
+                ModelIdsShared::O1Preview2024_09_12(&Default::default()).serialize(serializer)
+            }
+            Self::O1Mini => ModelIdsShared::O1Mini(&Default::default()).serialize(serializer),
+            Self::O1Mini2024_09_12 => {
+                ModelIdsShared::O1Mini2024_09_12(&Default::default()).serialize(serializer)
+            }
+            Self::Gpt4o => ModelIdsShared::Gpt4o(&Default::default()).serialize(serializer),
+            Self::Gpt4o2024_11_20 => {
+                ModelIdsShared::Gpt4o2024_11_20(&Default::default()).serialize(serializer)
+            }
+            Self::Gpt4o2024_08_06 => {
+                ModelIdsShared::Gpt4o2024_08_06(&Default::default()).serialize(serializer)
+            }
+            Self::Gpt4o2024_05_13 => {
+                ModelIdsShared::Gpt4o2024_05_13(&Default::default()).serialize(serializer)
+            }
+            Self::Gpt4oAudioPreview => {
+                ModelIdsShared::Gpt4oAudioPreview(&Default::default()).serialize(serializer)
+            }
+            Self::Gpt4oAudioPreview2024_10_01 => {
+                ModelIdsShared::Gpt4oAudioPreview2024_10_01(&Default::default())
+                    .serialize(serializer)
+            }
+            Self::Gpt4oAudioPreview2024_12_17 => {
+                ModelIdsShared::Gpt4oAudioPreview2024_12_17(&Default::default())
+                    .serialize(serializer)
+            }
+            Self::Gpt4oAudioPreview2025_06_03 => {
+                ModelIdsShared::Gpt4oAudioPreview2025_06_03(&Default::default())
+                    .serialize(serializer)
+            }
+            Self::Gpt4oMiniAudioPreview => {
+                ModelIdsShared::Gpt4oMiniAudioPreview(&Default::default()).serialize(serializer)
+            }
+            Self::Gpt4oMiniAudioPreview2024_12_17 => {
+                ModelIdsShared::Gpt4oMiniAudioPreview2024_12_17(&Default::default())
+                    .serialize(serializer)
+            }
+            Self::Gpt4oSearchPreview => {
+                ModelIdsShared::Gpt4oSearchPreview(&Default::default()).serialize(serializer)
+            }
+            Self::Gpt4oMiniSearchPreview => {
+                ModelIdsShared::Gpt4oMiniSearchPreview(&Default::default()).serialize(serializer)
+            }
+            Self::Gpt4oSearchPreview2025_03_11 => {
+                ModelIdsShared::Gpt4oSearchPreview2025_03_11(&Default::default())
+                    .serialize(serializer)
+            }
+            Self::Gpt4oMiniSearchPreview2025_03_11 => {
+                ModelIdsShared::Gpt4oMiniSearchPreview2025_03_11(&Default::default())
+                    .serialize(serializer)
+            }
+            Self::Chatgpt4oLatest => {
+                ModelIdsShared::Chatgpt4oLatest(&Default::default()).serialize(serializer)
+            }
+            Self::CodexMiniLatest => {
+                ModelIdsShared::CodexMiniLatest(&Default::default()).serialize(serializer)
+            }
+            Self::Gpt4oMini => ModelIdsShared::Gpt4oMini(&Default::default()).serialize(serializer),
+            Self::Gpt4oMini2024_07_18 => {
+                ModelIdsShared::Gpt4oMini2024_07_18(&Default::default()).serialize(serializer)
+            }
+            Self::Gpt4Turbo => ModelIdsShared::Gpt4Turbo(&Default::default()).serialize(serializer),
+            Self::Gpt4Turbo2024_04_09 => {
+                ModelIdsShared::Gpt4Turbo2024_04_09(&Default::default()).serialize(serializer)
+            }
+            Self::Gpt4_0125Preview => {
+                ModelIdsShared::Gpt4_0125Preview(&Default::default()).serialize(serializer)
+            }
+            Self::Gpt4TurboPreview => {
+                ModelIdsShared::Gpt4TurboPreview(&Default::default()).serialize(serializer)
+            }
+            Self::Gpt4_1106Preview => {
+                ModelIdsShared::Gpt4_1106Preview(&Default::default()).serialize(serializer)
+            }
+            Self::Gpt4VisionPreview => {
+                ModelIdsShared::Gpt4VisionPreview(&Default::default()).serialize(serializer)
+            }
+            Self::Gpt4 => ModelIdsShared::Gpt4(&Default::default()).serialize(serializer),
+            Self::Gpt4_0314 => ModelIdsShared::Gpt4_0314(&Default::default()).serialize(serializer),
+            Self::Gpt4_0613 => ModelIdsShared::Gpt4_0613(&Default::default()).serialize(serializer),
+            Self::Gpt4_32k => ModelIdsShared::Gpt4_32k(&Default::default()).serialize(serializer),
+            Self::Gpt4_32k0314 => {
+                ModelIdsShared::Gpt4_32k0314(&Default::default()).serialize(serializer)
+            }
+            Self::Gpt4_32k0613 => {
+                ModelIdsShared::Gpt4_32k0613(&Default::default()).serialize(serializer)
+            }
+            Self::Gpt3_5Turbo => {
+                ModelIdsShared::Gpt3_5Turbo(&Default::default()).serialize(serializer)
+            }
+            Self::Gpt3_5Turbo16k => {
+                ModelIdsShared::Gpt3_5Turbo16k(&Default::default()).serialize(serializer)
+            }
+            Self::Gpt3_5Turbo0301 => {
+                ModelIdsShared::Gpt3_5Turbo0301(&Default::default()).serialize(serializer)
+            }
+            Self::Gpt3_5Turbo0613 => {
+                ModelIdsShared::Gpt3_5Turbo0613(&Default::default()).serialize(serializer)
+            }
+            Self::Gpt3_5Turbo1106 => {
+                ModelIdsShared::Gpt3_5Turbo1106(&Default::default()).serialize(serializer)
+            }
+            Self::Gpt3_5Turbo0125 => {
+                ModelIdsShared::Gpt3_5Turbo0125(&Default::default()).serialize(serializer)
+            }
+            Self::Gpt3_5Turbo16k0613 => {
+                ModelIdsShared::Gpt3_5Turbo16k0613(&Default::default()).serialize(serializer)
+            }
         }
     }
 }
@@ -41207,7 +45394,116 @@ impl serde::Serialize for ModelIdsShared {
 #[allow(clippy::large_enum_variant)]
 pub enum ModelIdsShared {
     Other(String),
-    ChatModel(ChatModel),
+    #[doc = "gpt-4.1"]
+    Gpt4_1,
+    #[doc = "gpt-4.1-mini"]
+    Gpt4_1Mini,
+    #[doc = "gpt-4.1-nano"]
+    Gpt4_1Nano,
+    #[doc = "gpt-4.1-2025-04-14"]
+    Gpt4_1_2025_04_14,
+    #[doc = "gpt-4.1-mini-2025-04-14"]
+    Gpt4_1Mini2025_04_14,
+    #[doc = "gpt-4.1-nano-2025-04-14"]
+    Gpt4_1Nano2025_04_14,
+    #[doc = "o4-mini"]
+    O4Mini,
+    #[doc = "o4-mini-2025-04-16"]
+    O4Mini2025_04_16,
+    #[doc = "o3"]
+    O3,
+    #[doc = "o3-2025-04-16"]
+    O3_2025_04_16,
+    #[doc = "o3-mini"]
+    O3Mini,
+    #[doc = "o3-mini-2025-01-31"]
+    O3Mini2025_01_31,
+    #[doc = "o1"]
+    O1,
+    #[doc = "o1-2024-12-17"]
+    O1_2024_12_17,
+    #[doc = "o1-preview"]
+    O1Preview,
+    #[doc = "o1-preview-2024-09-12"]
+    O1Preview2024_09_12,
+    #[doc = "o1-mini"]
+    O1Mini,
+    #[doc = "o1-mini-2024-09-12"]
+    O1Mini2024_09_12,
+    #[doc = "gpt-4o"]
+    Gpt4o,
+    #[doc = "gpt-4o-2024-11-20"]
+    Gpt4o2024_11_20,
+    #[doc = "gpt-4o-2024-08-06"]
+    Gpt4o2024_08_06,
+    #[doc = "gpt-4o-2024-05-13"]
+    Gpt4o2024_05_13,
+    #[doc = "gpt-4o-audio-preview"]
+    Gpt4oAudioPreview,
+    #[doc = "gpt-4o-audio-preview-2024-10-01"]
+    Gpt4oAudioPreview2024_10_01,
+    #[doc = "gpt-4o-audio-preview-2024-12-17"]
+    Gpt4oAudioPreview2024_12_17,
+    #[doc = "gpt-4o-audio-preview-2025-06-03"]
+    Gpt4oAudioPreview2025_06_03,
+    #[doc = "gpt-4o-mini-audio-preview"]
+    Gpt4oMiniAudioPreview,
+    #[doc = "gpt-4o-mini-audio-preview-2024-12-17"]
+    Gpt4oMiniAudioPreview2024_12_17,
+    #[doc = "gpt-4o-search-preview"]
+    Gpt4oSearchPreview,
+    #[doc = "gpt-4o-mini-search-preview"]
+    Gpt4oMiniSearchPreview,
+    #[doc = "gpt-4o-search-preview-2025-03-11"]
+    Gpt4oSearchPreview2025_03_11,
+    #[doc = "gpt-4o-mini-search-preview-2025-03-11"]
+    Gpt4oMiniSearchPreview2025_03_11,
+    #[doc = "chatgpt-4o-latest"]
+    Chatgpt4oLatest,
+    #[doc = "codex-mini-latest"]
+    CodexMiniLatest,
+    #[doc = "gpt-4o-mini"]
+    Gpt4oMini,
+    #[doc = "gpt-4o-mini-2024-07-18"]
+    Gpt4oMini2024_07_18,
+    #[doc = "gpt-4-turbo"]
+    Gpt4Turbo,
+    #[doc = "gpt-4-turbo-2024-04-09"]
+    Gpt4Turbo2024_04_09,
+    #[doc = "gpt-4-0125-preview"]
+    Gpt4_0125Preview,
+    #[doc = "gpt-4-turbo-preview"]
+    Gpt4TurboPreview,
+    #[doc = "gpt-4-1106-preview"]
+    Gpt4_1106Preview,
+    #[doc = "gpt-4-vision-preview"]
+    Gpt4VisionPreview,
+    #[doc = "gpt-4"]
+    Gpt4,
+    #[doc = "gpt-4-0314"]
+    Gpt4_0314,
+    #[doc = "gpt-4-0613"]
+    Gpt4_0613,
+    #[doc = "gpt-4-32k"]
+    Gpt4_32k,
+    #[doc = "gpt-4-32k-0314"]
+    Gpt4_32k0314,
+    #[doc = "gpt-4-32k-0613"]
+    Gpt4_32k0613,
+    #[doc = "gpt-3.5-turbo"]
+    Gpt3_5Turbo,
+    #[doc = "gpt-3.5-turbo-16k"]
+    Gpt3_5Turbo16k,
+    #[doc = "gpt-3.5-turbo-0301"]
+    Gpt3_5Turbo0301,
+    #[doc = "gpt-3.5-turbo-0613"]
+    Gpt3_5Turbo0613,
+    #[doc = "gpt-3.5-turbo-1106"]
+    Gpt3_5Turbo1106,
+    #[doc = "gpt-3.5-turbo-0125"]
+    Gpt3_5Turbo0125,
+    #[doc = "gpt-3.5-turbo-16k-0613"]
+    Gpt3_5Turbo16k0613,
 }
 impl<'de> serde::Deserialize<'de> for ModelResponseProperties {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -41220,12 +45516,15 @@ impl<'de> serde::Deserialize<'de> for ModelResponseProperties {
             #[serde(rename = "metadata")]
             #[allow(dead_code)]
             metadata: Option<Metadata>,
+            #[serde(rename = "top_logprobs")]
+            #[allow(dead_code)]
+            top_logprobs: Option<i64>,
             #[serde(rename = "temperature")]
             #[allow(dead_code)]
-            temperature: Option<f64>,
+            temperature: Option<serde_json::Number>,
             #[serde(rename = "top_p")]
             #[allow(dead_code)]
-            top_p: Option<f64>,
+            top_p: Option<serde_json::Number>,
             #[serde(rename = "user")]
             #[allow(dead_code)]
             user: Option<String>,
@@ -41235,6 +45534,7 @@ impl<'de> serde::Deserialize<'de> for ModelResponseProperties {
         }
         let ModelResponseProperties {
             metadata,
+            top_logprobs,
             temperature,
             top_p,
             user,
@@ -41243,6 +45543,7 @@ impl<'de> serde::Deserialize<'de> for ModelResponseProperties {
         } = ModelResponseProperties::deserialize(deserializer)?;
         Ok(Self {
             metadata,
+            top_logprobs,
             temperature,
             top_p,
             user,
@@ -41261,12 +45562,15 @@ impl serde::Serialize for ModelResponseProperties {
             #[serde(rename = "metadata")]
             #[serde(skip_serializing_if = "Option::is_none")]
             metadata: &'a Option<Metadata>,
+            #[serde(rename = "top_logprobs")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            top_logprobs: &'a Option<i64>,
             #[serde(rename = "temperature")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            temperature: &'a Option<f64>,
+            temperature: &'a Option<serde_json::Number>,
             #[serde(rename = "top_p")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            top_p: &'a Option<f64>,
+            top_p: &'a Option<serde_json::Number>,
             #[serde(rename = "user")]
             #[serde(skip_serializing_if = "Option::is_none")]
             user: &'a Option<String>,
@@ -41276,6 +45580,7 @@ impl serde::Serialize for ModelResponseProperties {
         }
         let Self {
             metadata,
+            top_logprobs,
             temperature,
             top_p,
             user,
@@ -41283,6 +45588,7 @@ impl serde::Serialize for ModelResponseProperties {
         } = self;
         ModelResponseProperties {
             metadata,
+            top_logprobs,
             temperature,
             top_p,
             user,
@@ -41295,12 +45601,15 @@ impl serde::Serialize for ModelResponseProperties {
 pub struct ModelResponseProperties {
     #[builder(default)]
     pub metadata: Option<Metadata>,
+    #[doc = "An integer between 0 and 20 specifying the number of most likely tokens to\nreturn at each token position, each with an associated log probability.\n"]
+    #[builder(default)]
+    pub top_logprobs: Option<i64>,
     #[doc = "What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.\nWe generally recommend altering this or `top_p` but not both.\n"]
     #[builder(default)]
-    pub temperature: Option<f64>,
+    pub temperature: Option<serde_json::Number>,
     #[doc = "An alternative to sampling with temperature, called nucleus sampling,\nwhere the model considers the results of the tokens with top_p probability\nmass. So 0.1 means only the tokens comprising the top 10% probability mass\nare considered.\n\nWe generally recommend altering this or `temperature` but not both.\n"]
     #[builder(default)]
-    pub top_p: Option<f64>,
+    pub top_p: Option<serde_json::Number>,
     #[doc = "A stable identifier for your end-users. \nUsed to boost cache hit rates by better bucketing similar requests and  to help OpenAI detect and prevent abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#end-user-ids).\n"]
     #[builder(default)]
     pub user: Option<String>,
@@ -41357,6 +45666,59 @@ impl serde::Serialize for ModifyAssistantRequestModel {
 pub enum ModifyAssistantRequestModel {
     Other(String),
     AssistantSupportedModels(AssistantSupportedModels),
+}
+impl<'de> serde::Deserialize<'de> for ModifyAssistantRequestTool {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
+        enum ModifyAssistantRequestTool {
+            CodeInterpreter(#[allow(dead_code)] AssistantToolsCode),
+            FileSearch(#[allow(dead_code)] AssistantToolsFileSearch),
+            Function(#[allow(dead_code)] AssistantToolsFunction),
+        }
+        Ok(
+            match ModifyAssistantRequestTool::deserialize(deserializer)? {
+                ModifyAssistantRequestTool::CodeInterpreter(v) => Self::CodeInterpreter(v),
+                ModifyAssistantRequestTool::FileSearch(v) => Self::FileSearch(v),
+                ModifyAssistantRequestTool::Function(v) => Self::Function(v),
+            },
+        )
+    }
+}
+impl serde::Serialize for ModifyAssistantRequestTool {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names)]
+        enum ModifyAssistantRequestTool<'a> {
+            CodeInterpreter(#[allow(dead_code)] &'a AssistantToolsCode),
+            FileSearch(#[allow(dead_code)] &'a AssistantToolsFileSearch),
+            Function(#[allow(dead_code)] &'a AssistantToolsFunction),
+        }
+        match self {
+            Self::CodeInterpreter(v) => {
+                ModifyAssistantRequestTool::CodeInterpreter(v).serialize(serializer)
+            }
+            Self::FileSearch(v) => ModifyAssistantRequestTool::FileSearch(v).serialize(serializer),
+            Self::Function(v) => ModifyAssistantRequestTool::Function(v).serialize(serializer),
+        }
+    }
+}
+#[derive(Clone, Debug, PartialEq)]
+#[allow(clippy::large_enum_variant)]
+pub enum ModifyAssistantRequestTool {
+    CodeInterpreter(AssistantToolsCode),
+    FileSearch(AssistantToolsFileSearch),
+    Function(AssistantToolsFunction),
 }
 impl<'de> serde::Deserialize<'de> for ModifyAssistantRequestToolResourcesCodeInterpreter {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -41522,7 +45884,7 @@ impl<'de> serde::Deserialize<'de> for ModifyAssistantRequest {
             instructions: Option<String>,
             #[serde(rename = "tools")]
             #[allow(dead_code)]
-            tools: Option<Vec<AssistantTool>>,
+            tools: Option<Vec<ModifyAssistantRequestTool>>,
             #[serde(rename = "tool_resources")]
             #[allow(dead_code)]
             tool_resources: Option<ModifyAssistantRequestToolResources>,
@@ -41531,10 +45893,10 @@ impl<'de> serde::Deserialize<'de> for ModifyAssistantRequest {
             metadata: Option<Metadata>,
             #[serde(rename = "temperature")]
             #[allow(dead_code)]
-            temperature: Option<f64>,
+            temperature: Option<serde_json::Number>,
             #[serde(rename = "top_p")]
             #[allow(dead_code)]
-            top_p: Option<f64>,
+            top_p: Option<serde_json::Number>,
             #[serde(rename = "response_format")]
             #[allow(dead_code)]
             response_format: Option<AssistantsApiResponseFormatOption>,
@@ -41593,7 +45955,7 @@ impl serde::Serialize for ModifyAssistantRequest {
             instructions: &'a Option<String>,
             #[serde(rename = "tools")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            tools: &'a Option<Vec<AssistantTool>>,
+            tools: &'a Option<Vec<ModifyAssistantRequestTool>>,
             #[serde(rename = "tool_resources")]
             #[serde(skip_serializing_if = "Option::is_none")]
             tool_resources: &'a Option<ModifyAssistantRequestToolResources>,
@@ -41602,10 +45964,10 @@ impl serde::Serialize for ModifyAssistantRequest {
             metadata: &'a Option<Metadata>,
             #[serde(rename = "temperature")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            temperature: &'a Option<f64>,
+            temperature: &'a Option<serde_json::Number>,
             #[serde(rename = "top_p")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            top_p: &'a Option<f64>,
+            top_p: &'a Option<serde_json::Number>,
             #[serde(rename = "response_format")]
             #[serde(skip_serializing_if = "Option::is_none")]
             response_format: &'a Option<AssistantsApiResponseFormatOption>,
@@ -41657,7 +46019,7 @@ pub struct ModifyAssistantRequest {
     pub instructions: Option<String>,
     #[doc = "A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `file_search`, or `function`.\n"]
     #[builder(default)]
-    pub tools: Option<Vec<AssistantTool>>,
+    pub tools: Option<Vec<ModifyAssistantRequestTool>>,
     #[doc = "A set of resources that are used by the assistant's tools. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.\n"]
     #[builder(default)]
     pub tool_resources: Option<ModifyAssistantRequestToolResources>,
@@ -41665,10 +46027,10 @@ pub struct ModifyAssistantRequest {
     pub metadata: Option<Metadata>,
     #[doc = "What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.\n"]
     #[builder(default)]
-    pub temperature: Option<f64>,
+    pub temperature: Option<serde_json::Number>,
     #[doc = "An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.\n\nWe generally recommend altering this or temperature but not both.\n"]
     #[builder(default)]
-    pub top_p: Option<f64>,
+    pub top_p: Option<serde_json::Number>,
     #[builder(default)]
     pub response_format: Option<AssistantsApiResponseFormatOption>,
 }
@@ -44924,6 +49286,78 @@ pub struct ProjectUserUpdateRequest {
     #[doc = "`owner` or `member`"]
     pub role: ProjectUserUpdateRequestRole,
 }
+impl<'de> serde::Deserialize<'de> for Prompt {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct Prompt {
+            #[serde(rename = "id")]
+            #[allow(dead_code)]
+            id: String,
+            #[serde(rename = "version")]
+            #[allow(dead_code)]
+            version: Option<String>,
+            #[serde(rename = "variables")]
+            #[allow(dead_code)]
+            variables: Option<ResponsePromptVariables>,
+        }
+        let Prompt {
+            id,
+            version,
+            variables,
+            ..
+        } = Prompt::deserialize(deserializer)?;
+        Ok(Self {
+            id,
+            version,
+            variables,
+        })
+    }
+}
+impl serde::Serialize for Prompt {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct Prompt<'a> {
+            #[serde(rename = "id")]
+            id: &'a String,
+            #[serde(rename = "version")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            version: &'a Option<String>,
+            #[serde(rename = "variables")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            variables: &'a Option<ResponsePromptVariables>,
+        }
+        let Self {
+            id,
+            version,
+            variables,
+        } = self;
+        Prompt {
+            id,
+            version,
+            variables,
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "Reference to a prompt template and its variables. \n[Learn more](https://platform.openai.com/docs/guides/text?api-mode=responses#reusable-prompts).\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct Prompt {
+    #[doc = "The unique identifier of the prompt template to use."]
+    pub id: String,
+    #[doc = "Optional version of the prompt template."]
+    #[builder(default)]
+    pub version: Option<String>,
+    #[builder(default)]
+    pub variables: Option<ResponsePromptVariables>,
+}
 impl<'de> serde::Deserialize<'de> for RealtimeClientEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -46179,6 +50613,122 @@ pub enum RealtimeConversationItemRole {
     #[serde(rename = "system")]
     System,
 }
+#[doc = "The content type (`input_text`, `input_audio`, `item_reference`, `text`).\n"]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+pub enum RealtimeConversationItemContentType {
+    #[doc = "input_audio"]
+    #[serde(rename = "input_audio")]
+    InputAudio,
+    #[doc = "input_text"]
+    #[serde(rename = "input_text")]
+    InputText,
+    #[doc = "item_reference"]
+    #[serde(rename = "item_reference")]
+    ItemReference,
+    #[doc = "text"]
+    #[serde(rename = "text")]
+    Text,
+}
+impl<'de> serde::Deserialize<'de> for RealtimeConversationItemContent {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct RealtimeConversationItemContent {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: Option<RealtimeConversationItemContentType>,
+            #[serde(rename = "text")]
+            #[allow(dead_code)]
+            text: Option<String>,
+            #[serde(rename = "id")]
+            #[allow(dead_code)]
+            id: Option<String>,
+            #[serde(rename = "audio")]
+            #[allow(dead_code)]
+            audio: Option<String>,
+            #[serde(rename = "transcript")]
+            #[allow(dead_code)]
+            transcript: Option<String>,
+        }
+        let RealtimeConversationItemContent {
+            r#type,
+            text,
+            id,
+            audio,
+            transcript,
+            ..
+        } = RealtimeConversationItemContent::deserialize(deserializer)?;
+        Ok(Self {
+            r#type,
+            text,
+            id,
+            audio,
+            transcript,
+        })
+    }
+}
+impl serde::Serialize for RealtimeConversationItemContent {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct RealtimeConversationItemContent<'a> {
+            #[serde(rename = "type")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            r#type: &'a Option<RealtimeConversationItemContentType>,
+            #[serde(rename = "text")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            text: &'a Option<String>,
+            #[serde(rename = "id")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            id: &'a Option<String>,
+            #[serde(rename = "audio")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            audio: &'a Option<String>,
+            #[serde(rename = "transcript")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            transcript: &'a Option<String>,
+        }
+        let Self {
+            r#type,
+            text,
+            id,
+            audio,
+            transcript,
+        } = self;
+        RealtimeConversationItemContent {
+            r#type,
+            text,
+            id,
+            audio,
+            transcript,
+        }
+        .serialize(serializer)
+    }
+}
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
+pub struct RealtimeConversationItemContent {
+    #[doc = "The content type (`input_text`, `input_audio`, `item_reference`, `text`).\n"]
+    #[builder(default)]
+    pub r#type: Option<RealtimeConversationItemContentType>,
+    #[doc = "The text content, used for `input_text` and `text` content types.\n"]
+    #[builder(default)]
+    pub text: Option<String>,
+    #[doc = "ID of a previous conversation item to reference (for `item_reference`\ncontent types in `response.create` events). These can reference both\nclient and server created items.\n"]
+    #[builder(default)]
+    pub id: Option<String>,
+    #[doc = "Base64-encoded audio bytes, used for `input_audio` content type.\n"]
+    #[builder(default)]
+    pub audio: Option<String>,
+    #[doc = "The transcript of the audio, used for `input_audio` content type.\n"]
+    #[builder(default)]
+    pub transcript: Option<String>,
+}
 impl<'de> serde::Deserialize<'de> for RealtimeConversationItem {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -46357,9 +50907,6 @@ pub enum RealtimeConversationItemWithReferenceType {
     #[doc = "function_call_output"]
     #[serde(rename = "function_call_output")]
     FunctionCallOutput,
-    #[doc = "item_reference"]
-    #[serde(rename = "item_reference")]
-    ItemReference,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeConversationItemWithReferenceObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -46411,6 +50958,122 @@ pub enum RealtimeConversationItemWithReferenceRole {
     #[serde(rename = "system")]
     System,
 }
+#[doc = "The content type (`input_text`, `input_audio`, `item_reference`, `text`).\n"]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+pub enum RealtimeConversationItemWithReferenceContentType {
+    #[doc = "input_audio"]
+    #[serde(rename = "input_audio")]
+    InputAudio,
+    #[doc = "input_text"]
+    #[serde(rename = "input_text")]
+    InputText,
+    #[doc = "item_reference"]
+    #[serde(rename = "item_reference")]
+    ItemReference,
+    #[doc = "text"]
+    #[serde(rename = "text")]
+    Text,
+}
+impl<'de> serde::Deserialize<'de> for RealtimeConversationItemWithReferenceContent {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct RealtimeConversationItemWithReferenceContent {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: Option<RealtimeConversationItemWithReferenceContentType>,
+            #[serde(rename = "text")]
+            #[allow(dead_code)]
+            text: Option<String>,
+            #[serde(rename = "id")]
+            #[allow(dead_code)]
+            id: Option<String>,
+            #[serde(rename = "audio")]
+            #[allow(dead_code)]
+            audio: Option<String>,
+            #[serde(rename = "transcript")]
+            #[allow(dead_code)]
+            transcript: Option<String>,
+        }
+        let RealtimeConversationItemWithReferenceContent {
+            r#type,
+            text,
+            id,
+            audio,
+            transcript,
+            ..
+        } = RealtimeConversationItemWithReferenceContent::deserialize(deserializer)?;
+        Ok(Self {
+            r#type,
+            text,
+            id,
+            audio,
+            transcript,
+        })
+    }
+}
+impl serde::Serialize for RealtimeConversationItemWithReferenceContent {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct RealtimeConversationItemWithReferenceContent<'a> {
+            #[serde(rename = "type")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            r#type: &'a Option<RealtimeConversationItemWithReferenceContentType>,
+            #[serde(rename = "text")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            text: &'a Option<String>,
+            #[serde(rename = "id")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            id: &'a Option<String>,
+            #[serde(rename = "audio")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            audio: &'a Option<String>,
+            #[serde(rename = "transcript")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            transcript: &'a Option<String>,
+        }
+        let Self {
+            r#type,
+            text,
+            id,
+            audio,
+            transcript,
+        } = self;
+        RealtimeConversationItemWithReferenceContent {
+            r#type,
+            text,
+            id,
+            audio,
+            transcript,
+        }
+        .serialize(serializer)
+    }
+}
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
+pub struct RealtimeConversationItemWithReferenceContent {
+    #[doc = "The content type (`input_text`, `input_audio`, `item_reference`, `text`).\n"]
+    #[builder(default)]
+    pub r#type: Option<RealtimeConversationItemWithReferenceContentType>,
+    #[doc = "The text content, used for `input_text` and `text` content types.\n"]
+    #[builder(default)]
+    pub text: Option<String>,
+    #[doc = "ID of a previous conversation item to reference (for `item_reference`\ncontent types in `response.create` events). These can reference both\nclient and server created items.\n"]
+    #[builder(default)]
+    pub id: Option<String>,
+    #[doc = "Base64-encoded audio bytes, used for `input_audio` content type.\n"]
+    #[builder(default)]
+    pub audio: Option<String>,
+    #[doc = "The transcript of the audio, used for `input_audio` content type.\n"]
+    #[builder(default)]
+    pub transcript: Option<String>,
+}
 impl<'de> serde::Deserialize<'de> for RealtimeConversationItemWithReference {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -46436,7 +51099,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeConversationItemWithReference {
             role: Option<RealtimeConversationItemWithReferenceRole>,
             #[serde(rename = "content")]
             #[allow(dead_code)]
-            content: Option<Vec<RealtimeConversationItemContent>>,
+            content: Option<Vec<RealtimeConversationItemWithReferenceContent>>,
             #[serde(rename = "call_id")]
             #[allow(dead_code)]
             call_id: Option<String>,
@@ -46502,7 +51165,7 @@ impl serde::Serialize for RealtimeConversationItemWithReference {
             role: &'a Option<RealtimeConversationItemWithReferenceRole>,
             #[serde(rename = "content")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            content: &'a Option<Vec<RealtimeConversationItemContent>>,
+            content: &'a Option<Vec<RealtimeConversationItemWithReferenceContent>>,
             #[serde(rename = "call_id")]
             #[serde(skip_serializing_if = "Option::is_none")]
             call_id: &'a Option<String>,
@@ -46563,7 +51226,7 @@ pub struct RealtimeConversationItemWithReference {
     pub role: Option<RealtimeConversationItemWithReferenceRole>,
     #[doc = "The content of the message, applicable for `message` items. \n- Message items of role `system` support only `input_text` content\n- Message items of role `user` support `input_text` and `input_audio` \n  content\n- Message items of role `assistant` support `text` content.\n"]
     #[builder(default)]
-    pub content: Option<Vec<RealtimeConversationItemContent>>,
+    pub content: Option<Vec<RealtimeConversationItemWithReferenceContent>>,
     #[doc = "The ID of the function call (for `function_call` and \n`function_call_output` items). If passed on a `function_call_output` \nitem, the server will check that a `function_call` item with the same \nID exists in the conversation history.\n"]
     #[builder(default)]
     pub call_id: Option<String>,
@@ -46629,12 +51292,12 @@ pub enum RealtimeResponseStatusDetailsType {
     #[doc = "cancelled"]
     #[serde(rename = "cancelled")]
     Cancelled,
-    #[doc = "incomplete"]
-    #[serde(rename = "incomplete")]
-    Incomplete,
     #[doc = "failed"]
     #[serde(rename = "failed")]
     Failed,
+    #[doc = "incomplete"]
+    #[serde(rename = "incomplete")]
+    Incomplete,
 }
 #[doc = "The reason the Response did not complete. For a `cancelled` Response, \none of `turn_detected` (the server VAD detected a new start of speech) \nor `client_cancelled` (the client sent a cancel event). For an \n`incomplete` Response, one of `max_output_tokens` or `content_filter` \n(the server-side safety filter activated and cut off the response).\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
@@ -47156,7 +51819,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeResponse {
             output_audio_format: Option<RealtimeResponseOutputAudioFormat>,
             #[serde(rename = "temperature")]
             #[allow(dead_code)]
-            temperature: Option<f64>,
+            temperature: Option<serde_json::Number>,
             #[serde(rename = "max_output_tokens")]
             #[allow(dead_code)]
             max_output_tokens: Option<RealtimeResponseMaxOutputTokens>,
@@ -47237,7 +51900,7 @@ impl serde::Serialize for RealtimeResponse {
             output_audio_format: &'a Option<RealtimeResponseOutputAudioFormat>,
             #[serde(rename = "temperature")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            temperature: &'a Option<f64>,
+            temperature: &'a Option<serde_json::Number>,
             #[serde(rename = "max_output_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
             max_output_tokens: &'a Option<RealtimeResponseMaxOutputTokens>,
@@ -47312,7 +51975,7 @@ pub struct RealtimeResponse {
     pub output_audio_format: Option<RealtimeResponseOutputAudioFormat>,
     #[doc = "Sampling temperature for the model, limited to [0.6, 1.2]. Defaults to 0.8.\n"]
     #[builder(default)]
-    pub temperature: Option<f64>,
+    pub temperature: Option<serde_json::Number>,
     #[doc = "Maximum number of output tokens for a single assistant response,\ninclusive of tool calls, that was used in this response.\n"]
     #[builder(default)]
     pub max_output_tokens: Option<RealtimeResponseMaxOutputTokens>,
@@ -47672,7 +52335,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeResponseCreateParams {
             tool_choice: Option<String>,
             #[serde(rename = "temperature")]
             #[allow(dead_code)]
-            temperature: Option<f64>,
+            temperature: Option<serde_json::Number>,
             #[serde(rename = "max_response_output_tokens")]
             #[allow(dead_code)]
             max_response_output_tokens: Option<RealtimeResponseCreateParamsMaxResponseOutputTokens>,
@@ -47743,7 +52406,7 @@ impl serde::Serialize for RealtimeResponseCreateParams {
             tool_choice: &'a Option<String>,
             #[serde(rename = "temperature")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            temperature: &'a Option<f64>,
+            temperature: &'a Option<serde_json::Number>,
             #[serde(rename = "max_response_output_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
             max_response_output_tokens:
@@ -47810,7 +52473,7 @@ pub struct RealtimeResponseCreateParams {
     pub tool_choice: Option<String>,
     #[doc = "Sampling temperature for the model, limited to [0.6, 1.2]. Defaults to 0.8.\n"]
     #[builder(default)]
-    pub temperature: Option<f64>,
+    pub temperature: Option<serde_json::Number>,
     #[doc = "Maximum number of output tokens for a single assistant response,\ninclusive of tool calls. Provide an integer between 1 and 4096 to\nlimit output tokens, or `inf` for the maximum available tokens for a\ngiven model. Defaults to `inf`.\n"]
     #[builder(default)]
     pub max_response_output_tokens: Option<RealtimeResponseCreateParamsMaxResponseOutputTokens>,
@@ -48672,7 +53335,7 @@ impl serde::Serialize for RealtimeServerEventConversationItemInputAudioTranscrip
         .serialize(serializer)
     }
 }
-#[doc = "This event is the output of audio transcription for user audio written to the \nuser audio buffer. Transcription begins when the input audio buffer is \ncommitted by the client or server (in `server_vad` mode). Transcription runs \nasynchronously with Response creation, so this event may come before or after \nthe Response events.\n\nRealtime API models accept audio natively, and thus input transcription is a \nseparate process run on a separate ASR (Automatic Speech Recognition) model, \ncurrently always `whisper-1`. Thus the transcript may diverge somewhat from \nthe model's interpretation, and should be treated as a rough guide.\n"]
+#[doc = "This event is the output of audio transcription for user audio written to the \nuser audio buffer. Transcription begins when the input audio buffer is \ncommitted by the client or server (in `server_vad` mode). Transcription runs \nasynchronously with Response creation, so this event may come before or after \nthe Response events.\n\nRealtime API models accept audio natively, and thus input transcription is a\nseparate process run on a separate ASR (Automatic Speech Recognition) model.\nThe transcript may diverge somewhat from the model's interpretation, and\nshould be treated as a rough guide.\n"]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeServerEventConversationItemInputAudioTranscriptionCompleted {
     #[doc = "The unique ID of the server event."]
@@ -50119,7 +54782,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventRateLimitsUpdatedRateLi
             remaining: Option<i64>,
             #[serde(rename = "reset_seconds")]
             #[allow(dead_code)]
-            reset_seconds: Option<f64>,
+            reset_seconds: Option<serde_json::Number>,
         }
         let RealtimeServerEventRateLimitsUpdatedRateLimits {
             name,
@@ -50155,7 +54818,7 @@ impl serde::Serialize for RealtimeServerEventRateLimitsUpdatedRateLimits {
             remaining: &'a Option<i64>,
             #[serde(rename = "reset_seconds")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            reset_seconds: &'a Option<f64>,
+            reset_seconds: &'a Option<serde_json::Number>,
         }
         let Self {
             name,
@@ -50172,7 +54835,7 @@ impl serde::Serialize for RealtimeServerEventRateLimitsUpdatedRateLimits {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeServerEventRateLimitsUpdatedRateLimits {
     #[doc = "The name of the rate limit (`requests`, `tokens`).\n"]
     #[builder(default)]
@@ -50185,7 +54848,7 @@ pub struct RealtimeServerEventRateLimitsUpdatedRateLimits {
     pub remaining: Option<i64>,
     #[doc = "Seconds until the rate limit resets."]
     #[builder(default)]
-    pub reset_seconds: Option<f64>,
+    pub reset_seconds: Option<serde_json::Number>,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeServerEventRateLimitsUpdated {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -50810,12 +55473,12 @@ struct RealtimeServerEventResponseContentPartAddedType;
 #[doc = "The content type (\"text\", \"audio\")."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeServerEventResponseContentPartAddedPartType {
-    #[doc = "text"]
-    #[serde(rename = "text")]
-    Text,
     #[doc = "audio"]
     #[serde(rename = "audio")]
     Audio,
+    #[doc = "text"]
+    #[serde(rename = "text")]
+    Text,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseContentPartAddedPart {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -51044,12 +55707,12 @@ struct RealtimeServerEventResponseContentPartDoneType;
 #[doc = "The content type (\"text\", \"audio\")."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeServerEventResponseContentPartDonePartType {
-    #[doc = "text"]
-    #[serde(rename = "text")]
-    Text,
     #[doc = "audio"]
     #[serde(rename = "audio")]
     Audio,
+    #[doc = "text"]
+    #[serde(rename = "text")]
+    Text,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseContentPartDonePart {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -52606,7 +57269,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionTurnDetection {
             eagerness: Option<RealtimeSessionTurnDetectionEagerness>,
             #[serde(rename = "threshold")]
             #[allow(dead_code)]
-            threshold: Option<f64>,
+            threshold: Option<serde_json::Number>,
             #[serde(rename = "prefix_padding_ms")]
             #[allow(dead_code)]
             prefix_padding_ms: Option<i64>,
@@ -52657,7 +57320,7 @@ impl serde::Serialize for RealtimeSessionTurnDetection {
             eagerness: &'a Option<RealtimeSessionTurnDetectionEagerness>,
             #[serde(rename = "threshold")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            threshold: &'a Option<f64>,
+            threshold: &'a Option<serde_json::Number>,
             #[serde(rename = "prefix_padding_ms")]
             #[serde(skip_serializing_if = "Option::is_none")]
             prefix_padding_ms: &'a Option<i64>,
@@ -52693,7 +57356,7 @@ impl serde::Serialize for RealtimeSessionTurnDetection {
     }
 }
 #[doc = "Configuration for turn detection, ether Server VAD or Semantic VAD. This can be set to `null` to turn off, in which case the client must manually trigger model response.\nServer VAD means that the model will detect the start and end of speech based on audio volume and respond at the end of user speech.\nSemantic VAD is more advanced and uses a turn detection model (in conjuction with VAD) to semantically estimate whether the user has finished speaking, then dynamically sets a timeout based on this probability. For example, if user audio trails off with \"uhhm\", the model will score a low probability of turn end and wait longer for the user to continue speaking. This can be useful for more natural conversations, but may have a higher latency.\n"]
-#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeSessionTurnDetection {
     #[doc = "Type of turn detection.\n"]
     #[builder(default)]
@@ -52703,7 +57366,7 @@ pub struct RealtimeSessionTurnDetection {
     pub eagerness: Option<RealtimeSessionTurnDetectionEagerness>,
     #[doc = "Used only for `server_vad` mode. Activation threshold for VAD (0.0 to 1.0), this defaults to 0.5. A \nhigher threshold will require louder audio to activate the model, and \nthus might perform better in noisy environments.\n"]
     #[builder(default)]
-    pub threshold: Option<f64>,
+    pub threshold: Option<serde_json::Number>,
     #[doc = "Used only for `server_vad` mode. Amount of audio to include before the VAD detected speech (in \nmilliseconds). Defaults to 300ms.\n"]
     #[builder(default)]
     pub prefix_padding_ms: Option<i64>,
@@ -53148,7 +57811,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeSession {
             input_audio_noise_reduction: Option<RealtimeSessionInputAudioNoiseReduction>,
             #[serde(rename = "speed")]
             #[allow(dead_code)]
-            speed: Option<f64>,
+            speed: Option<serde_json::Number>,
             #[serde(rename = "tracing")]
             #[allow(dead_code)]
             tracing: Option<RealtimeSessionTracing>,
@@ -53160,7 +57823,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeSession {
             tool_choice: Option<String>,
             #[serde(rename = "temperature")]
             #[allow(dead_code)]
-            temperature: Option<f64>,
+            temperature: Option<serde_json::Number>,
             #[serde(rename = "max_response_output_tokens")]
             #[allow(dead_code)]
             max_response_output_tokens: Option<RealtimeSessionMaxResponseOutputTokens>,
@@ -53244,7 +57907,7 @@ impl serde::Serialize for RealtimeSession {
             input_audio_noise_reduction: &'a Option<RealtimeSessionInputAudioNoiseReduction>,
             #[serde(rename = "speed")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            speed: &'a Option<f64>,
+            speed: &'a Option<serde_json::Number>,
             #[serde(rename = "tracing")]
             #[serde(skip_serializing_if = "Option::is_none")]
             tracing: &'a Option<RealtimeSessionTracing>,
@@ -53256,7 +57919,7 @@ impl serde::Serialize for RealtimeSession {
             tool_choice: &'a Option<String>,
             #[serde(rename = "temperature")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            temperature: &'a Option<f64>,
+            temperature: &'a Option<serde_json::Number>,
             #[serde(rename = "max_response_output_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
             max_response_output_tokens: &'a Option<RealtimeSessionMaxResponseOutputTokens>,
@@ -53335,7 +57998,7 @@ pub struct RealtimeSession {
     pub input_audio_noise_reduction: Option<RealtimeSessionInputAudioNoiseReduction>,
     #[doc = "The speed of the model's spoken response. 1.0 is the default speed. 0.25 is\nthe minimum speed. 1.5 is the maximum speed. This value can only be changed\nin between model turns, not while a response is in progress.\n"]
     #[builder(default)]
-    pub speed: Option<f64>,
+    pub speed: Option<serde_json::Number>,
     #[doc = "Configuration options for tracing. Set to null to disable tracing. Once \ntracing is enabled for a session, the configuration cannot be modified.\n\n`auto` will create a trace for the session with default values for the \nworkflow name, group id, and metadata.\n"]
     #[builder(default)]
     pub tracing: Option<RealtimeSessionTracing>,
@@ -53347,7 +58010,7 @@ pub struct RealtimeSession {
     pub tool_choice: Option<String>,
     #[doc = "Sampling temperature for the model, limited to [0.6, 1.2]. For audio models a temperature of 0.8 is highly recommended for best performance.\n"]
     #[builder(default)]
-    pub temperature: Option<f64>,
+    pub temperature: Option<serde_json::Number>,
     #[doc = "Maximum number of output tokens for a single assistant response,\ninclusive of tool calls. Provide an integer between 1 and 4096 to\nlimit output tokens, or `inf` for the maximum available tokens for a\ngiven model. Defaults to `inf`.\n"]
     #[builder(default)]
     pub max_response_output_tokens: Option<RealtimeSessionMaxResponseOutputTokens>,
@@ -53530,7 +58193,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateRequestTurnDetection 
             eagerness: Option<RealtimeSessionCreateRequestTurnDetectionEagerness>,
             #[serde(rename = "threshold")]
             #[allow(dead_code)]
-            threshold: Option<f64>,
+            threshold: Option<serde_json::Number>,
             #[serde(rename = "prefix_padding_ms")]
             #[allow(dead_code)]
             prefix_padding_ms: Option<i64>,
@@ -53581,7 +58244,7 @@ impl serde::Serialize for RealtimeSessionCreateRequestTurnDetection {
             eagerness: &'a Option<RealtimeSessionCreateRequestTurnDetectionEagerness>,
             #[serde(rename = "threshold")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            threshold: &'a Option<f64>,
+            threshold: &'a Option<serde_json::Number>,
             #[serde(rename = "prefix_padding_ms")]
             #[serde(skip_serializing_if = "Option::is_none")]
             prefix_padding_ms: &'a Option<i64>,
@@ -53617,7 +58280,7 @@ impl serde::Serialize for RealtimeSessionCreateRequestTurnDetection {
     }
 }
 #[doc = "Configuration for turn detection, ether Server VAD or Semantic VAD. This can be set to `null` to turn off, in which case the client must manually trigger model response.\nServer VAD means that the model will detect the start and end of speech based on audio volume and respond at the end of user speech.\nSemantic VAD is more advanced and uses a turn detection model (in conjuction with VAD) to semantically estimate whether the user has finished speaking, then dynamically sets a timeout based on this probability. For example, if user audio trails off with \"uhhm\", the model will score a low probability of turn end and wait longer for the user to continue speaking. This can be useful for more natural conversations, but may have a higher latency.\n"]
-#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeSessionCreateRequestTurnDetection {
     #[doc = "Type of turn detection.\n"]
     #[builder(default)]
@@ -53627,7 +58290,7 @@ pub struct RealtimeSessionCreateRequestTurnDetection {
     pub eagerness: Option<RealtimeSessionCreateRequestTurnDetectionEagerness>,
     #[doc = "Used only for `server_vad` mode. Activation threshold for VAD (0.0 to 1.0), this defaults to 0.5. A\nhigher threshold will require louder audio to activate the model, and\nthus might perform better in noisy environments.\n"]
     #[builder(default)]
-    pub threshold: Option<f64>,
+    pub threshold: Option<serde_json::Number>,
     #[doc = "Used only for `server_vad` mode. Amount of audio to include before the VAD detected speech (in\nmilliseconds). Defaults to 300ms.\n"]
     #[builder(default)]
     pub prefix_padding_ms: Option<i64>,
@@ -54038,59 +58701,57 @@ pub enum RealtimeSessionCreateRequestMaxResponseOutputTokens {
     Inf,
 }
 #[doc = "The anchor point for the ephemeral token expiration. Only `created_at` is currently supported.\n"]
-#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum RealtimeSessionCreateRequestClientSecretExpiresAtAnchor {
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+pub enum RealtimeSessionCreateRequestClientSecretExpiresAfterAnchor {
     #[doc = "created_at"]
-    #[default]
     #[serde(rename = "created_at")]
     CreatedAt,
 }
-impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateRequestClientSecretExpiresAt {
+impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateRequestClientSecretExpiresAfter {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
         D: serde::Deserializer<'de>,
     {
         #[serde_with::serde_as]
         #[derive(serde :: Deserialize)]
-        struct RealtimeSessionCreateRequestClientSecretExpiresAt {
+        struct RealtimeSessionCreateRequestClientSecretExpiresAfter {
             #[serde(rename = "anchor")]
             #[allow(dead_code)]
-            anchor: Option<RealtimeSessionCreateRequestClientSecretExpiresAtAnchor>,
+            anchor: RealtimeSessionCreateRequestClientSecretExpiresAfterAnchor,
             #[serde(rename = "seconds")]
             #[allow(dead_code)]
             seconds: Option<i64>,
         }
-        let RealtimeSessionCreateRequestClientSecretExpiresAt {
+        let RealtimeSessionCreateRequestClientSecretExpiresAfter {
             anchor, seconds, ..
-        } = RealtimeSessionCreateRequestClientSecretExpiresAt::deserialize(deserializer)?;
+        } = RealtimeSessionCreateRequestClientSecretExpiresAfter::deserialize(deserializer)?;
         Ok(Self { anchor, seconds })
     }
 }
-impl serde::Serialize for RealtimeSessionCreateRequestClientSecretExpiresAt {
+impl serde::Serialize for RealtimeSessionCreateRequestClientSecretExpiresAfter {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: serde::Serializer,
     {
         #[serde_with::serde_as]
         #[derive(serde :: Serialize)]
-        struct RealtimeSessionCreateRequestClientSecretExpiresAt<'a> {
+        struct RealtimeSessionCreateRequestClientSecretExpiresAfter<'a> {
             #[serde(rename = "anchor")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            anchor: &'a Option<RealtimeSessionCreateRequestClientSecretExpiresAtAnchor>,
+            anchor: &'a RealtimeSessionCreateRequestClientSecretExpiresAfterAnchor,
             #[serde(rename = "seconds")]
             #[serde(skip_serializing_if = "Option::is_none")]
             seconds: &'a Option<i64>,
         }
         let Self { anchor, seconds } = self;
-        RealtimeSessionCreateRequestClientSecretExpiresAt { anchor, seconds }.serialize(serializer)
+        RealtimeSessionCreateRequestClientSecretExpiresAfter { anchor, seconds }
+            .serialize(serializer)
     }
 }
 #[doc = "Configuration for the ephemeral token expiration.\n"]
-#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
-pub struct RealtimeSessionCreateRequestClientSecretExpiresAt {
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct RealtimeSessionCreateRequestClientSecretExpiresAfter {
     #[doc = "The anchor point for the ephemeral token expiration. Only `created_at` is currently supported.\n"]
-    #[builder(default)]
-    pub anchor: Option<RealtimeSessionCreateRequestClientSecretExpiresAtAnchor>,
+    pub anchor: RealtimeSessionCreateRequestClientSecretExpiresAfterAnchor,
     #[doc = "The number of seconds from the anchor point to the expiration. Select a value between `10` and `7200`.\n"]
     #[builder(default)]
     pub seconds: Option<i64>,
@@ -54103,13 +58764,13 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateRequestClientSecret {
         #[serde_with::serde_as]
         #[derive(serde :: Deserialize)]
         struct RealtimeSessionCreateRequestClientSecret {
-            #[serde(rename = "expires_at")]
+            #[serde(rename = "expires_after")]
             #[allow(dead_code)]
-            expires_at: Option<RealtimeSessionCreateRequestClientSecretExpiresAt>,
+            expires_after: Option<RealtimeSessionCreateRequestClientSecretExpiresAfter>,
         }
-        let RealtimeSessionCreateRequestClientSecret { expires_at, .. } =
+        let RealtimeSessionCreateRequestClientSecret { expires_after, .. } =
             RealtimeSessionCreateRequestClientSecret::deserialize(deserializer)?;
-        Ok(Self { expires_at })
+        Ok(Self { expires_after })
     }
 }
 impl serde::Serialize for RealtimeSessionCreateRequestClientSecret {
@@ -54120,12 +58781,12 @@ impl serde::Serialize for RealtimeSessionCreateRequestClientSecret {
         #[serde_with::serde_as]
         #[derive(serde :: Serialize)]
         struct RealtimeSessionCreateRequestClientSecret<'a> {
-            #[serde(rename = "expires_at")]
+            #[serde(rename = "expires_after")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            expires_at: &'a Option<RealtimeSessionCreateRequestClientSecretExpiresAt>,
+            expires_after: &'a Option<RealtimeSessionCreateRequestClientSecretExpiresAfter>,
         }
-        let Self { expires_at } = self;
-        RealtimeSessionCreateRequestClientSecret { expires_at }.serialize(serializer)
+        let Self { expires_after } = self;
+        RealtimeSessionCreateRequestClientSecret { expires_after }.serialize(serializer)
     }
 }
 #[doc = "Configuration options for the generated client secret.\n"]
@@ -54133,7 +58794,7 @@ impl serde::Serialize for RealtimeSessionCreateRequestClientSecret {
 pub struct RealtimeSessionCreateRequestClientSecret {
     #[doc = "Configuration for the ephemeral token expiration.\n"]
     #[builder(default)]
-    pub expires_at: Option<RealtimeSessionCreateRequestClientSecretExpiresAt>,
+    pub expires_after: Option<RealtimeSessionCreateRequestClientSecretExpiresAfter>,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateRequest {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -54173,7 +58834,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateRequest {
                 Option<RealtimeSessionCreateRequestInputAudioNoiseReduction>,
             #[serde(rename = "speed")]
             #[allow(dead_code)]
-            speed: Option<f64>,
+            speed: Option<serde_json::Number>,
             #[serde(rename = "tracing")]
             #[allow(dead_code)]
             tracing: Option<RealtimeSessionCreateRequestTracing>,
@@ -54185,7 +58846,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateRequest {
             tool_choice: Option<String>,
             #[serde(rename = "temperature")]
             #[allow(dead_code)]
-            temperature: Option<f64>,
+            temperature: Option<serde_json::Number>,
             #[serde(rename = "max_response_output_tokens")]
             #[allow(dead_code)]
             max_response_output_tokens: Option<RealtimeSessionCreateRequestMaxResponseOutputTokens>,
@@ -54271,7 +58932,7 @@ impl serde::Serialize for RealtimeSessionCreateRequest {
                 &'a Option<RealtimeSessionCreateRequestInputAudioNoiseReduction>,
             #[serde(rename = "speed")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            speed: &'a Option<f64>,
+            speed: &'a Option<serde_json::Number>,
             #[serde(rename = "tracing")]
             #[serde(skip_serializing_if = "Option::is_none")]
             tracing: &'a Option<RealtimeSessionCreateRequestTracing>,
@@ -54283,7 +58944,7 @@ impl serde::Serialize for RealtimeSessionCreateRequest {
             tool_choice: &'a Option<String>,
             #[serde(rename = "temperature")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            temperature: &'a Option<f64>,
+            temperature: &'a Option<serde_json::Number>,
             #[serde(rename = "max_response_output_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
             max_response_output_tokens:
@@ -54363,7 +59024,7 @@ pub struct RealtimeSessionCreateRequest {
     pub input_audio_noise_reduction: Option<RealtimeSessionCreateRequestInputAudioNoiseReduction>,
     #[doc = "The speed of the model's spoken response. 1.0 is the default speed. 0.25 is\nthe minimum speed. 1.5 is the maximum speed. This value can only be changed\nin between model turns, not while a response is in progress.\n"]
     #[builder(default)]
-    pub speed: Option<f64>,
+    pub speed: Option<serde_json::Number>,
     #[doc = "Configuration options for tracing. Set to null to disable tracing. Once \ntracing is enabled for a session, the configuration cannot be modified.\n\n`auto` will create a trace for the session with default values for the \nworkflow name, group id, and metadata.\n"]
     #[builder(default)]
     pub tracing: Option<RealtimeSessionCreateRequestTracing>,
@@ -54375,7 +59036,7 @@ pub struct RealtimeSessionCreateRequest {
     pub tool_choice: Option<String>,
     #[doc = "Sampling temperature for the model, limited to [0.6, 1.2]. For audio models a temperature of 0.8 is highly recommended for best performance.\n"]
     #[builder(default)]
-    pub temperature: Option<f64>,
+    pub temperature: Option<serde_json::Number>,
     #[doc = "Maximum number of output tokens for a single assistant response,\ninclusive of tool calls. Provide an integer between 1 and 4096 to\nlimit output tokens, or `inf` for the maximum available tokens for a\ngiven model. Defaults to `inf`.\n"]
     #[builder(default)]
     pub max_response_output_tokens: Option<RealtimeSessionCreateRequestMaxResponseOutputTokens>,
@@ -54471,10 +59132,10 @@ impl serde::Serialize for RealtimeSessionCreateResponseInputAudioTranscription {
         RealtimeSessionCreateResponseInputAudioTranscription { model }.serialize(serializer)
     }
 }
-#[doc = "Configuration for input audio transcription, defaults to off and can be \nset to `null` to turn off once on. Input audio transcription is not native \nto the model, since the model consumes audio directly. Transcription runs \nasynchronously through Whisper and should be treated as rough guidance \nrather than the representation understood by the model.\n"]
+#[doc = "Configuration for input audio transcription, defaults to off and can be \nset to `null` to turn off once on. Input audio transcription is not native \nto the model, since the model consumes audio directly. Transcription runs\nasynchronously and should be treated as rough guidance\nrather than the representation understood by the model.\n"]
 #[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeSessionCreateResponseInputAudioTranscription {
-    #[doc = "The model to use for transcription, `whisper-1` is the only currently \nsupported model.\n"]
+    #[doc = "The model to use for transcription.\n"]
     #[builder(default)]
     pub model: Option<String>,
 }
@@ -54643,7 +59304,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateResponseTurnDetection
             r#type: Option<String>,
             #[serde(rename = "threshold")]
             #[allow(dead_code)]
-            threshold: Option<f64>,
+            threshold: Option<serde_json::Number>,
             #[serde(rename = "prefix_padding_ms")]
             #[allow(dead_code)]
             prefix_padding_ms: Option<i64>,
@@ -54679,7 +59340,7 @@ impl serde::Serialize for RealtimeSessionCreateResponseTurnDetection {
             r#type: &'a Option<String>,
             #[serde(rename = "threshold")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            threshold: &'a Option<f64>,
+            threshold: &'a Option<serde_json::Number>,
             #[serde(rename = "prefix_padding_ms")]
             #[serde(skip_serializing_if = "Option::is_none")]
             prefix_padding_ms: &'a Option<i64>,
@@ -54710,7 +59371,7 @@ pub struct RealtimeSessionCreateResponseTurnDetection {
     pub r#type: Option<String>,
     #[doc = "Activation threshold for VAD (0.0 to 1.0), this defaults to 0.5. A \nhigher threshold will require louder audio to activate the model, and \nthus might perform better in noisy environments.\n"]
     #[builder(default)]
-    pub threshold: Option<f64>,
+    pub threshold: Option<serde_json::Number>,
     #[doc = "Amount of audio to include before the VAD detected speech (in \nmilliseconds). Defaults to 300ms.\n"]
     #[builder(default)]
     pub prefix_padding_ms: Option<i64>,
@@ -54944,7 +59605,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateResponse {
             input_audio_transcription: Option<RealtimeSessionCreateResponseInputAudioTranscription>,
             #[serde(rename = "speed")]
             #[allow(dead_code)]
-            speed: Option<f64>,
+            speed: Option<serde_json::Number>,
             #[serde(rename = "tracing")]
             #[allow(dead_code)]
             tracing: Option<RealtimeSessionCreateResponseTracing>,
@@ -54959,7 +59620,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateResponse {
             tool_choice: Option<String>,
             #[serde(rename = "temperature")]
             #[allow(dead_code)]
-            temperature: Option<f64>,
+            temperature: Option<serde_json::Number>,
             #[serde(rename = "max_response_output_tokens")]
             #[allow(dead_code)]
             max_response_output_tokens:
@@ -55031,7 +59692,7 @@ impl serde::Serialize for RealtimeSessionCreateResponse {
                 &'a Option<RealtimeSessionCreateResponseInputAudioTranscription>,
             #[serde(rename = "speed")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            speed: &'a Option<f64>,
+            speed: &'a Option<serde_json::Number>,
             #[serde(rename = "tracing")]
             #[serde(skip_serializing_if = "Option::is_none")]
             tracing: &'a Option<RealtimeSessionCreateResponseTracing>,
@@ -55046,7 +59707,7 @@ impl serde::Serialize for RealtimeSessionCreateResponse {
             tool_choice: &'a Option<String>,
             #[serde(rename = "temperature")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            temperature: &'a Option<f64>,
+            temperature: &'a Option<serde_json::Number>,
             #[serde(rename = "max_response_output_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
             max_response_output_tokens:
@@ -55107,12 +59768,12 @@ pub struct RealtimeSessionCreateResponse {
     #[doc = "The format of output audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.\n"]
     #[builder(default)]
     pub output_audio_format: Option<String>,
-    #[doc = "Configuration for input audio transcription, defaults to off and can be \nset to `null` to turn off once on. Input audio transcription is not native \nto the model, since the model consumes audio directly. Transcription runs \nasynchronously through Whisper and should be treated as rough guidance \nrather than the representation understood by the model.\n"]
+    #[doc = "Configuration for input audio transcription, defaults to off and can be \nset to `null` to turn off once on. Input audio transcription is not native \nto the model, since the model consumes audio directly. Transcription runs\nasynchronously and should be treated as rough guidance\nrather than the representation understood by the model.\n"]
     #[builder(default)]
     pub input_audio_transcription: Option<RealtimeSessionCreateResponseInputAudioTranscription>,
     #[doc = "The speed of the model's spoken response. 1.0 is the default speed. 0.25 is\nthe minimum speed. 1.5 is the maximum speed. This value can only be changed\nin between model turns, not while a response is in progress.\n"]
     #[builder(default)]
-    pub speed: Option<f64>,
+    pub speed: Option<serde_json::Number>,
     #[doc = "Configuration options for tracing. Set to null to disable tracing. Once \ntracing is enabled for a session, the configuration cannot be modified.\n\n`auto` will create a trace for the session with default values for the \nworkflow name, group id, and metadata.\n"]
     #[builder(default)]
     pub tracing: Option<RealtimeSessionCreateResponseTracing>,
@@ -55127,7 +59788,7 @@ pub struct RealtimeSessionCreateResponse {
     pub tool_choice: Option<String>,
     #[doc = "Sampling temperature for the model, limited to [0.6, 1.2]. Defaults to 0.8.\n"]
     #[builder(default)]
-    pub temperature: Option<f64>,
+    pub temperature: Option<serde_json::Number>,
     #[doc = "Maximum number of output tokens for a single assistant response,\ninclusive of tool calls. Provide an integer between 1 and 4096 to\nlimit output tokens, or `inf` for the maximum available tokens for a\ngiven model. Defaults to `inf`.\n"]
     #[builder(default)]
     pub max_response_output_tokens: Option<RealtimeSessionCreateResponseMaxResponseOutputTokens>,
@@ -55292,7 +59953,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeTranscriptionSessionCreateRequestT
             eagerness: Option<RealtimeTranscriptionSessionCreateRequestTurnDetectionEagerness>,
             #[serde(rename = "threshold")]
             #[allow(dead_code)]
-            threshold: Option<f64>,
+            threshold: Option<serde_json::Number>,
             #[serde(rename = "prefix_padding_ms")]
             #[allow(dead_code)]
             prefix_padding_ms: Option<i64>,
@@ -55343,7 +60004,7 @@ impl serde::Serialize for RealtimeTranscriptionSessionCreateRequestTurnDetection
             eagerness: &'a Option<RealtimeTranscriptionSessionCreateRequestTurnDetectionEagerness>,
             #[serde(rename = "threshold")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            threshold: &'a Option<f64>,
+            threshold: &'a Option<serde_json::Number>,
             #[serde(rename = "prefix_padding_ms")]
             #[serde(skip_serializing_if = "Option::is_none")]
             prefix_padding_ms: &'a Option<i64>,
@@ -55379,7 +60040,7 @@ impl serde::Serialize for RealtimeTranscriptionSessionCreateRequestTurnDetection
     }
 }
 #[doc = "Configuration for turn detection, ether Server VAD or Semantic VAD. This can be set to `null` to turn off, in which case the client must manually trigger model response.\nServer VAD means that the model will detect the start and end of speech based on audio volume and respond at the end of user speech.\nSemantic VAD is more advanced and uses a turn detection model (in conjuction with VAD) to semantically estimate whether the user has finished speaking, then dynamically sets a timeout based on this probability. For example, if user audio trails off with \"uhhm\", the model will score a low probability of turn end and wait longer for the user to continue speaking. This can be useful for more natural conversations, but may have a higher latency.\n"]
-#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeTranscriptionSessionCreateRequestTurnDetection {
     #[doc = "Type of turn detection.\n"]
     #[builder(default)]
@@ -55389,7 +60050,7 @@ pub struct RealtimeTranscriptionSessionCreateRequestTurnDetection {
     pub eagerness: Option<RealtimeTranscriptionSessionCreateRequestTurnDetectionEagerness>,
     #[doc = "Used only for `server_vad` mode. Activation threshold for VAD (0.0 to 1.0), this defaults to 0.5. A\nhigher threshold will require louder audio to activate the model, and\nthus might perform better in noisy environments.\n"]
     #[builder(default)]
-    pub threshold: Option<f64>,
+    pub threshold: Option<serde_json::Number>,
     #[doc = "Used only for `server_vad` mode. Amount of audio to include before the VAD detected speech (in\nmilliseconds). Defaults to 300ms.\n"]
     #[builder(default)]
     pub prefix_padding_ms: Option<i64>,
@@ -55859,7 +60520,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeTranscriptionSessionCreateResponse
             r#type: Option<String>,
             #[serde(rename = "threshold")]
             #[allow(dead_code)]
-            threshold: Option<f64>,
+            threshold: Option<serde_json::Number>,
             #[serde(rename = "prefix_padding_ms")]
             #[allow(dead_code)]
             prefix_padding_ms: Option<i64>,
@@ -55895,7 +60556,7 @@ impl serde::Serialize for RealtimeTranscriptionSessionCreateResponseTurnDetectio
             r#type: &'a Option<String>,
             #[serde(rename = "threshold")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            threshold: &'a Option<f64>,
+            threshold: &'a Option<serde_json::Number>,
             #[serde(rename = "prefix_padding_ms")]
             #[serde(skip_serializing_if = "Option::is_none")]
             prefix_padding_ms: &'a Option<i64>,
@@ -55926,7 +60587,7 @@ pub struct RealtimeTranscriptionSessionCreateResponseTurnDetection {
     pub r#type: Option<String>,
     #[doc = "Activation threshold for VAD (0.0 to 1.0), this defaults to 0.5. A \nhigher threshold will require louder audio to activate the model, and \nthus might perform better in noisy environments.\n"]
     #[builder(default)]
-    pub threshold: Option<f64>,
+    pub threshold: Option<serde_json::Number>,
     #[doc = "Amount of audio to include before the VAD detected speech (in \nmilliseconds). Defaults to 300ms.\n"]
     #[builder(default)]
     pub prefix_padding_ms: Option<i64>,
@@ -56451,6 +61112,53 @@ pub struct ResponseIncompleteDetails {
     #[builder(default)]
     pub reason: Option<ResponseIncompleteDetailsReason>,
 }
+impl<'de> serde::Deserialize<'de> for ResponseInstructions {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
+        enum ResponseInstructions {
+            String(#[allow(dead_code)] String),
+            Array(#[allow(dead_code)] Vec<InputItem>),
+        }
+        Ok(match ResponseInstructions::deserialize(deserializer)? {
+            ResponseInstructions::String(v) => Self::String(v),
+            ResponseInstructions::Array(v) => Self::Array(v),
+        })
+    }
+}
+impl serde::Serialize for ResponseInstructions {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names)]
+        enum ResponseInstructions<'a> {
+            String(#[allow(dead_code)] &'a String),
+            Array(#[allow(dead_code)] &'a Vec<InputItem>),
+        }
+        match self {
+            Self::String(v) => ResponseInstructions::String(v).serialize(serializer),
+            Self::Array(v) => ResponseInstructions::Array(v).serialize(serializer),
+        }
+    }
+}
+#[doc = "A system (or developer) message inserted into the model's context.\n\nWhen using along with `previous_response_id`, the instructions from a previous\nresponse will not be carried over to the next response. This makes it simple\nto swap out system (or developer) messages in new responses.\n"]
+#[derive(Clone, Debug, PartialEq)]
+#[allow(clippy::large_enum_variant)]
+pub enum ResponseInstructions {
+    #[doc = "A text input to the model, equivalent to a text input with the \n`developer` role.\n"]
+    String(String),
+    #[doc = "A list of one or many input items to the model, containing \ndifferent content types.\n"]
+    Array(Vec<InputItem>),
+}
 impl<'de> serde::Deserialize<'de> for Response {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -56459,12 +61167,57 @@ impl<'de> serde::Deserialize<'de> for Response {
         #[serde_with::serde_as]
         #[derive(serde :: Deserialize)]
         struct Response {
-            #[serde(flatten)]
+            #[serde(rename = "metadata")]
             #[allow(dead_code)]
-            model_response_properties: ModelResponseProperties,
-            #[serde(flatten)]
+            metadata: Option<Metadata>,
+            #[serde(rename = "top_logprobs")]
             #[allow(dead_code)]
-            response_properties: ResponseProperties,
+            top_logprobs: Option<i64>,
+            #[serde(rename = "temperature")]
+            #[allow(dead_code)]
+            temperature: Option<serde_json::Number>,
+            #[serde(rename = "top_p")]
+            #[allow(dead_code)]
+            top_p: Option<serde_json::Number>,
+            #[serde(rename = "user")]
+            #[allow(dead_code)]
+            user: Option<String>,
+            #[serde(rename = "service_tier")]
+            #[allow(dead_code)]
+            service_tier: Option<ServiceTier>,
+            #[serde(rename = "previous_response_id")]
+            #[allow(dead_code)]
+            previous_response_id: Option<String>,
+            #[serde(rename = "model")]
+            #[allow(dead_code)]
+            model: ModelIdsResponses,
+            #[serde(rename = "reasoning")]
+            #[allow(dead_code)]
+            reasoning: Option<Reasoning>,
+            #[serde(rename = "background")]
+            #[allow(dead_code)]
+            background: Option<bool>,
+            #[serde(rename = "max_output_tokens")]
+            #[allow(dead_code)]
+            max_output_tokens: Option<i64>,
+            #[serde(rename = "max_tool_calls")]
+            #[allow(dead_code)]
+            max_tool_calls: Option<i64>,
+            #[serde(rename = "text")]
+            #[allow(dead_code)]
+            text: Option<ResponsePropertiesText>,
+            #[serde(rename = "tools")]
+            #[allow(dead_code)]
+            tools: Vec<Tool>,
+            #[serde(rename = "tool_choice")]
+            #[allow(dead_code)]
+            tool_choice: ResponsePropertiesToolChoice,
+            #[serde(rename = "prompt")]
+            #[allow(dead_code)]
+            prompt: Option<Prompt>,
+            #[serde(rename = "truncation")]
+            #[allow(dead_code)]
+            truncation: Option<ResponsePropertiesTruncation>,
             #[serde(rename = "id")]
             #[allow(dead_code)]
             id: String,
@@ -56476,7 +61229,7 @@ impl<'de> serde::Deserialize<'de> for Response {
             status: Option<ResponseStatus>,
             #[serde(rename = "created_at")]
             #[allow(dead_code)]
-            created_at: i64,
+            created_at: serde_json::Number,
             #[serde(rename = "error")]
             #[allow(dead_code)]
             error: Option<ResponseError>,
@@ -56486,6 +61239,9 @@ impl<'de> serde::Deserialize<'de> for Response {
             #[serde(rename = "output")]
             #[allow(dead_code)]
             output: Vec<OutputItem>,
+            #[serde(rename = "instructions")]
+            #[allow(dead_code)]
+            instructions: Option<ResponseInstructions>,
             #[serde(rename = "output_text")]
             #[allow(dead_code)]
             output_text: Option<String>,
@@ -56497,28 +61253,60 @@ impl<'de> serde::Deserialize<'de> for Response {
             parallel_tool_calls: bool,
         }
         let Response {
-            model_response_properties,
-            response_properties,
+            metadata,
+            top_logprobs,
+            temperature,
+            top_p,
+            user,
+            service_tier,
+            previous_response_id,
+            model,
+            reasoning,
+            background,
+            max_output_tokens,
+            max_tool_calls,
+            text,
+            tools,
+            tool_choice,
+            prompt,
+            truncation,
             id,
             status,
             created_at,
             error,
             incomplete_details,
             output,
+            instructions,
             output_text,
             usage,
             parallel_tool_calls,
             ..
         } = Response::deserialize(deserializer)?;
         Ok(Self {
-            model_response_properties,
-            response_properties,
+            metadata,
+            top_logprobs,
+            temperature,
+            top_p,
+            user,
+            service_tier,
+            previous_response_id,
+            model,
+            reasoning,
+            background,
+            max_output_tokens,
+            max_tool_calls,
+            text,
+            tools,
+            tool_choice,
+            prompt,
+            truncation,
             id,
             status,
             created_at,
             error,
             incomplete_details,
             output,
+            instructions,
             output_text,
             usage,
             parallel_tool_calls,
@@ -56533,10 +61321,54 @@ impl serde::Serialize for Response {
         #[serde_with::serde_as]
         #[derive(serde :: Serialize)]
         struct Response<'a> {
-            #[serde(flatten)]
-            model_response_properties: &'a ModelResponseProperties,
-            #[serde(flatten)]
-            response_properties: &'a ResponseProperties,
+            #[serde(rename = "metadata")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            metadata: &'a Option<Metadata>,
+            #[serde(rename = "top_logprobs")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            top_logprobs: &'a Option<i64>,
+            #[serde(rename = "temperature")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            temperature: &'a Option<serde_json::Number>,
+            #[serde(rename = "top_p")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            top_p: &'a Option<serde_json::Number>,
+            #[serde(rename = "user")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            user: &'a Option<String>,
+            #[serde(rename = "service_tier")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            service_tier: &'a Option<ServiceTier>,
+            #[serde(rename = "previous_response_id")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            previous_response_id: &'a Option<String>,
+            #[serde(rename = "model")]
+            model: &'a ModelIdsResponses,
+            #[serde(rename = "reasoning")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            reasoning: &'a Option<Reasoning>,
+            #[serde(rename = "background")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            background: &'a Option<bool>,
+            #[serde(rename = "max_output_tokens")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            max_output_tokens: &'a Option<i64>,
+            #[serde(rename = "max_tool_calls")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            max_tool_calls: &'a Option<i64>,
+            #[serde(rename = "text")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            text: &'a Option<ResponsePropertiesText>,
+            #[serde(rename = "tools")]
+            tools: &'a Vec<Tool>,
+            #[serde(rename = "tool_choice")]
+            tool_choice: &'a ResponsePropertiesToolChoice,
+            #[serde(rename = "prompt")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            prompt: &'a Option<Prompt>,
+            #[serde(rename = "truncation")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            truncation: &'a Option<ResponsePropertiesTruncation>,
             #[serde(rename = "id")]
             id: &'a String,
             #[serde(rename = "object")]
@@ -56545,7 +61377,7 @@ impl serde::Serialize for Response {
             #[serde(skip_serializing_if = "Option::is_none")]
             status: &'a Option<ResponseStatus>,
             #[serde(rename = "created_at")]
-            created_at: &'a i64,
+            created_at: &'a serde_json::Number,
             #[serde(rename = "error")]
             #[serde(skip_serializing_if = "Option::is_none")]
             error: &'a Option<ResponseError>,
@@ -56554,6 +61386,9 @@ impl serde::Serialize for Response {
             incomplete_details: &'a Option<ResponseIncompleteDetails>,
             #[serde(rename = "output")]
             output: &'a Vec<OutputItem>,
+            #[serde(rename = "instructions")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            instructions: &'a Option<ResponseInstructions>,
             #[serde(rename = "output_text")]
             #[serde(skip_serializing_if = "Option::is_none")]
             output_text: &'a Option<String>,
@@ -56564,21 +61399,52 @@ impl serde::Serialize for Response {
             parallel_tool_calls: &'a bool,
         }
         let Self {
-            model_response_properties,
-            response_properties,
+            metadata,
+            top_logprobs,
+            temperature,
+            top_p,
+            user,
+            service_tier,
+            previous_response_id,
+            model,
+            reasoning,
+            background,
+            max_output_tokens,
+            max_tool_calls,
+            text,
+            tools,
+            tool_choice,
+            prompt,
+            truncation,
             id,
             status,
             created_at,
             error,
             incomplete_details,
             output,
+            instructions,
             output_text,
             usage,
             parallel_tool_calls,
         } = self;
         Response {
-            model_response_properties,
-            response_properties,
+            metadata,
+            top_logprobs,
+            temperature,
+            top_p,
+            user,
+            service_tier,
+            previous_response_id,
+            model,
+            reasoning,
+            background,
+            max_output_tokens,
+            max_tool_calls,
+            text,
+            tools,
+            tool_choice,
+            prompt,
+            truncation,
             id,
             object: &Default::default(),
             status,
@@ -56586,6 +61452,7 @@ impl serde::Serialize for Response {
             error,
             incomplete_details,
             output,
+            instructions,
             output_text,
             usage,
             parallel_tool_calls,
@@ -56596,16 +61463,56 @@ impl serde::Serialize for Response {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct Response {
     #[builder(default)]
-    pub model_response_properties: ModelResponseProperties,
+    pub metadata: Option<Metadata>,
+    #[doc = "An integer between 0 and 20 specifying the number of most likely tokens to\nreturn at each token position, each with an associated log probability.\n"]
     #[builder(default)]
-    pub response_properties: ResponseProperties,
+    pub top_logprobs: Option<i64>,
+    #[doc = "What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.\nWe generally recommend altering this or `top_p` but not both.\n"]
+    #[builder(default)]
+    pub temperature: Option<serde_json::Number>,
+    #[doc = "An alternative to sampling with temperature, called nucleus sampling,\nwhere the model considers the results of the tokens with top_p probability\nmass. So 0.1 means only the tokens comprising the top 10% probability mass\nare considered.\n\nWe generally recommend altering this or `temperature` but not both.\n"]
+    #[builder(default)]
+    pub top_p: Option<serde_json::Number>,
+    #[doc = "A stable identifier for your end-users. \nUsed to boost cache hit rates by better bucketing similar requests and  to help OpenAI detect and prevent abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#end-user-ids).\n"]
+    #[builder(default)]
+    pub user: Option<String>,
+    #[builder(default)]
+    pub service_tier: Option<ServiceTier>,
+    #[doc = "The unique ID of the previous response to the model. Use this to\ncreate multi-turn conversations. Learn more about \n[conversation state](https://platform.openai.com/docs/guides/conversation-state).\n"]
+    #[builder(default)]
+    pub previous_response_id: Option<String>,
+    #[doc = "Model ID used to generate the response, like `gpt-4o` or `o3`. OpenAI\noffers a wide range of models with different capabilities, performance\ncharacteristics, and price points. Refer to the [model guide](https://platform.openai.com/docs/models)\nto browse and compare available models.\n"]
+    pub model: ModelIdsResponses,
+    #[builder(default)]
+    pub reasoning: Option<Reasoning>,
+    #[doc = "Whether to run the model response in the background. \n[Learn more](https://platform.openai.com/docs/guides/background).\n"]
+    #[builder(default)]
+    pub background: Option<bool>,
+    #[doc = "An upper bound for the number of tokens that can be generated for a response, including visible output tokens and [reasoning tokens](https://platform.openai.com/docs/guides/reasoning).\n"]
+    #[builder(default)]
+    pub max_output_tokens: Option<i64>,
+    #[doc = "The maximum number of total calls to built-in tools that can be processed in a response. This maximum number applies across all built-in tool calls, not per individual tool. Any further attempts to call a tool by the model will be ignored.\n"]
+    #[builder(default)]
+    pub max_tool_calls: Option<i64>,
+    #[doc = "Configuration options for a text response from the model. Can be plain\ntext or structured JSON data. Learn more:\n- [Text inputs and outputs](https://platform.openai.com/docs/guides/text)\n- [Structured Outputs](https://platform.openai.com/docs/guides/structured-outputs)\n"]
+    #[builder(default)]
+    pub text: Option<ResponsePropertiesText>,
+    #[doc = "An array of tools the model may call while generating a response. You \ncan specify which tool to use by setting the `tool_choice` parameter.\n\nThe two categories of tools you can provide the model are:\n\n- **Built-in tools**: Tools that are provided by OpenAI that extend the\n  model's capabilities, like [web search](https://platform.openai.com/docs/guides/tools-web-search)\n  or [file search](https://platform.openai.com/docs/guides/tools-file-search). Learn more about\n  [built-in tools](https://platform.openai.com/docs/guides/tools).\n- **Function calls (custom tools)**: Functions that are defined by you,\n  enabling the model to call your own code. Learn more about\n  [function calling](https://platform.openai.com/docs/guides/function-calling).\n"]
+    pub tools: Vec<Tool>,
+    #[doc = "How the model should select which tool (or tools) to use when generating\na response. See the `tools` parameter to see how to specify which tools\nthe model can call.\n"]
+    pub tool_choice: ResponsePropertiesToolChoice,
+    #[builder(default)]
+    pub prompt: Option<Prompt>,
+    #[doc = "The truncation strategy to use for the model response.\n- `auto`: If the context of this response and previous ones exceeds\n  the model's context window size, the model will truncate the \n  response to fit the context window by dropping input items in the\n  middle of the conversation. \n- `disabled` (default): If a model response will exceed the context window \n  size for a model, the request will fail with a 400 error.\n"]
+    #[builder(default)]
+    pub truncation: Option<ResponsePropertiesTruncation>,
     #[doc = "Unique identifier for this Response.\n"]
     pub id: String,
     #[doc = "The status of the response generation. One of `completed`, `failed`, \n`in_progress`, `cancelled`, `queued`, or `incomplete`.\n"]
     #[builder(default)]
     pub status: Option<ResponseStatus>,
     #[doc = "Unix timestamp (in seconds) of when this Response was created.\n"]
-    pub created_at: i64,
+    pub created_at: serde_json::Number,
     #[builder(default)]
     pub error: Option<ResponseError>,
     #[doc = "Details about why the response is incomplete.\n"]
@@ -56613,6 +61520,9 @@ pub struct Response {
     pub incomplete_details: Option<ResponseIncompleteDetails>,
     #[doc = "An array of content items generated by the model.\n\n- The length and order of items in the `output` array is dependent\n  on the model's response.\n- Rather than accessing the first item in the `output` array and \n  assuming it's an `assistant` message with the content generated by\n  the model, you might consider using the `output_text` property where\n  supported in SDKs.\n"]
     pub output: Vec<OutputItem>,
+    #[doc = "A system (or developer) message inserted into the model's context.\n\nWhen using along with `previous_response_id`, the instructions from a previous\nresponse will not be carried over to the next response. This makes it simple\nto swap out system (or developer) messages in new responses.\n"]
+    #[builder(default)]
+    pub instructions: Option<ResponseInstructions>,
     #[doc = "SDK-only convenience property that contains the aggregated text output \nfrom all `output_text` items in the `output` array, if any are present. \nSupported in the Python and JavaScript SDKs.\n"]
     #[builder(default)]
     pub output_text: Option<String>,
@@ -56977,7 +61887,7 @@ impl serde::Serialize for ResponseCodeInterpreterCallCodeDeltaEventType {
         "response.code_interpreter_call_code.delta".serialize(serializer)
     }
 }
-#[doc = "The type of the event. Always `response.code_interpreter_call_code.delta`.\n"]
+#[doc = "The type of the event. Always `response.code_interpreter_call_code.delta`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseCodeInterpreterCallCodeDeltaEventType;
 impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallCodeDeltaEvent {
@@ -56994,6 +61904,9 @@ impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallCodeDeltaEvent 
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
             output_index: i64,
+            #[serde(rename = "item_id")]
+            #[allow(dead_code)]
+            item_id: String,
             #[serde(rename = "delta")]
             #[allow(dead_code)]
             delta: String,
@@ -57003,12 +61916,14 @@ impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallCodeDeltaEvent 
         }
         let ResponseCodeInterpreterCallCodeDeltaEvent {
             output_index,
+            item_id,
             delta,
             sequence_number,
             ..
         } = ResponseCodeInterpreterCallCodeDeltaEvent::deserialize(deserializer)?;
         Ok(Self {
             output_index,
+            item_id,
             delta,
             sequence_number,
         })
@@ -57026,6 +61941,8 @@ impl serde::Serialize for ResponseCodeInterpreterCallCodeDeltaEvent {
             r#type: &'a ResponseCodeInterpreterCallCodeDeltaEventType,
             #[serde(rename = "output_index")]
             output_index: &'a i64,
+            #[serde(rename = "item_id")]
+            item_id: &'a String,
             #[serde(rename = "delta")]
             delta: &'a String,
             #[serde(rename = "sequence_number")]
@@ -57033,26 +61950,30 @@ impl serde::Serialize for ResponseCodeInterpreterCallCodeDeltaEvent {
         }
         let Self {
             output_index,
+            item_id,
             delta,
             sequence_number,
         } = self;
         ResponseCodeInterpreterCallCodeDeltaEvent {
             r#type: &Default::default(),
             output_index,
+            item_id,
             delta,
             sequence_number,
         }
         .serialize(serializer)
     }
 }
-#[doc = "Emitted when a partial code snippet is added by the code interpreter."]
+#[doc = "Emitted when a partial code snippet is streamed by the code interpreter."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseCodeInterpreterCallCodeDeltaEvent {
-    #[doc = "The index of the output item that the code interpreter call is in progress.\n"]
+    #[doc = "The index of the output item in the response for which the code is being streamed."]
     pub output_index: i64,
-    #[doc = "The partial code snippet added by the code interpreter.\n"]
+    #[doc = "The unique identifier of the code interpreter tool call item."]
+    pub item_id: String,
+    #[doc = "The partial code snippet being streamed by the code interpreter."]
     pub delta: String,
-    #[doc = "The sequence number of this event."]
+    #[doc = "The sequence number of this event, used to order streaming events."]
     pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallCodeDoneEventType {
@@ -57079,7 +62000,7 @@ impl serde::Serialize for ResponseCodeInterpreterCallCodeDoneEventType {
         "response.code_interpreter_call_code.done".serialize(serializer)
     }
 }
-#[doc = "The type of the event. Always `response.code_interpreter_call_code.done`.\n"]
+#[doc = "The type of the event. Always `response.code_interpreter_call_code.done`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseCodeInterpreterCallCodeDoneEventType;
 impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallCodeDoneEvent {
@@ -57096,6 +62017,9 @@ impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallCodeDoneEvent {
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
             output_index: i64,
+            #[serde(rename = "item_id")]
+            #[allow(dead_code)]
+            item_id: String,
             #[serde(rename = "code")]
             #[allow(dead_code)]
             code: String,
@@ -57105,12 +62029,14 @@ impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallCodeDoneEvent {
         }
         let ResponseCodeInterpreterCallCodeDoneEvent {
             output_index,
+            item_id,
             code,
             sequence_number,
             ..
         } = ResponseCodeInterpreterCallCodeDoneEvent::deserialize(deserializer)?;
         Ok(Self {
             output_index,
+            item_id,
             code,
             sequence_number,
         })
@@ -57128,6 +62054,8 @@ impl serde::Serialize for ResponseCodeInterpreterCallCodeDoneEvent {
             r#type: &'a ResponseCodeInterpreterCallCodeDoneEventType,
             #[serde(rename = "output_index")]
             output_index: &'a i64,
+            #[serde(rename = "item_id")]
+            item_id: &'a String,
             #[serde(rename = "code")]
             code: &'a String,
             #[serde(rename = "sequence_number")]
@@ -57135,26 +62063,30 @@ impl serde::Serialize for ResponseCodeInterpreterCallCodeDoneEvent {
         }
         let Self {
             output_index,
+            item_id,
             code,
             sequence_number,
         } = self;
         ResponseCodeInterpreterCallCodeDoneEvent {
             r#type: &Default::default(),
             output_index,
+            item_id,
             code,
             sequence_number,
         }
         .serialize(serializer)
     }
 }
-#[doc = "Emitted when code snippet output is finalized by the code interpreter."]
+#[doc = "Emitted when the code snippet is finalized by the code interpreter."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseCodeInterpreterCallCodeDoneEvent {
-    #[doc = "The index of the output item that the code interpreter call is in progress.\n"]
+    #[doc = "The index of the output item in the response for which the code is finalized."]
     pub output_index: i64,
-    #[doc = "The final code snippet output by the code interpreter.\n"]
+    #[doc = "The unique identifier of the code interpreter tool call item."]
+    pub item_id: String,
+    #[doc = "The final code snippet output by the code interpreter."]
     pub code: String,
-    #[doc = "The sequence number of this event."]
+    #[doc = "The sequence number of this event, used to order streaming events."]
     pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallCompletedEventType {
@@ -57181,7 +62113,7 @@ impl serde::Serialize for ResponseCodeInterpreterCallCompletedEventType {
         "response.code_interpreter_call.completed".serialize(serializer)
     }
 }
-#[doc = "The type of the event. Always `response.code_interpreter_call.completed`.\n"]
+#[doc = "The type of the event. Always `response.code_interpreter_call.completed`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseCodeInterpreterCallCompletedEventType;
 impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallCompletedEvent {
@@ -57198,22 +62130,22 @@ impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallCompletedEvent 
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
             output_index: i64,
-            #[serde(rename = "code_interpreter_call")]
+            #[serde(rename = "item_id")]
             #[allow(dead_code)]
-            code_interpreter_call: CodeInterpreterToolCall,
+            item_id: String,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
             sequence_number: i64,
         }
         let ResponseCodeInterpreterCallCompletedEvent {
             output_index,
-            code_interpreter_call,
+            item_id,
             sequence_number,
             ..
         } = ResponseCodeInterpreterCallCompletedEvent::deserialize(deserializer)?;
         Ok(Self {
             output_index,
-            code_interpreter_call,
+            item_id,
             sequence_number,
         })
     }
@@ -57230,20 +62162,20 @@ impl serde::Serialize for ResponseCodeInterpreterCallCompletedEvent {
             r#type: &'a ResponseCodeInterpreterCallCompletedEventType,
             #[serde(rename = "output_index")]
             output_index: &'a i64,
-            #[serde(rename = "code_interpreter_call")]
-            code_interpreter_call: &'a CodeInterpreterToolCall,
+            #[serde(rename = "item_id")]
+            item_id: &'a String,
             #[serde(rename = "sequence_number")]
             sequence_number: &'a i64,
         }
         let Self {
             output_index,
-            code_interpreter_call,
+            item_id,
             sequence_number,
         } = self;
         ResponseCodeInterpreterCallCompletedEvent {
             r#type: &Default::default(),
             output_index,
-            code_interpreter_call,
+            item_id,
             sequence_number,
         }
         .serialize(serializer)
@@ -57252,10 +62184,11 @@ impl serde::Serialize for ResponseCodeInterpreterCallCompletedEvent {
 #[doc = "Emitted when the code interpreter call is completed."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseCodeInterpreterCallCompletedEvent {
-    #[doc = "The index of the output item that the code interpreter call is in progress.\n"]
+    #[doc = "The index of the output item in the response for which the code interpreter call is completed."]
     pub output_index: i64,
-    pub code_interpreter_call: CodeInterpreterToolCall,
-    #[doc = "The sequence number of this event."]
+    #[doc = "The unique identifier of the code interpreter tool call item."]
+    pub item_id: String,
+    #[doc = "The sequence number of this event, used to order streaming events."]
     pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallInProgressEventType {
@@ -57282,7 +62215,7 @@ impl serde::Serialize for ResponseCodeInterpreterCallInProgressEventType {
         "response.code_interpreter_call.in_progress".serialize(serializer)
     }
 }
-#[doc = "The type of the event. Always `response.code_interpreter_call.in_progress`.\n"]
+#[doc = "The type of the event. Always `response.code_interpreter_call.in_progress`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseCodeInterpreterCallInProgressEventType;
 impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallInProgressEvent {
@@ -57299,22 +62232,22 @@ impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallInProgressEvent
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
             output_index: i64,
-            #[serde(rename = "code_interpreter_call")]
+            #[serde(rename = "item_id")]
             #[allow(dead_code)]
-            code_interpreter_call: CodeInterpreterToolCall,
+            item_id: String,
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
             sequence_number: i64,
         }
         let ResponseCodeInterpreterCallInProgressEvent {
             output_index,
-            code_interpreter_call,
+            item_id,
             sequence_number,
             ..
         } = ResponseCodeInterpreterCallInProgressEvent::deserialize(deserializer)?;
         Ok(Self {
             output_index,
-            code_interpreter_call,
+            item_id,
             sequence_number,
         })
     }
@@ -57331,20 +62264,20 @@ impl serde::Serialize for ResponseCodeInterpreterCallInProgressEvent {
             r#type: &'a ResponseCodeInterpreterCallInProgressEventType,
             #[serde(rename = "output_index")]
             output_index: &'a i64,
-            #[serde(rename = "code_interpreter_call")]
-            code_interpreter_call: &'a CodeInterpreterToolCall,
+            #[serde(rename = "item_id")]
+            item_id: &'a String,
             #[serde(rename = "sequence_number")]
             sequence_number: &'a i64,
         }
         let Self {
             output_index,
-            code_interpreter_call,
+            item_id,
             sequence_number,
         } = self;
         ResponseCodeInterpreterCallInProgressEvent {
             r#type: &Default::default(),
             output_index,
-            code_interpreter_call,
+            item_id,
             sequence_number,
         }
         .serialize(serializer)
@@ -57353,10 +62286,11 @@ impl serde::Serialize for ResponseCodeInterpreterCallInProgressEvent {
 #[doc = "Emitted when a code interpreter call is in progress."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseCodeInterpreterCallInProgressEvent {
-    #[doc = "The index of the output item that the code interpreter call is in progress.\n"]
+    #[doc = "The index of the output item in the response for which the code interpreter call is in progress."]
     pub output_index: i64,
-    pub code_interpreter_call: CodeInterpreterToolCall,
-    #[doc = "The sequence number of this event."]
+    #[doc = "The unique identifier of the code interpreter tool call item."]
+    pub item_id: String,
+    #[doc = "The sequence number of this event, used to order streaming events."]
     pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallInterpretingEventType {
@@ -57383,7 +62317,7 @@ impl serde::Serialize for ResponseCodeInterpreterCallInterpretingEventType {
         "response.code_interpreter_call.interpreting".serialize(serializer)
     }
 }
-#[doc = "The type of the event. Always `response.code_interpreter_call.interpreting`.\n"]
+#[doc = "The type of the event. Always `response.code_interpreter_call.interpreting`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseCodeInterpreterCallInterpretingEventType;
 impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallInterpretingEvent {
@@ -57397,26 +62331,26 @@ impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallInterpretingEve
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: ResponseCodeInterpreterCallInterpretingEventType,
-            #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
-            sequence_number: i64,
             #[serde(rename = "output_index")]
             #[allow(dead_code)]
             output_index: i64,
-            #[serde(rename = "code_interpreter_call")]
+            #[serde(rename = "item_id")]
             #[allow(dead_code)]
-            code_interpreter_call: CodeInterpreterToolCall,
+            item_id: String,
+            #[serde(rename = "sequence_number")]
+            #[allow(dead_code)]
+            sequence_number: i64,
         }
         let ResponseCodeInterpreterCallInterpretingEvent {
-            sequence_number,
             output_index,
-            code_interpreter_call,
+            item_id,
+            sequence_number,
             ..
         } = ResponseCodeInterpreterCallInterpretingEvent::deserialize(deserializer)?;
         Ok(Self {
-            sequence_number,
             output_index,
-            code_interpreter_call,
+            item_id,
+            sequence_number,
         })
     }
 }
@@ -57430,23 +62364,23 @@ impl serde::Serialize for ResponseCodeInterpreterCallInterpretingEvent {
         struct ResponseCodeInterpreterCallInterpretingEvent<'a> {
             #[serde(rename = "type")]
             r#type: &'a ResponseCodeInterpreterCallInterpretingEventType,
-            #[serde(rename = "sequence_number")]
-            sequence_number: &'a i64,
             #[serde(rename = "output_index")]
             output_index: &'a i64,
-            #[serde(rename = "code_interpreter_call")]
-            code_interpreter_call: &'a CodeInterpreterToolCall,
+            #[serde(rename = "item_id")]
+            item_id: &'a String,
+            #[serde(rename = "sequence_number")]
+            sequence_number: &'a i64,
         }
         let Self {
-            sequence_number,
             output_index,
-            code_interpreter_call,
+            item_id,
+            sequence_number,
         } = self;
         ResponseCodeInterpreterCallInterpretingEvent {
             r#type: &Default::default(),
-            sequence_number,
             output_index,
-            code_interpreter_call,
+            item_id,
+            sequence_number,
         }
         .serialize(serializer)
     }
@@ -57454,11 +62388,12 @@ impl serde::Serialize for ResponseCodeInterpreterCallInterpretingEvent {
 #[doc = "Emitted when the code interpreter is actively interpreting the code snippet."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseCodeInterpreterCallInterpretingEvent {
-    #[doc = "The sequence number of this event."]
-    pub sequence_number: i64,
-    #[doc = "The index of the output item that the code interpreter call is in progress.\n"]
+    #[doc = "The index of the output item in the response for which the code interpreter is interpreting code."]
     pub output_index: i64,
-    pub code_interpreter_call: CodeInterpreterToolCall,
+    #[doc = "The unique identifier of the code interpreter tool call item."]
+    pub item_id: String,
+    #[doc = "The sequence number of this event, used to order streaming events."]
+    pub sequence_number: i64,
 }
 impl<'de> serde::Deserialize<'de> for ResponseCompletedEventType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -60798,6 +65733,62 @@ pub struct ResponseOutputTextAnnotationAddedEvent {
     #[doc = "The annotation object being added. (See annotation schema for details.)"]
     pub annotation: indexmap::IndexMap<String, serde_json::Value>,
 }
+impl<'de> serde::Deserialize<'de> for ResponsePromptVariable {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
+        enum ResponsePromptVariable {
+            Other(#[allow(dead_code)] String),
+            InputText(#[allow(dead_code)] InputTextContent),
+            InputImage(#[allow(dead_code)] InputImageContent),
+            InputFile(#[allow(dead_code)] InputFileContent),
+        }
+        Ok(match ResponsePromptVariable::deserialize(deserializer)? {
+            ResponsePromptVariable::Other(v) => Self::Other(v),
+            ResponsePromptVariable::InputText(v) => Self::InputText(v),
+            ResponsePromptVariable::InputImage(v) => Self::InputImage(v),
+            ResponsePromptVariable::InputFile(v) => Self::InputFile(v),
+        })
+    }
+}
+impl serde::Serialize for ResponsePromptVariable {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names)]
+        enum ResponsePromptVariable<'a> {
+            Other(#[allow(dead_code)] &'a String),
+            InputText(#[allow(dead_code)] &'a InputTextContent),
+            InputImage(#[allow(dead_code)] &'a InputImageContent),
+            InputFile(#[allow(dead_code)] &'a InputFileContent),
+        }
+        match self {
+            Self::Other(v) => ResponsePromptVariable::Other(v).serialize(serializer),
+            Self::InputText(v) => ResponsePromptVariable::InputText(v).serialize(serializer),
+            Self::InputImage(v) => ResponsePromptVariable::InputImage(v).serialize(serializer),
+            Self::InputFile(v) => ResponsePromptVariable::InputFile(v).serialize(serializer),
+        }
+    }
+}
+#[derive(Clone, Debug, PartialEq)]
+#[allow(clippy::large_enum_variant)]
+pub enum ResponsePromptVariable {
+    Other(String),
+    InputText(InputTextContent),
+    InputImage(InputImageContent),
+    InputFile(InputFileContent),
+}
+#[doc = "Optional map of values to substitute in for variables in your\nprompt. The substitution values can either be strings, or other\nResponse input types like images or files.\n"]
+pub type ResponsePromptVariables = indexmap::IndexMap<String, ResponsePromptVariable>;
 impl<'de> serde::Deserialize<'de> for ResponsePropertiesText {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -60850,12 +65841,14 @@ impl<'de> serde::Deserialize<'de> for ResponsePropertiesToolChoice {
             ToolChoiceOptions(#[allow(dead_code)] ToolChoiceOptions),
             ToolChoiceTypes(#[allow(dead_code)] ToolChoiceTypes),
             ToolChoiceFunction(#[allow(dead_code)] ToolChoiceFunction),
+            ToolChoiceMcp(#[allow(dead_code)] ToolChoiceMcp),
         }
         Ok(
             match ResponsePropertiesToolChoice::deserialize(deserializer)? {
                 ResponsePropertiesToolChoice::ToolChoiceOptions(v) => Self::ToolChoiceOptions(v),
                 ResponsePropertiesToolChoice::ToolChoiceTypes(v) => Self::ToolChoiceTypes(v),
                 ResponsePropertiesToolChoice::ToolChoiceFunction(v) => Self::ToolChoiceFunction(v),
+                ResponsePropertiesToolChoice::ToolChoiceMcp(v) => Self::ToolChoiceMcp(v),
             },
         )
     }
@@ -60873,6 +65866,7 @@ impl serde::Serialize for ResponsePropertiesToolChoice {
             ToolChoiceOptions(#[allow(dead_code)] &'a ToolChoiceOptions),
             ToolChoiceTypes(#[allow(dead_code)] &'a ToolChoiceTypes),
             ToolChoiceFunction(#[allow(dead_code)] &'a ToolChoiceFunction),
+            ToolChoiceMcp(#[allow(dead_code)] &'a ToolChoiceMcp),
         }
         match self {
             Self::ToolChoiceOptions(v) => {
@@ -60884,6 +65878,9 @@ impl serde::Serialize for ResponsePropertiesToolChoice {
             Self::ToolChoiceFunction(v) => {
                 ResponsePropertiesToolChoice::ToolChoiceFunction(v).serialize(serializer)
             }
+            Self::ToolChoiceMcp(v) => {
+                ResponsePropertiesToolChoice::ToolChoiceMcp(v).serialize(serializer)
+            }
         }
     }
 }
@@ -60894,6 +65891,7 @@ pub enum ResponsePropertiesToolChoice {
     ToolChoiceOptions(ToolChoiceOptions),
     ToolChoiceTypes(ToolChoiceTypes),
     ToolChoiceFunction(ToolChoiceFunction),
+    ToolChoiceMcp(ToolChoiceMcp),
 }
 #[doc = "The truncation strategy to use for the model response.\n- `auto`: If the context of this response and previous ones exceeds\n  the model's context window size, the model will truncate the \n  response to fit the context window by dropping input items in the\n  middle of the conversation. \n- `disabled` (default): If a model response will exceed the context window \n  size for a model, the request will fail with a 400 error.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
@@ -60929,9 +65927,9 @@ impl<'de> serde::Deserialize<'de> for ResponseProperties {
             #[serde(rename = "max_output_tokens")]
             #[allow(dead_code)]
             max_output_tokens: Option<i64>,
-            #[serde(rename = "instructions")]
+            #[serde(rename = "max_tool_calls")]
             #[allow(dead_code)]
-            instructions: Option<String>,
+            max_tool_calls: Option<i64>,
             #[serde(rename = "text")]
             #[allow(dead_code)]
             text: Option<ResponsePropertiesText>,
@@ -60941,6 +65939,9 @@ impl<'de> serde::Deserialize<'de> for ResponseProperties {
             #[serde(rename = "tool_choice")]
             #[allow(dead_code)]
             tool_choice: Option<ResponsePropertiesToolChoice>,
+            #[serde(rename = "prompt")]
+            #[allow(dead_code)]
+            prompt: Option<Prompt>,
             #[serde(rename = "truncation")]
             #[allow(dead_code)]
             truncation: Option<ResponsePropertiesTruncation>,
@@ -60951,10 +65952,11 @@ impl<'de> serde::Deserialize<'de> for ResponseProperties {
             reasoning,
             background,
             max_output_tokens,
-            instructions,
+            max_tool_calls,
             text,
             tools,
             tool_choice,
+            prompt,
             truncation,
             ..
         } = ResponseProperties::deserialize(deserializer)?;
@@ -60964,10 +65966,11 @@ impl<'de> serde::Deserialize<'de> for ResponseProperties {
             reasoning,
             background,
             max_output_tokens,
-            instructions,
+            max_tool_calls,
             text,
             tools,
             tool_choice,
+            prompt,
             truncation,
         })
     }
@@ -60995,9 +65998,9 @@ impl serde::Serialize for ResponseProperties {
             #[serde(rename = "max_output_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
             max_output_tokens: &'a Option<i64>,
-            #[serde(rename = "instructions")]
+            #[serde(rename = "max_tool_calls")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            instructions: &'a Option<String>,
+            max_tool_calls: &'a Option<i64>,
             #[serde(rename = "text")]
             #[serde(skip_serializing_if = "Option::is_none")]
             text: &'a Option<ResponsePropertiesText>,
@@ -61007,6 +66010,9 @@ impl serde::Serialize for ResponseProperties {
             #[serde(rename = "tool_choice")]
             #[serde(skip_serializing_if = "Option::is_none")]
             tool_choice: &'a Option<ResponsePropertiesToolChoice>,
+            #[serde(rename = "prompt")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            prompt: &'a Option<Prompt>,
             #[serde(rename = "truncation")]
             #[serde(skip_serializing_if = "Option::is_none")]
             truncation: &'a Option<ResponsePropertiesTruncation>,
@@ -61017,10 +66023,11 @@ impl serde::Serialize for ResponseProperties {
             reasoning,
             background,
             max_output_tokens,
-            instructions,
+            max_tool_calls,
             text,
             tools,
             tool_choice,
+            prompt,
             truncation,
         } = self;
         ResponseProperties {
@@ -61029,10 +66036,11 @@ impl serde::Serialize for ResponseProperties {
             reasoning,
             background,
             max_output_tokens,
-            instructions,
+            max_tool_calls,
             text,
             tools,
             tool_choice,
+            prompt,
             truncation,
         }
         .serialize(serializer)
@@ -61054,9 +66062,9 @@ pub struct ResponseProperties {
     #[doc = "An upper bound for the number of tokens that can be generated for a response, including visible output tokens and [reasoning tokens](https://platform.openai.com/docs/guides/reasoning).\n"]
     #[builder(default)]
     pub max_output_tokens: Option<i64>,
-    #[doc = "Inserts a system (or developer) message as the first item in the model's context.\n\nWhen using along with `previous_response_id`, the instructions from a previous\nresponse will not be carried over to the next response. This makes it simple\nto swap out system (or developer) messages in new responses.\n"]
+    #[doc = "The maximum number of total calls to built-in tools that can be processed in a response. This maximum number applies across all built-in tool calls, not per individual tool. Any further attempts to call a tool by the model will be ignored.\n"]
     #[builder(default)]
-    pub instructions: Option<String>,
+    pub max_tool_calls: Option<i64>,
     #[doc = "Configuration options for a text response from the model. Can be plain\ntext or structured JSON data. Learn more:\n- [Text inputs and outputs](https://platform.openai.com/docs/guides/text)\n- [Structured Outputs](https://platform.openai.com/docs/guides/structured-outputs)\n"]
     #[builder(default)]
     pub text: Option<ResponsePropertiesText>,
@@ -61066,6 +66074,8 @@ pub struct ResponseProperties {
     #[doc = "How the model should select which tool (or tools) to use when generating\na response. See the `tools` parameter to see how to specify which tools\nthe model can call.\n"]
     #[builder(default)]
     pub tool_choice: Option<ResponsePropertiesToolChoice>,
+    #[builder(default)]
+    pub prompt: Option<Prompt>,
     #[doc = "The truncation strategy to use for the model response.\n- `auto`: If the context of this response and previous ones exceeds\n  the model's context window size, the model will truncate the \n  response to fit the context window by dropping input items in the\n  middle of the conversation. \n- `disabled` (default): If a model response will exceed the context window \n  size for a model, the request will fail with a 400 error.\n"]
     #[builder(default)]
     pub truncation: Option<ResponsePropertiesTruncation>,
@@ -64227,7 +69237,7 @@ impl<'de> serde::Deserialize<'de> for RunGraderResponseMetadata {
             errors: RunGraderResponseMetadataErrors,
             #[serde(rename = "execution_time")]
             #[allow(dead_code)]
-            execution_time: f64,
+            execution_time: serde_json::Number,
             #[serde(rename = "scores")]
             #[allow(dead_code)]
             scores: indexmap::IndexMap<String, serde_json::Value>,
@@ -64274,7 +69284,7 @@ impl serde::Serialize for RunGraderResponseMetadata {
             #[serde(rename = "errors")]
             errors: &'a RunGraderResponseMetadataErrors,
             #[serde(rename = "execution_time")]
-            execution_time: &'a f64,
+            execution_time: &'a serde_json::Number,
             #[serde(rename = "scores")]
             scores: &'a indexmap::IndexMap<String, serde_json::Value>,
             #[serde(rename = "token_usage")]
@@ -64310,7 +69320,7 @@ pub struct RunGraderResponseMetadata {
     pub name: String,
     pub r#type: String,
     pub errors: RunGraderResponseMetadataErrors,
-    pub execution_time: f64,
+    pub execution_time: serde_json::Number,
     pub scores: indexmap::IndexMap<String, serde_json::Value>,
     #[builder(default)]
     pub token_usage: Option<i64>,
@@ -64327,7 +69337,7 @@ impl<'de> serde::Deserialize<'de> for RunGraderResponse {
         struct RunGraderResponse {
             #[serde(rename = "reward")]
             #[allow(dead_code)]
-            reward: f64,
+            reward: serde_json::Number,
             #[serde(rename = "metadata")]
             #[allow(dead_code)]
             metadata: RunGraderResponseMetadata,
@@ -64362,7 +69372,7 @@ impl serde::Serialize for RunGraderResponse {
         #[derive(serde :: Serialize)]
         struct RunGraderResponse<'a> {
             #[serde(rename = "reward")]
-            reward: &'a f64,
+            reward: &'a serde_json::Number,
             #[serde(rename = "metadata")]
             metadata: &'a RunGraderResponseMetadata,
             #[serde(rename = "sub_rewards")]
@@ -64387,7 +69397,7 @@ impl serde::Serialize for RunGraderResponse {
 }
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunGraderResponse {
-    pub reward: f64,
+    pub reward: serde_json::Number,
     pub metadata: RunGraderResponseMetadata,
     pub sub_rewards: indexmap::IndexMap<String, serde_json::Value>,
     pub model_grader_token_usage_per_model: indexmap::IndexMap<String, serde_json::Value>,
@@ -64419,6 +69429,37 @@ impl serde::Serialize for RunObjectObject {
 #[doc = "The object type, which is always `thread.run`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunObjectObject;
+#[doc = "The status of the run, which can be either `queued`, `in_progress`, `requires_action`, `cancelling`, `cancelled`, `failed`, `completed`, `incomplete`, or `expired`."]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+pub enum RunObjectStatus {
+    #[doc = "queued"]
+    #[serde(rename = "queued")]
+    Queued,
+    #[doc = "in_progress"]
+    #[serde(rename = "in_progress")]
+    InProgress,
+    #[doc = "requires_action"]
+    #[serde(rename = "requires_action")]
+    RequiresAction,
+    #[doc = "cancelling"]
+    #[serde(rename = "cancelling")]
+    Cancelling,
+    #[doc = "cancelled"]
+    #[serde(rename = "cancelled")]
+    Cancelled,
+    #[doc = "failed"]
+    #[serde(rename = "failed")]
+    Failed,
+    #[doc = "completed"]
+    #[serde(rename = "completed")]
+    Completed,
+    #[doc = "incomplete"]
+    #[serde(rename = "incomplete")]
+    Incomplete,
+    #[doc = "expired"]
+    #[serde(rename = "expired")]
+    Expired,
+}
 impl<'de> serde::Deserialize<'de> for RunObjectRequiredActionType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -64645,6 +69686,55 @@ pub struct RunObjectIncompleteDetails {
     #[builder(default)]
     pub reason: Option<RunObjectIncompleteDetailsReason>,
 }
+impl<'de> serde::Deserialize<'de> for RunObjectTool {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
+        enum RunObjectTool {
+            CodeInterpreter(#[allow(dead_code)] AssistantToolsCode),
+            FileSearch(#[allow(dead_code)] AssistantToolsFileSearch),
+            Function(#[allow(dead_code)] AssistantToolsFunction),
+        }
+        Ok(match RunObjectTool::deserialize(deserializer)? {
+            RunObjectTool::CodeInterpreter(v) => Self::CodeInterpreter(v),
+            RunObjectTool::FileSearch(v) => Self::FileSearch(v),
+            RunObjectTool::Function(v) => Self::Function(v),
+        })
+    }
+}
+impl serde::Serialize for RunObjectTool {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names)]
+        enum RunObjectTool<'a> {
+            CodeInterpreter(#[allow(dead_code)] &'a AssistantToolsCode),
+            FileSearch(#[allow(dead_code)] &'a AssistantToolsFileSearch),
+            Function(#[allow(dead_code)] &'a AssistantToolsFunction),
+        }
+        match self {
+            Self::CodeInterpreter(v) => RunObjectTool::CodeInterpreter(v).serialize(serializer),
+            Self::FileSearch(v) => RunObjectTool::FileSearch(v).serialize(serializer),
+            Self::Function(v) => RunObjectTool::Function(v).serialize(serializer),
+        }
+    }
+}
+#[derive(Clone, Debug, PartialEq)]
+#[allow(clippy::large_enum_variant)]
+pub enum RunObjectTool {
+    CodeInterpreter(AssistantToolsCode),
+    FileSearch(AssistantToolsFileSearch),
+    Function(AssistantToolsFunction),
+}
 impl<'de> serde::Deserialize<'de> for RunObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -64670,7 +69760,7 @@ impl<'de> serde::Deserialize<'de> for RunObject {
             assistant_id: String,
             #[serde(rename = "status")]
             #[allow(dead_code)]
-            status: RunStatus,
+            status: RunObjectStatus,
             #[serde(rename = "required_action")]
             #[allow(dead_code)]
             required_action: Option<RunObjectRequiredAction>,
@@ -64703,7 +69793,7 @@ impl<'de> serde::Deserialize<'de> for RunObject {
             instructions: String,
             #[serde(rename = "tools")]
             #[allow(dead_code)]
-            tools: Vec<AssistantTool>,
+            tools: Vec<RunObjectTool>,
             #[serde(rename = "metadata")]
             #[allow(dead_code)]
             metadata: Option<Metadata>,
@@ -64712,10 +69802,10 @@ impl<'de> serde::Deserialize<'de> for RunObject {
             usage: Option<RunCompletionUsage>,
             #[serde(rename = "temperature")]
             #[allow(dead_code)]
-            temperature: Option<f64>,
+            temperature: Option<serde_json::Number>,
             #[serde(rename = "top_p")]
             #[allow(dead_code)]
-            top_p: Option<f64>,
+            top_p: Option<serde_json::Number>,
             #[serde(rename = "max_prompt_tokens")]
             #[allow(dead_code)]
             max_prompt_tokens: Option<i64>,
@@ -64813,7 +69903,7 @@ impl serde::Serialize for RunObject {
             #[serde(rename = "assistant_id")]
             assistant_id: &'a String,
             #[serde(rename = "status")]
-            status: &'a RunStatus,
+            status: &'a RunObjectStatus,
             #[serde(rename = "required_action")]
             #[serde(skip_serializing_if = "Option::is_none")]
             required_action: &'a Option<RunObjectRequiredAction>,
@@ -64843,7 +69933,7 @@ impl serde::Serialize for RunObject {
             #[serde(rename = "instructions")]
             instructions: &'a String,
             #[serde(rename = "tools")]
-            tools: &'a Vec<AssistantTool>,
+            tools: &'a Vec<RunObjectTool>,
             #[serde(rename = "metadata")]
             #[serde(skip_serializing_if = "Option::is_none")]
             metadata: &'a Option<Metadata>,
@@ -64852,10 +69942,10 @@ impl serde::Serialize for RunObject {
             usage: &'a Option<RunCompletionUsage>,
             #[serde(rename = "temperature")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            temperature: &'a Option<f64>,
+            temperature: &'a Option<serde_json::Number>,
             #[serde(rename = "top_p")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            top_p: &'a Option<f64>,
+            top_p: &'a Option<serde_json::Number>,
             #[serde(rename = "max_prompt_tokens")]
             #[serde(skip_serializing_if = "Option::is_none")]
             max_prompt_tokens: &'a Option<i64>,
@@ -64945,7 +70035,8 @@ pub struct RunObject {
     pub thread_id: String,
     #[doc = "The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for execution of this run."]
     pub assistant_id: String,
-    pub status: RunStatus,
+    #[doc = "The status of the run, which can be either `queued`, `in_progress`, `requires_action`, `cancelling`, `cancelled`, `failed`, `completed`, `incomplete`, or `expired`."]
+    pub status: RunObjectStatus,
     #[doc = "Details on the action required to continue the run. Will be `null` if no action is required."]
     #[builder(default)]
     pub required_action: Option<RunObjectRequiredAction>,
@@ -64975,17 +70066,17 @@ pub struct RunObject {
     #[doc = "The instructions that the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run."]
     pub instructions: String,
     #[doc = "The list of tools that the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run."]
-    pub tools: Vec<AssistantTool>,
+    pub tools: Vec<RunObjectTool>,
     #[builder(default)]
     pub metadata: Option<Metadata>,
     #[builder(default)]
     pub usage: Option<RunCompletionUsage>,
     #[doc = "The sampling temperature used for this run. If not set, defaults to 1."]
     #[builder(default)]
-    pub temperature: Option<f64>,
+    pub temperature: Option<serde_json::Number>,
     #[doc = "The nucleus sampling value used for this run. If not set, defaults to 1."]
     #[builder(default)]
-    pub top_p: Option<f64>,
+    pub top_p: Option<serde_json::Number>,
     #[doc = "The maximum number of prompt tokens specified to have been used over the course of the run.\n"]
     #[builder(default)]
     pub max_prompt_tokens: Option<i64>,
@@ -65096,6 +70187,97 @@ impl serde::Serialize for RunStepDeltaObjectObject {
 #[doc = "The object type, which is always `thread.run.step.delta`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStepDeltaObjectObject;
+impl<'de> serde::Deserialize<'de> for RunStepDeltaObjectDeltaStepDetails {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
+        enum RunStepDeltaObjectDeltaStepDetails {
+            MessageCreation(#[allow(dead_code)] RunStepDeltaStepDetailsMessageCreationObject),
+            ToolCalls(#[allow(dead_code)] RunStepDeltaStepDetailsToolCallsObject),
+        }
+        Ok(
+            match RunStepDeltaObjectDeltaStepDetails::deserialize(deserializer)? {
+                RunStepDeltaObjectDeltaStepDetails::MessageCreation(v) => Self::MessageCreation(v),
+                RunStepDeltaObjectDeltaStepDetails::ToolCalls(v) => Self::ToolCalls(v),
+            },
+        )
+    }
+}
+impl serde::Serialize for RunStepDeltaObjectDeltaStepDetails {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names)]
+        enum RunStepDeltaObjectDeltaStepDetails<'a> {
+            MessageCreation(#[allow(dead_code)] &'a RunStepDeltaStepDetailsMessageCreationObject),
+            ToolCalls(#[allow(dead_code)] &'a RunStepDeltaStepDetailsToolCallsObject),
+        }
+        match self {
+            Self::MessageCreation(v) => {
+                RunStepDeltaObjectDeltaStepDetails::MessageCreation(v).serialize(serializer)
+            }
+            Self::ToolCalls(v) => {
+                RunStepDeltaObjectDeltaStepDetails::ToolCalls(v).serialize(serializer)
+            }
+        }
+    }
+}
+#[doc = "The details of the run step."]
+#[derive(Clone, Debug, PartialEq)]
+#[allow(clippy::large_enum_variant)]
+pub enum RunStepDeltaObjectDeltaStepDetails {
+    MessageCreation(RunStepDeltaStepDetailsMessageCreationObject),
+    ToolCalls(RunStepDeltaStepDetailsToolCallsObject),
+}
+impl<'de> serde::Deserialize<'de> for RunStepDeltaObjectDelta {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct RunStepDeltaObjectDelta {
+            #[serde(rename = "step_details")]
+            #[allow(dead_code)]
+            step_details: Option<RunStepDeltaObjectDeltaStepDetails>,
+        }
+        let RunStepDeltaObjectDelta { step_details, .. } =
+            RunStepDeltaObjectDelta::deserialize(deserializer)?;
+        Ok(Self { step_details })
+    }
+}
+impl serde::Serialize for RunStepDeltaObjectDelta {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct RunStepDeltaObjectDelta<'a> {
+            #[serde(rename = "step_details")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            step_details: &'a Option<RunStepDeltaObjectDeltaStepDetails>,
+        }
+        let Self { step_details } = self;
+        RunStepDeltaObjectDelta { step_details }.serialize(serializer)
+    }
+}
+#[doc = "The delta containing the fields that have changed on the run step."]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
+pub struct RunStepDeltaObjectDelta {
+    #[doc = "The details of the run step."]
+    #[builder(default)]
+    pub step_details: Option<RunStepDeltaObjectDeltaStepDetails>,
+}
 impl<'de> serde::Deserialize<'de> for RunStepDeltaObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -65147,6 +70329,7 @@ impl serde::Serialize for RunStepDeltaObject {
 pub struct RunStepDeltaObject {
     #[doc = "The identifier of the run step, which can be referenced in API endpoints."]
     pub id: String,
+    #[doc = "The delta containing the fields that have changed on the run step."]
     #[builder(default)]
     pub delta: RunStepDeltaObjectDelta,
 }
@@ -65999,6 +71182,68 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsObjectType {
 #[doc = "Always `tool_calls`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStepDeltaStepDetailsToolCallsObjectType;
+impl<'de> serde::Deserialize<'de> for RunStepDeltaStepDetailsToolCallsObjectToolCalls {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
+        enum RunStepDeltaStepDetailsToolCallsObjectToolCalls {
+            CodeInterpreter(#[allow(dead_code)] RunStepDeltaStepDetailsToolCallsCodeObject),
+            FileSearch(#[allow(dead_code)] RunStepDeltaStepDetailsToolCallsFileSearchObject),
+            Function(#[allow(dead_code)] RunStepDeltaStepDetailsToolCallsFunctionObject),
+        }
+        Ok(
+            match RunStepDeltaStepDetailsToolCallsObjectToolCalls::deserialize(deserializer)? {
+                RunStepDeltaStepDetailsToolCallsObjectToolCalls::CodeInterpreter(v) => {
+                    Self::CodeInterpreter(v)
+                }
+                RunStepDeltaStepDetailsToolCallsObjectToolCalls::FileSearch(v) => {
+                    Self::FileSearch(v)
+                }
+                RunStepDeltaStepDetailsToolCallsObjectToolCalls::Function(v) => Self::Function(v),
+            },
+        )
+    }
+}
+impl serde::Serialize for RunStepDeltaStepDetailsToolCallsObjectToolCalls {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names)]
+        enum RunStepDeltaStepDetailsToolCallsObjectToolCalls<'a> {
+            CodeInterpreter(#[allow(dead_code)] &'a RunStepDeltaStepDetailsToolCallsCodeObject),
+            FileSearch(#[allow(dead_code)] &'a RunStepDeltaStepDetailsToolCallsFileSearchObject),
+            Function(#[allow(dead_code)] &'a RunStepDeltaStepDetailsToolCallsFunctionObject),
+        }
+        match self {
+            Self::CodeInterpreter(v) => {
+                RunStepDeltaStepDetailsToolCallsObjectToolCalls::CodeInterpreter(v)
+                    .serialize(serializer)
+            }
+            Self::FileSearch(v) => {
+                RunStepDeltaStepDetailsToolCallsObjectToolCalls::FileSearch(v).serialize(serializer)
+            }
+            Self::Function(v) => {
+                RunStepDeltaStepDetailsToolCallsObjectToolCalls::Function(v).serialize(serializer)
+            }
+        }
+    }
+}
+#[derive(Clone, Debug, PartialEq)]
+#[allow(clippy::large_enum_variant)]
+pub enum RunStepDeltaStepDetailsToolCallsObjectToolCalls {
+    CodeInterpreter(RunStepDeltaStepDetailsToolCallsCodeObject),
+    FileSearch(RunStepDeltaStepDetailsToolCallsFileSearchObject),
+    Function(RunStepDeltaStepDetailsToolCallsFunctionObject),
+}
 impl<'de> serde::Deserialize<'de> for RunStepDeltaStepDetailsToolCallsObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -66012,7 +71257,7 @@ impl<'de> serde::Deserialize<'de> for RunStepDeltaStepDetailsToolCallsObject {
             r#type: RunStepDeltaStepDetailsToolCallsObjectType,
             #[serde(rename = "tool_calls")]
             #[allow(dead_code)]
-            tool_calls: Option<Vec<RunStepDeltaStepDetailsToolCall>>,
+            tool_calls: Option<Vec<RunStepDeltaStepDetailsToolCallsObjectToolCalls>>,
         }
         let RunStepDeltaStepDetailsToolCallsObject { tool_calls, .. } =
             RunStepDeltaStepDetailsToolCallsObject::deserialize(deserializer)?;
@@ -66031,7 +71276,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsObject {
             r#type: &'a RunStepDeltaStepDetailsToolCallsObjectType,
             #[serde(rename = "tool_calls")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            tool_calls: &'a Option<Vec<RunStepDeltaStepDetailsToolCall>>,
+            tool_calls: &'a Option<Vec<RunStepDeltaStepDetailsToolCallsObjectToolCalls>>,
         }
         let Self { tool_calls } = self;
         RunStepDeltaStepDetailsToolCallsObject {
@@ -66046,7 +71291,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsObject {
 pub struct RunStepDeltaStepDetailsToolCallsObject {
     #[doc = "An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `file_search`, or `function`.\n"]
     #[builder(default)]
-    pub tool_calls: Option<Vec<RunStepDeltaStepDetailsToolCall>>,
+    pub tool_calls: Option<Vec<RunStepDeltaStepDetailsToolCallsObjectToolCalls>>,
 }
 impl<'de> serde::Deserialize<'de> for RunStepDetailsMessageCreationObjectType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -66685,7 +71930,7 @@ impl<'de> serde::Deserialize<'de> for RunStepDetailsToolCallsFileSearchRankingOp
             ranker: FileSearchRanker,
             #[serde(rename = "score_threshold")]
             #[allow(dead_code)]
-            score_threshold: f64,
+            score_threshold: serde_json::Number,
         }
         let RunStepDetailsToolCallsFileSearchRankingOptionsObject {
             ranker,
@@ -66709,7 +71954,7 @@ impl serde::Serialize for RunStepDetailsToolCallsFileSearchRankingOptionsObject 
             #[serde(rename = "ranker")]
             ranker: &'a FileSearchRanker,
             #[serde(rename = "score_threshold")]
-            score_threshold: &'a f64,
+            score_threshold: &'a serde_json::Number,
         }
         let Self {
             ranker,
@@ -66723,11 +71968,11 @@ impl serde::Serialize for RunStepDetailsToolCallsFileSearchRankingOptionsObject 
     }
 }
 #[doc = "The ranking options for the file search."]
-#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStepDetailsToolCallsFileSearchRankingOptionsObject {
     pub ranker: FileSearchRanker,
     #[doc = "The score threshold for the file search. All values must be a floating point number between 0 and 1."]
-    pub score_threshold: f64,
+    pub score_threshold: serde_json::Number,
 }
 impl<'de> serde::Deserialize<'de> for RunStepDetailsToolCallsFileSearchResultObjectContentType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -66820,7 +72065,7 @@ impl<'de> serde::Deserialize<'de> for RunStepDetailsToolCallsFileSearchResultObj
             file_name: String,
             #[serde(rename = "score")]
             #[allow(dead_code)]
-            score: f64,
+            score: serde_json::Number,
             #[serde(rename = "content")]
             #[allow(dead_code)]
             content: Option<Vec<RunStepDetailsToolCallsFileSearchResultObjectContent>>,
@@ -66853,7 +72098,7 @@ impl serde::Serialize for RunStepDetailsToolCallsFileSearchResultObject {
             #[serde(rename = "file_name")]
             file_name: &'a String,
             #[serde(rename = "score")]
-            score: &'a f64,
+            score: &'a serde_json::Number,
             #[serde(rename = "content")]
             #[serde(skip_serializing_if = "Option::is_none")]
             content: &'a Option<Vec<RunStepDetailsToolCallsFileSearchResultObjectContent>>,
@@ -66881,7 +72126,7 @@ pub struct RunStepDetailsToolCallsFileSearchResultObject {
     #[doc = "The name of the file that result was found in."]
     pub file_name: String,
     #[doc = "The score of the result. All values must be a floating point number between 0 and 1."]
-    pub score: f64,
+    pub score: serde_json::Number,
     #[doc = "The content of the result that was found. The content is only included if requested via the include query parameter."]
     #[builder(default)]
     pub content: Option<Vec<RunStepDetailsToolCallsFileSearchResultObjectContent>>,
@@ -67065,6 +72310,65 @@ impl serde::Serialize for RunStepDetailsToolCallsObjectType {
 #[doc = "Always `tool_calls`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStepDetailsToolCallsObjectType;
+impl<'de> serde::Deserialize<'de> for RunStepDetailsToolCallsObjectToolCalls {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
+        enum RunStepDetailsToolCallsObjectToolCalls {
+            CodeInterpreter(#[allow(dead_code)] RunStepDetailsToolCallsCodeObject),
+            FileSearch(#[allow(dead_code)] RunStepDetailsToolCallsFileSearchObject),
+            Function(#[allow(dead_code)] RunStepDetailsToolCallsFunctionObject),
+        }
+        Ok(
+            match RunStepDetailsToolCallsObjectToolCalls::deserialize(deserializer)? {
+                RunStepDetailsToolCallsObjectToolCalls::CodeInterpreter(v) => {
+                    Self::CodeInterpreter(v)
+                }
+                RunStepDetailsToolCallsObjectToolCalls::FileSearch(v) => Self::FileSearch(v),
+                RunStepDetailsToolCallsObjectToolCalls::Function(v) => Self::Function(v),
+            },
+        )
+    }
+}
+impl serde::Serialize for RunStepDetailsToolCallsObjectToolCalls {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names)]
+        enum RunStepDetailsToolCallsObjectToolCalls<'a> {
+            CodeInterpreter(#[allow(dead_code)] &'a RunStepDetailsToolCallsCodeObject),
+            FileSearch(#[allow(dead_code)] &'a RunStepDetailsToolCallsFileSearchObject),
+            Function(#[allow(dead_code)] &'a RunStepDetailsToolCallsFunctionObject),
+        }
+        match self {
+            Self::CodeInterpreter(v) => {
+                RunStepDetailsToolCallsObjectToolCalls::CodeInterpreter(v).serialize(serializer)
+            }
+            Self::FileSearch(v) => {
+                RunStepDetailsToolCallsObjectToolCalls::FileSearch(v).serialize(serializer)
+            }
+            Self::Function(v) => {
+                RunStepDetailsToolCallsObjectToolCalls::Function(v).serialize(serializer)
+            }
+        }
+    }
+}
+#[derive(Clone, Debug, PartialEq)]
+#[allow(clippy::large_enum_variant)]
+pub enum RunStepDetailsToolCallsObjectToolCalls {
+    CodeInterpreter(RunStepDetailsToolCallsCodeObject),
+    FileSearch(RunStepDetailsToolCallsFileSearchObject),
+    Function(RunStepDetailsToolCallsFunctionObject),
+}
 impl<'de> serde::Deserialize<'de> for RunStepDetailsToolCallsObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -67078,7 +72382,7 @@ impl<'de> serde::Deserialize<'de> for RunStepDetailsToolCallsObject {
             r#type: RunStepDetailsToolCallsObjectType,
             #[serde(rename = "tool_calls")]
             #[allow(dead_code)]
-            tool_calls: Vec<RunStepDetailsToolCall>,
+            tool_calls: Vec<RunStepDetailsToolCallsObjectToolCalls>,
         }
         let RunStepDetailsToolCallsObject { tool_calls, .. } =
             RunStepDetailsToolCallsObject::deserialize(deserializer)?;
@@ -67096,7 +72400,7 @@ impl serde::Serialize for RunStepDetailsToolCallsObject {
             #[serde(rename = "type")]
             r#type: &'a RunStepDetailsToolCallsObjectType,
             #[serde(rename = "tool_calls")]
-            tool_calls: &'a Vec<RunStepDetailsToolCall>,
+            tool_calls: &'a Vec<RunStepDetailsToolCallsObjectToolCalls>,
         }
         let Self { tool_calls } = self;
         RunStepDetailsToolCallsObject {
@@ -67110,7 +72414,7 @@ impl serde::Serialize for RunStepDetailsToolCallsObject {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStepDetailsToolCallsObject {
     #[doc = "An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `file_search`, or `function`.\n"]
-    pub tool_calls: Vec<RunStepDetailsToolCall>,
+    pub tool_calls: Vec<RunStepDetailsToolCallsObjectToolCalls>,
 }
 impl<'de> serde::Deserialize<'de> for RunStepObjectObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -69236,7 +74540,7 @@ pub struct Scroll {
     #[doc = "The vertical scroll distance.\n"]
     pub scroll_y: i64,
 }
-#[doc = "Specifies the latency tier to use for processing the request. This parameter is relevant for customers subscribed to the scale tier service:\n  - If set to 'auto', and the Project is Scale tier enabled, the system\n    will utilize scale tier credits until they are exhausted.\n  - If set to 'auto', and the Project is not Scale tier enabled, the request will be processed using the default service tier with a lower uptime SLA and no latency guarantee.\n  - If set to 'default', the request will be processed using the default service tier with a lower uptime SLA and no latency guarantee.\n  - If set to 'flex', the request will be processed with the Flex Processing service tier. [Learn more](https://platform.openai.com/docs/guides/flex-processing).\n  - When not set, the default behavior is 'auto'.\n\n  When this parameter is set, the response body will include the `service_tier` utilized.\n"]
+#[doc = "Specifies the processing type used for serving the request.\n  - If set to 'auto', then the request will be processed with the service tier configured in the Project settings. Unless otherwise configured, the Project will use 'default'.\n  - If set to 'default', then the requset will be processed with the standard pricing and performance for the selected model.\n  - If set to '[flex](https://platform.openai.com/docs/guides/flex-processing)' or 'priority', then the request will be processed with the corresponding service tier. [Contact sales](https://openai.com/contact-sales) to learn more about Priority processing.\n  - When not set, the default behavior is 'auto'.\n\n  When the `service_tier` parameter is set, the response body will include the `service_tier` value based on the processing mode actually used to serve the request. This response value may be different from the value set in the parameter.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ServiceTier {
     #[doc = "auto"]
@@ -69249,6 +74553,227 @@ pub enum ServiceTier {
     #[doc = "flex"]
     #[serde(rename = "flex")]
     Flex,
+    #[doc = "scale"]
+    #[serde(rename = "scale")]
+    Scale,
+    #[doc = "priority"]
+    #[serde(rename = "priority")]
+    Priority,
+}
+impl<'de> serde::Deserialize<'de> for SpeechAudioDeltaEventType {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "speech.audio.delta" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"speech.audio.delta",
+            ))
+        }
+    }
+}
+impl serde::Serialize for SpeechAudioDeltaEventType {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "speech.audio.delta".serialize(serializer)
+    }
+}
+#[doc = "The type of the event. Always `speech.audio.delta`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct SpeechAudioDeltaEventType;
+impl<'de> serde::Deserialize<'de> for SpeechAudioDeltaEvent {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct SpeechAudioDeltaEvent {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: SpeechAudioDeltaEventType,
+            #[serde(rename = "audio")]
+            #[allow(dead_code)]
+            audio: String,
+        }
+        let SpeechAudioDeltaEvent { audio, .. } = SpeechAudioDeltaEvent::deserialize(deserializer)?;
+        Ok(Self { audio })
+    }
+}
+impl serde::Serialize for SpeechAudioDeltaEvent {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct SpeechAudioDeltaEvent<'a> {
+            #[serde(rename = "type")]
+            r#type: &'a SpeechAudioDeltaEventType,
+            #[serde(rename = "audio")]
+            audio: &'a String,
+        }
+        let Self { audio } = self;
+        SpeechAudioDeltaEvent {
+            r#type: &Default::default(),
+            audio,
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "Emitted for each chunk of audio data generated during speech synthesis."]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct SpeechAudioDeltaEvent {
+    #[doc = "A chunk of Base64-encoded audio data.\n"]
+    pub audio: String,
+}
+impl<'de> serde::Deserialize<'de> for SpeechAudioDoneEventType {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "speech.audio.done" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"speech.audio.done",
+            ))
+        }
+    }
+}
+impl serde::Serialize for SpeechAudioDoneEventType {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "speech.audio.done".serialize(serializer)
+    }
+}
+#[doc = "The type of the event. Always `speech.audio.done`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct SpeechAudioDoneEventType;
+impl<'de> serde::Deserialize<'de> for SpeechAudioDoneEventUsage {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct SpeechAudioDoneEventUsage {
+            #[serde(rename = "input_tokens")]
+            #[allow(dead_code)]
+            input_tokens: i64,
+            #[serde(rename = "output_tokens")]
+            #[allow(dead_code)]
+            output_tokens: i64,
+            #[serde(rename = "total_tokens")]
+            #[allow(dead_code)]
+            total_tokens: i64,
+        }
+        let SpeechAudioDoneEventUsage {
+            input_tokens,
+            output_tokens,
+            total_tokens,
+            ..
+        } = SpeechAudioDoneEventUsage::deserialize(deserializer)?;
+        Ok(Self {
+            input_tokens,
+            output_tokens,
+            total_tokens,
+        })
+    }
+}
+impl serde::Serialize for SpeechAudioDoneEventUsage {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct SpeechAudioDoneEventUsage<'a> {
+            #[serde(rename = "input_tokens")]
+            input_tokens: &'a i64,
+            #[serde(rename = "output_tokens")]
+            output_tokens: &'a i64,
+            #[serde(rename = "total_tokens")]
+            total_tokens: &'a i64,
+        }
+        let Self {
+            input_tokens,
+            output_tokens,
+            total_tokens,
+        } = self;
+        SpeechAudioDoneEventUsage {
+            input_tokens,
+            output_tokens,
+            total_tokens,
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "Token usage statistics for the request.\n"]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct SpeechAudioDoneEventUsage {
+    #[doc = "Number of input tokens in the prompt."]
+    pub input_tokens: i64,
+    #[doc = "Number of output tokens generated."]
+    pub output_tokens: i64,
+    #[doc = "Total number of tokens used (input + output)."]
+    pub total_tokens: i64,
+}
+impl<'de> serde::Deserialize<'de> for SpeechAudioDoneEvent {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct SpeechAudioDoneEvent {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: SpeechAudioDoneEventType,
+            #[serde(rename = "usage")]
+            #[allow(dead_code)]
+            usage: SpeechAudioDoneEventUsage,
+        }
+        let SpeechAudioDoneEvent { usage, .. } = SpeechAudioDoneEvent::deserialize(deserializer)?;
+        Ok(Self { usage })
+    }
+}
+impl serde::Serialize for SpeechAudioDoneEvent {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct SpeechAudioDoneEvent<'a> {
+            #[serde(rename = "type")]
+            r#type: &'a SpeechAudioDoneEventType,
+            #[serde(rename = "usage")]
+            usage: &'a SpeechAudioDoneEventUsage,
+        }
+        let Self { usage } = self;
+        SpeechAudioDoneEvent {
+            r#type: &Default::default(),
+            usage,
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "Emitted when the speech synthesis is complete and all audio has been streamed."]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct SpeechAudioDoneEvent {
+    #[doc = "Token usage statistics for the request.\n"]
+    pub usage: SpeechAudioDoneEventUsage,
 }
 impl<'de> serde::Deserialize<'de> for StaticChunkingStrategy {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -70354,6 +75879,91 @@ pub struct ToolChoiceFunction {
     #[doc = "The name of the function to call."]
     pub name: String,
 }
+impl<'de> serde::Deserialize<'de> for ToolChoiceMcpType {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "mcp" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"mcp",
+            ))
+        }
+    }
+}
+impl serde::Serialize for ToolChoiceMcpType {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "mcp".serialize(serializer)
+    }
+}
+#[doc = "For MCP tools, the type is always `mcp`."]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ToolChoiceMcpType;
+impl<'de> serde::Deserialize<'de> for ToolChoiceMcp {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct ToolChoiceMcp {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: ToolChoiceMcpType,
+            #[serde(rename = "server_label")]
+            #[allow(dead_code)]
+            server_label: String,
+            #[serde(rename = "name")]
+            #[allow(dead_code)]
+            name: Option<String>,
+        }
+        let ToolChoiceMcp {
+            server_label, name, ..
+        } = ToolChoiceMcp::deserialize(deserializer)?;
+        Ok(Self { server_label, name })
+    }
+}
+impl serde::Serialize for ToolChoiceMcp {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct ToolChoiceMcp<'a> {
+            #[serde(rename = "type")]
+            r#type: &'a ToolChoiceMcpType,
+            #[serde(rename = "server_label")]
+            server_label: &'a String,
+            #[serde(rename = "name")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            name: &'a Option<String>,
+        }
+        let Self { server_label, name } = self;
+        ToolChoiceMcp {
+            r#type: &Default::default(),
+            server_label,
+            name,
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "Use this option to force the model to call a specific tool on a remote MCP server.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct ToolChoiceMcp {
+    #[doc = "The label of the MCP server to use.\n"]
+    pub server_label: String,
+    #[doc = "The name of the tool to call on the server.\n"]
+    #[builder(default)]
+    pub name: Option<String>,
+}
 #[doc = "Controls which (if any) tool is called by the model.\n\n`none` means the model will not call any tool and instead generates a message.\n\n`auto` means the model can pick between generating a message or calling one or\nmore tools.\n\n`required` means the model must call one or more tools.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ToolChoiceOptions {
@@ -70367,7 +75977,7 @@ pub enum ToolChoiceOptions {
     #[serde(rename = "required")]
     Required,
 }
-#[doc = "The type of hosted tool the model should to use. Learn more about\n[built-in tools](https://platform.openai.com/docs/guides/tools).\n\nAllowed values are:\n- `file_search`\n- `web_search_preview`\n- `computer_use_preview`\n- `code_interpreter`\n- `mcp`\n- `image_generation`\n"]
+#[doc = "The type of hosted tool the model should to use. Learn more about\n[built-in tools](https://platform.openai.com/docs/guides/tools).\n\nAllowed values are:\n- `file_search`\n- `web_search_preview`\n- `computer_use_preview`\n- `code_interpreter`\n- `image_generation`\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ToolChoiceTypesType {
     #[doc = "file_search"]
@@ -70388,9 +75998,6 @@ pub enum ToolChoiceTypesType {
     #[doc = "code_interpreter"]
     #[serde(rename = "code_interpreter")]
     CodeInterpreter,
-    #[doc = "mcp"]
-    #[serde(rename = "mcp")]
-    Mcp,
 }
 impl<'de> serde::Deserialize<'de> for ToolChoiceTypes {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -70426,7 +76033,7 @@ impl serde::Serialize for ToolChoiceTypes {
 #[doc = "Indicates that the model should use a built-in tool to generate a response.\n[Learn more about built-in tools](https://platform.openai.com/docs/guides/tools).\n"]
 #[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ToolChoiceTypes {
-    #[doc = "The type of hosted tool the model should to use. Learn more about\n[built-in tools](https://platform.openai.com/docs/guides/tools).\n\nAllowed values are:\n- `file_search`\n- `web_search_preview`\n- `computer_use_preview`\n- `code_interpreter`\n- `mcp`\n- `image_generation`\n"]
+    #[doc = "The type of hosted tool the model should to use. Learn more about\n[built-in tools](https://platform.openai.com/docs/guides/tools).\n\nAllowed values are:\n- `file_search`\n- `web_search_preview`\n- `computer_use_preview`\n- `code_interpreter`\n- `image_generation`\n"]
     pub r#type: ToolChoiceTypesType,
 }
 impl<'de> serde::Deserialize<'de> for TranscriptTextDeltaEventType {
@@ -70469,7 +76076,7 @@ impl<'de> serde::Deserialize<'de> for TranscriptTextDeltaEventLogprob {
             token: Option<String>,
             #[serde(rename = "logprob")]
             #[allow(dead_code)]
-            logprob: Option<f64>,
+            logprob: Option<serde_json::Number>,
             #[serde(rename = "bytes")]
             #[allow(dead_code)]
             bytes: Option<Vec<i64>>,
@@ -70500,7 +76107,7 @@ impl serde::Serialize for TranscriptTextDeltaEventLogprob {
             token: &'a Option<String>,
             #[serde(rename = "logprob")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            logprob: &'a Option<f64>,
+            logprob: &'a Option<serde_json::Number>,
             #[serde(rename = "bytes")]
             #[serde(skip_serializing_if = "Option::is_none")]
             bytes: &'a Option<Vec<i64>>,
@@ -70525,7 +76132,7 @@ pub struct TranscriptTextDeltaEventLogprob {
     pub token: Option<String>,
     #[doc = "The log probability of the token.\n"]
     #[builder(default)]
-    pub logprob: Option<f64>,
+    pub logprob: Option<serde_json::Number>,
     #[doc = "The bytes that were used to generate the log probability.\n"]
     #[builder(default)]
     pub bytes: Option<Vec<i64>>,
@@ -70628,7 +76235,7 @@ impl<'de> serde::Deserialize<'de> for TranscriptTextDoneEventLogprob {
             token: Option<String>,
             #[serde(rename = "logprob")]
             #[allow(dead_code)]
-            logprob: Option<f64>,
+            logprob: Option<serde_json::Number>,
             #[serde(rename = "bytes")]
             #[allow(dead_code)]
             bytes: Option<Vec<i64>>,
@@ -70659,7 +76266,7 @@ impl serde::Serialize for TranscriptTextDoneEventLogprob {
             token: &'a Option<String>,
             #[serde(rename = "logprob")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            logprob: &'a Option<f64>,
+            logprob: &'a Option<serde_json::Number>,
             #[serde(rename = "bytes")]
             #[serde(skip_serializing_if = "Option::is_none")]
             bytes: &'a Option<Vec<i64>>,
@@ -70684,7 +76291,7 @@ pub struct TranscriptTextDoneEventLogprob {
     pub token: Option<String>,
     #[doc = "The log probability of the token.\n"]
     #[builder(default)]
-    pub logprob: Option<f64>,
+    pub logprob: Option<serde_json::Number>,
     #[doc = "The bytes that were used to generate the log probability.\n"]
     #[builder(default)]
     pub bytes: Option<Vec<i64>>,
@@ -70706,10 +76313,21 @@ impl<'de> serde::Deserialize<'de> for TranscriptTextDoneEvent {
             #[serde(rename = "logprobs")]
             #[allow(dead_code)]
             logprobs: Option<Vec<TranscriptTextDoneEventLogprob>>,
+            #[serde(rename = "usage")]
+            #[allow(dead_code)]
+            usage: Option<TranscriptTextUsageTokens>,
         }
-        let TranscriptTextDoneEvent { text, logprobs, .. } =
-            TranscriptTextDoneEvent::deserialize(deserializer)?;
-        Ok(Self { text, logprobs })
+        let TranscriptTextDoneEvent {
+            text,
+            logprobs,
+            usage,
+            ..
+        } = TranscriptTextDoneEvent::deserialize(deserializer)?;
+        Ok(Self {
+            text,
+            logprobs,
+            usage,
+        })
     }
 }
 impl serde::Serialize for TranscriptTextDoneEvent {
@@ -70727,12 +76345,20 @@ impl serde::Serialize for TranscriptTextDoneEvent {
             #[serde(rename = "logprobs")]
             #[serde(skip_serializing_if = "Option::is_none")]
             logprobs: &'a Option<Vec<TranscriptTextDoneEventLogprob>>,
+            #[serde(rename = "usage")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            usage: &'a Option<TranscriptTextUsageTokens>,
         }
-        let Self { text, logprobs } = self;
+        let Self {
+            text,
+            logprobs,
+            usage,
+        } = self;
         TranscriptTextDoneEvent {
             r#type: &Default::default(),
             text,
             logprobs,
+            usage,
         }
         .serialize(serializer)
     }
@@ -70745,9 +76371,337 @@ pub struct TranscriptTextDoneEvent {
     #[doc = "The log probabilities of the individual tokens in the transcription. Only included if you [create a transcription](https://platform.openai.com/docs/api-reference/audio/create-transcription) with the `include[]` parameter set to `logprobs`.\n"]
     #[builder(default)]
     pub logprobs: Option<Vec<TranscriptTextDoneEventLogprob>>,
+    #[builder(default)]
+    pub usage: Option<TranscriptTextUsageTokens>,
 }
-#[doc = "Controls how the audio is cut into chunks. When set to `\"auto\"`, the server first normalizes loudness and then uses voice activity detection (VAD) to choose boundaries. `server_vad` object can be provided to tweak VAD detection parameters manually. If unset, the audio is transcribed as a single block. "]
-pub type TranscriptionChunkingStrategy = String;
+impl<'de> serde::Deserialize<'de> for TranscriptTextUsageDurationType {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "duration" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"duration",
+            ))
+        }
+    }
+}
+impl serde::Serialize for TranscriptTextUsageDurationType {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "duration".serialize(serializer)
+    }
+}
+#[doc = "The type of the usage object. Always `duration` for this variant."]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct TranscriptTextUsageDurationType;
+impl<'de> serde::Deserialize<'de> for TranscriptTextUsageDuration {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct TranscriptTextUsageDuration {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: TranscriptTextUsageDurationType,
+            #[serde(rename = "duration")]
+            #[allow(dead_code)]
+            duration: serde_json::Number,
+        }
+        let TranscriptTextUsageDuration { duration, .. } =
+            TranscriptTextUsageDuration::deserialize(deserializer)?;
+        Ok(Self { duration })
+    }
+}
+impl serde::Serialize for TranscriptTextUsageDuration {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct TranscriptTextUsageDuration<'a> {
+            #[serde(rename = "type")]
+            r#type: &'a TranscriptTextUsageDurationType,
+            #[serde(rename = "duration")]
+            duration: &'a serde_json::Number,
+        }
+        let Self { duration } = self;
+        TranscriptTextUsageDuration {
+            r#type: &Default::default(),
+            duration,
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "Usage statistics for models billed by audio input duration."]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct TranscriptTextUsageDuration {
+    #[doc = "Duration of the input audio in seconds."]
+    pub duration: serde_json::Number,
+}
+impl<'de> serde::Deserialize<'de> for TranscriptTextUsageTokensType {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "tokens" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"tokens",
+            ))
+        }
+    }
+}
+impl serde::Serialize for TranscriptTextUsageTokensType {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "tokens".serialize(serializer)
+    }
+}
+#[doc = "The type of the usage object. Always `tokens` for this variant."]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct TranscriptTextUsageTokensType;
+impl<'de> serde::Deserialize<'de> for TranscriptTextUsageTokensInputTokenDetails {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct TranscriptTextUsageTokensInputTokenDetails {
+            #[serde(rename = "text_tokens")]
+            #[allow(dead_code)]
+            text_tokens: Option<i64>,
+            #[serde(rename = "audio_tokens")]
+            #[allow(dead_code)]
+            audio_tokens: Option<i64>,
+        }
+        let TranscriptTextUsageTokensInputTokenDetails {
+            text_tokens,
+            audio_tokens,
+            ..
+        } = TranscriptTextUsageTokensInputTokenDetails::deserialize(deserializer)?;
+        Ok(Self {
+            text_tokens,
+            audio_tokens,
+        })
+    }
+}
+impl serde::Serialize for TranscriptTextUsageTokensInputTokenDetails {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct TranscriptTextUsageTokensInputTokenDetails<'a> {
+            #[serde(rename = "text_tokens")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            text_tokens: &'a Option<i64>,
+            #[serde(rename = "audio_tokens")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            audio_tokens: &'a Option<i64>,
+        }
+        let Self {
+            text_tokens,
+            audio_tokens,
+        } = self;
+        TranscriptTextUsageTokensInputTokenDetails {
+            text_tokens,
+            audio_tokens,
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "Details about the input tokens billed for this request."]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
+pub struct TranscriptTextUsageTokensInputTokenDetails {
+    #[doc = "Number of text tokens billed for this request."]
+    #[builder(default)]
+    pub text_tokens: Option<i64>,
+    #[doc = "Number of audio tokens billed for this request."]
+    #[builder(default)]
+    pub audio_tokens: Option<i64>,
+}
+impl<'de> serde::Deserialize<'de> for TranscriptTextUsageTokens {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct TranscriptTextUsageTokens {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: TranscriptTextUsageTokensType,
+            #[serde(rename = "input_tokens")]
+            #[allow(dead_code)]
+            input_tokens: i64,
+            #[serde(rename = "input_token_details")]
+            #[allow(dead_code)]
+            input_token_details: Option<TranscriptTextUsageTokensInputTokenDetails>,
+            #[serde(rename = "output_tokens")]
+            #[allow(dead_code)]
+            output_tokens: i64,
+            #[serde(rename = "total_tokens")]
+            #[allow(dead_code)]
+            total_tokens: i64,
+        }
+        let TranscriptTextUsageTokens {
+            input_tokens,
+            input_token_details,
+            output_tokens,
+            total_tokens,
+            ..
+        } = TranscriptTextUsageTokens::deserialize(deserializer)?;
+        Ok(Self {
+            input_tokens,
+            input_token_details,
+            output_tokens,
+            total_tokens,
+        })
+    }
+}
+impl serde::Serialize for TranscriptTextUsageTokens {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct TranscriptTextUsageTokens<'a> {
+            #[serde(rename = "type")]
+            r#type: &'a TranscriptTextUsageTokensType,
+            #[serde(rename = "input_tokens")]
+            input_tokens: &'a i64,
+            #[serde(rename = "input_token_details")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            input_token_details: &'a Option<TranscriptTextUsageTokensInputTokenDetails>,
+            #[serde(rename = "output_tokens")]
+            output_tokens: &'a i64,
+            #[serde(rename = "total_tokens")]
+            total_tokens: &'a i64,
+        }
+        let Self {
+            input_tokens,
+            input_token_details,
+            output_tokens,
+            total_tokens,
+        } = self;
+        TranscriptTextUsageTokens {
+            r#type: &Default::default(),
+            input_tokens,
+            input_token_details,
+            output_tokens,
+            total_tokens,
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "Usage statistics for models billed by token usage."]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct TranscriptTextUsageTokens {
+    #[doc = "Number of input tokens billed for this request."]
+    pub input_tokens: i64,
+    #[doc = "Details about the input tokens billed for this request."]
+    #[builder(default)]
+    pub input_token_details: Option<TranscriptTextUsageTokensInputTokenDetails>,
+    #[doc = "Number of output tokens generated."]
+    pub output_tokens: i64,
+    #[doc = "Total number of tokens used (input + output)."]
+    pub total_tokens: i64,
+}
+impl<'de> serde::Deserialize<'de> for TranscriptionChunkingStrategyAuto {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "auto" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"auto",
+            ))
+        }
+    }
+}
+impl serde::Serialize for TranscriptionChunkingStrategyAuto {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "auto".serialize(serializer)
+    }
+}
+#[doc = "Automatically set chunking parameters based on the audio. Must be set to `\"auto\"`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct TranscriptionChunkingStrategyAuto;
+impl<'de> serde::Deserialize<'de> for TranscriptionChunkingStrategy {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
+        enum TranscriptionChunkingStrategy {
+            Auto(#[allow(dead_code)] TranscriptionChunkingStrategyAuto),
+            VadConfig(#[allow(dead_code)] VadConfig),
+        }
+        Ok(
+            match TranscriptionChunkingStrategy::deserialize(deserializer)? {
+                TranscriptionChunkingStrategy::Auto(_) => Self::Auto,
+                TranscriptionChunkingStrategy::VadConfig(v) => Self::VadConfig(v),
+            },
+        )
+    }
+}
+impl serde::Serialize for TranscriptionChunkingStrategy {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names)]
+        enum TranscriptionChunkingStrategy<'a> {
+            Auto(#[allow(dead_code)] &'a TranscriptionChunkingStrategyAuto),
+            VadConfig(#[allow(dead_code)] &'a VadConfig),
+        }
+        match self {
+            Self::Auto => {
+                TranscriptionChunkingStrategy::Auto(&Default::default()).serialize(serializer)
+            }
+            Self::VadConfig(v) => TranscriptionChunkingStrategy::VadConfig(v).serialize(serializer),
+        }
+    }
+}
+#[doc = "Controls how the audio is cut into chunks. When set to `\"auto\"`, the\nserver first normalizes loudness and then uses voice activity detection (VAD) to\nchoose boundaries. `server_vad` object can be provided to tweak VAD detection\nparameters manually. If unset, the audio is transcribed as a single block. "]
+#[derive(Clone, Debug, PartialEq)]
+#[allow(clippy::large_enum_variant)]
+pub enum TranscriptionChunkingStrategy {
+    #[doc = "auto"]
+    Auto,
+    VadConfig(VadConfig),
+}
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum TranscriptionInclude {
     #[doc = "logprobs"]
@@ -71246,7 +77200,7 @@ impl serde::Serialize for UploadObject {
 }
 #[doc = "The object type, which is always \"upload\"."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct UploadObject;
+pub struct UploadObject;
 impl<'de> serde::Deserialize<'de> for Upload {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -71278,7 +77232,7 @@ impl<'de> serde::Deserialize<'de> for Upload {
             expires_at: i64,
             #[serde(rename = "object")]
             #[allow(dead_code)]
-            object: UploadObject,
+            object: Option<UploadObject>,
             #[serde(rename = "file")]
             #[allow(dead_code)]
             file: Option<OpenAiFile>,
@@ -71291,6 +77245,7 @@ impl<'de> serde::Deserialize<'de> for Upload {
             purpose,
             status,
             expires_at,
+            object,
             file,
             ..
         } = Upload::deserialize(deserializer)?;
@@ -71302,6 +77257,7 @@ impl<'de> serde::Deserialize<'de> for Upload {
             purpose,
             status,
             expires_at,
+            object,
             file,
         })
     }
@@ -71329,7 +77285,8 @@ impl serde::Serialize for Upload {
             #[serde(rename = "expires_at")]
             expires_at: &'a i64,
             #[serde(rename = "object")]
-            object: &'a UploadObject,
+            #[serde(skip_serializing_if = "Option::is_none")]
+            object: &'a Option<UploadObject>,
             #[serde(rename = "file")]
             #[serde(skip_serializing_if = "Option::is_none")]
             file: &'a Option<OpenAiFile>,
@@ -71342,6 +77299,7 @@ impl serde::Serialize for Upload {
             purpose,
             status,
             expires_at,
+            object,
             file,
         } = self;
         Upload {
@@ -71352,7 +77310,7 @@ impl serde::Serialize for Upload {
             purpose,
             status,
             expires_at,
-            object: &Default::default(),
+            object,
             file,
         }
         .serialize(serializer)
@@ -71375,6 +77333,9 @@ pub struct Upload {
     pub status: UploadStatus,
     #[doc = "The Unix timestamp (in seconds) for when the Upload will expire."]
     pub expires_at: i64,
+    #[doc = "The object type, which is always \"upload\"."]
+    #[builder(default)]
+    pub object: Option<UploadObject>,
     #[doc = "The ready File object after the Upload is completed."]
     #[builder(default)]
     pub file: Option<OpenAiFile>,
@@ -73373,7 +79334,7 @@ impl<'de> serde::Deserialize<'de> for VadConfig {
             silence_duration_ms: Option<i64>,
             #[serde(rename = "threshold")]
             #[allow(dead_code)]
-            threshold: Option<f64>,
+            threshold: Option<serde_json::Number>,
         }
         let VadConfig {
             r#type,
@@ -73408,7 +79369,7 @@ impl serde::Serialize for VadConfig {
             silence_duration_ms: &'a Option<i64>,
             #[serde(rename = "threshold")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            threshold: &'a Option<f64>,
+            threshold: &'a Option<serde_json::Number>,
         }
         let Self {
             r#type,
@@ -73425,7 +79386,7 @@ impl serde::Serialize for VadConfig {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct VadConfig {
     #[doc = "Must be set to `server_vad` to enable manual chunking using server side VAD."]
     pub r#type: VadConfigType,
@@ -73437,7 +79398,7 @@ pub struct VadConfig {
     pub silence_duration_ms: Option<i64>,
     #[doc = "Sensitivity threshold (0.0 to 1.0) for voice activity detection. A \nhigher threshold will require louder audio to activate the model, and \nthus might perform better in noisy environments.\n"]
     #[builder(default)]
-    pub threshold: Option<f64>,
+    pub threshold: Option<serde_json::Number>,
 }
 impl<'de> serde::Deserialize<'de> for ValidateGraderRequestGrader {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -73734,7 +79695,7 @@ impl<'de> serde::Deserialize<'de> for VectorStoreFileAttribute {
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum VectorStoreFileAttribute {
             String(#[allow(dead_code)] String),
-            Number(#[allow(dead_code)] f64),
+            Number(#[allow(dead_code)] serde_json::Number),
             Bool(#[allow(dead_code)] bool),
         }
         Ok(match VectorStoreFileAttribute::deserialize(deserializer)? {
@@ -73755,7 +79716,7 @@ impl serde::Serialize for VectorStoreFileAttribute {
         #[allow(clippy::enum_variant_names)]
         enum VectorStoreFileAttribute<'a> {
             String(#[allow(dead_code)] &'a String),
-            Number(#[allow(dead_code)] &'a f64),
+            Number(#[allow(dead_code)] &'a serde_json::Number),
             Bool(#[allow(dead_code)] &'a bool),
         }
         match self {
@@ -73769,7 +79730,7 @@ impl serde::Serialize for VectorStoreFileAttribute {
 #[allow(clippy::large_enum_variant)]
 pub enum VectorStoreFileAttribute {
     String(String),
-    Number(f64),
+    Number(serde_json::Number),
     Bool(bool),
 }
 #[doc = "Set of 16 key-value pairs that can be attached to an object. This can be \nuseful for storing additional information about the object in a structured \nformat, and querying for objects via API or the dashboard. Keys are strings \nwith a maximum length of 64 characters. Values are strings with a maximum \nlength of 512 characters, booleans, or numbers.\n"]
@@ -74256,6 +80217,55 @@ pub struct VectorStoreFileObjectLastError {
     #[doc = "A human-readable description of the error."]
     pub message: String,
 }
+impl<'de> serde::Deserialize<'de> for VectorStoreFileObjectChunkingStrategy {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
+        enum VectorStoreFileObjectChunkingStrategy {
+            Static(#[allow(dead_code)] StaticChunkingStrategyResponseParam),
+            Other(#[allow(dead_code)] OtherChunkingStrategyResponseParam),
+        }
+        Ok(
+            match VectorStoreFileObjectChunkingStrategy::deserialize(deserializer)? {
+                VectorStoreFileObjectChunkingStrategy::Static(v) => Self::Static(v),
+                VectorStoreFileObjectChunkingStrategy::Other(v) => Self::Other(v),
+            },
+        )
+    }
+}
+impl serde::Serialize for VectorStoreFileObjectChunkingStrategy {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names)]
+        enum VectorStoreFileObjectChunkingStrategy<'a> {
+            Static(#[allow(dead_code)] &'a StaticChunkingStrategyResponseParam),
+            Other(#[allow(dead_code)] &'a OtherChunkingStrategyResponseParam),
+        }
+        match self {
+            Self::Static(v) => {
+                VectorStoreFileObjectChunkingStrategy::Static(v).serialize(serializer)
+            }
+            Self::Other(v) => VectorStoreFileObjectChunkingStrategy::Other(v).serialize(serializer),
+        }
+    }
+}
+#[doc = "The strategy used to chunk the file."]
+#[derive(Clone, Copy, Debug, PartialEq)]
+#[allow(clippy::large_enum_variant)]
+pub enum VectorStoreFileObjectChunkingStrategy {
+    Static(StaticChunkingStrategyResponseParam),
+    Other(OtherChunkingStrategyResponseParam),
+}
 impl<'de> serde::Deserialize<'de> for VectorStoreFileObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -74287,7 +80297,7 @@ impl<'de> serde::Deserialize<'de> for VectorStoreFileObject {
             last_error: Option<VectorStoreFileObjectLastError>,
             #[serde(rename = "chunking_strategy")]
             #[allow(dead_code)]
-            chunking_strategy: Option<ChunkingStrategyResponse>,
+            chunking_strategy: Option<VectorStoreFileObjectChunkingStrategy>,
             #[serde(rename = "attributes")]
             #[allow(dead_code)]
             attributes: Option<VectorStoreFileAttributes>,
@@ -74340,7 +80350,7 @@ impl serde::Serialize for VectorStoreFileObject {
             last_error: &'a Option<VectorStoreFileObjectLastError>,
             #[serde(rename = "chunking_strategy")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            chunking_strategy: &'a Option<ChunkingStrategyResponse>,
+            chunking_strategy: &'a Option<VectorStoreFileObjectChunkingStrategy>,
             #[serde(rename = "attributes")]
             #[serde(skip_serializing_if = "Option::is_none")]
             attributes: &'a Option<VectorStoreFileAttributes>,
@@ -74385,8 +80395,9 @@ pub struct VectorStoreFileObject {
     #[doc = "The last error associated with this vector store file. Will be `null` if there are no errors."]
     #[builder(default)]
     pub last_error: Option<VectorStoreFileObjectLastError>,
+    #[doc = "The strategy used to chunk the file."]
     #[builder(default)]
-    pub chunking_strategy: Option<ChunkingStrategyResponse>,
+    pub chunking_strategy: Option<VectorStoreFileObjectChunkingStrategy>,
     #[builder(default)]
     pub attributes: Option<VectorStoreFileAttributes>,
 }
@@ -74798,7 +80809,7 @@ impl<'de> serde::Deserialize<'de> for VectorStoreSearchRequestRankingOptions {
             ranker: Option<VectorStoreSearchRequestRankingOptionsRanker>,
             #[serde(rename = "score_threshold")]
             #[allow(dead_code)]
-            score_threshold: Option<f64>,
+            score_threshold: Option<serde_json::Number>,
         }
         let VectorStoreSearchRequestRankingOptions {
             ranker,
@@ -74824,7 +80835,7 @@ impl serde::Serialize for VectorStoreSearchRequestRankingOptions {
             ranker: &'a Option<VectorStoreSearchRequestRankingOptionsRanker>,
             #[serde(rename = "score_threshold")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            score_threshold: &'a Option<f64>,
+            score_threshold: &'a Option<serde_json::Number>,
         }
         let Self {
             ranker,
@@ -74838,12 +80849,12 @@ impl serde::Serialize for VectorStoreSearchRequestRankingOptions {
     }
 }
 #[doc = "Ranking options for search."]
-#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct VectorStoreSearchRequestRankingOptions {
     #[builder(default)]
     pub ranker: Option<VectorStoreSearchRequestRankingOptionsRanker>,
     #[builder(default)]
-    pub score_threshold: Option<f64>,
+    pub score_threshold: Option<serde_json::Number>,
 }
 impl<'de> serde::Deserialize<'de> for VectorStoreSearchRequest {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -75010,7 +81021,7 @@ impl<'de> serde::Deserialize<'de> for VectorStoreSearchResultItem {
             filename: String,
             #[serde(rename = "score")]
             #[allow(dead_code)]
-            score: f64,
+            score: serde_json::Number,
             #[serde(rename = "attributes")]
             #[allow(dead_code)]
             attributes: Option<VectorStoreFileAttributes>,
@@ -75048,7 +81059,7 @@ impl serde::Serialize for VectorStoreSearchResultItem {
             #[serde(rename = "filename")]
             filename: &'a String,
             #[serde(rename = "score")]
-            score: &'a f64,
+            score: &'a serde_json::Number,
             #[serde(rename = "attributes")]
             #[serde(skip_serializing_if = "Option::is_none")]
             attributes: &'a Option<VectorStoreFileAttributes>,
@@ -75079,7 +81090,7 @@ pub struct VectorStoreSearchResultItem {
     #[doc = "The name of the vector store file."]
     pub filename: String,
     #[doc = "The similarity score for the result."]
-    pub score: f64,
+    pub score: serde_json::Number,
     #[builder(default)]
     pub attributes: Option<VectorStoreFileAttributes>,
     #[doc = "Content chunks from the file."]
@@ -75664,6 +81675,235 @@ impl serde::Serialize for Wait {
 #[doc = "A wait action.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct Wait {}
+impl<'de> serde::Deserialize<'de> for WebSearchActionFindType {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "find" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"find",
+            ))
+        }
+    }
+}
+impl serde::Serialize for WebSearchActionFindType {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "find".serialize(serializer)
+    }
+}
+#[doc = "The action type.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct WebSearchActionFindType;
+impl<'de> serde::Deserialize<'de> for WebSearchActionFind {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct WebSearchActionFind {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: WebSearchActionFindType,
+            #[serde(rename = "url")]
+            #[allow(dead_code)]
+            url: String,
+            #[serde(rename = "pattern")]
+            #[allow(dead_code)]
+            pattern: String,
+        }
+        let WebSearchActionFind { url, pattern, .. } =
+            WebSearchActionFind::deserialize(deserializer)?;
+        Ok(Self { url, pattern })
+    }
+}
+impl serde::Serialize for WebSearchActionFind {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct WebSearchActionFind<'a> {
+            #[serde(rename = "type")]
+            r#type: &'a WebSearchActionFindType,
+            #[serde(rename = "url")]
+            url: &'a String,
+            #[serde(rename = "pattern")]
+            pattern: &'a String,
+        }
+        let Self { url, pattern } = self;
+        WebSearchActionFind {
+            r#type: &Default::default(),
+            url,
+            pattern,
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "Action type \"find\": Searches for a pattern within a loaded page.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct WebSearchActionFind {
+    #[doc = "The URL of the page searched for the pattern.\n"]
+    pub url: String,
+    #[doc = "The pattern or text to search for within the page.\n"]
+    pub pattern: String,
+}
+impl<'de> serde::Deserialize<'de> for WebSearchActionOpenPageType {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "open_page" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"open_page",
+            ))
+        }
+    }
+}
+impl serde::Serialize for WebSearchActionOpenPageType {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "open_page".serialize(serializer)
+    }
+}
+#[doc = "The action type.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct WebSearchActionOpenPageType;
+impl<'de> serde::Deserialize<'de> for WebSearchActionOpenPage {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct WebSearchActionOpenPage {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: WebSearchActionOpenPageType,
+            #[serde(rename = "url")]
+            #[allow(dead_code)]
+            url: String,
+        }
+        let WebSearchActionOpenPage { url, .. } =
+            WebSearchActionOpenPage::deserialize(deserializer)?;
+        Ok(Self { url })
+    }
+}
+impl serde::Serialize for WebSearchActionOpenPage {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct WebSearchActionOpenPage<'a> {
+            #[serde(rename = "type")]
+            r#type: &'a WebSearchActionOpenPageType,
+            #[serde(rename = "url")]
+            url: &'a String,
+        }
+        let Self { url } = self;
+        WebSearchActionOpenPage {
+            r#type: &Default::default(),
+            url,
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "Action type \"open_page\" - Opens a specific URL from search results.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct WebSearchActionOpenPage {
+    #[doc = "The URL opened by the model.\n"]
+    pub url: String,
+}
+impl<'de> serde::Deserialize<'de> for WebSearchActionSearchType {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "search" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"search",
+            ))
+        }
+    }
+}
+impl serde::Serialize for WebSearchActionSearchType {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "search".serialize(serializer)
+    }
+}
+#[doc = "The action type.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct WebSearchActionSearchType;
+impl<'de> serde::Deserialize<'de> for WebSearchActionSearch {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct WebSearchActionSearch {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: WebSearchActionSearchType,
+            #[serde(rename = "query")]
+            #[allow(dead_code)]
+            query: String,
+        }
+        let WebSearchActionSearch { query, .. } = WebSearchActionSearch::deserialize(deserializer)?;
+        Ok(Self { query })
+    }
+}
+impl serde::Serialize for WebSearchActionSearch {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct WebSearchActionSearch<'a> {
+            #[serde(rename = "type")]
+            r#type: &'a WebSearchActionSearchType,
+            #[serde(rename = "query")]
+            query: &'a String,
+        }
+        let Self { query } = self;
+        WebSearchActionSearch {
+            r#type: &Default::default(),
+            query,
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "Action type \"search\" - Performs a web search query.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct WebSearchActionSearch {
+    #[doc = "The search query.\n"]
+    pub query: String,
+}
 #[doc = "High level guidance for the amount of context window space to use for the \nsearch. One of `low`, `medium`, or `high`. `medium` is the default.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum WebSearchContextSize {
@@ -75809,6 +82049,56 @@ pub enum WebSearchToolCallStatus {
     #[serde(rename = "failed")]
     Failed,
 }
+impl<'de> serde::Deserialize<'de> for WebSearchToolCallAction {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
+        enum WebSearchToolCallAction {
+            Search(#[allow(dead_code)] WebSearchActionSearch),
+            OpenPage(#[allow(dead_code)] WebSearchActionOpenPage),
+            Find(#[allow(dead_code)] WebSearchActionFind),
+        }
+        Ok(match WebSearchToolCallAction::deserialize(deserializer)? {
+            WebSearchToolCallAction::Search(v) => Self::Search(v),
+            WebSearchToolCallAction::OpenPage(v) => Self::OpenPage(v),
+            WebSearchToolCallAction::Find(v) => Self::Find(v),
+        })
+    }
+}
+impl serde::Serialize for WebSearchToolCallAction {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names)]
+        enum WebSearchToolCallAction<'a> {
+            Search(#[allow(dead_code)] &'a WebSearchActionSearch),
+            OpenPage(#[allow(dead_code)] &'a WebSearchActionOpenPage),
+            Find(#[allow(dead_code)] &'a WebSearchActionFind),
+        }
+        match self {
+            Self::Search(v) => WebSearchToolCallAction::Search(v).serialize(serializer),
+            Self::OpenPage(v) => WebSearchToolCallAction::OpenPage(v).serialize(serializer),
+            Self::Find(v) => WebSearchToolCallAction::Find(v).serialize(serializer),
+        }
+    }
+}
+#[doc = "An object describing the specific action taken in this web search call.\nIncludes details on how the model used the web (search, open_page, find).\n"]
+#[derive(Clone, Debug, PartialEq)]
+#[allow(clippy::large_enum_variant)]
+pub enum WebSearchToolCallAction {
+    Search(WebSearchActionSearch),
+    OpenPage(WebSearchActionOpenPage),
+    Find(WebSearchActionFind),
+}
 impl<'de> serde::Deserialize<'de> for WebSearchToolCall {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -75826,9 +82116,14 @@ impl<'de> serde::Deserialize<'de> for WebSearchToolCall {
             #[serde(rename = "status")]
             #[allow(dead_code)]
             status: WebSearchToolCallStatus,
+            #[serde(rename = "action")]
+            #[allow(dead_code)]
+            action: WebSearchToolCallAction,
         }
-        let WebSearchToolCall { id, status, .. } = WebSearchToolCall::deserialize(deserializer)?;
-        Ok(Self { id, status })
+        let WebSearchToolCall {
+            id, status, action, ..
+        } = WebSearchToolCall::deserialize(deserializer)?;
+        Ok(Self { id, status, action })
     }
 }
 impl serde::Serialize for WebSearchToolCall {
@@ -75845,12 +82140,15 @@ impl serde::Serialize for WebSearchToolCall {
             r#type: &'a WebSearchToolCallType,
             #[serde(rename = "status")]
             status: &'a WebSearchToolCallStatus,
+            #[serde(rename = "action")]
+            action: &'a WebSearchToolCallAction,
         }
-        let Self { id, status } = self;
+        let Self { id, status, action } = self;
         WebSearchToolCall {
             id,
             r#type: &Default::default(),
             status,
+            action,
         }
         .serialize(serializer)
     }
@@ -75862,6 +82160,2527 @@ pub struct WebSearchToolCall {
     pub id: String,
     #[doc = "The status of the web search tool call.\n"]
     pub status: WebSearchToolCallStatus,
+    #[doc = "An object describing the specific action taken in this web search call.\nIncludes details on how the model used the web (search, open_page, find).\n"]
+    pub action: WebSearchToolCallAction,
+}
+impl<'de> serde::Deserialize<'de> for WebhookBatchCancelledData {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct WebhookBatchCancelledData {
+            #[serde(rename = "id")]
+            #[allow(dead_code)]
+            id: String,
+        }
+        let WebhookBatchCancelledData { id, .. } =
+            WebhookBatchCancelledData::deserialize(deserializer)?;
+        Ok(Self { id })
+    }
+}
+impl serde::Serialize for WebhookBatchCancelledData {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct WebhookBatchCancelledData<'a> {
+            #[serde(rename = "id")]
+            id: &'a String,
+        }
+        let Self { id } = self;
+        WebhookBatchCancelledData { id }.serialize(serializer)
+    }
+}
+#[doc = "Event data payload.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct WebhookBatchCancelledData {
+    #[doc = "The unique ID of the batch API request.\n"]
+    pub id: String,
+}
+impl<'de> serde::Deserialize<'de> for WebhookBatchCancelledObject {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "event" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"event",
+            ))
+        }
+    }
+}
+impl serde::Serialize for WebhookBatchCancelledObject {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "event".serialize(serializer)
+    }
+}
+#[doc = "The object of the event. Always `event`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+pub struct WebhookBatchCancelledObject;
+impl<'de> serde::Deserialize<'de> for WebhookBatchCancelledType {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "batch.cancelled" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"batch.cancelled",
+            ))
+        }
+    }
+}
+impl serde::Serialize for WebhookBatchCancelledType {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "batch.cancelled".serialize(serializer)
+    }
+}
+#[doc = "The type of the event. Always `batch.cancelled`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct WebhookBatchCancelledType;
+impl<'de> serde::Deserialize<'de> for WebhookBatchCancelled {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct WebhookBatchCancelled {
+            #[serde(rename = "created_at")]
+            #[allow(dead_code)]
+            created_at: i64,
+            #[serde(rename = "id")]
+            #[allow(dead_code)]
+            id: String,
+            #[serde(rename = "data")]
+            #[allow(dead_code)]
+            data: WebhookBatchCancelledData,
+            #[serde(rename = "object")]
+            #[allow(dead_code)]
+            object: Option<WebhookBatchCancelledObject>,
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: WebhookBatchCancelledType,
+        }
+        let WebhookBatchCancelled {
+            created_at,
+            id,
+            data,
+            object,
+            ..
+        } = WebhookBatchCancelled::deserialize(deserializer)?;
+        Ok(Self {
+            created_at,
+            id,
+            data,
+            object,
+        })
+    }
+}
+impl serde::Serialize for WebhookBatchCancelled {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct WebhookBatchCancelled<'a> {
+            #[serde(rename = "created_at")]
+            created_at: &'a i64,
+            #[serde(rename = "id")]
+            id: &'a String,
+            #[serde(rename = "data")]
+            data: &'a WebhookBatchCancelledData,
+            #[serde(rename = "object")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            object: &'a Option<WebhookBatchCancelledObject>,
+            #[serde(rename = "type")]
+            r#type: &'a WebhookBatchCancelledType,
+        }
+        let Self {
+            created_at,
+            id,
+            data,
+            object,
+        } = self;
+        WebhookBatchCancelled {
+            created_at,
+            id,
+            data,
+            object,
+            r#type: &Default::default(),
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "Sent when a batch API request has been cancelled.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct WebhookBatchCancelled {
+    #[doc = "The Unix timestamp (in seconds) of when the batch API request was cancelled.\n"]
+    pub created_at: i64,
+    #[doc = "The unique ID of the event.\n"]
+    pub id: String,
+    #[doc = "Event data payload.\n"]
+    pub data: WebhookBatchCancelledData,
+    #[doc = "The object of the event. Always `event`.\n"]
+    #[builder(default)]
+    pub object: Option<WebhookBatchCancelledObject>,
+}
+impl<'de> serde::Deserialize<'de> for WebhookBatchCompletedData {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct WebhookBatchCompletedData {
+            #[serde(rename = "id")]
+            #[allow(dead_code)]
+            id: String,
+        }
+        let WebhookBatchCompletedData { id, .. } =
+            WebhookBatchCompletedData::deserialize(deserializer)?;
+        Ok(Self { id })
+    }
+}
+impl serde::Serialize for WebhookBatchCompletedData {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct WebhookBatchCompletedData<'a> {
+            #[serde(rename = "id")]
+            id: &'a String,
+        }
+        let Self { id } = self;
+        WebhookBatchCompletedData { id }.serialize(serializer)
+    }
+}
+#[doc = "Event data payload.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct WebhookBatchCompletedData {
+    #[doc = "The unique ID of the batch API request.\n"]
+    pub id: String,
+}
+impl<'de> serde::Deserialize<'de> for WebhookBatchCompletedObject {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "event" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"event",
+            ))
+        }
+    }
+}
+impl serde::Serialize for WebhookBatchCompletedObject {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "event".serialize(serializer)
+    }
+}
+#[doc = "The object of the event. Always `event`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+pub struct WebhookBatchCompletedObject;
+impl<'de> serde::Deserialize<'de> for WebhookBatchCompletedType {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "batch.completed" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"batch.completed",
+            ))
+        }
+    }
+}
+impl serde::Serialize for WebhookBatchCompletedType {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "batch.completed".serialize(serializer)
+    }
+}
+#[doc = "The type of the event. Always `batch.completed`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct WebhookBatchCompletedType;
+impl<'de> serde::Deserialize<'de> for WebhookBatchCompleted {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct WebhookBatchCompleted {
+            #[serde(rename = "created_at")]
+            #[allow(dead_code)]
+            created_at: i64,
+            #[serde(rename = "id")]
+            #[allow(dead_code)]
+            id: String,
+            #[serde(rename = "data")]
+            #[allow(dead_code)]
+            data: WebhookBatchCompletedData,
+            #[serde(rename = "object")]
+            #[allow(dead_code)]
+            object: Option<WebhookBatchCompletedObject>,
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: WebhookBatchCompletedType,
+        }
+        let WebhookBatchCompleted {
+            created_at,
+            id,
+            data,
+            object,
+            ..
+        } = WebhookBatchCompleted::deserialize(deserializer)?;
+        Ok(Self {
+            created_at,
+            id,
+            data,
+            object,
+        })
+    }
+}
+impl serde::Serialize for WebhookBatchCompleted {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct WebhookBatchCompleted<'a> {
+            #[serde(rename = "created_at")]
+            created_at: &'a i64,
+            #[serde(rename = "id")]
+            id: &'a String,
+            #[serde(rename = "data")]
+            data: &'a WebhookBatchCompletedData,
+            #[serde(rename = "object")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            object: &'a Option<WebhookBatchCompletedObject>,
+            #[serde(rename = "type")]
+            r#type: &'a WebhookBatchCompletedType,
+        }
+        let Self {
+            created_at,
+            id,
+            data,
+            object,
+        } = self;
+        WebhookBatchCompleted {
+            created_at,
+            id,
+            data,
+            object,
+            r#type: &Default::default(),
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "Sent when a batch API request has been completed.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct WebhookBatchCompleted {
+    #[doc = "The Unix timestamp (in seconds) of when the batch API request was completed.\n"]
+    pub created_at: i64,
+    #[doc = "The unique ID of the event.\n"]
+    pub id: String,
+    #[doc = "Event data payload.\n"]
+    pub data: WebhookBatchCompletedData,
+    #[doc = "The object of the event. Always `event`.\n"]
+    #[builder(default)]
+    pub object: Option<WebhookBatchCompletedObject>,
+}
+impl<'de> serde::Deserialize<'de> for WebhookBatchExpiredData {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct WebhookBatchExpiredData {
+            #[serde(rename = "id")]
+            #[allow(dead_code)]
+            id: String,
+        }
+        let WebhookBatchExpiredData { id, .. } =
+            WebhookBatchExpiredData::deserialize(deserializer)?;
+        Ok(Self { id })
+    }
+}
+impl serde::Serialize for WebhookBatchExpiredData {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct WebhookBatchExpiredData<'a> {
+            #[serde(rename = "id")]
+            id: &'a String,
+        }
+        let Self { id } = self;
+        WebhookBatchExpiredData { id }.serialize(serializer)
+    }
+}
+#[doc = "Event data payload.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct WebhookBatchExpiredData {
+    #[doc = "The unique ID of the batch API request.\n"]
+    pub id: String,
+}
+impl<'de> serde::Deserialize<'de> for WebhookBatchExpiredObject {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "event" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"event",
+            ))
+        }
+    }
+}
+impl serde::Serialize for WebhookBatchExpiredObject {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "event".serialize(serializer)
+    }
+}
+#[doc = "The object of the event. Always `event`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+pub struct WebhookBatchExpiredObject;
+impl<'de> serde::Deserialize<'de> for WebhookBatchExpiredType {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "batch.expired" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"batch.expired",
+            ))
+        }
+    }
+}
+impl serde::Serialize for WebhookBatchExpiredType {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "batch.expired".serialize(serializer)
+    }
+}
+#[doc = "The type of the event. Always `batch.expired`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct WebhookBatchExpiredType;
+impl<'de> serde::Deserialize<'de> for WebhookBatchExpired {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct WebhookBatchExpired {
+            #[serde(rename = "created_at")]
+            #[allow(dead_code)]
+            created_at: i64,
+            #[serde(rename = "id")]
+            #[allow(dead_code)]
+            id: String,
+            #[serde(rename = "data")]
+            #[allow(dead_code)]
+            data: WebhookBatchExpiredData,
+            #[serde(rename = "object")]
+            #[allow(dead_code)]
+            object: Option<WebhookBatchExpiredObject>,
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: WebhookBatchExpiredType,
+        }
+        let WebhookBatchExpired {
+            created_at,
+            id,
+            data,
+            object,
+            ..
+        } = WebhookBatchExpired::deserialize(deserializer)?;
+        Ok(Self {
+            created_at,
+            id,
+            data,
+            object,
+        })
+    }
+}
+impl serde::Serialize for WebhookBatchExpired {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct WebhookBatchExpired<'a> {
+            #[serde(rename = "created_at")]
+            created_at: &'a i64,
+            #[serde(rename = "id")]
+            id: &'a String,
+            #[serde(rename = "data")]
+            data: &'a WebhookBatchExpiredData,
+            #[serde(rename = "object")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            object: &'a Option<WebhookBatchExpiredObject>,
+            #[serde(rename = "type")]
+            r#type: &'a WebhookBatchExpiredType,
+        }
+        let Self {
+            created_at,
+            id,
+            data,
+            object,
+        } = self;
+        WebhookBatchExpired {
+            created_at,
+            id,
+            data,
+            object,
+            r#type: &Default::default(),
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "Sent when a batch API request has expired.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct WebhookBatchExpired {
+    #[doc = "The Unix timestamp (in seconds) of when the batch API request expired.\n"]
+    pub created_at: i64,
+    #[doc = "The unique ID of the event.\n"]
+    pub id: String,
+    #[doc = "Event data payload.\n"]
+    pub data: WebhookBatchExpiredData,
+    #[doc = "The object of the event. Always `event`.\n"]
+    #[builder(default)]
+    pub object: Option<WebhookBatchExpiredObject>,
+}
+impl<'de> serde::Deserialize<'de> for WebhookBatchFailedData {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct WebhookBatchFailedData {
+            #[serde(rename = "id")]
+            #[allow(dead_code)]
+            id: String,
+        }
+        let WebhookBatchFailedData { id, .. } = WebhookBatchFailedData::deserialize(deserializer)?;
+        Ok(Self { id })
+    }
+}
+impl serde::Serialize for WebhookBatchFailedData {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct WebhookBatchFailedData<'a> {
+            #[serde(rename = "id")]
+            id: &'a String,
+        }
+        let Self { id } = self;
+        WebhookBatchFailedData { id }.serialize(serializer)
+    }
+}
+#[doc = "Event data payload.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct WebhookBatchFailedData {
+    #[doc = "The unique ID of the batch API request.\n"]
+    pub id: String,
+}
+impl<'de> serde::Deserialize<'de> for WebhookBatchFailedObject {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "event" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"event",
+            ))
+        }
+    }
+}
+impl serde::Serialize for WebhookBatchFailedObject {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "event".serialize(serializer)
+    }
+}
+#[doc = "The object of the event. Always `event`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+pub struct WebhookBatchFailedObject;
+impl<'de> serde::Deserialize<'de> for WebhookBatchFailedType {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "batch.failed" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"batch.failed",
+            ))
+        }
+    }
+}
+impl serde::Serialize for WebhookBatchFailedType {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "batch.failed".serialize(serializer)
+    }
+}
+#[doc = "The type of the event. Always `batch.failed`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct WebhookBatchFailedType;
+impl<'de> serde::Deserialize<'de> for WebhookBatchFailed {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct WebhookBatchFailed {
+            #[serde(rename = "created_at")]
+            #[allow(dead_code)]
+            created_at: i64,
+            #[serde(rename = "id")]
+            #[allow(dead_code)]
+            id: String,
+            #[serde(rename = "data")]
+            #[allow(dead_code)]
+            data: WebhookBatchFailedData,
+            #[serde(rename = "object")]
+            #[allow(dead_code)]
+            object: Option<WebhookBatchFailedObject>,
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: WebhookBatchFailedType,
+        }
+        let WebhookBatchFailed {
+            created_at,
+            id,
+            data,
+            object,
+            ..
+        } = WebhookBatchFailed::deserialize(deserializer)?;
+        Ok(Self {
+            created_at,
+            id,
+            data,
+            object,
+        })
+    }
+}
+impl serde::Serialize for WebhookBatchFailed {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct WebhookBatchFailed<'a> {
+            #[serde(rename = "created_at")]
+            created_at: &'a i64,
+            #[serde(rename = "id")]
+            id: &'a String,
+            #[serde(rename = "data")]
+            data: &'a WebhookBatchFailedData,
+            #[serde(rename = "object")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            object: &'a Option<WebhookBatchFailedObject>,
+            #[serde(rename = "type")]
+            r#type: &'a WebhookBatchFailedType,
+        }
+        let Self {
+            created_at,
+            id,
+            data,
+            object,
+        } = self;
+        WebhookBatchFailed {
+            created_at,
+            id,
+            data,
+            object,
+            r#type: &Default::default(),
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "Sent when a batch API request has failed.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct WebhookBatchFailed {
+    #[doc = "The Unix timestamp (in seconds) of when the batch API request failed.\n"]
+    pub created_at: i64,
+    #[doc = "The unique ID of the event.\n"]
+    pub id: String,
+    #[doc = "Event data payload.\n"]
+    pub data: WebhookBatchFailedData,
+    #[doc = "The object of the event. Always `event`.\n"]
+    #[builder(default)]
+    pub object: Option<WebhookBatchFailedObject>,
+}
+impl<'de> serde::Deserialize<'de> for WebhookEvalRunCanceledData {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct WebhookEvalRunCanceledData {
+            #[serde(rename = "id")]
+            #[allow(dead_code)]
+            id: String,
+        }
+        let WebhookEvalRunCanceledData { id, .. } =
+            WebhookEvalRunCanceledData::deserialize(deserializer)?;
+        Ok(Self { id })
+    }
+}
+impl serde::Serialize for WebhookEvalRunCanceledData {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct WebhookEvalRunCanceledData<'a> {
+            #[serde(rename = "id")]
+            id: &'a String,
+        }
+        let Self { id } = self;
+        WebhookEvalRunCanceledData { id }.serialize(serializer)
+    }
+}
+#[doc = "Event data payload.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct WebhookEvalRunCanceledData {
+    #[doc = "The unique ID of the eval run.\n"]
+    pub id: String,
+}
+impl<'de> serde::Deserialize<'de> for WebhookEvalRunCanceledObject {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "event" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"event",
+            ))
+        }
+    }
+}
+impl serde::Serialize for WebhookEvalRunCanceledObject {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "event".serialize(serializer)
+    }
+}
+#[doc = "The object of the event. Always `event`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+pub struct WebhookEvalRunCanceledObject;
+impl<'de> serde::Deserialize<'de> for WebhookEvalRunCanceledType {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "eval.run.canceled" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"eval.run.canceled",
+            ))
+        }
+    }
+}
+impl serde::Serialize for WebhookEvalRunCanceledType {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "eval.run.canceled".serialize(serializer)
+    }
+}
+#[doc = "The type of the event. Always `eval.run.canceled`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct WebhookEvalRunCanceledType;
+impl<'de> serde::Deserialize<'de> for WebhookEvalRunCanceled {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct WebhookEvalRunCanceled {
+            #[serde(rename = "created_at")]
+            #[allow(dead_code)]
+            created_at: i64,
+            #[serde(rename = "id")]
+            #[allow(dead_code)]
+            id: String,
+            #[serde(rename = "data")]
+            #[allow(dead_code)]
+            data: WebhookEvalRunCanceledData,
+            #[serde(rename = "object")]
+            #[allow(dead_code)]
+            object: Option<WebhookEvalRunCanceledObject>,
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: WebhookEvalRunCanceledType,
+        }
+        let WebhookEvalRunCanceled {
+            created_at,
+            id,
+            data,
+            object,
+            ..
+        } = WebhookEvalRunCanceled::deserialize(deserializer)?;
+        Ok(Self {
+            created_at,
+            id,
+            data,
+            object,
+        })
+    }
+}
+impl serde::Serialize for WebhookEvalRunCanceled {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct WebhookEvalRunCanceled<'a> {
+            #[serde(rename = "created_at")]
+            created_at: &'a i64,
+            #[serde(rename = "id")]
+            id: &'a String,
+            #[serde(rename = "data")]
+            data: &'a WebhookEvalRunCanceledData,
+            #[serde(rename = "object")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            object: &'a Option<WebhookEvalRunCanceledObject>,
+            #[serde(rename = "type")]
+            r#type: &'a WebhookEvalRunCanceledType,
+        }
+        let Self {
+            created_at,
+            id,
+            data,
+            object,
+        } = self;
+        WebhookEvalRunCanceled {
+            created_at,
+            id,
+            data,
+            object,
+            r#type: &Default::default(),
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "Sent when an eval run has been canceled.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct WebhookEvalRunCanceled {
+    #[doc = "The Unix timestamp (in seconds) of when the eval run was canceled.\n"]
+    pub created_at: i64,
+    #[doc = "The unique ID of the event.\n"]
+    pub id: String,
+    #[doc = "Event data payload.\n"]
+    pub data: WebhookEvalRunCanceledData,
+    #[doc = "The object of the event. Always `event`.\n"]
+    #[builder(default)]
+    pub object: Option<WebhookEvalRunCanceledObject>,
+}
+impl<'de> serde::Deserialize<'de> for WebhookEvalRunFailedData {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct WebhookEvalRunFailedData {
+            #[serde(rename = "id")]
+            #[allow(dead_code)]
+            id: String,
+        }
+        let WebhookEvalRunFailedData { id, .. } =
+            WebhookEvalRunFailedData::deserialize(deserializer)?;
+        Ok(Self { id })
+    }
+}
+impl serde::Serialize for WebhookEvalRunFailedData {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct WebhookEvalRunFailedData<'a> {
+            #[serde(rename = "id")]
+            id: &'a String,
+        }
+        let Self { id } = self;
+        WebhookEvalRunFailedData { id }.serialize(serializer)
+    }
+}
+#[doc = "Event data payload.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct WebhookEvalRunFailedData {
+    #[doc = "The unique ID of the eval run.\n"]
+    pub id: String,
+}
+impl<'de> serde::Deserialize<'de> for WebhookEvalRunFailedObject {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "event" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"event",
+            ))
+        }
+    }
+}
+impl serde::Serialize for WebhookEvalRunFailedObject {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "event".serialize(serializer)
+    }
+}
+#[doc = "The object of the event. Always `event`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+pub struct WebhookEvalRunFailedObject;
+impl<'de> serde::Deserialize<'de> for WebhookEvalRunFailedType {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "eval.run.failed" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"eval.run.failed",
+            ))
+        }
+    }
+}
+impl serde::Serialize for WebhookEvalRunFailedType {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "eval.run.failed".serialize(serializer)
+    }
+}
+#[doc = "The type of the event. Always `eval.run.failed`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct WebhookEvalRunFailedType;
+impl<'de> serde::Deserialize<'de> for WebhookEvalRunFailed {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct WebhookEvalRunFailed {
+            #[serde(rename = "created_at")]
+            #[allow(dead_code)]
+            created_at: i64,
+            #[serde(rename = "id")]
+            #[allow(dead_code)]
+            id: String,
+            #[serde(rename = "data")]
+            #[allow(dead_code)]
+            data: WebhookEvalRunFailedData,
+            #[serde(rename = "object")]
+            #[allow(dead_code)]
+            object: Option<WebhookEvalRunFailedObject>,
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: WebhookEvalRunFailedType,
+        }
+        let WebhookEvalRunFailed {
+            created_at,
+            id,
+            data,
+            object,
+            ..
+        } = WebhookEvalRunFailed::deserialize(deserializer)?;
+        Ok(Self {
+            created_at,
+            id,
+            data,
+            object,
+        })
+    }
+}
+impl serde::Serialize for WebhookEvalRunFailed {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct WebhookEvalRunFailed<'a> {
+            #[serde(rename = "created_at")]
+            created_at: &'a i64,
+            #[serde(rename = "id")]
+            id: &'a String,
+            #[serde(rename = "data")]
+            data: &'a WebhookEvalRunFailedData,
+            #[serde(rename = "object")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            object: &'a Option<WebhookEvalRunFailedObject>,
+            #[serde(rename = "type")]
+            r#type: &'a WebhookEvalRunFailedType,
+        }
+        let Self {
+            created_at,
+            id,
+            data,
+            object,
+        } = self;
+        WebhookEvalRunFailed {
+            created_at,
+            id,
+            data,
+            object,
+            r#type: &Default::default(),
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "Sent when an eval run has failed.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct WebhookEvalRunFailed {
+    #[doc = "The Unix timestamp (in seconds) of when the eval run failed.\n"]
+    pub created_at: i64,
+    #[doc = "The unique ID of the event.\n"]
+    pub id: String,
+    #[doc = "Event data payload.\n"]
+    pub data: WebhookEvalRunFailedData,
+    #[doc = "The object of the event. Always `event`.\n"]
+    #[builder(default)]
+    pub object: Option<WebhookEvalRunFailedObject>,
+}
+impl<'de> serde::Deserialize<'de> for WebhookEvalRunSucceededData {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct WebhookEvalRunSucceededData {
+            #[serde(rename = "id")]
+            #[allow(dead_code)]
+            id: String,
+        }
+        let WebhookEvalRunSucceededData { id, .. } =
+            WebhookEvalRunSucceededData::deserialize(deserializer)?;
+        Ok(Self { id })
+    }
+}
+impl serde::Serialize for WebhookEvalRunSucceededData {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct WebhookEvalRunSucceededData<'a> {
+            #[serde(rename = "id")]
+            id: &'a String,
+        }
+        let Self { id } = self;
+        WebhookEvalRunSucceededData { id }.serialize(serializer)
+    }
+}
+#[doc = "Event data payload.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct WebhookEvalRunSucceededData {
+    #[doc = "The unique ID of the eval run.\n"]
+    pub id: String,
+}
+impl<'de> serde::Deserialize<'de> for WebhookEvalRunSucceededObject {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "event" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"event",
+            ))
+        }
+    }
+}
+impl serde::Serialize for WebhookEvalRunSucceededObject {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "event".serialize(serializer)
+    }
+}
+#[doc = "The object of the event. Always `event`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+pub struct WebhookEvalRunSucceededObject;
+impl<'de> serde::Deserialize<'de> for WebhookEvalRunSucceededType {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "eval.run.succeeded" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"eval.run.succeeded",
+            ))
+        }
+    }
+}
+impl serde::Serialize for WebhookEvalRunSucceededType {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "eval.run.succeeded".serialize(serializer)
+    }
+}
+#[doc = "The type of the event. Always `eval.run.succeeded`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct WebhookEvalRunSucceededType;
+impl<'de> serde::Deserialize<'de> for WebhookEvalRunSucceeded {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct WebhookEvalRunSucceeded {
+            #[serde(rename = "created_at")]
+            #[allow(dead_code)]
+            created_at: i64,
+            #[serde(rename = "id")]
+            #[allow(dead_code)]
+            id: String,
+            #[serde(rename = "data")]
+            #[allow(dead_code)]
+            data: WebhookEvalRunSucceededData,
+            #[serde(rename = "object")]
+            #[allow(dead_code)]
+            object: Option<WebhookEvalRunSucceededObject>,
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: WebhookEvalRunSucceededType,
+        }
+        let WebhookEvalRunSucceeded {
+            created_at,
+            id,
+            data,
+            object,
+            ..
+        } = WebhookEvalRunSucceeded::deserialize(deserializer)?;
+        Ok(Self {
+            created_at,
+            id,
+            data,
+            object,
+        })
+    }
+}
+impl serde::Serialize for WebhookEvalRunSucceeded {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct WebhookEvalRunSucceeded<'a> {
+            #[serde(rename = "created_at")]
+            created_at: &'a i64,
+            #[serde(rename = "id")]
+            id: &'a String,
+            #[serde(rename = "data")]
+            data: &'a WebhookEvalRunSucceededData,
+            #[serde(rename = "object")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            object: &'a Option<WebhookEvalRunSucceededObject>,
+            #[serde(rename = "type")]
+            r#type: &'a WebhookEvalRunSucceededType,
+        }
+        let Self {
+            created_at,
+            id,
+            data,
+            object,
+        } = self;
+        WebhookEvalRunSucceeded {
+            created_at,
+            id,
+            data,
+            object,
+            r#type: &Default::default(),
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "Sent when an eval run has succeeded.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct WebhookEvalRunSucceeded {
+    #[doc = "The Unix timestamp (in seconds) of when the eval run succeeded.\n"]
+    pub created_at: i64,
+    #[doc = "The unique ID of the event.\n"]
+    pub id: String,
+    #[doc = "Event data payload.\n"]
+    pub data: WebhookEvalRunSucceededData,
+    #[doc = "The object of the event. Always `event`.\n"]
+    #[builder(default)]
+    pub object: Option<WebhookEvalRunSucceededObject>,
+}
+impl<'de> serde::Deserialize<'de> for WebhookFineTuningJobCancelledData {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct WebhookFineTuningJobCancelledData {
+            #[serde(rename = "id")]
+            #[allow(dead_code)]
+            id: String,
+        }
+        let WebhookFineTuningJobCancelledData { id, .. } =
+            WebhookFineTuningJobCancelledData::deserialize(deserializer)?;
+        Ok(Self { id })
+    }
+}
+impl serde::Serialize for WebhookFineTuningJobCancelledData {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct WebhookFineTuningJobCancelledData<'a> {
+            #[serde(rename = "id")]
+            id: &'a String,
+        }
+        let Self { id } = self;
+        WebhookFineTuningJobCancelledData { id }.serialize(serializer)
+    }
+}
+#[doc = "Event data payload.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct WebhookFineTuningJobCancelledData {
+    #[doc = "The unique ID of the fine-tuning job.\n"]
+    pub id: String,
+}
+impl<'de> serde::Deserialize<'de> for WebhookFineTuningJobCancelledObject {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "event" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"event",
+            ))
+        }
+    }
+}
+impl serde::Serialize for WebhookFineTuningJobCancelledObject {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "event".serialize(serializer)
+    }
+}
+#[doc = "The object of the event. Always `event`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+pub struct WebhookFineTuningJobCancelledObject;
+impl<'de> serde::Deserialize<'de> for WebhookFineTuningJobCancelledType {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "fine_tuning.job.cancelled" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"fine_tuning.job.cancelled",
+            ))
+        }
+    }
+}
+impl serde::Serialize for WebhookFineTuningJobCancelledType {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "fine_tuning.job.cancelled".serialize(serializer)
+    }
+}
+#[doc = "The type of the event. Always `fine_tuning.job.cancelled`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct WebhookFineTuningJobCancelledType;
+impl<'de> serde::Deserialize<'de> for WebhookFineTuningJobCancelled {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct WebhookFineTuningJobCancelled {
+            #[serde(rename = "created_at")]
+            #[allow(dead_code)]
+            created_at: i64,
+            #[serde(rename = "id")]
+            #[allow(dead_code)]
+            id: String,
+            #[serde(rename = "data")]
+            #[allow(dead_code)]
+            data: WebhookFineTuningJobCancelledData,
+            #[serde(rename = "object")]
+            #[allow(dead_code)]
+            object: Option<WebhookFineTuningJobCancelledObject>,
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: WebhookFineTuningJobCancelledType,
+        }
+        let WebhookFineTuningJobCancelled {
+            created_at,
+            id,
+            data,
+            object,
+            ..
+        } = WebhookFineTuningJobCancelled::deserialize(deserializer)?;
+        Ok(Self {
+            created_at,
+            id,
+            data,
+            object,
+        })
+    }
+}
+impl serde::Serialize for WebhookFineTuningJobCancelled {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct WebhookFineTuningJobCancelled<'a> {
+            #[serde(rename = "created_at")]
+            created_at: &'a i64,
+            #[serde(rename = "id")]
+            id: &'a String,
+            #[serde(rename = "data")]
+            data: &'a WebhookFineTuningJobCancelledData,
+            #[serde(rename = "object")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            object: &'a Option<WebhookFineTuningJobCancelledObject>,
+            #[serde(rename = "type")]
+            r#type: &'a WebhookFineTuningJobCancelledType,
+        }
+        let Self {
+            created_at,
+            id,
+            data,
+            object,
+        } = self;
+        WebhookFineTuningJobCancelled {
+            created_at,
+            id,
+            data,
+            object,
+            r#type: &Default::default(),
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "Sent when a fine-tuning job has been cancelled.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct WebhookFineTuningJobCancelled {
+    #[doc = "The Unix timestamp (in seconds) of when the fine-tuning job was cancelled.\n"]
+    pub created_at: i64,
+    #[doc = "The unique ID of the event.\n"]
+    pub id: String,
+    #[doc = "Event data payload.\n"]
+    pub data: WebhookFineTuningJobCancelledData,
+    #[doc = "The object of the event. Always `event`.\n"]
+    #[builder(default)]
+    pub object: Option<WebhookFineTuningJobCancelledObject>,
+}
+impl<'de> serde::Deserialize<'de> for WebhookFineTuningJobFailedData {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct WebhookFineTuningJobFailedData {
+            #[serde(rename = "id")]
+            #[allow(dead_code)]
+            id: String,
+        }
+        let WebhookFineTuningJobFailedData { id, .. } =
+            WebhookFineTuningJobFailedData::deserialize(deserializer)?;
+        Ok(Self { id })
+    }
+}
+impl serde::Serialize for WebhookFineTuningJobFailedData {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct WebhookFineTuningJobFailedData<'a> {
+            #[serde(rename = "id")]
+            id: &'a String,
+        }
+        let Self { id } = self;
+        WebhookFineTuningJobFailedData { id }.serialize(serializer)
+    }
+}
+#[doc = "Event data payload.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct WebhookFineTuningJobFailedData {
+    #[doc = "The unique ID of the fine-tuning job.\n"]
+    pub id: String,
+}
+impl<'de> serde::Deserialize<'de> for WebhookFineTuningJobFailedObject {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "event" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"event",
+            ))
+        }
+    }
+}
+impl serde::Serialize for WebhookFineTuningJobFailedObject {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "event".serialize(serializer)
+    }
+}
+#[doc = "The object of the event. Always `event`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+pub struct WebhookFineTuningJobFailedObject;
+impl<'de> serde::Deserialize<'de> for WebhookFineTuningJobFailedType {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "fine_tuning.job.failed" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"fine_tuning.job.failed",
+            ))
+        }
+    }
+}
+impl serde::Serialize for WebhookFineTuningJobFailedType {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "fine_tuning.job.failed".serialize(serializer)
+    }
+}
+#[doc = "The type of the event. Always `fine_tuning.job.failed`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct WebhookFineTuningJobFailedType;
+impl<'de> serde::Deserialize<'de> for WebhookFineTuningJobFailed {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct WebhookFineTuningJobFailed {
+            #[serde(rename = "created_at")]
+            #[allow(dead_code)]
+            created_at: i64,
+            #[serde(rename = "id")]
+            #[allow(dead_code)]
+            id: String,
+            #[serde(rename = "data")]
+            #[allow(dead_code)]
+            data: WebhookFineTuningJobFailedData,
+            #[serde(rename = "object")]
+            #[allow(dead_code)]
+            object: Option<WebhookFineTuningJobFailedObject>,
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: WebhookFineTuningJobFailedType,
+        }
+        let WebhookFineTuningJobFailed {
+            created_at,
+            id,
+            data,
+            object,
+            ..
+        } = WebhookFineTuningJobFailed::deserialize(deserializer)?;
+        Ok(Self {
+            created_at,
+            id,
+            data,
+            object,
+        })
+    }
+}
+impl serde::Serialize for WebhookFineTuningJobFailed {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct WebhookFineTuningJobFailed<'a> {
+            #[serde(rename = "created_at")]
+            created_at: &'a i64,
+            #[serde(rename = "id")]
+            id: &'a String,
+            #[serde(rename = "data")]
+            data: &'a WebhookFineTuningJobFailedData,
+            #[serde(rename = "object")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            object: &'a Option<WebhookFineTuningJobFailedObject>,
+            #[serde(rename = "type")]
+            r#type: &'a WebhookFineTuningJobFailedType,
+        }
+        let Self {
+            created_at,
+            id,
+            data,
+            object,
+        } = self;
+        WebhookFineTuningJobFailed {
+            created_at,
+            id,
+            data,
+            object,
+            r#type: &Default::default(),
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "Sent when a fine-tuning job has failed.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct WebhookFineTuningJobFailed {
+    #[doc = "The Unix timestamp (in seconds) of when the fine-tuning job failed.\n"]
+    pub created_at: i64,
+    #[doc = "The unique ID of the event.\n"]
+    pub id: String,
+    #[doc = "Event data payload.\n"]
+    pub data: WebhookFineTuningJobFailedData,
+    #[doc = "The object of the event. Always `event`.\n"]
+    #[builder(default)]
+    pub object: Option<WebhookFineTuningJobFailedObject>,
+}
+impl<'de> serde::Deserialize<'de> for WebhookFineTuningJobSucceededData {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct WebhookFineTuningJobSucceededData {
+            #[serde(rename = "id")]
+            #[allow(dead_code)]
+            id: String,
+        }
+        let WebhookFineTuningJobSucceededData { id, .. } =
+            WebhookFineTuningJobSucceededData::deserialize(deserializer)?;
+        Ok(Self { id })
+    }
+}
+impl serde::Serialize for WebhookFineTuningJobSucceededData {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct WebhookFineTuningJobSucceededData<'a> {
+            #[serde(rename = "id")]
+            id: &'a String,
+        }
+        let Self { id } = self;
+        WebhookFineTuningJobSucceededData { id }.serialize(serializer)
+    }
+}
+#[doc = "Event data payload.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct WebhookFineTuningJobSucceededData {
+    #[doc = "The unique ID of the fine-tuning job.\n"]
+    pub id: String,
+}
+impl<'de> serde::Deserialize<'de> for WebhookFineTuningJobSucceededObject {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "event" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"event",
+            ))
+        }
+    }
+}
+impl serde::Serialize for WebhookFineTuningJobSucceededObject {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "event".serialize(serializer)
+    }
+}
+#[doc = "The object of the event. Always `event`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+pub struct WebhookFineTuningJobSucceededObject;
+impl<'de> serde::Deserialize<'de> for WebhookFineTuningJobSucceededType {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "fine_tuning.job.succeeded" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"fine_tuning.job.succeeded",
+            ))
+        }
+    }
+}
+impl serde::Serialize for WebhookFineTuningJobSucceededType {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "fine_tuning.job.succeeded".serialize(serializer)
+    }
+}
+#[doc = "The type of the event. Always `fine_tuning.job.succeeded`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct WebhookFineTuningJobSucceededType;
+impl<'de> serde::Deserialize<'de> for WebhookFineTuningJobSucceeded {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct WebhookFineTuningJobSucceeded {
+            #[serde(rename = "created_at")]
+            #[allow(dead_code)]
+            created_at: i64,
+            #[serde(rename = "id")]
+            #[allow(dead_code)]
+            id: String,
+            #[serde(rename = "data")]
+            #[allow(dead_code)]
+            data: WebhookFineTuningJobSucceededData,
+            #[serde(rename = "object")]
+            #[allow(dead_code)]
+            object: Option<WebhookFineTuningJobSucceededObject>,
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: WebhookFineTuningJobSucceededType,
+        }
+        let WebhookFineTuningJobSucceeded {
+            created_at,
+            id,
+            data,
+            object,
+            ..
+        } = WebhookFineTuningJobSucceeded::deserialize(deserializer)?;
+        Ok(Self {
+            created_at,
+            id,
+            data,
+            object,
+        })
+    }
+}
+impl serde::Serialize for WebhookFineTuningJobSucceeded {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct WebhookFineTuningJobSucceeded<'a> {
+            #[serde(rename = "created_at")]
+            created_at: &'a i64,
+            #[serde(rename = "id")]
+            id: &'a String,
+            #[serde(rename = "data")]
+            data: &'a WebhookFineTuningJobSucceededData,
+            #[serde(rename = "object")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            object: &'a Option<WebhookFineTuningJobSucceededObject>,
+            #[serde(rename = "type")]
+            r#type: &'a WebhookFineTuningJobSucceededType,
+        }
+        let Self {
+            created_at,
+            id,
+            data,
+            object,
+        } = self;
+        WebhookFineTuningJobSucceeded {
+            created_at,
+            id,
+            data,
+            object,
+            r#type: &Default::default(),
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "Sent when a fine-tuning job has succeeded.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct WebhookFineTuningJobSucceeded {
+    #[doc = "The Unix timestamp (in seconds) of when the fine-tuning job succeeded.\n"]
+    pub created_at: i64,
+    #[doc = "The unique ID of the event.\n"]
+    pub id: String,
+    #[doc = "Event data payload.\n"]
+    pub data: WebhookFineTuningJobSucceededData,
+    #[doc = "The object of the event. Always `event`.\n"]
+    #[builder(default)]
+    pub object: Option<WebhookFineTuningJobSucceededObject>,
+}
+impl<'de> serde::Deserialize<'de> for WebhookResponseCancelledData {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct WebhookResponseCancelledData {
+            #[serde(rename = "id")]
+            #[allow(dead_code)]
+            id: String,
+        }
+        let WebhookResponseCancelledData { id, .. } =
+            WebhookResponseCancelledData::deserialize(deserializer)?;
+        Ok(Self { id })
+    }
+}
+impl serde::Serialize for WebhookResponseCancelledData {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct WebhookResponseCancelledData<'a> {
+            #[serde(rename = "id")]
+            id: &'a String,
+        }
+        let Self { id } = self;
+        WebhookResponseCancelledData { id }.serialize(serializer)
+    }
+}
+#[doc = "Event data payload.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct WebhookResponseCancelledData {
+    #[doc = "The unique ID of the model response.\n"]
+    pub id: String,
+}
+impl<'de> serde::Deserialize<'de> for WebhookResponseCancelledObject {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "event" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"event",
+            ))
+        }
+    }
+}
+impl serde::Serialize for WebhookResponseCancelledObject {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "event".serialize(serializer)
+    }
+}
+#[doc = "The object of the event. Always `event`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+pub struct WebhookResponseCancelledObject;
+impl<'de> serde::Deserialize<'de> for WebhookResponseCancelledType {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "response.cancelled" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"response.cancelled",
+            ))
+        }
+    }
+}
+impl serde::Serialize for WebhookResponseCancelledType {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "response.cancelled".serialize(serializer)
+    }
+}
+#[doc = "The type of the event. Always `response.cancelled`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct WebhookResponseCancelledType;
+impl<'de> serde::Deserialize<'de> for WebhookResponseCancelled {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct WebhookResponseCancelled {
+            #[serde(rename = "created_at")]
+            #[allow(dead_code)]
+            created_at: i64,
+            #[serde(rename = "id")]
+            #[allow(dead_code)]
+            id: String,
+            #[serde(rename = "data")]
+            #[allow(dead_code)]
+            data: WebhookResponseCancelledData,
+            #[serde(rename = "object")]
+            #[allow(dead_code)]
+            object: Option<WebhookResponseCancelledObject>,
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: WebhookResponseCancelledType,
+        }
+        let WebhookResponseCancelled {
+            created_at,
+            id,
+            data,
+            object,
+            ..
+        } = WebhookResponseCancelled::deserialize(deserializer)?;
+        Ok(Self {
+            created_at,
+            id,
+            data,
+            object,
+        })
+    }
+}
+impl serde::Serialize for WebhookResponseCancelled {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct WebhookResponseCancelled<'a> {
+            #[serde(rename = "created_at")]
+            created_at: &'a i64,
+            #[serde(rename = "id")]
+            id: &'a String,
+            #[serde(rename = "data")]
+            data: &'a WebhookResponseCancelledData,
+            #[serde(rename = "object")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            object: &'a Option<WebhookResponseCancelledObject>,
+            #[serde(rename = "type")]
+            r#type: &'a WebhookResponseCancelledType,
+        }
+        let Self {
+            created_at,
+            id,
+            data,
+            object,
+        } = self;
+        WebhookResponseCancelled {
+            created_at,
+            id,
+            data,
+            object,
+            r#type: &Default::default(),
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "Sent when a background response has been cancelled.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct WebhookResponseCancelled {
+    #[doc = "The Unix timestamp (in seconds) of when the model response was cancelled.\n"]
+    pub created_at: i64,
+    #[doc = "The unique ID of the event.\n"]
+    pub id: String,
+    #[doc = "Event data payload.\n"]
+    pub data: WebhookResponseCancelledData,
+    #[doc = "The object of the event. Always `event`.\n"]
+    #[builder(default)]
+    pub object: Option<WebhookResponseCancelledObject>,
+}
+impl<'de> serde::Deserialize<'de> for WebhookResponseCompletedData {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct WebhookResponseCompletedData {
+            #[serde(rename = "id")]
+            #[allow(dead_code)]
+            id: String,
+        }
+        let WebhookResponseCompletedData { id, .. } =
+            WebhookResponseCompletedData::deserialize(deserializer)?;
+        Ok(Self { id })
+    }
+}
+impl serde::Serialize for WebhookResponseCompletedData {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct WebhookResponseCompletedData<'a> {
+            #[serde(rename = "id")]
+            id: &'a String,
+        }
+        let Self { id } = self;
+        WebhookResponseCompletedData { id }.serialize(serializer)
+    }
+}
+#[doc = "Event data payload.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct WebhookResponseCompletedData {
+    #[doc = "The unique ID of the model response.\n"]
+    pub id: String,
+}
+impl<'de> serde::Deserialize<'de> for WebhookResponseCompletedObject {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "event" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"event",
+            ))
+        }
+    }
+}
+impl serde::Serialize for WebhookResponseCompletedObject {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "event".serialize(serializer)
+    }
+}
+#[doc = "The object of the event. Always `event`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+pub struct WebhookResponseCompletedObject;
+impl<'de> serde::Deserialize<'de> for WebhookResponseCompletedType {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "response.completed" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"response.completed",
+            ))
+        }
+    }
+}
+impl serde::Serialize for WebhookResponseCompletedType {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "response.completed".serialize(serializer)
+    }
+}
+#[doc = "The type of the event. Always `response.completed`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct WebhookResponseCompletedType;
+impl<'de> serde::Deserialize<'de> for WebhookResponseCompleted {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct WebhookResponseCompleted {
+            #[serde(rename = "created_at")]
+            #[allow(dead_code)]
+            created_at: i64,
+            #[serde(rename = "id")]
+            #[allow(dead_code)]
+            id: String,
+            #[serde(rename = "data")]
+            #[allow(dead_code)]
+            data: WebhookResponseCompletedData,
+            #[serde(rename = "object")]
+            #[allow(dead_code)]
+            object: Option<WebhookResponseCompletedObject>,
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: WebhookResponseCompletedType,
+        }
+        let WebhookResponseCompleted {
+            created_at,
+            id,
+            data,
+            object,
+            ..
+        } = WebhookResponseCompleted::deserialize(deserializer)?;
+        Ok(Self {
+            created_at,
+            id,
+            data,
+            object,
+        })
+    }
+}
+impl serde::Serialize for WebhookResponseCompleted {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct WebhookResponseCompleted<'a> {
+            #[serde(rename = "created_at")]
+            created_at: &'a i64,
+            #[serde(rename = "id")]
+            id: &'a String,
+            #[serde(rename = "data")]
+            data: &'a WebhookResponseCompletedData,
+            #[serde(rename = "object")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            object: &'a Option<WebhookResponseCompletedObject>,
+            #[serde(rename = "type")]
+            r#type: &'a WebhookResponseCompletedType,
+        }
+        let Self {
+            created_at,
+            id,
+            data,
+            object,
+        } = self;
+        WebhookResponseCompleted {
+            created_at,
+            id,
+            data,
+            object,
+            r#type: &Default::default(),
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "Sent when a background response has been completed.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct WebhookResponseCompleted {
+    #[doc = "The Unix timestamp (in seconds) of when the model response was completed.\n"]
+    pub created_at: i64,
+    #[doc = "The unique ID of the event.\n"]
+    pub id: String,
+    #[doc = "Event data payload.\n"]
+    pub data: WebhookResponseCompletedData,
+    #[doc = "The object of the event. Always `event`.\n"]
+    #[builder(default)]
+    pub object: Option<WebhookResponseCompletedObject>,
+}
+impl<'de> serde::Deserialize<'de> for WebhookResponseFailedData {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct WebhookResponseFailedData {
+            #[serde(rename = "id")]
+            #[allow(dead_code)]
+            id: String,
+        }
+        let WebhookResponseFailedData { id, .. } =
+            WebhookResponseFailedData::deserialize(deserializer)?;
+        Ok(Self { id })
+    }
+}
+impl serde::Serialize for WebhookResponseFailedData {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct WebhookResponseFailedData<'a> {
+            #[serde(rename = "id")]
+            id: &'a String,
+        }
+        let Self { id } = self;
+        WebhookResponseFailedData { id }.serialize(serializer)
+    }
+}
+#[doc = "Event data payload.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct WebhookResponseFailedData {
+    #[doc = "The unique ID of the model response.\n"]
+    pub id: String,
+}
+impl<'de> serde::Deserialize<'de> for WebhookResponseFailedObject {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "event" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"event",
+            ))
+        }
+    }
+}
+impl serde::Serialize for WebhookResponseFailedObject {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "event".serialize(serializer)
+    }
+}
+#[doc = "The object of the event. Always `event`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+pub struct WebhookResponseFailedObject;
+impl<'de> serde::Deserialize<'de> for WebhookResponseFailedType {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "response.failed" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"response.failed",
+            ))
+        }
+    }
+}
+impl serde::Serialize for WebhookResponseFailedType {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "response.failed".serialize(serializer)
+    }
+}
+#[doc = "The type of the event. Always `response.failed`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct WebhookResponseFailedType;
+impl<'de> serde::Deserialize<'de> for WebhookResponseFailed {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct WebhookResponseFailed {
+            #[serde(rename = "created_at")]
+            #[allow(dead_code)]
+            created_at: i64,
+            #[serde(rename = "id")]
+            #[allow(dead_code)]
+            id: String,
+            #[serde(rename = "data")]
+            #[allow(dead_code)]
+            data: WebhookResponseFailedData,
+            #[serde(rename = "object")]
+            #[allow(dead_code)]
+            object: Option<WebhookResponseFailedObject>,
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: WebhookResponseFailedType,
+        }
+        let WebhookResponseFailed {
+            created_at,
+            id,
+            data,
+            object,
+            ..
+        } = WebhookResponseFailed::deserialize(deserializer)?;
+        Ok(Self {
+            created_at,
+            id,
+            data,
+            object,
+        })
+    }
+}
+impl serde::Serialize for WebhookResponseFailed {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct WebhookResponseFailed<'a> {
+            #[serde(rename = "created_at")]
+            created_at: &'a i64,
+            #[serde(rename = "id")]
+            id: &'a String,
+            #[serde(rename = "data")]
+            data: &'a WebhookResponseFailedData,
+            #[serde(rename = "object")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            object: &'a Option<WebhookResponseFailedObject>,
+            #[serde(rename = "type")]
+            r#type: &'a WebhookResponseFailedType,
+        }
+        let Self {
+            created_at,
+            id,
+            data,
+            object,
+        } = self;
+        WebhookResponseFailed {
+            created_at,
+            id,
+            data,
+            object,
+            r#type: &Default::default(),
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "Sent when a background response has failed.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct WebhookResponseFailed {
+    #[doc = "The Unix timestamp (in seconds) of when the model response failed.\n"]
+    pub created_at: i64,
+    #[doc = "The unique ID of the event.\n"]
+    pub id: String,
+    #[doc = "Event data payload.\n"]
+    pub data: WebhookResponseFailedData,
+    #[doc = "The object of the event. Always `event`.\n"]
+    #[builder(default)]
+    pub object: Option<WebhookResponseFailedObject>,
+}
+impl<'de> serde::Deserialize<'de> for WebhookResponseIncompleteData {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct WebhookResponseIncompleteData {
+            #[serde(rename = "id")]
+            #[allow(dead_code)]
+            id: String,
+        }
+        let WebhookResponseIncompleteData { id, .. } =
+            WebhookResponseIncompleteData::deserialize(deserializer)?;
+        Ok(Self { id })
+    }
+}
+impl serde::Serialize for WebhookResponseIncompleteData {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct WebhookResponseIncompleteData<'a> {
+            #[serde(rename = "id")]
+            id: &'a String,
+        }
+        let Self { id } = self;
+        WebhookResponseIncompleteData { id }.serialize(serializer)
+    }
+}
+#[doc = "Event data payload.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct WebhookResponseIncompleteData {
+    #[doc = "The unique ID of the model response.\n"]
+    pub id: String,
+}
+impl<'de> serde::Deserialize<'de> for WebhookResponseIncompleteObject {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "event" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"event",
+            ))
+        }
+    }
+}
+impl serde::Serialize for WebhookResponseIncompleteObject {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "event".serialize(serializer)
+    }
+}
+#[doc = "The object of the event. Always `event`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+pub struct WebhookResponseIncompleteObject;
+impl<'de> serde::Deserialize<'de> for WebhookResponseIncompleteType {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "response.incomplete" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"response.incomplete",
+            ))
+        }
+    }
+}
+impl serde::Serialize for WebhookResponseIncompleteType {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "response.incomplete".serialize(serializer)
+    }
+}
+#[doc = "The type of the event. Always `response.incomplete`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct WebhookResponseIncompleteType;
+impl<'de> serde::Deserialize<'de> for WebhookResponseIncomplete {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct WebhookResponseIncomplete {
+            #[serde(rename = "created_at")]
+            #[allow(dead_code)]
+            created_at: i64,
+            #[serde(rename = "id")]
+            #[allow(dead_code)]
+            id: String,
+            #[serde(rename = "data")]
+            #[allow(dead_code)]
+            data: WebhookResponseIncompleteData,
+            #[serde(rename = "object")]
+            #[allow(dead_code)]
+            object: Option<WebhookResponseIncompleteObject>,
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: WebhookResponseIncompleteType,
+        }
+        let WebhookResponseIncomplete {
+            created_at,
+            id,
+            data,
+            object,
+            ..
+        } = WebhookResponseIncomplete::deserialize(deserializer)?;
+        Ok(Self {
+            created_at,
+            id,
+            data,
+            object,
+        })
+    }
+}
+impl serde::Serialize for WebhookResponseIncomplete {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct WebhookResponseIncomplete<'a> {
+            #[serde(rename = "created_at")]
+            created_at: &'a i64,
+            #[serde(rename = "id")]
+            id: &'a String,
+            #[serde(rename = "data")]
+            data: &'a WebhookResponseIncompleteData,
+            #[serde(rename = "object")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            object: &'a Option<WebhookResponseIncompleteObject>,
+            #[serde(rename = "type")]
+            r#type: &'a WebhookResponseIncompleteType,
+        }
+        let Self {
+            created_at,
+            id,
+            data,
+            object,
+        } = self;
+        WebhookResponseIncomplete {
+            created_at,
+            id,
+            data,
+            object,
+            r#type: &Default::default(),
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "Sent when a background response has been interrupted.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct WebhookResponseIncomplete {
+    #[doc = "The Unix timestamp (in seconds) of when the model response was interrupted.\n"]
+    pub created_at: i64,
+    #[doc = "The unique ID of the event.\n"]
+    pub id: String,
+    #[doc = "Event data payload.\n"]
+    pub data: WebhookResponseIncompleteData,
+    #[doc = "The object of the event. Always `event`.\n"]
+    #[builder(default)]
+    pub object: Option<WebhookResponseIncompleteObject>,
 }
 impl<'de> serde::Deserialize<'de> for InputTextContentType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -76305,7 +85124,7 @@ impl<'de> serde::Deserialize<'de> for RankingOptions {
             ranker: Option<RankingOptionsRanker>,
             #[serde(rename = "score_threshold")]
             #[allow(dead_code)]
-            score_threshold: Option<f64>,
+            score_threshold: Option<serde_json::Number>,
         }
         let RankingOptions {
             ranker,
@@ -76331,7 +85150,7 @@ impl serde::Serialize for RankingOptions {
             ranker: &'a Option<RankingOptionsRanker>,
             #[serde(rename = "score_threshold")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            score_threshold: &'a Option<f64>,
+            score_threshold: &'a Option<serde_json::Number>,
         }
         let Self {
             ranker,
@@ -76344,14 +85163,14 @@ impl serde::Serialize for RankingOptions {
         .serialize(serializer)
     }
 }
-#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RankingOptions {
     #[doc = "The ranker to use for the file search."]
     #[builder(default)]
     pub ranker: Option<RankingOptionsRanker>,
     #[doc = "The score threshold for the file search, a number between 0 and 1. Numbers closer to 1 will attempt to return only the most relevant results, but may return fewer results."]
     #[builder(default)]
-    pub score_threshold: Option<f64>,
+    pub score_threshold: Option<serde_json::Number>,
 }
 impl<'de> serde::Deserialize<'de> for Filters {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -76899,9 +85718,21 @@ impl<'de> serde::Deserialize<'de> for FileCitationBody {
             #[serde(rename = "index")]
             #[allow(dead_code)]
             index: i64,
+            #[serde(rename = "filename")]
+            #[allow(dead_code)]
+            filename: String,
         }
-        let FileCitationBody { file_id, index, .. } = FileCitationBody::deserialize(deserializer)?;
-        Ok(Self { file_id, index })
+        let FileCitationBody {
+            file_id,
+            index,
+            filename,
+            ..
+        } = FileCitationBody::deserialize(deserializer)?;
+        Ok(Self {
+            file_id,
+            index,
+            filename,
+        })
     }
 }
 impl serde::Serialize for FileCitationBody {
@@ -76918,12 +85749,19 @@ impl serde::Serialize for FileCitationBody {
             file_id: &'a String,
             #[serde(rename = "index")]
             index: &'a i64,
+            #[serde(rename = "filename")]
+            filename: &'a String,
         }
-        let Self { file_id, index } = self;
+        let Self {
+            file_id,
+            index,
+            filename,
+        } = self;
         FileCitationBody {
             r#type: &Default::default(),
             file_id,
             index,
+            filename,
         }
         .serialize(serializer)
     }
@@ -76935,6 +85773,8 @@ pub struct FileCitationBody {
     pub file_id: String,
     #[doc = "The index of the file in the list of files."]
     pub index: i64,
+    #[doc = "The filename of the file cited."]
+    pub filename: String,
 }
 impl<'de> serde::Deserialize<'de> for UrlCitationBodyType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -77099,12 +85939,16 @@ impl<'de> serde::Deserialize<'de> for ContainerFileCitationBody {
             #[serde(rename = "end_index")]
             #[allow(dead_code)]
             end_index: i64,
+            #[serde(rename = "filename")]
+            #[allow(dead_code)]
+            filename: String,
         }
         let ContainerFileCitationBody {
             container_id,
             file_id,
             start_index,
             end_index,
+            filename,
             ..
         } = ContainerFileCitationBody::deserialize(deserializer)?;
         Ok(Self {
@@ -77112,6 +85956,7 @@ impl<'de> serde::Deserialize<'de> for ContainerFileCitationBody {
             file_id,
             start_index,
             end_index,
+            filename,
         })
     }
 }
@@ -77133,12 +85978,15 @@ impl serde::Serialize for ContainerFileCitationBody {
             start_index: &'a i64,
             #[serde(rename = "end_index")]
             end_index: &'a i64,
+            #[serde(rename = "filename")]
+            filename: &'a String,
         }
         let Self {
             container_id,
             file_id,
             start_index,
             end_index,
+            filename,
         } = self;
         ContainerFileCitationBody {
             r#type: &Default::default(),
@@ -77146,6 +85994,7 @@ impl serde::Serialize for ContainerFileCitationBody {
             file_id,
             start_index,
             end_index,
+            filename,
         }
         .serialize(serializer)
     }
@@ -77161,6 +86010,8 @@ pub struct ContainerFileCitationBody {
     pub start_index: i64,
     #[doc = "The index of the last character of the container file citation in the message."]
     pub end_index: i64,
+    #[doc = "The filename of the container file cited."]
+    pub filename: String,
 }
 impl<'de> serde::Deserialize<'de> for Annotation {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -77231,7 +86082,7 @@ impl<'de> serde::Deserialize<'de> for TopLogProb {
             token: String,
             #[serde(rename = "logprob")]
             #[allow(dead_code)]
-            logprob: f64,
+            logprob: serde_json::Number,
             #[serde(rename = "bytes")]
             #[allow(dead_code)]
             bytes: Vec<i64>,
@@ -77260,7 +86111,7 @@ impl serde::Serialize for TopLogProb {
             #[serde(rename = "token")]
             token: &'a String,
             #[serde(rename = "logprob")]
-            logprob: &'a f64,
+            logprob: &'a serde_json::Number,
             #[serde(rename = "bytes")]
             bytes: &'a Vec<i64>,
         }
@@ -77281,7 +86132,7 @@ impl serde::Serialize for TopLogProb {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct TopLogProb {
     pub token: String,
-    pub logprob: f64,
+    pub logprob: serde_json::Number,
     pub bytes: Vec<i64>,
 }
 impl<'de> serde::Deserialize<'de> for LogProb {
@@ -77297,7 +86148,7 @@ impl<'de> serde::Deserialize<'de> for LogProb {
             token: String,
             #[serde(rename = "logprob")]
             #[allow(dead_code)]
-            logprob: f64,
+            logprob: serde_json::Number,
             #[serde(rename = "bytes")]
             #[allow(dead_code)]
             bytes: Vec<i64>,
@@ -77331,7 +86182,7 @@ impl serde::Serialize for LogProb {
             #[serde(rename = "token")]
             token: &'a String,
             #[serde(rename = "logprob")]
-            logprob: &'a f64,
+            logprob: &'a serde_json::Number,
             #[serde(rename = "bytes")]
             bytes: &'a Vec<i64>,
             #[serde(rename = "top_logprobs")]
@@ -77356,7 +86207,7 @@ impl serde::Serialize for LogProb {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct LogProb {
     pub token: String,
-    pub logprob: f64,
+    pub logprob: serde_json::Number,
     pub bytes: Vec<i64>,
     pub top_logprobs: Vec<TopLogProb>,
 }
@@ -77866,14 +86717,33 @@ pub struct FunctionCallOutputItemParam {
     #[builder(default)]
     pub status: Option<FunctionCallOutputItemParamStatus>,
 }
-#[doc = "The type of item to reference. Always `item_reference`."]
-#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum ItemReferenceParamType {
-    #[doc = "item_reference"]
-    #[default]
-    #[serde(rename = "item_reference")]
-    ItemReference,
+impl<'de> serde::Deserialize<'de> for ItemReferenceParamType {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        if value == "item_reference" {
+            Ok(Self)
+        } else {
+            Err(<D::Error as serde::de::Error>::invalid_value(
+                serde::de::Unexpected::Str(&value),
+                &"item_reference",
+            ))
+        }
+    }
 }
+impl serde::Serialize for ItemReferenceParamType {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        "item_reference".serialize(serializer)
+    }
+}
+#[doc = "The type of item to reference. Always `item_reference`."]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+pub struct ItemReferenceParamType;
 impl<'de> serde::Deserialize<'de> for ItemReferenceParam {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -77919,1915 +86789,6 @@ pub struct ItemReferenceParam {
     pub r#type: Option<ItemReferenceParamType>,
     #[doc = "The ID of the item to reference."]
     pub id: String,
-}
-#[doc = "The content type (`input_text`, `input_audio`, `item_reference`, `text`).\n"]
-#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum RealtimeConversationItemContentType {
-    #[doc = "input_text"]
-    #[serde(rename = "input_text")]
-    InputText,
-    #[doc = "input_audio"]
-    #[serde(rename = "input_audio")]
-    InputAudio,
-    #[doc = "item_reference"]
-    #[serde(rename = "item_reference")]
-    ItemReference,
-    #[doc = "text"]
-    #[serde(rename = "text")]
-    Text,
-}
-impl<'de> serde::Deserialize<'de> for RealtimeConversationItemContent {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        struct RealtimeConversationItemContent {
-            #[serde(rename = "type")]
-            #[allow(dead_code)]
-            r#type: Option<RealtimeConversationItemContentType>,
-            #[serde(rename = "text")]
-            #[allow(dead_code)]
-            text: Option<String>,
-            #[serde(rename = "id")]
-            #[allow(dead_code)]
-            id: Option<String>,
-            #[serde(rename = "audio")]
-            #[allow(dead_code)]
-            audio: Option<String>,
-            #[serde(rename = "transcript")]
-            #[allow(dead_code)]
-            transcript: Option<String>,
-        }
-        let RealtimeConversationItemContent {
-            r#type,
-            text,
-            id,
-            audio,
-            transcript,
-            ..
-        } = RealtimeConversationItemContent::deserialize(deserializer)?;
-        Ok(Self {
-            r#type,
-            text,
-            id,
-            audio,
-            transcript,
-        })
-    }
-}
-impl serde::Serialize for RealtimeConversationItemContent {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        struct RealtimeConversationItemContent<'a> {
-            #[serde(rename = "type")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            r#type: &'a Option<RealtimeConversationItemContentType>,
-            #[serde(rename = "text")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            text: &'a Option<String>,
-            #[serde(rename = "id")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            id: &'a Option<String>,
-            #[serde(rename = "audio")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            audio: &'a Option<String>,
-            #[serde(rename = "transcript")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            transcript: &'a Option<String>,
-        }
-        let Self {
-            r#type,
-            text,
-            id,
-            audio,
-            transcript,
-        } = self;
-        RealtimeConversationItemContent {
-            r#type,
-            text,
-            id,
-            audio,
-            transcript,
-        }
-        .serialize(serializer)
-    }
-}
-#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
-pub struct RealtimeConversationItemContent {
-    #[doc = "The content type (`input_text`, `input_audio`, `item_reference`, `text`).\n"]
-    #[builder(default)]
-    pub r#type: Option<RealtimeConversationItemContentType>,
-    #[doc = "The text content, used for `input_text` and `text` content types.\n"]
-    #[builder(default)]
-    pub text: Option<String>,
-    #[doc = "ID of a previous conversation item to reference (for `item_reference`\ncontent types in `response.create` events). These can reference both\nclient and server created items.\n"]
-    #[builder(default)]
-    pub id: Option<String>,
-    #[doc = "Base64-encoded audio bytes, used for `input_audio` content type.\n"]
-    #[builder(default)]
-    pub audio: Option<String>,
-    #[doc = "The transcript of the audio, used for `input_audio` content type.\n"]
-    #[builder(default)]
-    pub transcript: Option<String>,
-}
-impl<'de> serde::Deserialize<'de> for RealtimeConnectParams {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        struct RealtimeConnectParams {
-            #[serde(rename = "model")]
-            #[allow(dead_code)]
-            model: String,
-        }
-        let RealtimeConnectParams { model, .. } = RealtimeConnectParams::deserialize(deserializer)?;
-        Ok(Self { model })
-    }
-}
-impl serde::Serialize for RealtimeConnectParams {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        struct RealtimeConnectParams<'a> {
-            #[serde(rename = "model")]
-            model: &'a String,
-        }
-        let Self { model } = self;
-        RealtimeConnectParams { model }.serialize(serializer)
-    }
-}
-#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
-pub struct RealtimeConnectParams {
-    pub model: String,
-}
-impl<'de> serde::Deserialize<'de> for ModerationImageUrlInputType {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        let value = String::deserialize(deserializer)?;
-        if value == "image_url" {
-            Ok(Self)
-        } else {
-            Err(<D::Error as serde::de::Error>::invalid_value(
-                serde::de::Unexpected::Str(&value),
-                &"image_url",
-            ))
-        }
-    }
-}
-impl serde::Serialize for ModerationImageUrlInputType {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        "image_url".serialize(serializer)
-    }
-}
-#[doc = "Always `image_url`."]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModerationImageUrlInputType;
-impl<'de> serde::Deserialize<'de> for ModerationImageUrlInputImageUrl {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        struct ModerationImageUrlInputImageUrl {
-            #[serde(rename = "url")]
-            #[allow(dead_code)]
-            url: String,
-        }
-        let ModerationImageUrlInputImageUrl { url, .. } =
-            ModerationImageUrlInputImageUrl::deserialize(deserializer)?;
-        Ok(Self { url })
-    }
-}
-impl serde::Serialize for ModerationImageUrlInputImageUrl {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        struct ModerationImageUrlInputImageUrl<'a> {
-            #[serde(rename = "url")]
-            url: &'a String,
-        }
-        let Self { url } = self;
-        ModerationImageUrlInputImageUrl { url }.serialize(serializer)
-    }
-}
-#[doc = "Contains either an image URL or a data URL for a base64 encoded image."]
-#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
-pub struct ModerationImageUrlInputImageUrl {
-    #[doc = "Either a URL of the image or the base64 encoded image data."]
-    pub url: String,
-}
-impl<'de> serde::Deserialize<'de> for ModerationImageUrlInput {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        struct ModerationImageUrlInput {
-            #[serde(rename = "type")]
-            #[allow(dead_code)]
-            r#type: ModerationImageUrlInputType,
-            #[serde(rename = "image_url")]
-            #[allow(dead_code)]
-            image_url: ModerationImageUrlInputImageUrl,
-        }
-        let ModerationImageUrlInput { image_url, .. } =
-            ModerationImageUrlInput::deserialize(deserializer)?;
-        Ok(Self { image_url })
-    }
-}
-impl serde::Serialize for ModerationImageUrlInput {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        struct ModerationImageUrlInput<'a> {
-            #[serde(rename = "type")]
-            r#type: &'a ModerationImageUrlInputType,
-            #[serde(rename = "image_url")]
-            image_url: &'a ModerationImageUrlInputImageUrl,
-        }
-        let Self { image_url } = self;
-        ModerationImageUrlInput {
-            r#type: &Default::default(),
-            image_url,
-        }
-        .serialize(serializer)
-    }
-}
-#[doc = "An object describing an image to classify."]
-#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
-pub struct ModerationImageUrlInput {
-    #[doc = "Contains either an image URL or a data URL for a base64 encoded image."]
-    pub image_url: ModerationImageUrlInputImageUrl,
-}
-impl<'de> serde::Deserialize<'de> for ModerationTextInputType {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        let value = String::deserialize(deserializer)?;
-        if value == "text" {
-            Ok(Self)
-        } else {
-            Err(<D::Error as serde::de::Error>::invalid_value(
-                serde::de::Unexpected::Str(&value),
-                &"text",
-            ))
-        }
-    }
-}
-impl serde::Serialize for ModerationTextInputType {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        "text".serialize(serializer)
-    }
-}
-#[doc = "Always `text`."]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModerationTextInputType;
-impl<'de> serde::Deserialize<'de> for ModerationTextInput {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        struct ModerationTextInput {
-            #[serde(rename = "type")]
-            #[allow(dead_code)]
-            r#type: ModerationTextInputType,
-            #[serde(rename = "text")]
-            #[allow(dead_code)]
-            text: String,
-        }
-        let ModerationTextInput { text, .. } = ModerationTextInput::deserialize(deserializer)?;
-        Ok(Self { text })
-    }
-}
-impl serde::Serialize for ModerationTextInput {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        struct ModerationTextInput<'a> {
-            #[serde(rename = "type")]
-            r#type: &'a ModerationTextInputType,
-            #[serde(rename = "text")]
-            text: &'a String,
-        }
-        let Self { text } = self;
-        ModerationTextInput {
-            r#type: &Default::default(),
-            text,
-        }
-        .serialize(serializer)
-    }
-}
-#[doc = "An object describing text to classify."]
-#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
-pub struct ModerationTextInput {
-    #[doc = "A string of text to classify."]
-    pub text: String,
-}
-impl<'de> serde::Deserialize<'de> for ChunkingStrategyResponse {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum ChunkingStrategyResponse {
-            Static(#[allow(dead_code)] StaticChunkingStrategyResponseParam),
-            Other(#[allow(dead_code)] OtherChunkingStrategyResponseParam),
-        }
-        Ok(match ChunkingStrategyResponse::deserialize(deserializer)? {
-            ChunkingStrategyResponse::Static(v) => Self::Static(v),
-            ChunkingStrategyResponse::Other(v) => Self::Other(v),
-        })
-    }
-}
-impl serde::Serialize for ChunkingStrategyResponse {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum ChunkingStrategyResponse<'a> {
-            Static(#[allow(dead_code)] &'a StaticChunkingStrategyResponseParam),
-            Other(#[allow(dead_code)] &'a OtherChunkingStrategyResponseParam),
-        }
-        match self {
-            Self::Static(v) => ChunkingStrategyResponse::Static(v).serialize(serializer),
-            Self::Other(v) => ChunkingStrategyResponse::Other(v).serialize(serializer),
-        }
-    }
-}
-#[doc = "The strategy used to chunk the file."]
-#[derive(Clone, Copy, Debug, PartialEq)]
-#[allow(clippy::large_enum_variant)]
-pub enum ChunkingStrategyResponse {
-    Static(StaticChunkingStrategyResponseParam),
-    Other(OtherChunkingStrategyResponseParam),
-}
-#[doc = "The intended purpose of the uploaded file. One of: - `assistants`: Used in the Assistants API - `batch`: Used in the Batch API - `fine-tune`: Used for fine-tuning - `vision`: Images used for vision fine-tuning - `user_data`: Flexible file type for any purpose - `evals`: Used for eval data sets\n"]
-#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum FilePurpose {
-    #[doc = "assistants"]
-    #[serde(rename = "assistants")]
-    Assistants,
-    #[doc = "batch"]
-    #[serde(rename = "batch")]
-    Batch,
-    #[doc = "fine-tune"]
-    #[serde(rename = "fine-tune")]
-    FineTune,
-    #[doc = "vision"]
-    #[serde(rename = "vision")]
-    Vision,
-    #[doc = "user_data"]
-    #[serde(rename = "user_data")]
-    UserData,
-    #[doc = "evals"]
-    #[serde(rename = "evals")]
-    Evals,
-}
-impl<'de> serde::Deserialize<'de> for BatchError {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        struct BatchError {
-            #[serde(rename = "code")]
-            #[allow(dead_code)]
-            code: Option<String>,
-            #[serde(rename = "message")]
-            #[allow(dead_code)]
-            message: Option<String>,
-            #[serde(rename = "param")]
-            #[allow(dead_code)]
-            param: Option<String>,
-            #[serde(rename = "line")]
-            #[allow(dead_code)]
-            line: Option<i64>,
-        }
-        let BatchError {
-            code,
-            message,
-            param,
-            line,
-            ..
-        } = BatchError::deserialize(deserializer)?;
-        Ok(Self {
-            code,
-            message,
-            param,
-            line,
-        })
-    }
-}
-impl serde::Serialize for BatchError {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        struct BatchError<'a> {
-            #[serde(rename = "code")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            code: &'a Option<String>,
-            #[serde(rename = "message")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            message: &'a Option<String>,
-            #[serde(rename = "param")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            param: &'a Option<String>,
-            #[serde(rename = "line")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            line: &'a Option<i64>,
-        }
-        let Self {
-            code,
-            message,
-            param,
-            line,
-        } = self;
-        BatchError {
-            code,
-            message,
-            param,
-            line,
-        }
-        .serialize(serializer)
-    }
-}
-#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
-pub struct BatchError {
-    #[doc = "An error code identifying the error type."]
-    #[builder(default)]
-    pub code: Option<String>,
-    #[doc = "A human-readable message providing more details about the error."]
-    #[builder(default)]
-    pub message: Option<String>,
-    #[doc = "The name of the parameter that caused the error, if applicable."]
-    #[builder(default)]
-    pub param: Option<String>,
-    #[doc = "The line number of the input file where the error occurred, if applicable."]
-    #[builder(default)]
-    pub line: Option<i64>,
-}
-impl<'de> serde::Deserialize<'de> for BatchRequestCounts {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        struct BatchRequestCounts {
-            #[serde(rename = "total")]
-            #[allow(dead_code)]
-            total: i64,
-            #[serde(rename = "completed")]
-            #[allow(dead_code)]
-            completed: i64,
-            #[serde(rename = "failed")]
-            #[allow(dead_code)]
-            failed: i64,
-        }
-        let BatchRequestCounts {
-            total,
-            completed,
-            failed,
-            ..
-        } = BatchRequestCounts::deserialize(deserializer)?;
-        Ok(Self {
-            total,
-            completed,
-            failed,
-        })
-    }
-}
-impl serde::Serialize for BatchRequestCounts {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        struct BatchRequestCounts<'a> {
-            #[serde(rename = "total")]
-            total: &'a i64,
-            #[serde(rename = "completed")]
-            completed: &'a i64,
-            #[serde(rename = "failed")]
-            failed: &'a i64,
-        }
-        let Self {
-            total,
-            completed,
-            failed,
-        } = self;
-        BatchRequestCounts {
-            total,
-            completed,
-            failed,
-        }
-        .serialize(serializer)
-    }
-}
-#[doc = "The request counts for different statuses within the batch."]
-#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
-pub struct BatchRequestCounts {
-    #[doc = "Total number of requests in the batch."]
-    pub total: i64,
-    #[doc = "Number of requests that have been completed successfully."]
-    pub completed: i64,
-    #[doc = "Number of requests that have failed."]
-    pub failed: i64,
-}
-impl<'de> serde::Deserialize<'de> for AssistantTool {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum AssistantTool {
-            CodeInterpreter(#[allow(dead_code)] AssistantToolsCode),
-            FileSearch(#[allow(dead_code)] AssistantToolsFileSearch),
-            Function(#[allow(dead_code)] AssistantToolsFunction),
-        }
-        Ok(match AssistantTool::deserialize(deserializer)? {
-            AssistantTool::CodeInterpreter(v) => Self::CodeInterpreter(v),
-            AssistantTool::FileSearch(v) => Self::FileSearch(v),
-            AssistantTool::Function(v) => Self::Function(v),
-        })
-    }
-}
-impl serde::Serialize for AssistantTool {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum AssistantTool<'a> {
-            CodeInterpreter(#[allow(dead_code)] &'a AssistantToolsCode),
-            FileSearch(#[allow(dead_code)] &'a AssistantToolsFileSearch),
-            Function(#[allow(dead_code)] &'a AssistantToolsFunction),
-        }
-        match self {
-            Self::CodeInterpreter(v) => AssistantTool::CodeInterpreter(v).serialize(serializer),
-            Self::FileSearch(v) => AssistantTool::FileSearch(v).serialize(serializer),
-            Self::Function(v) => AssistantTool::Function(v).serialize(serializer),
-        }
-    }
-}
-#[derive(Clone, Debug, PartialEq)]
-#[allow(clippy::large_enum_variant)]
-pub enum AssistantTool {
-    CodeInterpreter(AssistantToolsCode),
-    FileSearch(AssistantToolsFileSearch),
-    Function(AssistantToolsFunction),
-}
-impl<'de> serde::Deserialize<'de> for TextAnnotationDelta {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum TextAnnotationDelta {
-            FileCitation(#[allow(dead_code)] MessageDeltaContentTextAnnotationsFileCitationObject),
-            FilePath(#[allow(dead_code)] MessageDeltaContentTextAnnotationsFilePathObject),
-        }
-        Ok(match TextAnnotationDelta::deserialize(deserializer)? {
-            TextAnnotationDelta::FileCitation(v) => Self::FileCitation(v),
-            TextAnnotationDelta::FilePath(v) => Self::FilePath(v),
-        })
-    }
-}
-impl serde::Serialize for TextAnnotationDelta {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum TextAnnotationDelta<'a> {
-            FileCitation(
-                #[allow(dead_code)] &'a MessageDeltaContentTextAnnotationsFileCitationObject,
-            ),
-            FilePath(#[allow(dead_code)] &'a MessageDeltaContentTextAnnotationsFilePathObject),
-        }
-        match self {
-            Self::FileCitation(v) => TextAnnotationDelta::FileCitation(v).serialize(serializer),
-            Self::FilePath(v) => TextAnnotationDelta::FilePath(v).serialize(serializer),
-        }
-    }
-}
-#[derive(Clone, Debug, PartialEq)]
-#[allow(clippy::large_enum_variant)]
-pub enum TextAnnotationDelta {
-    FileCitation(MessageDeltaContentTextAnnotationsFileCitationObject),
-    FilePath(MessageDeltaContentTextAnnotationsFilePathObject),
-}
-impl<'de> serde::Deserialize<'de> for TextAnnotation {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum TextAnnotation {
-            FileCitation(#[allow(dead_code)] MessageContentTextAnnotationsFileCitationObject),
-            FilePath(#[allow(dead_code)] MessageContentTextAnnotationsFilePathObject),
-        }
-        Ok(match TextAnnotation::deserialize(deserializer)? {
-            TextAnnotation::FileCitation(v) => Self::FileCitation(v),
-            TextAnnotation::FilePath(v) => Self::FilePath(v),
-        })
-    }
-}
-impl serde::Serialize for TextAnnotation {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum TextAnnotation<'a> {
-            FileCitation(#[allow(dead_code)] &'a MessageContentTextAnnotationsFileCitationObject),
-            FilePath(#[allow(dead_code)] &'a MessageContentTextAnnotationsFilePathObject),
-        }
-        match self {
-            Self::FileCitation(v) => TextAnnotation::FileCitation(v).serialize(serializer),
-            Self::FilePath(v) => TextAnnotation::FilePath(v).serialize(serializer),
-        }
-    }
-}
-#[derive(Clone, Debug, PartialEq)]
-#[allow(clippy::large_enum_variant)]
-pub enum TextAnnotation {
-    FileCitation(MessageContentTextAnnotationsFileCitationObject),
-    FilePath(MessageContentTextAnnotationsFilePathObject),
-}
-impl<'de> serde::Deserialize<'de> for RunStepDetailsToolCall {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum RunStepDetailsToolCall {
-            CodeInterpreter(#[allow(dead_code)] RunStepDetailsToolCallsCodeObject),
-            FileSearch(#[allow(dead_code)] RunStepDetailsToolCallsFileSearchObject),
-            Function(#[allow(dead_code)] RunStepDetailsToolCallsFunctionObject),
-        }
-        Ok(match RunStepDetailsToolCall::deserialize(deserializer)? {
-            RunStepDetailsToolCall::CodeInterpreter(v) => Self::CodeInterpreter(v),
-            RunStepDetailsToolCall::FileSearch(v) => Self::FileSearch(v),
-            RunStepDetailsToolCall::Function(v) => Self::Function(v),
-        })
-    }
-}
-impl serde::Serialize for RunStepDetailsToolCall {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum RunStepDetailsToolCall<'a> {
-            CodeInterpreter(#[allow(dead_code)] &'a RunStepDetailsToolCallsCodeObject),
-            FileSearch(#[allow(dead_code)] &'a RunStepDetailsToolCallsFileSearchObject),
-            Function(#[allow(dead_code)] &'a RunStepDetailsToolCallsFunctionObject),
-        }
-        match self {
-            Self::CodeInterpreter(v) => {
-                RunStepDetailsToolCall::CodeInterpreter(v).serialize(serializer)
-            }
-            Self::FileSearch(v) => RunStepDetailsToolCall::FileSearch(v).serialize(serializer),
-            Self::Function(v) => RunStepDetailsToolCall::Function(v).serialize(serializer),
-        }
-    }
-}
-#[derive(Clone, Debug, PartialEq)]
-#[allow(clippy::large_enum_variant)]
-pub enum RunStepDetailsToolCall {
-    CodeInterpreter(RunStepDetailsToolCallsCodeObject),
-    FileSearch(RunStepDetailsToolCallsFileSearchObject),
-    Function(RunStepDetailsToolCallsFunctionObject),
-}
-impl<'de> serde::Deserialize<'de> for RunStepDeltaStepDetailsToolCall {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum RunStepDeltaStepDetailsToolCall {
-            CodeInterpreter(#[allow(dead_code)] RunStepDeltaStepDetailsToolCallsCodeObject),
-            FileSearch(#[allow(dead_code)] RunStepDeltaStepDetailsToolCallsFileSearchObject),
-            Function(#[allow(dead_code)] RunStepDeltaStepDetailsToolCallsFunctionObject),
-        }
-        Ok(
-            match RunStepDeltaStepDetailsToolCall::deserialize(deserializer)? {
-                RunStepDeltaStepDetailsToolCall::CodeInterpreter(v) => Self::CodeInterpreter(v),
-                RunStepDeltaStepDetailsToolCall::FileSearch(v) => Self::FileSearch(v),
-                RunStepDeltaStepDetailsToolCall::Function(v) => Self::Function(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for RunStepDeltaStepDetailsToolCall {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum RunStepDeltaStepDetailsToolCall<'a> {
-            CodeInterpreter(#[allow(dead_code)] &'a RunStepDeltaStepDetailsToolCallsCodeObject),
-            FileSearch(#[allow(dead_code)] &'a RunStepDeltaStepDetailsToolCallsFileSearchObject),
-            Function(#[allow(dead_code)] &'a RunStepDeltaStepDetailsToolCallsFunctionObject),
-        }
-        match self {
-            Self::CodeInterpreter(v) => {
-                RunStepDeltaStepDetailsToolCall::CodeInterpreter(v).serialize(serializer)
-            }
-            Self::FileSearch(v) => {
-                RunStepDeltaStepDetailsToolCall::FileSearch(v).serialize(serializer)
-            }
-            Self::Function(v) => RunStepDeltaStepDetailsToolCall::Function(v).serialize(serializer),
-        }
-    }
-}
-#[derive(Clone, Debug, PartialEq)]
-#[allow(clippy::large_enum_variant)]
-pub enum RunStepDeltaStepDetailsToolCall {
-    CodeInterpreter(RunStepDeltaStepDetailsToolCallsCodeObject),
-    FileSearch(RunStepDeltaStepDetailsToolCallsFileSearchObject),
-    Function(RunStepDeltaStepDetailsToolCallsFunctionObject),
-}
-impl<'de> serde::Deserialize<'de> for MessageContent {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum MessageContent {
-            ImageFile(#[allow(dead_code)] MessageContentImageFileObject),
-            ImageUrl(#[allow(dead_code)] MessageContentImageUrlObject),
-            Text(#[allow(dead_code)] MessageContentTextObject),
-            Refusal(#[allow(dead_code)] MessageContentRefusalObject),
-        }
-        Ok(match MessageContent::deserialize(deserializer)? {
-            MessageContent::ImageFile(v) => Self::ImageFile(v),
-            MessageContent::ImageUrl(v) => Self::ImageUrl(v),
-            MessageContent::Text(v) => Self::Text(v),
-            MessageContent::Refusal(v) => Self::Refusal(v),
-        })
-    }
-}
-impl serde::Serialize for MessageContent {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum MessageContent<'a> {
-            ImageFile(#[allow(dead_code)] &'a MessageContentImageFileObject),
-            ImageUrl(#[allow(dead_code)] &'a MessageContentImageUrlObject),
-            Text(#[allow(dead_code)] &'a MessageContentTextObject),
-            Refusal(#[allow(dead_code)] &'a MessageContentRefusalObject),
-        }
-        match self {
-            Self::ImageFile(v) => MessageContent::ImageFile(v).serialize(serializer),
-            Self::ImageUrl(v) => MessageContent::ImageUrl(v).serialize(serializer),
-            Self::Text(v) => MessageContent::Text(v).serialize(serializer),
-            Self::Refusal(v) => MessageContent::Refusal(v).serialize(serializer),
-        }
-    }
-}
-#[derive(Clone, Debug, PartialEq)]
-#[allow(clippy::large_enum_variant)]
-pub enum MessageContent {
-    ImageFile(MessageContentImageFileObject),
-    ImageUrl(MessageContentImageUrlObject),
-    Text(MessageContentTextObject),
-    Refusal(MessageContentRefusalObject),
-}
-impl<'de> serde::Deserialize<'de> for MessageContentDelta {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum MessageContentDelta {
-            ImageFile(#[allow(dead_code)] MessageDeltaContentImageFileObject),
-            Text(#[allow(dead_code)] MessageDeltaContentTextObject),
-            Refusal(#[allow(dead_code)] MessageDeltaContentRefusalObject),
-            ImageUrl(#[allow(dead_code)] MessageDeltaContentImageUrlObject),
-        }
-        Ok(match MessageContentDelta::deserialize(deserializer)? {
-            MessageContentDelta::ImageFile(v) => Self::ImageFile(v),
-            MessageContentDelta::Text(v) => Self::Text(v),
-            MessageContentDelta::Refusal(v) => Self::Refusal(v),
-            MessageContentDelta::ImageUrl(v) => Self::ImageUrl(v),
-        })
-    }
-}
-impl serde::Serialize for MessageContentDelta {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum MessageContentDelta<'a> {
-            ImageFile(#[allow(dead_code)] &'a MessageDeltaContentImageFileObject),
-            Text(#[allow(dead_code)] &'a MessageDeltaContentTextObject),
-            Refusal(#[allow(dead_code)] &'a MessageDeltaContentRefusalObject),
-            ImageUrl(#[allow(dead_code)] &'a MessageDeltaContentImageUrlObject),
-        }
-        match self {
-            Self::ImageFile(v) => MessageContentDelta::ImageFile(v).serialize(serializer),
-            Self::Text(v) => MessageContentDelta::Text(v).serialize(serializer),
-            Self::Refusal(v) => MessageContentDelta::Refusal(v).serialize(serializer),
-            Self::ImageUrl(v) => MessageContentDelta::ImageUrl(v).serialize(serializer),
-        }
-    }
-}
-#[derive(Clone, Debug, PartialEq)]
-#[allow(clippy::large_enum_variant)]
-pub enum MessageContentDelta {
-    ImageFile(MessageDeltaContentImageFileObject),
-    Text(MessageDeltaContentTextObject),
-    Refusal(MessageDeltaContentRefusalObject),
-    ImageUrl(MessageDeltaContentImageUrlObject),
-}
-#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum ChatModel {
-    #[doc = "gpt-4.1"]
-    #[serde(rename = "gpt-4.1")]
-    Gpt4_1,
-    #[doc = "gpt-4.1-mini"]
-    #[serde(rename = "gpt-4.1-mini")]
-    Gpt4_1Mini,
-    #[doc = "gpt-4.1-nano"]
-    #[serde(rename = "gpt-4.1-nano")]
-    Gpt4_1Nano,
-    #[doc = "gpt-4.1-2025-04-14"]
-    #[serde(rename = "gpt-4.1-2025-04-14")]
-    Gpt4_1_2025_04_14,
-    #[doc = "gpt-4.1-mini-2025-04-14"]
-    #[serde(rename = "gpt-4.1-mini-2025-04-14")]
-    Gpt4_1Mini2025_04_14,
-    #[doc = "gpt-4.1-nano-2025-04-14"]
-    #[serde(rename = "gpt-4.1-nano-2025-04-14")]
-    Gpt4_1Nano2025_04_14,
-    #[doc = "o4-mini"]
-    #[serde(rename = "o4-mini")]
-    O4Mini,
-    #[doc = "o4-mini-2025-04-16"]
-    #[serde(rename = "o4-mini-2025-04-16")]
-    O4Mini2025_04_16,
-    #[doc = "o3"]
-    #[serde(rename = "o3")]
-    O3,
-    #[doc = "o3-2025-04-16"]
-    #[serde(rename = "o3-2025-04-16")]
-    O3_2025_04_16,
-    #[doc = "o3-mini"]
-    #[serde(rename = "o3-mini")]
-    O3Mini,
-    #[doc = "o3-mini-2025-01-31"]
-    #[serde(rename = "o3-mini-2025-01-31")]
-    O3Mini2025_01_31,
-    #[doc = "o1"]
-    #[serde(rename = "o1")]
-    O1,
-    #[doc = "o1-2024-12-17"]
-    #[serde(rename = "o1-2024-12-17")]
-    O1_2024_12_17,
-    #[doc = "o1-preview"]
-    #[serde(rename = "o1-preview")]
-    O1Preview,
-    #[doc = "o1-preview-2024-09-12"]
-    #[serde(rename = "o1-preview-2024-09-12")]
-    O1Preview2024_09_12,
-    #[doc = "o1-mini"]
-    #[serde(rename = "o1-mini")]
-    O1Mini,
-    #[doc = "o1-mini-2024-09-12"]
-    #[serde(rename = "o1-mini-2024-09-12")]
-    O1Mini2024_09_12,
-    #[doc = "gpt-4o"]
-    #[serde(rename = "gpt-4o")]
-    Gpt4o,
-    #[doc = "gpt-4o-2024-11-20"]
-    #[serde(rename = "gpt-4o-2024-11-20")]
-    Gpt4o2024_11_20,
-    #[doc = "gpt-4o-2024-08-06"]
-    #[serde(rename = "gpt-4o-2024-08-06")]
-    Gpt4o2024_08_06,
-    #[doc = "gpt-4o-2024-05-13"]
-    #[serde(rename = "gpt-4o-2024-05-13")]
-    Gpt4o2024_05_13,
-    #[doc = "gpt-4o-audio-preview"]
-    #[serde(rename = "gpt-4o-audio-preview")]
-    Gpt4oAudioPreview,
-    #[doc = "gpt-4o-audio-preview-2024-10-01"]
-    #[serde(rename = "gpt-4o-audio-preview-2024-10-01")]
-    Gpt4oAudioPreview2024_10_01,
-    #[doc = "gpt-4o-audio-preview-2024-12-17"]
-    #[serde(rename = "gpt-4o-audio-preview-2024-12-17")]
-    Gpt4oAudioPreview2024_12_17,
-    #[doc = "gpt-4o-audio-preview-2025-06-03"]
-    #[serde(rename = "gpt-4o-audio-preview-2025-06-03")]
-    Gpt4oAudioPreview2025_06_03,
-    #[doc = "gpt-4o-mini-audio-preview"]
-    #[serde(rename = "gpt-4o-mini-audio-preview")]
-    Gpt4oMiniAudioPreview,
-    #[doc = "gpt-4o-mini-audio-preview-2024-12-17"]
-    #[serde(rename = "gpt-4o-mini-audio-preview-2024-12-17")]
-    Gpt4oMiniAudioPreview2024_12_17,
-    #[doc = "gpt-4o-search-preview"]
-    #[serde(rename = "gpt-4o-search-preview")]
-    Gpt4oSearchPreview,
-    #[doc = "gpt-4o-mini-search-preview"]
-    #[serde(rename = "gpt-4o-mini-search-preview")]
-    Gpt4oMiniSearchPreview,
-    #[doc = "gpt-4o-search-preview-2025-03-11"]
-    #[serde(rename = "gpt-4o-search-preview-2025-03-11")]
-    Gpt4oSearchPreview2025_03_11,
-    #[doc = "gpt-4o-mini-search-preview-2025-03-11"]
-    #[serde(rename = "gpt-4o-mini-search-preview-2025-03-11")]
-    Gpt4oMiniSearchPreview2025_03_11,
-    #[doc = "chatgpt-4o-latest"]
-    #[serde(rename = "chatgpt-4o-latest")]
-    Chatgpt4oLatest,
-    #[doc = "codex-mini-latest"]
-    #[serde(rename = "codex-mini-latest")]
-    CodexMiniLatest,
-    #[doc = "gpt-4o-mini"]
-    #[serde(rename = "gpt-4o-mini")]
-    Gpt4oMini,
-    #[doc = "gpt-4o-mini-2024-07-18"]
-    #[serde(rename = "gpt-4o-mini-2024-07-18")]
-    Gpt4oMini2024_07_18,
-    #[doc = "gpt-4-turbo"]
-    #[serde(rename = "gpt-4-turbo")]
-    Gpt4Turbo,
-    #[doc = "gpt-4-turbo-2024-04-09"]
-    #[serde(rename = "gpt-4-turbo-2024-04-09")]
-    Gpt4Turbo2024_04_09,
-    #[doc = "gpt-4-0125-preview"]
-    #[serde(rename = "gpt-4-0125-preview")]
-    Gpt4_0125Preview,
-    #[doc = "gpt-4-turbo-preview"]
-    #[serde(rename = "gpt-4-turbo-preview")]
-    Gpt4TurboPreview,
-    #[doc = "gpt-4-1106-preview"]
-    #[serde(rename = "gpt-4-1106-preview")]
-    Gpt4_1106Preview,
-    #[doc = "gpt-4-vision-preview"]
-    #[serde(rename = "gpt-4-vision-preview")]
-    Gpt4VisionPreview,
-    #[doc = "gpt-4"]
-    #[serde(rename = "gpt-4")]
-    Gpt4,
-    #[doc = "gpt-4-0314"]
-    #[serde(rename = "gpt-4-0314")]
-    Gpt4_0314,
-    #[doc = "gpt-4-0613"]
-    #[serde(rename = "gpt-4-0613")]
-    Gpt4_0613,
-    #[doc = "gpt-4-32k"]
-    #[serde(rename = "gpt-4-32k")]
-    Gpt4_32k,
-    #[doc = "gpt-4-32k-0314"]
-    #[serde(rename = "gpt-4-32k-0314")]
-    Gpt4_32k0314,
-    #[doc = "gpt-4-32k-0613"]
-    #[serde(rename = "gpt-4-32k-0613")]
-    Gpt4_32k0613,
-    #[doc = "gpt-3.5-turbo"]
-    #[serde(rename = "gpt-3.5-turbo")]
-    Gpt3_5Turbo,
-    #[doc = "gpt-3.5-turbo-16k"]
-    #[serde(rename = "gpt-3.5-turbo-16k")]
-    Gpt3_5Turbo16k,
-    #[doc = "gpt-3.5-turbo-0301"]
-    #[serde(rename = "gpt-3.5-turbo-0301")]
-    Gpt3_5Turbo0301,
-    #[doc = "gpt-3.5-turbo-0613"]
-    #[serde(rename = "gpt-3.5-turbo-0613")]
-    Gpt3_5Turbo0613,
-    #[doc = "gpt-3.5-turbo-1106"]
-    #[serde(rename = "gpt-3.5-turbo-1106")]
-    Gpt3_5Turbo1106,
-    #[doc = "gpt-3.5-turbo-0125"]
-    #[serde(rename = "gpt-3.5-turbo-0125")]
-    Gpt3_5Turbo0125,
-    #[doc = "gpt-3.5-turbo-16k-0613"]
-    #[serde(rename = "gpt-3.5-turbo-16k-0613")]
-    Gpt3_5Turbo16k0613,
-}
-impl<'de> serde::Deserialize<'de>
-    for CreateThreadAndRunRequestWithoutStreamToolResourcesCodeInterpreter
-{
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        struct CreateThreadAndRunRequestWithoutStreamToolResourcesCodeInterpreter {
-            #[serde(rename = "file_ids")]
-            #[allow(dead_code)]
-            file_ids: Option<Vec<String>>,
-        }
-        let CreateThreadAndRunRequestWithoutStreamToolResourcesCodeInterpreter { file_ids, .. } =
-            CreateThreadAndRunRequestWithoutStreamToolResourcesCodeInterpreter::deserialize(
-                deserializer,
-            )?;
-        Ok(Self { file_ids })
-    }
-}
-impl serde::Serialize for CreateThreadAndRunRequestWithoutStreamToolResourcesCodeInterpreter {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        struct CreateThreadAndRunRequestWithoutStreamToolResourcesCodeInterpreter<'a> {
-            #[serde(rename = "file_ids")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            file_ids: &'a Option<Vec<String>>,
-        }
-        let Self { file_ids } = self;
-        CreateThreadAndRunRequestWithoutStreamToolResourcesCodeInterpreter { file_ids }
-            .serialize(serializer)
-    }
-}
-#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
-pub struct CreateThreadAndRunRequestWithoutStreamToolResourcesCodeInterpreter {
-    #[doc = "A list of [file](https://platform.openai.com/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.\n"]
-    #[builder(default)]
-    pub file_ids: Option<Vec<String>>,
-}
-impl<'de> serde::Deserialize<'de>
-    for CreateThreadAndRunRequestWithoutStreamToolResourcesFileSearch
-{
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        struct CreateThreadAndRunRequestWithoutStreamToolResourcesFileSearch {
-            #[serde(rename = "vector_store_ids")]
-            #[allow(dead_code)]
-            vector_store_ids: Option<Vec<String>>,
-        }
-        let CreateThreadAndRunRequestWithoutStreamToolResourcesFileSearch {
-            vector_store_ids, ..
-        } = CreateThreadAndRunRequestWithoutStreamToolResourcesFileSearch::deserialize(
-            deserializer,
-        )?;
-        Ok(Self { vector_store_ids })
-    }
-}
-impl serde::Serialize for CreateThreadAndRunRequestWithoutStreamToolResourcesFileSearch {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        struct CreateThreadAndRunRequestWithoutStreamToolResourcesFileSearch<'a> {
-            #[serde(rename = "vector_store_ids")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            vector_store_ids: &'a Option<Vec<String>>,
-        }
-        let Self { vector_store_ids } = self;
-        CreateThreadAndRunRequestWithoutStreamToolResourcesFileSearch { vector_store_ids }
-            .serialize(serializer)
-    }
-}
-#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
-pub struct CreateThreadAndRunRequestWithoutStreamToolResourcesFileSearch {
-    #[doc = "The ID of the [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) attached to this assistant. There can be a maximum of 1 vector store attached to the assistant.\n"]
-    #[builder(default)]
-    pub vector_store_ids: Option<Vec<String>>,
-}
-impl<'de> serde::Deserialize<'de> for CreateThreadAndRunRequestWithoutStreamToolResources {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        struct CreateThreadAndRunRequestWithoutStreamToolResources {
-            #[serde(rename = "code_interpreter")]
-            #[allow(dead_code)]
-            code_interpreter:
-                Option<CreateThreadAndRunRequestWithoutStreamToolResourcesCodeInterpreter>,
-            #[serde(rename = "file_search")]
-            #[allow(dead_code)]
-            file_search: Option<CreateThreadAndRunRequestWithoutStreamToolResourcesFileSearch>,
-        }
-        let CreateThreadAndRunRequestWithoutStreamToolResources {
-            code_interpreter,
-            file_search,
-            ..
-        } = CreateThreadAndRunRequestWithoutStreamToolResources::deserialize(deserializer)?;
-        Ok(Self {
-            code_interpreter,
-            file_search,
-        })
-    }
-}
-impl serde::Serialize for CreateThreadAndRunRequestWithoutStreamToolResources {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        struct CreateThreadAndRunRequestWithoutStreamToolResources<'a> {
-            #[serde(rename = "code_interpreter")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            code_interpreter:
-                &'a Option<CreateThreadAndRunRequestWithoutStreamToolResourcesCodeInterpreter>,
-            #[serde(rename = "file_search")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            file_search: &'a Option<CreateThreadAndRunRequestWithoutStreamToolResourcesFileSearch>,
-        }
-        let Self {
-            code_interpreter,
-            file_search,
-        } = self;
-        CreateThreadAndRunRequestWithoutStreamToolResources {
-            code_interpreter,
-            file_search,
-        }
-        .serialize(serializer)
-    }
-}
-#[doc = "A set of resources that are used by the assistant's tools. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.\n"]
-#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
-pub struct CreateThreadAndRunRequestWithoutStreamToolResources {
-    #[builder(default)]
-    pub code_interpreter:
-        Option<CreateThreadAndRunRequestWithoutStreamToolResourcesCodeInterpreter>,
-    #[builder(default)]
-    pub file_search: Option<CreateThreadAndRunRequestWithoutStreamToolResourcesFileSearch>,
-}
-impl<'de> serde::Deserialize<'de> for CreateThreadAndRunRequestWithoutStream {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        struct CreateThreadAndRunRequestWithoutStream {
-            #[serde(rename = "assistant_id")]
-            #[allow(dead_code)]
-            assistant_id: String,
-            #[serde(rename = "thread")]
-            #[allow(dead_code)]
-            thread: Option<CreateThreadRequest>,
-            #[serde(rename = "model")]
-            #[allow(dead_code)]
-            model: Option<String>,
-            #[serde(rename = "instructions")]
-            #[allow(dead_code)]
-            instructions: Option<String>,
-            #[serde(rename = "tools")]
-            #[allow(dead_code)]
-            tools: Option<Vec<AssistantTool>>,
-            #[serde(rename = "tool_resources")]
-            #[allow(dead_code)]
-            tool_resources: Option<CreateThreadAndRunRequestWithoutStreamToolResources>,
-            #[serde(rename = "metadata")]
-            #[allow(dead_code)]
-            metadata: Option<Metadata>,
-            #[serde(rename = "temperature")]
-            #[allow(dead_code)]
-            temperature: Option<f64>,
-            #[serde(rename = "top_p")]
-            #[allow(dead_code)]
-            top_p: Option<f64>,
-            #[serde(rename = "max_prompt_tokens")]
-            #[allow(dead_code)]
-            max_prompt_tokens: Option<i64>,
-            #[serde(rename = "max_completion_tokens")]
-            #[allow(dead_code)]
-            max_completion_tokens: Option<i64>,
-            #[serde(rename = "truncation_strategy")]
-            #[allow(dead_code)]
-            truncation_strategy: Option<TruncationObject>,
-            #[serde(rename = "tool_choice")]
-            #[allow(dead_code)]
-            tool_choice: Option<AssistantsApiToolChoiceOption>,
-            #[serde(rename = "parallel_tool_calls")]
-            #[allow(dead_code)]
-            parallel_tool_calls: Option<ParallelToolCalls>,
-            #[serde(rename = "response_format")]
-            #[allow(dead_code)]
-            response_format: Option<AssistantsApiResponseFormatOption>,
-        }
-        let CreateThreadAndRunRequestWithoutStream {
-            assistant_id,
-            thread,
-            model,
-            instructions,
-            tools,
-            tool_resources,
-            metadata,
-            temperature,
-            top_p,
-            max_prompt_tokens,
-            max_completion_tokens,
-            truncation_strategy,
-            tool_choice,
-            parallel_tool_calls,
-            response_format,
-            ..
-        } = CreateThreadAndRunRequestWithoutStream::deserialize(deserializer)?;
-        Ok(Self {
-            assistant_id,
-            thread,
-            model,
-            instructions,
-            tools,
-            tool_resources,
-            metadata,
-            temperature,
-            top_p,
-            max_prompt_tokens,
-            max_completion_tokens,
-            truncation_strategy,
-            tool_choice,
-            parallel_tool_calls,
-            response_format,
-        })
-    }
-}
-impl serde::Serialize for CreateThreadAndRunRequestWithoutStream {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        struct CreateThreadAndRunRequestWithoutStream<'a> {
-            #[serde(rename = "assistant_id")]
-            assistant_id: &'a String,
-            #[serde(rename = "thread")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            thread: &'a Option<CreateThreadRequest>,
-            #[serde(rename = "model")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            model: &'a Option<String>,
-            #[serde(rename = "instructions")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            instructions: &'a Option<String>,
-            #[serde(rename = "tools")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            tools: &'a Option<Vec<AssistantTool>>,
-            #[serde(rename = "tool_resources")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            tool_resources: &'a Option<CreateThreadAndRunRequestWithoutStreamToolResources>,
-            #[serde(rename = "metadata")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            metadata: &'a Option<Metadata>,
-            #[serde(rename = "temperature")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            temperature: &'a Option<f64>,
-            #[serde(rename = "top_p")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            top_p: &'a Option<f64>,
-            #[serde(rename = "max_prompt_tokens")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            max_prompt_tokens: &'a Option<i64>,
-            #[serde(rename = "max_completion_tokens")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            max_completion_tokens: &'a Option<i64>,
-            #[serde(rename = "truncation_strategy")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            truncation_strategy: &'a Option<TruncationObject>,
-            #[serde(rename = "tool_choice")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            tool_choice: &'a Option<AssistantsApiToolChoiceOption>,
-            #[serde(rename = "parallel_tool_calls")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            parallel_tool_calls: &'a Option<ParallelToolCalls>,
-            #[serde(rename = "response_format")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            response_format: &'a Option<AssistantsApiResponseFormatOption>,
-        }
-        let Self {
-            assistant_id,
-            thread,
-            model,
-            instructions,
-            tools,
-            tool_resources,
-            metadata,
-            temperature,
-            top_p,
-            max_prompt_tokens,
-            max_completion_tokens,
-            truncation_strategy,
-            tool_choice,
-            parallel_tool_calls,
-            response_format,
-        } = self;
-        CreateThreadAndRunRequestWithoutStream {
-            assistant_id,
-            thread,
-            model,
-            instructions,
-            tools,
-            tool_resources,
-            metadata,
-            temperature,
-            top_p,
-            max_prompt_tokens,
-            max_completion_tokens,
-            truncation_strategy,
-            tool_choice,
-            parallel_tool_calls,
-            response_format,
-        }
-        .serialize(serializer)
-    }
-}
-#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
-pub struct CreateThreadAndRunRequestWithoutStream {
-    #[doc = "The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) to use to execute this run."]
-    pub assistant_id: String,
-    #[builder(default)]
-    pub thread: Option<CreateThreadRequest>,
-    #[doc = "The ID of the [Model](https://platform.openai.com/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used."]
-    #[builder(default)]
-    pub model: Option<String>,
-    #[doc = "Override the default system message of the assistant. This is useful for modifying the behavior on a per-run basis."]
-    #[builder(default)]
-    pub instructions: Option<String>,
-    #[doc = "Override the tools the assistant can use for this run. This is useful for modifying the behavior on a per-run basis."]
-    #[builder(default)]
-    pub tools: Option<Vec<AssistantTool>>,
-    #[doc = "A set of resources that are used by the assistant's tools. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.\n"]
-    #[builder(default)]
-    pub tool_resources: Option<CreateThreadAndRunRequestWithoutStreamToolResources>,
-    #[builder(default)]
-    pub metadata: Option<Metadata>,
-    #[doc = "What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.\n"]
-    #[builder(default)]
-    pub temperature: Option<f64>,
-    #[doc = "An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.\n\nWe generally recommend altering this or temperature but not both.\n"]
-    #[builder(default)]
-    pub top_p: Option<f64>,
-    #[doc = "The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.\n"]
-    #[builder(default)]
-    pub max_prompt_tokens: Option<i64>,
-    #[doc = "The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.\n"]
-    #[builder(default)]
-    pub max_completion_tokens: Option<i64>,
-    #[builder(default)]
-    pub truncation_strategy: Option<TruncationObject>,
-    #[builder(default)]
-    pub tool_choice: Option<AssistantsApiToolChoiceOption>,
-    #[builder(default)]
-    pub parallel_tool_calls: Option<ParallelToolCalls>,
-    #[builder(default)]
-    pub response_format: Option<AssistantsApiResponseFormatOption>,
-}
-impl<'de> serde::Deserialize<'de> for CreateRunRequestWithoutStream {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        struct CreateRunRequestWithoutStream {
-            #[serde(rename = "assistant_id")]
-            #[allow(dead_code)]
-            assistant_id: String,
-            #[serde(rename = "model")]
-            #[allow(dead_code)]
-            model: Option<String>,
-            #[serde(rename = "reasoning_effort")]
-            #[allow(dead_code)]
-            reasoning_effort: Option<ReasoningEffort>,
-            #[serde(rename = "instructions")]
-            #[allow(dead_code)]
-            instructions: Option<String>,
-            #[serde(rename = "additional_instructions")]
-            #[allow(dead_code)]
-            additional_instructions: Option<String>,
-            #[serde(rename = "additional_messages")]
-            #[allow(dead_code)]
-            additional_messages: Option<Vec<CreateMessageRequest>>,
-            #[serde(rename = "tools")]
-            #[allow(dead_code)]
-            tools: Option<Vec<AssistantTool>>,
-            #[serde(rename = "metadata")]
-            #[allow(dead_code)]
-            metadata: Option<Metadata>,
-            #[serde(rename = "temperature")]
-            #[allow(dead_code)]
-            temperature: Option<f64>,
-            #[serde(rename = "top_p")]
-            #[allow(dead_code)]
-            top_p: Option<f64>,
-            #[serde(rename = "max_prompt_tokens")]
-            #[allow(dead_code)]
-            max_prompt_tokens: Option<i64>,
-            #[serde(rename = "max_completion_tokens")]
-            #[allow(dead_code)]
-            max_completion_tokens: Option<i64>,
-            #[serde(rename = "truncation_strategy")]
-            #[allow(dead_code)]
-            truncation_strategy: Option<TruncationObject>,
-            #[serde(rename = "tool_choice")]
-            #[allow(dead_code)]
-            tool_choice: Option<AssistantsApiToolChoiceOption>,
-            #[serde(rename = "parallel_tool_calls")]
-            #[allow(dead_code)]
-            parallel_tool_calls: Option<ParallelToolCalls>,
-            #[serde(rename = "response_format")]
-            #[allow(dead_code)]
-            response_format: Option<AssistantsApiResponseFormatOption>,
-        }
-        let CreateRunRequestWithoutStream {
-            assistant_id,
-            model,
-            reasoning_effort,
-            instructions,
-            additional_instructions,
-            additional_messages,
-            tools,
-            metadata,
-            temperature,
-            top_p,
-            max_prompt_tokens,
-            max_completion_tokens,
-            truncation_strategy,
-            tool_choice,
-            parallel_tool_calls,
-            response_format,
-            ..
-        } = CreateRunRequestWithoutStream::deserialize(deserializer)?;
-        Ok(Self {
-            assistant_id,
-            model,
-            reasoning_effort,
-            instructions,
-            additional_instructions,
-            additional_messages,
-            tools,
-            metadata,
-            temperature,
-            top_p,
-            max_prompt_tokens,
-            max_completion_tokens,
-            truncation_strategy,
-            tool_choice,
-            parallel_tool_calls,
-            response_format,
-        })
-    }
-}
-impl serde::Serialize for CreateRunRequestWithoutStream {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        struct CreateRunRequestWithoutStream<'a> {
-            #[serde(rename = "assistant_id")]
-            assistant_id: &'a String,
-            #[serde(rename = "model")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            model: &'a Option<String>,
-            #[serde(rename = "reasoning_effort")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            reasoning_effort: &'a Option<ReasoningEffort>,
-            #[serde(rename = "instructions")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            instructions: &'a Option<String>,
-            #[serde(rename = "additional_instructions")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            additional_instructions: &'a Option<String>,
-            #[serde(rename = "additional_messages")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            additional_messages: &'a Option<Vec<CreateMessageRequest>>,
-            #[serde(rename = "tools")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            tools: &'a Option<Vec<AssistantTool>>,
-            #[serde(rename = "metadata")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            metadata: &'a Option<Metadata>,
-            #[serde(rename = "temperature")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            temperature: &'a Option<f64>,
-            #[serde(rename = "top_p")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            top_p: &'a Option<f64>,
-            #[serde(rename = "max_prompt_tokens")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            max_prompt_tokens: &'a Option<i64>,
-            #[serde(rename = "max_completion_tokens")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            max_completion_tokens: &'a Option<i64>,
-            #[serde(rename = "truncation_strategy")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            truncation_strategy: &'a Option<TruncationObject>,
-            #[serde(rename = "tool_choice")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            tool_choice: &'a Option<AssistantsApiToolChoiceOption>,
-            #[serde(rename = "parallel_tool_calls")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            parallel_tool_calls: &'a Option<ParallelToolCalls>,
-            #[serde(rename = "response_format")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            response_format: &'a Option<AssistantsApiResponseFormatOption>,
-        }
-        let Self {
-            assistant_id,
-            model,
-            reasoning_effort,
-            instructions,
-            additional_instructions,
-            additional_messages,
-            tools,
-            metadata,
-            temperature,
-            top_p,
-            max_prompt_tokens,
-            max_completion_tokens,
-            truncation_strategy,
-            tool_choice,
-            parallel_tool_calls,
-            response_format,
-        } = self;
-        CreateRunRequestWithoutStream {
-            assistant_id,
-            model,
-            reasoning_effort,
-            instructions,
-            additional_instructions,
-            additional_messages,
-            tools,
-            metadata,
-            temperature,
-            top_p,
-            max_prompt_tokens,
-            max_completion_tokens,
-            truncation_strategy,
-            tool_choice,
-            parallel_tool_calls,
-            response_format,
-        }
-        .serialize(serializer)
-    }
-}
-#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
-pub struct CreateRunRequestWithoutStream {
-    #[doc = "The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) to use to execute this run."]
-    pub assistant_id: String,
-    #[doc = "The ID of the [Model](https://platform.openai.com/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used."]
-    #[builder(default)]
-    pub model: Option<String>,
-    #[builder(default)]
-    pub reasoning_effort: Option<ReasoningEffort>,
-    #[doc = "Overrides the [instructions](https://platform.openai.com/docs/api-reference/assistants/createAssistant) of the assistant. This is useful for modifying the behavior on a per-run basis."]
-    #[builder(default)]
-    pub instructions: Option<String>,
-    #[doc = "Appends additional instructions at the end of the instructions for the run. This is useful for modifying the behavior on a per-run basis without overriding other instructions."]
-    #[builder(default)]
-    pub additional_instructions: Option<String>,
-    #[doc = "Adds additional messages to the thread before creating the run."]
-    #[builder(default)]
-    pub additional_messages: Option<Vec<CreateMessageRequest>>,
-    #[doc = "Override the tools the assistant can use for this run. This is useful for modifying the behavior on a per-run basis."]
-    #[builder(default)]
-    pub tools: Option<Vec<AssistantTool>>,
-    #[builder(default)]
-    pub metadata: Option<Metadata>,
-    #[doc = "What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.\n"]
-    #[builder(default)]
-    pub temperature: Option<f64>,
-    #[doc = "An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.\n\nWe generally recommend altering this or temperature but not both.\n"]
-    #[builder(default)]
-    pub top_p: Option<f64>,
-    #[doc = "The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.\n"]
-    #[builder(default)]
-    pub max_prompt_tokens: Option<i64>,
-    #[doc = "The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.\n"]
-    #[builder(default)]
-    pub max_completion_tokens: Option<i64>,
-    #[builder(default)]
-    pub truncation_strategy: Option<TruncationObject>,
-    #[builder(default)]
-    pub tool_choice: Option<AssistantsApiToolChoiceOption>,
-    #[builder(default)]
-    pub parallel_tool_calls: Option<ParallelToolCalls>,
-    #[builder(default)]
-    pub response_format: Option<AssistantsApiResponseFormatOption>,
-}
-impl<'de> serde::Deserialize<'de> for SubmitToolOutputsRunRequestWithoutStreamToolOutputs {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        struct SubmitToolOutputsRunRequestWithoutStreamToolOutputs {
-            #[serde(rename = "tool_call_id")]
-            #[allow(dead_code)]
-            tool_call_id: Option<String>,
-            #[serde(rename = "output")]
-            #[allow(dead_code)]
-            output: Option<String>,
-        }
-        let SubmitToolOutputsRunRequestWithoutStreamToolOutputs {
-            tool_call_id,
-            output,
-            ..
-        } = SubmitToolOutputsRunRequestWithoutStreamToolOutputs::deserialize(deserializer)?;
-        Ok(Self {
-            tool_call_id,
-            output,
-        })
-    }
-}
-impl serde::Serialize for SubmitToolOutputsRunRequestWithoutStreamToolOutputs {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        struct SubmitToolOutputsRunRequestWithoutStreamToolOutputs<'a> {
-            #[serde(rename = "tool_call_id")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            tool_call_id: &'a Option<String>,
-            #[serde(rename = "output")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            output: &'a Option<String>,
-        }
-        let Self {
-            tool_call_id,
-            output,
-        } = self;
-        SubmitToolOutputsRunRequestWithoutStreamToolOutputs {
-            tool_call_id,
-            output,
-        }
-        .serialize(serializer)
-    }
-}
-#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
-pub struct SubmitToolOutputsRunRequestWithoutStreamToolOutputs {
-    #[doc = "The ID of the tool call in the `required_action` object within the run object the output is being submitted for."]
-    #[builder(default)]
-    pub tool_call_id: Option<String>,
-    #[doc = "The output of the tool call to be submitted to continue the run."]
-    #[builder(default)]
-    pub output: Option<String>,
-}
-impl<'de> serde::Deserialize<'de> for SubmitToolOutputsRunRequestWithoutStream {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        struct SubmitToolOutputsRunRequestWithoutStream {
-            #[serde(rename = "tool_outputs")]
-            #[allow(dead_code)]
-            tool_outputs: Vec<SubmitToolOutputsRunRequestWithoutStreamToolOutputs>,
-        }
-        let SubmitToolOutputsRunRequestWithoutStream { tool_outputs, .. } =
-            SubmitToolOutputsRunRequestWithoutStream::deserialize(deserializer)?;
-        Ok(Self { tool_outputs })
-    }
-}
-impl serde::Serialize for SubmitToolOutputsRunRequestWithoutStream {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        struct SubmitToolOutputsRunRequestWithoutStream<'a> {
-            #[serde(rename = "tool_outputs")]
-            tool_outputs: &'a Vec<SubmitToolOutputsRunRequestWithoutStreamToolOutputs>,
-        }
-        let Self { tool_outputs } = self;
-        SubmitToolOutputsRunRequestWithoutStream { tool_outputs }.serialize(serializer)
-    }
-}
-#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
-pub struct SubmitToolOutputsRunRequestWithoutStream {
-    #[doc = "A list of tools for which the outputs are being submitted."]
-    pub tool_outputs: Vec<SubmitToolOutputsRunRequestWithoutStreamToolOutputs>,
-}
-#[doc = "The status of the run, which can be either `queued`, `in_progress`, `requires_action`, `cancelling`, `cancelled`, `failed`, `completed`, `incomplete`, or `expired`."]
-#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum RunStatus {
-    #[doc = "queued"]
-    #[serde(rename = "queued")]
-    Queued,
-    #[doc = "in_progress"]
-    #[serde(rename = "in_progress")]
-    InProgress,
-    #[doc = "requires_action"]
-    #[serde(rename = "requires_action")]
-    RequiresAction,
-    #[doc = "cancelling"]
-    #[serde(rename = "cancelling")]
-    Cancelling,
-    #[doc = "cancelled"]
-    #[serde(rename = "cancelled")]
-    Cancelled,
-    #[doc = "failed"]
-    #[serde(rename = "failed")]
-    Failed,
-    #[doc = "completed"]
-    #[serde(rename = "completed")]
-    Completed,
-    #[doc = "incomplete"]
-    #[serde(rename = "incomplete")]
-    Incomplete,
-    #[doc = "expired"]
-    #[serde(rename = "expired")]
-    Expired,
-}
-impl<'de> serde::Deserialize<'de> for RunStepDeltaObjectDeltaStepDetails {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum RunStepDeltaObjectDeltaStepDetails {
-            MessageCreation(#[allow(dead_code)] RunStepDeltaStepDetailsMessageCreationObject),
-            ToolCalls(#[allow(dead_code)] RunStepDeltaStepDetailsToolCallsObject),
-        }
-        Ok(
-            match RunStepDeltaObjectDeltaStepDetails::deserialize(deserializer)? {
-                RunStepDeltaObjectDeltaStepDetails::MessageCreation(v) => Self::MessageCreation(v),
-                RunStepDeltaObjectDeltaStepDetails::ToolCalls(v) => Self::ToolCalls(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for RunStepDeltaObjectDeltaStepDetails {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum RunStepDeltaObjectDeltaStepDetails<'a> {
-            MessageCreation(#[allow(dead_code)] &'a RunStepDeltaStepDetailsMessageCreationObject),
-            ToolCalls(#[allow(dead_code)] &'a RunStepDeltaStepDetailsToolCallsObject),
-        }
-        match self {
-            Self::MessageCreation(v) => {
-                RunStepDeltaObjectDeltaStepDetails::MessageCreation(v).serialize(serializer)
-            }
-            Self::ToolCalls(v) => {
-                RunStepDeltaObjectDeltaStepDetails::ToolCalls(v).serialize(serializer)
-            }
-        }
-    }
-}
-#[doc = "The details of the run step."]
-#[derive(Clone, Debug, PartialEq)]
-#[allow(clippy::large_enum_variant)]
-pub enum RunStepDeltaObjectDeltaStepDetails {
-    MessageCreation(RunStepDeltaStepDetailsMessageCreationObject),
-    ToolCalls(RunStepDeltaStepDetailsToolCallsObject),
-}
-impl<'de> serde::Deserialize<'de> for RunStepDeltaObjectDelta {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        struct RunStepDeltaObjectDelta {
-            #[serde(rename = "step_details")]
-            #[allow(dead_code)]
-            step_details: Option<RunStepDeltaObjectDeltaStepDetails>,
-        }
-        let RunStepDeltaObjectDelta { step_details, .. } =
-            RunStepDeltaObjectDelta::deserialize(deserializer)?;
-        Ok(Self { step_details })
-    }
-}
-impl serde::Serialize for RunStepDeltaObjectDelta {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        struct RunStepDeltaObjectDelta<'a> {
-            #[serde(rename = "step_details")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            step_details: &'a Option<RunStepDeltaObjectDeltaStepDetails>,
-        }
-        let Self { step_details } = self;
-        RunStepDeltaObjectDelta { step_details }.serialize(serializer)
-    }
-}
-#[doc = "The delta containing the fields that have changed on the run step."]
-#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
-pub struct RunStepDeltaObjectDelta {
-    #[doc = "The details of the run step."]
-    #[builder(default)]
-    pub step_details: Option<RunStepDeltaObjectDeltaStepDetails>,
 }
 #[cfg(test)]
 mod tests;

@@ -47,7 +47,7 @@ pub enum AdditionalProperties {
     Schema(Box<Schema>),
 }
 
-#[derive(Clone, Debug, Default, Deserialize)]
+#[derive(Clone, Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Discriminator {}
 

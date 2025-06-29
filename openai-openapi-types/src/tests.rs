@@ -15,7 +15,7 @@ fn test_create_chat_completion_request_default() {
         ],
     });
     let b = crate::CreateChatCompletionRequest::builder()
-        .model(crate::ModelIdsShared::ChatModel(crate::ChatModel::Gpt4_1))
+        .model(crate::ModelIdsShared::Gpt4_1)
         .messages(vec![
             crate::ChatCompletionRequestMessage::Developer(
                 crate::ChatCompletionRequestDeveloperMessage::builder()
@@ -162,42 +162,32 @@ fn test_response_stream_event_stream() {
             .response(
                 crate::Response::builder()
                     .id("resp_67c9fdcecf488190bdd9a0409de3a1ec07b8b0ad4e5eb654".to_owned())
-                    .created_at(1741290958)
+                    .created_at(1741290958.into())
                     .status(Some(crate::ResponseStatus::InProgress))
-                    .response_properties(
-                        crate::ResponseProperties::builder()
-                            .instructions(Some("You are a helpful assistant.".to_owned()))
-                            .model(Some(crate::ModelIdsResponses::ModelIdsShared(
-                                crate::ModelIdsShared::ChatModel(
-                                    crate::ChatModel::Gpt4_1_2025_04_14,
-                                ),
-                            )))
-                            .reasoning(Some(crate::Reasoning::default()))
-                            .text(Some(
-                                crate::ResponsePropertiesText::builder()
-                                    .format(Some(crate::TextResponseFormatConfiguration::Text(
-                                        crate::ResponseFormatText::default(),
-                                    )))
-                                    .build(),
-                            ))
-                            .tool_choice(Some(
-                                crate::ResponsePropertiesToolChoice::ToolChoiceOptions(
-                                    crate::ToolChoiceOptions::Auto,
-                                ),
-                            ))
-                            .tools(Some(Vec::new()))
-                            .truncation(Some(crate::ResponsePropertiesTruncation::Disabled))
-                            .build(),
-                    )
+                    .instructions(Some(crate::ResponseInstructions::String(
+                        "You are a helpful assistant.".to_owned(),
+                    )))
+                    .model(crate::ModelIdsResponses::ModelIdsShared(
+                        crate::ModelIdsShared::Gpt4_1_2025_04_14,
+                    ))
                     .output(Vec::new())
                     .parallel_tool_calls(true)
-                    .model_response_properties(
-                        crate::ModelResponseProperties::builder()
-                            .temperature(Some(1.))
-                            .top_p(Some(1.))
-                            .metadata(Some(crate::Metadata::new()))
+                    .reasoning(Some(crate::Reasoning::default()))
+                    .temperature(Some(serde_json::Number::from_f64(1.).unwrap()))
+                    .text(Some(
+                        crate::ResponsePropertiesText::builder()
+                            .format(Some(crate::TextResponseFormatConfiguration::Text(
+                                crate::ResponseFormatText::default(),
+                            )))
                             .build(),
-                    )
+                    ))
+                    .tool_choice(crate::ResponsePropertiesToolChoice::ToolChoiceOptions(
+                        crate::ToolChoiceOptions::Auto,
+                    ))
+                    .tools(Vec::new())
+                    .top_p(Some(serde_json::Number::from_f64(1.).unwrap()))
+                    .truncation(Some(crate::ResponsePropertiesTruncation::Disabled))
+                    .metadata(Some(crate::Metadata::new()))
                     .build(),
             )
             .sequence_number(1)

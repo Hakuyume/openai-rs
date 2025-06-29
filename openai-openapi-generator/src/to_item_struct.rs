@@ -1,13 +1,14 @@
 use crate::{
-    Field, Schema, Type, is_default, is_nullable, to_derive, to_description, to_ident_pascal,
+    Schema, Type, is_default, is_nullable, to_derive, to_description, to_ident_pascal,
     to_ident_snake, to_serde_as, to_type,
 };
-use indexmap::IndexMap;
+use indexmap::{IndexMap, IndexSet};
 
 pub fn to_item_struct(
     name: &str,
     schema: &Schema,
-    fields: &[Field],
+    _: &[either::Either<(String, Schema), String>],
+    _: &IndexSet<String>,
     schemas: &IndexMap<String, Schema>,
     public: bool,
     items: &mut Vec<syn::Item>,
@@ -29,55 +30,45 @@ pub fn to_item_struct(
     let vis = public.then_some(quote::quote!(pub));
     let ident = to_ident_pascal(name);
 
-    let fields = fields
-        .iter()
-        .map(|field| match field {
-            Field::Property {
-                name: field_name,
-                schema,
-                required,
-            } => {
-                let public = public
-                    && (!matches!(
+    let fields = extract_fields(schema, schemas)
+        .into_iter()
+        .map(|(field_name, (ref_, schema, required))| {
+            let public = public
+                && (!matches!(
+                    schema,
+                    Schema {
+                        nullable: false,
+                        type_: Type::Const(_),
+                        ..
+                    },
+                ) || !required);
+            FieldInfo {
+                default: is_default(schema, schemas),
+                description: schema.description.as_deref(),
+                ident: to_ident_snake(field_name),
+                name: Some(field_name),
+                nullable: is_nullable(schema, schemas),
+                optional: !required,
+                public,
+                serde_as: to_serde_as(schema),
+                type_: if let Some(ref_) = ref_ {
+                    to_type(
+                        &format!("{ref_}.{field_name}"),
                         schema,
-                        Schema {
-                            nullable: false,
-                            type_: Type::Const(_),
-                            ..
-                        },
-                    ) || !required);
-                FieldInfo {
-                    default: is_default(schema, schemas),
-                    description: schema.description.as_deref(),
-                    ident: to_ident_snake(field_name),
-                    name: Some(field_name),
-                    nullable: is_nullable(schema, schemas),
-                    optional: !required,
-                    public,
-                    serde_as: to_serde_as(schema),
-                    type_: to_type(
+                        schemas,
+                        public,
+                        &mut Vec::new(),
+                    )
+                } else {
+                    to_type(
                         &format!("{name}.{field_name}"),
                         schema,
                         schemas,
                         public,
                         items,
-                    ),
-                }
-            }
-            Field::Ref(ref_) => FieldInfo {
-                default: is_default(&schemas[ref_], schemas),
-                description: None,
-                ident: to_ident_snake(ref_),
-                name: None,
-                nullable: is_nullable(schema, schemas),
-                optional: false,
-                public: true,
-                serde_as: to_serde_as(schema),
-                type_: {
-                    let type_ = to_ident_pascal(ref_);
-                    syn::parse_quote!(#type_)
+                    )
                 },
-            },
+            }
         })
         .collect::<Vec<_>>();
 
@@ -246,5 +237,41 @@ pub fn to_item_struct(
                 #(#fields),*
             }
         }
+    }
+}
+
+fn extract_fields<'a>(
+    schema: &'a Schema,
+    schemas: &'a IndexMap<String, Schema>,
+) -> IndexMap<&'a str, (Option<&'a str>, &'a Schema, bool)> {
+    match &schema.type_ {
+        Type::Struct { fields, required } => {
+            fields.iter().fold(IndexMap::new(), |mut fields, field| {
+                match field {
+                    either::Left((name, schema)) => {
+                        fields.shift_remove(name.as_str());
+                        fields.insert(name.as_str(), (None, schema, required.contains(name)));
+                    }
+                    either::Right(ref_) => {
+                        for (name, (inner_ref, schema, inner_required)) in
+                            extract_fields(&schemas[ref_], schemas)
+                        {
+                            if !fields.contains_key(name) {
+                                fields.insert(
+                                    name,
+                                    (
+                                        Some(inner_ref.unwrap_or(ref_)),
+                                        schema,
+                                        inner_required || required.contains(name),
+                                    ),
+                                );
+                            }
+                        }
+                    }
+                }
+                fields
+            })
+        }
+        _ => IndexMap::new(),
     }
 }

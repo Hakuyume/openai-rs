@@ -1,6 +1,4 @@
-use crate::{
-    Field, Schema, Type, to_derive, to_description, to_ident_pascal, to_serde_as, to_type,
-};
+use crate::{Schema, Type, to_derive, to_description, to_ident_pascal, to_serde_as, to_type};
 use indexmap::IndexMap;
 use std::collections::HashMap;
 
@@ -306,15 +304,18 @@ fn extract_fields<'a>(
 ) -> Vec<(&'a str, &'a Schema, bool)> {
     match &schema.type_ {
         Type::Ref(ref_) => extract_fields(&schemas[ref_], schemas),
-        Type::Struct(fields) => fields
+        Type::Struct { fields, required } => fields
             .iter()
             .flat_map(|field| match field {
-                Field::Property {
-                    name,
-                    schema,
-                    required,
-                } => vec![(name.as_str(), schema, *required)],
-                Field::Ref(ref_) => extract_fields(&schemas[ref_], schemas),
+                either::Left((name, schema)) => {
+                    vec![(name.as_str(), schema, required.contains(name))]
+                }
+                either::Right(ref_) => extract_fields(&schemas[ref_], schemas)
+                    .into_iter()
+                    .map(|(name, schema, required_inner)| {
+                        (name, schema, required_inner || required.contains(name))
+                    })
+                    .collect(),
             })
             .collect(),
         _ => Vec::new(),
@@ -346,7 +347,9 @@ fn variant_names(variants: &[(&Schema, bool)], schemas: &IndexMap<String, Schema
             && count
                 == variants
                     .iter()
-                    .filter(|(variant, _)| matches!(variant.type_, Type::Ref(_) | Type::Struct(_)))
+                    .filter(|(variant, _)| {
+                        matches!(variant.type_, Type::Ref(_) | Type::Struct { .. })
+                    })
                     .count()
         {
             for (name, tags) in names.iter_mut().zip(&tags) {
