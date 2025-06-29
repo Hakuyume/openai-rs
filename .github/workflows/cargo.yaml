@@ -13,16 +13,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - run: rustup update
       - run: cargo fmt -- --check
   clippy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - run: rustup update
       - run: cargo clippy --all-targets --locked -- --deny=warnings
   test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - run: rustup update
       - run: cargo test --locked
 
   openai-openapi-generator:
@@ -30,5 +33,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: curl -LO https://app.stainless.com/api/spec/documented/openai/openapi.documented.yml
+      - run: rustup update
       - run: cargo run --bin=openai-openapi-generator --locked < openapi.documented.yml | rustfmt > openai-openapi-types/src/lib.rs
       - run: git diff --exit-code
