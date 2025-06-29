@@ -251,10 +251,17 @@ fn is_copy(schema: &Schema, schemas: &IndexMap<String, Schema>) -> bool {
             .iter()
             .all(|(variant, _)| is_copy(variant, schemas)),
         Type::Ref(ref_) => is_copy(&schemas[ref_], schemas),
-        Type::Struct { fields, .. } => fields.iter().all(|field| match field {
-            either::Left((_, schema)) => is_copy(schema, schemas),
-            either::Right(ref_) => is_copy(&schemas[ref_], schemas),
-        }),
+        Type::Struct { fields, required } => {
+            let mut missing_fields = required.clone();
+            for name in extract_fields(schema, schemas, false).into_keys() {
+                missing_fields.swap_remove(name);
+            }
+            missing_fields.is_empty()
+                && fields.iter().all(|field| match field {
+                    either::Left((_, schema)) => is_copy(schema, schemas),
+                    either::Right(ref_) => is_copy(&schemas[ref_], schemas),
+                })
+        }
         _ => false,
     }
 }
@@ -264,12 +271,19 @@ fn is_default(schema: &Schema, schemas: &IndexMap<String, Schema>) -> bool {
         Type::Const(_) => true,
         Type::Enum(variants) => variants.iter().any(|(_, default)| *default),
         Type::Ref(ref_) => is_default(&schemas[ref_], schemas),
-        Type::Struct { fields, required } => fields.iter().all(|field| match field {
-            either::Left((name, schema)) => {
-                is_default(schema, schemas) || schema.nullable || !required.contains(name)
+        Type::Struct { fields, required } => {
+            let mut missing_fields = required.clone();
+            for name in extract_fields(schema, schemas, false).into_keys() {
+                missing_fields.swap_remove(name);
             }
-            either::Right(ref_) => is_default(&schemas[ref_], schemas),
-        }),
+            missing_fields.is_empty()
+                && fields.iter().all(|field| match field {
+                    either::Left((name, schema)) => {
+                        is_default(schema, schemas) || schema.nullable || !required.contains(name)
+                    }
+                    either::Right(ref_) => is_default(&schemas[ref_], schemas),
+                })
+        }
         _ => false,
     }
 }
@@ -291,5 +305,43 @@ fn to_serde_as(schema: &Schema) -> Option<String> {
             to_serde_as(item).map(|item| format!("indexmap::IndexMap<String, {item}>"))
         }
         _ => None,
+    }
+}
+
+fn extract_fields<'a>(
+    schema: &'a Schema,
+    schemas: &'a IndexMap<String, Schema>,
+    follow_ref: bool,
+) -> IndexMap<&'a str, (Option<&'a str>, &'a Schema, bool)> {
+    match &schema.type_ {
+        Type::Ref(ref_) if follow_ref => extract_fields(&schemas[ref_], schemas, follow_ref),
+        Type::Struct { fields, required } => {
+            fields.iter().fold(IndexMap::new(), |mut fields, field| {
+                match field {
+                    either::Left((name, schema)) => {
+                        fields.shift_remove(name.as_str());
+                        fields.insert(name.as_str(), (None, schema, required.contains(name)));
+                    }
+                    either::Right(ref_) => {
+                        for (name, (inner_ref, schema, inner_required)) in
+                            extract_fields(&schemas[ref_], schemas, follow_ref)
+                        {
+                            if !fields.contains_key(name) {
+                                fields.insert(
+                                    name,
+                                    (
+                                        Some(inner_ref.unwrap_or(ref_)),
+                                        schema,
+                                        inner_required || required.contains(name),
+                                    ),
+                                );
+                            }
+                        }
+                    }
+                }
+                fields
+            })
+        }
+        _ => IndexMap::new(),
     }
 }

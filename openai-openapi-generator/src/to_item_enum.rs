@@ -1,4 +1,6 @@
-use crate::{Schema, Type, to_derive, to_description, to_ident_pascal, to_serde_as, to_type};
+use crate::{
+    Schema, Type, extract_fields, to_derive, to_description, to_ident_pascal, to_serde_as, to_type,
+};
 use indexmap::IndexMap;
 use std::collections::HashMap;
 
@@ -275,9 +277,9 @@ fn extract_tags<'a>(
     variants
         .iter()
         .map(|(variant, _)| {
-            extract_fields(variant, schemas)
+            extract_fields(variant, schemas, true)
                 .into_iter()
-                .filter_map(|(name, schema, required)| {
+                .filter_map(|(name, (_, schema, required))| {
                     if let (
                         "event" | "object" | "role" | "type",
                         Schema {
@@ -296,30 +298,6 @@ fn extract_tags<'a>(
                 .collect()
         })
         .collect()
-}
-
-fn extract_fields<'a>(
-    schema: &'a Schema,
-    schemas: &'a IndexMap<String, Schema>,
-) -> Vec<(&'a str, &'a Schema, bool)> {
-    match &schema.type_ {
-        Type::Ref(ref_) => extract_fields(&schemas[ref_], schemas),
-        Type::Struct { fields, required } => fields
-            .iter()
-            .flat_map(|field| match field {
-                either::Left((name, schema)) => {
-                    vec![(name.as_str(), schema, required.contains(name))]
-                }
-                either::Right(ref_) => extract_fields(&schemas[ref_], schemas)
-                    .into_iter()
-                    .map(|(name, schema, required_inner)| {
-                        (name, schema, required_inner || required.contains(name))
-                    })
-                    .collect(),
-            })
-            .collect(),
-        _ => Vec::new(),
-    }
 }
 
 fn variant_names(variants: &[(&Schema, bool)], schemas: &IndexMap<String, Schema>) -> Vec<String> {

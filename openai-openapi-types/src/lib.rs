@@ -38844,11 +38844,23 @@ impl<'de> serde::Deserialize<'de> for LocalShellToolCallOutput {
             #[serde(rename = "status")]
             #[allow(dead_code)]
             status: Option<LocalShellToolCallOutputStatus>,
+            #[serde(rename = "call_id")]
+            #[allow(dead_code)]
+            call_id: serde_json::Value,
         }
         let LocalShellToolCallOutput {
-            id, output, status, ..
+            id,
+            output,
+            status,
+            call_id,
+            ..
         } = LocalShellToolCallOutput::deserialize(deserializer)?;
-        Ok(Self { id, output, status })
+        Ok(Self {
+            id,
+            output,
+            status,
+            call_id,
+        })
     }
 }
 impl serde::Serialize for LocalShellToolCallOutput {
@@ -38868,13 +38880,21 @@ impl serde::Serialize for LocalShellToolCallOutput {
             #[serde(rename = "status")]
             #[serde(skip_serializing_if = "Option::is_none")]
             status: &'a Option<LocalShellToolCallOutputStatus>,
+            #[serde(rename = "call_id")]
+            call_id: &'a serde_json::Value,
         }
-        let Self { id, output, status } = self;
+        let Self {
+            id,
+            output,
+            status,
+            call_id,
+        } = self;
         LocalShellToolCallOutput {
             r#type: &Default::default(),
             id,
             output,
             status,
+            call_id,
         }
         .serialize(serializer)
     }
@@ -38889,6 +38909,7 @@ pub struct LocalShellToolCallOutput {
     #[doc = "The status of the item. One of `in_progress`, `completed`, or `incomplete`.\n"]
     #[builder(default)]
     pub status: Option<LocalShellToolCallOutputStatus>,
+    pub call_id: serde_json::Value,
 }
 impl<'de> serde::Deserialize<'de> for LogProbProperties {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -39122,12 +39143,16 @@ impl<'de> serde::Deserialize<'de> for McpApprovalResponse {
             #[serde(rename = "reason")]
             #[allow(dead_code)]
             reason: Option<String>,
+            #[serde(rename = "request_id")]
+            #[allow(dead_code)]
+            request_id: serde_json::Value,
         }
         let McpApprovalResponse {
             id,
             approval_request_id,
             approve,
             reason,
+            request_id,
             ..
         } = McpApprovalResponse::deserialize(deserializer)?;
         Ok(Self {
@@ -39135,6 +39160,7 @@ impl<'de> serde::Deserialize<'de> for McpApprovalResponse {
             approval_request_id,
             approve,
             reason,
+            request_id,
         })
     }
 }
@@ -39158,12 +39184,15 @@ impl serde::Serialize for McpApprovalResponse {
             #[serde(rename = "reason")]
             #[serde(skip_serializing_if = "Option::is_none")]
             reason: &'a Option<String>,
+            #[serde(rename = "request_id")]
+            request_id: &'a serde_json::Value,
         }
         let Self {
             id,
             approval_request_id,
             approve,
             reason,
+            request_id,
         } = self;
         McpApprovalResponse {
             r#type: &Default::default(),
@@ -39171,6 +39200,7 @@ impl serde::Serialize for McpApprovalResponse {
             approval_request_id,
             approve,
             reason,
+            request_id,
         }
         .serialize(serializer)
     }
@@ -39188,6 +39218,7 @@ pub struct McpApprovalResponse {
     #[doc = "Optional reason for the decision.\n"]
     #[builder(default)]
     pub reason: Option<String>,
+    pub request_id: serde_json::Value,
 }
 impl<'de> serde::Deserialize<'de> for McpApprovalResponseResourceType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -39239,12 +39270,16 @@ impl<'de> serde::Deserialize<'de> for McpApprovalResponseResource {
             #[serde(rename = "reason")]
             #[allow(dead_code)]
             reason: Option<String>,
+            #[serde(rename = "request_id")]
+            #[allow(dead_code)]
+            request_id: serde_json::Value,
         }
         let McpApprovalResponseResource {
             id,
             approval_request_id,
             approve,
             reason,
+            request_id,
             ..
         } = McpApprovalResponseResource::deserialize(deserializer)?;
         Ok(Self {
@@ -39252,6 +39287,7 @@ impl<'de> serde::Deserialize<'de> for McpApprovalResponseResource {
             approval_request_id,
             approve,
             reason,
+            request_id,
         })
     }
 }
@@ -39274,12 +39310,15 @@ impl serde::Serialize for McpApprovalResponseResource {
             #[serde(rename = "reason")]
             #[serde(skip_serializing_if = "Option::is_none")]
             reason: &'a Option<String>,
+            #[serde(rename = "request_id")]
+            request_id: &'a serde_json::Value,
         }
         let Self {
             id,
             approval_request_id,
             approve,
             reason,
+            request_id,
         } = self;
         McpApprovalResponseResource {
             r#type: &Default::default(),
@@ -39287,6 +39326,7 @@ impl serde::Serialize for McpApprovalResponseResource {
             approval_request_id,
             approve,
             reason,
+            request_id,
         }
         .serialize(serializer)
     }
@@ -39303,6 +39343,7 @@ pub struct McpApprovalResponseResource {
     #[doc = "Optional reason for the decision.\n"]
     #[builder(default)]
     pub reason: Option<String>,
+    pub request_id: serde_json::Value,
 }
 impl<'de> serde::Deserialize<'de> for McpListToolsType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -61663,11 +61704,19 @@ impl<'de> serde::Deserialize<'de> for ResponseAudioDoneEvent {
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
             sequence_number: i64,
+            #[serde(rename = "response_id")]
+            #[allow(dead_code)]
+            response_id: serde_json::Value,
         }
         let ResponseAudioDoneEvent {
-            sequence_number, ..
+            sequence_number,
+            response_id,
+            ..
         } = ResponseAudioDoneEvent::deserialize(deserializer)?;
-        Ok(Self { sequence_number })
+        Ok(Self {
+            sequence_number,
+            response_id,
+        })
     }
 }
 impl serde::Serialize for ResponseAudioDoneEvent {
@@ -61682,20 +61731,27 @@ impl serde::Serialize for ResponseAudioDoneEvent {
             r#type: &'a ResponseAudioDoneEventType,
             #[serde(rename = "sequence_number")]
             sequence_number: &'a i64,
+            #[serde(rename = "response_id")]
+            response_id: &'a serde_json::Value,
         }
-        let Self { sequence_number } = self;
+        let Self {
+            sequence_number,
+            response_id,
+        } = self;
         ResponseAudioDoneEvent {
             r#type: &Default::default(),
             sequence_number,
+            response_id,
         }
         .serialize(serializer)
     }
 }
 #[doc = "Emitted when the audio response is complete."]
-#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseAudioDoneEvent {
     #[doc = "The sequence number of the delta.\n"]
     pub sequence_number: i64,
+    pub response_id: serde_json::Value,
 }
 impl<'de> serde::Deserialize<'de> for ResponseAudioTranscriptDeltaEventType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -61741,15 +61797,20 @@ impl<'de> serde::Deserialize<'de> for ResponseAudioTranscriptDeltaEvent {
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
             sequence_number: i64,
+            #[serde(rename = "response_id")]
+            #[allow(dead_code)]
+            response_id: serde_json::Value,
         }
         let ResponseAudioTranscriptDeltaEvent {
             delta,
             sequence_number,
+            response_id,
             ..
         } = ResponseAudioTranscriptDeltaEvent::deserialize(deserializer)?;
         Ok(Self {
             delta,
             sequence_number,
+            response_id,
         })
     }
 }
@@ -61767,15 +61828,19 @@ impl serde::Serialize for ResponseAudioTranscriptDeltaEvent {
             delta: &'a String,
             #[serde(rename = "sequence_number")]
             sequence_number: &'a i64,
+            #[serde(rename = "response_id")]
+            response_id: &'a serde_json::Value,
         }
         let Self {
             delta,
             sequence_number,
+            response_id,
         } = self;
         ResponseAudioTranscriptDeltaEvent {
             r#type: &Default::default(),
             delta,
             sequence_number,
+            response_id,
         }
         .serialize(serializer)
     }
@@ -61787,6 +61852,7 @@ pub struct ResponseAudioTranscriptDeltaEvent {
     pub delta: String,
     #[doc = "The sequence number of this event."]
     pub sequence_number: i64,
+    pub response_id: serde_json::Value,
 }
 impl<'de> serde::Deserialize<'de> for ResponseAudioTranscriptDoneEventType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -61829,11 +61895,19 @@ impl<'de> serde::Deserialize<'de> for ResponseAudioTranscriptDoneEvent {
             #[serde(rename = "sequence_number")]
             #[allow(dead_code)]
             sequence_number: i64,
+            #[serde(rename = "response_id")]
+            #[allow(dead_code)]
+            response_id: serde_json::Value,
         }
         let ResponseAudioTranscriptDoneEvent {
-            sequence_number, ..
+            sequence_number,
+            response_id,
+            ..
         } = ResponseAudioTranscriptDoneEvent::deserialize(deserializer)?;
-        Ok(Self { sequence_number })
+        Ok(Self {
+            sequence_number,
+            response_id,
+        })
     }
 }
 impl serde::Serialize for ResponseAudioTranscriptDoneEvent {
@@ -61848,20 +61922,27 @@ impl serde::Serialize for ResponseAudioTranscriptDoneEvent {
             r#type: &'a ResponseAudioTranscriptDoneEventType,
             #[serde(rename = "sequence_number")]
             sequence_number: &'a i64,
+            #[serde(rename = "response_id")]
+            response_id: &'a serde_json::Value,
         }
-        let Self { sequence_number } = self;
+        let Self {
+            sequence_number,
+            response_id,
+        } = self;
         ResponseAudioTranscriptDoneEvent {
             r#type: &Default::default(),
             sequence_number,
+            response_id,
         }
         .serialize(serializer)
     }
 }
 #[doc = "Emitted when the full audio transcript is completed."]
-#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseAudioTranscriptDoneEvent {
     #[doc = "The sequence number of this event."]
     pub sequence_number: i64,
+    pub response_id: serde_json::Value,
 }
 impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallCodeDeltaEventType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -77818,15 +77899,20 @@ impl<'de> serde::Deserialize<'de> for UsageCodeInterpreterSessionsResult {
             #[serde(rename = "project_id")]
             #[allow(dead_code)]
             project_id: Option<String>,
+            #[serde(rename = "sessions")]
+            #[allow(dead_code)]
+            sessions: serde_json::Value,
         }
         let UsageCodeInterpreterSessionsResult {
             num_sessions,
             project_id,
+            sessions,
             ..
         } = UsageCodeInterpreterSessionsResult::deserialize(deserializer)?;
         Ok(Self {
             num_sessions,
             project_id,
+            sessions,
         })
     }
 }
@@ -77846,21 +77932,25 @@ impl serde::Serialize for UsageCodeInterpreterSessionsResult {
             #[serde(rename = "project_id")]
             #[serde(skip_serializing_if = "Option::is_none")]
             project_id: &'a Option<String>,
+            #[serde(rename = "sessions")]
+            sessions: &'a serde_json::Value,
         }
         let Self {
             num_sessions,
             project_id,
+            sessions,
         } = self;
         UsageCodeInterpreterSessionsResult {
             object: &Default::default(),
             num_sessions,
             project_id,
+            sessions,
         }
         .serialize(serializer)
     }
 }
 #[doc = "The aggregated code interpreter sessions usage details of the specific time bucket."]
-#[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct UsageCodeInterpreterSessionsResult {
     #[doc = "The number of code interpreter sessions."]
     #[builder(default)]
@@ -77868,6 +77958,7 @@ pub struct UsageCodeInterpreterSessionsResult {
     #[doc = "When `group_by=project_id`, this field provides the project ID of the grouped usage result."]
     #[builder(default)]
     pub project_id: Option<String>,
+    pub sessions: serde_json::Value,
 }
 impl<'de> serde::Deserialize<'de> for UsageCompletionsResultObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
