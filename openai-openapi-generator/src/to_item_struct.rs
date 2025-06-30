@@ -199,6 +199,7 @@ pub fn to_item_struct(
                      name,
                      nullable,
                      optional,
+                     public,
                      serde_as,
                      type_,
                      ..
@@ -217,11 +218,19 @@ pub fn to_item_struct(
                     } else {
                         quote::quote!(#type_)
                     };
-                    quote::quote! {
-                        #attr_serde_as
-                        #attr_serde_rename
-                        #[allow(dead_code)]
-                        #ident: #type_
+                    if *public {
+                        quote::quote! {
+                            #attr_serde_as
+                            #attr_serde_rename
+                            #ident: #type_
+                        }
+                    } else {
+                        quote::quote! {
+                            #attr_serde_as
+                            #attr_serde_rename
+                            #[allow(dead_code)]
+                            #ident: #type_
+                        }
                     }
                 },
             );

@@ -188,7 +188,6 @@ pub fn to_item_enum(
                             quote::quote! {
                                 #ident(
                                     #attr_serde_as
-                                    #[allow(dead_code)]
                                     #type_
                                 )
                             }
@@ -230,6 +229,7 @@ pub fn to_item_enum(
                 let variants_inner = variant_info.iter().map(
                     |VariantInfo {
                          ident,
+                         public,
                          serde_as,
                          type_,
                          ..
@@ -238,36 +238,44 @@ pub fn to_item_enum(
                             quote::quote!(#[serde_as(as = #serde_as)]
                             )
                         });
-                        quote::quote! {
-                            #ident(
-                                #attr_serde_as
-                                #[allow(dead_code)]
-                                &'a #type_
-                            )
+                        if *public {
+                            quote::quote! {
+                                #ident(
+                                    #attr_serde_as
+                                    &'a #type_
+                                )
+                            }
+                        } else {
+                            quote::quote! {
+                                #ident(
+                                    #attr_serde_as
+                                    #type_
+                                )
+                            }
                         }
                     },
                 );
                 let arms = variant_info.iter().map(
-                |VariantInfo {
-                     ident: variant_ident,
-                     public,
-                     ..
-                 }| {
-                    if *public {
-                        quote::quote! {
-                            Self::#variant_ident(v) => {
-                                #ident::#variant_ident(v).serialize(serializer)
+                    |VariantInfo {
+                         ident: variant_ident,
+                         public,
+                         ..
+                     }| {
+                        if *public {
+                            quote::quote! {
+                                Self::#variant_ident(v) => {
+                                    #ident::#variant_ident(v)
+                                }
+                            }
+                        } else {
+                            quote::quote! {
+                                Self::#variant_ident => {
+                                    #ident::#variant_ident(Default::default())
+                                }
                             }
                         }
-                    } else {
-                        quote::quote! {
-                            Self::#variant_ident => {
-                                #ident::#variant_ident(&Default::default()).serialize(serializer)
-                            }
-                        }
-                    }
-                },
-            );
+                    },
+                );
                 items.push(syn::parse_quote! {
                     impl serde::Serialize for #ident {
                         fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
@@ -279,7 +287,7 @@ pub fn to_item_enum(
                             enum #ident<'a> {
                                 #(#variants_inner),*
                             }
-                            match self { #(#arms),* }
+                            match self { #(#arms),* }.serialize(serializer)
                         }
                     }
                 });

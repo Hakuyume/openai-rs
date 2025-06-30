@@ -118,25 +118,18 @@ impl<'de> serde::Deserialize<'de> for AdminApiKey {
             #[allow(dead_code)]
             object: AdminApiKeyObject,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "name")]
-            #[allow(dead_code)]
             name: String,
             #[serde(rename = "redacted_value")]
-            #[allow(dead_code)]
             redacted_value: String,
             #[serde(rename = "value")]
-            #[allow(dead_code)]
             value: Option<String>,
             #[serde(rename = "created_at")]
-            #[allow(dead_code)]
             created_at: i64,
             #[serde(rename = "last_used_at")]
-            #[allow(dead_code)]
             last_used_at: Option<i64>,
             #[serde(rename = "owner")]
-            #[allow(dead_code)]
             owner: AdminApiKeyOwner,
         }
         let AdminApiKey {
@@ -325,43 +318,31 @@ impl<'de> serde::Deserialize<'de> for AssistantObject {
         #[derive(serde :: Deserialize)]
         struct AssistantObject {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "object")]
             #[allow(dead_code)]
             object: AssistantObjectObject,
             #[serde(rename = "created_at")]
-            #[allow(dead_code)]
             created_at: i64,
             #[serde(rename = "name")]
-            #[allow(dead_code)]
             name: Option<String>,
             #[serde(rename = "description")]
-            #[allow(dead_code)]
             description: Option<String>,
             #[serde(rename = "model")]
-            #[allow(dead_code)]
             model: String,
             #[serde(rename = "instructions")]
-            #[allow(dead_code)]
             instructions: Option<String>,
             #[serde(rename = "tools")]
-            #[allow(dead_code)]
             tools: Vec<AssistantObjectTool>,
             #[serde(rename = "tool_resources")]
-            #[allow(dead_code)]
             tool_resources: Option<AssistantObjectToolResources>,
             #[serde(rename = "metadata")]
-            #[allow(dead_code)]
             metadata: Option<Metadata>,
             #[serde(rename = "temperature")]
-            #[allow(dead_code)]
             temperature: Option<serde_json::Number>,
             #[serde(rename = "top_p")]
-            #[allow(dead_code)]
             top_p: Option<serde_json::Number>,
             #[serde(rename = "response_format")]
-            #[allow(dead_code)]
             response_format: Option<AssistantsApiResponseFormatOption>,
         }
         let AssistantObject {
@@ -672,7 +653,6 @@ impl<'de> serde::Deserialize<'de> for AssistantToolsFileSearch {
             #[allow(dead_code)]
             r#type: AssistantToolsFileSearchType,
             #[serde(rename = "file_search")]
-            #[allow(dead_code)]
             file_search: Option<AssistantToolsFileSearchFileSearch>,
         }
         let AssistantToolsFileSearch { file_search, .. } =
@@ -763,7 +743,6 @@ impl<'de> serde::Deserialize<'de> for AssistantToolsFunction {
             #[allow(dead_code)]
             r#type: AssistantToolsFunctionType,
             #[serde(rename = "function")]
-            #[allow(dead_code)]
             function: FunctionObject,
         }
         let AssistantToolsFunction { function, .. } =
@@ -816,10 +795,10 @@ impl<'de> serde::Deserialize<'de> for AssistantsApiResponseFormatOption {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum AssistantsApiResponseFormatOption {
-            Auto(#[allow(dead_code)] AssistantsApiResponseFormatOptionAuto),
-            Text(#[allow(dead_code)] ResponseFormatText),
-            JsonObject(#[allow(dead_code)] ResponseFormatJsonObject),
-            JsonSchema(#[allow(dead_code)] ResponseFormatJsonSchema),
+            Auto(AssistantsApiResponseFormatOptionAuto),
+            Text(ResponseFormatText),
+            JsonObject(ResponseFormatJsonObject),
+            JsonSchema(ResponseFormatJsonSchema),
         }
         Ok(
             match AssistantsApiResponseFormatOption::deserialize(deserializer)? {
@@ -841,23 +820,18 @@ impl serde::Serialize for AssistantsApiResponseFormatOption {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum AssistantsApiResponseFormatOption<'a> {
-            Auto(#[allow(dead_code)] &'a AssistantsApiResponseFormatOptionAuto),
-            Text(#[allow(dead_code)] &'a ResponseFormatText),
-            JsonObject(#[allow(dead_code)] &'a ResponseFormatJsonObject),
-            JsonSchema(#[allow(dead_code)] &'a ResponseFormatJsonSchema),
+            Auto(AssistantsApiResponseFormatOptionAuto),
+            Text(&'a ResponseFormatText),
+            JsonObject(&'a ResponseFormatJsonObject),
+            JsonSchema(&'a ResponseFormatJsonSchema),
         }
         match self {
-            Self::Auto => {
-                AssistantsApiResponseFormatOption::Auto(&Default::default()).serialize(serializer)
-            }
-            Self::Text(v) => AssistantsApiResponseFormatOption::Text(v).serialize(serializer),
-            Self::JsonObject(v) => {
-                AssistantsApiResponseFormatOption::JsonObject(v).serialize(serializer)
-            }
-            Self::JsonSchema(v) => {
-                AssistantsApiResponseFormatOption::JsonSchema(v).serialize(serializer)
-            }
+            Self::Auto => AssistantsApiResponseFormatOption::Auto(Default::default()),
+            Self::Text(v) => AssistantsApiResponseFormatOption::Text(v),
+            Self::JsonObject(v) => AssistantsApiResponseFormatOption::JsonObject(v),
+            Self::JsonSchema(v) => AssistantsApiResponseFormatOption::JsonSchema(v),
         }
+        .serialize(serializer)
     }
 }
 #[doc = "none"]
@@ -894,10 +868,10 @@ impl<'de> serde::Deserialize<'de> for AssistantsApiToolChoiceOption {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum AssistantsApiToolChoiceOption {
-            None(#[allow(dead_code)] AssistantsApiToolChoiceOptionNone),
-            Auto(#[allow(dead_code)] AssistantsApiToolChoiceOptionAuto),
-            Required(#[allow(dead_code)] AssistantsApiToolChoiceOptionRequired),
-            AssistantsNamedToolChoice(#[allow(dead_code)] AssistantsNamedToolChoice),
+            None(AssistantsApiToolChoiceOptionNone),
+            Auto(AssistantsApiToolChoiceOptionAuto),
+            Required(AssistantsApiToolChoiceOptionRequired),
+            AssistantsNamedToolChoice(AssistantsNamedToolChoice),
         }
         Ok(
             match AssistantsApiToolChoiceOption::deserialize(deserializer)? {
@@ -921,25 +895,20 @@ impl serde::Serialize for AssistantsApiToolChoiceOption {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum AssistantsApiToolChoiceOption<'a> {
-            None(#[allow(dead_code)] &'a AssistantsApiToolChoiceOptionNone),
-            Auto(#[allow(dead_code)] &'a AssistantsApiToolChoiceOptionAuto),
-            Required(#[allow(dead_code)] &'a AssistantsApiToolChoiceOptionRequired),
-            AssistantsNamedToolChoice(#[allow(dead_code)] &'a AssistantsNamedToolChoice),
+            None(AssistantsApiToolChoiceOptionNone),
+            Auto(AssistantsApiToolChoiceOptionAuto),
+            Required(AssistantsApiToolChoiceOptionRequired),
+            AssistantsNamedToolChoice(&'a AssistantsNamedToolChoice),
         }
         match self {
-            Self::None => {
-                AssistantsApiToolChoiceOption::None(&Default::default()).serialize(serializer)
-            }
-            Self::Auto => {
-                AssistantsApiToolChoiceOption::Auto(&Default::default()).serialize(serializer)
-            }
-            Self::Required => {
-                AssistantsApiToolChoiceOption::Required(&Default::default()).serialize(serializer)
-            }
+            Self::None => AssistantsApiToolChoiceOption::None(Default::default()),
+            Self::Auto => AssistantsApiToolChoiceOption::Auto(Default::default()),
+            Self::Required => AssistantsApiToolChoiceOption::Required(Default::default()),
             Self::AssistantsNamedToolChoice(v) => {
-                AssistantsApiToolChoiceOption::AssistantsNamedToolChoice(v).serialize(serializer)
+                AssistantsApiToolChoiceOption::AssistantsNamedToolChoice(v)
             }
         }
+        .serialize(serializer)
     }
 }
 #[doc = "The type of the tool. If type is `function`, the function name must be set"]
@@ -2159,64 +2128,45 @@ impl<'de> serde::Deserialize<'de> for Batch {
         #[derive(serde :: Deserialize)]
         struct Batch {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "object")]
             #[allow(dead_code)]
             object: BatchObject,
             #[serde(rename = "endpoint")]
-            #[allow(dead_code)]
             endpoint: String,
             #[serde(rename = "errors")]
-            #[allow(dead_code)]
             errors: Option<BatchErrors>,
             #[serde(rename = "input_file_id")]
-            #[allow(dead_code)]
             input_file_id: String,
             #[serde(rename = "completion_window")]
-            #[allow(dead_code)]
             completion_window: String,
             #[serde(rename = "status")]
-            #[allow(dead_code)]
             status: BatchStatus,
             #[serde(rename = "output_file_id")]
-            #[allow(dead_code)]
             output_file_id: Option<String>,
             #[serde(rename = "error_file_id")]
-            #[allow(dead_code)]
             error_file_id: Option<String>,
             #[serde(rename = "created_at")]
-            #[allow(dead_code)]
             created_at: i64,
             #[serde(rename = "in_progress_at")]
-            #[allow(dead_code)]
             in_progress_at: Option<i64>,
             #[serde(rename = "expires_at")]
-            #[allow(dead_code)]
             expires_at: Option<i64>,
             #[serde(rename = "finalizing_at")]
-            #[allow(dead_code)]
             finalizing_at: Option<i64>,
             #[serde(rename = "completed_at")]
-            #[allow(dead_code)]
             completed_at: Option<i64>,
             #[serde(rename = "failed_at")]
-            #[allow(dead_code)]
             failed_at: Option<i64>,
             #[serde(rename = "expired_at")]
-            #[allow(dead_code)]
             expired_at: Option<i64>,
             #[serde(rename = "cancelling_at")]
-            #[allow(dead_code)]
             cancelling_at: Option<i64>,
             #[serde(rename = "cancelled_at")]
-            #[allow(dead_code)]
             cancelled_at: Option<i64>,
             #[serde(rename = "request_counts")]
-            #[allow(dead_code)]
             request_counts: Option<BatchRequestCounts>,
             #[serde(rename = "metadata")]
-            #[allow(dead_code)]
             metadata: Option<Metadata>,
         }
         let Batch {
@@ -2539,10 +2489,8 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionDeleted {
             #[allow(dead_code)]
             object: ChatCompletionDeletedObject,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "deleted")]
-            #[allow(dead_code)]
             deleted: bool,
         }
         let ChatCompletionDeleted { id, deleted, .. } =
@@ -2628,16 +2576,12 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionList {
             #[allow(dead_code)]
             object: ChatCompletionListObject,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: Vec<CreateChatCompletionResponse>,
             #[serde(rename = "first_id")]
-            #[allow(dead_code)]
             first_id: String,
             #[serde(rename = "last_id")]
-            #[allow(dead_code)]
             last_id: String,
             #[serde(rename = "has_more")]
-            #[allow(dead_code)]
             has_more: bool,
         }
         let ChatCompletionList {
@@ -2725,28 +2669,21 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionMessageListDatum {
         #[derive(serde :: Deserialize)]
         struct ChatCompletionMessageListDatum {
             #[serde(rename = "content")]
-            #[allow(dead_code)]
             content: Option<String>,
             #[serde(rename = "refusal")]
-            #[allow(dead_code)]
             refusal: Option<String>,
             #[serde(rename = "tool_calls")]
-            #[allow(dead_code)]
             tool_calls: Option<ChatCompletionMessageToolCalls>,
             #[serde(rename = "annotations")]
-            #[allow(dead_code)]
             annotations: Option<Vec<ChatCompletionResponseMessageAnnotation>>,
             #[serde(rename = "role")]
             #[allow(dead_code)]
             role: ChatCompletionResponseMessageRole,
             #[serde(rename = "function_call")]
-            #[allow(dead_code)]
             function_call: Option<ChatCompletionResponseMessageFunctionCall>,
             #[serde(rename = "audio")]
-            #[allow(dead_code)]
             audio: Option<ChatCompletionResponseMessageAudio>,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
         }
         let ChatCompletionMessageListDatum {
@@ -2847,16 +2784,12 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionMessageList {
             #[allow(dead_code)]
             object: ChatCompletionMessageListObject,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: Vec<ChatCompletionMessageListDatum>,
             #[serde(rename = "first_id")]
-            #[allow(dead_code)]
             first_id: String,
             #[serde(rename = "last_id")]
-            #[allow(dead_code)]
             last_id: String,
             #[serde(rename = "has_more")]
-            #[allow(dead_code)]
             has_more: bool,
         }
         let ChatCompletionMessageList {
@@ -2941,13 +2874,11 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionMessageToolCall {
         #[derive(serde :: Deserialize)]
         struct ChatCompletionMessageToolCall {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: ChatCompletionMessageToolCallType,
             #[serde(rename = "function")]
-            #[allow(dead_code)]
             function: ChatCompletionMessageToolCallFunction,
         }
         let ChatCompletionMessageToolCall { id, function, .. } =
@@ -3061,7 +2992,6 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionNamedToolChoice {
             #[allow(dead_code)]
             r#type: ChatCompletionNamedToolChoiceType,
             #[serde(rename = "function")]
-            #[allow(dead_code)]
             function: ChatCompletionNamedToolChoiceFunction,
         }
         let ChatCompletionNamedToolChoice { function, .. } =
@@ -3157,25 +3087,19 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionRequestAssistantMessage {
         #[derive(serde :: Deserialize)]
         struct ChatCompletionRequestAssistantMessage {
             #[serde(rename = "content")]
-            #[allow(dead_code)]
             content: Option<ChatCompletionRequestAssistantMessageContent>,
             #[serde(rename = "refusal")]
-            #[allow(dead_code)]
             refusal: Option<String>,
             #[serde(rename = "role")]
             #[allow(dead_code)]
             role: ChatCompletionRequestAssistantMessageRole,
             #[serde(rename = "name")]
-            #[allow(dead_code)]
             name: Option<String>,
             #[serde(rename = "audio")]
-            #[allow(dead_code)]
             audio: Option<ChatCompletionRequestAssistantMessageAudio>,
             #[serde(rename = "tool_calls")]
-            #[allow(dead_code)]
             tool_calls: Option<ChatCompletionMessageToolCalls>,
             #[serde(rename = "function_call")]
-            #[allow(dead_code)]
             function_call: Option<ChatCompletionRequestAssistantMessageFunctionCall>,
         }
         let ChatCompletionRequestAssistantMessage {
@@ -3289,13 +3213,11 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionRequestDeveloperMessage {
         #[derive(serde :: Deserialize)]
         struct ChatCompletionRequestDeveloperMessage {
             #[serde(rename = "content")]
-            #[allow(dead_code)]
             content: ChatCompletionRequestDeveloperMessageContent,
             #[serde(rename = "role")]
             #[allow(dead_code)]
             role: ChatCompletionRequestDeveloperMessageRole,
             #[serde(rename = "name")]
-            #[allow(dead_code)]
             name: Option<String>,
         }
         let ChatCompletionRequestDeveloperMessage { content, name, .. } =
@@ -3352,10 +3274,8 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionRequestFunctionMessage {
             #[allow(dead_code)]
             role: ChatCompletionRequestFunctionMessageRole,
             #[serde(rename = "content")]
-            #[allow(dead_code)]
             content: Option<String>,
             #[serde(rename = "name")]
-            #[allow(dead_code)]
             name: String,
         }
         let ChatCompletionRequestFunctionMessage { content, name, .. } =
@@ -3446,7 +3366,6 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionRequestMessageContentPartAud
             #[allow(dead_code)]
             r#type: ChatCompletionRequestMessageContentPartAudioType,
             #[serde(rename = "input_audio")]
-            #[allow(dead_code)]
             input_audio: ChatCompletionRequestMessageContentPartAudioInputAudio,
         }
         let ChatCompletionRequestMessageContentPartAudio { input_audio, .. } =
@@ -3517,7 +3436,6 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionRequestMessageContentPartFil
             #[allow(dead_code)]
             r#type: ChatCompletionRequestMessageContentPartFileType,
             #[serde(rename = "file")]
-            #[allow(dead_code)]
             file: ChatCompletionRequestMessageContentPartFileFile,
         }
         let ChatCompletionRequestMessageContentPartFile { file, .. } =
@@ -3597,7 +3515,6 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionRequestMessageContentPartIma
             #[allow(dead_code)]
             r#type: ChatCompletionRequestMessageContentPartImageType,
             #[serde(rename = "image_url")]
-            #[allow(dead_code)]
             image_url: ChatCompletionRequestMessageContentPartImageImageUrl,
         }
         let ChatCompletionRequestMessageContentPartImage { image_url, .. } =
@@ -3650,7 +3567,6 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionRequestMessageContentPartRef
             #[allow(dead_code)]
             r#type: ChatCompletionRequestMessageContentPartRefusalType,
             #[serde(rename = "refusal")]
-            #[allow(dead_code)]
             refusal: String,
         }
         let ChatCompletionRequestMessageContentPartRefusal { refusal, .. } =
@@ -3701,7 +3617,6 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionRequestMessageContentPartTex
             #[allow(dead_code)]
             r#type: ChatCompletionRequestMessageContentPartTextType,
             #[serde(rename = "text")]
-            #[allow(dead_code)]
             text: String,
         }
         let ChatCompletionRequestMessageContentPartText { text, .. } =
@@ -3764,13 +3679,11 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionRequestSystemMessage {
         #[derive(serde :: Deserialize)]
         struct ChatCompletionRequestSystemMessage {
             #[serde(rename = "content")]
-            #[allow(dead_code)]
             content: ChatCompletionRequestSystemMessageContent,
             #[serde(rename = "role")]
             #[allow(dead_code)]
             role: ChatCompletionRequestSystemMessageRole,
             #[serde(rename = "name")]
-            #[allow(dead_code)]
             name: Option<String>,
         }
         let ChatCompletionRequestSystemMessage { content, name, .. } =
@@ -3846,10 +3759,8 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionRequestToolMessage {
             #[allow(dead_code)]
             role: ChatCompletionRequestToolMessageRole,
             #[serde(rename = "content")]
-            #[allow(dead_code)]
             content: ChatCompletionRequestToolMessageContent,
             #[serde(rename = "tool_call_id")]
-            #[allow(dead_code)]
             tool_call_id: String,
         }
         let ChatCompletionRequestToolMessage {
@@ -3932,13 +3843,11 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionRequestUserMessage {
         #[derive(serde :: Deserialize)]
         struct ChatCompletionRequestUserMessage {
             #[serde(rename = "content")]
-            #[allow(dead_code)]
             content: ChatCompletionRequestUserMessageContent,
             #[serde(rename = "role")]
             #[allow(dead_code)]
             role: ChatCompletionRequestUserMessageRole,
             #[serde(rename = "name")]
-            #[allow(dead_code)]
             name: Option<String>,
         }
         let ChatCompletionRequestUserMessage { content, name, .. } =
@@ -4022,7 +3931,6 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionResponseMessageAnnotation {
             #[allow(dead_code)]
             r#type: ChatCompletionResponseMessageAnnotationType,
             #[serde(rename = "url_citation")]
-            #[allow(dead_code)]
             url_citation: ChatCompletionResponseMessageAnnotationUrlCitation,
         }
         let ChatCompletionResponseMessageAnnotation { url_citation, .. } =
@@ -4115,25 +4023,19 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionResponseMessage {
         #[derive(serde :: Deserialize)]
         struct ChatCompletionResponseMessage {
             #[serde(rename = "content")]
-            #[allow(dead_code)]
             content: Option<String>,
             #[serde(rename = "refusal")]
-            #[allow(dead_code)]
             refusal: Option<String>,
             #[serde(rename = "tool_calls")]
-            #[allow(dead_code)]
             tool_calls: Option<ChatCompletionMessageToolCalls>,
             #[serde(rename = "annotations")]
-            #[allow(dead_code)]
             annotations: Option<Vec<ChatCompletionResponseMessageAnnotation>>,
             #[serde(rename = "role")]
             #[allow(dead_code)]
             role: ChatCompletionResponseMessageRole,
             #[serde(rename = "function_call")]
-            #[allow(dead_code)]
             function_call: Option<ChatCompletionResponseMessageFunctionCall>,
             #[serde(rename = "audio")]
-            #[allow(dead_code)]
             audio: Option<ChatCompletionResponseMessageAudio>,
         }
         let ChatCompletionResponseMessage {
@@ -4357,7 +4259,6 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionTool {
             #[allow(dead_code)]
             r#type: ChatCompletionToolType,
             #[serde(rename = "function")]
-            #[allow(dead_code)]
             function: FunctionObject,
         }
         let ChatCompletionTool { function, .. } = ChatCompletionTool::deserialize(deserializer)?;
@@ -4419,10 +4320,10 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionToolChoiceOption {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum ChatCompletionToolChoiceOption {
-            None(#[allow(dead_code)] ChatCompletionToolChoiceOptionNone),
-            Auto(#[allow(dead_code)] ChatCompletionToolChoiceOptionAuto),
-            Required(#[allow(dead_code)] ChatCompletionToolChoiceOptionRequired),
-            ChatCompletionNamedToolChoice(#[allow(dead_code)] ChatCompletionNamedToolChoice),
+            None(ChatCompletionToolChoiceOptionNone),
+            Auto(ChatCompletionToolChoiceOptionAuto),
+            Required(ChatCompletionToolChoiceOptionRequired),
+            ChatCompletionNamedToolChoice(ChatCompletionNamedToolChoice),
         }
         Ok(
             match ChatCompletionToolChoiceOption::deserialize(deserializer)? {
@@ -4446,26 +4347,20 @@ impl serde::Serialize for ChatCompletionToolChoiceOption {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum ChatCompletionToolChoiceOption<'a> {
-            None(#[allow(dead_code)] &'a ChatCompletionToolChoiceOptionNone),
-            Auto(#[allow(dead_code)] &'a ChatCompletionToolChoiceOptionAuto),
-            Required(#[allow(dead_code)] &'a ChatCompletionToolChoiceOptionRequired),
-            ChatCompletionNamedToolChoice(#[allow(dead_code)] &'a ChatCompletionNamedToolChoice),
+            None(ChatCompletionToolChoiceOptionNone),
+            Auto(ChatCompletionToolChoiceOptionAuto),
+            Required(ChatCompletionToolChoiceOptionRequired),
+            ChatCompletionNamedToolChoice(&'a ChatCompletionNamedToolChoice),
         }
         match self {
-            Self::None => {
-                ChatCompletionToolChoiceOption::None(&Default::default()).serialize(serializer)
-            }
-            Self::Auto => {
-                ChatCompletionToolChoiceOption::Auto(&Default::default()).serialize(serializer)
-            }
-            Self::Required => {
-                ChatCompletionToolChoiceOption::Required(&Default::default()).serialize(serializer)
-            }
+            Self::None => ChatCompletionToolChoiceOption::None(Default::default()),
+            Self::Auto => ChatCompletionToolChoiceOption::Auto(Default::default()),
+            Self::Required => ChatCompletionToolChoiceOption::Required(Default::default()),
             Self::ChatCompletionNamedToolChoice(v) => {
                 ChatCompletionToolChoiceOption::ChatCompletionNamedToolChoice(v)
-                    .serialize(serializer)
             }
         }
+        .serialize(serializer)
     }
 }
 #[doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy."]
@@ -4523,13 +4418,10 @@ impl<'de> serde::Deserialize<'de> for Click {
             #[allow(dead_code)]
             r#type: ClickType,
             #[serde(rename = "button")]
-            #[allow(dead_code)]
             button: ClickButton,
             #[serde(rename = "x")]
-            #[allow(dead_code)]
             x: i64,
             #[serde(rename = "y")]
-            #[allow(dead_code)]
             y: i64,
         }
         let Click { button, x, y, .. } = Click::deserialize(deserializer)?;
@@ -4595,7 +4487,6 @@ impl<'de> serde::Deserialize<'de> for CodeInterpreterFileOutput {
             #[allow(dead_code)]
             r#type: CodeInterpreterFileOutputType,
             #[serde(rename = "files")]
-            #[allow(dead_code)]
             files: Vec<CodeInterpreterFileOutputFile>,
         }
         let CodeInterpreterFileOutput { files, .. } =
@@ -4646,7 +4537,6 @@ impl<'de> serde::Deserialize<'de> for CodeInterpreterOutputImage {
             #[allow(dead_code)]
             r#type: CodeInterpreterOutputImageType,
             #[serde(rename = "url")]
-            #[allow(dead_code)]
             url: String,
         }
         let CodeInterpreterOutputImage { url, .. } =
@@ -4697,7 +4587,6 @@ impl<'de> serde::Deserialize<'de> for CodeInterpreterOutputLogs {
             #[allow(dead_code)]
             r#type: CodeInterpreterOutputLogsType,
             #[serde(rename = "logs")]
-            #[allow(dead_code)]
             logs: String,
         }
         let CodeInterpreterOutputLogs { logs, .. } =
@@ -4748,7 +4637,6 @@ impl<'de> serde::Deserialize<'de> for CodeInterpreterTextOutput {
             #[allow(dead_code)]
             r#type: CodeInterpreterTextOutputType,
             #[serde(rename = "logs")]
-            #[allow(dead_code)]
             logs: String,
         }
         let CodeInterpreterTextOutput { logs, .. } =
@@ -4810,7 +4698,6 @@ impl<'de> serde::Deserialize<'de> for CodeInterpreterTool {
             #[allow(dead_code)]
             r#type: CodeInterpreterToolType,
             #[serde(rename = "container")]
-            #[allow(dead_code)]
             container: CodeInterpreterToolContainer,
         }
         let CodeInterpreterTool { container, .. } = CodeInterpreterTool::deserialize(deserializer)?;
@@ -4861,7 +4748,6 @@ impl<'de> serde::Deserialize<'de> for CodeInterpreterToolAuto {
             #[allow(dead_code)]
             r#type: CodeInterpreterToolAutoType,
             #[serde(rename = "file_ids")]
-            #[allow(dead_code)]
             file_ids: Option<Vec<String>>,
         }
         let CodeInterpreterToolAuto { file_ids, .. } =
@@ -4951,19 +4837,14 @@ impl<'de> serde::Deserialize<'de> for CodeInterpreterToolCall {
             #[allow(dead_code)]
             r#type: CodeInterpreterToolCallType,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "status")]
-            #[allow(dead_code)]
             status: CodeInterpreterToolCallStatus,
             #[serde(rename = "container_id")]
-            #[allow(dead_code)]
             container_id: String,
             #[serde(rename = "code")]
-            #[allow(dead_code)]
             code: Option<String>,
             #[serde(rename = "outputs")]
-            #[allow(dead_code)]
             outputs: Option<Vec<CodeInterpreterToolCallOutputs>>,
         }
         let CodeInterpreterToolCall {
@@ -5227,10 +5108,8 @@ impl<'de> serde::Deserialize<'de> for ComputerScreenshotImage {
             #[allow(dead_code)]
             r#type: ComputerScreenshotImageType,
             #[serde(rename = "image_url")]
-            #[allow(dead_code)]
             image_url: Option<String>,
             #[serde(rename = "file_id")]
-            #[allow(dead_code)]
             file_id: Option<String>,
         }
         let ComputerScreenshotImage {
@@ -5307,19 +5186,14 @@ impl<'de> serde::Deserialize<'de> for ComputerToolCall {
             #[allow(dead_code)]
             r#type: ComputerToolCallType,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "call_id")]
-            #[allow(dead_code)]
             call_id: String,
             #[serde(rename = "action")]
-            #[allow(dead_code)]
             action: ComputerAction,
             #[serde(rename = "pending_safety_checks")]
-            #[allow(dead_code)]
             pending_safety_checks: Vec<ComputerToolCallSafetyCheck>,
             #[serde(rename = "status")]
-            #[allow(dead_code)]
             status: ComputerToolCallStatus,
         }
         let ComputerToolCall {
@@ -5424,19 +5298,14 @@ impl<'de> serde::Deserialize<'de> for ComputerToolCallOutput {
             #[allow(dead_code)]
             r#type: ComputerToolCallOutputType,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: Option<String>,
             #[serde(rename = "call_id")]
-            #[allow(dead_code)]
             call_id: String,
             #[serde(rename = "acknowledged_safety_checks")]
-            #[allow(dead_code)]
             acknowledged_safety_checks: Option<Vec<ComputerToolCallSafetyCheck>>,
             #[serde(rename = "output")]
-            #[allow(dead_code)]
             output: ComputerScreenshotImage,
             #[serde(rename = "status")]
-            #[allow(dead_code)]
             status: Option<ComputerToolCallOutputStatus>,
         }
         let ComputerToolCallOutput {
@@ -5525,19 +5394,14 @@ impl<'de> serde::Deserialize<'de> for ComputerToolCallOutputResource {
             #[allow(dead_code)]
             r#type: ComputerToolCallOutputType,
             #[serde(rename = "call_id")]
-            #[allow(dead_code)]
             call_id: String,
             #[serde(rename = "acknowledged_safety_checks")]
-            #[allow(dead_code)]
             acknowledged_safety_checks: Option<Vec<ComputerToolCallSafetyCheck>>,
             #[serde(rename = "output")]
-            #[allow(dead_code)]
             output: ComputerScreenshotImage,
             #[serde(rename = "status")]
-            #[allow(dead_code)]
             status: Option<ComputerToolCallOutputStatus>,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
         }
         let ComputerToolCallOutputResource {
@@ -5640,16 +5504,12 @@ impl<'de> serde::Deserialize<'de> for ContainerFileListResource {
             #[allow(dead_code)]
             object: ContainerFileListResourceObject,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: Vec<ContainerFileResource>,
             #[serde(rename = "first_id")]
-            #[allow(dead_code)]
             first_id: String,
             #[serde(rename = "last_id")]
-            #[allow(dead_code)]
             last_id: String,
             #[serde(rename = "has_more")]
-            #[allow(dead_code)]
             has_more: bool,
         }
         let ContainerFileListResource {
@@ -5755,16 +5615,12 @@ impl<'de> serde::Deserialize<'de> for ContainerListResource {
             #[allow(dead_code)]
             object: ContainerListResourceObject,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: Vec<ContainerResource>,
             #[serde(rename = "first_id")]
-            #[allow(dead_code)]
             first_id: String,
             #[serde(rename = "last_id")]
-            #[allow(dead_code)]
             last_id: String,
             #[serde(rename = "has_more")]
-            #[allow(dead_code)]
             has_more: bool,
         }
         let ContainerListResource {
@@ -5932,13 +5788,10 @@ impl<'de> serde::Deserialize<'de> for CostsResult {
             #[allow(dead_code)]
             object: CostsResultObject,
             #[serde(rename = "amount")]
-            #[allow(dead_code)]
             amount: Option<CostsResultAmount>,
             #[serde(rename = "line_item")]
-            #[allow(dead_code)]
             line_item: Option<String>,
             #[serde(rename = "project_id")]
-            #[allow(dead_code)]
             project_id: Option<String>,
         }
         let CostsResult {
@@ -6086,7 +5939,7 @@ impl<'de> serde::Deserialize<'de>
     {
         #[serde_with::serde_as]
         #[derive(serde :: Deserialize)]
-        struct CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic { # [serde (rename = "type")] # [allow (dead_code)] r#type : CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticType , # [serde (rename = "static")] # [allow (dead_code)] r#static : CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticStatic }
+        struct CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic { # [serde (rename = "type")] # [allow (dead_code)] r#type : CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticType , # [serde (rename = "static")] r#static : CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticStatic }
         let CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic { r#static , .. } = CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic :: deserialize (deserializer) ? ;
         Ok(Self { r#static })
     }
@@ -6231,7 +6084,7 @@ impl<'de> serde::Deserialize<'de>
     {
         #[serde_with::serde_as]
         #[derive(serde :: Deserialize)]
-        struct CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic { # [serde (rename = "type")] # [allow (dead_code)] r#type : CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticType , # [serde (rename = "static")] # [allow (dead_code)] r#static : CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticStatic }
+        struct CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic { # [serde (rename = "type")] # [allow (dead_code)] r#type : CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticType , # [serde (rename = "static")] r#static : CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticStatic }
         let CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic { r#static , .. } = CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic :: deserialize (deserializer) ? ;
         Ok(Self { r#static })
     }
@@ -6401,7 +6254,6 @@ impl<'de> serde::Deserialize<'de> for CreateChatCompletionRequestWebSearchOption
             #[allow(dead_code)]
             r#type: CreateChatCompletionRequestWebSearchOptionsUserLocationType,
             #[serde(rename = "approximate")]
-            #[allow(dead_code)]
             approximate: WebSearchLocation,
         }
         let CreateChatCompletionRequestWebSearchOptionsUserLocation { approximate, .. } =
@@ -6527,9 +6379,9 @@ impl<'de> serde::Deserialize<'de> for CreateChatCompletionRequestFunctionCall {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum CreateChatCompletionRequestFunctionCall {
-            None(#[allow(dead_code)] CreateChatCompletionRequestFunctionCallNone),
-            Auto(#[allow(dead_code)] CreateChatCompletionRequestFunctionCallAuto),
-            ChatCompletionFunctionCallOption(#[allow(dead_code)] ChatCompletionFunctionCallOption),
+            None(CreateChatCompletionRequestFunctionCallNone),
+            Auto(CreateChatCompletionRequestFunctionCallAuto),
+            ChatCompletionFunctionCallOption(ChatCompletionFunctionCallOption),
         }
         Ok(
             match CreateChatCompletionRequestFunctionCall::deserialize(deserializer)? {
@@ -6552,22 +6404,18 @@ impl serde::Serialize for CreateChatCompletionRequestFunctionCall {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum CreateChatCompletionRequestFunctionCall<'a> {
-            None(#[allow(dead_code)] &'a CreateChatCompletionRequestFunctionCallNone),
-            Auto(#[allow(dead_code)] &'a CreateChatCompletionRequestFunctionCallAuto),
-            ChatCompletionFunctionCallOption(
-                #[allow(dead_code)] &'a ChatCompletionFunctionCallOption,
-            ),
+            None(CreateChatCompletionRequestFunctionCallNone),
+            Auto(CreateChatCompletionRequestFunctionCallAuto),
+            ChatCompletionFunctionCallOption(&'a ChatCompletionFunctionCallOption),
         }
         match self {
-            Self::None => CreateChatCompletionRequestFunctionCall::None(&Default::default())
-                .serialize(serializer),
-            Self::Auto => CreateChatCompletionRequestFunctionCall::Auto(&Default::default())
-                .serialize(serializer),
+            Self::None => CreateChatCompletionRequestFunctionCall::None(Default::default()),
+            Self::Auto => CreateChatCompletionRequestFunctionCall::Auto(Default::default()),
             Self::ChatCompletionFunctionCallOption(v) => {
                 CreateChatCompletionRequestFunctionCall::ChatCompletionFunctionCallOption(v)
-                    .serialize(serializer)
             }
         }
+        .serialize(serializer)
     }
 }
 #[derive(Clone, Debug, PartialEq)]
@@ -6804,28 +6652,21 @@ impl<'de> serde::Deserialize<'de> for CreateChatCompletionResponse {
         #[derive(serde :: Deserialize)]
         struct CreateChatCompletionResponse {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "choices")]
-            #[allow(dead_code)]
             choices: Vec<CreateChatCompletionResponseChoice>,
             #[serde(rename = "created")]
-            #[allow(dead_code)]
             created: i64,
             #[serde(rename = "model")]
-            #[allow(dead_code)]
             model: String,
             #[serde(rename = "service_tier")]
-            #[allow(dead_code)]
             service_tier: Option<ServiceTier>,
             #[serde(rename = "system_fingerprint")]
-            #[allow(dead_code)]
             system_fingerprint: Option<String>,
             #[serde(rename = "object")]
             #[allow(dead_code)]
             object: CreateChatCompletionResponseObject,
             #[serde(rename = "usage")]
-            #[allow(dead_code)]
             usage: Option<CompletionUsage>,
         }
         let CreateChatCompletionResponse {
@@ -6991,28 +6832,21 @@ impl<'de> serde::Deserialize<'de> for CreateChatCompletionStreamResponse {
         #[derive(serde :: Deserialize)]
         struct CreateChatCompletionStreamResponse {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "choices")]
-            #[allow(dead_code)]
             choices: Vec<CreateChatCompletionStreamResponseChoice>,
             #[serde(rename = "created")]
-            #[allow(dead_code)]
             created: i64,
             #[serde(rename = "model")]
-            #[allow(dead_code)]
             model: String,
             #[serde(rename = "service_tier")]
-            #[allow(dead_code)]
             service_tier: Option<ServiceTier>,
             #[serde(rename = "system_fingerprint")]
-            #[allow(dead_code)]
             system_fingerprint: Option<String>,
             #[serde(rename = "object")]
             #[allow(dead_code)]
             object: CreateChatCompletionStreamResponseObject,
             #[serde(rename = "usage")]
-            #[allow(dead_code)]
             usage: Option<CompletionUsage>,
         }
         let CreateChatCompletionStreamResponse {
@@ -7269,25 +7103,19 @@ impl<'de> serde::Deserialize<'de> for CreateCompletionResponse {
         #[derive(serde :: Deserialize)]
         struct CreateCompletionResponse {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "choices")]
-            #[allow(dead_code)]
             choices: Vec<CreateCompletionResponseChoice>,
             #[serde(rename = "created")]
-            #[allow(dead_code)]
             created: i64,
             #[serde(rename = "model")]
-            #[allow(dead_code)]
             model: String,
             #[serde(rename = "system_fingerprint")]
-            #[allow(dead_code)]
             system_fingerprint: Option<String>,
             #[serde(rename = "object")]
             #[allow(dead_code)]
             object: CreateCompletionResponseObject,
             #[serde(rename = "usage")]
-            #[allow(dead_code)]
             usage: Option<CompletionUsage>,
         }
         let CreateCompletionResponse {
@@ -7493,16 +7321,13 @@ impl<'de> serde::Deserialize<'de> for CreateEmbeddingResponse {
         #[derive(serde :: Deserialize)]
         struct CreateEmbeddingResponse {
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: Vec<Embedding>,
             #[serde(rename = "model")]
-            #[allow(dead_code)]
             model: String,
             #[serde(rename = "object")]
             #[allow(dead_code)]
             object: CreateEmbeddingResponseObject,
             #[serde(rename = "usage")]
-            #[allow(dead_code)]
             usage: CreateEmbeddingResponseUsage,
         }
         let CreateEmbeddingResponse {
@@ -7575,7 +7400,6 @@ impl<'de> serde::Deserialize<'de> for CreateEvalCompletionsRunDataSourceInputMes
             #[allow(dead_code)]
             r#type: CreateEvalCompletionsRunDataSourceInputMessagesTemplateType,
             #[serde(rename = "template")]
-            #[allow(dead_code)]
             template: Vec<CreateEvalCompletionsRunDataSourceInputMessagesTemplateTemplate>,
         }
         let CreateEvalCompletionsRunDataSourceInputMessagesTemplate { template, .. } =
@@ -7628,7 +7452,6 @@ impl<'de> serde::Deserialize<'de> for CreateEvalCompletionsRunDataSourceInputMes
             #[allow(dead_code)]
             r#type: CreateEvalCompletionsRunDataSourceInputMessagesItemReferenceType,
             #[serde(rename = "item_reference")]
-            #[allow(dead_code)]
             item_reference: String,
         }
         let CreateEvalCompletionsRunDataSourceInputMessagesItemReference { item_reference, .. } =
@@ -7752,16 +7575,12 @@ impl<'de> serde::Deserialize<'de> for CreateEvalCompletionsRunDataSource {
             #[allow(dead_code)]
             r#type: CreateEvalCompletionsRunDataSourceType,
             #[serde(rename = "input_messages")]
-            #[allow(dead_code)]
             input_messages: Option<CreateEvalCompletionsRunDataSourceInputMessages>,
             #[serde(rename = "sampling_params")]
-            #[allow(dead_code)]
             sampling_params: Option<CreateEvalCompletionsRunDataSourceSamplingParams>,
             #[serde(rename = "model")]
-            #[allow(dead_code)]
             model: Option<String>,
             #[serde(rename = "source")]
-            #[allow(dead_code)]
             source: CreateEvalCompletionsRunDataSourceSource,
         }
         let CreateEvalCompletionsRunDataSource {
@@ -7842,10 +7661,8 @@ impl<'de> serde::Deserialize<'de> for CreateEvalCustomDataSourceConfig {
             #[allow(dead_code)]
             r#type: CreateEvalCustomDataSourceConfigType,
             #[serde(rename = "item_schema")]
-            #[allow(dead_code)]
             item_schema: indexmap::IndexMap<String, serde_json::Value>,
             #[serde(rename = "include_sample_schema")]
-            #[allow(dead_code)]
             include_sample_schema: Option<bool>,
         }
         let CreateEvalCustomDataSourceConfig {
@@ -7940,7 +7757,6 @@ impl<'de> serde::Deserialize<'de> for CreateEvalJsonlRunDataSource {
             #[allow(dead_code)]
             r#type: CreateEvalJsonlRunDataSourceType,
             #[serde(rename = "source")]
-            #[allow(dead_code)]
             source: CreateEvalJsonlRunDataSourceSource,
         }
         let CreateEvalJsonlRunDataSource { source, .. } =
@@ -7999,19 +7815,14 @@ impl<'de> serde::Deserialize<'de> for CreateEvalLabelModelGrader {
             #[allow(dead_code)]
             r#type: CreateEvalLabelModelGraderType,
             #[serde(rename = "name")]
-            #[allow(dead_code)]
             name: String,
             #[serde(rename = "model")]
-            #[allow(dead_code)]
             model: String,
             #[serde(rename = "input")]
-            #[allow(dead_code)]
             input: Vec<CreateEvalItem>,
             #[serde(rename = "labels")]
-            #[allow(dead_code)]
             labels: Vec<String>,
             #[serde(rename = "passing_labels")]
-            #[allow(dead_code)]
             passing_labels: Vec<String>,
         }
         let CreateEvalLabelModelGrader {
@@ -8093,7 +7904,6 @@ impl<'de> serde::Deserialize<'de> for CreateEvalLogsDataSourceConfig {
             #[allow(dead_code)]
             r#type: CreateEvalLogsDataSourceConfigType,
             #[serde(rename = "metadata")]
-            #[allow(dead_code)]
             metadata: Option<indexmap::IndexMap<String, serde_json::Value>>,
         }
         let CreateEvalLogsDataSourceConfig { metadata, .. } =
@@ -8214,7 +8024,6 @@ impl<'de> serde::Deserialize<'de> for CreateEvalResponsesRunDataSourceInputMessa
             #[allow(dead_code)]
             r#type: CreateEvalResponsesRunDataSourceInputMessagesTemplateType,
             #[serde(rename = "template")]
-            #[allow(dead_code)]
             template: Vec<CreateEvalResponsesRunDataSourceInputMessagesTemplateTemplate>,
         }
         let CreateEvalResponsesRunDataSourceInputMessagesTemplate { template, .. } =
@@ -8267,7 +8076,6 @@ impl<'de> serde::Deserialize<'de> for CreateEvalResponsesRunDataSourceInputMessa
             #[allow(dead_code)]
             r#type: CreateEvalResponsesRunDataSourceInputMessagesItemReferenceType,
             #[serde(rename = "item_reference")]
-            #[allow(dead_code)]
             item_reference: String,
         }
         let CreateEvalResponsesRunDataSourceInputMessagesItemReference { item_reference, .. } =
@@ -8388,16 +8196,12 @@ impl<'de> serde::Deserialize<'de> for CreateEvalResponsesRunDataSource {
             #[allow(dead_code)]
             r#type: CreateEvalResponsesRunDataSourceType,
             #[serde(rename = "input_messages")]
-            #[allow(dead_code)]
             input_messages: Option<CreateEvalResponsesRunDataSourceInputMessages>,
             #[serde(rename = "sampling_params")]
-            #[allow(dead_code)]
             sampling_params: Option<CreateEvalResponsesRunDataSourceSamplingParams>,
             #[serde(rename = "model")]
-            #[allow(dead_code)]
             model: Option<String>,
             #[serde(rename = "source")]
-            #[allow(dead_code)]
             source: CreateEvalResponsesRunDataSourceSource,
         }
         let CreateEvalResponsesRunDataSource {
@@ -8507,7 +8311,6 @@ impl<'de> serde::Deserialize<'de> for CreateEvalStoredCompletionsDataSourceConfi
             #[allow(dead_code)]
             r#type: CreateEvalStoredCompletionsDataSourceConfigType,
             #[serde(rename = "metadata")]
-            #[allow(dead_code)]
             metadata: Option<indexmap::IndexMap<String, serde_json::Value>>,
         }
         let CreateEvalStoredCompletionsDataSourceConfig { metadata, .. } =
@@ -8604,8 +8407,8 @@ impl<'de> serde::Deserialize<'de> for CreateFineTuningJobRequestHyperparametersB
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum CreateFineTuningJobRequestHyperparametersBatchSize {
-            Auto(#[allow(dead_code)] CreateFineTuningJobRequestHyperparametersBatchSizeAuto),
-            Integer(#[allow(dead_code)] i64),
+            Auto(CreateFineTuningJobRequestHyperparametersBatchSizeAuto),
+            Integer(i64),
         }
         Ok(
             match CreateFineTuningJobRequestHyperparametersBatchSize::deserialize(deserializer)? {
@@ -8625,18 +8428,16 @@ impl serde::Serialize for CreateFineTuningJobRequestHyperparametersBatchSize {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum CreateFineTuningJobRequestHyperparametersBatchSize<'a> {
-            Auto(#[allow(dead_code)] &'a CreateFineTuningJobRequestHyperparametersBatchSizeAuto),
-            Integer(#[allow(dead_code)] &'a i64),
+            Auto(CreateFineTuningJobRequestHyperparametersBatchSizeAuto),
+            Integer(&'a i64),
         }
         match self {
             Self::Auto => {
-                CreateFineTuningJobRequestHyperparametersBatchSize::Auto(&Default::default())
-                    .serialize(serializer)
+                CreateFineTuningJobRequestHyperparametersBatchSize::Auto(Default::default())
             }
-            Self::Integer(v) => {
-                CreateFineTuningJobRequestHyperparametersBatchSize::Integer(v).serialize(serializer)
-            }
+            Self::Integer(v) => CreateFineTuningJobRequestHyperparametersBatchSize::Integer(v),
         }
+        .serialize(serializer)
     }
 }
 #[doc = "auto"]
@@ -8666,11 +8467,8 @@ impl<'de> serde::Deserialize<'de>
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum CreateFineTuningJobRequestHyperparametersLearningRateMultiplier {
-            Auto(
-                #[allow(dead_code)]
-                CreateFineTuningJobRequestHyperparametersLearningRateMultiplierAuto,
-            ),
-            Number(#[allow(dead_code)] serde_json::Number),
+            Auto(CreateFineTuningJobRequestHyperparametersLearningRateMultiplierAuto),
+            Number(serde_json::Number),
         }
         Ok(
             match CreateFineTuningJobRequestHyperparametersLearningRateMultiplier::deserialize(
@@ -8696,22 +8494,18 @@ impl serde::Serialize for CreateFineTuningJobRequestHyperparametersLearningRateM
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum CreateFineTuningJobRequestHyperparametersLearningRateMultiplier<'a> {
-            Auto(
-                #[allow(dead_code)]
-                &'a CreateFineTuningJobRequestHyperparametersLearningRateMultiplierAuto,
-            ),
-            Number(#[allow(dead_code)] &'a serde_json::Number),
+            Auto(CreateFineTuningJobRequestHyperparametersLearningRateMultiplierAuto),
+            Number(&'a serde_json::Number),
         }
         match self {
             Self::Auto => CreateFineTuningJobRequestHyperparametersLearningRateMultiplier::Auto(
-                &Default::default(),
-            )
-            .serialize(serializer),
+                Default::default(),
+            ),
             Self::Number(v) => {
                 CreateFineTuningJobRequestHyperparametersLearningRateMultiplier::Number(v)
-                    .serialize(serializer)
             }
         }
+        .serialize(serializer)
     }
 }
 #[doc = "auto"]
@@ -8736,8 +8530,8 @@ impl<'de> serde::Deserialize<'de> for CreateFineTuningJobRequestHyperparametersN
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum CreateFineTuningJobRequestHyperparametersNEpochs {
-            Auto(#[allow(dead_code)] CreateFineTuningJobRequestHyperparametersNEpochsAuto),
-            Integer(#[allow(dead_code)] i64),
+            Auto(CreateFineTuningJobRequestHyperparametersNEpochsAuto),
+            Integer(i64),
         }
         Ok(
             match CreateFineTuningJobRequestHyperparametersNEpochs::deserialize(deserializer)? {
@@ -8757,18 +8551,16 @@ impl serde::Serialize for CreateFineTuningJobRequestHyperparametersNEpochs {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum CreateFineTuningJobRequestHyperparametersNEpochs<'a> {
-            Auto(#[allow(dead_code)] &'a CreateFineTuningJobRequestHyperparametersNEpochsAuto),
-            Integer(#[allow(dead_code)] &'a i64),
+            Auto(CreateFineTuningJobRequestHyperparametersNEpochsAuto),
+            Integer(&'a i64),
         }
         match self {
             Self::Auto => {
-                CreateFineTuningJobRequestHyperparametersNEpochs::Auto(&Default::default())
-                    .serialize(serializer)
+                CreateFineTuningJobRequestHyperparametersNEpochs::Auto(Default::default())
             }
-            Self::Integer(v) => {
-                CreateFineTuningJobRequestHyperparametersNEpochs::Integer(v).serialize(serializer)
-            }
+            Self::Integer(v) => CreateFineTuningJobRequestHyperparametersNEpochs::Integer(v),
         }
+        .serialize(serializer)
     }
 }
 #[doc = "The hyperparameters used for the fine-tuning job.\nThis value is now deprecated in favor of `method`, and should be passed in under the `method` parameter.\n"]
@@ -9402,7 +9194,6 @@ impl<'de> serde::Deserialize<'de> for CreateModerationRequestInput2ImageUrl {
             #[allow(dead_code)]
             r#type: CreateModerationRequestInput2ImageUrlType,
             #[serde(rename = "image_url")]
-            #[allow(dead_code)]
             image_url: CreateModerationRequestInput2ImageUrlImageUrl,
         }
         let CreateModerationRequestInput2ImageUrl { image_url, .. } =
@@ -9453,7 +9244,6 @@ impl<'de> serde::Deserialize<'de> for CreateModerationRequestInput2Text {
             #[allow(dead_code)]
             r#type: CreateModerationRequestInput2TextType,
             #[serde(rename = "text")]
-            #[allow(dead_code)]
             text: String,
         }
         let CreateModerationRequestInput2Text { text, .. } =
@@ -10314,7 +10104,6 @@ impl<'de> serde::Deserialize<'de>
             r#type:
                 CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticType,
             #[serde(rename = "static")]
-            #[allow(dead_code)]
             r#static:
                 CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticStatic,
         }
@@ -10471,7 +10260,6 @@ impl<'de> serde::Deserialize<'de>
             r#type:
                 CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticType,
             #[serde(rename = "static")]
-            #[allow(dead_code)]
             r#static:
                 CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticStatic,
         }
@@ -10925,10 +10713,8 @@ impl<'de> serde::Deserialize<'de> for DeleteAssistantResponse {
         #[derive(serde :: Deserialize)]
         struct DeleteAssistantResponse {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "deleted")]
-            #[allow(dead_code)]
             deleted: bool,
             #[serde(rename = "object")]
             #[allow(dead_code)]
@@ -10984,7 +10770,6 @@ impl<'de> serde::Deserialize<'de> for DeleteCertificateResponse {
             #[allow(dead_code)]
             object: DeleteCertificateResponseObject,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
         }
         let DeleteCertificateResponse { id, .. } =
@@ -11031,13 +10816,11 @@ impl<'de> serde::Deserialize<'de> for DeleteFileResponse {
         #[derive(serde :: Deserialize)]
         struct DeleteFileResponse {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "object")]
             #[allow(dead_code)]
             object: DeleteFileResponseObject,
             #[serde(rename = "deleted")]
-            #[allow(dead_code)]
             deleted: bool,
         }
         let DeleteFileResponse { id, deleted, .. } = DeleteFileResponse::deserialize(deserializer)?;
@@ -11091,13 +10874,11 @@ impl<'de> serde::Deserialize<'de> for DeleteFineTuningCheckpointPermissionRespon
         #[derive(serde :: Deserialize)]
         struct DeleteFineTuningCheckpointPermissionResponse {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "object")]
             #[allow(dead_code)]
             object: DeleteFineTuningCheckpointPermissionResponseObject,
             #[serde(rename = "deleted")]
-            #[allow(dead_code)]
             deleted: bool,
         }
         let DeleteFineTuningCheckpointPermissionResponse { id, deleted, .. } =
@@ -11147,10 +10928,8 @@ impl<'de> serde::Deserialize<'de> for DeleteMessageResponse {
         #[derive(serde :: Deserialize)]
         struct DeleteMessageResponse {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "deleted")]
-            #[allow(dead_code)]
             deleted: bool,
             #[serde(rename = "object")]
             #[allow(dead_code)]
@@ -11214,10 +10993,8 @@ impl<'de> serde::Deserialize<'de> for DeleteThreadResponse {
         #[derive(serde :: Deserialize)]
         struct DeleteThreadResponse {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "deleted")]
-            #[allow(dead_code)]
             deleted: bool,
             #[serde(rename = "object")]
             #[allow(dead_code)]
@@ -11273,10 +11050,8 @@ impl<'de> serde::Deserialize<'de> for DeleteVectorStoreFileResponse {
         #[derive(serde :: Deserialize)]
         struct DeleteVectorStoreFileResponse {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "deleted")]
-            #[allow(dead_code)]
             deleted: bool,
             #[serde(rename = "object")]
             #[allow(dead_code)]
@@ -11329,10 +11104,8 @@ impl<'de> serde::Deserialize<'de> for DeleteVectorStoreResponse {
         #[derive(serde :: Deserialize)]
         struct DeleteVectorStoreResponse {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "deleted")]
-            #[allow(dead_code)]
             deleted: bool,
             #[serde(rename = "object")]
             #[allow(dead_code)]
@@ -11442,10 +11215,8 @@ impl<'de> serde::Deserialize<'de> for DoubleClick {
             #[allow(dead_code)]
             r#type: DoubleClickType,
             #[serde(rename = "x")]
-            #[allow(dead_code)]
             x: i64,
             #[serde(rename = "y")]
-            #[allow(dead_code)]
             y: i64,
         }
         let DoubleClick { x, y, .. } = DoubleClick::deserialize(deserializer)?;
@@ -11498,7 +11269,6 @@ impl<'de> serde::Deserialize<'de> for Drag {
             #[allow(dead_code)]
             r#type: DragType,
             #[serde(rename = "path")]
-            #[allow(dead_code)]
             path: Vec<Coordinate>,
         }
         let Drag { path, .. } = Drag::deserialize(deserializer)?;
@@ -11595,10 +11365,8 @@ impl<'de> serde::Deserialize<'de> for Embedding {
         #[derive(serde :: Deserialize)]
         struct Embedding {
             #[serde(rename = "index")]
-            #[allow(dead_code)]
             index: i64,
             #[serde(rename = "embedding")]
-            #[allow(dead_code)]
             embedding: Vec<f64>,
             #[serde(rename = "object")]
             #[allow(dead_code)]
@@ -11672,7 +11440,6 @@ impl<'de> serde::Deserialize<'de> for ErrorEvent {
             #[allow(dead_code)]
             event: ErrorEventEvent,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: Error,
         }
         let ErrorEvent { data, .. } = ErrorEvent::deserialize(deserializer)?;
@@ -11762,22 +11529,16 @@ impl<'de> serde::Deserialize<'de> for Eval {
             #[allow(dead_code)]
             object: EvalObject,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "name")]
-            #[allow(dead_code)]
             name: String,
             #[serde(rename = "data_source_config")]
-            #[allow(dead_code)]
             data_source_config: EvalDataSourceConfig,
             #[serde(rename = "testing_criteria")]
-            #[allow(dead_code)]
             testing_criteria: Vec<EvalTestingCriteria>,
             #[serde(rename = "created_at")]
-            #[allow(dead_code)]
             created_at: i64,
             #[serde(rename = "metadata")]
-            #[allow(dead_code)]
             metadata: Option<Metadata>,
         }
         let Eval {
@@ -11877,7 +11638,6 @@ impl<'de> serde::Deserialize<'de> for EvalCustomDataSourceConfig {
             #[allow(dead_code)]
             r#type: EvalCustomDataSourceConfigType,
             #[serde(rename = "schema")]
-            #[allow(dead_code)]
             schema: indexmap::IndexMap<String, serde_json::Value>,
         }
         let EvalCustomDataSourceConfig { schema, .. } =
@@ -11930,19 +11690,14 @@ impl<'de> serde::Deserialize<'de> for EvalGraderLabelModel {
             #[allow(dead_code)]
             r#type: GraderLabelModelType,
             #[serde(rename = "name")]
-            #[allow(dead_code)]
             name: String,
             #[serde(rename = "model")]
-            #[allow(dead_code)]
             model: String,
             #[serde(rename = "input")]
-            #[allow(dead_code)]
             input: Vec<EvalItem>,
             #[serde(rename = "labels")]
-            #[allow(dead_code)]
             labels: Vec<String>,
             #[serde(rename = "passing_labels")]
-            #[allow(dead_code)]
             passing_labels: Vec<String>,
         }
         let EvalGraderLabelModel {
@@ -12026,16 +11781,12 @@ impl<'de> serde::Deserialize<'de> for EvalGraderPython {
             #[allow(dead_code)]
             r#type: GraderPythonType,
             #[serde(rename = "name")]
-            #[allow(dead_code)]
             name: String,
             #[serde(rename = "source")]
-            #[allow(dead_code)]
             source: String,
             #[serde(rename = "image_tag")]
-            #[allow(dead_code)]
             image_tag: Option<String>,
             #[serde(rename = "pass_threshold")]
-            #[allow(dead_code)]
             pass_threshold: Option<serde_json::Number>,
         }
         let EvalGraderPython {
@@ -12120,22 +11871,16 @@ impl<'de> serde::Deserialize<'de> for EvalGraderScoreModel {
             #[allow(dead_code)]
             r#type: GraderScoreModelType,
             #[serde(rename = "name")]
-            #[allow(dead_code)]
             name: String,
             #[serde(rename = "model")]
-            #[allow(dead_code)]
             model: String,
             #[serde(rename = "sampling_params")]
-            #[allow(dead_code)]
             sampling_params: Option<indexmap::IndexMap<String, serde_json::Value>>,
             #[serde(rename = "input")]
-            #[allow(dead_code)]
             input: Vec<EvalItem>,
             #[serde(rename = "range")]
-            #[allow(dead_code)]
             range: Option<Vec<serde_json::Number>>,
             #[serde(rename = "pass_threshold")]
-            #[allow(dead_code)]
             pass_threshold: Option<serde_json::Number>,
         }
         let EvalGraderScoreModel {
@@ -12226,16 +11971,12 @@ impl<'de> serde::Deserialize<'de> for EvalGraderStringCheck {
             #[allow(dead_code)]
             r#type: GraderStringCheckType,
             #[serde(rename = "name")]
-            #[allow(dead_code)]
             name: String,
             #[serde(rename = "input")]
-            #[allow(dead_code)]
             input: String,
             #[serde(rename = "reference")]
-            #[allow(dead_code)]
             reference: String,
             #[serde(rename = "operation")]
-            #[allow(dead_code)]
             operation: GraderStringCheckOperation,
         }
         let EvalGraderStringCheck {
@@ -12313,19 +12054,14 @@ impl<'de> serde::Deserialize<'de> for EvalGraderTextSimilarity {
             #[allow(dead_code)]
             r#type: GraderTextSimilarityType,
             #[serde(rename = "name")]
-            #[allow(dead_code)]
             name: String,
             #[serde(rename = "input")]
-            #[allow(dead_code)]
             input: String,
             #[serde(rename = "reference")]
-            #[allow(dead_code)]
             reference: String,
             #[serde(rename = "evaluation_metric")]
-            #[allow(dead_code)]
             evaluation_metric: GraderTextSimilarityEvaluationMetric,
             #[serde(rename = "pass_threshold")]
-            #[allow(dead_code)]
             pass_threshold: serde_json::Number,
         }
         let EvalGraderTextSimilarity {
@@ -12422,7 +12158,6 @@ impl<'de> serde::Deserialize<'de> for EvalItemContentOutputText {
             #[allow(dead_code)]
             r#type: EvalItemContentOutputTextType,
             #[serde(rename = "text")]
-            #[allow(dead_code)]
             text: String,
         }
         let EvalItemContentOutputText { text, .. } =
@@ -12517,7 +12252,6 @@ impl<'de> serde::Deserialize<'de> for EvalJsonlFileContentSource {
             #[allow(dead_code)]
             r#type: EvalJsonlFileContentSourceType,
             #[serde(rename = "content")]
-            #[allow(dead_code)]
             content: Vec<EvalJsonlFileContentSourceContent>,
         }
         let EvalJsonlFileContentSource { content, .. } =
@@ -12567,7 +12301,6 @@ impl<'de> serde::Deserialize<'de> for EvalJsonlFileIdSource {
             #[allow(dead_code)]
             r#type: EvalJsonlFileIdSourceType,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
         }
         let EvalJsonlFileIdSource { id, .. } = EvalJsonlFileIdSource::deserialize(deserializer)?;
@@ -12623,16 +12356,12 @@ impl<'de> serde::Deserialize<'de> for EvalList {
             #[allow(dead_code)]
             object: EvalListObject,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: Vec<Eval>,
             #[serde(rename = "first_id")]
-            #[allow(dead_code)]
             first_id: String,
             #[serde(rename = "last_id")]
-            #[allow(dead_code)]
             last_id: String,
             #[serde(rename = "has_more")]
-            #[allow(dead_code)]
             has_more: bool,
         }
         let EvalList {
@@ -12709,10 +12438,8 @@ impl<'de> serde::Deserialize<'de> for EvalLogsDataSourceConfig {
             #[allow(dead_code)]
             r#type: EvalLogsDataSourceConfigType,
             #[serde(rename = "metadata")]
-            #[allow(dead_code)]
             metadata: Option<Metadata>,
             #[serde(rename = "schema")]
-            #[allow(dead_code)]
             schema: indexmap::IndexMap<String, serde_json::Value>,
         }
         let EvalLogsDataSourceConfig {
@@ -12796,34 +12523,24 @@ impl<'de> serde::Deserialize<'de> for EvalResponsesSource {
             #[allow(dead_code)]
             r#type: EvalResponsesSourceType,
             #[serde(rename = "metadata")]
-            #[allow(dead_code)]
             metadata: Option<indexmap::IndexMap<String, serde_json::Value>>,
             #[serde(rename = "model")]
-            #[allow(dead_code)]
             model: Option<String>,
             #[serde(rename = "instructions_search")]
-            #[allow(dead_code)]
             instructions_search: Option<String>,
             #[serde(rename = "created_after")]
-            #[allow(dead_code)]
             created_after: Option<i64>,
             #[serde(rename = "created_before")]
-            #[allow(dead_code)]
             created_before: Option<i64>,
             #[serde(rename = "reasoning_effort")]
-            #[allow(dead_code)]
             reasoning_effort: Option<ReasoningEffort>,
             #[serde(rename = "temperature")]
-            #[allow(dead_code)]
             temperature: Option<serde_json::Number>,
             #[serde(rename = "top_p")]
-            #[allow(dead_code)]
             top_p: Option<serde_json::Number>,
             #[serde(rename = "users")]
-            #[allow(dead_code)]
             users: Option<Vec<String>>,
             #[serde(rename = "tools")]
-            #[allow(dead_code)]
             tools: Option<Vec<String>>,
         }
         let EvalResponsesSource {
@@ -13033,43 +12750,30 @@ impl<'de> serde::Deserialize<'de> for EvalRun {
             #[allow(dead_code)]
             object: EvalRunObject,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "eval_id")]
-            #[allow(dead_code)]
             eval_id: String,
             #[serde(rename = "status")]
-            #[allow(dead_code)]
             status: String,
             #[serde(rename = "model")]
-            #[allow(dead_code)]
             model: String,
             #[serde(rename = "name")]
-            #[allow(dead_code)]
             name: String,
             #[serde(rename = "created_at")]
-            #[allow(dead_code)]
             created_at: i64,
             #[serde(rename = "report_url")]
-            #[allow(dead_code)]
             report_url: String,
             #[serde(rename = "result_counts")]
-            #[allow(dead_code)]
             result_counts: EvalRunResultCounts,
             #[serde(rename = "per_model_usage")]
-            #[allow(dead_code)]
             per_model_usage: Vec<EvalRunPerModelUsage>,
             #[serde(rename = "per_testing_criteria_results")]
-            #[allow(dead_code)]
             per_testing_criteria_results: Vec<EvalRunPerTestingCriteriaResult>,
             #[serde(rename = "data_source")]
-            #[allow(dead_code)]
             data_source: EvalRunDataSource,
             #[serde(rename = "metadata")]
-            #[allow(dead_code)]
             metadata: Option<Metadata>,
             #[serde(rename = "error")]
-            #[allow(dead_code)]
             error: EvalApiError,
         }
         let EvalRun {
@@ -13205,16 +12909,12 @@ impl<'de> serde::Deserialize<'de> for EvalRunList {
             #[allow(dead_code)]
             object: EvalRunListObject,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: Vec<EvalRun>,
             #[serde(rename = "first_id")]
-            #[allow(dead_code)]
             first_id: String,
             #[serde(rename = "last_id")]
-            #[allow(dead_code)]
             last_id: String,
             #[serde(rename = "has_more")]
-            #[allow(dead_code)]
             has_more: bool,
         }
         let EvalRunList {
@@ -13385,31 +13085,22 @@ impl<'de> serde::Deserialize<'de> for EvalRunOutputItem {
             #[allow(dead_code)]
             object: EvalRunOutputItemObject,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "run_id")]
-            #[allow(dead_code)]
             run_id: String,
             #[serde(rename = "eval_id")]
-            #[allow(dead_code)]
             eval_id: String,
             #[serde(rename = "created_at")]
-            #[allow(dead_code)]
             created_at: i64,
             #[serde(rename = "status")]
-            #[allow(dead_code)]
             status: String,
             #[serde(rename = "datasource_item_id")]
-            #[allow(dead_code)]
             datasource_item_id: i64,
             #[serde(rename = "datasource_item")]
-            #[allow(dead_code)]
             datasource_item: indexmap::IndexMap<String, serde_json::Value>,
             #[serde(rename = "results")]
-            #[allow(dead_code)]
             results: Vec<indexmap::IndexMap<String, serde_json::Value>>,
             #[serde(rename = "sample")]
-            #[allow(dead_code)]
             sample: EvalRunOutputItemSample,
         }
         let EvalRunOutputItem {
@@ -13520,16 +13211,12 @@ impl<'de> serde::Deserialize<'de> for EvalRunOutputItemList {
             #[allow(dead_code)]
             object: EvalRunOutputItemListObject,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: Vec<EvalRunOutputItem>,
             #[serde(rename = "first_id")]
-            #[allow(dead_code)]
             first_id: String,
             #[serde(rename = "last_id")]
-            #[allow(dead_code)]
             last_id: String,
             #[serde(rename = "has_more")]
-            #[allow(dead_code)]
             has_more: bool,
         }
         let EvalRunOutputItemList {
@@ -13609,10 +13296,8 @@ impl<'de> serde::Deserialize<'de> for EvalStoredCompletionsDataSourceConfig {
             #[allow(dead_code)]
             r#type: EvalStoredCompletionsDataSourceConfigType,
             #[serde(rename = "metadata")]
-            #[allow(dead_code)]
             metadata: Option<Metadata>,
             #[serde(rename = "schema")]
-            #[allow(dead_code)]
             schema: indexmap::IndexMap<String, serde_json::Value>,
         }
         let EvalStoredCompletionsDataSourceConfig {
@@ -13680,19 +13365,14 @@ impl<'de> serde::Deserialize<'de> for EvalStoredCompletionsSource {
             #[allow(dead_code)]
             r#type: EvalStoredCompletionsSourceType,
             #[serde(rename = "metadata")]
-            #[allow(dead_code)]
             metadata: Option<Metadata>,
             #[serde(rename = "model")]
-            #[allow(dead_code)]
             model: Option<String>,
             #[serde(rename = "created_after")]
-            #[allow(dead_code)]
             created_after: Option<i64>,
             #[serde(rename = "created_before")]
-            #[allow(dead_code)]
             created_before: Option<i64>,
             #[serde(rename = "limit")]
-            #[allow(dead_code)]
             limit: Option<i64>,
         }
         let EvalStoredCompletionsSource {
@@ -13780,10 +13460,8 @@ impl<'de> serde::Deserialize<'de> for FilePath {
             #[allow(dead_code)]
             r#type: FilePathType,
             #[serde(rename = "file_id")]
-            #[allow(dead_code)]
             file_id: String,
             #[serde(rename = "index")]
-            #[allow(dead_code)]
             index: i64,
         }
         let FilePath { file_id, index, .. } = FilePath::deserialize(deserializer)?;
@@ -13911,19 +13589,15 @@ impl<'de> serde::Deserialize<'de> for FileSearchToolCall {
         #[derive(serde :: Deserialize)]
         struct FileSearchToolCall {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: FileSearchToolCallType,
             #[serde(rename = "status")]
-            #[allow(dead_code)]
             status: FileSearchToolCallStatus,
             #[serde(rename = "queries")]
-            #[allow(dead_code)]
             queries: Vec<String>,
             #[serde(rename = "results")]
-            #[allow(dead_code)]
             results: Option<Vec<FileSearchToolCallResult>>,
         }
         let FileSearchToolCall {
@@ -14009,28 +13683,21 @@ impl<'de> serde::Deserialize<'de> for FineTuneChatCompletionRequestAssistantMess
         #[derive(serde :: Deserialize)]
         struct FineTuneChatCompletionRequestAssistantMessage {
             #[serde(rename = "weight")]
-            #[allow(dead_code)]
             weight: Option<i64>,
             #[serde(rename = "content")]
-            #[allow(dead_code)]
             content: Option<ChatCompletionRequestAssistantMessageContent>,
             #[serde(rename = "refusal")]
-            #[allow(dead_code)]
             refusal: Option<String>,
             #[serde(rename = "role")]
             #[allow(dead_code)]
             role: ChatCompletionRequestAssistantMessageRole,
             #[serde(rename = "name")]
-            #[allow(dead_code)]
             name: Option<String>,
             #[serde(rename = "audio")]
-            #[allow(dead_code)]
             audio: Option<ChatCompletionRequestAssistantMessageAudio>,
             #[serde(rename = "tool_calls")]
-            #[allow(dead_code)]
             tool_calls: Option<ChatCompletionMessageToolCalls>,
             #[serde(rename = "function_call")]
-            #[allow(dead_code)]
             function_call: Option<ChatCompletionRequestAssistantMessageFunctionCall>,
         }
         let FineTuneChatCompletionRequestAssistantMessage {
@@ -14166,8 +13833,8 @@ impl<'de> serde::Deserialize<'de> for FineTuneDpoHyperparametersBeta {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum FineTuneDpoHyperparametersBeta {
-            Auto(#[allow(dead_code)] FineTuneDpoHyperparametersBetaAuto),
-            Number(#[allow(dead_code)] serde_json::Number),
+            Auto(FineTuneDpoHyperparametersBetaAuto),
+            Number(serde_json::Number),
         }
         Ok(
             match FineTuneDpoHyperparametersBeta::deserialize(deserializer)? {
@@ -14187,15 +13854,14 @@ impl serde::Serialize for FineTuneDpoHyperparametersBeta {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum FineTuneDpoHyperparametersBeta<'a> {
-            Auto(#[allow(dead_code)] &'a FineTuneDpoHyperparametersBetaAuto),
-            Number(#[allow(dead_code)] &'a serde_json::Number),
+            Auto(FineTuneDpoHyperparametersBetaAuto),
+            Number(&'a serde_json::Number),
         }
         match self {
-            Self::Auto => {
-                FineTuneDpoHyperparametersBeta::Auto(&Default::default()).serialize(serializer)
-            }
-            Self::Number(v) => FineTuneDpoHyperparametersBeta::Number(v).serialize(serializer),
+            Self::Auto => FineTuneDpoHyperparametersBeta::Auto(Default::default()),
+            Self::Number(v) => FineTuneDpoHyperparametersBeta::Number(v),
         }
+        .serialize(serializer)
     }
 }
 #[doc = "auto"]
@@ -14220,8 +13886,8 @@ impl<'de> serde::Deserialize<'de> for FineTuneDpoHyperparametersBatchSize {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum FineTuneDpoHyperparametersBatchSize {
-            Auto(#[allow(dead_code)] FineTuneDpoHyperparametersBatchSizeAuto),
-            Integer(#[allow(dead_code)] i64),
+            Auto(FineTuneDpoHyperparametersBatchSizeAuto),
+            Integer(i64),
         }
         Ok(
             match FineTuneDpoHyperparametersBatchSize::deserialize(deserializer)? {
@@ -14241,17 +13907,14 @@ impl serde::Serialize for FineTuneDpoHyperparametersBatchSize {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum FineTuneDpoHyperparametersBatchSize<'a> {
-            Auto(#[allow(dead_code)] &'a FineTuneDpoHyperparametersBatchSizeAuto),
-            Integer(#[allow(dead_code)] &'a i64),
+            Auto(FineTuneDpoHyperparametersBatchSizeAuto),
+            Integer(&'a i64),
         }
         match self {
-            Self::Auto => {
-                FineTuneDpoHyperparametersBatchSize::Auto(&Default::default()).serialize(serializer)
-            }
-            Self::Integer(v) => {
-                FineTuneDpoHyperparametersBatchSize::Integer(v).serialize(serializer)
-            }
+            Self::Auto => FineTuneDpoHyperparametersBatchSize::Auto(Default::default()),
+            Self::Integer(v) => FineTuneDpoHyperparametersBatchSize::Integer(v),
         }
+        .serialize(serializer)
     }
 }
 #[doc = "auto"]
@@ -14276,8 +13939,8 @@ impl<'de> serde::Deserialize<'de> for FineTuneDpoHyperparametersLearningRateMult
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum FineTuneDpoHyperparametersLearningRateMultiplier {
-            Auto(#[allow(dead_code)] FineTuneDpoHyperparametersLearningRateMultiplierAuto),
-            Number(#[allow(dead_code)] serde_json::Number),
+            Auto(FineTuneDpoHyperparametersLearningRateMultiplierAuto),
+            Number(serde_json::Number),
         }
         Ok(
             match FineTuneDpoHyperparametersLearningRateMultiplier::deserialize(deserializer)? {
@@ -14297,18 +13960,16 @@ impl serde::Serialize for FineTuneDpoHyperparametersLearningRateMultiplier {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum FineTuneDpoHyperparametersLearningRateMultiplier<'a> {
-            Auto(#[allow(dead_code)] &'a FineTuneDpoHyperparametersLearningRateMultiplierAuto),
-            Number(#[allow(dead_code)] &'a serde_json::Number),
+            Auto(FineTuneDpoHyperparametersLearningRateMultiplierAuto),
+            Number(&'a serde_json::Number),
         }
         match self {
             Self::Auto => {
-                FineTuneDpoHyperparametersLearningRateMultiplier::Auto(&Default::default())
-                    .serialize(serializer)
+                FineTuneDpoHyperparametersLearningRateMultiplier::Auto(Default::default())
             }
-            Self::Number(v) => {
-                FineTuneDpoHyperparametersLearningRateMultiplier::Number(v).serialize(serializer)
-            }
+            Self::Number(v) => FineTuneDpoHyperparametersLearningRateMultiplier::Number(v),
         }
+        .serialize(serializer)
     }
 }
 #[doc = "auto"]
@@ -14333,8 +13994,8 @@ impl<'de> serde::Deserialize<'de> for FineTuneDpoHyperparametersNEpochs {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum FineTuneDpoHyperparametersNEpochs {
-            Auto(#[allow(dead_code)] FineTuneDpoHyperparametersNEpochsAuto),
-            Integer(#[allow(dead_code)] i64),
+            Auto(FineTuneDpoHyperparametersNEpochsAuto),
+            Integer(i64),
         }
         Ok(
             match FineTuneDpoHyperparametersNEpochs::deserialize(deserializer)? {
@@ -14354,15 +14015,14 @@ impl serde::Serialize for FineTuneDpoHyperparametersNEpochs {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum FineTuneDpoHyperparametersNEpochs<'a> {
-            Auto(#[allow(dead_code)] &'a FineTuneDpoHyperparametersNEpochsAuto),
-            Integer(#[allow(dead_code)] &'a i64),
+            Auto(FineTuneDpoHyperparametersNEpochsAuto),
+            Integer(&'a i64),
         }
         match self {
-            Self::Auto => {
-                FineTuneDpoHyperparametersNEpochs::Auto(&Default::default()).serialize(serializer)
-            }
-            Self::Integer(v) => FineTuneDpoHyperparametersNEpochs::Integer(v).serialize(serializer),
+            Self::Auto => FineTuneDpoHyperparametersNEpochs::Auto(Default::default()),
+            Self::Integer(v) => FineTuneDpoHyperparametersNEpochs::Integer(v),
         }
+        .serialize(serializer)
     }
 }
 #[doc = "The hyperparameters used for the DPO fine-tuning job."]
@@ -14523,8 +14183,8 @@ impl<'de> serde::Deserialize<'de> for FineTuneReinforcementHyperparametersBatchS
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum FineTuneReinforcementHyperparametersBatchSize {
-            Auto(#[allow(dead_code)] FineTuneReinforcementHyperparametersBatchSizeAuto),
-            Integer(#[allow(dead_code)] i64),
+            Auto(FineTuneReinforcementHyperparametersBatchSizeAuto),
+            Integer(i64),
         }
         Ok(
             match FineTuneReinforcementHyperparametersBatchSize::deserialize(deserializer)? {
@@ -14544,16 +14204,14 @@ impl serde::Serialize for FineTuneReinforcementHyperparametersBatchSize {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum FineTuneReinforcementHyperparametersBatchSize<'a> {
-            Auto(#[allow(dead_code)] &'a FineTuneReinforcementHyperparametersBatchSizeAuto),
-            Integer(#[allow(dead_code)] &'a i64),
+            Auto(FineTuneReinforcementHyperparametersBatchSizeAuto),
+            Integer(&'a i64),
         }
         match self {
-            Self::Auto => FineTuneReinforcementHyperparametersBatchSize::Auto(&Default::default())
-                .serialize(serializer),
-            Self::Integer(v) => {
-                FineTuneReinforcementHyperparametersBatchSize::Integer(v).serialize(serializer)
-            }
+            Self::Auto => FineTuneReinforcementHyperparametersBatchSize::Auto(Default::default()),
+            Self::Integer(v) => FineTuneReinforcementHyperparametersBatchSize::Integer(v),
         }
+        .serialize(serializer)
     }
 }
 #[doc = "auto"]
@@ -14581,10 +14239,8 @@ impl<'de> serde::Deserialize<'de> for FineTuneReinforcementHyperparametersLearni
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum FineTuneReinforcementHyperparametersLearningRateMultiplier {
-            Auto(
-                #[allow(dead_code)] FineTuneReinforcementHyperparametersLearningRateMultiplierAuto,
-            ),
-            Number(#[allow(dead_code)] serde_json::Number),
+            Auto(FineTuneReinforcementHyperparametersLearningRateMultiplierAuto),
+            Number(serde_json::Number),
         }
         Ok(
             match FineTuneReinforcementHyperparametersLearningRateMultiplier::deserialize(
@@ -14608,22 +14264,18 @@ impl serde::Serialize for FineTuneReinforcementHyperparametersLearningRateMultip
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum FineTuneReinforcementHyperparametersLearningRateMultiplier<'a> {
-            Auto(
-                #[allow(dead_code)]
-                &'a FineTuneReinforcementHyperparametersLearningRateMultiplierAuto,
-            ),
-            Number(#[allow(dead_code)] &'a serde_json::Number),
+            Auto(FineTuneReinforcementHyperparametersLearningRateMultiplierAuto),
+            Number(&'a serde_json::Number),
         }
         match self {
-            Self::Auto => FineTuneReinforcementHyperparametersLearningRateMultiplier::Auto(
-                &Default::default(),
-            )
-            .serialize(serializer),
+            Self::Auto => {
+                FineTuneReinforcementHyperparametersLearningRateMultiplier::Auto(Default::default())
+            }
             Self::Number(v) => {
                 FineTuneReinforcementHyperparametersLearningRateMultiplier::Number(v)
-                    .serialize(serializer)
             }
         }
+        .serialize(serializer)
     }
 }
 #[doc = "auto"]
@@ -14648,8 +14300,8 @@ impl<'de> serde::Deserialize<'de> for FineTuneReinforcementHyperparametersNEpoch
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum FineTuneReinforcementHyperparametersNEpochs {
-            Auto(#[allow(dead_code)] FineTuneReinforcementHyperparametersNEpochsAuto),
-            Integer(#[allow(dead_code)] i64),
+            Auto(FineTuneReinforcementHyperparametersNEpochsAuto),
+            Integer(i64),
         }
         Ok(
             match FineTuneReinforcementHyperparametersNEpochs::deserialize(deserializer)? {
@@ -14669,16 +14321,14 @@ impl serde::Serialize for FineTuneReinforcementHyperparametersNEpochs {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum FineTuneReinforcementHyperparametersNEpochs<'a> {
-            Auto(#[allow(dead_code)] &'a FineTuneReinforcementHyperparametersNEpochsAuto),
-            Integer(#[allow(dead_code)] &'a i64),
+            Auto(FineTuneReinforcementHyperparametersNEpochsAuto),
+            Integer(&'a i64),
         }
         match self {
-            Self::Auto => FineTuneReinforcementHyperparametersNEpochs::Auto(&Default::default())
-                .serialize(serializer),
-            Self::Integer(v) => {
-                FineTuneReinforcementHyperparametersNEpochs::Integer(v).serialize(serializer)
-            }
+            Self::Auto => FineTuneReinforcementHyperparametersNEpochs::Auto(Default::default()),
+            Self::Integer(v) => FineTuneReinforcementHyperparametersNEpochs::Integer(v),
         }
+        .serialize(serializer)
     }
 }
 #[doc = "Level of reasoning effort.\n"]
@@ -14723,8 +14373,8 @@ impl<'de> serde::Deserialize<'de> for FineTuneReinforcementHyperparametersComput
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum FineTuneReinforcementHyperparametersComputeMultiplier {
-            Auto(#[allow(dead_code)] FineTuneReinforcementHyperparametersComputeMultiplierAuto),
-            Number(#[allow(dead_code)] serde_json::Number),
+            Auto(FineTuneReinforcementHyperparametersComputeMultiplierAuto),
+            Number(serde_json::Number),
         }
         Ok(
             match FineTuneReinforcementHyperparametersComputeMultiplier::deserialize(deserializer)?
@@ -14745,17 +14395,16 @@ impl serde::Serialize for FineTuneReinforcementHyperparametersComputeMultiplier 
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum FineTuneReinforcementHyperparametersComputeMultiplier<'a> {
-            Auto(#[allow(dead_code)] &'a FineTuneReinforcementHyperparametersComputeMultiplierAuto),
-            Number(#[allow(dead_code)] &'a serde_json::Number),
+            Auto(FineTuneReinforcementHyperparametersComputeMultiplierAuto),
+            Number(&'a serde_json::Number),
         }
         match self {
             Self::Auto => {
-                FineTuneReinforcementHyperparametersComputeMultiplier::Auto(&Default::default())
-                    .serialize(serializer)
+                FineTuneReinforcementHyperparametersComputeMultiplier::Auto(Default::default())
             }
-            Self::Number(v) => FineTuneReinforcementHyperparametersComputeMultiplier::Number(v)
-                .serialize(serializer),
+            Self::Number(v) => FineTuneReinforcementHyperparametersComputeMultiplier::Number(v),
         }
+        .serialize(serializer)
     }
 }
 #[doc = "auto"]
@@ -14780,8 +14429,8 @@ impl<'de> serde::Deserialize<'de> for FineTuneReinforcementHyperparametersEvalIn
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum FineTuneReinforcementHyperparametersEvalInterval {
-            Auto(#[allow(dead_code)] FineTuneReinforcementHyperparametersEvalIntervalAuto),
-            Integer(#[allow(dead_code)] i64),
+            Auto(FineTuneReinforcementHyperparametersEvalIntervalAuto),
+            Integer(i64),
         }
         Ok(
             match FineTuneReinforcementHyperparametersEvalInterval::deserialize(deserializer)? {
@@ -14801,18 +14450,16 @@ impl serde::Serialize for FineTuneReinforcementHyperparametersEvalInterval {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum FineTuneReinforcementHyperparametersEvalInterval<'a> {
-            Auto(#[allow(dead_code)] &'a FineTuneReinforcementHyperparametersEvalIntervalAuto),
-            Integer(#[allow(dead_code)] &'a i64),
+            Auto(FineTuneReinforcementHyperparametersEvalIntervalAuto),
+            Integer(&'a i64),
         }
         match self {
             Self::Auto => {
-                FineTuneReinforcementHyperparametersEvalInterval::Auto(&Default::default())
-                    .serialize(serializer)
+                FineTuneReinforcementHyperparametersEvalInterval::Auto(Default::default())
             }
-            Self::Integer(v) => {
-                FineTuneReinforcementHyperparametersEvalInterval::Integer(v).serialize(serializer)
-            }
+            Self::Integer(v) => FineTuneReinforcementHyperparametersEvalInterval::Integer(v),
         }
+        .serialize(serializer)
     }
 }
 #[doc = "auto"]
@@ -14837,8 +14484,8 @@ impl<'de> serde::Deserialize<'de> for FineTuneReinforcementHyperparametersEvalSa
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum FineTuneReinforcementHyperparametersEvalSamples {
-            Auto(#[allow(dead_code)] FineTuneReinforcementHyperparametersEvalSamplesAuto),
-            Integer(#[allow(dead_code)] i64),
+            Auto(FineTuneReinforcementHyperparametersEvalSamplesAuto),
+            Integer(i64),
         }
         Ok(
             match FineTuneReinforcementHyperparametersEvalSamples::deserialize(deserializer)? {
@@ -14858,18 +14505,14 @@ impl serde::Serialize for FineTuneReinforcementHyperparametersEvalSamples {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum FineTuneReinforcementHyperparametersEvalSamples<'a> {
-            Auto(#[allow(dead_code)] &'a FineTuneReinforcementHyperparametersEvalSamplesAuto),
-            Integer(#[allow(dead_code)] &'a i64),
+            Auto(FineTuneReinforcementHyperparametersEvalSamplesAuto),
+            Integer(&'a i64),
         }
         match self {
-            Self::Auto => {
-                FineTuneReinforcementHyperparametersEvalSamples::Auto(&Default::default())
-                    .serialize(serializer)
-            }
-            Self::Integer(v) => {
-                FineTuneReinforcementHyperparametersEvalSamples::Integer(v).serialize(serializer)
-            }
+            Self::Auto => FineTuneReinforcementHyperparametersEvalSamples::Auto(Default::default()),
+            Self::Integer(v) => FineTuneReinforcementHyperparametersEvalSamples::Integer(v),
         }
+        .serialize(serializer)
     }
 }
 #[doc = "The hyperparameters used for the reinforcement fine-tuning job."]
@@ -14986,8 +14629,8 @@ impl<'de> serde::Deserialize<'de> for FineTuneSupervisedHyperparametersBatchSize
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum FineTuneSupervisedHyperparametersBatchSize {
-            Auto(#[allow(dead_code)] FineTuneSupervisedHyperparametersBatchSizeAuto),
-            Integer(#[allow(dead_code)] i64),
+            Auto(FineTuneSupervisedHyperparametersBatchSizeAuto),
+            Integer(i64),
         }
         Ok(
             match FineTuneSupervisedHyperparametersBatchSize::deserialize(deserializer)? {
@@ -15007,16 +14650,14 @@ impl serde::Serialize for FineTuneSupervisedHyperparametersBatchSize {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum FineTuneSupervisedHyperparametersBatchSize<'a> {
-            Auto(#[allow(dead_code)] &'a FineTuneSupervisedHyperparametersBatchSizeAuto),
-            Integer(#[allow(dead_code)] &'a i64),
+            Auto(FineTuneSupervisedHyperparametersBatchSizeAuto),
+            Integer(&'a i64),
         }
         match self {
-            Self::Auto => FineTuneSupervisedHyperparametersBatchSize::Auto(&Default::default())
-                .serialize(serializer),
-            Self::Integer(v) => {
-                FineTuneSupervisedHyperparametersBatchSize::Integer(v).serialize(serializer)
-            }
+            Self::Auto => FineTuneSupervisedHyperparametersBatchSize::Auto(Default::default()),
+            Self::Integer(v) => FineTuneSupervisedHyperparametersBatchSize::Integer(v),
         }
+        .serialize(serializer)
     }
 }
 #[doc = "auto"]
@@ -15044,8 +14685,8 @@ impl<'de> serde::Deserialize<'de> for FineTuneSupervisedHyperparametersLearningR
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum FineTuneSupervisedHyperparametersLearningRateMultiplier {
-            Auto(#[allow(dead_code)] FineTuneSupervisedHyperparametersLearningRateMultiplierAuto),
-            Number(#[allow(dead_code)] serde_json::Number),
+            Auto(FineTuneSupervisedHyperparametersLearningRateMultiplierAuto),
+            Number(serde_json::Number),
         }
         Ok(
             match FineTuneSupervisedHyperparametersLearningRateMultiplier::deserialize(
@@ -15069,19 +14710,16 @@ impl serde::Serialize for FineTuneSupervisedHyperparametersLearningRateMultiplie
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum FineTuneSupervisedHyperparametersLearningRateMultiplier<'a> {
-            Auto(
-                #[allow(dead_code)] &'a FineTuneSupervisedHyperparametersLearningRateMultiplierAuto,
-            ),
-            Number(#[allow(dead_code)] &'a serde_json::Number),
+            Auto(FineTuneSupervisedHyperparametersLearningRateMultiplierAuto),
+            Number(&'a serde_json::Number),
         }
         match self {
             Self::Auto => {
-                FineTuneSupervisedHyperparametersLearningRateMultiplier::Auto(&Default::default())
-                    .serialize(serializer)
+                FineTuneSupervisedHyperparametersLearningRateMultiplier::Auto(Default::default())
             }
-            Self::Number(v) => FineTuneSupervisedHyperparametersLearningRateMultiplier::Number(v)
-                .serialize(serializer),
+            Self::Number(v) => FineTuneSupervisedHyperparametersLearningRateMultiplier::Number(v),
         }
+        .serialize(serializer)
     }
 }
 #[doc = "auto"]
@@ -15106,8 +14744,8 @@ impl<'de> serde::Deserialize<'de> for FineTuneSupervisedHyperparametersNEpochs {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum FineTuneSupervisedHyperparametersNEpochs {
-            Auto(#[allow(dead_code)] FineTuneSupervisedHyperparametersNEpochsAuto),
-            Integer(#[allow(dead_code)] i64),
+            Auto(FineTuneSupervisedHyperparametersNEpochsAuto),
+            Integer(i64),
         }
         Ok(
             match FineTuneSupervisedHyperparametersNEpochs::deserialize(deserializer)? {
@@ -15127,16 +14765,14 @@ impl serde::Serialize for FineTuneSupervisedHyperparametersNEpochs {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum FineTuneSupervisedHyperparametersNEpochs<'a> {
-            Auto(#[allow(dead_code)] &'a FineTuneSupervisedHyperparametersNEpochsAuto),
-            Integer(#[allow(dead_code)] &'a i64),
+            Auto(FineTuneSupervisedHyperparametersNEpochsAuto),
+            Integer(&'a i64),
         }
         match self {
-            Self::Auto => FineTuneSupervisedHyperparametersNEpochs::Auto(&Default::default())
-                .serialize(serializer),
-            Self::Integer(v) => {
-                FineTuneSupervisedHyperparametersNEpochs::Integer(v).serialize(serializer)
-            }
+            Self::Auto => FineTuneSupervisedHyperparametersNEpochs::Auto(Default::default()),
+            Self::Integer(v) => FineTuneSupervisedHyperparametersNEpochs::Integer(v),
         }
+        .serialize(serializer)
     }
 }
 #[doc = "The hyperparameters used for the fine-tuning job."]
@@ -15196,13 +14832,10 @@ impl<'de> serde::Deserialize<'de> for FineTuningCheckpointPermission {
         #[derive(serde :: Deserialize)]
         struct FineTuningCheckpointPermission {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "created_at")]
-            #[allow(dead_code)]
             created_at: i64,
             #[serde(rename = "project_id")]
-            #[allow(dead_code)]
             project_id: String,
             #[serde(rename = "object")]
             #[allow(dead_code)]
@@ -15297,7 +14930,6 @@ impl<'de> serde::Deserialize<'de> for FineTuningIntegration {
             #[allow(dead_code)]
             r#type: FineTuningIntegrationType,
             #[serde(rename = "wandb")]
-            #[allow(dead_code)]
             wandb: FineTuningIntegrationWandb,
         }
         let FineTuningIntegration { wandb, .. } = FineTuningIntegration::deserialize(deserializer)?;
@@ -15364,8 +14996,8 @@ impl<'de> serde::Deserialize<'de> for FineTuningJobHyperparametersBatchSize {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum FineTuningJobHyperparametersBatchSize {
-            Auto(#[allow(dead_code)] FineTuningJobHyperparametersBatchSizeAuto),
-            Integer(#[allow(dead_code)] i64),
+            Auto(FineTuningJobHyperparametersBatchSizeAuto),
+            Integer(i64),
         }
         Ok(
             match FineTuningJobHyperparametersBatchSize::deserialize(deserializer)? {
@@ -15385,16 +15017,14 @@ impl serde::Serialize for FineTuningJobHyperparametersBatchSize {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum FineTuningJobHyperparametersBatchSize<'a> {
-            Auto(#[allow(dead_code)] &'a FineTuningJobHyperparametersBatchSizeAuto),
-            Integer(#[allow(dead_code)] &'a i64),
+            Auto(FineTuningJobHyperparametersBatchSizeAuto),
+            Integer(&'a i64),
         }
         match self {
-            Self::Auto => FineTuningJobHyperparametersBatchSize::Auto(&Default::default())
-                .serialize(serializer),
-            Self::Integer(v) => {
-                FineTuningJobHyperparametersBatchSize::Integer(v).serialize(serializer)
-            }
+            Self::Auto => FineTuningJobHyperparametersBatchSize::Auto(Default::default()),
+            Self::Integer(v) => FineTuningJobHyperparametersBatchSize::Integer(v),
         }
+        .serialize(serializer)
     }
 }
 #[doc = "auto"]
@@ -15422,8 +15052,8 @@ impl<'de> serde::Deserialize<'de> for FineTuningJobHyperparametersLearningRateMu
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum FineTuningJobHyperparametersLearningRateMultiplier {
-            Auto(#[allow(dead_code)] FineTuningJobHyperparametersLearningRateMultiplierAuto),
-            Number(#[allow(dead_code)] serde_json::Number),
+            Auto(FineTuningJobHyperparametersLearningRateMultiplierAuto),
+            Number(serde_json::Number),
         }
         Ok(
             match FineTuningJobHyperparametersLearningRateMultiplier::deserialize(deserializer)? {
@@ -15443,18 +15073,16 @@ impl serde::Serialize for FineTuningJobHyperparametersLearningRateMultiplier {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum FineTuningJobHyperparametersLearningRateMultiplier<'a> {
-            Auto(#[allow(dead_code)] &'a FineTuningJobHyperparametersLearningRateMultiplierAuto),
-            Number(#[allow(dead_code)] &'a serde_json::Number),
+            Auto(FineTuningJobHyperparametersLearningRateMultiplierAuto),
+            Number(&'a serde_json::Number),
         }
         match self {
             Self::Auto => {
-                FineTuningJobHyperparametersLearningRateMultiplier::Auto(&Default::default())
-                    .serialize(serializer)
+                FineTuningJobHyperparametersLearningRateMultiplier::Auto(Default::default())
             }
-            Self::Number(v) => {
-                FineTuningJobHyperparametersLearningRateMultiplier::Number(v).serialize(serializer)
-            }
+            Self::Number(v) => FineTuningJobHyperparametersLearningRateMultiplier::Number(v),
         }
+        .serialize(serializer)
     }
 }
 #[doc = "auto"]
@@ -15479,8 +15107,8 @@ impl<'de> serde::Deserialize<'de> for FineTuningJobHyperparametersNEpochs {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum FineTuningJobHyperparametersNEpochs {
-            Auto(#[allow(dead_code)] FineTuningJobHyperparametersNEpochsAuto),
-            Integer(#[allow(dead_code)] i64),
+            Auto(FineTuningJobHyperparametersNEpochsAuto),
+            Integer(i64),
         }
         Ok(
             match FineTuningJobHyperparametersNEpochs::deserialize(deserializer)? {
@@ -15500,17 +15128,14 @@ impl serde::Serialize for FineTuningJobHyperparametersNEpochs {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum FineTuningJobHyperparametersNEpochs<'a> {
-            Auto(#[allow(dead_code)] &'a FineTuningJobHyperparametersNEpochsAuto),
-            Integer(#[allow(dead_code)] &'a i64),
+            Auto(FineTuningJobHyperparametersNEpochsAuto),
+            Integer(&'a i64),
         }
         match self {
-            Self::Auto => {
-                FineTuningJobHyperparametersNEpochs::Auto(&Default::default()).serialize(serializer)
-            }
-            Self::Integer(v) => {
-                FineTuningJobHyperparametersNEpochs::Integer(v).serialize(serializer)
-            }
+            Self::Auto => FineTuningJobHyperparametersNEpochs::Auto(Default::default()),
+            Self::Integer(v) => FineTuningJobHyperparametersNEpochs::Integer(v),
         }
+        .serialize(serializer)
     }
 }
 #[doc = "The hyperparameters used for the fine-tuning job. This value will only be returned when running `supervised` jobs."]
@@ -15625,61 +15250,43 @@ impl<'de> serde::Deserialize<'de> for FineTuningJob {
         #[derive(serde :: Deserialize)]
         struct FineTuningJob {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "created_at")]
-            #[allow(dead_code)]
             created_at: i64,
             #[serde(rename = "error")]
-            #[allow(dead_code)]
             error: Option<FineTuningJobError>,
             #[serde(rename = "fine_tuned_model")]
-            #[allow(dead_code)]
             fine_tuned_model: Option<String>,
             #[serde(rename = "finished_at")]
-            #[allow(dead_code)]
             finished_at: Option<i64>,
             #[serde(rename = "hyperparameters")]
-            #[allow(dead_code)]
             hyperparameters: FineTuningJobHyperparameters,
             #[serde(rename = "model")]
-            #[allow(dead_code)]
             model: String,
             #[serde(rename = "object")]
             #[allow(dead_code)]
             object: FineTuningJobObject,
             #[serde(rename = "organization_id")]
-            #[allow(dead_code)]
             organization_id: String,
             #[serde(rename = "result_files")]
-            #[allow(dead_code)]
             result_files: Vec<String>,
             #[serde(rename = "status")]
-            #[allow(dead_code)]
             status: FineTuningJobStatus,
             #[serde(rename = "trained_tokens")]
-            #[allow(dead_code)]
             trained_tokens: Option<i64>,
             #[serde(rename = "training_file")]
-            #[allow(dead_code)]
             training_file: String,
             #[serde(rename = "validation_file")]
-            #[allow(dead_code)]
             validation_file: Option<String>,
             #[serde(rename = "integrations")]
-            #[allow(dead_code)]
             integrations: Option<Vec<FineTuningJobIntegration>>,
             #[serde(rename = "seed")]
-            #[allow(dead_code)]
             seed: i64,
             #[serde(rename = "estimated_finish")]
-            #[allow(dead_code)]
             estimated_finish: Option<i64>,
             #[serde(rename = "method")]
-            #[allow(dead_code)]
             method: Option<FineTuneMethod>,
             #[serde(rename = "metadata")]
-            #[allow(dead_code)]
             metadata: Option<Metadata>,
         }
         let FineTuningJob {
@@ -15889,22 +15496,16 @@ impl<'de> serde::Deserialize<'de> for FineTuningJobCheckpoint {
         #[derive(serde :: Deserialize)]
         struct FineTuningJobCheckpoint {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "created_at")]
-            #[allow(dead_code)]
             created_at: i64,
             #[serde(rename = "fine_tuned_model_checkpoint")]
-            #[allow(dead_code)]
             fine_tuned_model_checkpoint: String,
             #[serde(rename = "step_number")]
-            #[allow(dead_code)]
             step_number: i64,
             #[serde(rename = "metrics")]
-            #[allow(dead_code)]
             metrics: FineTuningJobCheckpointMetrics,
             #[serde(rename = "fine_tuning_job_id")]
-            #[allow(dead_code)]
             fine_tuning_job_id: String,
             #[serde(rename = "object")]
             #[allow(dead_code)]
@@ -16029,22 +15630,16 @@ impl<'de> serde::Deserialize<'de> for FineTuningJobEvent {
             #[allow(dead_code)]
             object: FineTuningJobEventObject,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "created_at")]
-            #[allow(dead_code)]
             created_at: i64,
             #[serde(rename = "level")]
-            #[allow(dead_code)]
             level: FineTuningJobEventLevel,
             #[serde(rename = "message")]
-            #[allow(dead_code)]
             message: String,
             #[serde(rename = "type")]
-            #[allow(dead_code)]
             r#type: Option<FineTuningJobEventType>,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: Option<indexmap::IndexMap<String, serde_json::Value>>,
         }
         let FineTuningJobEvent {
@@ -16177,22 +15772,17 @@ impl<'de> serde::Deserialize<'de> for FunctionToolCall {
         #[derive(serde :: Deserialize)]
         struct FunctionToolCall {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: Option<String>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: FunctionToolCallType,
             #[serde(rename = "call_id")]
-            #[allow(dead_code)]
             call_id: String,
             #[serde(rename = "name")]
-            #[allow(dead_code)]
             name: String,
             #[serde(rename = "arguments")]
-            #[allow(dead_code)]
             arguments: String,
             #[serde(rename = "status")]
-            #[allow(dead_code)]
             status: Option<FunctionToolCallStatus>,
         }
         let FunctionToolCall {
@@ -16293,19 +15883,15 @@ impl<'de> serde::Deserialize<'de> for FunctionToolCallOutput {
         #[derive(serde :: Deserialize)]
         struct FunctionToolCallOutput {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: Option<String>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: FunctionToolCallOutputType,
             #[serde(rename = "call_id")]
-            #[allow(dead_code)]
             call_id: String,
             #[serde(rename = "output")]
-            #[allow(dead_code)]
             output: String,
             #[serde(rename = "status")]
-            #[allow(dead_code)]
             status: Option<FunctionToolCallOutputStatus>,
         }
         let FunctionToolCallOutput {
@@ -16384,16 +15970,12 @@ impl<'de> serde::Deserialize<'de> for FunctionToolCallOutputResource {
             #[allow(dead_code)]
             r#type: FunctionToolCallOutputType,
             #[serde(rename = "call_id")]
-            #[allow(dead_code)]
             call_id: String,
             #[serde(rename = "output")]
-            #[allow(dead_code)]
             output: String,
             #[serde(rename = "status")]
-            #[allow(dead_code)]
             status: Option<FunctionToolCallOutputStatus>,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
         }
         let FunctionToolCallOutputResource {
@@ -16473,19 +16055,14 @@ impl<'de> serde::Deserialize<'de> for FunctionToolCallResource {
             #[allow(dead_code)]
             r#type: FunctionToolCallType,
             #[serde(rename = "call_id")]
-            #[allow(dead_code)]
             call_id: String,
             #[serde(rename = "name")]
-            #[allow(dead_code)]
             name: String,
             #[serde(rename = "arguments")]
-            #[allow(dead_code)]
             arguments: String,
             #[serde(rename = "status")]
-            #[allow(dead_code)]
             status: Option<FunctionToolCallStatus>,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
         }
         let FunctionToolCallResource {
@@ -16574,19 +16151,14 @@ impl<'de> serde::Deserialize<'de> for GraderLabelModel {
             #[allow(dead_code)]
             r#type: GraderLabelModelType,
             #[serde(rename = "name")]
-            #[allow(dead_code)]
             name: String,
             #[serde(rename = "model")]
-            #[allow(dead_code)]
             model: String,
             #[serde(rename = "input")]
-            #[allow(dead_code)]
             input: Vec<EvalItem>,
             #[serde(rename = "labels")]
-            #[allow(dead_code)]
             labels: Vec<String>,
             #[serde(rename = "passing_labels")]
-            #[allow(dead_code)]
             passing_labels: Vec<String>,
         }
         let GraderLabelModel {
@@ -16682,13 +16254,10 @@ impl<'de> serde::Deserialize<'de> for GraderMulti {
             #[allow(dead_code)]
             r#type: GraderMultiType,
             #[serde(rename = "name")]
-            #[allow(dead_code)]
             name: String,
             #[serde(rename = "graders")]
-            #[allow(dead_code)]
             graders: GraderMultiGraders,
             #[serde(rename = "calculate_output")]
-            #[allow(dead_code)]
             calculate_output: String,
         }
         let GraderMulti {
@@ -16762,13 +16331,10 @@ impl<'de> serde::Deserialize<'de> for GraderPython {
             #[allow(dead_code)]
             r#type: GraderPythonType,
             #[serde(rename = "name")]
-            #[allow(dead_code)]
             name: String,
             #[serde(rename = "source")]
-            #[allow(dead_code)]
             source: String,
             #[serde(rename = "image_tag")]
-            #[allow(dead_code)]
             image_tag: Option<String>,
         }
         let GraderPython {
@@ -16848,19 +16414,14 @@ impl<'de> serde::Deserialize<'de> for GraderScoreModel {
             #[allow(dead_code)]
             r#type: GraderScoreModelType,
             #[serde(rename = "name")]
-            #[allow(dead_code)]
             name: String,
             #[serde(rename = "model")]
-            #[allow(dead_code)]
             model: String,
             #[serde(rename = "sampling_params")]
-            #[allow(dead_code)]
             sampling_params: Option<indexmap::IndexMap<String, serde_json::Value>>,
             #[serde(rename = "input")]
-            #[allow(dead_code)]
             input: Vec<EvalItem>,
             #[serde(rename = "range")]
-            #[allow(dead_code)]
             range: Option<Vec<serde_json::Number>>,
         }
         let GraderScoreModel {
@@ -16965,16 +16526,12 @@ impl<'de> serde::Deserialize<'de> for GraderStringCheck {
             #[allow(dead_code)]
             r#type: GraderStringCheckType,
             #[serde(rename = "name")]
-            #[allow(dead_code)]
             name: String,
             #[serde(rename = "input")]
-            #[allow(dead_code)]
             input: String,
             #[serde(rename = "reference")]
-            #[allow(dead_code)]
             reference: String,
             #[serde(rename = "operation")]
-            #[allow(dead_code)]
             operation: GraderStringCheckOperation,
         }
         let GraderStringCheck {
@@ -17089,16 +16646,12 @@ impl<'de> serde::Deserialize<'de> for GraderTextSimilarity {
             #[allow(dead_code)]
             r#type: GraderTextSimilarityType,
             #[serde(rename = "name")]
-            #[allow(dead_code)]
             name: String,
             #[serde(rename = "input")]
-            #[allow(dead_code)]
             input: String,
             #[serde(rename = "reference")]
-            #[allow(dead_code)]
             reference: String,
             #[serde(rename = "evaluation_metric")]
-            #[allow(dead_code)]
             evaluation_metric: GraderTextSimilarityEvaluationMetric,
         }
         let GraderTextSimilarity {
@@ -17316,31 +16869,22 @@ impl<'de> serde::Deserialize<'de> for ImageGenTool {
             #[allow(dead_code)]
             r#type: ImageGenToolType,
             #[serde(rename = "model")]
-            #[allow(dead_code)]
             model: Option<ImageGenToolModel>,
             #[serde(rename = "quality")]
-            #[allow(dead_code)]
             quality: Option<ImageGenToolQuality>,
             #[serde(rename = "size")]
-            #[allow(dead_code)]
             size: Option<ImageGenToolSize>,
             #[serde(rename = "output_format")]
-            #[allow(dead_code)]
             output_format: Option<ImageGenToolOutputFormat>,
             #[serde(rename = "output_compression")]
-            #[allow(dead_code)]
             output_compression: Option<i64>,
             #[serde(rename = "moderation")]
-            #[allow(dead_code)]
             moderation: Option<ImageGenToolModeration>,
             #[serde(rename = "background")]
-            #[allow(dead_code)]
             background: Option<ImageGenToolBackground>,
             #[serde(rename = "input_image_mask")]
-            #[allow(dead_code)]
             input_image_mask: Option<ImageGenToolInputImageMask>,
             #[serde(rename = "partial_images")]
-            #[allow(dead_code)]
             partial_images: Option<i64>,
         }
         let ImageGenTool {
@@ -17475,13 +17019,10 @@ impl<'de> serde::Deserialize<'de> for ImageGenToolCall {
             #[allow(dead_code)]
             r#type: ImageGenToolCallType,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "status")]
-            #[allow(dead_code)]
             status: ImageGenToolCallStatus,
             #[serde(rename = "result")]
-            #[allow(dead_code)]
             result: Option<String>,
         }
         let ImageGenToolCall {
@@ -17692,10 +17233,8 @@ impl<'de> serde::Deserialize<'de> for InputAudio {
             #[allow(dead_code)]
             r#type: InputAudioType,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: String,
             #[serde(rename = "format")]
-            #[allow(dead_code)]
             format: InputAudioFormat,
         }
         let InputAudio { data, format, .. } = InputAudio::deserialize(deserializer)?;
@@ -17909,28 +17448,20 @@ impl<'de> serde::Deserialize<'de> for Invite {
             #[allow(dead_code)]
             object: InviteObject,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "email")]
-            #[allow(dead_code)]
             email: String,
             #[serde(rename = "role")]
-            #[allow(dead_code)]
             role: InviteRole,
             #[serde(rename = "status")]
-            #[allow(dead_code)]
             status: InviteStatus,
             #[serde(rename = "invited_at")]
-            #[allow(dead_code)]
             invited_at: i64,
             #[serde(rename = "expires_at")]
-            #[allow(dead_code)]
             expires_at: i64,
             #[serde(rename = "accepted_at")]
-            #[allow(dead_code)]
             accepted_at: Option<i64>,
             #[serde(rename = "projects")]
-            #[allow(dead_code)]
             projects: Option<Vec<InviteProjects>>,
         }
         let Invite {
@@ -18030,10 +17561,8 @@ impl<'de> serde::Deserialize<'de> for InviteDeleteResponse {
             #[allow(dead_code)]
             object: InviteDeleteResponseObject,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "deleted")]
-            #[allow(dead_code)]
             deleted: bool,
         }
         let InviteDeleteResponse { id, deleted, .. } =
@@ -18094,16 +17623,12 @@ impl<'de> serde::Deserialize<'de> for InviteListResponse {
             #[allow(dead_code)]
             object: InviteListResponseObject,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: Vec<Invite>,
             #[serde(rename = "first_id")]
-            #[allow(dead_code)]
             first_id: Option<String>,
             #[serde(rename = "last_id")]
-            #[allow(dead_code)]
             last_id: Option<String>,
             #[serde(rename = "has_more")]
-            #[allow(dead_code)]
             has_more: Option<bool>,
         }
         let InviteListResponse {
@@ -18277,7 +17802,6 @@ impl<'de> serde::Deserialize<'de> for KeyPress {
             #[allow(dead_code)]
             r#type: KeyPressType,
             #[serde(rename = "keys")]
-            #[allow(dead_code)]
             keys: Vec<String>,
         }
         let KeyPress { keys, .. } = KeyPress::deserialize(deserializer)?;
@@ -18343,16 +17867,12 @@ impl<'de> serde::Deserialize<'de> for ListAuditLogsResponse {
             #[allow(dead_code)]
             object: ListAuditLogsResponseObject,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: Vec<AuditLog>,
             #[serde(rename = "first_id")]
-            #[allow(dead_code)]
             first_id: String,
             #[serde(rename = "last_id")]
-            #[allow(dead_code)]
             last_id: String,
             #[serde(rename = "has_more")]
-            #[allow(dead_code)]
             has_more: bool,
         }
         let ListAuditLogsResponse {
@@ -18427,16 +17947,12 @@ impl<'de> serde::Deserialize<'de> for ListBatchesResponse {
         #[derive(serde :: Deserialize)]
         struct ListBatchesResponse {
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: Vec<Batch>,
             #[serde(rename = "first_id")]
-            #[allow(dead_code)]
             first_id: Option<String>,
             #[serde(rename = "last_id")]
-            #[allow(dead_code)]
             last_id: Option<String>,
             #[serde(rename = "has_more")]
-            #[allow(dead_code)]
             has_more: bool,
             #[serde(rename = "object")]
             #[allow(dead_code)]
@@ -18516,16 +18032,12 @@ impl<'de> serde::Deserialize<'de> for ListCertificatesResponse {
         #[derive(serde :: Deserialize)]
         struct ListCertificatesResponse {
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: Vec<Certificate>,
             #[serde(rename = "first_id")]
-            #[allow(dead_code)]
             first_id: Option<String>,
             #[serde(rename = "last_id")]
-            #[allow(dead_code)]
             last_id: Option<String>,
             #[serde(rename = "has_more")]
-            #[allow(dead_code)]
             has_more: bool,
             #[serde(rename = "object")]
             #[allow(dead_code)]
@@ -18620,19 +18132,15 @@ impl<'de> serde::Deserialize<'de> for ListFineTuningCheckpointPermissionResponse
         #[derive(serde :: Deserialize)]
         struct ListFineTuningCheckpointPermissionResponse {
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: Vec<FineTuningCheckpointPermission>,
             #[serde(rename = "object")]
             #[allow(dead_code)]
             object: ListFineTuningCheckpointPermissionResponseObject,
             #[serde(rename = "first_id")]
-            #[allow(dead_code)]
             first_id: Option<String>,
             #[serde(rename = "last_id")]
-            #[allow(dead_code)]
             last_id: Option<String>,
             #[serde(rename = "has_more")]
-            #[allow(dead_code)]
             has_more: bool,
         }
         let ListFineTuningCheckpointPermissionResponse {
@@ -18709,19 +18217,15 @@ impl<'de> serde::Deserialize<'de> for ListFineTuningJobCheckpointsResponse {
         #[derive(serde :: Deserialize)]
         struct ListFineTuningJobCheckpointsResponse {
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: Vec<FineTuningJobCheckpoint>,
             #[serde(rename = "object")]
             #[allow(dead_code)]
             object: ListFineTuningJobCheckpointsResponseObject,
             #[serde(rename = "first_id")]
-            #[allow(dead_code)]
             first_id: Option<String>,
             #[serde(rename = "last_id")]
-            #[allow(dead_code)]
             last_id: Option<String>,
             #[serde(rename = "has_more")]
-            #[allow(dead_code)]
             has_more: bool,
         }
         let ListFineTuningJobCheckpointsResponse {
@@ -18794,13 +18298,11 @@ impl<'de> serde::Deserialize<'de> for ListFineTuningJobEventsResponse {
         #[derive(serde :: Deserialize)]
         struct ListFineTuningJobEventsResponse {
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: Vec<FineTuningJobEvent>,
             #[serde(rename = "object")]
             #[allow(dead_code)]
             object: ListFineTuningJobEventsResponseObject,
             #[serde(rename = "has_more")]
-            #[allow(dead_code)]
             has_more: bool,
         }
         let ListFineTuningJobEventsResponse { data, has_more, .. } =
@@ -18867,7 +18369,6 @@ impl<'de> serde::Deserialize<'de> for ListModelsResponse {
             #[allow(dead_code)]
             object: ListModelsResponseObject,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: Vec<Model>,
         }
         let ListModelsResponse { data, .. } = ListModelsResponse::deserialize(deserializer)?;
@@ -18913,10 +18414,8 @@ impl<'de> serde::Deserialize<'de> for ListPaginatedFineTuningJobsResponse {
         #[derive(serde :: Deserialize)]
         struct ListPaginatedFineTuningJobsResponse {
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: Vec<FineTuningJob>,
             #[serde(rename = "has_more")]
-            #[allow(dead_code)]
             has_more: bool,
             #[serde(rename = "object")]
             #[allow(dead_code)]
@@ -19044,19 +18543,14 @@ impl<'de> serde::Deserialize<'de> for LocalShellExecAction {
             #[allow(dead_code)]
             r#type: LocalShellExecActionType,
             #[serde(rename = "command")]
-            #[allow(dead_code)]
             command: Vec<String>,
             #[serde(rename = "timeout_ms")]
-            #[allow(dead_code)]
             timeout_ms: Option<i64>,
             #[serde(rename = "working_directory")]
-            #[allow(dead_code)]
             working_directory: Option<String>,
             #[serde(rename = "env")]
-            #[allow(dead_code)]
             env: indexmap::IndexMap<String, String>,
             #[serde(rename = "user")]
-            #[allow(dead_code)]
             user: Option<String>,
         }
         let LocalShellExecAction {
@@ -19199,16 +18693,12 @@ impl<'de> serde::Deserialize<'de> for LocalShellToolCall {
             #[allow(dead_code)]
             r#type: LocalShellToolCallType,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "call_id")]
-            #[allow(dead_code)]
             call_id: String,
             #[serde(rename = "action")]
-            #[allow(dead_code)]
             action: LocalShellExecAction,
             #[serde(rename = "status")]
-            #[allow(dead_code)]
             status: LocalShellToolCallStatus,
         }
         let LocalShellToolCall {
@@ -19302,16 +18792,12 @@ impl<'de> serde::Deserialize<'de> for LocalShellToolCallOutput {
             #[allow(dead_code)]
             r#type: LocalShellToolCallOutputType,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "output")]
-            #[allow(dead_code)]
             output: String,
             #[serde(rename = "status")]
-            #[allow(dead_code)]
             status: Option<LocalShellToolCallOutputStatus>,
             #[serde(rename = "call_id")]
-            #[allow(dead_code)]
             call_id: serde_json::Value,
         }
         let LocalShellToolCallOutput {
@@ -19408,16 +18894,12 @@ impl<'de> serde::Deserialize<'de> for McpApprovalRequest {
             #[allow(dead_code)]
             r#type: McpApprovalRequestType,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "server_label")]
-            #[allow(dead_code)]
             server_label: String,
             #[serde(rename = "name")]
-            #[allow(dead_code)]
             name: String,
             #[serde(rename = "arguments")]
-            #[allow(dead_code)]
             arguments: String,
         }
         let McpApprovalRequest {
@@ -19501,19 +18983,14 @@ impl<'de> serde::Deserialize<'de> for McpApprovalResponse {
             #[allow(dead_code)]
             r#type: McpApprovalResponseType,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: Option<String>,
             #[serde(rename = "approval_request_id")]
-            #[allow(dead_code)]
             approval_request_id: String,
             #[serde(rename = "approve")]
-            #[allow(dead_code)]
             approve: bool,
             #[serde(rename = "reason")]
-            #[allow(dead_code)]
             reason: Option<String>,
             #[serde(rename = "request_id")]
-            #[allow(dead_code)]
             request_id: serde_json::Value,
         }
         let McpApprovalResponse {
@@ -19604,19 +19081,14 @@ impl<'de> serde::Deserialize<'de> for McpApprovalResponseResource {
             #[allow(dead_code)]
             r#type: McpApprovalResponseResourceType,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "approval_request_id")]
-            #[allow(dead_code)]
             approval_request_id: String,
             #[serde(rename = "approve")]
-            #[allow(dead_code)]
             approve: bool,
             #[serde(rename = "reason")]
-            #[allow(dead_code)]
             reason: Option<String>,
             #[serde(rename = "request_id")]
-            #[allow(dead_code)]
             request_id: serde_json::Value,
         }
         let McpApprovalResponseResource {
@@ -19705,16 +19177,12 @@ impl<'de> serde::Deserialize<'de> for McpListTools {
             #[allow(dead_code)]
             r#type: McpListToolsType,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "server_label")]
-            #[allow(dead_code)]
             server_label: String,
             #[serde(rename = "tools")]
-            #[allow(dead_code)]
             tools: Vec<McpListToolsTool>,
             #[serde(rename = "error")]
-            #[allow(dead_code)]
             error: Option<String>,
         }
         let McpListTools {
@@ -19882,9 +19350,9 @@ impl<'de> serde::Deserialize<'de> for McpToolRequireApproval {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum McpToolRequireApproval {
-            Always(#[allow(dead_code)] McpToolRequireApprovalAlways),
-            Never(#[allow(dead_code)] McpToolRequireApprovalNever),
-            _0(#[allow(dead_code)] McpToolRequireApproval0),
+            Always(McpToolRequireApprovalAlways),
+            Never(McpToolRequireApprovalNever),
+            _0(McpToolRequireApproval0),
         }
         Ok(match McpToolRequireApproval::deserialize(deserializer)? {
             McpToolRequireApproval::_0(v) => Self::_0(v),
@@ -19903,17 +19371,16 @@ impl serde::Serialize for McpToolRequireApproval {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum McpToolRequireApproval<'a> {
-            _0(#[allow(dead_code)] &'a McpToolRequireApproval0),
-            Always(#[allow(dead_code)] &'a McpToolRequireApprovalAlways),
-            Never(#[allow(dead_code)] &'a McpToolRequireApprovalNever),
+            _0(&'a McpToolRequireApproval0),
+            Always(McpToolRequireApprovalAlways),
+            Never(McpToolRequireApprovalNever),
         }
         match self {
-            Self::_0(v) => McpToolRequireApproval::_0(v).serialize(serializer),
-            Self::Always => {
-                McpToolRequireApproval::Always(&Default::default()).serialize(serializer)
-            }
-            Self::Never => McpToolRequireApproval::Never(&Default::default()).serialize(serializer),
+            Self::_0(v) => McpToolRequireApproval::_0(v),
+            Self::Always => McpToolRequireApproval::Always(Default::default()),
+            Self::Never => McpToolRequireApproval::Never(Default::default()),
         }
+        .serialize(serializer)
     }
 }
 #[doc = "Give the model access to additional tools via remote Model Context Protocol \n(MCP) servers. [Learn more about MCP](https://platform.openai.com/docs/guides/tools-remote-mcp).\n"]
@@ -19945,19 +19412,14 @@ impl<'de> serde::Deserialize<'de> for McpTool {
             #[allow(dead_code)]
             r#type: McpToolType,
             #[serde(rename = "server_label")]
-            #[allow(dead_code)]
             server_label: String,
             #[serde(rename = "server_url")]
-            #[allow(dead_code)]
             server_url: String,
             #[serde(rename = "headers")]
-            #[allow(dead_code)]
             headers: Option<indexmap::IndexMap<String, String>>,
             #[serde(rename = "allowed_tools")]
-            #[allow(dead_code)]
             allowed_tools: Option<McpToolAllowedTools>,
             #[serde(rename = "require_approval")]
-            #[allow(dead_code)]
             require_approval: Option<McpToolRequireApproval>,
         }
         let McpTool {
@@ -20053,22 +19515,16 @@ impl<'de> serde::Deserialize<'de> for McpToolCall {
             #[allow(dead_code)]
             r#type: McpToolCallType,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "server_label")]
-            #[allow(dead_code)]
             server_label: String,
             #[serde(rename = "name")]
-            #[allow(dead_code)]
             name: String,
             #[serde(rename = "arguments")]
-            #[allow(dead_code)]
             arguments: String,
             #[serde(rename = "output")]
-            #[allow(dead_code)]
             output: Option<String>,
             #[serde(rename = "error")]
-            #[allow(dead_code)]
             error: Option<String>,
         }
         let McpToolCall {
@@ -20183,7 +19639,6 @@ impl<'de> serde::Deserialize<'de> for MessageContentImageFileObject {
             #[allow(dead_code)]
             r#type: MessageContentImageFileObjectType,
             #[serde(rename = "image_file")]
-            #[allow(dead_code)]
             image_file: MessageContentImageFileObjectImageFile,
         }
         let MessageContentImageFileObject { image_file, .. } =
@@ -20260,7 +19715,6 @@ impl<'de> serde::Deserialize<'de> for MessageContentImageUrlObject {
             #[allow(dead_code)]
             r#type: MessageContentImageUrlObjectType,
             #[serde(rename = "image_url")]
-            #[allow(dead_code)]
             image_url: MessageContentImageUrlObjectImageUrl,
         }
         let MessageContentImageUrlObject { image_url, .. } =
@@ -20310,7 +19764,6 @@ impl<'de> serde::Deserialize<'de> for MessageContentRefusalObject {
             #[allow(dead_code)]
             r#type: MessageContentRefusalObjectType,
             #[serde(rename = "refusal")]
-            #[allow(dead_code)]
             refusal: String,
         }
         let MessageContentRefusalObject { refusal, .. } =
@@ -20375,16 +19828,12 @@ impl<'de> serde::Deserialize<'de> for MessageContentTextAnnotationsFileCitationO
             #[allow(dead_code)]
             r#type: MessageContentTextAnnotationsFileCitationObjectType,
             #[serde(rename = "text")]
-            #[allow(dead_code)]
             text: String,
             #[serde(rename = "file_citation")]
-            #[allow(dead_code)]
             file_citation: MessageContentTextAnnotationsFileCitationObjectFileCitation,
             #[serde(rename = "start_index")]
-            #[allow(dead_code)]
             start_index: i64,
             #[serde(rename = "end_index")]
-            #[allow(dead_code)]
             end_index: i64,
         }
         let MessageContentTextAnnotationsFileCitationObject {
@@ -20470,16 +19919,12 @@ impl<'de> serde::Deserialize<'de> for MessageContentTextAnnotationsFilePathObjec
             #[allow(dead_code)]
             r#type: MessageContentTextAnnotationsFilePathObjectType,
             #[serde(rename = "text")]
-            #[allow(dead_code)]
             text: String,
             #[serde(rename = "file_path")]
-            #[allow(dead_code)]
             file_path: MessageContentTextAnnotationsFilePathObjectFilePath,
             #[serde(rename = "start_index")]
-            #[allow(dead_code)]
             start_index: i64,
             #[serde(rename = "end_index")]
-            #[allow(dead_code)]
             end_index: i64,
         }
         let MessageContentTextAnnotationsFilePathObject {
@@ -20572,7 +20017,6 @@ impl<'de> serde::Deserialize<'de> for MessageContentTextObject {
             #[allow(dead_code)]
             r#type: MessageContentTextObjectType,
             #[serde(rename = "text")]
-            #[allow(dead_code)]
             text: MessageContentTextObjectText,
         }
         let MessageContentTextObject { text, .. } =
@@ -20651,13 +20095,11 @@ impl<'de> serde::Deserialize<'de> for MessageDeltaContentImageFileObject {
         #[derive(serde :: Deserialize)]
         struct MessageDeltaContentImageFileObject {
             #[serde(rename = "index")]
-            #[allow(dead_code)]
             index: i64,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: MessageDeltaContentImageFileObjectType,
             #[serde(rename = "image_file")]
-            #[allow(dead_code)]
             image_file: Option<MessageDeltaContentImageFileObjectImageFile>,
         }
         let MessageDeltaContentImageFileObject {
@@ -20741,13 +20183,11 @@ impl<'de> serde::Deserialize<'de> for MessageDeltaContentImageUrlObject {
         #[derive(serde :: Deserialize)]
         struct MessageDeltaContentImageUrlObject {
             #[serde(rename = "index")]
-            #[allow(dead_code)]
             index: i64,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: MessageDeltaContentImageUrlObjectType,
             #[serde(rename = "image_url")]
-            #[allow(dead_code)]
             image_url: Option<MessageDeltaContentImageUrlObjectImageUrl>,
         }
         let MessageDeltaContentImageUrlObject {
@@ -20802,13 +20242,11 @@ impl<'de> serde::Deserialize<'de> for MessageDeltaContentRefusalObject {
         #[derive(serde :: Deserialize)]
         struct MessageDeltaContentRefusalObject {
             #[serde(rename = "index")]
-            #[allow(dead_code)]
             index: i64,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: MessageDeltaContentRefusalObjectType,
             #[serde(rename = "refusal")]
-            #[allow(dead_code)]
             refusal: Option<String>,
         }
         let MessageDeltaContentRefusalObject { index, refusal, .. } =
@@ -20887,22 +20325,17 @@ impl<'de> serde::Deserialize<'de> for MessageDeltaContentTextAnnotationsFileCita
         #[derive(serde :: Deserialize)]
         struct MessageDeltaContentTextAnnotationsFileCitationObject {
             #[serde(rename = "index")]
-            #[allow(dead_code)]
             index: i64,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: MessageDeltaContentTextAnnotationsFileCitationObjectType,
             #[serde(rename = "text")]
-            #[allow(dead_code)]
             text: Option<String>,
             #[serde(rename = "file_citation")]
-            #[allow(dead_code)]
             file_citation: Option<MessageDeltaContentTextAnnotationsFileCitationObjectFileCitation>,
             #[serde(rename = "start_index")]
-            #[allow(dead_code)]
             start_index: Option<i64>,
             #[serde(rename = "end_index")]
-            #[allow(dead_code)]
             end_index: Option<i64>,
         }
         let MessageDeltaContentTextAnnotationsFileCitationObject {
@@ -21007,22 +20440,17 @@ impl<'de> serde::Deserialize<'de> for MessageDeltaContentTextAnnotationsFilePath
         #[derive(serde :: Deserialize)]
         struct MessageDeltaContentTextAnnotationsFilePathObject {
             #[serde(rename = "index")]
-            #[allow(dead_code)]
             index: i64,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: MessageDeltaContentTextAnnotationsFilePathObjectType,
             #[serde(rename = "text")]
-            #[allow(dead_code)]
             text: Option<String>,
             #[serde(rename = "file_path")]
-            #[allow(dead_code)]
             file_path: Option<MessageDeltaContentTextAnnotationsFilePathObjectFilePath>,
             #[serde(rename = "start_index")]
-            #[allow(dead_code)]
             start_index: Option<i64>,
             #[serde(rename = "end_index")]
-            #[allow(dead_code)]
             end_index: Option<i64>,
         }
         let MessageDeltaContentTextAnnotationsFilePathObject {
@@ -21129,13 +20557,11 @@ impl<'de> serde::Deserialize<'de> for MessageDeltaContentTextObject {
         #[derive(serde :: Deserialize)]
         struct MessageDeltaContentTextObject {
             #[serde(rename = "index")]
-            #[allow(dead_code)]
             index: i64,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: MessageDeltaContentTextObjectType,
             #[serde(rename = "text")]
-            #[allow(dead_code)]
             text: Option<MessageDeltaContentTextObjectText>,
         }
         let MessageDeltaContentTextObject { index, text, .. } =
@@ -21227,13 +20653,11 @@ impl<'de> serde::Deserialize<'de> for MessageDeltaObject {
         #[derive(serde :: Deserialize)]
         struct MessageDeltaObject {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "object")]
             #[allow(dead_code)]
             object: MessageDeltaObjectObject,
             #[serde(rename = "delta")]
-            #[allow(dead_code)]
             delta: MessageDeltaObjectDelta,
         }
         let MessageDeltaObject { id, delta, .. } = MessageDeltaObject::deserialize(deserializer)?;
@@ -21399,46 +20823,33 @@ impl<'de> serde::Deserialize<'de> for MessageObject {
         #[derive(serde :: Deserialize)]
         struct MessageObject {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "object")]
             #[allow(dead_code)]
             object: MessageObjectObject,
             #[serde(rename = "created_at")]
-            #[allow(dead_code)]
             created_at: i64,
             #[serde(rename = "thread_id")]
-            #[allow(dead_code)]
             thread_id: String,
             #[serde(rename = "status")]
-            #[allow(dead_code)]
             status: MessageObjectStatus,
             #[serde(rename = "incomplete_details")]
-            #[allow(dead_code)]
             incomplete_details: Option<MessageObjectIncompleteDetails>,
             #[serde(rename = "completed_at")]
-            #[allow(dead_code)]
             completed_at: Option<i64>,
             #[serde(rename = "incomplete_at")]
-            #[allow(dead_code)]
             incomplete_at: Option<i64>,
             #[serde(rename = "role")]
-            #[allow(dead_code)]
             role: MessageObjectRole,
             #[serde(rename = "content")]
-            #[allow(dead_code)]
             content: Vec<MessageObjectContent>,
             #[serde(rename = "assistant_id")]
-            #[allow(dead_code)]
             assistant_id: Option<String>,
             #[serde(rename = "run_id")]
-            #[allow(dead_code)]
             run_id: Option<String>,
             #[serde(rename = "attachments")]
-            #[allow(dead_code)]
             attachments: Option<Vec<MessageObjectAttachments>>,
             #[serde(rename = "metadata")]
-            #[allow(dead_code)]
             metadata: Option<Metadata>,
         }
         let MessageObject {
@@ -21574,7 +20985,6 @@ impl<'de> serde::Deserialize<'de> for MessageRequestContentTextObject {
             #[allow(dead_code)]
             r#type: MessageRequestContentTextObjectType,
             #[serde(rename = "text")]
-            #[allow(dead_code)]
             text: String,
         }
         let MessageRequestContentTextObject { text, .. } =
@@ -21627,7 +21037,6 @@ impl<'de> serde::Deserialize<'de> for MessageStreamEventThreadMessageCreated {
             #[allow(dead_code)]
             event: MessageStreamEventThreadMessageCreatedEvent,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: MessageObject,
         }
         let MessageStreamEventThreadMessageCreated { data, .. } =
@@ -21680,7 +21089,6 @@ impl<'de> serde::Deserialize<'de> for MessageStreamEventThreadMessageInProgress 
             #[allow(dead_code)]
             event: MessageStreamEventThreadMessageInProgressEvent,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: MessageObject,
         }
         let MessageStreamEventThreadMessageInProgress { data, .. } =
@@ -21733,7 +21141,6 @@ impl<'de> serde::Deserialize<'de> for MessageStreamEventThreadMessageDelta {
             #[allow(dead_code)]
             event: MessageStreamEventThreadMessageDeltaEvent,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: MessageDeltaObject,
         }
         let MessageStreamEventThreadMessageDelta { data, .. } =
@@ -21786,7 +21193,6 @@ impl<'de> serde::Deserialize<'de> for MessageStreamEventThreadMessageCompleted {
             #[allow(dead_code)]
             event: MessageStreamEventThreadMessageCompletedEvent,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: MessageObject,
         }
         let MessageStreamEventThreadMessageCompleted { data, .. } =
@@ -21839,7 +21245,6 @@ impl<'de> serde::Deserialize<'de> for MessageStreamEventThreadMessageIncomplete 
             #[allow(dead_code)]
             event: MessageStreamEventThreadMessageIncompleteEvent,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: MessageObject,
         }
         let MessageStreamEventThreadMessageIncomplete { data, .. } =
@@ -21910,16 +21315,13 @@ impl<'de> serde::Deserialize<'de> for Model {
         #[derive(serde :: Deserialize)]
         struct Model {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "created")]
-            #[allow(dead_code)]
             created: i64,
             #[serde(rename = "object")]
             #[allow(dead_code)]
             object: ModelObject,
             #[serde(rename = "owned_by")]
-            #[allow(dead_code)]
             owned_by: String,
         }
         let Model {
@@ -22059,21 +21461,17 @@ impl<'de> serde::Deserialize<'de> for ModelIdsResponses {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum ModelIdsResponses {
-            O1Pro(#[allow(dead_code)] ModelIdsResponsesO1Pro),
-            O1Pro2025_03_19(#[allow(dead_code)] ModelIdsResponsesO1Pro2025_03_19),
-            O3Pro(#[allow(dead_code)] ModelIdsResponsesO3Pro),
-            O3Pro2025_06_10(#[allow(dead_code)] ModelIdsResponsesO3Pro2025_06_10),
-            O3DeepResearch(#[allow(dead_code)] ModelIdsResponsesO3DeepResearch),
-            O3DeepResearch2025_06_26(#[allow(dead_code)] ModelIdsResponsesO3DeepResearch2025_06_26),
-            O4MiniDeepResearch(#[allow(dead_code)] ModelIdsResponsesO4MiniDeepResearch),
-            O4MiniDeepResearch2025_06_26(
-                #[allow(dead_code)] ModelIdsResponsesO4MiniDeepResearch2025_06_26,
-            ),
-            ComputerUsePreview(#[allow(dead_code)] ModelIdsResponsesComputerUsePreview),
-            ComputerUsePreview2025_03_11(
-                #[allow(dead_code)] ModelIdsResponsesComputerUsePreview2025_03_11,
-            ),
-            ModelIdsShared(#[allow(dead_code)] ModelIdsShared),
+            O1Pro(ModelIdsResponsesO1Pro),
+            O1Pro2025_03_19(ModelIdsResponsesO1Pro2025_03_19),
+            O3Pro(ModelIdsResponsesO3Pro),
+            O3Pro2025_06_10(ModelIdsResponsesO3Pro2025_06_10),
+            O3DeepResearch(ModelIdsResponsesO3DeepResearch),
+            O3DeepResearch2025_06_26(ModelIdsResponsesO3DeepResearch2025_06_26),
+            O4MiniDeepResearch(ModelIdsResponsesO4MiniDeepResearch),
+            O4MiniDeepResearch2025_06_26(ModelIdsResponsesO4MiniDeepResearch2025_06_26),
+            ComputerUsePreview(ModelIdsResponsesComputerUsePreview),
+            ComputerUsePreview2025_03_11(ModelIdsResponsesComputerUsePreview2025_03_11),
+            ModelIdsShared(ModelIdsShared),
         }
         Ok(match ModelIdsResponses::deserialize(deserializer)? {
             ModelIdsResponses::ModelIdsShared(v) => Self::ModelIdsShared(v),
@@ -22104,56 +21502,38 @@ impl serde::Serialize for ModelIdsResponses {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum ModelIdsResponses<'a> {
-            ModelIdsShared(#[allow(dead_code)] &'a ModelIdsShared),
-            O1Pro(#[allow(dead_code)] &'a ModelIdsResponsesO1Pro),
-            O1Pro2025_03_19(#[allow(dead_code)] &'a ModelIdsResponsesO1Pro2025_03_19),
-            O3Pro(#[allow(dead_code)] &'a ModelIdsResponsesO3Pro),
-            O3Pro2025_06_10(#[allow(dead_code)] &'a ModelIdsResponsesO3Pro2025_06_10),
-            O3DeepResearch(#[allow(dead_code)] &'a ModelIdsResponsesO3DeepResearch),
-            O3DeepResearch2025_06_26(
-                #[allow(dead_code)] &'a ModelIdsResponsesO3DeepResearch2025_06_26,
-            ),
-            O4MiniDeepResearch(#[allow(dead_code)] &'a ModelIdsResponsesO4MiniDeepResearch),
-            O4MiniDeepResearch2025_06_26(
-                #[allow(dead_code)] &'a ModelIdsResponsesO4MiniDeepResearch2025_06_26,
-            ),
-            ComputerUsePreview(#[allow(dead_code)] &'a ModelIdsResponsesComputerUsePreview),
-            ComputerUsePreview2025_03_11(
-                #[allow(dead_code)] &'a ModelIdsResponsesComputerUsePreview2025_03_11,
-            ),
+            ModelIdsShared(&'a ModelIdsShared),
+            O1Pro(ModelIdsResponsesO1Pro),
+            O1Pro2025_03_19(ModelIdsResponsesO1Pro2025_03_19),
+            O3Pro(ModelIdsResponsesO3Pro),
+            O3Pro2025_06_10(ModelIdsResponsesO3Pro2025_06_10),
+            O3DeepResearch(ModelIdsResponsesO3DeepResearch),
+            O3DeepResearch2025_06_26(ModelIdsResponsesO3DeepResearch2025_06_26),
+            O4MiniDeepResearch(ModelIdsResponsesO4MiniDeepResearch),
+            O4MiniDeepResearch2025_06_26(ModelIdsResponsesO4MiniDeepResearch2025_06_26),
+            ComputerUsePreview(ModelIdsResponsesComputerUsePreview),
+            ComputerUsePreview2025_03_11(ModelIdsResponsesComputerUsePreview2025_03_11),
         }
         match self {
-            Self::ModelIdsShared(v) => ModelIdsResponses::ModelIdsShared(v).serialize(serializer),
-            Self::O1Pro => ModelIdsResponses::O1Pro(&Default::default()).serialize(serializer),
-            Self::O1Pro2025_03_19 => {
-                ModelIdsResponses::O1Pro2025_03_19(&Default::default()).serialize(serializer)
-            }
-            Self::O3Pro => ModelIdsResponses::O3Pro(&Default::default()).serialize(serializer),
-            Self::O3Pro2025_06_10 => {
-                ModelIdsResponses::O3Pro2025_06_10(&Default::default()).serialize(serializer)
-            }
-            Self::O3DeepResearch => {
-                ModelIdsResponses::O3DeepResearch(&Default::default()).serialize(serializer)
-            }
+            Self::ModelIdsShared(v) => ModelIdsResponses::ModelIdsShared(v),
+            Self::O1Pro => ModelIdsResponses::O1Pro(Default::default()),
+            Self::O1Pro2025_03_19 => ModelIdsResponses::O1Pro2025_03_19(Default::default()),
+            Self::O3Pro => ModelIdsResponses::O3Pro(Default::default()),
+            Self::O3Pro2025_06_10 => ModelIdsResponses::O3Pro2025_06_10(Default::default()),
+            Self::O3DeepResearch => ModelIdsResponses::O3DeepResearch(Default::default()),
             Self::O3DeepResearch2025_06_26 => {
-                ModelIdsResponses::O3DeepResearch2025_06_26(&Default::default())
-                    .serialize(serializer)
+                ModelIdsResponses::O3DeepResearch2025_06_26(Default::default())
             }
-            Self::O4MiniDeepResearch => {
-                ModelIdsResponses::O4MiniDeepResearch(&Default::default()).serialize(serializer)
-            }
+            Self::O4MiniDeepResearch => ModelIdsResponses::O4MiniDeepResearch(Default::default()),
             Self::O4MiniDeepResearch2025_06_26 => {
-                ModelIdsResponses::O4MiniDeepResearch2025_06_26(&Default::default())
-                    .serialize(serializer)
+                ModelIdsResponses::O4MiniDeepResearch2025_06_26(Default::default())
             }
-            Self::ComputerUsePreview => {
-                ModelIdsResponses::ComputerUsePreview(&Default::default()).serialize(serializer)
-            }
+            Self::ComputerUsePreview => ModelIdsResponses::ComputerUsePreview(Default::default()),
             Self::ComputerUsePreview2025_03_11 => {
-                ModelIdsResponses::ComputerUsePreview2025_03_11(&Default::default())
-                    .serialize(serializer)
+                ModelIdsResponses::ComputerUsePreview2025_03_11(Default::default())
             }
         }
+        .serialize(serializer)
     }
 }
 #[doc = "gpt-4.1"]
@@ -22531,74 +21911,62 @@ impl<'de> serde::Deserialize<'de> for ModelIdsShared {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum ModelIdsShared {
-            Gpt4_1(#[allow(dead_code)] ModelIdsSharedGpt4_1),
-            Gpt4_1Mini(#[allow(dead_code)] ModelIdsSharedGpt4_1Mini),
-            Gpt4_1Nano(#[allow(dead_code)] ModelIdsSharedGpt4_1Nano),
-            Gpt4_1_2025_04_14(#[allow(dead_code)] ModelIdsSharedGpt4_1_2025_04_14),
-            Gpt4_1Mini2025_04_14(#[allow(dead_code)] ModelIdsSharedGpt4_1Mini2025_04_14),
-            Gpt4_1Nano2025_04_14(#[allow(dead_code)] ModelIdsSharedGpt4_1Nano2025_04_14),
-            O4Mini(#[allow(dead_code)] ModelIdsSharedO4Mini),
-            O4Mini2025_04_16(#[allow(dead_code)] ModelIdsSharedO4Mini2025_04_16),
-            O3(#[allow(dead_code)] ModelIdsSharedO3),
-            O3_2025_04_16(#[allow(dead_code)] ModelIdsSharedO3_2025_04_16),
-            O3Mini(#[allow(dead_code)] ModelIdsSharedO3Mini),
-            O3Mini2025_01_31(#[allow(dead_code)] ModelIdsSharedO3Mini2025_01_31),
-            O1(#[allow(dead_code)] ModelIdsSharedO1),
-            O1_2024_12_17(#[allow(dead_code)] ModelIdsSharedO1_2024_12_17),
-            O1Preview(#[allow(dead_code)] ModelIdsSharedO1Preview),
-            O1Preview2024_09_12(#[allow(dead_code)] ModelIdsSharedO1Preview2024_09_12),
-            O1Mini(#[allow(dead_code)] ModelIdsSharedO1Mini),
-            O1Mini2024_09_12(#[allow(dead_code)] ModelIdsSharedO1Mini2024_09_12),
-            Gpt4o(#[allow(dead_code)] ModelIdsSharedGpt4o),
-            Gpt4o2024_11_20(#[allow(dead_code)] ModelIdsSharedGpt4o2024_11_20),
-            Gpt4o2024_08_06(#[allow(dead_code)] ModelIdsSharedGpt4o2024_08_06),
-            Gpt4o2024_05_13(#[allow(dead_code)] ModelIdsSharedGpt4o2024_05_13),
-            Gpt4oAudioPreview(#[allow(dead_code)] ModelIdsSharedGpt4oAudioPreview),
-            Gpt4oAudioPreview2024_10_01(
-                #[allow(dead_code)] ModelIdsSharedGpt4oAudioPreview2024_10_01,
-            ),
-            Gpt4oAudioPreview2024_12_17(
-                #[allow(dead_code)] ModelIdsSharedGpt4oAudioPreview2024_12_17,
-            ),
-            Gpt4oAudioPreview2025_06_03(
-                #[allow(dead_code)] ModelIdsSharedGpt4oAudioPreview2025_06_03,
-            ),
-            Gpt4oMiniAudioPreview(#[allow(dead_code)] ModelIdsSharedGpt4oMiniAudioPreview),
-            Gpt4oMiniAudioPreview2024_12_17(
-                #[allow(dead_code)] ModelIdsSharedGpt4oMiniAudioPreview2024_12_17,
-            ),
-            Gpt4oSearchPreview(#[allow(dead_code)] ModelIdsSharedGpt4oSearchPreview),
-            Gpt4oMiniSearchPreview(#[allow(dead_code)] ModelIdsSharedGpt4oMiniSearchPreview),
-            Gpt4oSearchPreview2025_03_11(
-                #[allow(dead_code)] ModelIdsSharedGpt4oSearchPreview2025_03_11,
-            ),
-            Gpt4oMiniSearchPreview2025_03_11(
-                #[allow(dead_code)] ModelIdsSharedGpt4oMiniSearchPreview2025_03_11,
-            ),
-            Chatgpt4oLatest(#[allow(dead_code)] ModelIdsSharedChatgpt4oLatest),
-            CodexMiniLatest(#[allow(dead_code)] ModelIdsSharedCodexMiniLatest),
-            Gpt4oMini(#[allow(dead_code)] ModelIdsSharedGpt4oMini),
-            Gpt4oMini2024_07_18(#[allow(dead_code)] ModelIdsSharedGpt4oMini2024_07_18),
-            Gpt4Turbo(#[allow(dead_code)] ModelIdsSharedGpt4Turbo),
-            Gpt4Turbo2024_04_09(#[allow(dead_code)] ModelIdsSharedGpt4Turbo2024_04_09),
-            Gpt4_0125Preview(#[allow(dead_code)] ModelIdsSharedGpt4_0125Preview),
-            Gpt4TurboPreview(#[allow(dead_code)] ModelIdsSharedGpt4TurboPreview),
-            Gpt4_1106Preview(#[allow(dead_code)] ModelIdsSharedGpt4_1106Preview),
-            Gpt4VisionPreview(#[allow(dead_code)] ModelIdsSharedGpt4VisionPreview),
-            Gpt4(#[allow(dead_code)] ModelIdsSharedGpt4),
-            Gpt4_0314(#[allow(dead_code)] ModelIdsSharedGpt4_0314),
-            Gpt4_0613(#[allow(dead_code)] ModelIdsSharedGpt4_0613),
-            Gpt4_32k(#[allow(dead_code)] ModelIdsSharedGpt4_32k),
-            Gpt4_32k0314(#[allow(dead_code)] ModelIdsSharedGpt4_32k0314),
-            Gpt4_32k0613(#[allow(dead_code)] ModelIdsSharedGpt4_32k0613),
-            Gpt3_5Turbo(#[allow(dead_code)] ModelIdsSharedGpt3_5Turbo),
-            Gpt3_5Turbo16k(#[allow(dead_code)] ModelIdsSharedGpt3_5Turbo16k),
-            Gpt3_5Turbo0301(#[allow(dead_code)] ModelIdsSharedGpt3_5Turbo0301),
-            Gpt3_5Turbo0613(#[allow(dead_code)] ModelIdsSharedGpt3_5Turbo0613),
-            Gpt3_5Turbo1106(#[allow(dead_code)] ModelIdsSharedGpt3_5Turbo1106),
-            Gpt3_5Turbo0125(#[allow(dead_code)] ModelIdsSharedGpt3_5Turbo0125),
-            Gpt3_5Turbo16k0613(#[allow(dead_code)] ModelIdsSharedGpt3_5Turbo16k0613),
-            Other(#[allow(dead_code)] String),
+            Gpt4_1(ModelIdsSharedGpt4_1),
+            Gpt4_1Mini(ModelIdsSharedGpt4_1Mini),
+            Gpt4_1Nano(ModelIdsSharedGpt4_1Nano),
+            Gpt4_1_2025_04_14(ModelIdsSharedGpt4_1_2025_04_14),
+            Gpt4_1Mini2025_04_14(ModelIdsSharedGpt4_1Mini2025_04_14),
+            Gpt4_1Nano2025_04_14(ModelIdsSharedGpt4_1Nano2025_04_14),
+            O4Mini(ModelIdsSharedO4Mini),
+            O4Mini2025_04_16(ModelIdsSharedO4Mini2025_04_16),
+            O3(ModelIdsSharedO3),
+            O3_2025_04_16(ModelIdsSharedO3_2025_04_16),
+            O3Mini(ModelIdsSharedO3Mini),
+            O3Mini2025_01_31(ModelIdsSharedO3Mini2025_01_31),
+            O1(ModelIdsSharedO1),
+            O1_2024_12_17(ModelIdsSharedO1_2024_12_17),
+            O1Preview(ModelIdsSharedO1Preview),
+            O1Preview2024_09_12(ModelIdsSharedO1Preview2024_09_12),
+            O1Mini(ModelIdsSharedO1Mini),
+            O1Mini2024_09_12(ModelIdsSharedO1Mini2024_09_12),
+            Gpt4o(ModelIdsSharedGpt4o),
+            Gpt4o2024_11_20(ModelIdsSharedGpt4o2024_11_20),
+            Gpt4o2024_08_06(ModelIdsSharedGpt4o2024_08_06),
+            Gpt4o2024_05_13(ModelIdsSharedGpt4o2024_05_13),
+            Gpt4oAudioPreview(ModelIdsSharedGpt4oAudioPreview),
+            Gpt4oAudioPreview2024_10_01(ModelIdsSharedGpt4oAudioPreview2024_10_01),
+            Gpt4oAudioPreview2024_12_17(ModelIdsSharedGpt4oAudioPreview2024_12_17),
+            Gpt4oAudioPreview2025_06_03(ModelIdsSharedGpt4oAudioPreview2025_06_03),
+            Gpt4oMiniAudioPreview(ModelIdsSharedGpt4oMiniAudioPreview),
+            Gpt4oMiniAudioPreview2024_12_17(ModelIdsSharedGpt4oMiniAudioPreview2024_12_17),
+            Gpt4oSearchPreview(ModelIdsSharedGpt4oSearchPreview),
+            Gpt4oMiniSearchPreview(ModelIdsSharedGpt4oMiniSearchPreview),
+            Gpt4oSearchPreview2025_03_11(ModelIdsSharedGpt4oSearchPreview2025_03_11),
+            Gpt4oMiniSearchPreview2025_03_11(ModelIdsSharedGpt4oMiniSearchPreview2025_03_11),
+            Chatgpt4oLatest(ModelIdsSharedChatgpt4oLatest),
+            CodexMiniLatest(ModelIdsSharedCodexMiniLatest),
+            Gpt4oMini(ModelIdsSharedGpt4oMini),
+            Gpt4oMini2024_07_18(ModelIdsSharedGpt4oMini2024_07_18),
+            Gpt4Turbo(ModelIdsSharedGpt4Turbo),
+            Gpt4Turbo2024_04_09(ModelIdsSharedGpt4Turbo2024_04_09),
+            Gpt4_0125Preview(ModelIdsSharedGpt4_0125Preview),
+            Gpt4TurboPreview(ModelIdsSharedGpt4TurboPreview),
+            Gpt4_1106Preview(ModelIdsSharedGpt4_1106Preview),
+            Gpt4VisionPreview(ModelIdsSharedGpt4VisionPreview),
+            Gpt4(ModelIdsSharedGpt4),
+            Gpt4_0314(ModelIdsSharedGpt4_0314),
+            Gpt4_0613(ModelIdsSharedGpt4_0613),
+            Gpt4_32k(ModelIdsSharedGpt4_32k),
+            Gpt4_32k0314(ModelIdsSharedGpt4_32k0314),
+            Gpt4_32k0613(ModelIdsSharedGpt4_32k0613),
+            Gpt3_5Turbo(ModelIdsSharedGpt3_5Turbo),
+            Gpt3_5Turbo16k(ModelIdsSharedGpt3_5Turbo16k),
+            Gpt3_5Turbo0301(ModelIdsSharedGpt3_5Turbo0301),
+            Gpt3_5Turbo0613(ModelIdsSharedGpt3_5Turbo0613),
+            Gpt3_5Turbo1106(ModelIdsSharedGpt3_5Turbo1106),
+            Gpt3_5Turbo0125(ModelIdsSharedGpt3_5Turbo0125),
+            Gpt3_5Turbo16k0613(ModelIdsSharedGpt3_5Turbo16k0613),
+            Other(String),
         }
         Ok(match ModelIdsShared::deserialize(deserializer)? {
             ModelIdsShared::Other(v) => Self::Other(v),
@@ -22674,221 +22042,138 @@ impl serde::Serialize for ModelIdsShared {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum ModelIdsShared<'a> {
-            Other(#[allow(dead_code)] &'a String),
-            Gpt4_1(#[allow(dead_code)] &'a ModelIdsSharedGpt4_1),
-            Gpt4_1Mini(#[allow(dead_code)] &'a ModelIdsSharedGpt4_1Mini),
-            Gpt4_1Nano(#[allow(dead_code)] &'a ModelIdsSharedGpt4_1Nano),
-            Gpt4_1_2025_04_14(#[allow(dead_code)] &'a ModelIdsSharedGpt4_1_2025_04_14),
-            Gpt4_1Mini2025_04_14(#[allow(dead_code)] &'a ModelIdsSharedGpt4_1Mini2025_04_14),
-            Gpt4_1Nano2025_04_14(#[allow(dead_code)] &'a ModelIdsSharedGpt4_1Nano2025_04_14),
-            O4Mini(#[allow(dead_code)] &'a ModelIdsSharedO4Mini),
-            O4Mini2025_04_16(#[allow(dead_code)] &'a ModelIdsSharedO4Mini2025_04_16),
-            O3(#[allow(dead_code)] &'a ModelIdsSharedO3),
-            O3_2025_04_16(#[allow(dead_code)] &'a ModelIdsSharedO3_2025_04_16),
-            O3Mini(#[allow(dead_code)] &'a ModelIdsSharedO3Mini),
-            O3Mini2025_01_31(#[allow(dead_code)] &'a ModelIdsSharedO3Mini2025_01_31),
-            O1(#[allow(dead_code)] &'a ModelIdsSharedO1),
-            O1_2024_12_17(#[allow(dead_code)] &'a ModelIdsSharedO1_2024_12_17),
-            O1Preview(#[allow(dead_code)] &'a ModelIdsSharedO1Preview),
-            O1Preview2024_09_12(#[allow(dead_code)] &'a ModelIdsSharedO1Preview2024_09_12),
-            O1Mini(#[allow(dead_code)] &'a ModelIdsSharedO1Mini),
-            O1Mini2024_09_12(#[allow(dead_code)] &'a ModelIdsSharedO1Mini2024_09_12),
-            Gpt4o(#[allow(dead_code)] &'a ModelIdsSharedGpt4o),
-            Gpt4o2024_11_20(#[allow(dead_code)] &'a ModelIdsSharedGpt4o2024_11_20),
-            Gpt4o2024_08_06(#[allow(dead_code)] &'a ModelIdsSharedGpt4o2024_08_06),
-            Gpt4o2024_05_13(#[allow(dead_code)] &'a ModelIdsSharedGpt4o2024_05_13),
-            Gpt4oAudioPreview(#[allow(dead_code)] &'a ModelIdsSharedGpt4oAudioPreview),
-            Gpt4oAudioPreview2024_10_01(
-                #[allow(dead_code)] &'a ModelIdsSharedGpt4oAudioPreview2024_10_01,
-            ),
-            Gpt4oAudioPreview2024_12_17(
-                #[allow(dead_code)] &'a ModelIdsSharedGpt4oAudioPreview2024_12_17,
-            ),
-            Gpt4oAudioPreview2025_06_03(
-                #[allow(dead_code)] &'a ModelIdsSharedGpt4oAudioPreview2025_06_03,
-            ),
-            Gpt4oMiniAudioPreview(#[allow(dead_code)] &'a ModelIdsSharedGpt4oMiniAudioPreview),
-            Gpt4oMiniAudioPreview2024_12_17(
-                #[allow(dead_code)] &'a ModelIdsSharedGpt4oMiniAudioPreview2024_12_17,
-            ),
-            Gpt4oSearchPreview(#[allow(dead_code)] &'a ModelIdsSharedGpt4oSearchPreview),
-            Gpt4oMiniSearchPreview(#[allow(dead_code)] &'a ModelIdsSharedGpt4oMiniSearchPreview),
-            Gpt4oSearchPreview2025_03_11(
-                #[allow(dead_code)] &'a ModelIdsSharedGpt4oSearchPreview2025_03_11,
-            ),
-            Gpt4oMiniSearchPreview2025_03_11(
-                #[allow(dead_code)] &'a ModelIdsSharedGpt4oMiniSearchPreview2025_03_11,
-            ),
-            Chatgpt4oLatest(#[allow(dead_code)] &'a ModelIdsSharedChatgpt4oLatest),
-            CodexMiniLatest(#[allow(dead_code)] &'a ModelIdsSharedCodexMiniLatest),
-            Gpt4oMini(#[allow(dead_code)] &'a ModelIdsSharedGpt4oMini),
-            Gpt4oMini2024_07_18(#[allow(dead_code)] &'a ModelIdsSharedGpt4oMini2024_07_18),
-            Gpt4Turbo(#[allow(dead_code)] &'a ModelIdsSharedGpt4Turbo),
-            Gpt4Turbo2024_04_09(#[allow(dead_code)] &'a ModelIdsSharedGpt4Turbo2024_04_09),
-            Gpt4_0125Preview(#[allow(dead_code)] &'a ModelIdsSharedGpt4_0125Preview),
-            Gpt4TurboPreview(#[allow(dead_code)] &'a ModelIdsSharedGpt4TurboPreview),
-            Gpt4_1106Preview(#[allow(dead_code)] &'a ModelIdsSharedGpt4_1106Preview),
-            Gpt4VisionPreview(#[allow(dead_code)] &'a ModelIdsSharedGpt4VisionPreview),
-            Gpt4(#[allow(dead_code)] &'a ModelIdsSharedGpt4),
-            Gpt4_0314(#[allow(dead_code)] &'a ModelIdsSharedGpt4_0314),
-            Gpt4_0613(#[allow(dead_code)] &'a ModelIdsSharedGpt4_0613),
-            Gpt4_32k(#[allow(dead_code)] &'a ModelIdsSharedGpt4_32k),
-            Gpt4_32k0314(#[allow(dead_code)] &'a ModelIdsSharedGpt4_32k0314),
-            Gpt4_32k0613(#[allow(dead_code)] &'a ModelIdsSharedGpt4_32k0613),
-            Gpt3_5Turbo(#[allow(dead_code)] &'a ModelIdsSharedGpt3_5Turbo),
-            Gpt3_5Turbo16k(#[allow(dead_code)] &'a ModelIdsSharedGpt3_5Turbo16k),
-            Gpt3_5Turbo0301(#[allow(dead_code)] &'a ModelIdsSharedGpt3_5Turbo0301),
-            Gpt3_5Turbo0613(#[allow(dead_code)] &'a ModelIdsSharedGpt3_5Turbo0613),
-            Gpt3_5Turbo1106(#[allow(dead_code)] &'a ModelIdsSharedGpt3_5Turbo1106),
-            Gpt3_5Turbo0125(#[allow(dead_code)] &'a ModelIdsSharedGpt3_5Turbo0125),
-            Gpt3_5Turbo16k0613(#[allow(dead_code)] &'a ModelIdsSharedGpt3_5Turbo16k0613),
+            Other(&'a String),
+            Gpt4_1(ModelIdsSharedGpt4_1),
+            Gpt4_1Mini(ModelIdsSharedGpt4_1Mini),
+            Gpt4_1Nano(ModelIdsSharedGpt4_1Nano),
+            Gpt4_1_2025_04_14(ModelIdsSharedGpt4_1_2025_04_14),
+            Gpt4_1Mini2025_04_14(ModelIdsSharedGpt4_1Mini2025_04_14),
+            Gpt4_1Nano2025_04_14(ModelIdsSharedGpt4_1Nano2025_04_14),
+            O4Mini(ModelIdsSharedO4Mini),
+            O4Mini2025_04_16(ModelIdsSharedO4Mini2025_04_16),
+            O3(ModelIdsSharedO3),
+            O3_2025_04_16(ModelIdsSharedO3_2025_04_16),
+            O3Mini(ModelIdsSharedO3Mini),
+            O3Mini2025_01_31(ModelIdsSharedO3Mini2025_01_31),
+            O1(ModelIdsSharedO1),
+            O1_2024_12_17(ModelIdsSharedO1_2024_12_17),
+            O1Preview(ModelIdsSharedO1Preview),
+            O1Preview2024_09_12(ModelIdsSharedO1Preview2024_09_12),
+            O1Mini(ModelIdsSharedO1Mini),
+            O1Mini2024_09_12(ModelIdsSharedO1Mini2024_09_12),
+            Gpt4o(ModelIdsSharedGpt4o),
+            Gpt4o2024_11_20(ModelIdsSharedGpt4o2024_11_20),
+            Gpt4o2024_08_06(ModelIdsSharedGpt4o2024_08_06),
+            Gpt4o2024_05_13(ModelIdsSharedGpt4o2024_05_13),
+            Gpt4oAudioPreview(ModelIdsSharedGpt4oAudioPreview),
+            Gpt4oAudioPreview2024_10_01(ModelIdsSharedGpt4oAudioPreview2024_10_01),
+            Gpt4oAudioPreview2024_12_17(ModelIdsSharedGpt4oAudioPreview2024_12_17),
+            Gpt4oAudioPreview2025_06_03(ModelIdsSharedGpt4oAudioPreview2025_06_03),
+            Gpt4oMiniAudioPreview(ModelIdsSharedGpt4oMiniAudioPreview),
+            Gpt4oMiniAudioPreview2024_12_17(ModelIdsSharedGpt4oMiniAudioPreview2024_12_17),
+            Gpt4oSearchPreview(ModelIdsSharedGpt4oSearchPreview),
+            Gpt4oMiniSearchPreview(ModelIdsSharedGpt4oMiniSearchPreview),
+            Gpt4oSearchPreview2025_03_11(ModelIdsSharedGpt4oSearchPreview2025_03_11),
+            Gpt4oMiniSearchPreview2025_03_11(ModelIdsSharedGpt4oMiniSearchPreview2025_03_11),
+            Chatgpt4oLatest(ModelIdsSharedChatgpt4oLatest),
+            CodexMiniLatest(ModelIdsSharedCodexMiniLatest),
+            Gpt4oMini(ModelIdsSharedGpt4oMini),
+            Gpt4oMini2024_07_18(ModelIdsSharedGpt4oMini2024_07_18),
+            Gpt4Turbo(ModelIdsSharedGpt4Turbo),
+            Gpt4Turbo2024_04_09(ModelIdsSharedGpt4Turbo2024_04_09),
+            Gpt4_0125Preview(ModelIdsSharedGpt4_0125Preview),
+            Gpt4TurboPreview(ModelIdsSharedGpt4TurboPreview),
+            Gpt4_1106Preview(ModelIdsSharedGpt4_1106Preview),
+            Gpt4VisionPreview(ModelIdsSharedGpt4VisionPreview),
+            Gpt4(ModelIdsSharedGpt4),
+            Gpt4_0314(ModelIdsSharedGpt4_0314),
+            Gpt4_0613(ModelIdsSharedGpt4_0613),
+            Gpt4_32k(ModelIdsSharedGpt4_32k),
+            Gpt4_32k0314(ModelIdsSharedGpt4_32k0314),
+            Gpt4_32k0613(ModelIdsSharedGpt4_32k0613),
+            Gpt3_5Turbo(ModelIdsSharedGpt3_5Turbo),
+            Gpt3_5Turbo16k(ModelIdsSharedGpt3_5Turbo16k),
+            Gpt3_5Turbo0301(ModelIdsSharedGpt3_5Turbo0301),
+            Gpt3_5Turbo0613(ModelIdsSharedGpt3_5Turbo0613),
+            Gpt3_5Turbo1106(ModelIdsSharedGpt3_5Turbo1106),
+            Gpt3_5Turbo0125(ModelIdsSharedGpt3_5Turbo0125),
+            Gpt3_5Turbo16k0613(ModelIdsSharedGpt3_5Turbo16k0613),
         }
         match self {
-            Self::Other(v) => ModelIdsShared::Other(v).serialize(serializer),
-            Self::Gpt4_1 => ModelIdsShared::Gpt4_1(&Default::default()).serialize(serializer),
-            Self::Gpt4_1Mini => {
-                ModelIdsShared::Gpt4_1Mini(&Default::default()).serialize(serializer)
-            }
-            Self::Gpt4_1Nano => {
-                ModelIdsShared::Gpt4_1Nano(&Default::default()).serialize(serializer)
-            }
-            Self::Gpt4_1_2025_04_14 => {
-                ModelIdsShared::Gpt4_1_2025_04_14(&Default::default()).serialize(serializer)
-            }
-            Self::Gpt4_1Mini2025_04_14 => {
-                ModelIdsShared::Gpt4_1Mini2025_04_14(&Default::default()).serialize(serializer)
-            }
-            Self::Gpt4_1Nano2025_04_14 => {
-                ModelIdsShared::Gpt4_1Nano2025_04_14(&Default::default()).serialize(serializer)
-            }
-            Self::O4Mini => ModelIdsShared::O4Mini(&Default::default()).serialize(serializer),
-            Self::O4Mini2025_04_16 => {
-                ModelIdsShared::O4Mini2025_04_16(&Default::default()).serialize(serializer)
-            }
-            Self::O3 => ModelIdsShared::O3(&Default::default()).serialize(serializer),
-            Self::O3_2025_04_16 => {
-                ModelIdsShared::O3_2025_04_16(&Default::default()).serialize(serializer)
-            }
-            Self::O3Mini => ModelIdsShared::O3Mini(&Default::default()).serialize(serializer),
-            Self::O3Mini2025_01_31 => {
-                ModelIdsShared::O3Mini2025_01_31(&Default::default()).serialize(serializer)
-            }
-            Self::O1 => ModelIdsShared::O1(&Default::default()).serialize(serializer),
-            Self::O1_2024_12_17 => {
-                ModelIdsShared::O1_2024_12_17(&Default::default()).serialize(serializer)
-            }
-            Self::O1Preview => ModelIdsShared::O1Preview(&Default::default()).serialize(serializer),
-            Self::O1Preview2024_09_12 => {
-                ModelIdsShared::O1Preview2024_09_12(&Default::default()).serialize(serializer)
-            }
-            Self::O1Mini => ModelIdsShared::O1Mini(&Default::default()).serialize(serializer),
-            Self::O1Mini2024_09_12 => {
-                ModelIdsShared::O1Mini2024_09_12(&Default::default()).serialize(serializer)
-            }
-            Self::Gpt4o => ModelIdsShared::Gpt4o(&Default::default()).serialize(serializer),
-            Self::Gpt4o2024_11_20 => {
-                ModelIdsShared::Gpt4o2024_11_20(&Default::default()).serialize(serializer)
-            }
-            Self::Gpt4o2024_08_06 => {
-                ModelIdsShared::Gpt4o2024_08_06(&Default::default()).serialize(serializer)
-            }
-            Self::Gpt4o2024_05_13 => {
-                ModelIdsShared::Gpt4o2024_05_13(&Default::default()).serialize(serializer)
-            }
-            Self::Gpt4oAudioPreview => {
-                ModelIdsShared::Gpt4oAudioPreview(&Default::default()).serialize(serializer)
-            }
+            Self::Other(v) => ModelIdsShared::Other(v),
+            Self::Gpt4_1 => ModelIdsShared::Gpt4_1(Default::default()),
+            Self::Gpt4_1Mini => ModelIdsShared::Gpt4_1Mini(Default::default()),
+            Self::Gpt4_1Nano => ModelIdsShared::Gpt4_1Nano(Default::default()),
+            Self::Gpt4_1_2025_04_14 => ModelIdsShared::Gpt4_1_2025_04_14(Default::default()),
+            Self::Gpt4_1Mini2025_04_14 => ModelIdsShared::Gpt4_1Mini2025_04_14(Default::default()),
+            Self::Gpt4_1Nano2025_04_14 => ModelIdsShared::Gpt4_1Nano2025_04_14(Default::default()),
+            Self::O4Mini => ModelIdsShared::O4Mini(Default::default()),
+            Self::O4Mini2025_04_16 => ModelIdsShared::O4Mini2025_04_16(Default::default()),
+            Self::O3 => ModelIdsShared::O3(Default::default()),
+            Self::O3_2025_04_16 => ModelIdsShared::O3_2025_04_16(Default::default()),
+            Self::O3Mini => ModelIdsShared::O3Mini(Default::default()),
+            Self::O3Mini2025_01_31 => ModelIdsShared::O3Mini2025_01_31(Default::default()),
+            Self::O1 => ModelIdsShared::O1(Default::default()),
+            Self::O1_2024_12_17 => ModelIdsShared::O1_2024_12_17(Default::default()),
+            Self::O1Preview => ModelIdsShared::O1Preview(Default::default()),
+            Self::O1Preview2024_09_12 => ModelIdsShared::O1Preview2024_09_12(Default::default()),
+            Self::O1Mini => ModelIdsShared::O1Mini(Default::default()),
+            Self::O1Mini2024_09_12 => ModelIdsShared::O1Mini2024_09_12(Default::default()),
+            Self::Gpt4o => ModelIdsShared::Gpt4o(Default::default()),
+            Self::Gpt4o2024_11_20 => ModelIdsShared::Gpt4o2024_11_20(Default::default()),
+            Self::Gpt4o2024_08_06 => ModelIdsShared::Gpt4o2024_08_06(Default::default()),
+            Self::Gpt4o2024_05_13 => ModelIdsShared::Gpt4o2024_05_13(Default::default()),
+            Self::Gpt4oAudioPreview => ModelIdsShared::Gpt4oAudioPreview(Default::default()),
             Self::Gpt4oAudioPreview2024_10_01 => {
-                ModelIdsShared::Gpt4oAudioPreview2024_10_01(&Default::default())
-                    .serialize(serializer)
+                ModelIdsShared::Gpt4oAudioPreview2024_10_01(Default::default())
             }
             Self::Gpt4oAudioPreview2024_12_17 => {
-                ModelIdsShared::Gpt4oAudioPreview2024_12_17(&Default::default())
-                    .serialize(serializer)
+                ModelIdsShared::Gpt4oAudioPreview2024_12_17(Default::default())
             }
             Self::Gpt4oAudioPreview2025_06_03 => {
-                ModelIdsShared::Gpt4oAudioPreview2025_06_03(&Default::default())
-                    .serialize(serializer)
+                ModelIdsShared::Gpt4oAudioPreview2025_06_03(Default::default())
             }
             Self::Gpt4oMiniAudioPreview => {
-                ModelIdsShared::Gpt4oMiniAudioPreview(&Default::default()).serialize(serializer)
+                ModelIdsShared::Gpt4oMiniAudioPreview(Default::default())
             }
             Self::Gpt4oMiniAudioPreview2024_12_17 => {
-                ModelIdsShared::Gpt4oMiniAudioPreview2024_12_17(&Default::default())
-                    .serialize(serializer)
+                ModelIdsShared::Gpt4oMiniAudioPreview2024_12_17(Default::default())
             }
-            Self::Gpt4oSearchPreview => {
-                ModelIdsShared::Gpt4oSearchPreview(&Default::default()).serialize(serializer)
-            }
+            Self::Gpt4oSearchPreview => ModelIdsShared::Gpt4oSearchPreview(Default::default()),
             Self::Gpt4oMiniSearchPreview => {
-                ModelIdsShared::Gpt4oMiniSearchPreview(&Default::default()).serialize(serializer)
+                ModelIdsShared::Gpt4oMiniSearchPreview(Default::default())
             }
             Self::Gpt4oSearchPreview2025_03_11 => {
-                ModelIdsShared::Gpt4oSearchPreview2025_03_11(&Default::default())
-                    .serialize(serializer)
+                ModelIdsShared::Gpt4oSearchPreview2025_03_11(Default::default())
             }
             Self::Gpt4oMiniSearchPreview2025_03_11 => {
-                ModelIdsShared::Gpt4oMiniSearchPreview2025_03_11(&Default::default())
-                    .serialize(serializer)
+                ModelIdsShared::Gpt4oMiniSearchPreview2025_03_11(Default::default())
             }
-            Self::Chatgpt4oLatest => {
-                ModelIdsShared::Chatgpt4oLatest(&Default::default()).serialize(serializer)
-            }
-            Self::CodexMiniLatest => {
-                ModelIdsShared::CodexMiniLatest(&Default::default()).serialize(serializer)
-            }
-            Self::Gpt4oMini => ModelIdsShared::Gpt4oMini(&Default::default()).serialize(serializer),
-            Self::Gpt4oMini2024_07_18 => {
-                ModelIdsShared::Gpt4oMini2024_07_18(&Default::default()).serialize(serializer)
-            }
-            Self::Gpt4Turbo => ModelIdsShared::Gpt4Turbo(&Default::default()).serialize(serializer),
-            Self::Gpt4Turbo2024_04_09 => {
-                ModelIdsShared::Gpt4Turbo2024_04_09(&Default::default()).serialize(serializer)
-            }
-            Self::Gpt4_0125Preview => {
-                ModelIdsShared::Gpt4_0125Preview(&Default::default()).serialize(serializer)
-            }
-            Self::Gpt4TurboPreview => {
-                ModelIdsShared::Gpt4TurboPreview(&Default::default()).serialize(serializer)
-            }
-            Self::Gpt4_1106Preview => {
-                ModelIdsShared::Gpt4_1106Preview(&Default::default()).serialize(serializer)
-            }
-            Self::Gpt4VisionPreview => {
-                ModelIdsShared::Gpt4VisionPreview(&Default::default()).serialize(serializer)
-            }
-            Self::Gpt4 => ModelIdsShared::Gpt4(&Default::default()).serialize(serializer),
-            Self::Gpt4_0314 => ModelIdsShared::Gpt4_0314(&Default::default()).serialize(serializer),
-            Self::Gpt4_0613 => ModelIdsShared::Gpt4_0613(&Default::default()).serialize(serializer),
-            Self::Gpt4_32k => ModelIdsShared::Gpt4_32k(&Default::default()).serialize(serializer),
-            Self::Gpt4_32k0314 => {
-                ModelIdsShared::Gpt4_32k0314(&Default::default()).serialize(serializer)
-            }
-            Self::Gpt4_32k0613 => {
-                ModelIdsShared::Gpt4_32k0613(&Default::default()).serialize(serializer)
-            }
-            Self::Gpt3_5Turbo => {
-                ModelIdsShared::Gpt3_5Turbo(&Default::default()).serialize(serializer)
-            }
-            Self::Gpt3_5Turbo16k => {
-                ModelIdsShared::Gpt3_5Turbo16k(&Default::default()).serialize(serializer)
-            }
-            Self::Gpt3_5Turbo0301 => {
-                ModelIdsShared::Gpt3_5Turbo0301(&Default::default()).serialize(serializer)
-            }
-            Self::Gpt3_5Turbo0613 => {
-                ModelIdsShared::Gpt3_5Turbo0613(&Default::default()).serialize(serializer)
-            }
-            Self::Gpt3_5Turbo1106 => {
-                ModelIdsShared::Gpt3_5Turbo1106(&Default::default()).serialize(serializer)
-            }
-            Self::Gpt3_5Turbo0125 => {
-                ModelIdsShared::Gpt3_5Turbo0125(&Default::default()).serialize(serializer)
-            }
-            Self::Gpt3_5Turbo16k0613 => {
-                ModelIdsShared::Gpt3_5Turbo16k0613(&Default::default()).serialize(serializer)
-            }
+            Self::Chatgpt4oLatest => ModelIdsShared::Chatgpt4oLatest(Default::default()),
+            Self::CodexMiniLatest => ModelIdsShared::CodexMiniLatest(Default::default()),
+            Self::Gpt4oMini => ModelIdsShared::Gpt4oMini(Default::default()),
+            Self::Gpt4oMini2024_07_18 => ModelIdsShared::Gpt4oMini2024_07_18(Default::default()),
+            Self::Gpt4Turbo => ModelIdsShared::Gpt4Turbo(Default::default()),
+            Self::Gpt4Turbo2024_04_09 => ModelIdsShared::Gpt4Turbo2024_04_09(Default::default()),
+            Self::Gpt4_0125Preview => ModelIdsShared::Gpt4_0125Preview(Default::default()),
+            Self::Gpt4TurboPreview => ModelIdsShared::Gpt4TurboPreview(Default::default()),
+            Self::Gpt4_1106Preview => ModelIdsShared::Gpt4_1106Preview(Default::default()),
+            Self::Gpt4VisionPreview => ModelIdsShared::Gpt4VisionPreview(Default::default()),
+            Self::Gpt4 => ModelIdsShared::Gpt4(Default::default()),
+            Self::Gpt4_0314 => ModelIdsShared::Gpt4_0314(Default::default()),
+            Self::Gpt4_0613 => ModelIdsShared::Gpt4_0613(Default::default()),
+            Self::Gpt4_32k => ModelIdsShared::Gpt4_32k(Default::default()),
+            Self::Gpt4_32k0314 => ModelIdsShared::Gpt4_32k0314(Default::default()),
+            Self::Gpt4_32k0613 => ModelIdsShared::Gpt4_32k0613(Default::default()),
+            Self::Gpt3_5Turbo => ModelIdsShared::Gpt3_5Turbo(Default::default()),
+            Self::Gpt3_5Turbo16k => ModelIdsShared::Gpt3_5Turbo16k(Default::default()),
+            Self::Gpt3_5Turbo0301 => ModelIdsShared::Gpt3_5Turbo0301(Default::default()),
+            Self::Gpt3_5Turbo0613 => ModelIdsShared::Gpt3_5Turbo0613(Default::default()),
+            Self::Gpt3_5Turbo1106 => ModelIdsShared::Gpt3_5Turbo1106(Default::default()),
+            Self::Gpt3_5Turbo0125 => ModelIdsShared::Gpt3_5Turbo0125(Default::default()),
+            Self::Gpt3_5Turbo16k0613 => ModelIdsShared::Gpt3_5Turbo16k0613(Default::default()),
         }
+        .serialize(serializer)
     }
 }
 #[derive(Clone, Debug, Default, PartialEq)]
@@ -22941,8 +22226,8 @@ impl<'de> serde::Deserialize<'de> for ModifyAssistantRequestModel {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum ModifyAssistantRequestModel {
-            AssistantSupportedModels(#[allow(dead_code)] AssistantSupportedModels),
-            Other(#[allow(dead_code)] String),
+            AssistantSupportedModels(AssistantSupportedModels),
+            Other(String),
         }
         Ok(
             match ModifyAssistantRequestModel::deserialize(deserializer)? {
@@ -22964,15 +22249,16 @@ impl serde::Serialize for ModifyAssistantRequestModel {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum ModifyAssistantRequestModel<'a> {
-            Other(#[allow(dead_code)] &'a String),
-            AssistantSupportedModels(#[allow(dead_code)] &'a AssistantSupportedModels),
+            Other(&'a String),
+            AssistantSupportedModels(&'a AssistantSupportedModels),
         }
         match self {
-            Self::Other(v) => ModifyAssistantRequestModel::Other(v).serialize(serializer),
+            Self::Other(v) => ModifyAssistantRequestModel::Other(v),
             Self::AssistantSupportedModels(v) => {
-                ModifyAssistantRequestModel::AssistantSupportedModels(v).serialize(serializer)
+                ModifyAssistantRequestModel::AssistantSupportedModels(v)
             }
         }
+        .serialize(serializer)
     }
 }
 #[derive(Clone, Debug, PartialEq)]
@@ -23174,10 +22460,8 @@ impl<'de> serde::Deserialize<'de> for Move {
             #[allow(dead_code)]
             r#type: MoveType,
             #[serde(rename = "x")]
-            #[allow(dead_code)]
             x: i64,
             #[serde(rename = "y")]
-            #[allow(dead_code)]
             y: i64,
         }
         let Move { x, y, .. } = Move::deserialize(deserializer)?;
@@ -23281,31 +22565,23 @@ impl<'de> serde::Deserialize<'de> for OpenAiFile {
         #[derive(serde :: Deserialize)]
         struct OpenAiFile {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "bytes")]
-            #[allow(dead_code)]
             bytes: i64,
             #[serde(rename = "created_at")]
-            #[allow(dead_code)]
             created_at: i64,
             #[serde(rename = "expires_at")]
-            #[allow(dead_code)]
             expires_at: Option<i64>,
             #[serde(rename = "filename")]
-            #[allow(dead_code)]
             filename: String,
             #[serde(rename = "object")]
             #[allow(dead_code)]
             object: OpenAiFileObject,
             #[serde(rename = "purpose")]
-            #[allow(dead_code)]
             purpose: OpenAiFilePurpose,
             #[serde(rename = "status")]
-            #[allow(dead_code)]
             status: OpenAiFileStatus,
             #[serde(rename = "status_details")]
-            #[allow(dead_code)]
             status_details: Option<String>,
         }
         let OpenAiFile {
@@ -23450,10 +22726,8 @@ impl<'de> serde::Deserialize<'de> for OutputAudio {
             #[allow(dead_code)]
             r#type: OutputAudioType,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: String,
             #[serde(rename = "transcript")]
-            #[allow(dead_code)]
             transcript: String,
         }
         let OutputAudio {
@@ -23554,7 +22828,6 @@ impl<'de> serde::Deserialize<'de> for OutputMessage {
         #[derive(serde :: Deserialize)]
         struct OutputMessage {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
@@ -23563,10 +22836,8 @@ impl<'de> serde::Deserialize<'de> for OutputMessage {
             #[allow(dead_code)]
             role: OutputMessageRole,
             #[serde(rename = "content")]
-            #[allow(dead_code)]
             content: Vec<OutputContent>,
             #[serde(rename = "status")]
-            #[allow(dead_code)]
             status: OutputMessageStatus,
         }
         let OutputMessage {
@@ -23652,7 +22923,6 @@ impl<'de> serde::Deserialize<'de> for PredictionContent {
             #[allow(dead_code)]
             r#type: PredictionContentType,
             #[serde(rename = "content")]
-            #[allow(dead_code)]
             content: PredictionContentContent,
         }
         let PredictionContent { content, .. } = PredictionContent::deserialize(deserializer)?;
@@ -23718,22 +22988,17 @@ impl<'de> serde::Deserialize<'de> for Project {
         #[derive(serde :: Deserialize)]
         struct Project {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "object")]
             #[allow(dead_code)]
             object: ProjectObject,
             #[serde(rename = "name")]
-            #[allow(dead_code)]
             name: String,
             #[serde(rename = "created_at")]
-            #[allow(dead_code)]
             created_at: i64,
             #[serde(rename = "archived_at")]
-            #[allow(dead_code)]
             archived_at: Option<i64>,
             #[serde(rename = "status")]
-            #[allow(dead_code)]
             status: ProjectStatus,
         }
         let Project {
@@ -23853,22 +23118,16 @@ impl<'de> serde::Deserialize<'de> for ProjectApiKey {
             #[allow(dead_code)]
             object: ProjectApiKeyObject,
             #[serde(rename = "redacted_value")]
-            #[allow(dead_code)]
             redacted_value: String,
             #[serde(rename = "name")]
-            #[allow(dead_code)]
             name: String,
             #[serde(rename = "created_at")]
-            #[allow(dead_code)]
             created_at: i64,
             #[serde(rename = "last_used_at")]
-            #[allow(dead_code)]
             last_used_at: i64,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "owner")]
-            #[allow(dead_code)]
             owner: ProjectApiKeyOwner,
         }
         let ProjectApiKey {
@@ -23957,10 +23216,8 @@ impl<'de> serde::Deserialize<'de> for ProjectApiKeyDeleteResponse {
             #[allow(dead_code)]
             object: ProjectApiKeyDeleteResponseObject,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "deleted")]
-            #[allow(dead_code)]
             deleted: bool,
         }
         let ProjectApiKeyDeleteResponse { id, deleted, .. } =
@@ -24015,16 +23272,12 @@ impl<'de> serde::Deserialize<'de> for ProjectApiKeyListResponse {
             #[allow(dead_code)]
             object: ProjectApiKeyListResponseObject,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: Vec<ProjectApiKey>,
             #[serde(rename = "first_id")]
-            #[allow(dead_code)]
             first_id: String,
             #[serde(rename = "last_id")]
-            #[allow(dead_code)]
             last_id: String,
             #[serde(rename = "has_more")]
-            #[allow(dead_code)]
             has_more: bool,
         }
         let ProjectApiKeyListResponse {
@@ -24108,16 +23361,12 @@ impl<'de> serde::Deserialize<'de> for ProjectListResponse {
             #[allow(dead_code)]
             object: ProjectListResponseObject,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: Vec<Project>,
             #[serde(rename = "first_id")]
-            #[allow(dead_code)]
             first_id: String,
             #[serde(rename = "last_id")]
-            #[allow(dead_code)]
             last_id: String,
             #[serde(rename = "has_more")]
-            #[allow(dead_code)]
             has_more: bool,
         }
         let ProjectListResponse {
@@ -24210,28 +23459,20 @@ impl<'de> serde::Deserialize<'de> for ProjectRateLimit {
             #[allow(dead_code)]
             object: ProjectRateLimitObject,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "model")]
-            #[allow(dead_code)]
             model: String,
             #[serde(rename = "max_requests_per_1_minute")]
-            #[allow(dead_code)]
             max_requests_per_1_minute: i64,
             #[serde(rename = "max_tokens_per_1_minute")]
-            #[allow(dead_code)]
             max_tokens_per_1_minute: i64,
             #[serde(rename = "max_images_per_1_minute")]
-            #[allow(dead_code)]
             max_images_per_1_minute: Option<i64>,
             #[serde(rename = "max_audio_megabytes_per_1_minute")]
-            #[allow(dead_code)]
             max_audio_megabytes_per_1_minute: Option<i64>,
             #[serde(rename = "max_requests_per_1_day")]
-            #[allow(dead_code)]
             max_requests_per_1_day: Option<i64>,
             #[serde(rename = "batch_1_day_max_input_tokens")]
-            #[allow(dead_code)]
             batch_1_day_max_input_tokens: Option<i64>,
         }
         let ProjectRateLimit {
@@ -24335,16 +23576,12 @@ impl<'de> serde::Deserialize<'de> for ProjectRateLimitListResponse {
             #[allow(dead_code)]
             object: ProjectRateLimitListResponseObject,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: Vec<ProjectRateLimit>,
             #[serde(rename = "first_id")]
-            #[allow(dead_code)]
             first_id: String,
             #[serde(rename = "last_id")]
-            #[allow(dead_code)]
             last_id: String,
             #[serde(rename = "has_more")]
-            #[allow(dead_code)]
             has_more: bool,
         }
         let ProjectRateLimitListResponse {
@@ -24473,16 +23710,12 @@ impl<'de> serde::Deserialize<'de> for ProjectServiceAccount {
             #[allow(dead_code)]
             object: ProjectServiceAccountObject,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "name")]
-            #[allow(dead_code)]
             name: String,
             #[serde(rename = "role")]
-            #[allow(dead_code)]
             role: ProjectServiceAccountRole,
             #[serde(rename = "created_at")]
-            #[allow(dead_code)]
             created_at: i64,
         }
         let ProjectServiceAccount {
@@ -24561,16 +23794,12 @@ impl<'de> serde::Deserialize<'de> for ProjectServiceAccountApiKey {
             #[allow(dead_code)]
             object: ProjectServiceAccountApiKeyObject,
             #[serde(rename = "value")]
-            #[allow(dead_code)]
             value: String,
             #[serde(rename = "name")]
-            #[allow(dead_code)]
             name: String,
             #[serde(rename = "created_at")]
-            #[allow(dead_code)]
             created_at: i64,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
         }
         let ProjectServiceAccountApiKey {
@@ -24661,19 +23890,15 @@ impl<'de> serde::Deserialize<'de> for ProjectServiceAccountCreateResponse {
             #[allow(dead_code)]
             object: ProjectServiceAccountCreateResponseObject,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "name")]
-            #[allow(dead_code)]
             name: String,
             #[serde(rename = "role")]
             #[allow(dead_code)]
             role: ProjectServiceAccountCreateResponseRole,
             #[serde(rename = "created_at")]
-            #[allow(dead_code)]
             created_at: i64,
             #[serde(rename = "api_key")]
-            #[allow(dead_code)]
             api_key: ProjectServiceAccountApiKey,
         }
         let ProjectServiceAccountCreateResponse {
@@ -24753,10 +23978,8 @@ impl<'de> serde::Deserialize<'de> for ProjectServiceAccountDeleteResponse {
             #[allow(dead_code)]
             object: ProjectServiceAccountDeleteResponseObject,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "deleted")]
-            #[allow(dead_code)]
             deleted: bool,
         }
         let ProjectServiceAccountDeleteResponse { id, deleted, .. } =
@@ -24811,16 +24034,12 @@ impl<'de> serde::Deserialize<'de> for ProjectServiceAccountListResponse {
             #[allow(dead_code)]
             object: ProjectServiceAccountListResponseObject,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: Vec<ProjectServiceAccount>,
             #[serde(rename = "first_id")]
-            #[allow(dead_code)]
             first_id: String,
             #[serde(rename = "last_id")]
-            #[allow(dead_code)]
             last_id: String,
             #[serde(rename = "has_more")]
-            #[allow(dead_code)]
             has_more: bool,
         }
         let ProjectServiceAccountListResponse {
@@ -24921,19 +24140,14 @@ impl<'de> serde::Deserialize<'de> for ProjectUser {
             #[allow(dead_code)]
             object: ProjectUserObject,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "name")]
-            #[allow(dead_code)]
             name: String,
             #[serde(rename = "email")]
-            #[allow(dead_code)]
             email: String,
             #[serde(rename = "role")]
-            #[allow(dead_code)]
             role: ProjectUserRole,
             #[serde(rename = "added_at")]
-            #[allow(dead_code)]
             added_at: i64,
         }
         let ProjectUser {
@@ -25037,10 +24251,8 @@ impl<'de> serde::Deserialize<'de> for ProjectUserDeleteResponse {
             #[allow(dead_code)]
             object: ProjectUserDeleteResponseObject,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "deleted")]
-            #[allow(dead_code)]
             deleted: bool,
         }
         let ProjectUserDeleteResponse { id, deleted, .. } =
@@ -25171,16 +24383,13 @@ impl<'de> serde::Deserialize<'de> for RealtimeClientEventConversationItemCreate 
         #[derive(serde :: Deserialize)]
         struct RealtimeClientEventConversationItemCreate {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: Option<String>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeClientEventConversationItemCreateType,
             #[serde(rename = "previous_item_id")]
-            #[allow(dead_code)]
             previous_item_id: Option<String>,
             #[serde(rename = "item")]
-            #[allow(dead_code)]
             item: RealtimeConversationItem,
         }
         let RealtimeClientEventConversationItemCreate {
@@ -25254,13 +24463,11 @@ impl<'de> serde::Deserialize<'de> for RealtimeClientEventConversationItemDelete 
         #[derive(serde :: Deserialize)]
         struct RealtimeClientEventConversationItemDelete {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: Option<String>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeClientEventConversationItemDeleteType,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
         }
         let RealtimeClientEventConversationItemDelete {
@@ -25319,13 +24526,11 @@ impl<'de> serde::Deserialize<'de> for RealtimeClientEventConversationItemRetriev
         #[derive(serde :: Deserialize)]
         struct RealtimeClientEventConversationItemRetrieve {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: Option<String>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeClientEventConversationItemRetrieveType,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
         }
         let RealtimeClientEventConversationItemRetrieve {
@@ -25388,19 +24593,15 @@ impl<'de> serde::Deserialize<'de> for RealtimeClientEventConversationItemTruncat
         #[derive(serde :: Deserialize)]
         struct RealtimeClientEventConversationItemTruncate {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: Option<String>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeClientEventConversationItemTruncateType,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "content_index")]
-            #[allow(dead_code)]
             content_index: i64,
             #[serde(rename = "audio_end_ms")]
-            #[allow(dead_code)]
             audio_end_ms: i64,
         }
         let RealtimeClientEventConversationItemTruncate {
@@ -25479,13 +24680,11 @@ impl<'de> serde::Deserialize<'de> for RealtimeClientEventInputAudioBufferAppend 
         #[derive(serde :: Deserialize)]
         struct RealtimeClientEventInputAudioBufferAppend {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: Option<String>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeClientEventInputAudioBufferAppendType,
             #[serde(rename = "audio")]
-            #[allow(dead_code)]
             audio: String,
         }
         let RealtimeClientEventInputAudioBufferAppend {
@@ -25542,7 +24741,6 @@ impl<'de> serde::Deserialize<'de> for RealtimeClientEventInputAudioBufferClear {
         #[derive(serde :: Deserialize)]
         struct RealtimeClientEventInputAudioBufferClear {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: Option<String>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
@@ -25598,7 +24796,6 @@ impl<'de> serde::Deserialize<'de> for RealtimeClientEventInputAudioBufferCommit 
         #[derive(serde :: Deserialize)]
         struct RealtimeClientEventInputAudioBufferCommit {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: Option<String>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
@@ -25654,7 +24851,6 @@ impl<'de> serde::Deserialize<'de> for RealtimeClientEventOutputAudioBufferClear 
         #[derive(serde :: Deserialize)]
         struct RealtimeClientEventOutputAudioBufferClear {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: Option<String>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
@@ -25710,13 +24906,11 @@ impl<'de> serde::Deserialize<'de> for RealtimeClientEventResponseCancel {
         #[derive(serde :: Deserialize)]
         struct RealtimeClientEventResponseCancel {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: Option<String>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeClientEventResponseCancelType,
             #[serde(rename = "response_id")]
-            #[allow(dead_code)]
             response_id: Option<String>,
         }
         let RealtimeClientEventResponseCancel {
@@ -25781,13 +24975,11 @@ impl<'de> serde::Deserialize<'de> for RealtimeClientEventResponseCreate {
         #[derive(serde :: Deserialize)]
         struct RealtimeClientEventResponseCreate {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: Option<String>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeClientEventResponseCreateType,
             #[serde(rename = "response")]
-            #[allow(dead_code)]
             response: Option<RealtimeResponseCreateParams>,
         }
         let RealtimeClientEventResponseCreate {
@@ -25844,13 +25036,11 @@ impl<'de> serde::Deserialize<'de> for RealtimeClientEventSessionUpdate {
         #[derive(serde :: Deserialize)]
         struct RealtimeClientEventSessionUpdate {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: Option<String>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeClientEventSessionUpdateType,
             #[serde(rename = "session")]
-            #[allow(dead_code)]
             session: RealtimeSessionCreateRequest,
         }
         let RealtimeClientEventSessionUpdate {
@@ -25909,13 +25099,11 @@ impl<'de> serde::Deserialize<'de> for RealtimeClientEventTranscriptionSessionUpd
         #[derive(serde :: Deserialize)]
         struct RealtimeClientEventTranscriptionSessionUpdate {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: Option<String>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeClientEventTranscriptionSessionUpdateType,
             #[serde(rename = "session")]
-            #[allow(dead_code)]
             session: RealtimeTranscriptionSessionCreateRequest,
         }
         let RealtimeClientEventTranscriptionSessionUpdate {
@@ -26434,8 +25622,8 @@ impl<'de> serde::Deserialize<'de> for RealtimeResponseMaxOutputTokens {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum RealtimeResponseMaxOutputTokens {
-            Inf(#[allow(dead_code)] RealtimeResponseMaxOutputTokensInf),
-            Integer(#[allow(dead_code)] i64),
+            Inf(RealtimeResponseMaxOutputTokensInf),
+            Integer(i64),
         }
         Ok(
             match RealtimeResponseMaxOutputTokens::deserialize(deserializer)? {
@@ -26455,15 +25643,14 @@ impl serde::Serialize for RealtimeResponseMaxOutputTokens {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum RealtimeResponseMaxOutputTokens<'a> {
-            Integer(#[allow(dead_code)] &'a i64),
-            Inf(#[allow(dead_code)] &'a RealtimeResponseMaxOutputTokensInf),
+            Integer(&'a i64),
+            Inf(RealtimeResponseMaxOutputTokensInf),
         }
         match self {
-            Self::Integer(v) => RealtimeResponseMaxOutputTokens::Integer(v).serialize(serializer),
-            Self::Inf => {
-                RealtimeResponseMaxOutputTokens::Inf(&Default::default()).serialize(serializer)
-            }
+            Self::Integer(v) => RealtimeResponseMaxOutputTokens::Integer(v),
+            Self::Inf => RealtimeResponseMaxOutputTokens::Inf(Default::default()),
         }
+        .serialize(serializer)
     }
 }
 #[doc = "The response resource."]
@@ -26612,8 +25799,8 @@ impl<'de> serde::Deserialize<'de> for RealtimeResponseCreateParamsMaxResponseOut
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum RealtimeResponseCreateParamsMaxResponseOutputTokens {
-            Inf(#[allow(dead_code)] RealtimeResponseCreateParamsMaxResponseOutputTokensInf),
-            Integer(#[allow(dead_code)] i64),
+            Inf(RealtimeResponseCreateParamsMaxResponseOutputTokensInf),
+            Integer(i64),
         }
         Ok(
             match RealtimeResponseCreateParamsMaxResponseOutputTokens::deserialize(deserializer)? {
@@ -26633,17 +25820,16 @@ impl serde::Serialize for RealtimeResponseCreateParamsMaxResponseOutputTokens {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum RealtimeResponseCreateParamsMaxResponseOutputTokens<'a> {
-            Integer(#[allow(dead_code)] &'a i64),
-            Inf(#[allow(dead_code)] &'a RealtimeResponseCreateParamsMaxResponseOutputTokensInf),
+            Integer(&'a i64),
+            Inf(RealtimeResponseCreateParamsMaxResponseOutputTokensInf),
         }
         match self {
-            Self::Integer(v) => RealtimeResponseCreateParamsMaxResponseOutputTokens::Integer(v)
-                .serialize(serializer),
+            Self::Integer(v) => RealtimeResponseCreateParamsMaxResponseOutputTokens::Integer(v),
             Self::Inf => {
-                RealtimeResponseCreateParamsMaxResponseOutputTokens::Inf(&Default::default())
-                    .serialize(serializer)
+                RealtimeResponseCreateParamsMaxResponseOutputTokens::Inf(Default::default())
             }
         }
+        .serialize(serializer)
     }
 }
 #[doc = "auto"]
@@ -26674,9 +25860,9 @@ impl<'de> serde::Deserialize<'de> for RealtimeResponseCreateParamsConversation {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum RealtimeResponseCreateParamsConversation {
-            Auto(#[allow(dead_code)] RealtimeResponseCreateParamsConversationAuto),
-            None(#[allow(dead_code)] RealtimeResponseCreateParamsConversationNone),
-            Other(#[allow(dead_code)] String),
+            Auto(RealtimeResponseCreateParamsConversationAuto),
+            None(RealtimeResponseCreateParamsConversationNone),
+            Other(String),
         }
         Ok(
             match RealtimeResponseCreateParamsConversation::deserialize(deserializer)? {
@@ -26697,19 +25883,16 @@ impl serde::Serialize for RealtimeResponseCreateParamsConversation {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum RealtimeResponseCreateParamsConversation<'a> {
-            Other(#[allow(dead_code)] &'a String),
-            Auto(#[allow(dead_code)] &'a RealtimeResponseCreateParamsConversationAuto),
-            None(#[allow(dead_code)] &'a RealtimeResponseCreateParamsConversationNone),
+            Other(&'a String),
+            Auto(RealtimeResponseCreateParamsConversationAuto),
+            None(RealtimeResponseCreateParamsConversationNone),
         }
         match self {
-            Self::Other(v) => {
-                RealtimeResponseCreateParamsConversation::Other(v).serialize(serializer)
-            }
-            Self::Auto => RealtimeResponseCreateParamsConversation::Auto(&Default::default())
-                .serialize(serializer),
-            Self::None => RealtimeResponseCreateParamsConversation::None(&Default::default())
-                .serialize(serializer),
+            Self::Other(v) => RealtimeResponseCreateParamsConversation::Other(v),
+            Self::Auto => RealtimeResponseCreateParamsConversation::Auto(Default::default()),
+            Self::None => RealtimeResponseCreateParamsConversation::None(Default::default()),
         }
+        .serialize(serializer)
     }
 }
 #[doc = "Create a new Realtime response with these parameters"]
@@ -26868,13 +26051,11 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventConversationCreated {
         #[derive(serde :: Deserialize)]
         struct RealtimeServerEventConversationCreated {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeServerEventConversationCreatedType,
             #[serde(rename = "conversation")]
-            #[allow(dead_code)]
             conversation: RealtimeServerEventConversationCreatedConversation,
         }
         let RealtimeServerEventConversationCreated {
@@ -26941,16 +26122,13 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventConversationItemCreated
         #[derive(serde :: Deserialize)]
         struct RealtimeServerEventConversationItemCreated {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeServerEventConversationItemCreatedType,
             #[serde(rename = "previous_item_id")]
-            #[allow(dead_code)]
             previous_item_id: String,
             #[serde(rename = "item")]
-            #[allow(dead_code)]
             item: RealtimeConversationItem,
         }
         let RealtimeServerEventConversationItemCreated {
@@ -27021,13 +26199,11 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventConversationItemDeleted
         #[derive(serde :: Deserialize)]
         struct RealtimeServerEventConversationItemDeleted {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeServerEventConversationItemDeletedType,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
         }
         let RealtimeServerEventConversationItemDeleted {
@@ -27093,22 +26269,17 @@ impl<'de> serde::Deserialize<'de>
         #[derive(serde :: Deserialize)]
         struct RealtimeServerEventConversationItemInputAudioTranscriptionCompleted {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeServerEventConversationItemInputAudioTranscriptionCompletedType,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "content_index")]
-            #[allow(dead_code)]
             content_index: i64,
             #[serde(rename = "transcript")]
-            #[allow(dead_code)]
             transcript: String,
             #[serde(rename = "logprobs")]
-            #[allow(dead_code)]
             logprobs: Option<Vec<LogProbProperties>>,
         }
         let RealtimeServerEventConversationItemInputAudioTranscriptionCompleted {
@@ -27205,22 +26376,17 @@ impl<'de> serde::Deserialize<'de>
         #[derive(serde :: Deserialize)]
         struct RealtimeServerEventConversationItemInputAudioTranscriptionDelta {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeServerEventConversationItemInputAudioTranscriptionDeltaType,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "content_index")]
-            #[allow(dead_code)]
             content_index: Option<i64>,
             #[serde(rename = "delta")]
-            #[allow(dead_code)]
             delta: Option<String>,
             #[serde(rename = "logprobs")]
-            #[allow(dead_code)]
             logprobs: Option<Vec<LogProbProperties>>,
         }
         let RealtimeServerEventConversationItemInputAudioTranscriptionDelta {
@@ -27341,19 +26507,15 @@ impl<'de> serde::Deserialize<'de>
         #[derive(serde :: Deserialize)]
         struct RealtimeServerEventConversationItemInputAudioTranscriptionFailed {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeServerEventConversationItemInputAudioTranscriptionFailedType,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "content_index")]
-            #[allow(dead_code)]
             content_index: i64,
             #[serde(rename = "error")]
-            #[allow(dead_code)]
             error: RealtimeServerEventConversationItemInputAudioTranscriptionFailedError,
         }
         let RealtimeServerEventConversationItemInputAudioTranscriptionFailed {
@@ -27432,13 +26594,11 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventConversationItemRetriev
         #[derive(serde :: Deserialize)]
         struct RealtimeServerEventConversationItemRetrieved {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeServerEventConversationItemRetrievedType,
             #[serde(rename = "item")]
-            #[allow(dead_code)]
             item: RealtimeConversationItem,
         }
         let RealtimeServerEventConversationItemRetrieved { event_id, item, .. } =
@@ -27498,19 +26658,15 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventConversationItemTruncat
         #[derive(serde :: Deserialize)]
         struct RealtimeServerEventConversationItemTruncated {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeServerEventConversationItemTruncatedType,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "content_index")]
-            #[allow(dead_code)]
             content_index: i64,
             #[serde(rename = "audio_end_ms")]
-            #[allow(dead_code)]
             audio_end_ms: i64,
         }
         let RealtimeServerEventConversationItemTruncated {
@@ -27611,13 +26767,11 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventError {
         #[derive(serde :: Deserialize)]
         struct RealtimeServerEventError {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeServerEventErrorType,
             #[serde(rename = "error")]
-            #[allow(dead_code)]
             error: RealtimeServerEventErrorError,
         }
         let RealtimeServerEventError {
@@ -27672,7 +26826,6 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventInputAudioBufferCleared
         #[derive(serde :: Deserialize)]
         struct RealtimeServerEventInputAudioBufferCleared {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
@@ -27730,16 +26883,13 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventInputAudioBufferCommitt
         #[derive(serde :: Deserialize)]
         struct RealtimeServerEventInputAudioBufferCommitted {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeServerEventInputAudioBufferCommittedType,
             #[serde(rename = "previous_item_id")]
-            #[allow(dead_code)]
             previous_item_id: String,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
         }
         let RealtimeServerEventInputAudioBufferCommitted {
@@ -27812,16 +26962,13 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventInputAudioBufferSpeechS
         #[derive(serde :: Deserialize)]
         struct RealtimeServerEventInputAudioBufferSpeechStarted {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeServerEventInputAudioBufferSpeechStartedType,
             #[serde(rename = "audio_start_ms")]
-            #[allow(dead_code)]
             audio_start_ms: i64,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
         }
         let RealtimeServerEventInputAudioBufferSpeechStarted {
@@ -27894,16 +27041,13 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventInputAudioBufferSpeechS
         #[derive(serde :: Deserialize)]
         struct RealtimeServerEventInputAudioBufferSpeechStopped {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeServerEventInputAudioBufferSpeechStoppedType,
             #[serde(rename = "audio_end_ms")]
-            #[allow(dead_code)]
             audio_end_ms: i64,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
         }
         let RealtimeServerEventInputAudioBufferSpeechStopped {
@@ -27974,13 +27118,11 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventOutputAudioBufferCleare
         #[derive(serde :: Deserialize)]
         struct RealtimeServerEventOutputAudioBufferCleared {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeServerEventOutputAudioBufferClearedType,
             #[serde(rename = "response_id")]
-            #[allow(dead_code)]
             response_id: String,
         }
         let RealtimeServerEventOutputAudioBufferCleared {
@@ -28045,13 +27187,11 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventOutputAudioBufferStarte
         #[derive(serde :: Deserialize)]
         struct RealtimeServerEventOutputAudioBufferStarted {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeServerEventOutputAudioBufferStartedType,
             #[serde(rename = "response_id")]
-            #[allow(dead_code)]
             response_id: String,
         }
         let RealtimeServerEventOutputAudioBufferStarted {
@@ -28116,13 +27256,11 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventOutputAudioBufferStoppe
         #[derive(serde :: Deserialize)]
         struct RealtimeServerEventOutputAudioBufferStopped {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeServerEventOutputAudioBufferStoppedType,
             #[serde(rename = "response_id")]
-            #[allow(dead_code)]
             response_id: String,
         }
         let RealtimeServerEventOutputAudioBufferStopped {
@@ -28222,13 +27360,11 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventRateLimitsUpdated {
         #[derive(serde :: Deserialize)]
         struct RealtimeServerEventRateLimitsUpdated {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeServerEventRateLimitsUpdatedType,
             #[serde(rename = "rate_limits")]
-            #[allow(dead_code)]
             rate_limits: Vec<RealtimeServerEventRateLimitsUpdatedRateLimits>,
         }
         let RealtimeServerEventRateLimitsUpdated {
@@ -28301,25 +27437,19 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseAudioDelta {
         #[derive(serde :: Deserialize)]
         struct RealtimeServerEventResponseAudioDelta {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeServerEventResponseAudioDeltaType,
             #[serde(rename = "response_id")]
-            #[allow(dead_code)]
             response_id: String,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "content_index")]
-            #[allow(dead_code)]
             content_index: i64,
             #[serde(rename = "delta")]
-            #[allow(dead_code)]
             delta: String,
         }
         let RealtimeServerEventResponseAudioDelta {
@@ -28414,22 +27544,17 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseAudioDone {
         #[derive(serde :: Deserialize)]
         struct RealtimeServerEventResponseAudioDone {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeServerEventResponseAudioDoneType,
             #[serde(rename = "response_id")]
-            #[allow(dead_code)]
             response_id: String,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "content_index")]
-            #[allow(dead_code)]
             content_index: i64,
         }
         let RealtimeServerEventResponseAudioDone {
@@ -28520,25 +27645,19 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseAudioTranscript
         #[derive(serde :: Deserialize)]
         struct RealtimeServerEventResponseAudioTranscriptDelta {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeServerEventResponseAudioTranscriptDeltaType,
             #[serde(rename = "response_id")]
-            #[allow(dead_code)]
             response_id: String,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "content_index")]
-            #[allow(dead_code)]
             content_index: i64,
             #[serde(rename = "delta")]
-            #[allow(dead_code)]
             delta: String,
         }
         let RealtimeServerEventResponseAudioTranscriptDelta {
@@ -28635,25 +27754,19 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseAudioTranscript
         #[derive(serde :: Deserialize)]
         struct RealtimeServerEventResponseAudioTranscriptDone {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeServerEventResponseAudioTranscriptDoneType,
             #[serde(rename = "response_id")]
-            #[allow(dead_code)]
             response_id: String,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "content_index")]
-            #[allow(dead_code)]
             content_index: i64,
             #[serde(rename = "transcript")]
-            #[allow(dead_code)]
             transcript: String,
         }
         let RealtimeServerEventResponseAudioTranscriptDone {
@@ -28787,25 +27900,19 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseContentPartAdde
         #[derive(serde :: Deserialize)]
         struct RealtimeServerEventResponseContentPartAdded {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeServerEventResponseContentPartAddedType,
             #[serde(rename = "response_id")]
-            #[allow(dead_code)]
             response_id: String,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "content_index")]
-            #[allow(dead_code)]
             content_index: i64,
             #[serde(rename = "part")]
-            #[allow(dead_code)]
             part: RealtimeServerEventResponseContentPartAddedPart,
         }
         let RealtimeServerEventResponseContentPartAdded {
@@ -28939,25 +28046,19 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseContentPartDone
         #[derive(serde :: Deserialize)]
         struct RealtimeServerEventResponseContentPartDone {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeServerEventResponseContentPartDoneType,
             #[serde(rename = "response_id")]
-            #[allow(dead_code)]
             response_id: String,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "content_index")]
-            #[allow(dead_code)]
             content_index: i64,
             #[serde(rename = "part")]
-            #[allow(dead_code)]
             part: RealtimeServerEventResponseContentPartDonePart,
         }
         let RealtimeServerEventResponseContentPartDone {
@@ -29043,13 +28144,11 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseCreated {
         #[derive(serde :: Deserialize)]
         struct RealtimeServerEventResponseCreated {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeServerEventResponseCreatedType,
             #[serde(rename = "response")]
-            #[allow(dead_code)]
             response: RealtimeResponse,
         }
         let RealtimeServerEventResponseCreated {
@@ -29103,13 +28202,11 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseDone {
         #[derive(serde :: Deserialize)]
         struct RealtimeServerEventResponseDone {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeServerEventResponseDoneType,
             #[serde(rename = "response")]
-            #[allow(dead_code)]
             response: RealtimeResponse,
         }
         let RealtimeServerEventResponseDone {
@@ -29174,25 +28271,19 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseFunctionCallArg
         #[derive(serde :: Deserialize)]
         struct RealtimeServerEventResponseFunctionCallArgumentsDelta {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeServerEventResponseFunctionCallArgumentsDeltaType,
             #[serde(rename = "response_id")]
-            #[allow(dead_code)]
             response_id: String,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "call_id")]
-            #[allow(dead_code)]
             call_id: String,
             #[serde(rename = "delta")]
-            #[allow(dead_code)]
             delta: String,
         }
         let RealtimeServerEventResponseFunctionCallArgumentsDelta {
@@ -29289,25 +28380,19 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseFunctionCallArg
         #[derive(serde :: Deserialize)]
         struct RealtimeServerEventResponseFunctionCallArgumentsDone {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeServerEventResponseFunctionCallArgumentsDoneType,
             #[serde(rename = "response_id")]
-            #[allow(dead_code)]
             response_id: String,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "call_id")]
-            #[allow(dead_code)]
             call_id: String,
             #[serde(rename = "arguments")]
-            #[allow(dead_code)]
             arguments: String,
         }
         let RealtimeServerEventResponseFunctionCallArgumentsDone {
@@ -29400,19 +28485,15 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseOutputItemAdded
         #[derive(serde :: Deserialize)]
         struct RealtimeServerEventResponseOutputItemAdded {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeServerEventResponseOutputItemAddedType,
             #[serde(rename = "response_id")]
-            #[allow(dead_code)]
             response_id: String,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "item")]
-            #[allow(dead_code)]
             item: RealtimeConversationItem,
         }
         let RealtimeServerEventResponseOutputItemAdded {
@@ -29493,19 +28574,15 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseOutputItemDone 
         #[derive(serde :: Deserialize)]
         struct RealtimeServerEventResponseOutputItemDone {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeServerEventResponseOutputItemDoneType,
             #[serde(rename = "response_id")]
-            #[allow(dead_code)]
             response_id: String,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "item")]
-            #[allow(dead_code)]
             item: RealtimeConversationItem,
         }
         let RealtimeServerEventResponseOutputItemDone {
@@ -29590,25 +28667,19 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseTextDelta {
         #[derive(serde :: Deserialize)]
         struct RealtimeServerEventResponseTextDelta {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeServerEventResponseTextDeltaType,
             #[serde(rename = "response_id")]
-            #[allow(dead_code)]
             response_id: String,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "content_index")]
-            #[allow(dead_code)]
             content_index: i64,
             #[serde(rename = "delta")]
-            #[allow(dead_code)]
             delta: String,
         }
         let RealtimeServerEventResponseTextDelta {
@@ -29705,25 +28776,19 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventResponseTextDone {
         #[derive(serde :: Deserialize)]
         struct RealtimeServerEventResponseTextDone {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeServerEventResponseTextDoneType,
             #[serde(rename = "response_id")]
-            #[allow(dead_code)]
             response_id: String,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "content_index")]
-            #[allow(dead_code)]
             content_index: i64,
             #[serde(rename = "text")]
-            #[allow(dead_code)]
             text: String,
         }
         let RealtimeServerEventResponseTextDone {
@@ -29809,13 +28874,11 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventSessionCreated {
         #[derive(serde :: Deserialize)]
         struct RealtimeServerEventSessionCreated {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeServerEventSessionCreatedType,
             #[serde(rename = "session")]
-            #[allow(dead_code)]
             session: RealtimeSession,
         }
         let RealtimeServerEventSessionCreated {
@@ -29869,13 +28932,11 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventSessionUpdated {
         #[derive(serde :: Deserialize)]
         struct RealtimeServerEventSessionUpdated {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeServerEventSessionUpdatedType,
             #[serde(rename = "session")]
-            #[allow(dead_code)]
             session: RealtimeSession,
         }
         let RealtimeServerEventSessionUpdated {
@@ -29931,13 +28992,11 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventTranscriptionSessionUpd
         #[derive(serde :: Deserialize)]
         struct RealtimeServerEventTranscriptionSessionUpdated {
             #[serde(rename = "event_id")]
-            #[allow(dead_code)]
             event_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RealtimeServerEventTranscriptionSessionUpdatedType,
             #[serde(rename = "session")]
-            #[allow(dead_code)]
             session: RealtimeTranscriptionSessionCreateResponse,
         }
         let RealtimeServerEventTranscriptionSessionUpdated {
@@ -30184,8 +29243,8 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionTracing {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum RealtimeSessionTracing {
-            Auto(#[allow(dead_code)] RealtimeSessionTracingAuto),
-            _1(#[allow(dead_code)] RealtimeSessionTracing1),
+            Auto(RealtimeSessionTracingAuto),
+            _1(RealtimeSessionTracing1),
         }
         Ok(match RealtimeSessionTracing::deserialize(deserializer)? {
             RealtimeSessionTracing::Auto(_) => Self::Auto,
@@ -30203,13 +29262,14 @@ impl serde::Serialize for RealtimeSessionTracing {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum RealtimeSessionTracing<'a> {
-            Auto(#[allow(dead_code)] &'a RealtimeSessionTracingAuto),
-            _1(#[allow(dead_code)] &'a RealtimeSessionTracing1),
+            Auto(RealtimeSessionTracingAuto),
+            _1(&'a RealtimeSessionTracing1),
         }
         match self {
-            Self::Auto => RealtimeSessionTracing::Auto(&Default::default()).serialize(serializer),
-            Self::_1(v) => RealtimeSessionTracing::_1(v).serialize(serializer),
+            Self::Auto => RealtimeSessionTracing::Auto(Default::default()),
+            Self::_1(v) => RealtimeSessionTracing::_1(v),
         }
+        .serialize(serializer)
     }
 }
 #[doc = "The type of the tool, i.e. `function`."]
@@ -30263,8 +29323,8 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionMaxResponseOutputTokens {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum RealtimeSessionMaxResponseOutputTokens {
-            Inf(#[allow(dead_code)] RealtimeSessionMaxResponseOutputTokensInf),
-            Integer(#[allow(dead_code)] i64),
+            Inf(RealtimeSessionMaxResponseOutputTokensInf),
+            Integer(i64),
         }
         Ok(
             match RealtimeSessionMaxResponseOutputTokens::deserialize(deserializer)? {
@@ -30284,16 +29344,14 @@ impl serde::Serialize for RealtimeSessionMaxResponseOutputTokens {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum RealtimeSessionMaxResponseOutputTokens<'a> {
-            Integer(#[allow(dead_code)] &'a i64),
-            Inf(#[allow(dead_code)] &'a RealtimeSessionMaxResponseOutputTokensInf),
+            Integer(&'a i64),
+            Inf(RealtimeSessionMaxResponseOutputTokensInf),
         }
         match self {
-            Self::Integer(v) => {
-                RealtimeSessionMaxResponseOutputTokens::Integer(v).serialize(serializer)
-            }
-            Self::Inf => RealtimeSessionMaxResponseOutputTokens::Inf(&Default::default())
-                .serialize(serializer),
+            Self::Integer(v) => RealtimeSessionMaxResponseOutputTokens::Integer(v),
+            Self::Inf => RealtimeSessionMaxResponseOutputTokens::Inf(Default::default()),
         }
+        .serialize(serializer)
     }
 }
 #[doc = "Realtime session object configuration."]
@@ -30596,8 +29654,8 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateRequestTracing {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum RealtimeSessionCreateRequestTracing {
-            Auto(#[allow(dead_code)] RealtimeSessionCreateRequestTracingAuto),
-            _1(#[allow(dead_code)] RealtimeSessionCreateRequestTracing1),
+            Auto(RealtimeSessionCreateRequestTracingAuto),
+            _1(RealtimeSessionCreateRequestTracing1),
         }
         Ok(
             match RealtimeSessionCreateRequestTracing::deserialize(deserializer)? {
@@ -30617,15 +29675,14 @@ impl serde::Serialize for RealtimeSessionCreateRequestTracing {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum RealtimeSessionCreateRequestTracing<'a> {
-            Auto(#[allow(dead_code)] &'a RealtimeSessionCreateRequestTracingAuto),
-            _1(#[allow(dead_code)] &'a RealtimeSessionCreateRequestTracing1),
+            Auto(RealtimeSessionCreateRequestTracingAuto),
+            _1(&'a RealtimeSessionCreateRequestTracing1),
         }
         match self {
-            Self::Auto => {
-                RealtimeSessionCreateRequestTracing::Auto(&Default::default()).serialize(serializer)
-            }
-            Self::_1(v) => RealtimeSessionCreateRequestTracing::_1(v).serialize(serializer),
+            Self::Auto => RealtimeSessionCreateRequestTracing::Auto(Default::default()),
+            Self::_1(v) => RealtimeSessionCreateRequestTracing::_1(v),
         }
+        .serialize(serializer)
     }
 }
 #[doc = "The type of the tool, i.e. `function`."]
@@ -30682,8 +29739,8 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateRequestMaxResponseOut
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum RealtimeSessionCreateRequestMaxResponseOutputTokens {
-            Inf(#[allow(dead_code)] RealtimeSessionCreateRequestMaxResponseOutputTokensInf),
-            Integer(#[allow(dead_code)] i64),
+            Inf(RealtimeSessionCreateRequestMaxResponseOutputTokensInf),
+            Integer(i64),
         }
         Ok(
             match RealtimeSessionCreateRequestMaxResponseOutputTokens::deserialize(deserializer)? {
@@ -30703,17 +29760,16 @@ impl serde::Serialize for RealtimeSessionCreateRequestMaxResponseOutputTokens {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum RealtimeSessionCreateRequestMaxResponseOutputTokens<'a> {
-            Integer(#[allow(dead_code)] &'a i64),
-            Inf(#[allow(dead_code)] &'a RealtimeSessionCreateRequestMaxResponseOutputTokensInf),
+            Integer(&'a i64),
+            Inf(RealtimeSessionCreateRequestMaxResponseOutputTokensInf),
         }
         match self {
-            Self::Integer(v) => RealtimeSessionCreateRequestMaxResponseOutputTokens::Integer(v)
-                .serialize(serializer),
+            Self::Integer(v) => RealtimeSessionCreateRequestMaxResponseOutputTokens::Integer(v),
             Self::Inf => {
-                RealtimeSessionCreateRequestMaxResponseOutputTokens::Inf(&Default::default())
-                    .serialize(serializer)
+                RealtimeSessionCreateRequestMaxResponseOutputTokens::Inf(Default::default())
             }
         }
+        .serialize(serializer)
     }
 }
 #[doc = "The anchor point for the ephemeral token expiration. Only `created_at` is currently supported.\n"]
@@ -30910,8 +29966,8 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateResponseTracing {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum RealtimeSessionCreateResponseTracing {
-            Auto(#[allow(dead_code)] RealtimeSessionCreateResponseTracingAuto),
-            _1(#[allow(dead_code)] RealtimeSessionCreateResponseTracing1),
+            Auto(RealtimeSessionCreateResponseTracingAuto),
+            _1(RealtimeSessionCreateResponseTracing1),
         }
         Ok(
             match RealtimeSessionCreateResponseTracing::deserialize(deserializer)? {
@@ -30931,14 +29987,14 @@ impl serde::Serialize for RealtimeSessionCreateResponseTracing {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum RealtimeSessionCreateResponseTracing<'a> {
-            Auto(#[allow(dead_code)] &'a RealtimeSessionCreateResponseTracingAuto),
-            _1(#[allow(dead_code)] &'a RealtimeSessionCreateResponseTracing1),
+            Auto(RealtimeSessionCreateResponseTracingAuto),
+            _1(&'a RealtimeSessionCreateResponseTracing1),
         }
         match self {
-            Self::Auto => RealtimeSessionCreateResponseTracing::Auto(&Default::default())
-                .serialize(serializer),
-            Self::_1(v) => RealtimeSessionCreateResponseTracing::_1(v).serialize(serializer),
+            Self::Auto => RealtimeSessionCreateResponseTracing::Auto(Default::default()),
+            Self::_1(v) => RealtimeSessionCreateResponseTracing::_1(v),
         }
+        .serialize(serializer)
     }
 }
 #[doc = "Configuration for turn detection. Can be set to `null` to turn off. Server \nVAD means that the model will detect the start and end of speech based on \naudio volume and respond at the end of user speech.\n"]
@@ -31021,8 +30077,8 @@ impl<'de> serde::Deserialize<'de> for RealtimeSessionCreateResponseMaxResponseOu
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum RealtimeSessionCreateResponseMaxResponseOutputTokens {
-            Inf(#[allow(dead_code)] RealtimeSessionCreateResponseMaxResponseOutputTokensInf),
-            Integer(#[allow(dead_code)] i64),
+            Inf(RealtimeSessionCreateResponseMaxResponseOutputTokensInf),
+            Integer(i64),
         }
         Ok(
             match RealtimeSessionCreateResponseMaxResponseOutputTokens::deserialize(deserializer)? {
@@ -31044,17 +30100,16 @@ impl serde::Serialize for RealtimeSessionCreateResponseMaxResponseOutputTokens {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum RealtimeSessionCreateResponseMaxResponseOutputTokens<'a> {
-            Integer(#[allow(dead_code)] &'a i64),
-            Inf(#[allow(dead_code)] &'a RealtimeSessionCreateResponseMaxResponseOutputTokensInf),
+            Integer(&'a i64),
+            Inf(RealtimeSessionCreateResponseMaxResponseOutputTokensInf),
         }
         match self {
-            Self::Integer(v) => RealtimeSessionCreateResponseMaxResponseOutputTokens::Integer(v)
-                .serialize(serializer),
+            Self::Integer(v) => RealtimeSessionCreateResponseMaxResponseOutputTokens::Integer(v),
             Self::Inf => {
-                RealtimeSessionCreateResponseMaxResponseOutputTokens::Inf(&Default::default())
-                    .serialize(serializer)
+                RealtimeSessionCreateResponseMaxResponseOutputTokens::Inf(Default::default())
             }
         }
+        .serialize(serializer)
     }
 }
 #[doc = "A new Realtime session configuration, with an ephermeral key. Default TTL\nfor keys is one minute.\n"]
@@ -31552,7 +30607,6 @@ impl<'de> serde::Deserialize<'de> for ReasoningItemSummary {
             #[allow(dead_code)]
             r#type: ReasoningItemSummaryType,
             #[serde(rename = "text")]
-            #[allow(dead_code)]
             text: String,
         }
         let ReasoningItemSummary { text, .. } = ReasoningItemSummary::deserialize(deserializer)?;
@@ -31619,16 +30673,12 @@ impl<'de> serde::Deserialize<'de> for ReasoningItem {
             #[allow(dead_code)]
             r#type: ReasoningItemType,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "encrypted_content")]
-            #[allow(dead_code)]
             encrypted_content: Option<String>,
             #[serde(rename = "summary")]
-            #[allow(dead_code)]
             summary: Vec<ReasoningItemSummary>,
             #[serde(rename = "status")]
-            #[allow(dead_code)]
             status: Option<ReasoningItemStatus>,
         }
         let ReasoningItem {
@@ -31822,88 +30872,61 @@ impl<'de> serde::Deserialize<'de> for Response {
         #[derive(serde :: Deserialize)]
         struct Response {
             #[serde(rename = "metadata")]
-            #[allow(dead_code)]
             metadata: Option<Metadata>,
             #[serde(rename = "top_logprobs")]
-            #[allow(dead_code)]
             top_logprobs: Option<i64>,
             #[serde(rename = "temperature")]
-            #[allow(dead_code)]
             temperature: Option<serde_json::Number>,
             #[serde(rename = "top_p")]
-            #[allow(dead_code)]
             top_p: Option<serde_json::Number>,
             #[serde(rename = "user")]
-            #[allow(dead_code)]
             user: Option<String>,
             #[serde(rename = "service_tier")]
-            #[allow(dead_code)]
             service_tier: Option<ServiceTier>,
             #[serde(rename = "previous_response_id")]
-            #[allow(dead_code)]
             previous_response_id: Option<String>,
             #[serde(rename = "model")]
-            #[allow(dead_code)]
             model: ModelIdsResponses,
             #[serde(rename = "reasoning")]
-            #[allow(dead_code)]
             reasoning: Option<Reasoning>,
             #[serde(rename = "background")]
-            #[allow(dead_code)]
             background: Option<bool>,
             #[serde(rename = "max_output_tokens")]
-            #[allow(dead_code)]
             max_output_tokens: Option<i64>,
             #[serde(rename = "max_tool_calls")]
-            #[allow(dead_code)]
             max_tool_calls: Option<i64>,
             #[serde(rename = "text")]
-            #[allow(dead_code)]
             text: Option<ResponsePropertiesText>,
             #[serde(rename = "tools")]
-            #[allow(dead_code)]
             tools: Vec<Tool>,
             #[serde(rename = "tool_choice")]
-            #[allow(dead_code)]
             tool_choice: ResponsePropertiesToolChoice,
             #[serde(rename = "prompt")]
-            #[allow(dead_code)]
             prompt: Option<Prompt>,
             #[serde(rename = "truncation")]
-            #[allow(dead_code)]
             truncation: Option<ResponsePropertiesTruncation>,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "object")]
             #[allow(dead_code)]
             object: ResponseObject,
             #[serde(rename = "status")]
-            #[allow(dead_code)]
             status: Option<ResponseStatus>,
             #[serde(rename = "created_at")]
-            #[allow(dead_code)]
             created_at: serde_json::Number,
             #[serde(rename = "error")]
-            #[allow(dead_code)]
             error: Option<ResponseError>,
             #[serde(rename = "incomplete_details")]
-            #[allow(dead_code)]
             incomplete_details: Option<ResponseIncompleteDetails>,
             #[serde(rename = "output")]
-            #[allow(dead_code)]
             output: Vec<OutputItem>,
             #[serde(rename = "instructions")]
-            #[allow(dead_code)]
             instructions: Option<ResponseInstructions>,
             #[serde(rename = "output_text")]
-            #[allow(dead_code)]
             output_text: Option<String>,
             #[serde(rename = "usage")]
-            #[allow(dead_code)]
             usage: Option<ResponseUsage>,
             #[serde(rename = "parallel_tool_calls")]
-            #[allow(dead_code)]
             parallel_tool_calls: bool,
         }
         let Response {
@@ -32138,10 +31161,8 @@ impl<'de> serde::Deserialize<'de> for ResponseAudioDeltaEvent {
             #[allow(dead_code)]
             r#type: ResponseAudioDeltaEventType,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
             #[serde(rename = "delta")]
-            #[allow(dead_code)]
             delta: String,
         }
         let ResponseAudioDeltaEvent {
@@ -32205,10 +31226,8 @@ impl<'de> serde::Deserialize<'de> for ResponseAudioDoneEvent {
             #[allow(dead_code)]
             r#type: ResponseAudioDoneEventType,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
             #[serde(rename = "response_id")]
-            #[allow(dead_code)]
             response_id: serde_json::Value,
         }
         let ResponseAudioDoneEvent {
@@ -32277,13 +31296,10 @@ impl<'de> serde::Deserialize<'de> for ResponseAudioTranscriptDeltaEvent {
             #[allow(dead_code)]
             r#type: ResponseAudioTranscriptDeltaEventType,
             #[serde(rename = "delta")]
-            #[allow(dead_code)]
             delta: String,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
             #[serde(rename = "response_id")]
-            #[allow(dead_code)]
             response_id: serde_json::Value,
         }
         let ResponseAudioTranscriptDeltaEvent {
@@ -32356,10 +31372,8 @@ impl<'de> serde::Deserialize<'de> for ResponseAudioTranscriptDoneEvent {
             #[allow(dead_code)]
             r#type: ResponseAudioTranscriptDoneEventType,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
             #[serde(rename = "response_id")]
-            #[allow(dead_code)]
             response_id: serde_json::Value,
         }
         let ResponseAudioTranscriptDoneEvent {
@@ -32431,16 +31445,12 @@ impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallCodeDeltaEvent 
             #[allow(dead_code)]
             r#type: ResponseCodeInterpreterCallCodeDeltaEventType,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "delta")]
-            #[allow(dead_code)]
             delta: String,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
         }
         let ResponseCodeInterpreterCallCodeDeltaEvent {
@@ -32524,16 +31534,12 @@ impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallCodeDoneEvent {
             #[allow(dead_code)]
             r#type: ResponseCodeInterpreterCallCodeDoneEventType,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "code")]
-            #[allow(dead_code)]
             code: String,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
         }
         let ResponseCodeInterpreterCallCodeDoneEvent {
@@ -32615,13 +31621,10 @@ impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallCompletedEvent 
             #[allow(dead_code)]
             r#type: ResponseCodeInterpreterCallCompletedEventType,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
         }
         let ResponseCodeInterpreterCallCompletedEvent {
@@ -32697,13 +31700,10 @@ impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallInProgressEvent
             #[allow(dead_code)]
             r#type: ResponseCodeInterpreterCallInProgressEventType,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
         }
         let ResponseCodeInterpreterCallInProgressEvent {
@@ -32779,13 +31779,10 @@ impl<'de> serde::Deserialize<'de> for ResponseCodeInterpreterCallInterpretingEve
             #[allow(dead_code)]
             r#type: ResponseCodeInterpreterCallInterpretingEventType,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
         }
         let ResponseCodeInterpreterCallInterpretingEvent {
@@ -32856,10 +31853,8 @@ impl<'de> serde::Deserialize<'de> for ResponseCompletedEvent {
             #[allow(dead_code)]
             r#type: ResponseCompletedEventType,
             #[serde(rename = "response")]
-            #[allow(dead_code)]
             response: Response,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
         }
         let ResponseCompletedEvent {
@@ -32933,19 +31928,14 @@ impl<'de> serde::Deserialize<'de> for ResponseContentPartAddedEvent {
             #[allow(dead_code)]
             r#type: ResponseContentPartAddedEventType,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "content_index")]
-            #[allow(dead_code)]
             content_index: i64,
             #[serde(rename = "part")]
-            #[allow(dead_code)]
             part: OutputContent,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
         }
         let ResponseContentPartAddedEvent {
@@ -33037,19 +32027,14 @@ impl<'de> serde::Deserialize<'de> for ResponseContentPartDoneEvent {
             #[allow(dead_code)]
             r#type: ResponseContentPartDoneEventType,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "content_index")]
-            #[allow(dead_code)]
             content_index: i64,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
             #[serde(rename = "part")]
-            #[allow(dead_code)]
             part: OutputContent,
         }
         let ResponseContentPartDoneEvent {
@@ -33132,10 +32117,8 @@ impl<'de> serde::Deserialize<'de> for ResponseCreatedEvent {
             #[allow(dead_code)]
             r#type: ResponseCreatedEventType,
             #[serde(rename = "response")]
-            #[allow(dead_code)]
             response: Response,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
         }
         let ResponseCreatedEvent {
@@ -33275,16 +32258,12 @@ impl<'de> serde::Deserialize<'de> for ResponseErrorEvent {
             #[allow(dead_code)]
             r#type: ResponseErrorEventType,
             #[serde(rename = "code")]
-            #[allow(dead_code)]
             code: Option<String>,
             #[serde(rename = "message")]
-            #[allow(dead_code)]
             message: String,
             #[serde(rename = "param")]
-            #[allow(dead_code)]
             param: Option<String>,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
         }
         let ResponseErrorEvent {
@@ -33363,10 +32342,8 @@ impl<'de> serde::Deserialize<'de> for ResponseFailedEvent {
             #[allow(dead_code)]
             r#type: ResponseFailedEventType,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
             #[serde(rename = "response")]
-            #[allow(dead_code)]
             response: Response,
         }
         let ResponseFailedEvent {
@@ -33436,13 +32413,10 @@ impl<'de> serde::Deserialize<'de> for ResponseFileSearchCallCompletedEvent {
             #[allow(dead_code)]
             r#type: ResponseFileSearchCallCompletedEventType,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
         }
         let ResponseFileSearchCallCompletedEvent {
@@ -33518,13 +32492,10 @@ impl<'de> serde::Deserialize<'de> for ResponseFileSearchCallInProgressEvent {
             #[allow(dead_code)]
             r#type: ResponseFileSearchCallInProgressEventType,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
         }
         let ResponseFileSearchCallInProgressEvent {
@@ -33600,13 +32571,10 @@ impl<'de> serde::Deserialize<'de> for ResponseFileSearchCallSearchingEvent {
             #[allow(dead_code)]
             r#type: ResponseFileSearchCallSearchingEventType,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
         }
         let ResponseFileSearchCallSearchingEvent {
@@ -33739,7 +32707,6 @@ impl<'de> serde::Deserialize<'de> for ResponseFormatJsonSchema {
             #[allow(dead_code)]
             r#type: ResponseFormatJsonSchemaType,
             #[serde(rename = "json_schema")]
-            #[allow(dead_code)]
             json_schema: ResponseFormatJsonSchemaJsonSchema,
         }
         let ResponseFormatJsonSchema { json_schema, .. } =
@@ -33842,16 +32809,12 @@ impl<'de> serde::Deserialize<'de> for ResponseFunctionCallArgumentsDeltaEvent {
             #[allow(dead_code)]
             r#type: ResponseFunctionCallArgumentsDeltaEventType,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
             #[serde(rename = "delta")]
-            #[allow(dead_code)]
             delta: String,
         }
         let ResponseFunctionCallArgumentsDeltaEvent {
@@ -33935,16 +32898,12 @@ impl<'de> serde::Deserialize<'de> for ResponseFunctionCallArgumentsDoneEvent {
             #[allow(dead_code)]
             r#type: ResponseFunctionCallArgumentsDoneEventType,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
             #[serde(rename = "arguments")]
-            #[allow(dead_code)]
             arguments: String,
         }
         let ResponseFunctionCallArgumentsDoneEvent {
@@ -34026,13 +32985,10 @@ impl<'de> serde::Deserialize<'de> for ResponseImageGenCallCompletedEvent {
             #[allow(dead_code)]
             r#type: ResponseImageGenCallCompletedEventType,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
         }
         let ResponseImageGenCallCompletedEvent {
@@ -34108,13 +33064,10 @@ impl<'de> serde::Deserialize<'de> for ResponseImageGenCallGeneratingEvent {
             #[allow(dead_code)]
             r#type: ResponseImageGenCallGeneratingEventType,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
         }
         let ResponseImageGenCallGeneratingEvent {
@@ -34190,13 +33143,10 @@ impl<'de> serde::Deserialize<'de> for ResponseImageGenCallInProgressEvent {
             #[allow(dead_code)]
             r#type: ResponseImageGenCallInProgressEventType,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
         }
         let ResponseImageGenCallInProgressEvent {
@@ -34276,19 +33226,14 @@ impl<'de> serde::Deserialize<'de> for ResponseImageGenCallPartialImageEvent {
             #[allow(dead_code)]
             r#type: ResponseImageGenCallPartialImageEventType,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
             #[serde(rename = "partial_image_index")]
-            #[allow(dead_code)]
             partial_image_index: i64,
             #[serde(rename = "partial_image_b64")]
-            #[allow(dead_code)]
             partial_image_b64: String,
         }
         let ResponseImageGenCallPartialImageEvent {
@@ -34371,10 +33316,8 @@ impl<'de> serde::Deserialize<'de> for ResponseInProgressEvent {
             #[allow(dead_code)]
             r#type: ResponseInProgressEventType,
             #[serde(rename = "response")]
-            #[allow(dead_code)]
             response: Response,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
         }
         let ResponseInProgressEvent {
@@ -34439,10 +33382,8 @@ impl<'de> serde::Deserialize<'de> for ResponseIncompleteEvent {
             #[allow(dead_code)]
             r#type: ResponseIncompleteEventType,
             #[serde(rename = "response")]
-            #[allow(dead_code)]
             response: Response,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
         }
         let ResponseIncompleteEvent {
@@ -34511,16 +33452,12 @@ impl<'de> serde::Deserialize<'de> for ResponseItemList {
             #[allow(dead_code)]
             object: ResponseItemListObject,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: Vec<ItemResource>,
             #[serde(rename = "has_more")]
-            #[allow(dead_code)]
             has_more: bool,
             #[serde(rename = "first_id")]
-            #[allow(dead_code)]
             first_id: String,
             #[serde(rename = "last_id")]
-            #[allow(dead_code)]
             last_id: String,
         }
         let ResponseItemList {
@@ -34604,16 +33541,12 @@ impl<'de> serde::Deserialize<'de> for ResponseMcpCallArgumentsDeltaEvent {
             #[allow(dead_code)]
             r#type: ResponseMcpCallArgumentsDeltaEventType,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "delta")]
-            #[allow(dead_code)]
             delta: indexmap::IndexMap<String, serde_json::Value>,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
         }
         let ResponseMcpCallArgumentsDeltaEvent {
@@ -34697,16 +33630,12 @@ impl<'de> serde::Deserialize<'de> for ResponseMcpCallArgumentsDoneEvent {
             #[allow(dead_code)]
             r#type: ResponseMcpCallArgumentsDoneEventType,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "arguments")]
-            #[allow(dead_code)]
             arguments: indexmap::IndexMap<String, serde_json::Value>,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
         }
         let ResponseMcpCallArgumentsDoneEvent {
@@ -34784,7 +33713,6 @@ impl<'de> serde::Deserialize<'de> for ResponseMcpCallCompletedEvent {
             #[allow(dead_code)]
             r#type: ResponseMcpCallCompletedEventType,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
         }
         let ResponseMcpCallCompletedEvent {
@@ -34836,7 +33764,6 @@ impl<'de> serde::Deserialize<'de> for ResponseMcpCallFailedEvent {
             #[allow(dead_code)]
             r#type: ResponseMcpCallFailedEventType,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
         }
         let ResponseMcpCallFailedEvent {
@@ -34895,13 +33822,10 @@ impl<'de> serde::Deserialize<'de> for ResponseMcpCallInProgressEvent {
             #[allow(dead_code)]
             r#type: ResponseMcpCallInProgressEventType,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
         }
         let ResponseMcpCallInProgressEvent {
@@ -34973,7 +33897,6 @@ impl<'de> serde::Deserialize<'de> for ResponseMcpListToolsCompletedEvent {
             #[allow(dead_code)]
             r#type: ResponseMcpListToolsCompletedEventType,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
         }
         let ResponseMcpListToolsCompletedEvent {
@@ -35028,7 +33951,6 @@ impl<'de> serde::Deserialize<'de> for ResponseMcpListToolsFailedEvent {
             #[allow(dead_code)]
             r#type: ResponseMcpListToolsFailedEventType,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
         }
         let ResponseMcpListToolsFailedEvent {
@@ -35083,7 +34005,6 @@ impl<'de> serde::Deserialize<'de> for ResponseMcpListToolsInProgressEvent {
             #[allow(dead_code)]
             r#type: ResponseMcpListToolsInProgressEventType,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
         }
         let ResponseMcpListToolsInProgressEvent {
@@ -35153,13 +34074,10 @@ impl<'de> serde::Deserialize<'de> for ResponseOutputItemAddedEvent {
             #[allow(dead_code)]
             r#type: ResponseOutputItemAddedEventType,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
             #[serde(rename = "item")]
-            #[allow(dead_code)]
             item: OutputItem,
         }
         let ResponseOutputItemAddedEvent {
@@ -35232,13 +34150,10 @@ impl<'de> serde::Deserialize<'de> for ResponseOutputItemDoneEvent {
             #[allow(dead_code)]
             r#type: ResponseOutputItemDoneEventType,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
             #[serde(rename = "item")]
-            #[allow(dead_code)]
             item: OutputItem,
         }
         let ResponseOutputItemDoneEvent {
@@ -35320,22 +34235,16 @@ impl<'de> serde::Deserialize<'de> for ResponseOutputTextAnnotationAddedEvent {
             #[allow(dead_code)]
             r#type: ResponseOutputTextAnnotationAddedEventType,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "content_index")]
-            #[allow(dead_code)]
             content_index: i64,
             #[serde(rename = "annotation_index")]
-            #[allow(dead_code)]
             annotation_index: i64,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
             #[serde(rename = "annotation")]
-            #[allow(dead_code)]
             annotation: indexmap::IndexMap<String, serde_json::Value>,
         }
         let ResponseOutputTextAnnotationAddedEvent {
@@ -35442,10 +34351,10 @@ impl<'de> serde::Deserialize<'de> for ResponsePropertiesToolChoice {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum ResponsePropertiesToolChoice {
-            ToolChoiceOptions(#[allow(dead_code)] ToolChoiceOptions),
-            ToolChoiceTypes(#[allow(dead_code)] ToolChoiceTypes),
-            ToolChoiceFunction(#[allow(dead_code)] ToolChoiceFunction),
-            ToolChoiceMcp(#[allow(dead_code)] ToolChoiceMcp),
+            ToolChoiceOptions(ToolChoiceOptions),
+            ToolChoiceTypes(ToolChoiceTypes),
+            ToolChoiceFunction(ToolChoiceFunction),
+            ToolChoiceMcp(ToolChoiceMcp),
         }
         Ok(
             match ResponsePropertiesToolChoice::deserialize(deserializer)? {
@@ -35467,25 +34376,18 @@ impl serde::Serialize for ResponsePropertiesToolChoice {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum ResponsePropertiesToolChoice<'a> {
-            ToolChoiceOptions(#[allow(dead_code)] &'a ToolChoiceOptions),
-            ToolChoiceTypes(#[allow(dead_code)] &'a ToolChoiceTypes),
-            ToolChoiceFunction(#[allow(dead_code)] &'a ToolChoiceFunction),
-            ToolChoiceMcp(#[allow(dead_code)] &'a ToolChoiceMcp),
+            ToolChoiceOptions(&'a ToolChoiceOptions),
+            ToolChoiceTypes(&'a ToolChoiceTypes),
+            ToolChoiceFunction(&'a ToolChoiceFunction),
+            ToolChoiceMcp(&'a ToolChoiceMcp),
         }
         match self {
-            Self::ToolChoiceOptions(v) => {
-                ResponsePropertiesToolChoice::ToolChoiceOptions(v).serialize(serializer)
-            }
-            Self::ToolChoiceTypes(v) => {
-                ResponsePropertiesToolChoice::ToolChoiceTypes(v).serialize(serializer)
-            }
-            Self::ToolChoiceFunction(v) => {
-                ResponsePropertiesToolChoice::ToolChoiceFunction(v).serialize(serializer)
-            }
-            Self::ToolChoiceMcp(v) => {
-                ResponsePropertiesToolChoice::ToolChoiceMcp(v).serialize(serializer)
-            }
+            Self::ToolChoiceOptions(v) => ResponsePropertiesToolChoice::ToolChoiceOptions(v),
+            Self::ToolChoiceTypes(v) => ResponsePropertiesToolChoice::ToolChoiceTypes(v),
+            Self::ToolChoiceFunction(v) => ResponsePropertiesToolChoice::ToolChoiceFunction(v),
+            Self::ToolChoiceMcp(v) => ResponsePropertiesToolChoice::ToolChoiceMcp(v),
         }
+        .serialize(serializer)
     }
 }
 #[doc = "The truncation strategy to use for the model response.\n- `auto`: If the context of this response and previous ones exceeds\n  the model's context window size, the model will truncate the \n  response to fit the context window by dropping input items in the\n  middle of the conversation. \n- `disabled` (default): If a model response will exceed the context window \n  size for a model, the request will fail with a 400 error.\n"]
@@ -35581,10 +34483,8 @@ impl<'de> serde::Deserialize<'de> for ResponseQueuedEvent {
             #[allow(dead_code)]
             r#type: ResponseQueuedEventType,
             #[serde(rename = "response")]
-            #[allow(dead_code)]
             response: Response,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
         }
         let ResponseQueuedEvent {
@@ -35655,19 +34555,14 @@ impl<'de> serde::Deserialize<'de> for ResponseReasoningDeltaEvent {
             #[allow(dead_code)]
             r#type: ResponseReasoningDeltaEventType,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "content_index")]
-            #[allow(dead_code)]
             content_index: i64,
             #[serde(rename = "delta")]
-            #[allow(dead_code)]
             delta: indexmap::IndexMap<String, serde_json::Value>,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
         }
         let ResponseReasoningDeltaEvent {
@@ -35756,19 +34651,14 @@ impl<'de> serde::Deserialize<'de> for ResponseReasoningDoneEvent {
             #[allow(dead_code)]
             r#type: ResponseReasoningDoneEventType,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "content_index")]
-            #[allow(dead_code)]
             content_index: i64,
             #[serde(rename = "text")]
-            #[allow(dead_code)]
             text: String,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
         }
         let ResponseReasoningDoneEvent {
@@ -35860,19 +34750,14 @@ impl<'de> serde::Deserialize<'de> for ResponseReasoningSummaryDeltaEvent {
             #[allow(dead_code)]
             r#type: ResponseReasoningSummaryDeltaEventType,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "summary_index")]
-            #[allow(dead_code)]
             summary_index: i64,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
             #[serde(rename = "delta")]
-            #[allow(dead_code)]
             delta: indexmap::IndexMap<String, serde_json::Value>,
         }
         let ResponseReasoningSummaryDeltaEvent {
@@ -35964,19 +34849,14 @@ impl<'de> serde::Deserialize<'de> for ResponseReasoningSummaryDoneEvent {
             #[allow(dead_code)]
             r#type: ResponseReasoningSummaryDoneEventType,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "summary_index")]
-            #[allow(dead_code)]
             summary_index: i64,
             #[serde(rename = "text")]
-            #[allow(dead_code)]
             text: String,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
         }
         let ResponseReasoningSummaryDoneEvent {
@@ -36067,7 +34947,6 @@ impl<'de> serde::Deserialize<'de> for ResponseReasoningSummaryPartAddedEventPart
             #[allow(dead_code)]
             r#type: ResponseReasoningSummaryPartAddedEventPartType,
             #[serde(rename = "text")]
-            #[allow(dead_code)]
             text: String,
         }
         let ResponseReasoningSummaryPartAddedEventPart { text, .. } =
@@ -36122,19 +35001,14 @@ impl<'de> serde::Deserialize<'de> for ResponseReasoningSummaryPartAddedEvent {
             #[allow(dead_code)]
             r#type: ResponseReasoningSummaryPartAddedEventType,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "summary_index")]
-            #[allow(dead_code)]
             summary_index: i64,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
             #[serde(rename = "part")]
-            #[allow(dead_code)]
             part: ResponseReasoningSummaryPartAddedEventPart,
         }
         let ResponseReasoningSummaryPartAddedEvent {
@@ -36225,7 +35099,6 @@ impl<'de> serde::Deserialize<'de> for ResponseReasoningSummaryPartDoneEventPart 
             #[allow(dead_code)]
             r#type: ResponseReasoningSummaryPartDoneEventPartType,
             #[serde(rename = "text")]
-            #[allow(dead_code)]
             text: String,
         }
         let ResponseReasoningSummaryPartDoneEventPart { text, .. } =
@@ -36280,19 +35153,14 @@ impl<'de> serde::Deserialize<'de> for ResponseReasoningSummaryPartDoneEvent {
             #[allow(dead_code)]
             r#type: ResponseReasoningSummaryPartDoneEventType,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "summary_index")]
-            #[allow(dead_code)]
             summary_index: i64,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
             #[serde(rename = "part")]
-            #[allow(dead_code)]
             part: ResponseReasoningSummaryPartDoneEventPart,
         }
         let ResponseReasoningSummaryPartDoneEvent {
@@ -36384,19 +35252,14 @@ impl<'de> serde::Deserialize<'de> for ResponseReasoningSummaryTextDeltaEvent {
             #[allow(dead_code)]
             r#type: ResponseReasoningSummaryTextDeltaEventType,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "summary_index")]
-            #[allow(dead_code)]
             summary_index: i64,
             #[serde(rename = "delta")]
-            #[allow(dead_code)]
             delta: String,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
         }
         let ResponseReasoningSummaryTextDeltaEvent {
@@ -36488,19 +35351,14 @@ impl<'de> serde::Deserialize<'de> for ResponseReasoningSummaryTextDoneEvent {
             #[allow(dead_code)]
             r#type: ResponseReasoningSummaryTextDoneEventType,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "summary_index")]
-            #[allow(dead_code)]
             summary_index: i64,
             #[serde(rename = "text")]
-            #[allow(dead_code)]
             text: String,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
         }
         let ResponseReasoningSummaryTextDoneEvent {
@@ -36589,19 +35447,14 @@ impl<'de> serde::Deserialize<'de> for ResponseRefusalDeltaEvent {
             #[allow(dead_code)]
             r#type: ResponseRefusalDeltaEventType,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "content_index")]
-            #[allow(dead_code)]
             content_index: i64,
             #[serde(rename = "delta")]
-            #[allow(dead_code)]
             delta: String,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
         }
         let ResponseRefusalDeltaEvent {
@@ -36690,19 +35543,14 @@ impl<'de> serde::Deserialize<'de> for ResponseRefusalDoneEvent {
             #[allow(dead_code)]
             r#type: ResponseRefusalDoneEventType,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "content_index")]
-            #[allow(dead_code)]
             content_index: i64,
             #[serde(rename = "refusal")]
-            #[allow(dead_code)]
             refusal: String,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
         }
         let ResponseRefusalDoneEvent {
@@ -36851,19 +35699,14 @@ impl<'de> serde::Deserialize<'de> for ResponseTextDeltaEvent {
             #[allow(dead_code)]
             r#type: ResponseTextDeltaEventType,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "content_index")]
-            #[allow(dead_code)]
             content_index: i64,
             #[serde(rename = "delta")]
-            #[allow(dead_code)]
             delta: String,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
         }
         let ResponseTextDeltaEvent {
@@ -36952,19 +35795,14 @@ impl<'de> serde::Deserialize<'de> for ResponseTextDoneEvent {
             #[allow(dead_code)]
             r#type: ResponseTextDoneEventType,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "content_index")]
-            #[allow(dead_code)]
             content_index: i64,
             #[serde(rename = "text")]
-            #[allow(dead_code)]
             text: String,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
         }
         let ResponseTextDoneEvent {
@@ -37091,13 +35929,10 @@ impl<'de> serde::Deserialize<'de> for ResponseWebSearchCallCompletedEvent {
             #[allow(dead_code)]
             r#type: ResponseWebSearchCallCompletedEventType,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
         }
         let ResponseWebSearchCallCompletedEvent {
@@ -37173,13 +36008,10 @@ impl<'de> serde::Deserialize<'de> for ResponseWebSearchCallInProgressEvent {
             #[allow(dead_code)]
             r#type: ResponseWebSearchCallInProgressEventType,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
         }
         let ResponseWebSearchCallInProgressEvent {
@@ -37255,13 +36087,10 @@ impl<'de> serde::Deserialize<'de> for ResponseWebSearchCallSearchingEvent {
             #[allow(dead_code)]
             r#type: ResponseWebSearchCallSearchingEventType,
             #[serde(rename = "output_index")]
-            #[allow(dead_code)]
             output_index: i64,
             #[serde(rename = "item_id")]
-            #[allow(dead_code)]
             item_id: String,
             #[serde(rename = "sequence_number")]
-            #[allow(dead_code)]
             sequence_number: i64,
         }
         let ResponseWebSearchCallSearchingEvent {
@@ -37493,7 +36322,6 @@ impl<'de> serde::Deserialize<'de> for RunObjectRequiredAction {
             #[allow(dead_code)]
             r#type: RunObjectRequiredActionType,
             #[serde(rename = "submit_tool_outputs")]
-            #[allow(dead_code)]
             submit_tool_outputs: RunObjectRequiredActionSubmitToolOutputs,
         }
         let RunObjectRequiredAction {
@@ -37660,85 +36488,59 @@ impl<'de> serde::Deserialize<'de> for RunObject {
         #[derive(serde :: Deserialize)]
         struct RunObject {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "object")]
             #[allow(dead_code)]
             object: RunObjectObject,
             #[serde(rename = "created_at")]
-            #[allow(dead_code)]
             created_at: i64,
             #[serde(rename = "thread_id")]
-            #[allow(dead_code)]
             thread_id: String,
             #[serde(rename = "assistant_id")]
-            #[allow(dead_code)]
             assistant_id: String,
             #[serde(rename = "status")]
-            #[allow(dead_code)]
             status: RunObjectStatus,
             #[serde(rename = "required_action")]
-            #[allow(dead_code)]
             required_action: Option<RunObjectRequiredAction>,
             #[serde(rename = "last_error")]
-            #[allow(dead_code)]
             last_error: Option<RunObjectLastError>,
             #[serde(rename = "expires_at")]
-            #[allow(dead_code)]
             expires_at: Option<i64>,
             #[serde(rename = "started_at")]
-            #[allow(dead_code)]
             started_at: Option<i64>,
             #[serde(rename = "cancelled_at")]
-            #[allow(dead_code)]
             cancelled_at: Option<i64>,
             #[serde(rename = "failed_at")]
-            #[allow(dead_code)]
             failed_at: Option<i64>,
             #[serde(rename = "completed_at")]
-            #[allow(dead_code)]
             completed_at: Option<i64>,
             #[serde(rename = "incomplete_details")]
-            #[allow(dead_code)]
             incomplete_details: Option<RunObjectIncompleteDetails>,
             #[serde(rename = "model")]
-            #[allow(dead_code)]
             model: String,
             #[serde(rename = "instructions")]
-            #[allow(dead_code)]
             instructions: String,
             #[serde(rename = "tools")]
-            #[allow(dead_code)]
             tools: Vec<RunObjectTool>,
             #[serde(rename = "metadata")]
-            #[allow(dead_code)]
             metadata: Option<Metadata>,
             #[serde(rename = "usage")]
-            #[allow(dead_code)]
             usage: Option<RunCompletionUsage>,
             #[serde(rename = "temperature")]
-            #[allow(dead_code)]
             temperature: Option<serde_json::Number>,
             #[serde(rename = "top_p")]
-            #[allow(dead_code)]
             top_p: Option<serde_json::Number>,
             #[serde(rename = "max_prompt_tokens")]
-            #[allow(dead_code)]
             max_prompt_tokens: Option<i64>,
             #[serde(rename = "max_completion_tokens")]
-            #[allow(dead_code)]
             max_completion_tokens: Option<i64>,
             #[serde(rename = "truncation_strategy")]
-            #[allow(dead_code)]
             truncation_strategy: Option<TruncationObject>,
             #[serde(rename = "tool_choice")]
-            #[allow(dead_code)]
             tool_choice: Option<AssistantsApiToolChoiceOption>,
             #[serde(rename = "parallel_tool_calls")]
-            #[allow(dead_code)]
             parallel_tool_calls: ParallelToolCalls,
             #[serde(rename = "response_format")]
-            #[allow(dead_code)]
             response_format: Option<AssistantsApiResponseFormatOption>,
         }
         let RunObject {
@@ -37998,13 +36800,11 @@ impl<'de> serde::Deserialize<'de> for RunStepDeltaObject {
         #[derive(serde :: Deserialize)]
         struct RunStepDeltaObject {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "object")]
             #[allow(dead_code)]
             object: RunStepDeltaObjectObject,
             #[serde(rename = "delta")]
-            #[allow(dead_code)]
             delta: RunStepDeltaObjectDelta,
         }
         let RunStepDeltaObject { id, delta, .. } = RunStepDeltaObject::deserialize(deserializer)?;
@@ -38070,7 +36870,6 @@ impl<'de> serde::Deserialize<'de> for RunStepDeltaStepDetailsMessageCreationObje
             #[allow(dead_code)]
             r#type: RunStepDeltaStepDetailsMessageCreationObjectType,
             #[serde(rename = "message_creation")]
-            #[allow(dead_code)]
             message_creation: Option<RunStepDeltaStepDetailsMessageCreationObjectMessageCreation>,
         }
         let RunStepDeltaStepDetailsMessageCreationObject {
@@ -38155,16 +36954,13 @@ impl<'de> serde::Deserialize<'de> for RunStepDeltaStepDetailsToolCallsCodeObject
         #[derive(serde :: Deserialize)]
         struct RunStepDeltaStepDetailsToolCallsCodeObject {
             #[serde(rename = "index")]
-            #[allow(dead_code)]
             index: i64,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: Option<String>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RunStepDeltaStepDetailsToolCallsCodeObjectType,
             #[serde(rename = "code_interpreter")]
-            #[allow(dead_code)]
             code_interpreter: Option<RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter>,
         }
         let RunStepDeltaStepDetailsToolCallsCodeObject {
@@ -38246,13 +37042,11 @@ impl<'de> serde::Deserialize<'de> for RunStepDeltaStepDetailsToolCallsCodeOutput
         #[derive(serde :: Deserialize)]
         struct RunStepDeltaStepDetailsToolCallsCodeOutputImageObject {
             #[serde(rename = "index")]
-            #[allow(dead_code)]
             index: i64,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectType,
             #[serde(rename = "image")]
-            #[allow(dead_code)]
             image: Option<RunStepDeltaStepDetailsToolCallsCodeOutputImageObjectImage>,
         }
         let RunStepDeltaStepDetailsToolCallsCodeOutputImageObject { index, image, .. } =
@@ -38310,13 +37104,11 @@ impl<'de> serde::Deserialize<'de> for RunStepDeltaStepDetailsToolCallsCodeOutput
         #[derive(serde :: Deserialize)]
         struct RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject {
             #[serde(rename = "index")]
-            #[allow(dead_code)]
             index: i64,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RunStepDeltaStepDetailsToolCallsCodeOutputLogsObjectType,
             #[serde(rename = "logs")]
-            #[allow(dead_code)]
             logs: Option<String>,
         }
         let RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject { index, logs, .. } =
@@ -38375,16 +37167,13 @@ impl<'de> serde::Deserialize<'de> for RunStepDeltaStepDetailsToolCallsFileSearch
         #[derive(serde :: Deserialize)]
         struct RunStepDeltaStepDetailsToolCallsFileSearchObject {
             #[serde(rename = "index")]
-            #[allow(dead_code)]
             index: i64,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: Option<String>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RunStepDeltaStepDetailsToolCallsFileSearchObjectType,
             #[serde(rename = "file_search")]
-            #[allow(dead_code)]
             file_search: indexmap::IndexMap<String, serde_json::Value>,
         }
         let RunStepDeltaStepDetailsToolCallsFileSearchObject {
@@ -38480,16 +37269,13 @@ impl<'de> serde::Deserialize<'de> for RunStepDeltaStepDetailsToolCallsFunctionOb
         #[derive(serde :: Deserialize)]
         struct RunStepDeltaStepDetailsToolCallsFunctionObject {
             #[serde(rename = "index")]
-            #[allow(dead_code)]
             index: i64,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: Option<String>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RunStepDeltaStepDetailsToolCallsFunctionObjectType,
             #[serde(rename = "function")]
-            #[allow(dead_code)]
             function: Option<RunStepDeltaStepDetailsToolCallsFunctionObjectFunction>,
         }
         let RunStepDeltaStepDetailsToolCallsFunctionObject {
@@ -38571,7 +37357,6 @@ impl<'de> serde::Deserialize<'de> for RunStepDeltaStepDetailsToolCallsObject {
             #[allow(dead_code)]
             r#type: RunStepDeltaStepDetailsToolCallsObjectType,
             #[serde(rename = "tool_calls")]
-            #[allow(dead_code)]
             tool_calls: Option<Vec<RunStepDeltaStepDetailsToolCallsObjectToolCalls>>,
         }
         let RunStepDeltaStepDetailsToolCallsObject { tool_calls, .. } =
@@ -38630,7 +37415,6 @@ impl<'de> serde::Deserialize<'de> for RunStepDetailsMessageCreationObject {
             #[allow(dead_code)]
             r#type: RunStepDetailsMessageCreationObjectType,
             #[serde(rename = "message_creation")]
-            #[allow(dead_code)]
             message_creation: RunStepDetailsMessageCreationObjectMessageCreation,
         }
         let RunStepDetailsMessageCreationObject {
@@ -38702,13 +37486,11 @@ impl<'de> serde::Deserialize<'de> for RunStepDetailsToolCallsCodeObject {
         #[derive(serde :: Deserialize)]
         struct RunStepDetailsToolCallsCodeObject {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RunStepDetailsToolCallsCodeObjectType,
             #[serde(rename = "code_interpreter")]
-            #[allow(dead_code)]
             code_interpreter: RunStepDetailsToolCallsCodeObjectCodeInterpreter,
         }
         let RunStepDetailsToolCallsCodeObject {
@@ -38777,7 +37559,6 @@ impl<'de> serde::Deserialize<'de> for RunStepDetailsToolCallsCodeOutputImageObje
             #[allow(dead_code)]
             r#type: RunStepDetailsToolCallsCodeOutputImageObjectType,
             #[serde(rename = "image")]
-            #[allow(dead_code)]
             image: RunStepDetailsToolCallsCodeOutputImageObjectImage,
         }
         let RunStepDetailsToolCallsCodeOutputImageObject { image, .. } =
@@ -38828,7 +37609,6 @@ impl<'de> serde::Deserialize<'de> for RunStepDetailsToolCallsCodeOutputLogsObjec
             #[allow(dead_code)]
             r#type: RunStepDetailsToolCallsCodeOutputLogsObjectType,
             #[serde(rename = "logs")]
-            #[allow(dead_code)]
             logs: String,
         }
         let RunStepDetailsToolCallsCodeOutputLogsObject { logs, .. } =
@@ -38893,13 +37673,11 @@ impl<'de> serde::Deserialize<'de> for RunStepDetailsToolCallsFileSearchObject {
         #[derive(serde :: Deserialize)]
         struct RunStepDetailsToolCallsFileSearchObject {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RunStepDetailsToolCallsFileSearchObjectType,
             #[serde(rename = "file_search")]
-            #[allow(dead_code)]
             file_search: RunStepDetailsToolCallsFileSearchObjectFileSearch,
         }
         let RunStepDetailsToolCallsFileSearchObject {
@@ -39022,13 +37800,11 @@ impl<'de> serde::Deserialize<'de> for RunStepDetailsToolCallsFunctionObject {
         #[derive(serde :: Deserialize)]
         struct RunStepDetailsToolCallsFunctionObject {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RunStepDetailsToolCallsFunctionObjectType,
             #[serde(rename = "function")]
-            #[allow(dead_code)]
             function: RunStepDetailsToolCallsFunctionObjectFunction,
         }
         let RunStepDetailsToolCallsFunctionObject { id, function, .. } =
@@ -39092,7 +37868,6 @@ impl<'de> serde::Deserialize<'de> for RunStepDetailsToolCallsObject {
             #[allow(dead_code)]
             r#type: RunStepDetailsToolCallsObjectType,
             #[serde(rename = "tool_calls")]
-            #[allow(dead_code)]
             tool_calls: Vec<RunStepDetailsToolCallsObjectToolCalls>,
         }
         let RunStepDetailsToolCallsObject { tool_calls, .. } =
@@ -39234,52 +38009,37 @@ impl<'de> serde::Deserialize<'de> for RunStepObject {
         #[derive(serde :: Deserialize)]
         struct RunStepObject {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "object")]
             #[allow(dead_code)]
             object: RunStepObjectObject,
             #[serde(rename = "created_at")]
-            #[allow(dead_code)]
             created_at: i64,
             #[serde(rename = "assistant_id")]
-            #[allow(dead_code)]
             assistant_id: String,
             #[serde(rename = "thread_id")]
-            #[allow(dead_code)]
             thread_id: String,
             #[serde(rename = "run_id")]
-            #[allow(dead_code)]
             run_id: String,
             #[serde(rename = "type")]
-            #[allow(dead_code)]
             r#type: RunStepObjectType,
             #[serde(rename = "status")]
-            #[allow(dead_code)]
             status: RunStepObjectStatus,
             #[serde(rename = "step_details")]
-            #[allow(dead_code)]
             step_details: RunStepObjectStepDetails,
             #[serde(rename = "last_error")]
-            #[allow(dead_code)]
             last_error: Option<RunStepObjectLastError>,
             #[serde(rename = "expired_at")]
-            #[allow(dead_code)]
             expired_at: Option<i64>,
             #[serde(rename = "cancelled_at")]
-            #[allow(dead_code)]
             cancelled_at: Option<i64>,
             #[serde(rename = "failed_at")]
-            #[allow(dead_code)]
             failed_at: Option<i64>,
             #[serde(rename = "completed_at")]
-            #[allow(dead_code)]
             completed_at: Option<i64>,
             #[serde(rename = "metadata")]
-            #[allow(dead_code)]
             metadata: Option<Metadata>,
             #[serde(rename = "usage")]
-            #[allow(dead_code)]
             usage: Option<RunStepCompletionUsage>,
         }
         let RunStepObject {
@@ -39429,7 +38189,6 @@ impl<'de> serde::Deserialize<'de> for RunStepStreamEventThreadRunStepCreated {
             #[allow(dead_code)]
             event: RunStepStreamEventThreadRunStepCreatedEvent,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: RunStepObject,
         }
         let RunStepStreamEventThreadRunStepCreated { data, .. } =
@@ -39482,7 +38241,6 @@ impl<'de> serde::Deserialize<'de> for RunStepStreamEventThreadRunStepInProgress 
             #[allow(dead_code)]
             event: RunStepStreamEventThreadRunStepInProgressEvent,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: RunStepObject,
         }
         let RunStepStreamEventThreadRunStepInProgress { data, .. } =
@@ -39535,7 +38293,6 @@ impl<'de> serde::Deserialize<'de> for RunStepStreamEventThreadRunStepDelta {
             #[allow(dead_code)]
             event: RunStepStreamEventThreadRunStepDeltaEvent,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: RunStepDeltaObject,
         }
         let RunStepStreamEventThreadRunStepDelta { data, .. } =
@@ -39588,7 +38345,6 @@ impl<'de> serde::Deserialize<'de> for RunStepStreamEventThreadRunStepCompleted {
             #[allow(dead_code)]
             event: RunStepStreamEventThreadRunStepCompletedEvent,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: RunStepObject,
         }
         let RunStepStreamEventThreadRunStepCompleted { data, .. } =
@@ -39641,7 +38397,6 @@ impl<'de> serde::Deserialize<'de> for RunStepStreamEventThreadRunStepFailed {
             #[allow(dead_code)]
             event: RunStepStreamEventThreadRunStepFailedEvent,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: RunStepObject,
         }
         let RunStepStreamEventThreadRunStepFailed { data, .. } =
@@ -39694,7 +38449,6 @@ impl<'de> serde::Deserialize<'de> for RunStepStreamEventThreadRunStepCancelled {
             #[allow(dead_code)]
             event: RunStepStreamEventThreadRunStepCancelledEvent,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: RunStepObject,
         }
         let RunStepStreamEventThreadRunStepCancelled { data, .. } =
@@ -39747,7 +38501,6 @@ impl<'de> serde::Deserialize<'de> for RunStepStreamEventThreadRunStepExpired {
             #[allow(dead_code)]
             event: RunStepStreamEventThreadRunStepExpiredEvent,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: RunStepObject,
         }
         let RunStepStreamEventThreadRunStepExpired { data, .. } =
@@ -39818,7 +38571,6 @@ impl<'de> serde::Deserialize<'de> for RunStreamEventThreadRunCreated {
             #[allow(dead_code)]
             event: RunStreamEventThreadRunCreatedEvent,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: RunObject,
         }
         let RunStreamEventThreadRunCreated { data, .. } =
@@ -39868,7 +38620,6 @@ impl<'de> serde::Deserialize<'de> for RunStreamEventThreadRunQueued {
             #[allow(dead_code)]
             event: RunStreamEventThreadRunQueuedEvent,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: RunObject,
         }
         let RunStreamEventThreadRunQueued { data, .. } =
@@ -39921,7 +38672,6 @@ impl<'de> serde::Deserialize<'de> for RunStreamEventThreadRunInProgress {
             #[allow(dead_code)]
             event: RunStreamEventThreadRunInProgressEvent,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: RunObject,
         }
         let RunStreamEventThreadRunInProgress { data, .. } =
@@ -39974,7 +38724,6 @@ impl<'de> serde::Deserialize<'de> for RunStreamEventThreadRunRequiresAction {
             #[allow(dead_code)]
             event: RunStreamEventThreadRunRequiresActionEvent,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: RunObject,
         }
         let RunStreamEventThreadRunRequiresAction { data, .. } =
@@ -40027,7 +38776,6 @@ impl<'de> serde::Deserialize<'de> for RunStreamEventThreadRunCompleted {
             #[allow(dead_code)]
             event: RunStreamEventThreadRunCompletedEvent,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: RunObject,
         }
         let RunStreamEventThreadRunCompleted { data, .. } =
@@ -40080,7 +38828,6 @@ impl<'de> serde::Deserialize<'de> for RunStreamEventThreadRunIncomplete {
             #[allow(dead_code)]
             event: RunStreamEventThreadRunIncompleteEvent,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: RunObject,
         }
         let RunStreamEventThreadRunIncomplete { data, .. } =
@@ -40130,7 +38877,6 @@ impl<'de> serde::Deserialize<'de> for RunStreamEventThreadRunFailed {
             #[allow(dead_code)]
             event: RunStreamEventThreadRunFailedEvent,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: RunObject,
         }
         let RunStreamEventThreadRunFailed { data, .. } =
@@ -40183,7 +38929,6 @@ impl<'de> serde::Deserialize<'de> for RunStreamEventThreadRunCancelling {
             #[allow(dead_code)]
             event: RunStreamEventThreadRunCancellingEvent,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: RunObject,
         }
         let RunStreamEventThreadRunCancelling { data, .. } =
@@ -40236,7 +38981,6 @@ impl<'de> serde::Deserialize<'de> for RunStreamEventThreadRunCancelled {
             #[allow(dead_code)]
             event: RunStreamEventThreadRunCancelledEvent,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: RunObject,
         }
         let RunStreamEventThreadRunCancelled { data, .. } =
@@ -40286,7 +39030,6 @@ impl<'de> serde::Deserialize<'de> for RunStreamEventThreadRunExpired {
             #[allow(dead_code)]
             event: RunStreamEventThreadRunExpiredEvent,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: RunObject,
         }
         let RunStreamEventThreadRunExpired { data, .. } =
@@ -40375,13 +39118,11 @@ impl<'de> serde::Deserialize<'de> for RunToolCallObject {
         #[derive(serde :: Deserialize)]
         struct RunToolCallObject {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: RunToolCallObjectType,
             #[serde(rename = "function")]
-            #[allow(dead_code)]
             function: RunToolCallObjectFunction,
         }
         let RunToolCallObject { id, function, .. } = RunToolCallObject::deserialize(deserializer)?;
@@ -40481,16 +39222,12 @@ impl<'de> serde::Deserialize<'de> for Scroll {
             #[allow(dead_code)]
             r#type: ScrollType,
             #[serde(rename = "x")]
-            #[allow(dead_code)]
             x: i64,
             #[serde(rename = "y")]
-            #[allow(dead_code)]
             y: i64,
             #[serde(rename = "scroll_x")]
-            #[allow(dead_code)]
             scroll_x: i64,
             #[serde(rename = "scroll_y")]
-            #[allow(dead_code)]
             scroll_y: i64,
         }
         let Scroll {
@@ -40585,7 +39322,6 @@ impl<'de> serde::Deserialize<'de> for SpeechAudioDeltaEvent {
             #[allow(dead_code)]
             r#type: SpeechAudioDeltaEventType,
             #[serde(rename = "audio")]
-            #[allow(dead_code)]
             audio: String,
         }
         let SpeechAudioDeltaEvent { audio, .. } = SpeechAudioDeltaEvent::deserialize(deserializer)?;
@@ -40650,7 +39386,6 @@ impl<'de> serde::Deserialize<'de> for SpeechAudioDoneEvent {
             #[allow(dead_code)]
             r#type: SpeechAudioDoneEventType,
             #[serde(rename = "usage")]
-            #[allow(dead_code)]
             usage: SpeechAudioDoneEventUsage,
         }
         let SpeechAudioDoneEvent { usage, .. } = SpeechAudioDoneEvent::deserialize(deserializer)?;
@@ -40710,7 +39445,6 @@ impl<'de> serde::Deserialize<'de> for StaticChunkingStrategyRequestParam {
             #[allow(dead_code)]
             r#type: StaticChunkingStrategyRequestParamType,
             #[serde(rename = "static")]
-            #[allow(dead_code)]
             r#static: StaticChunkingStrategy,
         }
         let StaticChunkingStrategyRequestParam { r#static, .. } =
@@ -40759,7 +39493,6 @@ impl<'de> serde::Deserialize<'de> for StaticChunkingStrategyResponseParam {
             #[allow(dead_code)]
             r#type: StaticChunkingStrategyResponseParamType,
             #[serde(rename = "static")]
-            #[allow(dead_code)]
             r#static: StaticChunkingStrategy,
         }
         let StaticChunkingStrategyResponseParam { r#static, .. } =
@@ -40866,16 +39599,12 @@ impl<'de> serde::Deserialize<'de> for TextResponseFormatJsonSchema {
             #[allow(dead_code)]
             r#type: TextResponseFormatJsonSchemaType,
             #[serde(rename = "description")]
-            #[allow(dead_code)]
             description: Option<String>,
             #[serde(rename = "name")]
-            #[allow(dead_code)]
             name: String,
             #[serde(rename = "schema")]
-            #[allow(dead_code)]
             schema: ResponseFormatJsonSchemaSchema,
             #[serde(rename = "strict")]
-            #[allow(dead_code)]
             strict: Option<bool>,
         }
         let TextResponseFormatJsonSchema {
@@ -40990,19 +39719,15 @@ impl<'de> serde::Deserialize<'de> for ThreadObject {
         #[derive(serde :: Deserialize)]
         struct ThreadObject {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "object")]
             #[allow(dead_code)]
             object: ThreadObjectObject,
             #[serde(rename = "created_at")]
-            #[allow(dead_code)]
             created_at: i64,
             #[serde(rename = "tool_resources")]
-            #[allow(dead_code)]
             tool_resources: Option<ThreadObjectToolResources>,
             #[serde(rename = "metadata")]
-            #[allow(dead_code)]
             metadata: Option<Metadata>,
         }
         let ThreadObject {
@@ -41078,13 +39803,11 @@ impl<'de> serde::Deserialize<'de> for ThreadStreamEventThreadCreated {
         #[derive(serde :: Deserialize)]
         struct ThreadStreamEventThreadCreated {
             #[serde(rename = "enabled")]
-            #[allow(dead_code)]
             enabled: Option<bool>,
             #[serde(rename = "event")]
             #[allow(dead_code)]
             event: ThreadStreamEventThreadCreatedEvent,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: ThreadObject,
         }
         let ThreadStreamEventThreadCreated { enabled, data, .. } =
@@ -41171,7 +39894,6 @@ impl<'de> serde::Deserialize<'de> for ToolChoiceFunction {
             #[allow(dead_code)]
             r#type: ToolChoiceFunctionType,
             #[serde(rename = "name")]
-            #[allow(dead_code)]
             name: String,
         }
         let ToolChoiceFunction { name, .. } = ToolChoiceFunction::deserialize(deserializer)?;
@@ -41224,10 +39946,8 @@ impl<'de> serde::Deserialize<'de> for ToolChoiceMcp {
             #[allow(dead_code)]
             r#type: ToolChoiceMcpType,
             #[serde(rename = "server_label")]
-            #[allow(dead_code)]
             server_label: String,
             #[serde(rename = "name")]
-            #[allow(dead_code)]
             name: Option<String>,
         }
         let ToolChoiceMcp {
@@ -41350,10 +40070,8 @@ impl<'de> serde::Deserialize<'de> for TranscriptTextDeltaEvent {
             #[allow(dead_code)]
             r#type: TranscriptTextDeltaEventType,
             #[serde(rename = "delta")]
-            #[allow(dead_code)]
             delta: String,
             #[serde(rename = "logprobs")]
-            #[allow(dead_code)]
             logprobs: Option<Vec<TranscriptTextDeltaEventLogprob>>,
         }
         let TranscriptTextDeltaEvent {
@@ -41434,13 +40152,10 @@ impl<'de> serde::Deserialize<'de> for TranscriptTextDoneEvent {
             #[allow(dead_code)]
             r#type: TranscriptTextDoneEventType,
             #[serde(rename = "text")]
-            #[allow(dead_code)]
             text: String,
             #[serde(rename = "logprobs")]
-            #[allow(dead_code)]
             logprobs: Option<Vec<TranscriptTextDoneEventLogprob>>,
             #[serde(rename = "usage")]
-            #[allow(dead_code)]
             usage: Option<TranscriptTextUsageTokens>,
         }
         let TranscriptTextDoneEvent {
@@ -41511,7 +40226,6 @@ impl<'de> serde::Deserialize<'de> for TranscriptTextUsageDuration {
             #[allow(dead_code)]
             r#type: TranscriptTextUsageDurationType,
             #[serde(rename = "duration")]
-            #[allow(dead_code)]
             duration: serde_json::Number,
         }
         let TranscriptTextUsageDuration { duration, .. } =
@@ -41585,16 +40299,12 @@ impl<'de> serde::Deserialize<'de> for TranscriptTextUsageTokens {
             #[allow(dead_code)]
             r#type: TranscriptTextUsageTokensType,
             #[serde(rename = "input_tokens")]
-            #[allow(dead_code)]
             input_tokens: i64,
             #[serde(rename = "input_token_details")]
-            #[allow(dead_code)]
             input_token_details: Option<TranscriptTextUsageTokensInputTokenDetails>,
             #[serde(rename = "output_tokens")]
-            #[allow(dead_code)]
             output_tokens: i64,
             #[serde(rename = "total_tokens")]
-            #[allow(dead_code)]
             total_tokens: i64,
         }
         let TranscriptTextUsageTokens {
@@ -41670,8 +40380,8 @@ impl<'de> serde::Deserialize<'de> for TranscriptionChunkingStrategy {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum TranscriptionChunkingStrategy {
-            Auto(#[allow(dead_code)] TranscriptionChunkingStrategyAuto),
-            VadConfig(#[allow(dead_code)] VadConfig),
+            Auto(TranscriptionChunkingStrategyAuto),
+            VadConfig(VadConfig),
         }
         Ok(
             match TranscriptionChunkingStrategy::deserialize(deserializer)? {
@@ -41691,15 +40401,14 @@ impl serde::Serialize for TranscriptionChunkingStrategy {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum TranscriptionChunkingStrategy<'a> {
-            Auto(#[allow(dead_code)] &'a TranscriptionChunkingStrategyAuto),
-            VadConfig(#[allow(dead_code)] &'a VadConfig),
+            Auto(TranscriptionChunkingStrategyAuto),
+            VadConfig(&'a VadConfig),
         }
         match self {
-            Self::Auto => {
-                TranscriptionChunkingStrategy::Auto(&Default::default()).serialize(serializer)
-            }
-            Self::VadConfig(v) => TranscriptionChunkingStrategy::VadConfig(v).serialize(serializer),
+            Self::Auto => TranscriptionChunkingStrategy::Auto(Default::default()),
+            Self::VadConfig(v) => TranscriptionChunkingStrategy::VadConfig(v),
         }
+        .serialize(serializer)
     }
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
@@ -41803,7 +40512,6 @@ impl<'de> serde::Deserialize<'de> for Type {
             #[allow(dead_code)]
             r#type: TypeType,
             #[serde(rename = "text")]
-            #[allow(dead_code)]
             text: String,
         }
         let Type { text, .. } = Type::deserialize(deserializer)?;
@@ -41951,13 +40659,10 @@ impl<'de> serde::Deserialize<'de> for UploadPart {
         #[derive(serde :: Deserialize)]
         struct UploadPart {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "created_at")]
-            #[allow(dead_code)]
             created_at: i64,
             #[serde(rename = "upload_id")]
-            #[allow(dead_code)]
             upload_id: String,
             #[serde(rename = "object")]
             #[allow(dead_code)]
@@ -42046,22 +40751,16 @@ impl<'de> serde::Deserialize<'de> for UsageAudioSpeechesResult {
             #[allow(dead_code)]
             object: UsageAudioSpeechesResultObject,
             #[serde(rename = "characters")]
-            #[allow(dead_code)]
             characters: i64,
             #[serde(rename = "num_model_requests")]
-            #[allow(dead_code)]
             num_model_requests: i64,
             #[serde(rename = "project_id")]
-            #[allow(dead_code)]
             project_id: Option<String>,
             #[serde(rename = "user_id")]
-            #[allow(dead_code)]
             user_id: Option<String>,
             #[serde(rename = "api_key_id")]
-            #[allow(dead_code)]
             api_key_id: Option<String>,
             #[serde(rename = "model")]
-            #[allow(dead_code)]
             model: Option<String>,
         }
         let UsageAudioSpeechesResult {
@@ -42169,22 +40868,16 @@ impl<'de> serde::Deserialize<'de> for UsageAudioTranscriptionsResult {
             #[allow(dead_code)]
             object: UsageAudioTranscriptionsResultObject,
             #[serde(rename = "seconds")]
-            #[allow(dead_code)]
             seconds: i64,
             #[serde(rename = "num_model_requests")]
-            #[allow(dead_code)]
             num_model_requests: i64,
             #[serde(rename = "project_id")]
-            #[allow(dead_code)]
             project_id: Option<String>,
             #[serde(rename = "user_id")]
-            #[allow(dead_code)]
             user_id: Option<String>,
             #[serde(rename = "api_key_id")]
-            #[allow(dead_code)]
             api_key_id: Option<String>,
             #[serde(rename = "model")]
-            #[allow(dead_code)]
             model: Option<String>,
         }
         let UsageAudioTranscriptionsResult {
@@ -42283,13 +40976,10 @@ impl<'de> serde::Deserialize<'de> for UsageCodeInterpreterSessionsResult {
             #[allow(dead_code)]
             object: UsageCodeInterpreterSessionsResultObject,
             #[serde(rename = "num_sessions")]
-            #[allow(dead_code)]
             num_sessions: Option<i64>,
             #[serde(rename = "project_id")]
-            #[allow(dead_code)]
             project_id: Option<String>,
             #[serde(rename = "sessions")]
-            #[allow(dead_code)]
             sessions: serde_json::Value,
         }
         let UsageCodeInterpreterSessionsResult {
@@ -42391,37 +41081,26 @@ impl<'de> serde::Deserialize<'de> for UsageCompletionsResult {
             #[allow(dead_code)]
             object: UsageCompletionsResultObject,
             #[serde(rename = "input_tokens")]
-            #[allow(dead_code)]
             input_tokens: i64,
             #[serde(rename = "input_cached_tokens")]
-            #[allow(dead_code)]
             input_cached_tokens: Option<i64>,
             #[serde(rename = "output_tokens")]
-            #[allow(dead_code)]
             output_tokens: i64,
             #[serde(rename = "input_audio_tokens")]
-            #[allow(dead_code)]
             input_audio_tokens: Option<i64>,
             #[serde(rename = "output_audio_tokens")]
-            #[allow(dead_code)]
             output_audio_tokens: Option<i64>,
             #[serde(rename = "num_model_requests")]
-            #[allow(dead_code)]
             num_model_requests: i64,
             #[serde(rename = "project_id")]
-            #[allow(dead_code)]
             project_id: Option<String>,
             #[serde(rename = "user_id")]
-            #[allow(dead_code)]
             user_id: Option<String>,
             #[serde(rename = "api_key_id")]
-            #[allow(dead_code)]
             api_key_id: Option<String>,
             #[serde(rename = "model")]
-            #[allow(dead_code)]
             model: Option<String>,
             #[serde(rename = "batch")]
-            #[allow(dead_code)]
             batch: Option<bool>,
         }
         let UsageCompletionsResult {
@@ -42563,22 +41242,16 @@ impl<'de> serde::Deserialize<'de> for UsageEmbeddingsResult {
             #[allow(dead_code)]
             object: UsageEmbeddingsResultObject,
             #[serde(rename = "input_tokens")]
-            #[allow(dead_code)]
             input_tokens: i64,
             #[serde(rename = "num_model_requests")]
-            #[allow(dead_code)]
             num_model_requests: i64,
             #[serde(rename = "project_id")]
-            #[allow(dead_code)]
             project_id: Option<String>,
             #[serde(rename = "user_id")]
-            #[allow(dead_code)]
             user_id: Option<String>,
             #[serde(rename = "api_key_id")]
-            #[allow(dead_code)]
             api_key_id: Option<String>,
             #[serde(rename = "model")]
-            #[allow(dead_code)]
             model: Option<String>,
         }
         let UsageEmbeddingsResult {
@@ -42689,28 +41362,20 @@ impl<'de> serde::Deserialize<'de> for UsageImagesResult {
             #[allow(dead_code)]
             object: UsageImagesResultObject,
             #[serde(rename = "images")]
-            #[allow(dead_code)]
             images: i64,
             #[serde(rename = "num_model_requests")]
-            #[allow(dead_code)]
             num_model_requests: i64,
             #[serde(rename = "source")]
-            #[allow(dead_code)]
             source: Option<String>,
             #[serde(rename = "size")]
-            #[allow(dead_code)]
             size: Option<String>,
             #[serde(rename = "project_id")]
-            #[allow(dead_code)]
             project_id: Option<String>,
             #[serde(rename = "user_id")]
-            #[allow(dead_code)]
             user_id: Option<String>,
             #[serde(rename = "api_key_id")]
-            #[allow(dead_code)]
             api_key_id: Option<String>,
             #[serde(rename = "model")]
-            #[allow(dead_code)]
             model: Option<String>,
         }
         let UsageImagesResult {
@@ -42832,22 +41497,16 @@ impl<'de> serde::Deserialize<'de> for UsageModerationsResult {
             #[allow(dead_code)]
             object: UsageModerationsResultObject,
             #[serde(rename = "input_tokens")]
-            #[allow(dead_code)]
             input_tokens: i64,
             #[serde(rename = "num_model_requests")]
-            #[allow(dead_code)]
             num_model_requests: i64,
             #[serde(rename = "project_id")]
-            #[allow(dead_code)]
             project_id: Option<String>,
             #[serde(rename = "user_id")]
-            #[allow(dead_code)]
             user_id: Option<String>,
             #[serde(rename = "api_key_id")]
-            #[allow(dead_code)]
             api_key_id: Option<String>,
             #[serde(rename = "model")]
-            #[allow(dead_code)]
             model: Option<String>,
         }
         let UsageModerationsResult {
@@ -42938,13 +41597,10 @@ impl<'de> serde::Deserialize<'de> for UsageResponse {
             #[allow(dead_code)]
             object: UsageResponseObject,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: Vec<UsageTimeBucket>,
             #[serde(rename = "has_more")]
-            #[allow(dead_code)]
             has_more: bool,
             #[serde(rename = "next_page")]
-            #[allow(dead_code)]
             next_page: String,
         }
         let UsageResponse {
@@ -43029,13 +41685,10 @@ impl<'de> serde::Deserialize<'de> for UsageTimeBucket {
             #[allow(dead_code)]
             object: UsageTimeBucketObject,
             #[serde(rename = "start_time")]
-            #[allow(dead_code)]
             start_time: i64,
             #[serde(rename = "end_time")]
-            #[allow(dead_code)]
             end_time: i64,
             #[serde(rename = "result")]
-            #[allow(dead_code)]
             result: Vec<UsageTimeBucketResult>,
         }
         let UsageTimeBucket {
@@ -43110,10 +41763,8 @@ impl<'de> serde::Deserialize<'de> for UsageVectorStoresResult {
             #[allow(dead_code)]
             object: UsageVectorStoresResultObject,
             #[serde(rename = "usage_bytes")]
-            #[allow(dead_code)]
             usage_bytes: i64,
             #[serde(rename = "project_id")]
-            #[allow(dead_code)]
             project_id: Option<String>,
         }
         let UsageVectorStoresResult {
@@ -43195,19 +41846,14 @@ impl<'de> serde::Deserialize<'de> for User {
             #[allow(dead_code)]
             object: UserObject,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "name")]
-            #[allow(dead_code)]
             name: String,
             #[serde(rename = "email")]
-            #[allow(dead_code)]
             email: String,
             #[serde(rename = "role")]
-            #[allow(dead_code)]
             role: UserRole,
             #[serde(rename = "added_at")]
-            #[allow(dead_code)]
             added_at: i64,
         }
         let User {
@@ -43287,10 +41933,8 @@ impl<'de> serde::Deserialize<'de> for UserDeleteResponse {
             #[allow(dead_code)]
             object: UserDeleteResponseObject,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "deleted")]
-            #[allow(dead_code)]
             deleted: bool,
         }
         let UserDeleteResponse { id, deleted, .. } = UserDeleteResponse::deserialize(deserializer)?;
@@ -43344,16 +41988,12 @@ impl<'de> serde::Deserialize<'de> for UserListResponse {
             #[allow(dead_code)]
             object: UserListResponseObject,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: Vec<User>,
             #[serde(rename = "first_id")]
-            #[allow(dead_code)]
             first_id: String,
             #[serde(rename = "last_id")]
-            #[allow(dead_code)]
             last_id: String,
             #[serde(rename = "has_more")]
-            #[allow(dead_code)]
             has_more: bool,
         }
         let UserListResponse {
@@ -43520,7 +42160,6 @@ impl<'de> serde::Deserialize<'de> for VectorStoreExpirationAfter {
             #[allow(dead_code)]
             anchor: VectorStoreExpirationAfterAnchor,
             #[serde(rename = "days")]
-            #[allow(dead_code)]
             days: i64,
         }
         let VectorStoreExpirationAfter { days, .. } =
@@ -43623,22 +42262,17 @@ impl<'de> serde::Deserialize<'de> for VectorStoreFileBatchObject {
         #[derive(serde :: Deserialize)]
         struct VectorStoreFileBatchObject {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "object")]
             #[allow(dead_code)]
             object: VectorStoreFileBatchObjectObject,
             #[serde(rename = "created_at")]
-            #[allow(dead_code)]
             created_at: i64,
             #[serde(rename = "vector_store_id")]
-            #[allow(dead_code)]
             vector_store_id: String,
             #[serde(rename = "status")]
-            #[allow(dead_code)]
             status: VectorStoreFileBatchObjectStatus,
             #[serde(rename = "file_counts")]
-            #[allow(dead_code)]
             file_counts: VectorStoreFileBatchObjectFileCounts,
         }
         let VectorStoreFileBatchObject {
@@ -43742,13 +42376,10 @@ impl<'de> serde::Deserialize<'de> for VectorStoreFileContentResponse {
             #[allow(dead_code)]
             object: VectorStoreFileContentResponseObject,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: Vec<VectorStoreFileContentResponseDatum>,
             #[serde(rename = "has_more")]
-            #[allow(dead_code)]
             has_more: bool,
             #[serde(rename = "next_page")]
-            #[allow(dead_code)]
             next_page: Option<String>,
         }
         let VectorStoreFileContentResponse {
@@ -43882,31 +42513,23 @@ impl<'de> serde::Deserialize<'de> for VectorStoreFileObject {
         #[derive(serde :: Deserialize)]
         struct VectorStoreFileObject {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "object")]
             #[allow(dead_code)]
             object: VectorStoreFileObjectObject,
             #[serde(rename = "usage_bytes")]
-            #[allow(dead_code)]
             usage_bytes: i64,
             #[serde(rename = "created_at")]
-            #[allow(dead_code)]
             created_at: i64,
             #[serde(rename = "vector_store_id")]
-            #[allow(dead_code)]
             vector_store_id: String,
             #[serde(rename = "status")]
-            #[allow(dead_code)]
             status: VectorStoreFileObjectStatus,
             #[serde(rename = "last_error")]
-            #[allow(dead_code)]
             last_error: Option<VectorStoreFileObjectLastError>,
             #[serde(rename = "chunking_strategy")]
-            #[allow(dead_code)]
             chunking_strategy: Option<VectorStoreFileObjectChunkingStrategy>,
             #[serde(rename = "attributes")]
-            #[allow(dead_code)]
             attributes: Option<VectorStoreFileAttributes>,
         }
         let VectorStoreFileObject {
@@ -44057,37 +42680,27 @@ impl<'de> serde::Deserialize<'de> for VectorStoreObject {
         #[derive(serde :: Deserialize)]
         struct VectorStoreObject {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "object")]
             #[allow(dead_code)]
             object: VectorStoreObjectObject,
             #[serde(rename = "created_at")]
-            #[allow(dead_code)]
             created_at: i64,
             #[serde(rename = "name")]
-            #[allow(dead_code)]
             name: String,
             #[serde(rename = "usage_bytes")]
-            #[allow(dead_code)]
             usage_bytes: i64,
             #[serde(rename = "file_counts")]
-            #[allow(dead_code)]
             file_counts: VectorStoreObjectFileCounts,
             #[serde(rename = "status")]
-            #[allow(dead_code)]
             status: VectorStoreObjectStatus,
             #[serde(rename = "expires_after")]
-            #[allow(dead_code)]
             expires_after: Option<VectorStoreExpirationAfter>,
             #[serde(rename = "expires_at")]
-            #[allow(dead_code)]
             expires_at: Option<i64>,
             #[serde(rename = "last_active_at")]
-            #[allow(dead_code)]
             last_active_at: Option<i64>,
             #[serde(rename = "metadata")]
-            #[allow(dead_code)]
             metadata: Option<Metadata>,
         }
         let VectorStoreObject {
@@ -44321,16 +42934,12 @@ impl<'de> serde::Deserialize<'de> for VectorStoreSearchResultsPage {
             #[allow(dead_code)]
             object: VectorStoreSearchResultsPageObject,
             #[serde(rename = "search_query")]
-            #[allow(dead_code)]
             search_query: Vec<String>,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: Vec<VectorStoreSearchResultItem>,
             #[serde(rename = "has_more")]
-            #[allow(dead_code)]
             has_more: bool,
             #[serde(rename = "next_page")]
-            #[allow(dead_code)]
             next_page: Option<String>,
         }
         let VectorStoreSearchResultsPage {
@@ -44465,18 +43074,18 @@ impl<'de> serde::Deserialize<'de> for VoiceIdsShared {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum VoiceIdsShared {
-            Alloy(#[allow(dead_code)] VoiceIdsSharedAlloy),
-            Ash(#[allow(dead_code)] VoiceIdsSharedAsh),
-            Ballad(#[allow(dead_code)] VoiceIdsSharedBallad),
-            Coral(#[allow(dead_code)] VoiceIdsSharedCoral),
-            Echo(#[allow(dead_code)] VoiceIdsSharedEcho),
-            Fable(#[allow(dead_code)] VoiceIdsSharedFable),
-            Onyx(#[allow(dead_code)] VoiceIdsSharedOnyx),
-            Nova(#[allow(dead_code)] VoiceIdsSharedNova),
-            Sage(#[allow(dead_code)] VoiceIdsSharedSage),
-            Shimmer(#[allow(dead_code)] VoiceIdsSharedShimmer),
-            Verse(#[allow(dead_code)] VoiceIdsSharedVerse),
-            Other(#[allow(dead_code)] String),
+            Alloy(VoiceIdsSharedAlloy),
+            Ash(VoiceIdsSharedAsh),
+            Ballad(VoiceIdsSharedBallad),
+            Coral(VoiceIdsSharedCoral),
+            Echo(VoiceIdsSharedEcho),
+            Fable(VoiceIdsSharedFable),
+            Onyx(VoiceIdsSharedOnyx),
+            Nova(VoiceIdsSharedNova),
+            Sage(VoiceIdsSharedSage),
+            Shimmer(VoiceIdsSharedShimmer),
+            Verse(VoiceIdsSharedVerse),
+            Other(String),
         }
         Ok(match VoiceIdsShared::deserialize(deserializer)? {
             VoiceIdsShared::Other(v) => Self::Other(v),
@@ -44504,33 +43113,34 @@ impl serde::Serialize for VoiceIdsShared {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names)]
         enum VoiceIdsShared<'a> {
-            Other(#[allow(dead_code)] &'a String),
-            Alloy(#[allow(dead_code)] &'a VoiceIdsSharedAlloy),
-            Ash(#[allow(dead_code)] &'a VoiceIdsSharedAsh),
-            Ballad(#[allow(dead_code)] &'a VoiceIdsSharedBallad),
-            Coral(#[allow(dead_code)] &'a VoiceIdsSharedCoral),
-            Echo(#[allow(dead_code)] &'a VoiceIdsSharedEcho),
-            Fable(#[allow(dead_code)] &'a VoiceIdsSharedFable),
-            Onyx(#[allow(dead_code)] &'a VoiceIdsSharedOnyx),
-            Nova(#[allow(dead_code)] &'a VoiceIdsSharedNova),
-            Sage(#[allow(dead_code)] &'a VoiceIdsSharedSage),
-            Shimmer(#[allow(dead_code)] &'a VoiceIdsSharedShimmer),
-            Verse(#[allow(dead_code)] &'a VoiceIdsSharedVerse),
+            Other(&'a String),
+            Alloy(VoiceIdsSharedAlloy),
+            Ash(VoiceIdsSharedAsh),
+            Ballad(VoiceIdsSharedBallad),
+            Coral(VoiceIdsSharedCoral),
+            Echo(VoiceIdsSharedEcho),
+            Fable(VoiceIdsSharedFable),
+            Onyx(VoiceIdsSharedOnyx),
+            Nova(VoiceIdsSharedNova),
+            Sage(VoiceIdsSharedSage),
+            Shimmer(VoiceIdsSharedShimmer),
+            Verse(VoiceIdsSharedVerse),
         }
         match self {
-            Self::Other(v) => VoiceIdsShared::Other(v).serialize(serializer),
-            Self::Alloy => VoiceIdsShared::Alloy(&Default::default()).serialize(serializer),
-            Self::Ash => VoiceIdsShared::Ash(&Default::default()).serialize(serializer),
-            Self::Ballad => VoiceIdsShared::Ballad(&Default::default()).serialize(serializer),
-            Self::Coral => VoiceIdsShared::Coral(&Default::default()).serialize(serializer),
-            Self::Echo => VoiceIdsShared::Echo(&Default::default()).serialize(serializer),
-            Self::Fable => VoiceIdsShared::Fable(&Default::default()).serialize(serializer),
-            Self::Onyx => VoiceIdsShared::Onyx(&Default::default()).serialize(serializer),
-            Self::Nova => VoiceIdsShared::Nova(&Default::default()).serialize(serializer),
-            Self::Sage => VoiceIdsShared::Sage(&Default::default()).serialize(serializer),
-            Self::Shimmer => VoiceIdsShared::Shimmer(&Default::default()).serialize(serializer),
-            Self::Verse => VoiceIdsShared::Verse(&Default::default()).serialize(serializer),
+            Self::Other(v) => VoiceIdsShared::Other(v),
+            Self::Alloy => VoiceIdsShared::Alloy(Default::default()),
+            Self::Ash => VoiceIdsShared::Ash(Default::default()),
+            Self::Ballad => VoiceIdsShared::Ballad(Default::default()),
+            Self::Coral => VoiceIdsShared::Coral(Default::default()),
+            Self::Echo => VoiceIdsShared::Echo(Default::default()),
+            Self::Fable => VoiceIdsShared::Fable(Default::default()),
+            Self::Onyx => VoiceIdsShared::Onyx(Default::default()),
+            Self::Nova => VoiceIdsShared::Nova(Default::default()),
+            Self::Sage => VoiceIdsShared::Sage(Default::default()),
+            Self::Shimmer => VoiceIdsShared::Shimmer(Default::default()),
+            Self::Verse => VoiceIdsShared::Verse(Default::default()),
         }
+        .serialize(serializer)
     }
 }
 #[doc = "Specifies the event type. For a wait action, this property is \nalways set to `wait`.\n"]
@@ -44598,10 +43208,8 @@ impl<'de> serde::Deserialize<'de> for WebSearchActionFind {
             #[allow(dead_code)]
             r#type: WebSearchActionFindType,
             #[serde(rename = "url")]
-            #[allow(dead_code)]
             url: String,
             #[serde(rename = "pattern")]
-            #[allow(dead_code)]
             pattern: String,
         }
         let WebSearchActionFind { url, pattern, .. } =
@@ -44655,7 +43263,6 @@ impl<'de> serde::Deserialize<'de> for WebSearchActionOpenPage {
             #[allow(dead_code)]
             r#type: WebSearchActionOpenPageType,
             #[serde(rename = "url")]
-            #[allow(dead_code)]
             url: String,
         }
         let WebSearchActionOpenPage { url, .. } =
@@ -44706,7 +43313,6 @@ impl<'de> serde::Deserialize<'de> for WebSearchActionSearch {
             #[allow(dead_code)]
             r#type: WebSearchActionSearchType,
             #[serde(rename = "query")]
-            #[allow(dead_code)]
             query: String,
         }
         let WebSearchActionSearch { query, .. } = WebSearchActionSearch::deserialize(deserializer)?;
@@ -44824,16 +43430,13 @@ impl<'de> serde::Deserialize<'de> for WebSearchToolCall {
         #[derive(serde :: Deserialize)]
         struct WebSearchToolCall {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: WebSearchToolCallType,
             #[serde(rename = "status")]
-            #[allow(dead_code)]
             status: WebSearchToolCallStatus,
             #[serde(rename = "action")]
-            #[allow(dead_code)]
             action: WebSearchToolCallAction,
         }
         let WebSearchToolCall {
@@ -44908,16 +43511,12 @@ impl<'de> serde::Deserialize<'de> for WebhookBatchCancelled {
         #[derive(serde :: Deserialize)]
         struct WebhookBatchCancelled {
             #[serde(rename = "created_at")]
-            #[allow(dead_code)]
             created_at: i64,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: WebhookBatchCancelledData,
             #[serde(rename = "object")]
-            #[allow(dead_code)]
             object: Option<WebhookBatchCancelledObject>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
@@ -45013,16 +43612,12 @@ impl<'de> serde::Deserialize<'de> for WebhookBatchCompleted {
         #[derive(serde :: Deserialize)]
         struct WebhookBatchCompleted {
             #[serde(rename = "created_at")]
-            #[allow(dead_code)]
             created_at: i64,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: WebhookBatchCompletedData,
             #[serde(rename = "object")]
-            #[allow(dead_code)]
             object: Option<WebhookBatchCompletedObject>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
@@ -45118,16 +43713,12 @@ impl<'de> serde::Deserialize<'de> for WebhookBatchExpired {
         #[derive(serde :: Deserialize)]
         struct WebhookBatchExpired {
             #[serde(rename = "created_at")]
-            #[allow(dead_code)]
             created_at: i64,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: WebhookBatchExpiredData,
             #[serde(rename = "object")]
-            #[allow(dead_code)]
             object: Option<WebhookBatchExpiredObject>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
@@ -45223,16 +43814,12 @@ impl<'de> serde::Deserialize<'de> for WebhookBatchFailed {
         #[derive(serde :: Deserialize)]
         struct WebhookBatchFailed {
             #[serde(rename = "created_at")]
-            #[allow(dead_code)]
             created_at: i64,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: WebhookBatchFailedData,
             #[serde(rename = "object")]
-            #[allow(dead_code)]
             object: Option<WebhookBatchFailedObject>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
@@ -45328,16 +43915,12 @@ impl<'de> serde::Deserialize<'de> for WebhookEvalRunCanceled {
         #[derive(serde :: Deserialize)]
         struct WebhookEvalRunCanceled {
             #[serde(rename = "created_at")]
-            #[allow(dead_code)]
             created_at: i64,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: WebhookEvalRunCanceledData,
             #[serde(rename = "object")]
-            #[allow(dead_code)]
             object: Option<WebhookEvalRunCanceledObject>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
@@ -45433,16 +44016,12 @@ impl<'de> serde::Deserialize<'de> for WebhookEvalRunFailed {
         #[derive(serde :: Deserialize)]
         struct WebhookEvalRunFailed {
             #[serde(rename = "created_at")]
-            #[allow(dead_code)]
             created_at: i64,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: WebhookEvalRunFailedData,
             #[serde(rename = "object")]
-            #[allow(dead_code)]
             object: Option<WebhookEvalRunFailedObject>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
@@ -45538,16 +44117,12 @@ impl<'de> serde::Deserialize<'de> for WebhookEvalRunSucceeded {
         #[derive(serde :: Deserialize)]
         struct WebhookEvalRunSucceeded {
             #[serde(rename = "created_at")]
-            #[allow(dead_code)]
             created_at: i64,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: WebhookEvalRunSucceededData,
             #[serde(rename = "object")]
-            #[allow(dead_code)]
             object: Option<WebhookEvalRunSucceededObject>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
@@ -45646,16 +44221,12 @@ impl<'de> serde::Deserialize<'de> for WebhookFineTuningJobCancelled {
         #[derive(serde :: Deserialize)]
         struct WebhookFineTuningJobCancelled {
             #[serde(rename = "created_at")]
-            #[allow(dead_code)]
             created_at: i64,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: WebhookFineTuningJobCancelledData,
             #[serde(rename = "object")]
-            #[allow(dead_code)]
             object: Option<WebhookFineTuningJobCancelledObject>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
@@ -45751,16 +44322,12 @@ impl<'de> serde::Deserialize<'de> for WebhookFineTuningJobFailed {
         #[derive(serde :: Deserialize)]
         struct WebhookFineTuningJobFailed {
             #[serde(rename = "created_at")]
-            #[allow(dead_code)]
             created_at: i64,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: WebhookFineTuningJobFailedData,
             #[serde(rename = "object")]
-            #[allow(dead_code)]
             object: Option<WebhookFineTuningJobFailedObject>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
@@ -45859,16 +44426,12 @@ impl<'de> serde::Deserialize<'de> for WebhookFineTuningJobSucceeded {
         #[derive(serde :: Deserialize)]
         struct WebhookFineTuningJobSucceeded {
             #[serde(rename = "created_at")]
-            #[allow(dead_code)]
             created_at: i64,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: WebhookFineTuningJobSucceededData,
             #[serde(rename = "object")]
-            #[allow(dead_code)]
             object: Option<WebhookFineTuningJobSucceededObject>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
@@ -45964,16 +44527,12 @@ impl<'de> serde::Deserialize<'de> for WebhookResponseCancelled {
         #[derive(serde :: Deserialize)]
         struct WebhookResponseCancelled {
             #[serde(rename = "created_at")]
-            #[allow(dead_code)]
             created_at: i64,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: WebhookResponseCancelledData,
             #[serde(rename = "object")]
-            #[allow(dead_code)]
             object: Option<WebhookResponseCancelledObject>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
@@ -46069,16 +44628,12 @@ impl<'de> serde::Deserialize<'de> for WebhookResponseCompleted {
         #[derive(serde :: Deserialize)]
         struct WebhookResponseCompleted {
             #[serde(rename = "created_at")]
-            #[allow(dead_code)]
             created_at: i64,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: WebhookResponseCompletedData,
             #[serde(rename = "object")]
-            #[allow(dead_code)]
             object: Option<WebhookResponseCompletedObject>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
@@ -46174,16 +44729,12 @@ impl<'de> serde::Deserialize<'de> for WebhookResponseFailed {
         #[derive(serde :: Deserialize)]
         struct WebhookResponseFailed {
             #[serde(rename = "created_at")]
-            #[allow(dead_code)]
             created_at: i64,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: WebhookResponseFailedData,
             #[serde(rename = "object")]
-            #[allow(dead_code)]
             object: Option<WebhookResponseFailedObject>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
@@ -46279,16 +44830,12 @@ impl<'de> serde::Deserialize<'de> for WebhookResponseIncomplete {
         #[derive(serde :: Deserialize)]
         struct WebhookResponseIncomplete {
             #[serde(rename = "created_at")]
-            #[allow(dead_code)]
             created_at: i64,
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: String,
             #[serde(rename = "data")]
-            #[allow(dead_code)]
             data: WebhookResponseIncompleteData,
             #[serde(rename = "object")]
-            #[allow(dead_code)]
             object: Option<WebhookResponseIncompleteObject>,
             #[serde(rename = "type")]
             #[allow(dead_code)]
@@ -46367,7 +44914,6 @@ impl<'de> serde::Deserialize<'de> for InputTextContent {
             #[allow(dead_code)]
             r#type: InputTextContentType,
             #[serde(rename = "text")]
-            #[allow(dead_code)]
             text: String,
         }
         let InputTextContent { text, .. } = InputTextContent::deserialize(deserializer)?;
@@ -46436,13 +44982,10 @@ impl<'de> serde::Deserialize<'de> for InputImageContent {
             #[allow(dead_code)]
             r#type: InputImageContentType,
             #[serde(rename = "image_url")]
-            #[allow(dead_code)]
             image_url: Option<String>,
             #[serde(rename = "file_id")]
-            #[allow(dead_code)]
             file_id: Option<String>,
             #[serde(rename = "detail")]
-            #[allow(dead_code)]
             detail: InputImageContentDetail,
         }
         let InputImageContent {
@@ -46520,13 +45063,10 @@ impl<'de> serde::Deserialize<'de> for InputFileContent {
             #[allow(dead_code)]
             r#type: InputFileContentType,
             #[serde(rename = "file_id")]
-            #[allow(dead_code)]
             file_id: Option<String>,
             #[serde(rename = "filename")]
-            #[allow(dead_code)]
             filename: Option<String>,
             #[serde(rename = "file_data")]
-            #[allow(dead_code)]
             file_data: Option<String>,
         }
         let InputFileContent {
@@ -46607,16 +45147,12 @@ impl<'de> serde::Deserialize<'de> for FunctionTool {
             #[allow(dead_code)]
             r#type: FunctionToolType,
             #[serde(rename = "name")]
-            #[allow(dead_code)]
             name: String,
             #[serde(rename = "description")]
-            #[allow(dead_code)]
             description: Option<String>,
             #[serde(rename = "parameters")]
-            #[allow(dead_code)]
             parameters: Option<indexmap::IndexMap<String, serde_json::Value>>,
             #[serde(rename = "strict")]
-            #[allow(dead_code)]
             strict: Option<bool>,
         }
         let FunctionTool {
@@ -46737,16 +45273,12 @@ impl<'de> serde::Deserialize<'de> for FileSearchTool {
             #[allow(dead_code)]
             r#type: FileSearchToolType,
             #[serde(rename = "vector_store_ids")]
-            #[allow(dead_code)]
             vector_store_ids: Vec<String>,
             #[serde(rename = "max_num_results")]
-            #[allow(dead_code)]
             max_num_results: Option<i64>,
             #[serde(rename = "ranking_options")]
-            #[allow(dead_code)]
             ranking_options: Option<RankingOptions>,
             #[serde(rename = "filters")]
-            #[allow(dead_code)]
             filters: Option<Filters>,
         }
         let FileSearchTool {
@@ -46833,16 +45365,12 @@ impl<'de> serde::Deserialize<'de> for ApproximateLocation {
             #[allow(dead_code)]
             r#type: ApproximateLocationType,
             #[serde(rename = "country")]
-            #[allow(dead_code)]
             country: Option<String>,
             #[serde(rename = "region")]
-            #[allow(dead_code)]
             region: Option<String>,
             #[serde(rename = "city")]
-            #[allow(dead_code)]
             city: Option<String>,
             #[serde(rename = "timezone")]
-            #[allow(dead_code)]
             timezone: Option<String>,
         }
         let ApproximateLocation {
@@ -46988,13 +45516,10 @@ impl<'de> serde::Deserialize<'de> for ComputerUsePreviewTool {
             #[allow(dead_code)]
             r#type: ComputerUsePreviewToolType,
             #[serde(rename = "environment")]
-            #[allow(dead_code)]
             environment: ComputerUsePreviewToolEnvironment,
             #[serde(rename = "display_width")]
-            #[allow(dead_code)]
             display_width: i64,
             #[serde(rename = "display_height")]
-            #[allow(dead_code)]
             display_height: i64,
         }
         let ComputerUsePreviewTool {
@@ -47067,13 +45592,10 @@ impl<'de> serde::Deserialize<'de> for FileCitationBody {
             #[allow(dead_code)]
             r#type: FileCitationBodyType,
             #[serde(rename = "file_id")]
-            #[allow(dead_code)]
             file_id: String,
             #[serde(rename = "index")]
-            #[allow(dead_code)]
             index: i64,
             #[serde(rename = "filename")]
-            #[allow(dead_code)]
             filename: String,
         }
         let FileCitationBody {
@@ -47148,16 +45670,12 @@ impl<'de> serde::Deserialize<'de> for UrlCitationBody {
             #[allow(dead_code)]
             r#type: UrlCitationBodyType,
             #[serde(rename = "url")]
-            #[allow(dead_code)]
             url: String,
             #[serde(rename = "start_index")]
-            #[allow(dead_code)]
             start_index: i64,
             #[serde(rename = "end_index")]
-            #[allow(dead_code)]
             end_index: i64,
             #[serde(rename = "title")]
-            #[allow(dead_code)]
             title: String,
         }
         let UrlCitationBody {
@@ -47240,19 +45758,14 @@ impl<'de> serde::Deserialize<'de> for ContainerFileCitationBody {
             #[allow(dead_code)]
             r#type: ContainerFileCitationBodyType,
             #[serde(rename = "container_id")]
-            #[allow(dead_code)]
             container_id: String,
             #[serde(rename = "file_id")]
-            #[allow(dead_code)]
             file_id: String,
             #[serde(rename = "start_index")]
-            #[allow(dead_code)]
             start_index: i64,
             #[serde(rename = "end_index")]
-            #[allow(dead_code)]
             end_index: i64,
             #[serde(rename = "filename")]
-            #[allow(dead_code)]
             filename: String,
         }
         let ContainerFileCitationBody {
@@ -47374,13 +45887,10 @@ impl<'de> serde::Deserialize<'de> for OutputTextContent {
             #[allow(dead_code)]
             r#type: OutputTextContentType,
             #[serde(rename = "text")]
-            #[allow(dead_code)]
             text: String,
             #[serde(rename = "annotations")]
-            #[allow(dead_code)]
             annotations: Vec<Annotation>,
             #[serde(rename = "logprobs")]
-            #[allow(dead_code)]
             logprobs: Option<Vec<LogProb>>,
         }
         let OutputTextContent {
@@ -47450,7 +45960,6 @@ impl<'de> serde::Deserialize<'de> for RefusalContent {
             #[allow(dead_code)]
             r#type: RefusalContentType,
             #[serde(rename = "refusal")]
-            #[allow(dead_code)]
             refusal: String,
         }
         let RefusalContent { refusal, .. } = RefusalContent::deserialize(deserializer)?;
@@ -47540,22 +46049,17 @@ impl<'de> serde::Deserialize<'de> for ComputerCallOutputItemParam {
         #[derive(serde :: Deserialize)]
         struct ComputerCallOutputItemParam {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: Option<String>,
             #[serde(rename = "call_id")]
-            #[allow(dead_code)]
             call_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: ComputerCallOutputItemParamType,
             #[serde(rename = "output")]
-            #[allow(dead_code)]
             output: ComputerScreenshotImage,
             #[serde(rename = "acknowledged_safety_checks")]
-            #[allow(dead_code)]
             acknowledged_safety_checks: Option<Vec<ComputerCallSafetyCheckParam>>,
             #[serde(rename = "status")]
-            #[allow(dead_code)]
             status: Option<ComputerCallOutputItemParamStatus>,
         }
         let ComputerCallOutputItemParam {
@@ -47657,19 +46161,15 @@ impl<'de> serde::Deserialize<'de> for FunctionCallOutputItemParam {
         #[derive(serde :: Deserialize)]
         struct FunctionCallOutputItemParam {
             #[serde(rename = "id")]
-            #[allow(dead_code)]
             id: Option<String>,
             #[serde(rename = "call_id")]
-            #[allow(dead_code)]
             call_id: String,
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: FunctionCallOutputItemParamType,
             #[serde(rename = "output")]
-            #[allow(dead_code)]
             output: String,
             #[serde(rename = "status")]
-            #[allow(dead_code)]
             status: Option<FunctionCallOutputItemParamStatus>,
         }
         let FunctionCallOutputItemParam {
