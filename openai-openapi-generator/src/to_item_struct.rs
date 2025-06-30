@@ -57,7 +57,7 @@ pub fn to_item_struct(
                         schema,
                         schemas,
                         public,
-                        &mut Vec::new(),
+                        None,
                     )
                 } else {
                     to_type(
@@ -65,7 +65,7 @@ pub fn to_item_struct(
                         schema,
                         schemas,
                         public,
-                        items,
+                        Some(items),
                     )
                 },
             }
@@ -97,7 +97,7 @@ pub fn to_item_struct(
                 &schema,
                 schemas,
                 true,
-                &mut Vec::new(),
+                None,
             ),
         });
     }

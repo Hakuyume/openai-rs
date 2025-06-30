@@ -112,7 +112,7 @@ fn to_type(
     schema: &Schema,
     schemas: &IndexMap<String, Schema>,
     public: bool,
-    items: &mut Vec<syn::Item>,
+    items: Option<&mut Vec<syn::Item>>,
 ) -> syn::Type {
     match &schema.type_ {
         Type::Any => syn::parse_quote!(serde_json::Value),
@@ -136,7 +136,9 @@ fn to_type(
         Type::String => syn::parse_quote!(String),
         _ => {
             let ident = to_ident_pascal(name);
-            to_item(name, schema, schemas, public, items);
+            if let Some(items) = items {
+                to_item(name, schema, schemas, public, items);
+            }
             syn::parse_quote!(#ident)
         }
     }
@@ -163,7 +165,7 @@ fn to_item(
             to_item_struct::to_item_struct(name, schema, fields, required, schemas, public, items)
         }
         _ => {
-            let type_ = to_type(name, schema, schemas, public, items);
+            let type_ = to_type(name, schema, schemas, public, Some(items));
             items.push(syn::parse_quote! {
                 #description
                 #vis type #ident = #type_;

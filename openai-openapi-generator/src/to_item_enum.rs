@@ -80,7 +80,7 @@ pub fn to_item_enum(
                         variant,
                         schemas,
                         public,
-                        items,
+                        Some(items),
                     ),
                 }
             })
