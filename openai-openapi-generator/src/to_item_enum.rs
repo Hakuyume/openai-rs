@@ -86,16 +86,111 @@ pub fn to_item_enum(
             })
             .collect::<Vec<_>>();
 
+        if variant_info
+            .iter()
+            .all(|VariantInfo { const_, .. }| !const_)
         {
-            let variants_inner = variant_info
-                .iter()
-                .filter(|VariantInfo { const_, .. }| *const_)
-                .chain(
-                    variant_info
-                        .iter()
-                        .filter(|VariantInfo { const_, .. }| !const_),
-                )
-                .map(
+            let variants = variant_info.iter().map(
+                |VariantInfo {
+                     default,
+                     description,
+                     ident,
+                     serde_as,
+                     type_,
+                     ..
+                 }| {
+                    let description = to_description(*description);
+                    let attr_default = default.then_some(quote::quote!(#[default]));
+                    let attr_serde_as = serde_as.as_ref().map(|serde_as| {
+                        quote::quote!(#[serde_as(as = #serde_as)]
+                        )
+                    });
+
+                    quote::quote! {
+                        #description
+                        #attr_default
+                        #ident(
+                            #attr_serde_as
+                            #type_
+                        )
+                    }
+                },
+            );
+            syn::parse_quote! {
+                #description
+                #derive
+                #[serde_with::serde_as]
+                #[derive(serde::Deserialize, serde::Serialize)]
+                #[serde(untagged)]
+                #[allow(clippy::large_enum_variant)]
+                #vis enum #ident {
+                    #(#variants),*
+                }
+            }
+        } else {
+            {
+                let variants_inner = variant_info
+                    .iter()
+                    .filter(|VariantInfo { const_, .. }| *const_)
+                    .chain(
+                        variant_info
+                            .iter()
+                            .filter(|VariantInfo { const_, .. }| !const_),
+                    )
+                    .map(
+                        |VariantInfo {
+                             ident,
+                             serde_as,
+                             type_,
+                             ..
+                         }| {
+                            let attr_serde_as = serde_as.as_ref().map(|serde_as| {
+                                quote::quote!(#[serde_as(as = #serde_as)]
+                                )
+                            });
+                            quote::quote! {
+                                #ident(
+                                    #attr_serde_as
+                                    #[allow(dead_code)]
+                                    #type_
+                                )
+                            }
+                        },
+                    );
+                let arms = variant_info.iter().map(
+                    |VariantInfo {
+                         ident: variant_ident,
+                         public,
+                         ..
+                     }| {
+                        if *public {
+                            quote::quote!(#ident::#variant_ident(v) => Self::#variant_ident(v))
+                        } else {
+                            quote::quote!(#ident::#variant_ident(_) => Self::#variant_ident)
+                        }
+                    },
+                );
+                items.push(syn::parse_quote! {
+                    impl<'de> serde::Deserialize<'de> for #ident {
+                        fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+                        where D: serde::Deserializer<'de> {
+                            #[serde_with::serde_as]
+                            #[derive(serde::Deserialize)]
+                            #[serde(untagged)]
+                            #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
+                            enum #ident {
+                                #(#variants_inner),*
+                            }
+                            Ok(match #ident::deserialize(deserializer)? {
+                                #(#arms),*
+                            })
+                        }
+                    }
+                });
+            }
+
+            {
+                let variants_inner = variant_info.iter().map(
                     |VariantInfo {
                          ident,
                          serde_as,
@@ -110,65 +205,12 @@ pub fn to_item_enum(
                             #ident(
                                 #attr_serde_as
                                 #[allow(dead_code)]
-                                #type_
+                                &'a #type_
                             )
                         }
                     },
                 );
-            let arms = variant_info.iter().map(
-                |VariantInfo {
-                     ident: variant_ident,
-                     public,
-                     ..
-                 }| {
-                    if *public {
-                        quote::quote!(#ident::#variant_ident(v) => Self::#variant_ident(v))
-                    } else {
-                        quote::quote!(#ident::#variant_ident(_) => Self::#variant_ident)
-                    }
-                },
-            );
-            items.push(syn::parse_quote! {
-                impl<'de> serde::Deserialize<'de> for #ident {
-                    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-                    where D: serde::Deserializer<'de> {
-                        #[serde_with::serde_as]
-                        #[derive(serde::Deserialize)]
-                        #[serde(untagged)]
-                        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-                        enum #ident {
-                            #(#variants_inner),*
-                        }
-                        Ok(match #ident::deserialize(deserializer)? {
-                            #(#arms),*
-                        })
-                    }
-                }
-            });
-        }
-
-        {
-            let variants_inner = variant_info.iter().map(
-                |VariantInfo {
-                     ident,
-                     serde_as,
-                     type_,
-                     ..
-                 }| {
-                    let attr_serde_as = serde_as.as_ref().map(|serde_as| {
-                        quote::quote!(#[serde_as(as = #serde_as)]
-                        )
-                    });
-                    quote::quote! {
-                        #ident(
-                            #attr_serde_as
-                            #[allow(dead_code)]
-                            &'a #type_
-                        )
-                    }
-                },
-            );
-            let arms = variant_info.iter().map(
+                let arms = variant_info.iter().map(
                 |VariantInfo {
                      ident: variant_ident,
                      public,
@@ -189,56 +231,57 @@ pub fn to_item_enum(
                     }
                 },
             );
-            items.push(syn::parse_quote! {
-                impl serde::Serialize for #ident {
-                    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-                    where S: serde::Serializer {
-                        #[serde_with::serde_as]
-                        #[derive(serde::Serialize)]
-                        #[serde(untagged)]
-                        #[allow(clippy::enum_variant_names)]
-                        enum #ident<'a> {
-                            #(#variants_inner),*
+                items.push(syn::parse_quote! {
+                    impl serde::Serialize for #ident {
+                        fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+                        where S: serde::Serializer {
+                            #[serde_with::serde_as]
+                            #[derive(serde::Serialize)]
+                            #[serde(untagged)]
+                            #[allow(clippy::enum_variant_names)]
+                            enum #ident<'a> {
+                                #(#variants_inner),*
+                            }
+                            match self { #(#arms),* }
                         }
-                        match self { #(#arms),* }
                     }
-                }
-            });
-        }
+                });
+            }
 
-        {
-            let variants = variant_info.iter().map(
-                |VariantInfo {
-                     default,
-                     description,
-                     ident,
-                     public,
-                     type_,
-                     ..
-                 }| {
-                    let description = to_description(*description);
-                    let attr_default = default.then_some(quote::quote!(#[default]));
-                    if *public {
-                        quote::quote! {
-                            #description
-                            #attr_default
-                            #ident(#type_)
+            {
+                let variants = variant_info.iter().map(
+                    |VariantInfo {
+                         default,
+                         description,
+                         ident,
+                         public,
+                         type_,
+                         ..
+                     }| {
+                        let description = to_description(*description);
+                        let attr_default = default.then_some(quote::quote!(#[default]));
+                        if *public {
+                            quote::quote! {
+                                #description
+                                #attr_default
+                                #ident(#type_)
+                            }
+                        } else {
+                            quote::quote! {
+                                #description
+                                #attr_default
+                                #ident
+                            }
                         }
-                    } else {
-                        quote::quote! {
-                            #description
-                            #attr_default
-                            #ident
-                        }
+                    },
+                );
+                syn::parse_quote! {
+                    #description
+                    #derive
+                    #[allow(clippy::large_enum_variant)]
+                    #vis enum #ident {
+                        #(#variants),*
                     }
-                },
-            );
-            syn::parse_quote! {
-                #description
-                #derive
-                #[allow(clippy::large_enum_variant)]
-                #vis enum #ident {
-                    #(#variants),*
                 }
             }
         }

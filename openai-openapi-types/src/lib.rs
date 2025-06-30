@@ -502,51 +502,10 @@ impl serde::Serialize for AssistantObjectObject {
 #[doc = "The object type, which is always `assistant`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct AssistantObjectObject;
-impl<'de> serde::Deserialize<'de> for AssistantObjectTool {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum AssistantObjectTool {
-            CodeInterpreter(#[allow(dead_code)] AssistantToolsCode),
-            FileSearch(#[allow(dead_code)] AssistantToolsFileSearch),
-            Function(#[allow(dead_code)] AssistantToolsFunction),
-        }
-        Ok(match AssistantObjectTool::deserialize(deserializer)? {
-            AssistantObjectTool::CodeInterpreter(v) => Self::CodeInterpreter(v),
-            AssistantObjectTool::FileSearch(v) => Self::FileSearch(v),
-            AssistantObjectTool::Function(v) => Self::Function(v),
-        })
-    }
-}
-impl serde::Serialize for AssistantObjectTool {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum AssistantObjectTool<'a> {
-            CodeInterpreter(#[allow(dead_code)] &'a AssistantToolsCode),
-            FileSearch(#[allow(dead_code)] &'a AssistantToolsFileSearch),
-            Function(#[allow(dead_code)] &'a AssistantToolsFunction),
-        }
-        match self {
-            Self::CodeInterpreter(v) => {
-                AssistantObjectTool::CodeInterpreter(v).serialize(serializer)
-            }
-            Self::FileSearch(v) => AssistantObjectTool::FileSearch(v).serialize(serializer),
-            Self::Function(v) => AssistantObjectTool::Function(v).serialize(serializer),
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum AssistantObjectTool {
     CodeInterpreter(AssistantToolsCode),
@@ -880,70 +839,11 @@ pub struct AssistantObject {
     #[builder(default)]
     pub response_format: Option<AssistantsApiResponseFormatOption>,
 }
-impl<'de> serde::Deserialize<'de> for AssistantStreamEvent {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum AssistantStreamEvent {
-            ThreadStreamEvent(#[allow(dead_code)] ThreadStreamEvent),
-            RunStreamEvent(#[allow(dead_code)] RunStreamEvent),
-            RunStepStreamEvent(#[allow(dead_code)] RunStepStreamEvent),
-            MessageStreamEvent(#[allow(dead_code)] MessageStreamEvent),
-            ErrorEvent(#[allow(dead_code)] ErrorEvent),
-            DoneEvent(#[allow(dead_code)] DoneEvent),
-        }
-        Ok(match AssistantStreamEvent::deserialize(deserializer)? {
-            AssistantStreamEvent::ThreadStreamEvent(v) => Self::ThreadStreamEvent(v),
-            AssistantStreamEvent::RunStreamEvent(v) => Self::RunStreamEvent(v),
-            AssistantStreamEvent::RunStepStreamEvent(v) => Self::RunStepStreamEvent(v),
-            AssistantStreamEvent::MessageStreamEvent(v) => Self::MessageStreamEvent(v),
-            AssistantStreamEvent::ErrorEvent(v) => Self::ErrorEvent(v),
-            AssistantStreamEvent::DoneEvent(v) => Self::DoneEvent(v),
-        })
-    }
-}
-impl serde::Serialize for AssistantStreamEvent {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum AssistantStreamEvent<'a> {
-            ThreadStreamEvent(#[allow(dead_code)] &'a ThreadStreamEvent),
-            RunStreamEvent(#[allow(dead_code)] &'a RunStreamEvent),
-            RunStepStreamEvent(#[allow(dead_code)] &'a RunStepStreamEvent),
-            MessageStreamEvent(#[allow(dead_code)] &'a MessageStreamEvent),
-            ErrorEvent(#[allow(dead_code)] &'a ErrorEvent),
-            DoneEvent(#[allow(dead_code)] &'a DoneEvent),
-        }
-        match self {
-            Self::ThreadStreamEvent(v) => {
-                AssistantStreamEvent::ThreadStreamEvent(v).serialize(serializer)
-            }
-            Self::RunStreamEvent(v) => {
-                AssistantStreamEvent::RunStreamEvent(v).serialize(serializer)
-            }
-            Self::RunStepStreamEvent(v) => {
-                AssistantStreamEvent::RunStepStreamEvent(v).serialize(serializer)
-            }
-            Self::MessageStreamEvent(v) => {
-                AssistantStreamEvent::MessageStreamEvent(v).serialize(serializer)
-            }
-            Self::ErrorEvent(v) => AssistantStreamEvent::ErrorEvent(v).serialize(serializer),
-            Self::DoneEvent(v) => AssistantStreamEvent::DoneEvent(v).serialize(serializer),
-        }
-    }
-}
 #[doc = "Represents an event emitted when streaming a Run.\n\nEach event in a server-sent events stream has an `event` and `data` property:\n\n```text\nevent: thread.created\ndata: {\"id\": \"thread_123\", \"object\": \"thread\", ...}\n```\n\nWe emit events whenever a new object is created, transitions to a new state, or is being\nstreamed in parts (deltas). For example, we emit `thread.run.created` when a new run\nis created, `thread.run.completed` when a run completes, and so on. When an Assistant chooses\nto create a message during a run, we emit a `thread.message.created event`, a\n`thread.message.in_progress` event, many `thread.message.delta` events, and finally a\n`thread.message.completed` event.\n\nWe may add additional events over time, so we recommend handling unknown events gracefully\nin your code. See the [Assistants API quickstart](https://platform.openai.com/docs/assistants/overview) to learn how to\nintegrate the Assistants API with streaming.\n"]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum AssistantStreamEvent {
     ThreadStreamEvent(ThreadStreamEvent),
@@ -6850,52 +6750,11 @@ impl serde::Serialize for ChatCompletionNamedToolChoice {
 pub struct ChatCompletionNamedToolChoice {
     pub function: ChatCompletionNamedToolChoiceFunction,
 }
-impl<'de> serde::Deserialize<'de> for ChatCompletionRequestAssistantMessageContent {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum ChatCompletionRequestAssistantMessageContent {
-            String(#[allow(dead_code)] String),
-            Array(#[allow(dead_code)] Vec<ChatCompletionRequestAssistantMessageContentPart>),
-        }
-        Ok(
-            match ChatCompletionRequestAssistantMessageContent::deserialize(deserializer)? {
-                ChatCompletionRequestAssistantMessageContent::String(v) => Self::String(v),
-                ChatCompletionRequestAssistantMessageContent::Array(v) => Self::Array(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for ChatCompletionRequestAssistantMessageContent {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum ChatCompletionRequestAssistantMessageContent<'a> {
-            String(#[allow(dead_code)] &'a String),
-            Array(#[allow(dead_code)] &'a Vec<ChatCompletionRequestAssistantMessageContentPart>),
-        }
-        match self {
-            Self::String(v) => {
-                ChatCompletionRequestAssistantMessageContent::String(v).serialize(serializer)
-            }
-            Self::Array(v) => {
-                ChatCompletionRequestAssistantMessageContent::Array(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[doc = "The contents of the assistant message. Required unless `tool_calls` or `function_call` is specified.\n"]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionRequestAssistantMessageContent {
     #[doc = "The contents of the assistant message."]
@@ -7133,102 +6992,20 @@ pub struct ChatCompletionRequestAssistantMessage {
     #[builder(default)]
     pub function_call: Option<ChatCompletionRequestAssistantMessageFunctionCall>,
 }
-impl<'de> serde::Deserialize<'de> for ChatCompletionRequestAssistantMessageContentPart {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum ChatCompletionRequestAssistantMessageContentPart {
-            Text(#[allow(dead_code)] ChatCompletionRequestMessageContentPartText),
-            Refusal(#[allow(dead_code)] ChatCompletionRequestMessageContentPartRefusal),
-        }
-        Ok(
-            match ChatCompletionRequestAssistantMessageContentPart::deserialize(deserializer)? {
-                ChatCompletionRequestAssistantMessageContentPart::Text(v) => Self::Text(v),
-                ChatCompletionRequestAssistantMessageContentPart::Refusal(v) => Self::Refusal(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for ChatCompletionRequestAssistantMessageContentPart {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum ChatCompletionRequestAssistantMessageContentPart<'a> {
-            Text(#[allow(dead_code)] &'a ChatCompletionRequestMessageContentPartText),
-            Refusal(#[allow(dead_code)] &'a ChatCompletionRequestMessageContentPartRefusal),
-        }
-        match self {
-            Self::Text(v) => {
-                ChatCompletionRequestAssistantMessageContentPart::Text(v).serialize(serializer)
-            }
-            Self::Refusal(v) => {
-                ChatCompletionRequestAssistantMessageContentPart::Refusal(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionRequestAssistantMessageContentPart {
     Text(ChatCompletionRequestMessageContentPartText),
     Refusal(ChatCompletionRequestMessageContentPartRefusal),
 }
-impl<'de> serde::Deserialize<'de> for ChatCompletionRequestDeveloperMessageContent {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum ChatCompletionRequestDeveloperMessageContent {
-            String(#[allow(dead_code)] String),
-            Array(#[allow(dead_code)] Vec<ChatCompletionRequestMessageContentPartText>),
-        }
-        Ok(
-            match ChatCompletionRequestDeveloperMessageContent::deserialize(deserializer)? {
-                ChatCompletionRequestDeveloperMessageContent::String(v) => Self::String(v),
-                ChatCompletionRequestDeveloperMessageContent::Array(v) => Self::Array(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for ChatCompletionRequestDeveloperMessageContent {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum ChatCompletionRequestDeveloperMessageContent<'a> {
-            String(#[allow(dead_code)] &'a String),
-            Array(#[allow(dead_code)] &'a Vec<ChatCompletionRequestMessageContentPartText>),
-        }
-        match self {
-            Self::String(v) => {
-                ChatCompletionRequestDeveloperMessageContent::String(v).serialize(serializer)
-            }
-            Self::Array(v) => {
-                ChatCompletionRequestDeveloperMessageContent::Array(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[doc = "The contents of the developer message."]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionRequestDeveloperMessageContent {
     #[doc = "The contents of the developer message."]
@@ -7403,63 +7180,10 @@ pub struct ChatCompletionRequestFunctionMessage {
     #[doc = "The name of the function to call."]
     pub name: String,
 }
-impl<'de> serde::Deserialize<'de> for ChatCompletionRequestMessage {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum ChatCompletionRequestMessage {
-            Developer(#[allow(dead_code)] ChatCompletionRequestDeveloperMessage),
-            System(#[allow(dead_code)] ChatCompletionRequestSystemMessage),
-            User(#[allow(dead_code)] ChatCompletionRequestUserMessage),
-            Assistant(#[allow(dead_code)] ChatCompletionRequestAssistantMessage),
-            Tool(#[allow(dead_code)] ChatCompletionRequestToolMessage),
-            Function(#[allow(dead_code)] ChatCompletionRequestFunctionMessage),
-        }
-        Ok(
-            match ChatCompletionRequestMessage::deserialize(deserializer)? {
-                ChatCompletionRequestMessage::Developer(v) => Self::Developer(v),
-                ChatCompletionRequestMessage::System(v) => Self::System(v),
-                ChatCompletionRequestMessage::User(v) => Self::User(v),
-                ChatCompletionRequestMessage::Assistant(v) => Self::Assistant(v),
-                ChatCompletionRequestMessage::Tool(v) => Self::Tool(v),
-                ChatCompletionRequestMessage::Function(v) => Self::Function(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for ChatCompletionRequestMessage {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum ChatCompletionRequestMessage<'a> {
-            Developer(#[allow(dead_code)] &'a ChatCompletionRequestDeveloperMessage),
-            System(#[allow(dead_code)] &'a ChatCompletionRequestSystemMessage),
-            User(#[allow(dead_code)] &'a ChatCompletionRequestUserMessage),
-            Assistant(#[allow(dead_code)] &'a ChatCompletionRequestAssistantMessage),
-            Tool(#[allow(dead_code)] &'a ChatCompletionRequestToolMessage),
-            Function(#[allow(dead_code)] &'a ChatCompletionRequestFunctionMessage),
-        }
-        match self {
-            Self::Developer(v) => ChatCompletionRequestMessage::Developer(v).serialize(serializer),
-            Self::System(v) => ChatCompletionRequestMessage::System(v).serialize(serializer),
-            Self::User(v) => ChatCompletionRequestMessage::User(v).serialize(serializer),
-            Self::Assistant(v) => ChatCompletionRequestMessage::Assistant(v).serialize(serializer),
-            Self::Tool(v) => ChatCompletionRequestMessage::Tool(v).serialize(serializer),
-            Self::Function(v) => ChatCompletionRequestMessage::Function(v).serialize(serializer),
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionRequestMessage {
     Developer(ChatCompletionRequestDeveloperMessage),
@@ -8025,52 +7749,11 @@ pub struct ChatCompletionRequestMessageContentPartText {
     #[doc = "The text content."]
     pub text: String,
 }
-impl<'de> serde::Deserialize<'de> for ChatCompletionRequestSystemMessageContent {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum ChatCompletionRequestSystemMessageContent {
-            String(#[allow(dead_code)] String),
-            Array(#[allow(dead_code)] Vec<ChatCompletionRequestSystemMessageContentPart>),
-        }
-        Ok(
-            match ChatCompletionRequestSystemMessageContent::deserialize(deserializer)? {
-                ChatCompletionRequestSystemMessageContent::String(v) => Self::String(v),
-                ChatCompletionRequestSystemMessageContent::Array(v) => Self::Array(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for ChatCompletionRequestSystemMessageContent {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum ChatCompletionRequestSystemMessageContent<'a> {
-            String(#[allow(dead_code)] &'a String),
-            Array(#[allow(dead_code)] &'a Vec<ChatCompletionRequestSystemMessageContentPart>),
-        }
-        match self {
-            Self::String(v) => {
-                ChatCompletionRequestSystemMessageContent::String(v).serialize(serializer)
-            }
-            Self::Array(v) => {
-                ChatCompletionRequestSystemMessageContent::Array(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[doc = "The contents of the system message."]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionRequestSystemMessageContent {
     #[doc = "The contents of the system message."]
@@ -8162,41 +7845,10 @@ pub struct ChatCompletionRequestSystemMessage {
     #[builder(default)]
     pub name: Option<String>,
 }
-impl<'de> serde::Deserialize<'de> for ChatCompletionRequestSystemMessageContentPart {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum ChatCompletionRequestSystemMessageContentPart {
-            ChatCompletionRequestMessageContentPartText(
-                #[allow(dead_code)] ChatCompletionRequestMessageContentPartText,
-            ),
-        }
-        Ok (match ChatCompletionRequestSystemMessageContentPart :: deserialize (deserializer) ? { ChatCompletionRequestSystemMessageContentPart :: ChatCompletionRequestMessageContentPartText (v) => Self :: ChatCompletionRequestMessageContentPartText (v) })
-    }
-}
-impl serde::Serialize for ChatCompletionRequestSystemMessageContentPart {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum ChatCompletionRequestSystemMessageContentPart<'a> {
-            ChatCompletionRequestMessageContentPartText(
-                #[allow(dead_code)] &'a ChatCompletionRequestMessageContentPartText,
-            ),
-        }
-        match self { Self :: ChatCompletionRequestMessageContentPartText (v) => { ChatCompletionRequestSystemMessageContentPart :: ChatCompletionRequestMessageContentPartText (v) . serialize (serializer) } }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionRequestSystemMessageContentPart {
     ChatCompletionRequestMessageContentPartText(ChatCompletionRequestMessageContentPartText),
@@ -8228,52 +7880,11 @@ impl serde::Serialize for ChatCompletionRequestToolMessageRole {
 #[doc = "The role of the messages author, in this case `tool`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ChatCompletionRequestToolMessageRole;
-impl<'de> serde::Deserialize<'de> for ChatCompletionRequestToolMessageContent {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum ChatCompletionRequestToolMessageContent {
-            String(#[allow(dead_code)] String),
-            Array(#[allow(dead_code)] Vec<ChatCompletionRequestToolMessageContentPart>),
-        }
-        Ok(
-            match ChatCompletionRequestToolMessageContent::deserialize(deserializer)? {
-                ChatCompletionRequestToolMessageContent::String(v) => Self::String(v),
-                ChatCompletionRequestToolMessageContent::Array(v) => Self::Array(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for ChatCompletionRequestToolMessageContent {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum ChatCompletionRequestToolMessageContent<'a> {
-            String(#[allow(dead_code)] &'a String),
-            Array(#[allow(dead_code)] &'a Vec<ChatCompletionRequestToolMessageContentPart>),
-        }
-        match self {
-            Self::String(v) => {
-                ChatCompletionRequestToolMessageContent::String(v).serialize(serializer)
-            }
-            Self::Array(v) => {
-                ChatCompletionRequestToolMessageContent::Array(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[doc = "The contents of the tool message."]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionRequestToolMessageContent {
     #[doc = "The contents of the tool message."]
@@ -8344,91 +7955,19 @@ pub struct ChatCompletionRequestToolMessage {
     #[doc = "Tool call that this message is responding to."]
     pub tool_call_id: String,
 }
-impl<'de> serde::Deserialize<'de> for ChatCompletionRequestToolMessageContentPart {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum ChatCompletionRequestToolMessageContentPart {
-            ChatCompletionRequestMessageContentPartText(
-                #[allow(dead_code)] ChatCompletionRequestMessageContentPartText,
-            ),
-        }
-        Ok (match ChatCompletionRequestToolMessageContentPart :: deserialize (deserializer) ? { ChatCompletionRequestToolMessageContentPart :: ChatCompletionRequestMessageContentPartText (v) => Self :: ChatCompletionRequestMessageContentPartText (v) })
-    }
-}
-impl serde::Serialize for ChatCompletionRequestToolMessageContentPart {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum ChatCompletionRequestToolMessageContentPart<'a> {
-            ChatCompletionRequestMessageContentPartText(
-                #[allow(dead_code)] &'a ChatCompletionRequestMessageContentPartText,
-            ),
-        }
-        match self { Self :: ChatCompletionRequestMessageContentPartText (v) => { ChatCompletionRequestToolMessageContentPart :: ChatCompletionRequestMessageContentPartText (v) . serialize (serializer) } }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionRequestToolMessageContentPart {
     ChatCompletionRequestMessageContentPartText(ChatCompletionRequestMessageContentPartText),
 }
-impl<'de> serde::Deserialize<'de> for ChatCompletionRequestUserMessageContent {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum ChatCompletionRequestUserMessageContent {
-            String(#[allow(dead_code)] String),
-            Array(#[allow(dead_code)] Vec<ChatCompletionRequestUserMessageContentPart>),
-        }
-        Ok(
-            match ChatCompletionRequestUserMessageContent::deserialize(deserializer)? {
-                ChatCompletionRequestUserMessageContent::String(v) => Self::String(v),
-                ChatCompletionRequestUserMessageContent::Array(v) => Self::Array(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for ChatCompletionRequestUserMessageContent {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum ChatCompletionRequestUserMessageContent<'a> {
-            String(#[allow(dead_code)] &'a String),
-            Array(#[allow(dead_code)] &'a Vec<ChatCompletionRequestUserMessageContentPart>),
-        }
-        match self {
-            Self::String(v) => {
-                ChatCompletionRequestUserMessageContent::String(v).serialize(serializer)
-            }
-            Self::Array(v) => {
-                ChatCompletionRequestUserMessageContent::Array(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[doc = "The contents of the user message.\n"]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionRequestUserMessageContent {
     #[doc = "The text contents of the message."]
@@ -8520,63 +8059,10 @@ pub struct ChatCompletionRequestUserMessage {
     #[builder(default)]
     pub name: Option<String>,
 }
-impl<'de> serde::Deserialize<'de> for ChatCompletionRequestUserMessageContentPart {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum ChatCompletionRequestUserMessageContentPart {
-            Text(#[allow(dead_code)] ChatCompletionRequestMessageContentPartText),
-            ImageUrl(#[allow(dead_code)] ChatCompletionRequestMessageContentPartImage),
-            InputAudio(#[allow(dead_code)] ChatCompletionRequestMessageContentPartAudio),
-            File(#[allow(dead_code)] ChatCompletionRequestMessageContentPartFile),
-        }
-        Ok(
-            match ChatCompletionRequestUserMessageContentPart::deserialize(deserializer)? {
-                ChatCompletionRequestUserMessageContentPart::Text(v) => Self::Text(v),
-                ChatCompletionRequestUserMessageContentPart::ImageUrl(v) => Self::ImageUrl(v),
-                ChatCompletionRequestUserMessageContentPart::InputAudio(v) => Self::InputAudio(v),
-                ChatCompletionRequestUserMessageContentPart::File(v) => Self::File(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for ChatCompletionRequestUserMessageContentPart {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum ChatCompletionRequestUserMessageContentPart<'a> {
-            Text(#[allow(dead_code)] &'a ChatCompletionRequestMessageContentPartText),
-            ImageUrl(#[allow(dead_code)] &'a ChatCompletionRequestMessageContentPartImage),
-            InputAudio(#[allow(dead_code)] &'a ChatCompletionRequestMessageContentPartAudio),
-            File(#[allow(dead_code)] &'a ChatCompletionRequestMessageContentPartFile),
-        }
-        match self {
-            Self::Text(v) => {
-                ChatCompletionRequestUserMessageContentPart::Text(v).serialize(serializer)
-            }
-            Self::ImageUrl(v) => {
-                ChatCompletionRequestUserMessageContentPart::ImageUrl(v).serialize(serializer)
-            }
-            Self::InputAudio(v) => {
-                ChatCompletionRequestUserMessageContentPart::InputAudio(v).serialize(serializer)
-            }
-            Self::File(v) => {
-                ChatCompletionRequestUserMessageContentPart::File(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum ChatCompletionRequestUserMessageContentPart {
     Text(ChatCompletionRequestMessageContentPartText),
@@ -9615,48 +9101,11 @@ pub enum ChatCompletionToolChoiceOption {
     Required,
     ChatCompletionNamedToolChoice(ChatCompletionNamedToolChoice),
 }
-impl<'de> serde::Deserialize<'de> for ChunkingStrategyRequestParam {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum ChunkingStrategyRequestParam {
-            Auto(#[allow(dead_code)] AutoChunkingStrategyRequestParam),
-            Static(#[allow(dead_code)] StaticChunkingStrategyRequestParam),
-        }
-        Ok(
-            match ChunkingStrategyRequestParam::deserialize(deserializer)? {
-                ChunkingStrategyRequestParam::Auto(v) => Self::Auto(v),
-                ChunkingStrategyRequestParam::Static(v) => Self::Static(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for ChunkingStrategyRequestParam {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum ChunkingStrategyRequestParam<'a> {
-            Auto(#[allow(dead_code)] &'a AutoChunkingStrategyRequestParam),
-            Static(#[allow(dead_code)] &'a StaticChunkingStrategyRequestParam),
-        }
-        match self {
-            Self::Auto(v) => ChunkingStrategyRequestParam::Auto(v).serialize(serializer),
-            Self::Static(v) => ChunkingStrategyRequestParam::Static(v).serialize(serializer),
-        }
-    }
-}
 #[doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy."]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum ChunkingStrategyRequestParam {
     Auto(AutoChunkingStrategyRequestParam),
@@ -10137,52 +9586,11 @@ impl serde::Serialize for CodeInterpreterToolType {
 #[doc = "The type of the code interpreter tool. Always `code_interpreter`.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct CodeInterpreterToolType;
-impl<'de> serde::Deserialize<'de> for CodeInterpreterToolContainer {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CodeInterpreterToolContainer {
-            String(#[allow(dead_code)] String),
-            CodeInterpreterToolAuto(#[allow(dead_code)] CodeInterpreterToolAuto),
-        }
-        Ok(
-            match CodeInterpreterToolContainer::deserialize(deserializer)? {
-                CodeInterpreterToolContainer::String(v) => Self::String(v),
-                CodeInterpreterToolContainer::CodeInterpreterToolAuto(v) => {
-                    Self::CodeInterpreterToolAuto(v)
-                }
-            },
-        )
-    }
-}
-impl serde::Serialize for CodeInterpreterToolContainer {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CodeInterpreterToolContainer<'a> {
-            String(#[allow(dead_code)] &'a String),
-            CodeInterpreterToolAuto(#[allow(dead_code)] &'a CodeInterpreterToolAuto),
-        }
-        match self {
-            Self::String(v) => CodeInterpreterToolContainer::String(v).serialize(serializer),
-            Self::CodeInterpreterToolAuto(v) => {
-                CodeInterpreterToolContainer::CodeInterpreterToolAuto(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[doc = "The code interpreter container. Can be a container ID or an object that\nspecifies uploaded file IDs to make available to your code.\n"]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CodeInterpreterToolContainer {
     #[doc = "The container ID."]
@@ -10357,47 +9765,10 @@ pub enum CodeInterpreterToolCallStatus {
     #[serde(rename = "failed")]
     Failed,
 }
-impl<'de> serde::Deserialize<'de> for CodeInterpreterToolCallOutputs {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CodeInterpreterToolCallOutputs {
-            Logs(#[allow(dead_code)] CodeInterpreterOutputLogs),
-            Image(#[allow(dead_code)] CodeInterpreterOutputImage),
-        }
-        Ok(
-            match CodeInterpreterToolCallOutputs::deserialize(deserializer)? {
-                CodeInterpreterToolCallOutputs::Logs(v) => Self::Logs(v),
-                CodeInterpreterToolCallOutputs::Image(v) => Self::Image(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for CodeInterpreterToolCallOutputs {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CodeInterpreterToolCallOutputs<'a> {
-            Logs(#[allow(dead_code)] &'a CodeInterpreterOutputLogs),
-            Image(#[allow(dead_code)] &'a CodeInterpreterOutputImage),
-        }
-        match self {
-            Self::Logs(v) => CodeInterpreterToolCallOutputs::Logs(v).serialize(serializer),
-            Self::Image(v) => CodeInterpreterToolCallOutputs::Image(v).serialize(serializer),
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CodeInterpreterToolCallOutputs {
     Logs(CodeInterpreterOutputLogs),
@@ -10527,50 +9898,11 @@ pub enum ComparisonFilterType {
     #[serde(rename = "lte")]
     Lte,
 }
-impl<'de> serde::Deserialize<'de> for ComparisonFilterValue {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum ComparisonFilterValue {
-            String(#[allow(dead_code)] String),
-            Number(#[allow(dead_code)] serde_json::Number),
-            Bool(#[allow(dead_code)] bool),
-        }
-        Ok(match ComparisonFilterValue::deserialize(deserializer)? {
-            ComparisonFilterValue::String(v) => Self::String(v),
-            ComparisonFilterValue::Number(v) => Self::Number(v),
-            ComparisonFilterValue::Bool(v) => Self::Bool(v),
-        })
-    }
-}
-impl serde::Serialize for ComparisonFilterValue {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum ComparisonFilterValue<'a> {
-            String(#[allow(dead_code)] &'a String),
-            Number(#[allow(dead_code)] &'a serde_json::Number),
-            Bool(#[allow(dead_code)] &'a bool),
-        }
-        match self {
-            Self::String(v) => ComparisonFilterValue::String(v).serialize(serializer),
-            Self::Number(v) => ComparisonFilterValue::Number(v).serialize(serializer),
-            Self::Bool(v) => ComparisonFilterValue::Bool(v).serialize(serializer),
-        }
-    }
-}
 #[doc = "The value to compare against the attribute key; supports string, number, or boolean types."]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum ComparisonFilterValue {
     String(String),
@@ -10932,49 +10264,10 @@ pub enum CompoundFilterType {
     #[serde(rename = "or")]
     Or,
 }
-impl<'de> serde::Deserialize<'de> for CompoundFilterFilter {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CompoundFilterFilter {
-            ComparisonFilter(#[allow(dead_code)] ComparisonFilter),
-            CompoundFilter(#[allow(dead_code)] CompoundFilter),
-        }
-        Ok(match CompoundFilterFilter::deserialize(deserializer)? {
-            CompoundFilterFilter::ComparisonFilter(v) => Self::ComparisonFilter(v),
-            CompoundFilterFilter::CompoundFilter(v) => Self::CompoundFilter(v),
-        })
-    }
-}
-impl serde::Serialize for CompoundFilterFilter {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CompoundFilterFilter<'a> {
-            ComparisonFilter(#[allow(dead_code)] &'a ComparisonFilter),
-            CompoundFilter(#[allow(dead_code)] &'a CompoundFilter),
-        }
-        match self {
-            Self::ComparisonFilter(v) => {
-                CompoundFilterFilter::ComparisonFilter(v).serialize(serializer)
-            }
-            Self::CompoundFilter(v) => {
-                CompoundFilterFilter::CompoundFilter(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CompoundFilterFilter {
     ComparisonFilter(ComparisonFilter),
@@ -11026,73 +10319,10 @@ pub struct CompoundFilter {
     #[doc = "Array of filters to combine. Items can be `ComparisonFilter` or `CompoundFilter`."]
     pub filters: Vec<CompoundFilterFilter>,
 }
-impl<'de> serde::Deserialize<'de> for ComputerAction {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum ComputerAction {
-            Click(#[allow(dead_code)] Click),
-            DoubleClick(#[allow(dead_code)] DoubleClick),
-            Drag(#[allow(dead_code)] Drag),
-            Keypress(#[allow(dead_code)] KeyPress),
-            Move(#[allow(dead_code)] Move),
-            Screenshot(#[allow(dead_code)] Screenshot),
-            Scroll(#[allow(dead_code)] Scroll),
-            Type(#[allow(dead_code)] Type),
-            Wait(#[allow(dead_code)] Wait),
-        }
-        Ok(match ComputerAction::deserialize(deserializer)? {
-            ComputerAction::Click(v) => Self::Click(v),
-            ComputerAction::DoubleClick(v) => Self::DoubleClick(v),
-            ComputerAction::Drag(v) => Self::Drag(v),
-            ComputerAction::Keypress(v) => Self::Keypress(v),
-            ComputerAction::Move(v) => Self::Move(v),
-            ComputerAction::Screenshot(v) => Self::Screenshot(v),
-            ComputerAction::Scroll(v) => Self::Scroll(v),
-            ComputerAction::Type(v) => Self::Type(v),
-            ComputerAction::Wait(v) => Self::Wait(v),
-        })
-    }
-}
-impl serde::Serialize for ComputerAction {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum ComputerAction<'a> {
-            Click(#[allow(dead_code)] &'a Click),
-            DoubleClick(#[allow(dead_code)] &'a DoubleClick),
-            Drag(#[allow(dead_code)] &'a Drag),
-            Keypress(#[allow(dead_code)] &'a KeyPress),
-            Move(#[allow(dead_code)] &'a Move),
-            Screenshot(#[allow(dead_code)] &'a Screenshot),
-            Scroll(#[allow(dead_code)] &'a Scroll),
-            Type(#[allow(dead_code)] &'a Type),
-            Wait(#[allow(dead_code)] &'a Wait),
-        }
-        match self {
-            Self::Click(v) => ComputerAction::Click(v).serialize(serializer),
-            Self::DoubleClick(v) => ComputerAction::DoubleClick(v).serialize(serializer),
-            Self::Drag(v) => ComputerAction::Drag(v).serialize(serializer),
-            Self::Keypress(v) => ComputerAction::Keypress(v).serialize(serializer),
-            Self::Move(v) => ComputerAction::Move(v).serialize(serializer),
-            Self::Screenshot(v) => ComputerAction::Screenshot(v).serialize(serializer),
-            Self::Scroll(v) => ComputerAction::Scroll(v).serialize(serializer),
-            Self::Type(v) => ComputerAction::Type(v).serialize(serializer),
-            Self::Wait(v) => ComputerAction::Wait(v).serialize(serializer),
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum ComputerAction {
     Click(Click),
@@ -12120,46 +11350,11 @@ pub struct ContainerResource {
     #[builder(default)]
     pub expires_after: Option<ContainerResourceExpiresAfter>,
 }
-impl<'de> serde::Deserialize<'de> for Content {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum Content {
-            InputContent(#[allow(dead_code)] InputContent),
-            OutputContent(#[allow(dead_code)] OutputContent),
-        }
-        Ok(match Content::deserialize(deserializer)? {
-            Content::InputContent(v) => Self::InputContent(v),
-            Content::OutputContent(v) => Self::OutputContent(v),
-        })
-    }
-}
-impl serde::Serialize for Content {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum Content<'a> {
-            InputContent(#[allow(dead_code)] &'a InputContent),
-            OutputContent(#[allow(dead_code)] &'a OutputContent),
-        }
-        match self {
-            Self::InputContent(v) => Content::InputContent(v).serialize(serializer),
-            Self::OutputContent(v) => Content::OutputContent(v).serialize(serializer),
-        }
-    }
-}
 #[doc = "Multi-modal input and output contents.\n"]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum Content {
     InputContent(InputContent),
@@ -12367,53 +11562,10 @@ pub struct CostsResult {
     #[builder(default)]
     pub project_id: Option<String>,
 }
-impl<'de> serde::Deserialize<'de> for CreateAssistantRequestTool {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CreateAssistantRequestTool {
-            CodeInterpreter(#[allow(dead_code)] AssistantToolsCode),
-            FileSearch(#[allow(dead_code)] AssistantToolsFileSearch),
-            Function(#[allow(dead_code)] AssistantToolsFunction),
-        }
-        Ok(
-            match CreateAssistantRequestTool::deserialize(deserializer)? {
-                CreateAssistantRequestTool::CodeInterpreter(v) => Self::CodeInterpreter(v),
-                CreateAssistantRequestTool::FileSearch(v) => Self::FileSearch(v),
-                CreateAssistantRequestTool::Function(v) => Self::Function(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for CreateAssistantRequestTool {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CreateAssistantRequestTool<'a> {
-            CodeInterpreter(#[allow(dead_code)] &'a AssistantToolsCode),
-            FileSearch(#[allow(dead_code)] &'a AssistantToolsFileSearch),
-            Function(#[allow(dead_code)] &'a AssistantToolsFunction),
-        }
-        match self {
-            Self::CodeInterpreter(v) => {
-                CreateAssistantRequestTool::CodeInterpreter(v).serialize(serializer)
-            }
-            Self::FileSearch(v) => CreateAssistantRequestTool::FileSearch(v).serialize(serializer),
-            Self::Function(v) => CreateAssistantRequestTool::Function(v).serialize(serializer),
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateAssistantRequestTool {
     CodeInterpreter(AssistantToolsCode),
@@ -12656,57 +11808,11 @@ pub struct CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStra
     pub r#static:
         CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticStatic,
 }
-impl<'de> serde::Deserialize<'de>
-    for CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategy
-{
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategy {
-            Auto(
-                #[allow(dead_code)]
-                CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto,
-            ),
-            Static(
-                #[allow(dead_code)]
-                CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic,
-            ),
-        }
-        Ok (match CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategy :: deserialize (deserializer) ? { CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategy :: Auto (v) => Self :: Auto (v) , CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategy :: Static (v) => Self :: Static (v) })
-    }
-}
-impl serde::Serialize
-    for CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategy
-{
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategy<'a> {
-            Auto (# [allow (dead_code)] & 'a CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto) , Static (# [allow (dead_code)] & 'a CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic) }
-        match self {
-            Self::Auto(v) => {
-                CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategy::Auto(v)
-                    .serialize(serializer)
-            }
-            Self::Static(v) => {
-                CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategy::Static(v)
-                    .serialize(serializer)
-            }
-        }
-    }
-}
 #[doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy."]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategy {
     #[doc = "The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`."]
@@ -13047,57 +12153,11 @@ pub struct CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStra
     pub r#static:
         CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticStatic,
 }
-impl<'de> serde::Deserialize<'de>
-    for CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategy
-{
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategy {
-            Auto(
-                #[allow(dead_code)]
-                CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto,
-            ),
-            Static(
-                #[allow(dead_code)]
-                CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic,
-            ),
-        }
-        Ok (match CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategy :: deserialize (deserializer) ? { CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategy :: Auto (v) => Self :: Auto (v) , CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategy :: Static (v) => Self :: Static (v) })
-    }
-}
-impl serde::Serialize
-    for CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategy
-{
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategy<'a> {
-            Auto (# [allow (dead_code)] & 'a CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto) , Static (# [allow (dead_code)] & 'a CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic) }
-        match self {
-            Self::Auto(v) => {
-                CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategy::Auto(v)
-                    .serialize(serializer)
-            }
-            Self::Static(v) => {
-                CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategy::Static(v)
-                    .serialize(serializer)
-            }
-        }
-    }
-}
 #[doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy."]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategy {
     #[doc = "The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`."]
@@ -13240,51 +12300,10 @@ pub struct CreateAssistantRequestToolResourcesFileSearch1 {
     #[doc = "A helper to create a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) with file_ids and attach it to this assistant. There can be a maximum of 1 vector store attached to the assistant.\n"]
     pub vector_stores: Vec<CreateAssistantRequestToolResourcesFileSearch1VectorStore>,
 }
-impl<'de> serde::Deserialize<'de> for CreateAssistantRequestToolResourcesFileSearch {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CreateAssistantRequestToolResourcesFileSearch {
-            _0(#[allow(dead_code)] CreateAssistantRequestToolResourcesFileSearch0),
-            _1(#[allow(dead_code)] CreateAssistantRequestToolResourcesFileSearch1),
-        }
-        Ok(
-            match CreateAssistantRequestToolResourcesFileSearch::deserialize(deserializer)? {
-                CreateAssistantRequestToolResourcesFileSearch::_0(v) => Self::_0(v),
-                CreateAssistantRequestToolResourcesFileSearch::_1(v) => Self::_1(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for CreateAssistantRequestToolResourcesFileSearch {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CreateAssistantRequestToolResourcesFileSearch<'a> {
-            _0(#[allow(dead_code)] &'a CreateAssistantRequestToolResourcesFileSearch0),
-            _1(#[allow(dead_code)] &'a CreateAssistantRequestToolResourcesFileSearch1),
-        }
-        match self {
-            Self::_0(v) => {
-                CreateAssistantRequestToolResourcesFileSearch::_0(v).serialize(serializer)
-            }
-            Self::_1(v) => {
-                CreateAssistantRequestToolResourcesFileSearch::_1(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateAssistantRequestToolResourcesFileSearch {
     _0(CreateAssistantRequestToolResourcesFileSearch0),
@@ -13658,58 +12677,11 @@ pub struct CreateChatCompletionRequestWebSearchOptions {
     #[builder(default)]
     pub search_context_size: Option<WebSearchContextSize>,
 }
-impl<'de> serde::Deserialize<'de> for CreateChatCompletionRequestResponseFormat {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CreateChatCompletionRequestResponseFormat {
-            Text(#[allow(dead_code)] ResponseFormatText),
-            JsonSchema(#[allow(dead_code)] ResponseFormatJsonSchema),
-            JsonObject(#[allow(dead_code)] ResponseFormatJsonObject),
-        }
-        Ok(
-            match CreateChatCompletionRequestResponseFormat::deserialize(deserializer)? {
-                CreateChatCompletionRequestResponseFormat::Text(v) => Self::Text(v),
-                CreateChatCompletionRequestResponseFormat::JsonSchema(v) => Self::JsonSchema(v),
-                CreateChatCompletionRequestResponseFormat::JsonObject(v) => Self::JsonObject(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for CreateChatCompletionRequestResponseFormat {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CreateChatCompletionRequestResponseFormat<'a> {
-            Text(#[allow(dead_code)] &'a ResponseFormatText),
-            JsonSchema(#[allow(dead_code)] &'a ResponseFormatJsonSchema),
-            JsonObject(#[allow(dead_code)] &'a ResponseFormatJsonObject),
-        }
-        match self {
-            Self::Text(v) => {
-                CreateChatCompletionRequestResponseFormat::Text(v).serialize(serializer)
-            }
-            Self::JsonSchema(v) => {
-                CreateChatCompletionRequestResponseFormat::JsonSchema(v).serialize(serializer)
-            }
-            Self::JsonObject(v) => {
-                CreateChatCompletionRequestResponseFormat::JsonObject(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[doc = "An object specifying the format that the model must output.\n\nSetting to `{ \"type\": \"json_schema\", \"json_schema\": {...} }` enables\nStructured Outputs which ensures the model will match your supplied JSON\nschema. Learn more in the [Structured Outputs\nguide](https://platform.openai.com/docs/guides/structured-outputs).\n\nSetting to `{ \"type\": \"json_object\" }` enables the older JSON mode, which\nensures the message the model generates is valid JSON. Using `json_schema`\nis preferred for models that support it.\n"]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateChatCompletionRequestResponseFormat {
     Text(ResponseFormatText),
@@ -13783,48 +12755,11 @@ pub struct CreateChatCompletionRequestAudio {
     #[doc = "Specifies the output audio format. Must be one of `wav`, `mp3`, `flac`,\n`opus`, or `pcm16`.\n"]
     pub format: CreateChatCompletionRequestAudioFormat,
 }
-impl<'de> serde::Deserialize<'de> for CreateChatCompletionRequestPrediction {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CreateChatCompletionRequestPrediction {
-            PredictionContent(#[allow(dead_code)] PredictionContent),
-        }
-        Ok(
-            match CreateChatCompletionRequestPrediction::deserialize(deserializer)? {
-                CreateChatCompletionRequestPrediction::PredictionContent(v) => {
-                    Self::PredictionContent(v)
-                }
-            },
-        )
-    }
-}
-impl serde::Serialize for CreateChatCompletionRequestPrediction {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CreateChatCompletionRequestPrediction<'a> {
-            PredictionContent(#[allow(dead_code)] &'a PredictionContent),
-        }
-        match self {
-            Self::PredictionContent(v) => {
-                CreateChatCompletionRequestPrediction::PredictionContent(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[doc = "Configuration for a [Predicted Output](https://platform.openai.com/docs/guides/predicted-outputs),\nwhich can greatly improve response times when large parts of the model\nresponse are known ahead of time. This is most common when you are\nregenerating a file with only minor changes to most of the content.\n"]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateChatCompletionRequestPrediction {
     PredictionContent(PredictionContent),
@@ -14975,62 +13910,11 @@ pub struct CreateChatCompletionStreamResponse {
     #[builder(default)]
     pub usage: Option<CompletionUsage>,
 }
-impl<'de> serde::Deserialize<'de> for CreateCompletionRequestPrompt {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CreateCompletionRequestPrompt {
-            String(#[allow(dead_code)] String),
-            ArrayOfString(#[allow(dead_code)] Vec<String>),
-            ArrayOfInteger(#[allow(dead_code)] Vec<i64>),
-            ArrayOfArray(#[allow(dead_code)] Vec<Vec<i64>>),
-        }
-        Ok(
-            match CreateCompletionRequestPrompt::deserialize(deserializer)? {
-                CreateCompletionRequestPrompt::String(v) => Self::String(v),
-                CreateCompletionRequestPrompt::ArrayOfString(v) => Self::ArrayOfString(v),
-                CreateCompletionRequestPrompt::ArrayOfInteger(v) => Self::ArrayOfInteger(v),
-                CreateCompletionRequestPrompt::ArrayOfArray(v) => Self::ArrayOfArray(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for CreateCompletionRequestPrompt {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CreateCompletionRequestPrompt<'a> {
-            String(#[allow(dead_code)] &'a String),
-            ArrayOfString(#[allow(dead_code)] &'a Vec<String>),
-            ArrayOfInteger(#[allow(dead_code)] &'a Vec<i64>),
-            ArrayOfArray(#[allow(dead_code)] &'a Vec<Vec<i64>>),
-        }
-        match self {
-            Self::String(v) => CreateCompletionRequestPrompt::String(v).serialize(serializer),
-            Self::ArrayOfString(v) => {
-                CreateCompletionRequestPrompt::ArrayOfString(v).serialize(serializer)
-            }
-            Self::ArrayOfInteger(v) => {
-                CreateCompletionRequestPrompt::ArrayOfInteger(v).serialize(serializer)
-            }
-            Self::ArrayOfArray(v) => {
-                CreateCompletionRequestPrompt::ArrayOfArray(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[doc = "The prompt(s) to generate completions for, encoded as a string, array of strings, array of tokens, or array of token arrays.\n\nNote that <|endoftext|> is the document separator that the model sees during training, so if a prompt is not specified the model will generate as if from the beginning of a new document.\n"]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateCompletionRequestPrompt {
     String(String),
@@ -15789,62 +14673,11 @@ pub struct CreateContainerFileBody {
     #[builder(default)]
     pub file: Option<Vec<u8>>,
 }
-impl<'de> serde::Deserialize<'de> for CreateEmbeddingRequestInput {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CreateEmbeddingRequestInput {
-            String(#[allow(dead_code)] String),
-            ArrayOfString(#[allow(dead_code)] Vec<String>),
-            ArrayOfInteger(#[allow(dead_code)] Vec<i64>),
-            ArrayOfArray(#[allow(dead_code)] Vec<Vec<i64>>),
-        }
-        Ok(
-            match CreateEmbeddingRequestInput::deserialize(deserializer)? {
-                CreateEmbeddingRequestInput::String(v) => Self::String(v),
-                CreateEmbeddingRequestInput::ArrayOfString(v) => Self::ArrayOfString(v),
-                CreateEmbeddingRequestInput::ArrayOfInteger(v) => Self::ArrayOfInteger(v),
-                CreateEmbeddingRequestInput::ArrayOfArray(v) => Self::ArrayOfArray(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for CreateEmbeddingRequestInput {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CreateEmbeddingRequestInput<'a> {
-            String(#[allow(dead_code)] &'a String),
-            ArrayOfString(#[allow(dead_code)] &'a Vec<String>),
-            ArrayOfInteger(#[allow(dead_code)] &'a Vec<i64>),
-            ArrayOfArray(#[allow(dead_code)] &'a Vec<Vec<i64>>),
-        }
-        match self {
-            Self::String(v) => CreateEmbeddingRequestInput::String(v).serialize(serializer),
-            Self::ArrayOfString(v) => {
-                CreateEmbeddingRequestInput::ArrayOfString(v).serialize(serializer)
-            }
-            Self::ArrayOfInteger(v) => {
-                CreateEmbeddingRequestInput::ArrayOfInteger(v).serialize(serializer)
-            }
-            Self::ArrayOfArray(v) => {
-                CreateEmbeddingRequestInput::ArrayOfArray(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[doc = "Input text to embed, encoded as a string or array of tokens. To embed multiple inputs in a single request, pass an array of strings or array of token arrays. The input must not exceed the max input tokens for the model (8192 tokens for all embedding models), cannot be an empty string, and any array must be 2048 dimensions or less. [Example Python code](https://cookbook.openai.com/examples/how_to_count_tokens_with_tiktoken) for counting tokens. In addition to the per-input token limit, all embedding  models enforce a maximum of 300,000 tokens summed across all inputs in a  single request.\n"]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateEmbeddingRequestInput {
     #[doc = "The string that will be turned into an embedding."]
@@ -16165,50 +14998,10 @@ impl serde::Serialize for CreateEvalCompletionsRunDataSourceInputMessagesTemplat
 #[doc = "The type of input messages. Always `template`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct CreateEvalCompletionsRunDataSourceInputMessagesTemplateType;
-impl<'de> serde::Deserialize<'de>
-    for CreateEvalCompletionsRunDataSourceInputMessagesTemplateTemplate
-{
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CreateEvalCompletionsRunDataSourceInputMessagesTemplateTemplate {
-            EasyInputMessage(#[allow(dead_code)] EasyInputMessage),
-            EvalItem(#[allow(dead_code)] EvalItem),
-        }
-        Ok (match CreateEvalCompletionsRunDataSourceInputMessagesTemplateTemplate :: deserialize (deserializer) ? { CreateEvalCompletionsRunDataSourceInputMessagesTemplateTemplate :: EasyInputMessage (v) => Self :: EasyInputMessage (v) , CreateEvalCompletionsRunDataSourceInputMessagesTemplateTemplate :: EvalItem (v) => Self :: EvalItem (v) })
-    }
-}
-impl serde::Serialize for CreateEvalCompletionsRunDataSourceInputMessagesTemplateTemplate {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CreateEvalCompletionsRunDataSourceInputMessagesTemplateTemplate<'a> {
-            EasyInputMessage(#[allow(dead_code)] &'a EasyInputMessage),
-            EvalItem(#[allow(dead_code)] &'a EvalItem),
-        }
-        match self {
-            Self::EasyInputMessage(v) => {
-                CreateEvalCompletionsRunDataSourceInputMessagesTemplateTemplate::EasyInputMessage(v)
-                    .serialize(serializer)
-            }
-            Self::EvalItem(v) => {
-                CreateEvalCompletionsRunDataSourceInputMessagesTemplateTemplate::EvalItem(v)
-                    .serialize(serializer)
-            }
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateEvalCompletionsRunDataSourceInputMessagesTemplateTemplate {
     EasyInputMessage(EasyInputMessage),
@@ -16337,132 +15130,21 @@ pub struct CreateEvalCompletionsRunDataSourceInputMessagesItemReference {
     #[doc = "A reference to a variable in the `item` namespace. Ie, \"item.input_trajectory\""]
     pub item_reference: String,
 }
-impl<'de> serde::Deserialize<'de> for CreateEvalCompletionsRunDataSourceInputMessages {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CreateEvalCompletionsRunDataSourceInputMessages {
-            Template(#[allow(dead_code)] CreateEvalCompletionsRunDataSourceInputMessagesTemplate),
-            ItemReference(
-                #[allow(dead_code)] CreateEvalCompletionsRunDataSourceInputMessagesItemReference,
-            ),
-        }
-        Ok(
-            match CreateEvalCompletionsRunDataSourceInputMessages::deserialize(deserializer)? {
-                CreateEvalCompletionsRunDataSourceInputMessages::Template(v) => Self::Template(v),
-                CreateEvalCompletionsRunDataSourceInputMessages::ItemReference(v) => {
-                    Self::ItemReference(v)
-                }
-            },
-        )
-    }
-}
-impl serde::Serialize for CreateEvalCompletionsRunDataSourceInputMessages {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CreateEvalCompletionsRunDataSourceInputMessages<'a> {
-            Template(
-                #[allow(dead_code)] &'a CreateEvalCompletionsRunDataSourceInputMessagesTemplate,
-            ),
-            ItemReference(
-                #[allow(dead_code)]
-                &'a CreateEvalCompletionsRunDataSourceInputMessagesItemReference,
-            ),
-        }
-        match self {
-            Self::Template(v) => {
-                CreateEvalCompletionsRunDataSourceInputMessages::Template(v).serialize(serializer)
-            }
-            Self::ItemReference(v) => {
-                CreateEvalCompletionsRunDataSourceInputMessages::ItemReference(v)
-                    .serialize(serializer)
-            }
-        }
-    }
-}
 #[doc = "Used when sampling from a model. Dictates the structure of the messages passed into the model. Can either be a reference to a prebuilt trajectory (ie, `item.input_trajectory`), or a template with variable references to the `item` namespace."]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateEvalCompletionsRunDataSourceInputMessages {
     Template(CreateEvalCompletionsRunDataSourceInputMessagesTemplate),
     ItemReference(CreateEvalCompletionsRunDataSourceInputMessagesItemReference),
 }
-impl<'de> serde::Deserialize<'de>
-    for CreateEvalCompletionsRunDataSourceSamplingParamsResponseFormat
-{
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CreateEvalCompletionsRunDataSourceSamplingParamsResponseFormat {
-            Text(#[allow(dead_code)] ResponseFormatText),
-            JsonSchema(#[allow(dead_code)] ResponseFormatJsonSchema),
-            JsonObject(#[allow(dead_code)] ResponseFormatJsonObject),
-        }
-        Ok(
-            match CreateEvalCompletionsRunDataSourceSamplingParamsResponseFormat::deserialize(
-                deserializer,
-            )? {
-                CreateEvalCompletionsRunDataSourceSamplingParamsResponseFormat::Text(v) => {
-                    Self::Text(v)
-                }
-                CreateEvalCompletionsRunDataSourceSamplingParamsResponseFormat::JsonSchema(v) => {
-                    Self::JsonSchema(v)
-                }
-                CreateEvalCompletionsRunDataSourceSamplingParamsResponseFormat::JsonObject(v) => {
-                    Self::JsonObject(v)
-                }
-            },
-        )
-    }
-}
-impl serde::Serialize for CreateEvalCompletionsRunDataSourceSamplingParamsResponseFormat {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CreateEvalCompletionsRunDataSourceSamplingParamsResponseFormat<'a> {
-            Text(#[allow(dead_code)] &'a ResponseFormatText),
-            JsonSchema(#[allow(dead_code)] &'a ResponseFormatJsonSchema),
-            JsonObject(#[allow(dead_code)] &'a ResponseFormatJsonObject),
-        }
-        match self {
-            Self::Text(v) => {
-                CreateEvalCompletionsRunDataSourceSamplingParamsResponseFormat::Text(v)
-                    .serialize(serializer)
-            }
-            Self::JsonSchema(v) => {
-                CreateEvalCompletionsRunDataSourceSamplingParamsResponseFormat::JsonSchema(v)
-                    .serialize(serializer)
-            }
-            Self::JsonObject(v) => {
-                CreateEvalCompletionsRunDataSourceSamplingParamsResponseFormat::JsonObject(v)
-                    .serialize(serializer)
-            }
-        }
-    }
-}
 #[doc = "An object specifying the format that the model must output.\n\nSetting to `{ \"type\": \"json_schema\", \"json_schema\": {...} }` enables\nStructured Outputs which ensures the model will match your supplied JSON\nschema. Learn more in the [Structured Outputs\nguide](https://platform.openai.com/docs/guides/structured-outputs).\n\nSetting to `{ \"type\": \"json_object\" }` enables the older JSON mode, which\nensures the message the model generates is valid JSON. Using `json_schema`\nis preferred for models that support it.\n"]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateEvalCompletionsRunDataSourceSamplingParamsResponseFormat {
     Text(ResponseFormatText),
@@ -16583,60 +15265,11 @@ pub struct CreateEvalCompletionsRunDataSourceSamplingParams {
     #[builder(default)]
     pub tools: Option<Vec<ChatCompletionTool>>,
 }
-impl<'de> serde::Deserialize<'de> for CreateEvalCompletionsRunDataSourceSource {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CreateEvalCompletionsRunDataSourceSource {
-            FileContent(#[allow(dead_code)] EvalJsonlFileContentSource),
-            FileId(#[allow(dead_code)] EvalJsonlFileIdSource),
-            StoredCompletions(#[allow(dead_code)] EvalStoredCompletionsSource),
-        }
-        Ok(
-            match CreateEvalCompletionsRunDataSourceSource::deserialize(deserializer)? {
-                CreateEvalCompletionsRunDataSourceSource::FileContent(v) => Self::FileContent(v),
-                CreateEvalCompletionsRunDataSourceSource::FileId(v) => Self::FileId(v),
-                CreateEvalCompletionsRunDataSourceSource::StoredCompletions(v) => {
-                    Self::StoredCompletions(v)
-                }
-            },
-        )
-    }
-}
-impl serde::Serialize for CreateEvalCompletionsRunDataSourceSource {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CreateEvalCompletionsRunDataSourceSource<'a> {
-            FileContent(#[allow(dead_code)] &'a EvalJsonlFileContentSource),
-            FileId(#[allow(dead_code)] &'a EvalJsonlFileIdSource),
-            StoredCompletions(#[allow(dead_code)] &'a EvalStoredCompletionsSource),
-        }
-        match self {
-            Self::FileContent(v) => {
-                CreateEvalCompletionsRunDataSourceSource::FileContent(v).serialize(serializer)
-            }
-            Self::FileId(v) => {
-                CreateEvalCompletionsRunDataSourceSource::FileId(v).serialize(serializer)
-            }
-            Self::StoredCompletions(v) => {
-                CreateEvalCompletionsRunDataSourceSource::StoredCompletions(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[doc = "Determines what populates the `item` namespace in this run's data source."]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateEvalCompletionsRunDataSourceSource {
     FileContent(EvalJsonlFileContentSource),
@@ -16870,46 +15503,11 @@ pub struct CreateEvalItem0 {
     #[doc = "The content of the message."]
     pub content: String,
 }
-impl<'de> serde::Deserialize<'de> for CreateEvalItem {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CreateEvalItem {
-            _0(#[allow(dead_code)] CreateEvalItem0),
-            EvalItem(#[allow(dead_code)] EvalItem),
-        }
-        Ok(match CreateEvalItem::deserialize(deserializer)? {
-            CreateEvalItem::_0(v) => Self::_0(v),
-            CreateEvalItem::EvalItem(v) => Self::EvalItem(v),
-        })
-    }
-}
-impl serde::Serialize for CreateEvalItem {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CreateEvalItem<'a> {
-            _0(#[allow(dead_code)] &'a CreateEvalItem0),
-            EvalItem(#[allow(dead_code)] &'a EvalItem),
-        }
-        match self {
-            Self::_0(v) => CreateEvalItem::_0(v).serialize(serializer),
-            Self::EvalItem(v) => CreateEvalItem::EvalItem(v).serialize(serializer),
-        }
-    }
-}
 #[doc = "A chat message that makes up the prompt or context. May include variable references to the `item` namespace, ie {{item.name}}."]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateEvalItem {
     _0(CreateEvalItem0),
@@ -16942,50 +15540,11 @@ impl serde::Serialize for CreateEvalJsonlRunDataSourceType {
 #[doc = "The type of data source. Always `jsonl`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct CreateEvalJsonlRunDataSourceType;
-impl<'de> serde::Deserialize<'de> for CreateEvalJsonlRunDataSourceSource {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CreateEvalJsonlRunDataSourceSource {
-            FileContent(#[allow(dead_code)] EvalJsonlFileContentSource),
-            FileId(#[allow(dead_code)] EvalJsonlFileIdSource),
-        }
-        Ok(
-            match CreateEvalJsonlRunDataSourceSource::deserialize(deserializer)? {
-                CreateEvalJsonlRunDataSourceSource::FileContent(v) => Self::FileContent(v),
-                CreateEvalJsonlRunDataSourceSource::FileId(v) => Self::FileId(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for CreateEvalJsonlRunDataSourceSource {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CreateEvalJsonlRunDataSourceSource<'a> {
-            FileContent(#[allow(dead_code)] &'a EvalJsonlFileContentSource),
-            FileId(#[allow(dead_code)] &'a EvalJsonlFileIdSource),
-        }
-        match self {
-            Self::FileContent(v) => {
-                CreateEvalJsonlRunDataSourceSource::FileContent(v).serialize(serializer)
-            }
-            Self::FileId(v) => CreateEvalJsonlRunDataSourceSource::FileId(v).serialize(serializer),
-        }
-    }
-}
 #[doc = "Determines what populates the `item` namespace in the data source."]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateEvalJsonlRunDataSourceSource {
     FileContent(EvalJsonlFileContentSource),
@@ -17238,123 +15797,21 @@ pub struct CreateEvalLogsDataSourceConfig {
     #[builder(default)]
     pub metadata: Option<indexmap::IndexMap<String, serde_json::Value>>,
 }
-impl<'de> serde::Deserialize<'de> for CreateEvalRequestDataSourceConfig {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CreateEvalRequestDataSourceConfig {
-            Custom(#[allow(dead_code)] CreateEvalCustomDataSourceConfig),
-            Logs(#[allow(dead_code)] CreateEvalLogsDataSourceConfig),
-            StoredCompletions(#[allow(dead_code)] CreateEvalStoredCompletionsDataSourceConfig),
-        }
-        Ok(
-            match CreateEvalRequestDataSourceConfig::deserialize(deserializer)? {
-                CreateEvalRequestDataSourceConfig::Custom(v) => Self::Custom(v),
-                CreateEvalRequestDataSourceConfig::Logs(v) => Self::Logs(v),
-                CreateEvalRequestDataSourceConfig::StoredCompletions(v) => {
-                    Self::StoredCompletions(v)
-                }
-            },
-        )
-    }
-}
-impl serde::Serialize for CreateEvalRequestDataSourceConfig {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CreateEvalRequestDataSourceConfig<'a> {
-            Custom(#[allow(dead_code)] &'a CreateEvalCustomDataSourceConfig),
-            Logs(#[allow(dead_code)] &'a CreateEvalLogsDataSourceConfig),
-            StoredCompletions(#[allow(dead_code)] &'a CreateEvalStoredCompletionsDataSourceConfig),
-        }
-        match self {
-            Self::Custom(v) => CreateEvalRequestDataSourceConfig::Custom(v).serialize(serializer),
-            Self::Logs(v) => CreateEvalRequestDataSourceConfig::Logs(v).serialize(serializer),
-            Self::StoredCompletions(v) => {
-                CreateEvalRequestDataSourceConfig::StoredCompletions(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[doc = "The configuration for the data source used for the evaluation runs. Dictates the schema of the data used in the evaluation."]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateEvalRequestDataSourceConfig {
     Custom(CreateEvalCustomDataSourceConfig),
     Logs(CreateEvalLogsDataSourceConfig),
     StoredCompletions(CreateEvalStoredCompletionsDataSourceConfig),
 }
-impl<'de> serde::Deserialize<'de> for CreateEvalRequestTestingCriteria {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CreateEvalRequestTestingCriteria {
-            LabelModel(#[allow(dead_code)] CreateEvalLabelModelGrader),
-            StringCheck(#[allow(dead_code)] EvalGraderStringCheck),
-            TextSimilarity(#[allow(dead_code)] EvalGraderTextSimilarity),
-            Python(#[allow(dead_code)] EvalGraderPython),
-            ScoreModel(#[allow(dead_code)] EvalGraderScoreModel),
-        }
-        Ok(
-            match CreateEvalRequestTestingCriteria::deserialize(deserializer)? {
-                CreateEvalRequestTestingCriteria::LabelModel(v) => Self::LabelModel(v),
-                CreateEvalRequestTestingCriteria::StringCheck(v) => Self::StringCheck(v),
-                CreateEvalRequestTestingCriteria::TextSimilarity(v) => Self::TextSimilarity(v),
-                CreateEvalRequestTestingCriteria::Python(v) => Self::Python(v),
-                CreateEvalRequestTestingCriteria::ScoreModel(v) => Self::ScoreModel(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for CreateEvalRequestTestingCriteria {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CreateEvalRequestTestingCriteria<'a> {
-            LabelModel(#[allow(dead_code)] &'a CreateEvalLabelModelGrader),
-            StringCheck(#[allow(dead_code)] &'a EvalGraderStringCheck),
-            TextSimilarity(#[allow(dead_code)] &'a EvalGraderTextSimilarity),
-            Python(#[allow(dead_code)] &'a EvalGraderPython),
-            ScoreModel(#[allow(dead_code)] &'a EvalGraderScoreModel),
-        }
-        match self {
-            Self::LabelModel(v) => {
-                CreateEvalRequestTestingCriteria::LabelModel(v).serialize(serializer)
-            }
-            Self::StringCheck(v) => {
-                CreateEvalRequestTestingCriteria::StringCheck(v).serialize(serializer)
-            }
-            Self::TextSimilarity(v) => {
-                CreateEvalRequestTestingCriteria::TextSimilarity(v).serialize(serializer)
-            }
-            Self::Python(v) => CreateEvalRequestTestingCriteria::Python(v).serialize(serializer),
-            Self::ScoreModel(v) => {
-                CreateEvalRequestTestingCriteria::ScoreModel(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateEvalRequestTestingCriteria {
     LabelModel(CreateEvalLabelModelGrader),
@@ -17549,60 +16006,10 @@ pub struct CreateEvalResponsesRunDataSourceInputMessagesTemplateTemplate0 {
     #[doc = "The content of the message."]
     pub content: String,
 }
-impl<'de> serde::Deserialize<'de>
-    for CreateEvalResponsesRunDataSourceInputMessagesTemplateTemplate
-{
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CreateEvalResponsesRunDataSourceInputMessagesTemplateTemplate {
-            _0(#[allow(dead_code)] CreateEvalResponsesRunDataSourceInputMessagesTemplateTemplate0),
-            EvalItem(#[allow(dead_code)] EvalItem),
-        }
-        Ok(
-            match CreateEvalResponsesRunDataSourceInputMessagesTemplateTemplate::deserialize(
-                deserializer,
-            )? {
-                CreateEvalResponsesRunDataSourceInputMessagesTemplateTemplate::_0(v) => Self::_0(v),
-                CreateEvalResponsesRunDataSourceInputMessagesTemplateTemplate::EvalItem(v) => {
-                    Self::EvalItem(v)
-                }
-            },
-        )
-    }
-}
-impl serde::Serialize for CreateEvalResponsesRunDataSourceInputMessagesTemplateTemplate {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CreateEvalResponsesRunDataSourceInputMessagesTemplateTemplate<'a> {
-            _0(
-                #[allow(dead_code)]
-                &'a CreateEvalResponsesRunDataSourceInputMessagesTemplateTemplate0,
-            ),
-            EvalItem(#[allow(dead_code)] &'a EvalItem),
-        }
-        match self {
-            Self::_0(v) => CreateEvalResponsesRunDataSourceInputMessagesTemplateTemplate::_0(v)
-                .serialize(serializer),
-            Self::EvalItem(v) => {
-                CreateEvalResponsesRunDataSourceInputMessagesTemplateTemplate::EvalItem(v)
-                    .serialize(serializer)
-            }
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateEvalResponsesRunDataSourceInputMessagesTemplateTemplate {
     _0(CreateEvalResponsesRunDataSourceInputMessagesTemplateTemplate0),
@@ -17729,59 +16136,11 @@ pub struct CreateEvalResponsesRunDataSourceInputMessagesItemReference {
     #[doc = "A reference to a variable in the `item` namespace. Ie, \"item.name\""]
     pub item_reference: String,
 }
-impl<'de> serde::Deserialize<'de> for CreateEvalResponsesRunDataSourceInputMessages {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CreateEvalResponsesRunDataSourceInputMessages {
-            Template(#[allow(dead_code)] CreateEvalResponsesRunDataSourceInputMessagesTemplate),
-            ItemReference(
-                #[allow(dead_code)] CreateEvalResponsesRunDataSourceInputMessagesItemReference,
-            ),
-        }
-        Ok(
-            match CreateEvalResponsesRunDataSourceInputMessages::deserialize(deserializer)? {
-                CreateEvalResponsesRunDataSourceInputMessages::Template(v) => Self::Template(v),
-                CreateEvalResponsesRunDataSourceInputMessages::ItemReference(v) => {
-                    Self::ItemReference(v)
-                }
-            },
-        )
-    }
-}
-impl serde::Serialize for CreateEvalResponsesRunDataSourceInputMessages {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CreateEvalResponsesRunDataSourceInputMessages<'a> {
-            Template(#[allow(dead_code)] &'a CreateEvalResponsesRunDataSourceInputMessagesTemplate),
-            ItemReference(
-                #[allow(dead_code)] &'a CreateEvalResponsesRunDataSourceInputMessagesItemReference,
-            ),
-        }
-        match self {
-            Self::Template(v) => {
-                CreateEvalResponsesRunDataSourceInputMessages::Template(v).serialize(serializer)
-            }
-            Self::ItemReference(v) => {
-                CreateEvalResponsesRunDataSourceInputMessages::ItemReference(v)
-                    .serialize(serializer)
-            }
-        }
-    }
-}
 #[doc = "Used when sampling from a model. Dictates the structure of the messages passed into the model. Can either be a reference to a prebuilt trajectory (ie, `item.input_trajectory`), or a template with variable references to the `item` namespace."]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateEvalResponsesRunDataSourceInputMessages {
     Template(CreateEvalResponsesRunDataSourceInputMessagesTemplate),
@@ -17939,58 +16298,11 @@ pub struct CreateEvalResponsesRunDataSourceSamplingParams {
     #[builder(default)]
     pub text: Option<CreateEvalResponsesRunDataSourceSamplingParamsText>,
 }
-impl<'de> serde::Deserialize<'de> for CreateEvalResponsesRunDataSourceSource {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CreateEvalResponsesRunDataSourceSource {
-            FileContent(#[allow(dead_code)] EvalJsonlFileContentSource),
-            FileId(#[allow(dead_code)] EvalJsonlFileIdSource),
-            Responses(#[allow(dead_code)] EvalResponsesSource),
-        }
-        Ok(
-            match CreateEvalResponsesRunDataSourceSource::deserialize(deserializer)? {
-                CreateEvalResponsesRunDataSourceSource::FileContent(v) => Self::FileContent(v),
-                CreateEvalResponsesRunDataSourceSource::FileId(v) => Self::FileId(v),
-                CreateEvalResponsesRunDataSourceSource::Responses(v) => Self::Responses(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for CreateEvalResponsesRunDataSourceSource {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CreateEvalResponsesRunDataSourceSource<'a> {
-            FileContent(#[allow(dead_code)] &'a EvalJsonlFileContentSource),
-            FileId(#[allow(dead_code)] &'a EvalJsonlFileIdSource),
-            Responses(#[allow(dead_code)] &'a EvalResponsesSource),
-        }
-        match self {
-            Self::FileContent(v) => {
-                CreateEvalResponsesRunDataSourceSource::FileContent(v).serialize(serializer)
-            }
-            Self::FileId(v) => {
-                CreateEvalResponsesRunDataSourceSource::FileId(v).serialize(serializer)
-            }
-            Self::Responses(v) => {
-                CreateEvalResponsesRunDataSourceSource::Responses(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[doc = "Determines what populates the `item` namespace in this run's data source."]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateEvalResponsesRunDataSourceSource {
     FileContent(EvalJsonlFileContentSource),
@@ -18088,56 +16400,11 @@ pub struct CreateEvalResponsesRunDataSource {
     #[doc = "Determines what populates the `item` namespace in this run's data source."]
     pub source: CreateEvalResponsesRunDataSourceSource,
 }
-impl<'de> serde::Deserialize<'de> for CreateEvalRunRequestDataSource {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CreateEvalRunRequestDataSource {
-            Jsonl(#[allow(dead_code)] CreateEvalJsonlRunDataSource),
-            Completions(#[allow(dead_code)] CreateEvalCompletionsRunDataSource),
-            Responses(#[allow(dead_code)] CreateEvalResponsesRunDataSource),
-        }
-        Ok(
-            match CreateEvalRunRequestDataSource::deserialize(deserializer)? {
-                CreateEvalRunRequestDataSource::Jsonl(v) => Self::Jsonl(v),
-                CreateEvalRunRequestDataSource::Completions(v) => Self::Completions(v),
-                CreateEvalRunRequestDataSource::Responses(v) => Self::Responses(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for CreateEvalRunRequestDataSource {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CreateEvalRunRequestDataSource<'a> {
-            Jsonl(#[allow(dead_code)] &'a CreateEvalJsonlRunDataSource),
-            Completions(#[allow(dead_code)] &'a CreateEvalCompletionsRunDataSource),
-            Responses(#[allow(dead_code)] &'a CreateEvalResponsesRunDataSource),
-        }
-        match self {
-            Self::Jsonl(v) => CreateEvalRunRequestDataSource::Jsonl(v).serialize(serializer),
-            Self::Completions(v) => {
-                CreateEvalRunRequestDataSource::Completions(v).serialize(serializer)
-            }
-            Self::Responses(v) => {
-                CreateEvalRunRequestDataSource::Responses(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[doc = "Details about the run's data source."]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateEvalRunRequestDataSource {
     Jsonl(CreateEvalJsonlRunDataSource),
@@ -19013,68 +17280,15 @@ pub struct CreateFineTuningJobRequest {
     #[builder(default)]
     pub metadata: Option<Metadata>,
 }
-impl<'de> serde::Deserialize<'de> for CreateImageEditRequestImage {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CreateImageEditRequestImage {
-            Bytes(
-                #[serde_as(as = "serde_with::base64::Base64")]
-                #[allow(dead_code)]
-                Vec<u8>,
-            ),
-            Array(
-                #[serde_as(as = "Vec<serde_with::base64::Base64>")]
-                #[allow(dead_code)]
-                Vec<Vec<u8>>,
-            ),
-        }
-        Ok(
-            match CreateImageEditRequestImage::deserialize(deserializer)? {
-                CreateImageEditRequestImage::Bytes(v) => Self::Bytes(v),
-                CreateImageEditRequestImage::Array(v) => Self::Array(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for CreateImageEditRequestImage {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CreateImageEditRequestImage<'a> {
-            Bytes(
-                #[serde_as(as = "serde_with::base64::Base64")]
-                #[allow(dead_code)]
-                &'a Vec<u8>,
-            ),
-            Array(
-                #[serde_as(as = "Vec<serde_with::base64::Base64>")]
-                #[allow(dead_code)]
-                &'a Vec<Vec<u8>>,
-            ),
-        }
-        match self {
-            Self::Bytes(v) => CreateImageEditRequestImage::Bytes(v).serialize(serializer),
-            Self::Array(v) => CreateImageEditRequestImage::Array(v).serialize(serializer),
-        }
-    }
-}
 #[doc = "The image(s) to edit. Must be a supported image file or an array of images.\n\nFor `gpt-image-1`, each image should be a `png`, `webp`, or `jpg` file less \nthan 50MB. You can provide up to 16 images.\n\nFor `dall-e-2`, you can only provide one image, and it should be a square \n`png` file less than 4MB.\n"]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateImageEditRequestImage {
-    Bytes(Vec<u8>),
-    Array(Vec<Vec<u8>>),
+    Bytes(#[serde_as(as = "serde_with::base64::Base64")] Vec<u8>),
+    Array(#[serde_as(as = "Vec<serde_with::base64::Base64>")] Vec<Vec<u8>>),
 }
 #[doc = "Allows to set transparency for the background of the generated image(s). \nThis parameter is only supported for `gpt-image-1`. Must be one of \n`transparent`, `opaque` or `auto` (default value). When `auto` is used, the \nmodel will automatically determine the best background for the image.\n\nIf `transparent`, the output format needs to support transparency, so it \nshould be set to either `png` (default value) or `webp`.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
@@ -19797,102 +18011,20 @@ pub enum CreateMessageRequestRole {
     #[serde(rename = "assistant")]
     Assistant,
 }
-impl<'de> serde::Deserialize<'de> for CreateMessageRequestContentArray {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CreateMessageRequestContentArray {
-            ImageFile(#[allow(dead_code)] MessageContentImageFileObject),
-            ImageUrl(#[allow(dead_code)] MessageContentImageUrlObject),
-            Text(#[allow(dead_code)] MessageRequestContentTextObject),
-        }
-        Ok(
-            match CreateMessageRequestContentArray::deserialize(deserializer)? {
-                CreateMessageRequestContentArray::ImageFile(v) => Self::ImageFile(v),
-                CreateMessageRequestContentArray::ImageUrl(v) => Self::ImageUrl(v),
-                CreateMessageRequestContentArray::Text(v) => Self::Text(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for CreateMessageRequestContentArray {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CreateMessageRequestContentArray<'a> {
-            ImageFile(#[allow(dead_code)] &'a MessageContentImageFileObject),
-            ImageUrl(#[allow(dead_code)] &'a MessageContentImageUrlObject),
-            Text(#[allow(dead_code)] &'a MessageRequestContentTextObject),
-        }
-        match self {
-            Self::ImageFile(v) => {
-                CreateMessageRequestContentArray::ImageFile(v).serialize(serializer)
-            }
-            Self::ImageUrl(v) => {
-                CreateMessageRequestContentArray::ImageUrl(v).serialize(serializer)
-            }
-            Self::Text(v) => CreateMessageRequestContentArray::Text(v).serialize(serializer),
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateMessageRequestContentArray {
     ImageFile(MessageContentImageFileObject),
     ImageUrl(MessageContentImageUrlObject),
     Text(MessageRequestContentTextObject),
 }
-impl<'de> serde::Deserialize<'de> for CreateMessageRequestContent {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CreateMessageRequestContent {
-            String(#[allow(dead_code)] String),
-            Array(#[allow(dead_code)] Vec<CreateMessageRequestContentArray>),
-        }
-        Ok(
-            match CreateMessageRequestContent::deserialize(deserializer)? {
-                CreateMessageRequestContent::String(v) => Self::String(v),
-                CreateMessageRequestContent::Array(v) => Self::Array(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for CreateMessageRequestContent {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CreateMessageRequestContent<'a> {
-            String(#[allow(dead_code)] &'a String),
-            Array(#[allow(dead_code)] &'a Vec<CreateMessageRequestContentArray>),
-        }
-        match self {
-            Self::String(v) => CreateMessageRequestContent::String(v).serialize(serializer),
-            Self::Array(v) => CreateMessageRequestContent::Array(v).serialize(serializer),
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateMessageRequestContent {
     #[doc = "The text contents of the message."]
@@ -19900,51 +18032,10 @@ pub enum CreateMessageRequestContent {
     #[doc = "An array of content parts with a defined type, each can be of type `text` or images can be passed with `image_url` or `image_file`. Image types are only supported on [Vision-compatible models](https://platform.openai.com/docs/models)."]
     Array(Vec<CreateMessageRequestContentArray>),
 }
-impl<'de> serde::Deserialize<'de> for CreateMessageRequestAttachmentsTool {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CreateMessageRequestAttachmentsTool {
-            CodeInterpreter(#[allow(dead_code)] AssistantToolsCode),
-            FileSearch(#[allow(dead_code)] AssistantToolsFileSearchTypeOnly),
-        }
-        Ok(
-            match CreateMessageRequestAttachmentsTool::deserialize(deserializer)? {
-                CreateMessageRequestAttachmentsTool::CodeInterpreter(v) => Self::CodeInterpreter(v),
-                CreateMessageRequestAttachmentsTool::FileSearch(v) => Self::FileSearch(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for CreateMessageRequestAttachmentsTool {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CreateMessageRequestAttachmentsTool<'a> {
-            CodeInterpreter(#[allow(dead_code)] &'a AssistantToolsCode),
-            FileSearch(#[allow(dead_code)] &'a AssistantToolsFileSearchTypeOnly),
-        }
-        match self {
-            Self::CodeInterpreter(v) => {
-                CreateMessageRequestAttachmentsTool::CodeInterpreter(v).serialize(serializer)
-            }
-            Self::FileSearch(v) => {
-                CreateMessageRequestAttachmentsTool::FileSearch(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateMessageRequestAttachmentsTool {
     CodeInterpreter(AssistantToolsCode),
@@ -20372,47 +18463,10 @@ pub struct CreateModerationRequestInput2Text {
     #[doc = "A string of text to classify."]
     pub text: String,
 }
-impl<'de> serde::Deserialize<'de> for CreateModerationRequestInput2 {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CreateModerationRequestInput2 {
-            ImageUrl(#[allow(dead_code)] CreateModerationRequestInput2ImageUrl),
-            Text(#[allow(dead_code)] CreateModerationRequestInput2Text),
-        }
-        Ok(
-            match CreateModerationRequestInput2::deserialize(deserializer)? {
-                CreateModerationRequestInput2::ImageUrl(v) => Self::ImageUrl(v),
-                CreateModerationRequestInput2::Text(v) => Self::Text(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for CreateModerationRequestInput2 {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CreateModerationRequestInput2<'a> {
-            ImageUrl(#[allow(dead_code)] &'a CreateModerationRequestInput2ImageUrl),
-            Text(#[allow(dead_code)] &'a CreateModerationRequestInput2Text),
-        }
-        match self {
-            Self::ImageUrl(v) => CreateModerationRequestInput2::ImageUrl(v).serialize(serializer),
-            Self::Text(v) => CreateModerationRequestInput2::Text(v).serialize(serializer),
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateModerationRequestInput2 {
     #[doc = "An object describing an image to classify."]
@@ -20420,54 +18474,11 @@ pub enum CreateModerationRequestInput2 {
     #[doc = "An object describing text to classify."]
     Text(CreateModerationRequestInput2Text),
 }
-impl<'de> serde::Deserialize<'de> for CreateModerationRequestInput {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CreateModerationRequestInput {
-            String(#[allow(dead_code)] String),
-            ArrayOfString(#[allow(dead_code)] Vec<String>),
-            _2(#[allow(dead_code)] Vec<CreateModerationRequestInput2>),
-        }
-        Ok(
-            match CreateModerationRequestInput::deserialize(deserializer)? {
-                CreateModerationRequestInput::String(v) => Self::String(v),
-                CreateModerationRequestInput::ArrayOfString(v) => Self::ArrayOfString(v),
-                CreateModerationRequestInput::_2(v) => Self::_2(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for CreateModerationRequestInput {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CreateModerationRequestInput<'a> {
-            String(#[allow(dead_code)] &'a String),
-            ArrayOfString(#[allow(dead_code)] &'a Vec<String>),
-            _2(#[allow(dead_code)] &'a Vec<CreateModerationRequestInput2>),
-        }
-        match self {
-            Self::String(v) => CreateModerationRequestInput::String(v).serialize(serializer),
-            Self::ArrayOfString(v) => {
-                CreateModerationRequestInput::ArrayOfString(v).serialize(serializer)
-            }
-            Self::_2(v) => CreateModerationRequestInput::_2(v).serialize(serializer),
-        }
-    }
-}
 #[doc = "Input (or inputs) to classify. Can be a single string, an array of strings, or\nan array of multi-modal input objects similar to other models.\n"]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateModerationRequestInput {
     #[doc = "A string of text to classify for moderation."]
@@ -21474,46 +19485,11 @@ pub struct CreateModerationResponse {
     #[doc = "A list of moderation objects."]
     pub results: Vec<CreateModerationResponseResult>,
 }
-impl<'de> serde::Deserialize<'de> for CreateResponseInput {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CreateResponseInput {
-            String(#[allow(dead_code)] String),
-            Array(#[allow(dead_code)] Vec<InputItem>),
-        }
-        Ok(match CreateResponseInput::deserialize(deserializer)? {
-            CreateResponseInput::String(v) => Self::String(v),
-            CreateResponseInput::Array(v) => Self::Array(v),
-        })
-    }
-}
-impl serde::Serialize for CreateResponseInput {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CreateResponseInput<'a> {
-            String(#[allow(dead_code)] &'a String),
-            Array(#[allow(dead_code)] &'a Vec<InputItem>),
-        }
-        match self {
-            Self::String(v) => CreateResponseInput::String(v).serialize(serializer),
-            Self::Array(v) => CreateResponseInput::Array(v).serialize(serializer),
-        }
-    }
-}
 #[doc = "Text, image, or file inputs to the model, used to generate a response.\n\nLearn more:\n- [Text inputs and outputs](https://platform.openai.com/docs/guides/text)\n- [Image inputs](https://platform.openai.com/docs/guides/images)\n- [File inputs](https://platform.openai.com/docs/guides/pdf-files)\n- [Conversation state](https://platform.openai.com/docs/guides/conversation-state)\n- [Function calling](https://platform.openai.com/docs/guides/function-calling)\n"]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateResponseInput {
     #[doc = "A text input to the model, equivalent to a text input with the\n`user` role.\n"]
@@ -21851,51 +19827,10 @@ pub struct CreateResponse {
     #[builder(default)]
     pub stream: Option<bool>,
 }
-impl<'de> serde::Deserialize<'de> for CreateRunRequestTool {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CreateRunRequestTool {
-            CodeInterpreter(#[allow(dead_code)] AssistantToolsCode),
-            FileSearch(#[allow(dead_code)] AssistantToolsFileSearch),
-            Function(#[allow(dead_code)] AssistantToolsFunction),
-        }
-        Ok(match CreateRunRequestTool::deserialize(deserializer)? {
-            CreateRunRequestTool::CodeInterpreter(v) => Self::CodeInterpreter(v),
-            CreateRunRequestTool::FileSearch(v) => Self::FileSearch(v),
-            CreateRunRequestTool::Function(v) => Self::Function(v),
-        })
-    }
-}
-impl serde::Serialize for CreateRunRequestTool {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CreateRunRequestTool<'a> {
-            CodeInterpreter(#[allow(dead_code)] &'a AssistantToolsCode),
-            FileSearch(#[allow(dead_code)] &'a AssistantToolsFileSearch),
-            Function(#[allow(dead_code)] &'a AssistantToolsFunction),
-        }
-        match self {
-            Self::CodeInterpreter(v) => {
-                CreateRunRequestTool::CodeInterpreter(v).serialize(serializer)
-            }
-            Self::FileSearch(v) => CreateRunRequestTool::FileSearch(v).serialize(serializer),
-            Self::Function(v) => CreateRunRequestTool::Function(v).serialize(serializer),
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateRunRequestTool {
     CodeInterpreter(AssistantToolsCode),
@@ -22304,105 +20239,19 @@ pub struct CreateSpeechRequest {
     #[builder(default)]
     pub stream_format: Option<CreateSpeechRequestStreamFormat>,
 }
-impl<'de> serde::Deserialize<'de> for CreateSpeechResponseStreamEvent {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CreateSpeechResponseStreamEvent {
-            SpeechAudioDelta(#[allow(dead_code)] SpeechAudioDeltaEvent),
-            SpeechAudioDone(#[allow(dead_code)] SpeechAudioDoneEvent),
-        }
-        Ok(
-            match CreateSpeechResponseStreamEvent::deserialize(deserializer)? {
-                CreateSpeechResponseStreamEvent::SpeechAudioDelta(v) => Self::SpeechAudioDelta(v),
-                CreateSpeechResponseStreamEvent::SpeechAudioDone(v) => Self::SpeechAudioDone(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for CreateSpeechResponseStreamEvent {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CreateSpeechResponseStreamEvent<'a> {
-            SpeechAudioDelta(#[allow(dead_code)] &'a SpeechAudioDeltaEvent),
-            SpeechAudioDone(#[allow(dead_code)] &'a SpeechAudioDoneEvent),
-        }
-        match self {
-            Self::SpeechAudioDelta(v) => {
-                CreateSpeechResponseStreamEvent::SpeechAudioDelta(v).serialize(serializer)
-            }
-            Self::SpeechAudioDone(v) => {
-                CreateSpeechResponseStreamEvent::SpeechAudioDone(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateSpeechResponseStreamEvent {
     SpeechAudioDelta(SpeechAudioDeltaEvent),
     SpeechAudioDone(SpeechAudioDoneEvent),
 }
-impl<'de> serde::Deserialize<'de> for CreateThreadAndRunRequestTool {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CreateThreadAndRunRequestTool {
-            CodeInterpreter(#[allow(dead_code)] AssistantToolsCode),
-            FileSearch(#[allow(dead_code)] AssistantToolsFileSearch),
-            Function(#[allow(dead_code)] AssistantToolsFunction),
-        }
-        Ok(
-            match CreateThreadAndRunRequestTool::deserialize(deserializer)? {
-                CreateThreadAndRunRequestTool::CodeInterpreter(v) => Self::CodeInterpreter(v),
-                CreateThreadAndRunRequestTool::FileSearch(v) => Self::FileSearch(v),
-                CreateThreadAndRunRequestTool::Function(v) => Self::Function(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for CreateThreadAndRunRequestTool {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CreateThreadAndRunRequestTool<'a> {
-            CodeInterpreter(#[allow(dead_code)] &'a AssistantToolsCode),
-            FileSearch(#[allow(dead_code)] &'a AssistantToolsFileSearch),
-            Function(#[allow(dead_code)] &'a AssistantToolsFunction),
-        }
-        match self {
-            Self::CodeInterpreter(v) => {
-                CreateThreadAndRunRequestTool::CodeInterpreter(v).serialize(serializer)
-            }
-            Self::FileSearch(v) => {
-                CreateThreadAndRunRequestTool::FileSearch(v).serialize(serializer)
-            }
-            Self::Function(v) => CreateThreadAndRunRequestTool::Function(v).serialize(serializer),
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateThreadAndRunRequestTool {
     CodeInterpreter(AssistantToolsCode),
@@ -23031,63 +20880,11 @@ pub struct CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrateg
     pub r#static:
         CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticStatic,
 }
-impl<'de> serde::Deserialize<'de>
-    for CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategy
-{
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategy {
-            Auto(
-                #[allow(dead_code)]
-                CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto,
-            ),
-            Static(
-                #[allow(dead_code)]
-                CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic,
-            ),
-        }
-        Ok (match CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategy :: deserialize (deserializer) ? { CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategy :: Auto (v) => Self :: Auto (v) , CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategy :: Static (v) => Self :: Static (v) })
-    }
-}
-impl serde::Serialize for CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategy {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategy<'a> {
-            Auto(
-                #[allow(dead_code)]
-                &'a CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto,
-            ),
-            Static(
-                #[allow(dead_code)]
-                &'a CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic,
-            ),
-        }
-        match self {
-            Self::Auto(v) => {
-                CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategy::Auto(v)
-                    .serialize(serializer)
-            }
-            Self::Static(v) => {
-                CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategy::Static(v)
-                    .serialize(serializer)
-            }
-        }
-    }
-}
 #[doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy."]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategy {
     #[doc = "The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`."]
@@ -23438,63 +21235,11 @@ pub struct CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrateg
     pub r#static:
         CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticStatic,
 }
-impl<'de> serde::Deserialize<'de>
-    for CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategy
-{
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategy {
-            Auto(
-                #[allow(dead_code)]
-                CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto,
-            ),
-            Static(
-                #[allow(dead_code)]
-                CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic,
-            ),
-        }
-        Ok (match CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategy :: deserialize (deserializer) ? { CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategy :: Auto (v) => Self :: Auto (v) , CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategy :: Static (v) => Self :: Static (v) })
-    }
-}
-impl serde::Serialize for CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategy {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategy<'a> {
-            Auto(
-                #[allow(dead_code)]
-                &'a CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto,
-            ),
-            Static(
-                #[allow(dead_code)]
-                &'a CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic,
-            ),
-        }
-        match self {
-            Self::Auto(v) => {
-                CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategy::Auto(v)
-                    .serialize(serializer)
-            }
-            Self::Static(v) => {
-                CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategy::Static(v)
-                    .serialize(serializer)
-            }
-        }
-    }
-}
 #[doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy."]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategy {
     #[doc = "The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`."]
@@ -23636,47 +21381,10 @@ pub struct CreateThreadRequestToolResourcesFileSearch1 {
     #[doc = "A helper to create a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) with file_ids and attach it to this thread. There can be a maximum of 1 vector store attached to the thread.\n"]
     pub vector_stores: Vec<CreateThreadRequestToolResourcesFileSearch1VectorStore>,
 }
-impl<'de> serde::Deserialize<'de> for CreateThreadRequestToolResourcesFileSearch {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CreateThreadRequestToolResourcesFileSearch {
-            _0(#[allow(dead_code)] CreateThreadRequestToolResourcesFileSearch0),
-            _1(#[allow(dead_code)] CreateThreadRequestToolResourcesFileSearch1),
-        }
-        Ok(
-            match CreateThreadRequestToolResourcesFileSearch::deserialize(deserializer)? {
-                CreateThreadRequestToolResourcesFileSearch::_0(v) => Self::_0(v),
-                CreateThreadRequestToolResourcesFileSearch::_1(v) => Self::_1(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for CreateThreadRequestToolResourcesFileSearch {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CreateThreadRequestToolResourcesFileSearch<'a> {
-            _0(#[allow(dead_code)] &'a CreateThreadRequestToolResourcesFileSearch0),
-            _1(#[allow(dead_code)] &'a CreateThreadRequestToolResourcesFileSearch1),
-        }
-        match self {
-            Self::_0(v) => CreateThreadRequestToolResourcesFileSearch::_0(v).serialize(serializer),
-            Self::_1(v) => CreateThreadRequestToolResourcesFileSearch::_1(v).serialize(serializer),
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateThreadRequestToolResourcesFileSearch {
     _0(CreateThreadRequestToolResourcesFileSearch0),
@@ -24062,52 +21770,11 @@ pub struct CreateTranscriptionResponseJsonLogprob {
     #[builder(default)]
     pub bytes: Option<Vec<serde_json::Number>>,
 }
-impl<'de> serde::Deserialize<'de> for CreateTranscriptionResponseJsonUsage {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CreateTranscriptionResponseJsonUsage {
-            Tokens(#[allow(dead_code)] TranscriptTextUsageTokens),
-            Duration(#[allow(dead_code)] TranscriptTextUsageDuration),
-        }
-        Ok(
-            match CreateTranscriptionResponseJsonUsage::deserialize(deserializer)? {
-                CreateTranscriptionResponseJsonUsage::Tokens(v) => Self::Tokens(v),
-                CreateTranscriptionResponseJsonUsage::Duration(v) => Self::Duration(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for CreateTranscriptionResponseJsonUsage {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CreateTranscriptionResponseJsonUsage<'a> {
-            Tokens(#[allow(dead_code)] &'a TranscriptTextUsageTokens),
-            Duration(#[allow(dead_code)] &'a TranscriptTextUsageDuration),
-        }
-        match self {
-            Self::Tokens(v) => {
-                CreateTranscriptionResponseJsonUsage::Tokens(v).serialize(serializer)
-            }
-            Self::Duration(v) => {
-                CreateTranscriptionResponseJsonUsage::Duration(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[doc = "Token usage statistics for the request."]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateTranscriptionResponseJsonUsage {
     Tokens(TranscriptTextUsageTokens),
@@ -24186,55 +21853,10 @@ pub struct CreateTranscriptionResponseJson {
     #[builder(default)]
     pub usage: Option<CreateTranscriptionResponseJsonUsage>,
 }
-impl<'de> serde::Deserialize<'de> for CreateTranscriptionResponseStreamEvent {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CreateTranscriptionResponseStreamEvent {
-            TranscriptTextDelta(#[allow(dead_code)] TranscriptTextDeltaEvent),
-            TranscriptTextDone(#[allow(dead_code)] TranscriptTextDoneEvent),
-        }
-        Ok(
-            match CreateTranscriptionResponseStreamEvent::deserialize(deserializer)? {
-                CreateTranscriptionResponseStreamEvent::TranscriptTextDelta(v) => {
-                    Self::TranscriptTextDelta(v)
-                }
-                CreateTranscriptionResponseStreamEvent::TranscriptTextDone(v) => {
-                    Self::TranscriptTextDone(v)
-                }
-            },
-        )
-    }
-}
-impl serde::Serialize for CreateTranscriptionResponseStreamEvent {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CreateTranscriptionResponseStreamEvent<'a> {
-            TranscriptTextDelta(#[allow(dead_code)] &'a TranscriptTextDeltaEvent),
-            TranscriptTextDone(#[allow(dead_code)] &'a TranscriptTextDoneEvent),
-        }
-        match self {
-            Self::TranscriptTextDelta(v) => {
-                CreateTranscriptionResponseStreamEvent::TranscriptTextDelta(v).serialize(serializer)
-            }
-            Self::TranscriptTextDone(v) => {
-                CreateTranscriptionResponseStreamEvent::TranscriptTextDone(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateTranscriptionResponseStreamEvent {
     TranscriptTextDelta(TranscriptTextDeltaEvent),
@@ -24817,52 +22439,11 @@ pub struct CreateVectorStoreFileRequest {
     #[builder(default)]
     pub attributes: Option<VectorStoreFileAttributes>,
 }
-impl<'de> serde::Deserialize<'de> for CreateVectorStoreRequestChunkingStrategy {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum CreateVectorStoreRequestChunkingStrategy {
-            Auto(#[allow(dead_code)] AutoChunkingStrategyRequestParam),
-            Static(#[allow(dead_code)] StaticChunkingStrategyRequestParam),
-        }
-        Ok(
-            match CreateVectorStoreRequestChunkingStrategy::deserialize(deserializer)? {
-                CreateVectorStoreRequestChunkingStrategy::Auto(v) => Self::Auto(v),
-                CreateVectorStoreRequestChunkingStrategy::Static(v) => Self::Static(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for CreateVectorStoreRequestChunkingStrategy {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum CreateVectorStoreRequestChunkingStrategy<'a> {
-            Auto(#[allow(dead_code)] &'a AutoChunkingStrategyRequestParam),
-            Static(#[allow(dead_code)] &'a StaticChunkingStrategyRequestParam),
-        }
-        match self {
-            Self::Auto(v) => {
-                CreateVectorStoreRequestChunkingStrategy::Auto(v).serialize(serializer)
-            }
-            Self::Static(v) => {
-                CreateVectorStoreRequestChunkingStrategy::Static(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy. Only applicable if `file_ids` is non-empty."]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateVectorStoreRequestChunkingStrategy {
     Auto(AutoChunkingStrategyRequestParam),
@@ -25925,48 +23506,11 @@ pub enum EasyInputMessageRole {
     #[serde(rename = "developer")]
     Developer,
 }
-impl<'de> serde::Deserialize<'de> for EasyInputMessageContent {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum EasyInputMessageContent {
-            String(#[allow(dead_code)] String),
-            InputMessageContentList(#[allow(dead_code)] InputMessageContentList),
-        }
-        Ok(match EasyInputMessageContent::deserialize(deserializer)? {
-            EasyInputMessageContent::String(v) => Self::String(v),
-            EasyInputMessageContent::InputMessageContentList(v) => Self::InputMessageContentList(v),
-        })
-    }
-}
-impl serde::Serialize for EasyInputMessageContent {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum EasyInputMessageContent<'a> {
-            String(#[allow(dead_code)] &'a String),
-            InputMessageContentList(#[allow(dead_code)] &'a InputMessageContentList),
-        }
-        match self {
-            Self::String(v) => EasyInputMessageContent::String(v).serialize(serializer),
-            Self::InputMessageContentList(v) => {
-                EasyInputMessageContent::InputMessageContentList(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[doc = "Text, image, or audio input to the model, used to generate a response.\nCan also contain previous assistant responses.\n"]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum EasyInputMessageContent {
     #[doc = "A text input to the model.\n"]
@@ -26367,109 +23911,21 @@ impl serde::Serialize for EvalObject {
 #[doc = "The object type."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct EvalObject;
-impl<'de> serde::Deserialize<'de> for EvalDataSourceConfig {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum EvalDataSourceConfig {
-            Custom(#[allow(dead_code)] EvalCustomDataSourceConfig),
-            Logs(#[allow(dead_code)] EvalLogsDataSourceConfig),
-            StoredCompletions(#[allow(dead_code)] EvalStoredCompletionsDataSourceConfig),
-        }
-        Ok(match EvalDataSourceConfig::deserialize(deserializer)? {
-            EvalDataSourceConfig::Custom(v) => Self::Custom(v),
-            EvalDataSourceConfig::Logs(v) => Self::Logs(v),
-            EvalDataSourceConfig::StoredCompletions(v) => Self::StoredCompletions(v),
-        })
-    }
-}
-impl serde::Serialize for EvalDataSourceConfig {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum EvalDataSourceConfig<'a> {
-            Custom(#[allow(dead_code)] &'a EvalCustomDataSourceConfig),
-            Logs(#[allow(dead_code)] &'a EvalLogsDataSourceConfig),
-            StoredCompletions(#[allow(dead_code)] &'a EvalStoredCompletionsDataSourceConfig),
-        }
-        match self {
-            Self::Custom(v) => EvalDataSourceConfig::Custom(v).serialize(serializer),
-            Self::Logs(v) => EvalDataSourceConfig::Logs(v).serialize(serializer),
-            Self::StoredCompletions(v) => {
-                EvalDataSourceConfig::StoredCompletions(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[doc = "Configuration of data sources used in runs of the evaluation."]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum EvalDataSourceConfig {
     Custom(EvalCustomDataSourceConfig),
     Logs(EvalLogsDataSourceConfig),
     StoredCompletions(EvalStoredCompletionsDataSourceConfig),
 }
-impl<'de> serde::Deserialize<'de> for EvalTestingCriteria {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum EvalTestingCriteria {
-            LabelModel(#[allow(dead_code)] EvalGraderLabelModel),
-            StringCheck(#[allow(dead_code)] EvalGraderStringCheck),
-            TextSimilarity(#[allow(dead_code)] EvalGraderTextSimilarity),
-            Python(#[allow(dead_code)] EvalGraderPython),
-            ScoreModel(#[allow(dead_code)] EvalGraderScoreModel),
-        }
-        Ok(match EvalTestingCriteria::deserialize(deserializer)? {
-            EvalTestingCriteria::LabelModel(v) => Self::LabelModel(v),
-            EvalTestingCriteria::StringCheck(v) => Self::StringCheck(v),
-            EvalTestingCriteria::TextSimilarity(v) => Self::TextSimilarity(v),
-            EvalTestingCriteria::Python(v) => Self::Python(v),
-            EvalTestingCriteria::ScoreModel(v) => Self::ScoreModel(v),
-        })
-    }
-}
-impl serde::Serialize for EvalTestingCriteria {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum EvalTestingCriteria<'a> {
-            LabelModel(#[allow(dead_code)] &'a EvalGraderLabelModel),
-            StringCheck(#[allow(dead_code)] &'a EvalGraderStringCheck),
-            TextSimilarity(#[allow(dead_code)] &'a EvalGraderTextSimilarity),
-            Python(#[allow(dead_code)] &'a EvalGraderPython),
-            ScoreModel(#[allow(dead_code)] &'a EvalGraderScoreModel),
-        }
-        match self {
-            Self::LabelModel(v) => EvalTestingCriteria::LabelModel(v).serialize(serializer),
-            Self::StringCheck(v) => EvalTestingCriteria::StringCheck(v).serialize(serializer),
-            Self::TextSimilarity(v) => EvalTestingCriteria::TextSimilarity(v).serialize(serializer),
-            Self::Python(v) => EvalTestingCriteria::Python(v).serialize(serializer),
-            Self::ScoreModel(v) => EvalTestingCriteria::ScoreModel(v).serialize(serializer),
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum EvalTestingCriteria {
     LabelModel(EvalGraderLabelModel),
@@ -27273,50 +24729,11 @@ pub struct EvalItemContentOutputText {
     #[doc = "The text output from the model.\n"]
     pub text: String,
 }
-impl<'de> serde::Deserialize<'de> for EvalItemContent {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum EvalItemContent {
-            String(#[allow(dead_code)] String),
-            InputText(#[allow(dead_code)] InputTextContent),
-            OutputText(#[allow(dead_code)] EvalItemContentOutputText),
-        }
-        Ok(match EvalItemContent::deserialize(deserializer)? {
-            EvalItemContent::String(v) => Self::String(v),
-            EvalItemContent::InputText(v) => Self::InputText(v),
-            EvalItemContent::OutputText(v) => Self::OutputText(v),
-        })
-    }
-}
-impl serde::Serialize for EvalItemContent {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum EvalItemContent<'a> {
-            String(#[allow(dead_code)] &'a String),
-            InputText(#[allow(dead_code)] &'a InputTextContent),
-            OutputText(#[allow(dead_code)] &'a EvalItemContentOutputText),
-        }
-        match self {
-            Self::String(v) => EvalItemContent::String(v).serialize(serializer),
-            Self::InputText(v) => EvalItemContent::InputText(v).serialize(serializer),
-            Self::OutputText(v) => EvalItemContent::OutputText(v).serialize(serializer),
-        }
-    }
-}
 #[doc = "Text inputs to the model - can contain template strings.\n"]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum EvalItemContent {
     #[doc = "A text input to the model.\n"]
@@ -28284,50 +25701,11 @@ pub struct EvalRunPerTestingCriteriaResult {
     #[doc = "Number of tests failed for this criteria."]
     pub failed: i64,
 }
-impl<'de> serde::Deserialize<'de> for EvalRunDataSource {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum EvalRunDataSource {
-            Jsonl(#[allow(dead_code)] CreateEvalJsonlRunDataSource),
-            Completions(#[allow(dead_code)] CreateEvalCompletionsRunDataSource),
-            Responses(#[allow(dead_code)] CreateEvalResponsesRunDataSource),
-        }
-        Ok(match EvalRunDataSource::deserialize(deserializer)? {
-            EvalRunDataSource::Jsonl(v) => Self::Jsonl(v),
-            EvalRunDataSource::Completions(v) => Self::Completions(v),
-            EvalRunDataSource::Responses(v) => Self::Responses(v),
-        })
-    }
-}
-impl serde::Serialize for EvalRunDataSource {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum EvalRunDataSource<'a> {
-            Jsonl(#[allow(dead_code)] &'a CreateEvalJsonlRunDataSource),
-            Completions(#[allow(dead_code)] &'a CreateEvalCompletionsRunDataSource),
-            Responses(#[allow(dead_code)] &'a CreateEvalResponsesRunDataSource),
-        }
-        match self {
-            Self::Jsonl(v) => EvalRunDataSource::Jsonl(v).serialize(serializer),
-            Self::Completions(v) => EvalRunDataSource::Completions(v).serialize(serializer),
-            Self::Responses(v) => EvalRunDataSource::Responses(v).serialize(serializer),
-        }
-    }
-}
 #[doc = "Information about the run's data source."]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum EvalRunDataSource {
     Jsonl(CreateEvalJsonlRunDataSource),
@@ -29962,63 +27340,10 @@ pub struct FineTuneChatCompletionRequestAssistantMessage {
     #[builder(default)]
     pub function_call: Option<ChatCompletionRequestAssistantMessageFunctionCall>,
 }
-impl<'de> serde::Deserialize<'de> for FineTuneChatRequestInputMessages {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum FineTuneChatRequestInputMessages {
-            System(#[allow(dead_code)] ChatCompletionRequestSystemMessage),
-            User(#[allow(dead_code)] ChatCompletionRequestUserMessage),
-            Assistant(#[allow(dead_code)] FineTuneChatCompletionRequestAssistantMessage),
-            Tool(#[allow(dead_code)] ChatCompletionRequestToolMessage),
-            Function(#[allow(dead_code)] ChatCompletionRequestFunctionMessage),
-        }
-        Ok(
-            match FineTuneChatRequestInputMessages::deserialize(deserializer)? {
-                FineTuneChatRequestInputMessages::System(v) => Self::System(v),
-                FineTuneChatRequestInputMessages::User(v) => Self::User(v),
-                FineTuneChatRequestInputMessages::Assistant(v) => Self::Assistant(v),
-                FineTuneChatRequestInputMessages::Tool(v) => Self::Tool(v),
-                FineTuneChatRequestInputMessages::Function(v) => Self::Function(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for FineTuneChatRequestInputMessages {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum FineTuneChatRequestInputMessages<'a> {
-            System(#[allow(dead_code)] &'a ChatCompletionRequestSystemMessage),
-            User(#[allow(dead_code)] &'a ChatCompletionRequestUserMessage),
-            Assistant(#[allow(dead_code)] &'a FineTuneChatCompletionRequestAssistantMessage),
-            Tool(#[allow(dead_code)] &'a ChatCompletionRequestToolMessage),
-            Function(#[allow(dead_code)] &'a ChatCompletionRequestFunctionMessage),
-        }
-        match self {
-            Self::System(v) => FineTuneChatRequestInputMessages::System(v).serialize(serializer),
-            Self::User(v) => FineTuneChatRequestInputMessages::User(v).serialize(serializer),
-            Self::Assistant(v) => {
-                FineTuneChatRequestInputMessages::Assistant(v).serialize(serializer)
-            }
-            Self::Tool(v) => FineTuneChatRequestInputMessages::Tool(v).serialize(serializer),
-            Self::Function(v) => {
-                FineTuneChatRequestInputMessages::Function(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuneChatRequestInputMessages {
     System(ChatCompletionRequestSystemMessage),
@@ -30650,69 +27975,10 @@ pub struct FineTuneMethod {
     #[builder(default)]
     pub reinforcement: Option<FineTuneReinforcementMethod>,
 }
-impl<'de> serde::Deserialize<'de> for FineTunePreferenceRequestInputInputMessages {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum FineTunePreferenceRequestInputInputMessages {
-            System(#[allow(dead_code)] ChatCompletionRequestSystemMessage),
-            User(#[allow(dead_code)] ChatCompletionRequestUserMessage),
-            Assistant(#[allow(dead_code)] FineTuneChatCompletionRequestAssistantMessage),
-            Tool(#[allow(dead_code)] ChatCompletionRequestToolMessage),
-            Function(#[allow(dead_code)] ChatCompletionRequestFunctionMessage),
-        }
-        Ok(
-            match FineTunePreferenceRequestInputInputMessages::deserialize(deserializer)? {
-                FineTunePreferenceRequestInputInputMessages::System(v) => Self::System(v),
-                FineTunePreferenceRequestInputInputMessages::User(v) => Self::User(v),
-                FineTunePreferenceRequestInputInputMessages::Assistant(v) => Self::Assistant(v),
-                FineTunePreferenceRequestInputInputMessages::Tool(v) => Self::Tool(v),
-                FineTunePreferenceRequestInputInputMessages::Function(v) => Self::Function(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for FineTunePreferenceRequestInputInputMessages {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum FineTunePreferenceRequestInputInputMessages<'a> {
-            System(#[allow(dead_code)] &'a ChatCompletionRequestSystemMessage),
-            User(#[allow(dead_code)] &'a ChatCompletionRequestUserMessage),
-            Assistant(#[allow(dead_code)] &'a FineTuneChatCompletionRequestAssistantMessage),
-            Tool(#[allow(dead_code)] &'a ChatCompletionRequestToolMessage),
-            Function(#[allow(dead_code)] &'a ChatCompletionRequestFunctionMessage),
-        }
-        match self {
-            Self::System(v) => {
-                FineTunePreferenceRequestInputInputMessages::System(v).serialize(serializer)
-            }
-            Self::User(v) => {
-                FineTunePreferenceRequestInputInputMessages::User(v).serialize(serializer)
-            }
-            Self::Assistant(v) => {
-                FineTunePreferenceRequestInputInputMessages::Assistant(v).serialize(serializer)
-            }
-            Self::Tool(v) => {
-                FineTunePreferenceRequestInputInputMessages::Tool(v).serialize(serializer)
-            }
-            Self::Function(v) => {
-                FineTunePreferenceRequestInputInputMessages::Function(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTunePreferenceRequestInputInputMessages {
     System(ChatCompletionRequestSystemMessage),
@@ -30793,80 +28059,18 @@ pub struct FineTunePreferenceRequestInputInput {
     #[builder(default)]
     pub parallel_tool_calls: Option<ParallelToolCalls>,
 }
-impl<'de> serde::Deserialize<'de> for FineTunePreferenceRequestInputPreferredOutput {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum FineTunePreferenceRequestInputPreferredOutput {
-            ChatCompletionRequestAssistantMessage(
-                #[allow(dead_code)] ChatCompletionRequestAssistantMessage,
-            ),
-        }
-        Ok (match FineTunePreferenceRequestInputPreferredOutput :: deserialize (deserializer) ? { FineTunePreferenceRequestInputPreferredOutput :: ChatCompletionRequestAssistantMessage (v) => Self :: ChatCompletionRequestAssistantMessage (v) })
-    }
-}
-impl serde::Serialize for FineTunePreferenceRequestInputPreferredOutput {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum FineTunePreferenceRequestInputPreferredOutput<'a> {
-            ChatCompletionRequestAssistantMessage(
-                #[allow(dead_code)] &'a ChatCompletionRequestAssistantMessage,
-            ),
-        }
-        match self { Self :: ChatCompletionRequestAssistantMessage (v) => { FineTunePreferenceRequestInputPreferredOutput :: ChatCompletionRequestAssistantMessage (v) . serialize (serializer) } }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTunePreferenceRequestInputPreferredOutput {
     ChatCompletionRequestAssistantMessage(ChatCompletionRequestAssistantMessage),
 }
-impl<'de> serde::Deserialize<'de> for FineTunePreferenceRequestInputNonPreferredOutput {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum FineTunePreferenceRequestInputNonPreferredOutput {
-            ChatCompletionRequestAssistantMessage(
-                #[allow(dead_code)] ChatCompletionRequestAssistantMessage,
-            ),
-        }
-        Ok (match FineTunePreferenceRequestInputNonPreferredOutput :: deserialize (deserializer) ? { FineTunePreferenceRequestInputNonPreferredOutput :: ChatCompletionRequestAssistantMessage (v) => Self :: ChatCompletionRequestAssistantMessage (v) })
-    }
-}
-impl serde::Serialize for FineTunePreferenceRequestInputNonPreferredOutput {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum FineTunePreferenceRequestInputNonPreferredOutput<'a> {
-            ChatCompletionRequestAssistantMessage(
-                #[allow(dead_code)] &'a ChatCompletionRequestAssistantMessage,
-            ),
-        }
-        match self { Self :: ChatCompletionRequestAssistantMessage (v) => { FineTunePreferenceRequestInputNonPreferredOutput :: ChatCompletionRequestAssistantMessage (v) . serialize (serializer) } }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTunePreferenceRequestInputNonPreferredOutput {
     ChatCompletionRequestAssistantMessage(ChatCompletionRequestAssistantMessage),
@@ -31580,66 +28784,11 @@ pub struct FineTuneReinforcementHyperparameters {
     #[builder(default)]
     pub eval_samples: Option<FineTuneReinforcementHyperparametersEvalSamples>,
 }
-impl<'de> serde::Deserialize<'de> for FineTuneReinforcementMethodGrader {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum FineTuneReinforcementMethodGrader {
-            StringCheck(#[allow(dead_code)] GraderStringCheck),
-            TextSimilarity(#[allow(dead_code)] GraderTextSimilarity),
-            Python(#[allow(dead_code)] GraderPython),
-            ScoreModel(#[allow(dead_code)] GraderScoreModel),
-            Multi(#[allow(dead_code)] GraderMulti),
-        }
-        Ok(
-            match FineTuneReinforcementMethodGrader::deserialize(deserializer)? {
-                FineTuneReinforcementMethodGrader::StringCheck(v) => Self::StringCheck(v),
-                FineTuneReinforcementMethodGrader::TextSimilarity(v) => Self::TextSimilarity(v),
-                FineTuneReinforcementMethodGrader::Python(v) => Self::Python(v),
-                FineTuneReinforcementMethodGrader::ScoreModel(v) => Self::ScoreModel(v),
-                FineTuneReinforcementMethodGrader::Multi(v) => Self::Multi(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for FineTuneReinforcementMethodGrader {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum FineTuneReinforcementMethodGrader<'a> {
-            StringCheck(#[allow(dead_code)] &'a GraderStringCheck),
-            TextSimilarity(#[allow(dead_code)] &'a GraderTextSimilarity),
-            Python(#[allow(dead_code)] &'a GraderPython),
-            ScoreModel(#[allow(dead_code)] &'a GraderScoreModel),
-            Multi(#[allow(dead_code)] &'a GraderMulti),
-        }
-        match self {
-            Self::StringCheck(v) => {
-                FineTuneReinforcementMethodGrader::StringCheck(v).serialize(serializer)
-            }
-            Self::TextSimilarity(v) => {
-                FineTuneReinforcementMethodGrader::TextSimilarity(v).serialize(serializer)
-            }
-            Self::Python(v) => FineTuneReinforcementMethodGrader::Python(v).serialize(serializer),
-            Self::ScoreModel(v) => {
-                FineTuneReinforcementMethodGrader::ScoreModel(v).serialize(serializer)
-            }
-            Self::Multi(v) => FineTuneReinforcementMethodGrader::Multi(v).serialize(serializer),
-        }
-    }
-}
 #[doc = "The grader used for the fine-tuning job."]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuneReinforcementMethodGrader {
     StringCheck(GraderStringCheck),
@@ -31707,63 +28856,10 @@ pub struct FineTuneReinforcementMethod {
     #[builder(default)]
     pub hyperparameters: Option<FineTuneReinforcementHyperparameters>,
 }
-impl<'de> serde::Deserialize<'de> for FineTuneReinforcementRequestInputMessages {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum FineTuneReinforcementRequestInputMessages {
-            Developer(#[allow(dead_code)] ChatCompletionRequestDeveloperMessage),
-            User(#[allow(dead_code)] ChatCompletionRequestUserMessage),
-            Assistant(#[allow(dead_code)] FineTuneChatCompletionRequestAssistantMessage),
-            Tool(#[allow(dead_code)] ChatCompletionRequestToolMessage),
-        }
-        Ok(
-            match FineTuneReinforcementRequestInputMessages::deserialize(deserializer)? {
-                FineTuneReinforcementRequestInputMessages::Developer(v) => Self::Developer(v),
-                FineTuneReinforcementRequestInputMessages::User(v) => Self::User(v),
-                FineTuneReinforcementRequestInputMessages::Assistant(v) => Self::Assistant(v),
-                FineTuneReinforcementRequestInputMessages::Tool(v) => Self::Tool(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for FineTuneReinforcementRequestInputMessages {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum FineTuneReinforcementRequestInputMessages<'a> {
-            Developer(#[allow(dead_code)] &'a ChatCompletionRequestDeveloperMessage),
-            User(#[allow(dead_code)] &'a ChatCompletionRequestUserMessage),
-            Assistant(#[allow(dead_code)] &'a FineTuneChatCompletionRequestAssistantMessage),
-            Tool(#[allow(dead_code)] &'a ChatCompletionRequestToolMessage),
-        }
-        match self {
-            Self::Developer(v) => {
-                FineTuneReinforcementRequestInputMessages::Developer(v).serialize(serializer)
-            }
-            Self::User(v) => {
-                FineTuneReinforcementRequestInputMessages::User(v).serialize(serializer)
-            }
-            Self::Assistant(v) => {
-                FineTuneReinforcementRequestInputMessages::Assistant(v).serialize(serializer)
-            }
-            Self::Tool(v) => {
-                FineTuneReinforcementRequestInputMessages::Tool(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuneReinforcementRequestInputMessages {
     Developer(ChatCompletionRequestDeveloperMessage),
@@ -32869,43 +29965,10 @@ pub enum FineTuningJobStatus {
     #[serde(rename = "cancelled")]
     Cancelled,
 }
-impl<'de> serde::Deserialize<'de> for FineTuningJobIntegration {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum FineTuningJobIntegration {
-            FineTuningIntegration(#[allow(dead_code)] FineTuningIntegration),
-        }
-        Ok(match FineTuningJobIntegration::deserialize(deserializer)? {
-            FineTuningJobIntegration::FineTuningIntegration(v) => Self::FineTuningIntegration(v),
-        })
-    }
-}
-impl serde::Serialize for FineTuningJobIntegration {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum FineTuningJobIntegration<'a> {
-            FineTuningIntegration(#[allow(dead_code)] &'a FineTuningIntegration),
-        }
-        match self {
-            Self::FineTuningIntegration(v) => {
-                FineTuningJobIntegration::FineTuningIntegration(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum FineTuningJobIntegration {
     FineTuningIntegration(FineTuningIntegration),
@@ -34277,57 +31340,10 @@ impl serde::Serialize for GraderMultiType {
 #[doc = "The object type, which is always `multi`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct GraderMultiType;
-impl<'de> serde::Deserialize<'de> for GraderMultiGraders {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum GraderMultiGraders {
-            StringCheck(#[allow(dead_code)] GraderStringCheck),
-            TextSimilarity(#[allow(dead_code)] GraderTextSimilarity),
-            Python(#[allow(dead_code)] GraderPython),
-            ScoreModel(#[allow(dead_code)] GraderScoreModel),
-            LabelModel(#[allow(dead_code)] GraderLabelModel),
-        }
-        Ok(match GraderMultiGraders::deserialize(deserializer)? {
-            GraderMultiGraders::StringCheck(v) => Self::StringCheck(v),
-            GraderMultiGraders::TextSimilarity(v) => Self::TextSimilarity(v),
-            GraderMultiGraders::Python(v) => Self::Python(v),
-            GraderMultiGraders::ScoreModel(v) => Self::ScoreModel(v),
-            GraderMultiGraders::LabelModel(v) => Self::LabelModel(v),
-        })
-    }
-}
-impl serde::Serialize for GraderMultiGraders {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum GraderMultiGraders<'a> {
-            StringCheck(#[allow(dead_code)] &'a GraderStringCheck),
-            TextSimilarity(#[allow(dead_code)] &'a GraderTextSimilarity),
-            Python(#[allow(dead_code)] &'a GraderPython),
-            ScoreModel(#[allow(dead_code)] &'a GraderScoreModel),
-            LabelModel(#[allow(dead_code)] &'a GraderLabelModel),
-        }
-        match self {
-            Self::StringCheck(v) => GraderMultiGraders::StringCheck(v).serialize(serializer),
-            Self::TextSimilarity(v) => GraderMultiGraders::TextSimilarity(v).serialize(serializer),
-            Self::Python(v) => GraderMultiGraders::Python(v).serialize(serializer),
-            Self::ScoreModel(v) => GraderMultiGraders::ScoreModel(v).serialize(serializer),
-            Self::LabelModel(v) => GraderMultiGraders::LabelModel(v).serialize(serializer),
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum GraderMultiGraders {
     StringCheck(GraderStringCheck),
@@ -35844,98 +32860,20 @@ pub struct InputAudio {
     #[doc = "The format of the audio data. Currently supported formats are `mp3` and\n`wav`.\n"]
     pub format: InputAudioFormat,
 }
-impl<'de> serde::Deserialize<'de> for InputContent {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum InputContent {
-            InputText(#[allow(dead_code)] InputTextContent),
-            InputImage(#[allow(dead_code)] InputImageContent),
-            InputFile(#[allow(dead_code)] InputFileContent),
-        }
-        Ok(match InputContent::deserialize(deserializer)? {
-            InputContent::InputText(v) => Self::InputText(v),
-            InputContent::InputImage(v) => Self::InputImage(v),
-            InputContent::InputFile(v) => Self::InputFile(v),
-        })
-    }
-}
-impl serde::Serialize for InputContent {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum InputContent<'a> {
-            InputText(#[allow(dead_code)] &'a InputTextContent),
-            InputImage(#[allow(dead_code)] &'a InputImageContent),
-            InputFile(#[allow(dead_code)] &'a InputFileContent),
-        }
-        match self {
-            Self::InputText(v) => InputContent::InputText(v).serialize(serializer),
-            Self::InputImage(v) => InputContent::InputImage(v).serialize(serializer),
-            Self::InputFile(v) => InputContent::InputFile(v).serialize(serializer),
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum InputContent {
     InputText(InputTextContent),
     InputImage(InputImageContent),
     InputFile(InputFileContent),
 }
-impl<'de> serde::Deserialize<'de> for InputItem {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum InputItem {
-            EasyInputMessage(#[allow(dead_code)] EasyInputMessage),
-            Item(#[allow(dead_code)] Item),
-            ItemReferenceParam(#[allow(dead_code)] ItemReferenceParam),
-        }
-        Ok(match InputItem::deserialize(deserializer)? {
-            InputItem::EasyInputMessage(v) => Self::EasyInputMessage(v),
-            InputItem::Item(v) => Self::Item(v),
-            InputItem::ItemReferenceParam(v) => Self::ItemReferenceParam(v),
-        })
-    }
-}
-impl serde::Serialize for InputItem {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum InputItem<'a> {
-            EasyInputMessage(#[allow(dead_code)] &'a EasyInputMessage),
-            Item(#[allow(dead_code)] &'a Item),
-            ItemReferenceParam(#[allow(dead_code)] &'a ItemReferenceParam),
-        }
-        match self {
-            Self::EasyInputMessage(v) => InputItem::EasyInputMessage(v).serialize(serializer),
-            Self::Item(v) => InputItem::Item(v).serialize(serializer),
-            Self::ItemReferenceParam(v) => InputItem::ItemReferenceParam(v).serialize(serializer),
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum InputItem {
     EasyInputMessage(EasyInputMessage),
@@ -36745,114 +33683,11 @@ pub struct InviteRequest {
     #[builder(default)]
     pub projects: Option<Vec<InviteRequestProjects>>,
 }
-impl<'de> serde::Deserialize<'de> for Item {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum Item {
-            InputMessage(#[allow(dead_code)] InputMessage),
-            OutputMessage(#[allow(dead_code)] OutputMessage),
-            FileSearchToolCall(#[allow(dead_code)] FileSearchToolCall),
-            ComputerToolCall(#[allow(dead_code)] ComputerToolCall),
-            ComputerCallOutputItemParam(#[allow(dead_code)] ComputerCallOutputItemParam),
-            WebSearchToolCall(#[allow(dead_code)] WebSearchToolCall),
-            FunctionToolCall(#[allow(dead_code)] FunctionToolCall),
-            FunctionCallOutputItemParam(#[allow(dead_code)] FunctionCallOutputItemParam),
-            ReasoningItem(#[allow(dead_code)] ReasoningItem),
-            ImageGenToolCall(#[allow(dead_code)] ImageGenToolCall),
-            CodeInterpreterToolCall(#[allow(dead_code)] CodeInterpreterToolCall),
-            LocalShellToolCall(#[allow(dead_code)] LocalShellToolCall),
-            LocalShellToolCallOutput(#[allow(dead_code)] LocalShellToolCallOutput),
-            McpListTools(#[allow(dead_code)] McpListTools),
-            McpApprovalRequest(#[allow(dead_code)] McpApprovalRequest),
-            McpApprovalResponse(#[allow(dead_code)] McpApprovalResponse),
-            McpToolCall(#[allow(dead_code)] McpToolCall),
-        }
-        Ok(match Item::deserialize(deserializer)? {
-            Item::InputMessage(v) => Self::InputMessage(v),
-            Item::OutputMessage(v) => Self::OutputMessage(v),
-            Item::FileSearchToolCall(v) => Self::FileSearchToolCall(v),
-            Item::ComputerToolCall(v) => Self::ComputerToolCall(v),
-            Item::ComputerCallOutputItemParam(v) => Self::ComputerCallOutputItemParam(v),
-            Item::WebSearchToolCall(v) => Self::WebSearchToolCall(v),
-            Item::FunctionToolCall(v) => Self::FunctionToolCall(v),
-            Item::FunctionCallOutputItemParam(v) => Self::FunctionCallOutputItemParam(v),
-            Item::ReasoningItem(v) => Self::ReasoningItem(v),
-            Item::ImageGenToolCall(v) => Self::ImageGenToolCall(v),
-            Item::CodeInterpreterToolCall(v) => Self::CodeInterpreterToolCall(v),
-            Item::LocalShellToolCall(v) => Self::LocalShellToolCall(v),
-            Item::LocalShellToolCallOutput(v) => Self::LocalShellToolCallOutput(v),
-            Item::McpListTools(v) => Self::McpListTools(v),
-            Item::McpApprovalRequest(v) => Self::McpApprovalRequest(v),
-            Item::McpApprovalResponse(v) => Self::McpApprovalResponse(v),
-            Item::McpToolCall(v) => Self::McpToolCall(v),
-        })
-    }
-}
-impl serde::Serialize for Item {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum Item<'a> {
-            InputMessage(#[allow(dead_code)] &'a InputMessage),
-            OutputMessage(#[allow(dead_code)] &'a OutputMessage),
-            FileSearchToolCall(#[allow(dead_code)] &'a FileSearchToolCall),
-            ComputerToolCall(#[allow(dead_code)] &'a ComputerToolCall),
-            ComputerCallOutputItemParam(#[allow(dead_code)] &'a ComputerCallOutputItemParam),
-            WebSearchToolCall(#[allow(dead_code)] &'a WebSearchToolCall),
-            FunctionToolCall(#[allow(dead_code)] &'a FunctionToolCall),
-            FunctionCallOutputItemParam(#[allow(dead_code)] &'a FunctionCallOutputItemParam),
-            ReasoningItem(#[allow(dead_code)] &'a ReasoningItem),
-            ImageGenToolCall(#[allow(dead_code)] &'a ImageGenToolCall),
-            CodeInterpreterToolCall(#[allow(dead_code)] &'a CodeInterpreterToolCall),
-            LocalShellToolCall(#[allow(dead_code)] &'a LocalShellToolCall),
-            LocalShellToolCallOutput(#[allow(dead_code)] &'a LocalShellToolCallOutput),
-            McpListTools(#[allow(dead_code)] &'a McpListTools),
-            McpApprovalRequest(#[allow(dead_code)] &'a McpApprovalRequest),
-            McpApprovalResponse(#[allow(dead_code)] &'a McpApprovalResponse),
-            McpToolCall(#[allow(dead_code)] &'a McpToolCall),
-        }
-        match self {
-            Self::InputMessage(v) => Item::InputMessage(v).serialize(serializer),
-            Self::OutputMessage(v) => Item::OutputMessage(v).serialize(serializer),
-            Self::FileSearchToolCall(v) => Item::FileSearchToolCall(v).serialize(serializer),
-            Self::ComputerToolCall(v) => Item::ComputerToolCall(v).serialize(serializer),
-            Self::ComputerCallOutputItemParam(v) => {
-                Item::ComputerCallOutputItemParam(v).serialize(serializer)
-            }
-            Self::WebSearchToolCall(v) => Item::WebSearchToolCall(v).serialize(serializer),
-            Self::FunctionToolCall(v) => Item::FunctionToolCall(v).serialize(serializer),
-            Self::FunctionCallOutputItemParam(v) => {
-                Item::FunctionCallOutputItemParam(v).serialize(serializer)
-            }
-            Self::ReasoningItem(v) => Item::ReasoningItem(v).serialize(serializer),
-            Self::ImageGenToolCall(v) => Item::ImageGenToolCall(v).serialize(serializer),
-            Self::CodeInterpreterToolCall(v) => {
-                Item::CodeInterpreterToolCall(v).serialize(serializer)
-            }
-            Self::LocalShellToolCall(v) => Item::LocalShellToolCall(v).serialize(serializer),
-            Self::LocalShellToolCallOutput(v) => {
-                Item::LocalShellToolCallOutput(v).serialize(serializer)
-            }
-            Self::McpListTools(v) => Item::McpListTools(v).serialize(serializer),
-            Self::McpApprovalRequest(v) => Item::McpApprovalRequest(v).serialize(serializer),
-            Self::McpApprovalResponse(v) => Item::McpApprovalResponse(v).serialize(serializer),
-            Self::McpToolCall(v) => Item::McpToolCall(v).serialize(serializer),
-        }
-    }
-}
 #[doc = "Content item used to generate a response.\n"]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum Item {
     InputMessage(InputMessage),
@@ -36873,126 +33708,11 @@ pub enum Item {
     McpApprovalResponse(McpApprovalResponse),
     McpToolCall(McpToolCall),
 }
-impl<'de> serde::Deserialize<'de> for ItemResource {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum ItemResource {
-            InputMessageResource(#[allow(dead_code)] InputMessageResource),
-            OutputMessage(#[allow(dead_code)] OutputMessage),
-            FileSearchToolCall(#[allow(dead_code)] FileSearchToolCall),
-            ComputerToolCall(#[allow(dead_code)] ComputerToolCall),
-            ComputerToolCallOutputResource(#[allow(dead_code)] ComputerToolCallOutputResource),
-            WebSearchToolCall(#[allow(dead_code)] WebSearchToolCall),
-            FunctionToolCallResource(#[allow(dead_code)] FunctionToolCallResource),
-            FunctionToolCallOutputResource(#[allow(dead_code)] FunctionToolCallOutputResource),
-            ImageGenToolCall(#[allow(dead_code)] ImageGenToolCall),
-            CodeInterpreterToolCall(#[allow(dead_code)] CodeInterpreterToolCall),
-            LocalShellToolCall(#[allow(dead_code)] LocalShellToolCall),
-            LocalShellToolCallOutput(#[allow(dead_code)] LocalShellToolCallOutput),
-            McpListTools(#[allow(dead_code)] McpListTools),
-            McpApprovalRequest(#[allow(dead_code)] McpApprovalRequest),
-            McpApprovalResponseResource(#[allow(dead_code)] McpApprovalResponseResource),
-            McpToolCall(#[allow(dead_code)] McpToolCall),
-        }
-        Ok(match ItemResource::deserialize(deserializer)? {
-            ItemResource::InputMessageResource(v) => Self::InputMessageResource(v),
-            ItemResource::OutputMessage(v) => Self::OutputMessage(v),
-            ItemResource::FileSearchToolCall(v) => Self::FileSearchToolCall(v),
-            ItemResource::ComputerToolCall(v) => Self::ComputerToolCall(v),
-            ItemResource::ComputerToolCallOutputResource(v) => {
-                Self::ComputerToolCallOutputResource(v)
-            }
-            ItemResource::WebSearchToolCall(v) => Self::WebSearchToolCall(v),
-            ItemResource::FunctionToolCallResource(v) => Self::FunctionToolCallResource(v),
-            ItemResource::FunctionToolCallOutputResource(v) => {
-                Self::FunctionToolCallOutputResource(v)
-            }
-            ItemResource::ImageGenToolCall(v) => Self::ImageGenToolCall(v),
-            ItemResource::CodeInterpreterToolCall(v) => Self::CodeInterpreterToolCall(v),
-            ItemResource::LocalShellToolCall(v) => Self::LocalShellToolCall(v),
-            ItemResource::LocalShellToolCallOutput(v) => Self::LocalShellToolCallOutput(v),
-            ItemResource::McpListTools(v) => Self::McpListTools(v),
-            ItemResource::McpApprovalRequest(v) => Self::McpApprovalRequest(v),
-            ItemResource::McpApprovalResponseResource(v) => Self::McpApprovalResponseResource(v),
-            ItemResource::McpToolCall(v) => Self::McpToolCall(v),
-        })
-    }
-}
-impl serde::Serialize for ItemResource {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum ItemResource<'a> {
-            InputMessageResource(#[allow(dead_code)] &'a InputMessageResource),
-            OutputMessage(#[allow(dead_code)] &'a OutputMessage),
-            FileSearchToolCall(#[allow(dead_code)] &'a FileSearchToolCall),
-            ComputerToolCall(#[allow(dead_code)] &'a ComputerToolCall),
-            ComputerToolCallOutputResource(#[allow(dead_code)] &'a ComputerToolCallOutputResource),
-            WebSearchToolCall(#[allow(dead_code)] &'a WebSearchToolCall),
-            FunctionToolCallResource(#[allow(dead_code)] &'a FunctionToolCallResource),
-            FunctionToolCallOutputResource(#[allow(dead_code)] &'a FunctionToolCallOutputResource),
-            ImageGenToolCall(#[allow(dead_code)] &'a ImageGenToolCall),
-            CodeInterpreterToolCall(#[allow(dead_code)] &'a CodeInterpreterToolCall),
-            LocalShellToolCall(#[allow(dead_code)] &'a LocalShellToolCall),
-            LocalShellToolCallOutput(#[allow(dead_code)] &'a LocalShellToolCallOutput),
-            McpListTools(#[allow(dead_code)] &'a McpListTools),
-            McpApprovalRequest(#[allow(dead_code)] &'a McpApprovalRequest),
-            McpApprovalResponseResource(#[allow(dead_code)] &'a McpApprovalResponseResource),
-            McpToolCall(#[allow(dead_code)] &'a McpToolCall),
-        }
-        match self {
-            Self::InputMessageResource(v) => {
-                ItemResource::InputMessageResource(v).serialize(serializer)
-            }
-            Self::OutputMessage(v) => ItemResource::OutputMessage(v).serialize(serializer),
-            Self::FileSearchToolCall(v) => {
-                ItemResource::FileSearchToolCall(v).serialize(serializer)
-            }
-            Self::ComputerToolCall(v) => ItemResource::ComputerToolCall(v).serialize(serializer),
-            Self::ComputerToolCallOutputResource(v) => {
-                ItemResource::ComputerToolCallOutputResource(v).serialize(serializer)
-            }
-            Self::WebSearchToolCall(v) => ItemResource::WebSearchToolCall(v).serialize(serializer),
-            Self::FunctionToolCallResource(v) => {
-                ItemResource::FunctionToolCallResource(v).serialize(serializer)
-            }
-            Self::FunctionToolCallOutputResource(v) => {
-                ItemResource::FunctionToolCallOutputResource(v).serialize(serializer)
-            }
-            Self::ImageGenToolCall(v) => ItemResource::ImageGenToolCall(v).serialize(serializer),
-            Self::CodeInterpreterToolCall(v) => {
-                ItemResource::CodeInterpreterToolCall(v).serialize(serializer)
-            }
-            Self::LocalShellToolCall(v) => {
-                ItemResource::LocalShellToolCall(v).serialize(serializer)
-            }
-            Self::LocalShellToolCallOutput(v) => {
-                ItemResource::LocalShellToolCallOutput(v).serialize(serializer)
-            }
-            Self::McpListTools(v) => ItemResource::McpListTools(v).serialize(serializer),
-            Self::McpApprovalRequest(v) => {
-                ItemResource::McpApprovalRequest(v).serialize(serializer)
-            }
-            Self::McpApprovalResponseResource(v) => {
-                ItemResource::McpApprovalResponseResource(v).serialize(serializer)
-            }
-            Self::McpToolCall(v) => ItemResource::McpToolCall(v).serialize(serializer),
-        }
-    }
-}
 #[doc = "Content item used to generate a response.\n"]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum ItemResource {
     InputMessageResource(InputMessageResource),
@@ -39611,46 +36331,11 @@ pub struct McpToolAllowedTools1 {
     #[builder(default)]
     pub tool_names: Option<Vec<String>>,
 }
-impl<'de> serde::Deserialize<'de> for McpToolAllowedTools {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum McpToolAllowedTools {
-            Array(#[allow(dead_code)] Vec<String>),
-            _1(#[allow(dead_code)] McpToolAllowedTools1),
-        }
-        Ok(match McpToolAllowedTools::deserialize(deserializer)? {
-            McpToolAllowedTools::Array(v) => Self::Array(v),
-            McpToolAllowedTools::_1(v) => Self::_1(v),
-        })
-    }
-}
-impl serde::Serialize for McpToolAllowedTools {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum McpToolAllowedTools<'a> {
-            Array(#[allow(dead_code)] &'a Vec<String>),
-            _1(#[allow(dead_code)] &'a McpToolAllowedTools1),
-        }
-        match self {
-            Self::Array(v) => McpToolAllowedTools::Array(v).serialize(serializer),
-            Self::_1(v) => McpToolAllowedTools::_1(v).serialize(serializer),
-        }
-    }
-}
 #[doc = "List of allowed tool names or a filter object.\n"]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum McpToolAllowedTools {
     #[doc = "A string array of allowed tool names"]
@@ -40798,51 +37483,10 @@ impl serde::Serialize for MessageContentTextObjectType {
 #[doc = "Always `text`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct MessageContentTextObjectType;
-impl<'de> serde::Deserialize<'de> for MessageContentTextObjectTextAnnotation {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum MessageContentTextObjectTextAnnotation {
-            FileCitation(#[allow(dead_code)] MessageContentTextAnnotationsFileCitationObject),
-            FilePath(#[allow(dead_code)] MessageContentTextAnnotationsFilePathObject),
-        }
-        Ok(
-            match MessageContentTextObjectTextAnnotation::deserialize(deserializer)? {
-                MessageContentTextObjectTextAnnotation::FileCitation(v) => Self::FileCitation(v),
-                MessageContentTextObjectTextAnnotation::FilePath(v) => Self::FilePath(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for MessageContentTextObjectTextAnnotation {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum MessageContentTextObjectTextAnnotation<'a> {
-            FileCitation(#[allow(dead_code)] &'a MessageContentTextAnnotationsFileCitationObject),
-            FilePath(#[allow(dead_code)] &'a MessageContentTextAnnotationsFilePathObject),
-        }
-        match self {
-            Self::FileCitation(v) => {
-                MessageContentTextObjectTextAnnotation::FileCitation(v).serialize(serializer)
-            }
-            Self::FilePath(v) => {
-                MessageContentTextObjectTextAnnotation::FilePath(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum MessageContentTextObjectTextAnnotation {
     FileCitation(MessageContentTextAnnotationsFileCitationObject),
@@ -41693,55 +38337,10 @@ impl serde::Serialize for MessageDeltaContentTextObjectType {
 #[doc = "Always `text`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct MessageDeltaContentTextObjectType;
-impl<'de> serde::Deserialize<'de> for MessageDeltaContentTextObjectTextAnnotation {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum MessageDeltaContentTextObjectTextAnnotation {
-            FileCitation(#[allow(dead_code)] MessageDeltaContentTextAnnotationsFileCitationObject),
-            FilePath(#[allow(dead_code)] MessageDeltaContentTextAnnotationsFilePathObject),
-        }
-        Ok(
-            match MessageDeltaContentTextObjectTextAnnotation::deserialize(deserializer)? {
-                MessageDeltaContentTextObjectTextAnnotation::FileCitation(v) => {
-                    Self::FileCitation(v)
-                }
-                MessageDeltaContentTextObjectTextAnnotation::FilePath(v) => Self::FilePath(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for MessageDeltaContentTextObjectTextAnnotation {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum MessageDeltaContentTextObjectTextAnnotation<'a> {
-            FileCitation(
-                #[allow(dead_code)] &'a MessageDeltaContentTextAnnotationsFileCitationObject,
-            ),
-            FilePath(#[allow(dead_code)] &'a MessageDeltaContentTextAnnotationsFilePathObject),
-        }
-        match self {
-            Self::FileCitation(v) => {
-                MessageDeltaContentTextObjectTextAnnotation::FileCitation(v).serialize(serializer)
-            }
-            Self::FilePath(v) => {
-                MessageDeltaContentTextObjectTextAnnotation::FilePath(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum MessageDeltaContentTextObjectTextAnnotation {
     FileCitation(MessageDeltaContentTextAnnotationsFileCitationObject),
@@ -41888,57 +38487,10 @@ pub enum MessageDeltaObjectDeltaRole {
     #[serde(rename = "assistant")]
     Assistant,
 }
-impl<'de> serde::Deserialize<'de> for MessageDeltaObjectDeltaContent {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum MessageDeltaObjectDeltaContent {
-            ImageFile(#[allow(dead_code)] MessageDeltaContentImageFileObject),
-            Text(#[allow(dead_code)] MessageDeltaContentTextObject),
-            Refusal(#[allow(dead_code)] MessageDeltaContentRefusalObject),
-            ImageUrl(#[allow(dead_code)] MessageDeltaContentImageUrlObject),
-        }
-        Ok(
-            match MessageDeltaObjectDeltaContent::deserialize(deserializer)? {
-                MessageDeltaObjectDeltaContent::ImageFile(v) => Self::ImageFile(v),
-                MessageDeltaObjectDeltaContent::Text(v) => Self::Text(v),
-                MessageDeltaObjectDeltaContent::Refusal(v) => Self::Refusal(v),
-                MessageDeltaObjectDeltaContent::ImageUrl(v) => Self::ImageUrl(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for MessageDeltaObjectDeltaContent {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum MessageDeltaObjectDeltaContent<'a> {
-            ImageFile(#[allow(dead_code)] &'a MessageDeltaContentImageFileObject),
-            Text(#[allow(dead_code)] &'a MessageDeltaContentTextObject),
-            Refusal(#[allow(dead_code)] &'a MessageDeltaContentRefusalObject),
-            ImageUrl(#[allow(dead_code)] &'a MessageDeltaContentImageUrlObject),
-        }
-        match self {
-            Self::ImageFile(v) => {
-                MessageDeltaObjectDeltaContent::ImageFile(v).serialize(serializer)
-            }
-            Self::Text(v) => MessageDeltaObjectDeltaContent::Text(v).serialize(serializer),
-            Self::Refusal(v) => MessageDeltaObjectDeltaContent::Refusal(v).serialize(serializer),
-            Self::ImageUrl(v) => MessageDeltaObjectDeltaContent::ImageUrl(v).serialize(serializer),
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum MessageDeltaObjectDeltaContent {
     ImageFile(MessageDeltaContentImageFileObject),
@@ -42157,53 +38709,10 @@ pub enum MessageObjectRole {
     #[serde(rename = "assistant")]
     Assistant,
 }
-impl<'de> serde::Deserialize<'de> for MessageObjectContent {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum MessageObjectContent {
-            ImageFile(#[allow(dead_code)] MessageContentImageFileObject),
-            ImageUrl(#[allow(dead_code)] MessageContentImageUrlObject),
-            Text(#[allow(dead_code)] MessageContentTextObject),
-            Refusal(#[allow(dead_code)] MessageContentRefusalObject),
-        }
-        Ok(match MessageObjectContent::deserialize(deserializer)? {
-            MessageObjectContent::ImageFile(v) => Self::ImageFile(v),
-            MessageObjectContent::ImageUrl(v) => Self::ImageUrl(v),
-            MessageObjectContent::Text(v) => Self::Text(v),
-            MessageObjectContent::Refusal(v) => Self::Refusal(v),
-        })
-    }
-}
-impl serde::Serialize for MessageObjectContent {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum MessageObjectContent<'a> {
-            ImageFile(#[allow(dead_code)] &'a MessageContentImageFileObject),
-            ImageUrl(#[allow(dead_code)] &'a MessageContentImageUrlObject),
-            Text(#[allow(dead_code)] &'a MessageContentTextObject),
-            Refusal(#[allow(dead_code)] &'a MessageContentRefusalObject),
-        }
-        match self {
-            Self::ImageFile(v) => MessageObjectContent::ImageFile(v).serialize(serializer),
-            Self::ImageUrl(v) => MessageObjectContent::ImageUrl(v).serialize(serializer),
-            Self::Text(v) => MessageObjectContent::Text(v).serialize(serializer),
-            Self::Refusal(v) => MessageObjectContent::Refusal(v).serialize(serializer),
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum MessageObjectContent {
     ImageFile(MessageContentImageFileObject),
@@ -42211,51 +38720,10 @@ pub enum MessageObjectContent {
     Text(MessageContentTextObject),
     Refusal(MessageContentRefusalObject),
 }
-impl<'de> serde::Deserialize<'de> for MessageObjectAttachmentsTool {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum MessageObjectAttachmentsTool {
-            CodeInterpreter(#[allow(dead_code)] AssistantToolsCode),
-            FileSearch(#[allow(dead_code)] AssistantToolsFileSearchTypeOnly),
-        }
-        Ok(
-            match MessageObjectAttachmentsTool::deserialize(deserializer)? {
-                MessageObjectAttachmentsTool::CodeInterpreter(v) => Self::CodeInterpreter(v),
-                MessageObjectAttachmentsTool::FileSearch(v) => Self::FileSearch(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for MessageObjectAttachmentsTool {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum MessageObjectAttachmentsTool<'a> {
-            CodeInterpreter(#[allow(dead_code)] &'a AssistantToolsCode),
-            FileSearch(#[allow(dead_code)] &'a AssistantToolsFileSearchTypeOnly),
-        }
-        match self {
-            Self::CodeInterpreter(v) => {
-                MessageObjectAttachmentsTool::CodeInterpreter(v).serialize(serializer)
-            }
-            Self::FileSearch(v) => {
-                MessageObjectAttachmentsTool::FileSearch(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum MessageObjectAttachmentsTool {
     CodeInterpreter(AssistantToolsCode),
@@ -42946,73 +39414,10 @@ impl serde::Serialize for MessageStreamEventThreadMessageIncomplete {
 pub struct MessageStreamEventThreadMessageIncomplete {
     pub data: MessageObject,
 }
-impl<'de> serde::Deserialize<'de> for MessageStreamEvent {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum MessageStreamEvent {
-            ThreadMessageCreated(#[allow(dead_code)] MessageStreamEventThreadMessageCreated),
-            ThreadMessageInProgress(#[allow(dead_code)] MessageStreamEventThreadMessageInProgress),
-            ThreadMessageDelta(#[allow(dead_code)] MessageStreamEventThreadMessageDelta),
-            ThreadMessageCompleted(#[allow(dead_code)] MessageStreamEventThreadMessageCompleted),
-            ThreadMessageIncomplete(#[allow(dead_code)] MessageStreamEventThreadMessageIncomplete),
-        }
-        Ok(match MessageStreamEvent::deserialize(deserializer)? {
-            MessageStreamEvent::ThreadMessageCreated(v) => Self::ThreadMessageCreated(v),
-            MessageStreamEvent::ThreadMessageInProgress(v) => Self::ThreadMessageInProgress(v),
-            MessageStreamEvent::ThreadMessageDelta(v) => Self::ThreadMessageDelta(v),
-            MessageStreamEvent::ThreadMessageCompleted(v) => Self::ThreadMessageCompleted(v),
-            MessageStreamEvent::ThreadMessageIncomplete(v) => Self::ThreadMessageIncomplete(v),
-        })
-    }
-}
-impl serde::Serialize for MessageStreamEvent {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum MessageStreamEvent<'a> {
-            ThreadMessageCreated(#[allow(dead_code)] &'a MessageStreamEventThreadMessageCreated),
-            ThreadMessageInProgress(
-                #[allow(dead_code)] &'a MessageStreamEventThreadMessageInProgress,
-            ),
-            ThreadMessageDelta(#[allow(dead_code)] &'a MessageStreamEventThreadMessageDelta),
-            ThreadMessageCompleted(
-                #[allow(dead_code)] &'a MessageStreamEventThreadMessageCompleted,
-            ),
-            ThreadMessageIncomplete(
-                #[allow(dead_code)] &'a MessageStreamEventThreadMessageIncomplete,
-            ),
-        }
-        match self {
-            Self::ThreadMessageCreated(v) => {
-                MessageStreamEvent::ThreadMessageCreated(v).serialize(serializer)
-            }
-            Self::ThreadMessageInProgress(v) => {
-                MessageStreamEvent::ThreadMessageInProgress(v).serialize(serializer)
-            }
-            Self::ThreadMessageDelta(v) => {
-                MessageStreamEvent::ThreadMessageDelta(v).serialize(serializer)
-            }
-            Self::ThreadMessageCompleted(v) => {
-                MessageStreamEvent::ThreadMessageCompleted(v).serialize(serializer)
-            }
-            Self::ThreadMessageIncomplete(v) => {
-                MessageStreamEvent::ThreadMessageIncomplete(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum MessageStreamEvent {
     #[doc = "Occurs when a [message](https://platform.openai.com/docs/api-reference/messages/object) is created."]
@@ -43130,45 +39535,10 @@ pub struct Model {
     #[doc = "The organization that owns the model."]
     pub owned_by: String,
 }
-impl<'de> serde::Deserialize<'de> for ModelIds {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum ModelIds {
-            ModelIdsShared(#[allow(dead_code)] ModelIdsShared),
-            ModelIdsResponses(#[allow(dead_code)] ModelIdsResponses),
-        }
-        Ok(match ModelIds::deserialize(deserializer)? {
-            ModelIds::ModelIdsShared(v) => Self::ModelIdsShared(v),
-            ModelIds::ModelIdsResponses(v) => Self::ModelIdsResponses(v),
-        })
-    }
-}
-impl serde::Serialize for ModelIds {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum ModelIds<'a> {
-            ModelIdsShared(#[allow(dead_code)] &'a ModelIdsShared),
-            ModelIdsResponses(#[allow(dead_code)] &'a ModelIdsResponses),
-        }
-        match self {
-            Self::ModelIdsShared(v) => ModelIds::ModelIdsShared(v).serialize(serializer),
-            Self::ModelIdsResponses(v) => ModelIds::ModelIdsResponses(v).serialize(serializer),
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum ModelIds {
     ModelIdsShared(ModelIdsShared),
@@ -45708,53 +42078,10 @@ pub enum ModifyAssistantRequestModel {
     Other(String),
     AssistantSupportedModels(AssistantSupportedModels),
 }
-impl<'de> serde::Deserialize<'de> for ModifyAssistantRequestTool {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum ModifyAssistantRequestTool {
-            CodeInterpreter(#[allow(dead_code)] AssistantToolsCode),
-            FileSearch(#[allow(dead_code)] AssistantToolsFileSearch),
-            Function(#[allow(dead_code)] AssistantToolsFunction),
-        }
-        Ok(
-            match ModifyAssistantRequestTool::deserialize(deserializer)? {
-                ModifyAssistantRequestTool::CodeInterpreter(v) => Self::CodeInterpreter(v),
-                ModifyAssistantRequestTool::FileSearch(v) => Self::FileSearch(v),
-                ModifyAssistantRequestTool::Function(v) => Self::Function(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for ModifyAssistantRequestTool {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum ModifyAssistantRequestTool<'a> {
-            CodeInterpreter(#[allow(dead_code)] &'a AssistantToolsCode),
-            FileSearch(#[allow(dead_code)] &'a AssistantToolsFileSearch),
-            Function(#[allow(dead_code)] &'a AssistantToolsFunction),
-        }
-        match self {
-            Self::CodeInterpreter(v) => {
-                ModifyAssistantRequestTool::CodeInterpreter(v).serialize(serializer)
-            }
-            Self::FileSearch(v) => ModifyAssistantRequestTool::FileSearch(v).serialize(serializer),
-            Self::Function(v) => ModifyAssistantRequestTool::Function(v).serialize(serializer),
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum ModifyAssistantRequestTool {
     CodeInterpreter(AssistantToolsCode),
@@ -46814,133 +43141,19 @@ pub struct OutputAudio {
     #[doc = "The transcript of the audio data from the model.\n"]
     pub transcript: String,
 }
-impl<'de> serde::Deserialize<'de> for OutputContent {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum OutputContent {
-            OutputText(#[allow(dead_code)] OutputTextContent),
-            Refusal(#[allow(dead_code)] RefusalContent),
-        }
-        Ok(match OutputContent::deserialize(deserializer)? {
-            OutputContent::OutputText(v) => Self::OutputText(v),
-            OutputContent::Refusal(v) => Self::Refusal(v),
-        })
-    }
-}
-impl serde::Serialize for OutputContent {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum OutputContent<'a> {
-            OutputText(#[allow(dead_code)] &'a OutputTextContent),
-            Refusal(#[allow(dead_code)] &'a RefusalContent),
-        }
-        match self {
-            Self::OutputText(v) => OutputContent::OutputText(v).serialize(serializer),
-            Self::Refusal(v) => OutputContent::Refusal(v).serialize(serializer),
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum OutputContent {
     OutputText(OutputTextContent),
     Refusal(RefusalContent),
 }
-impl<'de> serde::Deserialize<'de> for OutputItem {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum OutputItem {
-            Message(#[allow(dead_code)] OutputMessage),
-            FileSearchCall(#[allow(dead_code)] FileSearchToolCall),
-            FunctionCall(#[allow(dead_code)] FunctionToolCall),
-            WebSearchCall(#[allow(dead_code)] WebSearchToolCall),
-            ComputerCall(#[allow(dead_code)] ComputerToolCall),
-            Reasoning(#[allow(dead_code)] ReasoningItem),
-            ImageGenerationCall(#[allow(dead_code)] ImageGenToolCall),
-            CodeInterpreterCall(#[allow(dead_code)] CodeInterpreterToolCall),
-            LocalShellCall(#[allow(dead_code)] LocalShellToolCall),
-            McpCall(#[allow(dead_code)] McpToolCall),
-            McpListTools(#[allow(dead_code)] McpListTools),
-            McpApprovalRequest(#[allow(dead_code)] McpApprovalRequest),
-        }
-        Ok(match OutputItem::deserialize(deserializer)? {
-            OutputItem::Message(v) => Self::Message(v),
-            OutputItem::FileSearchCall(v) => Self::FileSearchCall(v),
-            OutputItem::FunctionCall(v) => Self::FunctionCall(v),
-            OutputItem::WebSearchCall(v) => Self::WebSearchCall(v),
-            OutputItem::ComputerCall(v) => Self::ComputerCall(v),
-            OutputItem::Reasoning(v) => Self::Reasoning(v),
-            OutputItem::ImageGenerationCall(v) => Self::ImageGenerationCall(v),
-            OutputItem::CodeInterpreterCall(v) => Self::CodeInterpreterCall(v),
-            OutputItem::LocalShellCall(v) => Self::LocalShellCall(v),
-            OutputItem::McpCall(v) => Self::McpCall(v),
-            OutputItem::McpListTools(v) => Self::McpListTools(v),
-            OutputItem::McpApprovalRequest(v) => Self::McpApprovalRequest(v),
-        })
-    }
-}
-impl serde::Serialize for OutputItem {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum OutputItem<'a> {
-            Message(#[allow(dead_code)] &'a OutputMessage),
-            FileSearchCall(#[allow(dead_code)] &'a FileSearchToolCall),
-            FunctionCall(#[allow(dead_code)] &'a FunctionToolCall),
-            WebSearchCall(#[allow(dead_code)] &'a WebSearchToolCall),
-            ComputerCall(#[allow(dead_code)] &'a ComputerToolCall),
-            Reasoning(#[allow(dead_code)] &'a ReasoningItem),
-            ImageGenerationCall(#[allow(dead_code)] &'a ImageGenToolCall),
-            CodeInterpreterCall(#[allow(dead_code)] &'a CodeInterpreterToolCall),
-            LocalShellCall(#[allow(dead_code)] &'a LocalShellToolCall),
-            McpCall(#[allow(dead_code)] &'a McpToolCall),
-            McpListTools(#[allow(dead_code)] &'a McpListTools),
-            McpApprovalRequest(#[allow(dead_code)] &'a McpApprovalRequest),
-        }
-        match self {
-            Self::Message(v) => OutputItem::Message(v).serialize(serializer),
-            Self::FileSearchCall(v) => OutputItem::FileSearchCall(v).serialize(serializer),
-            Self::FunctionCall(v) => OutputItem::FunctionCall(v).serialize(serializer),
-            Self::WebSearchCall(v) => OutputItem::WebSearchCall(v).serialize(serializer),
-            Self::ComputerCall(v) => OutputItem::ComputerCall(v).serialize(serializer),
-            Self::Reasoning(v) => OutputItem::Reasoning(v).serialize(serializer),
-            Self::ImageGenerationCall(v) => {
-                OutputItem::ImageGenerationCall(v).serialize(serializer)
-            }
-            Self::CodeInterpreterCall(v) => {
-                OutputItem::CodeInterpreterCall(v).serialize(serializer)
-            }
-            Self::LocalShellCall(v) => OutputItem::LocalShellCall(v).serialize(serializer),
-            Self::McpCall(v) => OutputItem::McpCall(v).serialize(serializer),
-            Self::McpListTools(v) => OutputItem::McpListTools(v).serialize(serializer),
-            Self::McpApprovalRequest(v) => OutputItem::McpApprovalRequest(v).serialize(serializer),
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum OutputItem {
     Message(OutputMessage),
@@ -47133,46 +43346,11 @@ impl serde::Serialize for PredictionContentType {
 #[doc = "The type of the predicted content you want to provide. This type is\ncurrently always `content`.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct PredictionContentType;
-impl<'de> serde::Deserialize<'de> for PredictionContentContent {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum PredictionContentContent {
-            String(#[allow(dead_code)] String),
-            Array(#[allow(dead_code)] Vec<ChatCompletionRequestMessageContentPartText>),
-        }
-        Ok(match PredictionContentContent::deserialize(deserializer)? {
-            PredictionContentContent::String(v) => Self::String(v),
-            PredictionContentContent::Array(v) => Self::Array(v),
-        })
-    }
-}
-impl serde::Serialize for PredictionContentContent {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum PredictionContentContent<'a> {
-            String(#[allow(dead_code)] &'a String),
-            Array(#[allow(dead_code)] &'a Vec<ChatCompletionRequestMessageContentPartText>),
-        }
-        match self {
-            Self::String(v) => PredictionContentContent::String(v).serialize(serializer),
-            Self::Array(v) => PredictionContentContent::Array(v).serialize(serializer),
-        }
-    }
-}
 #[doc = "The content that should be matched when generating a model response.\nIf generated tokens would match this content, the entire model response\ncan be returned much more quickly.\n"]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum PredictionContentContent {
     #[doc = "The content used for a Predicted Output. This is often the\ntext of a file you are regenerating with minor changes.\n"]
@@ -49399,128 +45577,11 @@ pub struct Prompt {
     #[builder(default)]
     pub variables: Option<ResponsePromptVariables>,
 }
-impl<'de> serde::Deserialize<'de> for RealtimeClientEvent {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum RealtimeClientEvent {
-            ConversationItemCreate(#[allow(dead_code)] RealtimeClientEventConversationItemCreate),
-            ConversationItemDelete(#[allow(dead_code)] RealtimeClientEventConversationItemDelete),
-            ConversationItemRetrieve(
-                #[allow(dead_code)] RealtimeClientEventConversationItemRetrieve,
-            ),
-            ConversationItemTruncate(
-                #[allow(dead_code)] RealtimeClientEventConversationItemTruncate,
-            ),
-            InputAudioBufferAppend(#[allow(dead_code)] RealtimeClientEventInputAudioBufferAppend),
-            InputAudioBufferClear(#[allow(dead_code)] RealtimeClientEventInputAudioBufferClear),
-            OutputAudioBufferClear(#[allow(dead_code)] RealtimeClientEventOutputAudioBufferClear),
-            InputAudioBufferCommit(#[allow(dead_code)] RealtimeClientEventInputAudioBufferCommit),
-            ResponseCancel(#[allow(dead_code)] RealtimeClientEventResponseCancel),
-            ResponseCreate(#[allow(dead_code)] RealtimeClientEventResponseCreate),
-            SessionUpdate(#[allow(dead_code)] RealtimeClientEventSessionUpdate),
-            TranscriptionSessionUpdate(
-                #[allow(dead_code)] RealtimeClientEventTranscriptionSessionUpdate,
-            ),
-        }
-        Ok(match RealtimeClientEvent::deserialize(deserializer)? {
-            RealtimeClientEvent::ConversationItemCreate(v) => Self::ConversationItemCreate(v),
-            RealtimeClientEvent::ConversationItemDelete(v) => Self::ConversationItemDelete(v),
-            RealtimeClientEvent::ConversationItemRetrieve(v) => Self::ConversationItemRetrieve(v),
-            RealtimeClientEvent::ConversationItemTruncate(v) => Self::ConversationItemTruncate(v),
-            RealtimeClientEvent::InputAudioBufferAppend(v) => Self::InputAudioBufferAppend(v),
-            RealtimeClientEvent::InputAudioBufferClear(v) => Self::InputAudioBufferClear(v),
-            RealtimeClientEvent::OutputAudioBufferClear(v) => Self::OutputAudioBufferClear(v),
-            RealtimeClientEvent::InputAudioBufferCommit(v) => Self::InputAudioBufferCommit(v),
-            RealtimeClientEvent::ResponseCancel(v) => Self::ResponseCancel(v),
-            RealtimeClientEvent::ResponseCreate(v) => Self::ResponseCreate(v),
-            RealtimeClientEvent::SessionUpdate(v) => Self::SessionUpdate(v),
-            RealtimeClientEvent::TranscriptionSessionUpdate(v) => {
-                Self::TranscriptionSessionUpdate(v)
-            }
-        })
-    }
-}
-impl serde::Serialize for RealtimeClientEvent {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum RealtimeClientEvent<'a> {
-            ConversationItemCreate(
-                #[allow(dead_code)] &'a RealtimeClientEventConversationItemCreate,
-            ),
-            ConversationItemDelete(
-                #[allow(dead_code)] &'a RealtimeClientEventConversationItemDelete,
-            ),
-            ConversationItemRetrieve(
-                #[allow(dead_code)] &'a RealtimeClientEventConversationItemRetrieve,
-            ),
-            ConversationItemTruncate(
-                #[allow(dead_code)] &'a RealtimeClientEventConversationItemTruncate,
-            ),
-            InputAudioBufferAppend(
-                #[allow(dead_code)] &'a RealtimeClientEventInputAudioBufferAppend,
-            ),
-            InputAudioBufferClear(#[allow(dead_code)] &'a RealtimeClientEventInputAudioBufferClear),
-            OutputAudioBufferClear(
-                #[allow(dead_code)] &'a RealtimeClientEventOutputAudioBufferClear,
-            ),
-            InputAudioBufferCommit(
-                #[allow(dead_code)] &'a RealtimeClientEventInputAudioBufferCommit,
-            ),
-            ResponseCancel(#[allow(dead_code)] &'a RealtimeClientEventResponseCancel),
-            ResponseCreate(#[allow(dead_code)] &'a RealtimeClientEventResponseCreate),
-            SessionUpdate(#[allow(dead_code)] &'a RealtimeClientEventSessionUpdate),
-            TranscriptionSessionUpdate(
-                #[allow(dead_code)] &'a RealtimeClientEventTranscriptionSessionUpdate,
-            ),
-        }
-        match self {
-            Self::ConversationItemCreate(v) => {
-                RealtimeClientEvent::ConversationItemCreate(v).serialize(serializer)
-            }
-            Self::ConversationItemDelete(v) => {
-                RealtimeClientEvent::ConversationItemDelete(v).serialize(serializer)
-            }
-            Self::ConversationItemRetrieve(v) => {
-                RealtimeClientEvent::ConversationItemRetrieve(v).serialize(serializer)
-            }
-            Self::ConversationItemTruncate(v) => {
-                RealtimeClientEvent::ConversationItemTruncate(v).serialize(serializer)
-            }
-            Self::InputAudioBufferAppend(v) => {
-                RealtimeClientEvent::InputAudioBufferAppend(v).serialize(serializer)
-            }
-            Self::InputAudioBufferClear(v) => {
-                RealtimeClientEvent::InputAudioBufferClear(v).serialize(serializer)
-            }
-            Self::OutputAudioBufferClear(v) => {
-                RealtimeClientEvent::OutputAudioBufferClear(v).serialize(serializer)
-            }
-            Self::InputAudioBufferCommit(v) => {
-                RealtimeClientEvent::InputAudioBufferCommit(v).serialize(serializer)
-            }
-            Self::ResponseCancel(v) => RealtimeClientEvent::ResponseCancel(v).serialize(serializer),
-            Self::ResponseCreate(v) => RealtimeClientEvent::ResponseCreate(v).serialize(serializer),
-            Self::SessionUpdate(v) => RealtimeClientEvent::SessionUpdate(v).serialize(serializer),
-            Self::TranscriptionSessionUpdate(v) => {
-                RealtimeClientEvent::TranscriptionSessionUpdate(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[doc = "A realtime client event.\n"]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeClientEvent {
     ConversationItemCreate(RealtimeClientEventConversationItemCreate),
@@ -52527,342 +48588,11 @@ pub struct RealtimeResponseCreateParams {
     #[builder(default)]
     pub input: Option<Vec<RealtimeConversationItemWithReference>>,
 }
-impl<'de> serde::Deserialize<'de> for RealtimeServerEvent {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum RealtimeServerEvent {
-            ConversationCreated(#[allow(dead_code)] RealtimeServerEventConversationCreated),
-            ConversationItemCreated(#[allow(dead_code)] RealtimeServerEventConversationItemCreated),
-            ConversationItemDeleted(#[allow(dead_code)] RealtimeServerEventConversationItemDeleted),
-            ConversationItemInputAudioTranscriptionCompleted(
-                #[allow(dead_code)]
-                RealtimeServerEventConversationItemInputAudioTranscriptionCompleted,
-            ),
-            ConversationItemInputAudioTranscriptionDelta(
-                #[allow(dead_code)] RealtimeServerEventConversationItemInputAudioTranscriptionDelta,
-            ),
-            ConversationItemInputAudioTranscriptionFailed(
-                #[allow(dead_code)]
-                RealtimeServerEventConversationItemInputAudioTranscriptionFailed,
-            ),
-            ConversationItemRetrieved(
-                #[allow(dead_code)] RealtimeServerEventConversationItemRetrieved,
-            ),
-            ConversationItemTruncated(
-                #[allow(dead_code)] RealtimeServerEventConversationItemTruncated,
-            ),
-            Error(#[allow(dead_code)] RealtimeServerEventError),
-            InputAudioBufferCleared(#[allow(dead_code)] RealtimeServerEventInputAudioBufferCleared),
-            InputAudioBufferCommitted(
-                #[allow(dead_code)] RealtimeServerEventInputAudioBufferCommitted,
-            ),
-            InputAudioBufferSpeechStarted(
-                #[allow(dead_code)] RealtimeServerEventInputAudioBufferSpeechStarted,
-            ),
-            InputAudioBufferSpeechStopped(
-                #[allow(dead_code)] RealtimeServerEventInputAudioBufferSpeechStopped,
-            ),
-            RateLimitsUpdated(#[allow(dead_code)] RealtimeServerEventRateLimitsUpdated),
-            ResponseAudioDelta(#[allow(dead_code)] RealtimeServerEventResponseAudioDelta),
-            ResponseAudioDone(#[allow(dead_code)] RealtimeServerEventResponseAudioDone),
-            ResponseAudioTranscriptDelta(
-                #[allow(dead_code)] RealtimeServerEventResponseAudioTranscriptDelta,
-            ),
-            ResponseAudioTranscriptDone(
-                #[allow(dead_code)] RealtimeServerEventResponseAudioTranscriptDone,
-            ),
-            ResponseContentPartAdded(
-                #[allow(dead_code)] RealtimeServerEventResponseContentPartAdded,
-            ),
-            ResponseContentPartDone(#[allow(dead_code)] RealtimeServerEventResponseContentPartDone),
-            ResponseCreated(#[allow(dead_code)] RealtimeServerEventResponseCreated),
-            ResponseDone(#[allow(dead_code)] RealtimeServerEventResponseDone),
-            ResponseFunctionCallArgumentsDelta(
-                #[allow(dead_code)] RealtimeServerEventResponseFunctionCallArgumentsDelta,
-            ),
-            ResponseFunctionCallArgumentsDone(
-                #[allow(dead_code)] RealtimeServerEventResponseFunctionCallArgumentsDone,
-            ),
-            ResponseOutputItemAdded(#[allow(dead_code)] RealtimeServerEventResponseOutputItemAdded),
-            ResponseOutputItemDone(#[allow(dead_code)] RealtimeServerEventResponseOutputItemDone),
-            ResponseTextDelta(#[allow(dead_code)] RealtimeServerEventResponseTextDelta),
-            ResponseTextDone(#[allow(dead_code)] RealtimeServerEventResponseTextDone),
-            SessionCreated(#[allow(dead_code)] RealtimeServerEventSessionCreated),
-            SessionUpdated(#[allow(dead_code)] RealtimeServerEventSessionUpdated),
-            TranscriptionSessionUpdated(
-                #[allow(dead_code)] RealtimeServerEventTranscriptionSessionUpdated,
-            ),
-            OutputAudioBufferStarted(
-                #[allow(dead_code)] RealtimeServerEventOutputAudioBufferStarted,
-            ),
-            OutputAudioBufferStopped(
-                #[allow(dead_code)] RealtimeServerEventOutputAudioBufferStopped,
-            ),
-            OutputAudioBufferCleared(
-                #[allow(dead_code)] RealtimeServerEventOutputAudioBufferCleared,
-            ),
-        }
-        Ok(match RealtimeServerEvent::deserialize(deserializer)? {
-            RealtimeServerEvent::ConversationCreated(v) => Self::ConversationCreated(v),
-            RealtimeServerEvent::ConversationItemCreated(v) => Self::ConversationItemCreated(v),
-            RealtimeServerEvent::ConversationItemDeleted(v) => Self::ConversationItemDeleted(v),
-            RealtimeServerEvent::ConversationItemInputAudioTranscriptionCompleted(v) => {
-                Self::ConversationItemInputAudioTranscriptionCompleted(v)
-            }
-            RealtimeServerEvent::ConversationItemInputAudioTranscriptionDelta(v) => {
-                Self::ConversationItemInputAudioTranscriptionDelta(v)
-            }
-            RealtimeServerEvent::ConversationItemInputAudioTranscriptionFailed(v) => {
-                Self::ConversationItemInputAudioTranscriptionFailed(v)
-            }
-            RealtimeServerEvent::ConversationItemRetrieved(v) => Self::ConversationItemRetrieved(v),
-            RealtimeServerEvent::ConversationItemTruncated(v) => Self::ConversationItemTruncated(v),
-            RealtimeServerEvent::Error(v) => Self::Error(v),
-            RealtimeServerEvent::InputAudioBufferCleared(v) => Self::InputAudioBufferCleared(v),
-            RealtimeServerEvent::InputAudioBufferCommitted(v) => Self::InputAudioBufferCommitted(v),
-            RealtimeServerEvent::InputAudioBufferSpeechStarted(v) => {
-                Self::InputAudioBufferSpeechStarted(v)
-            }
-            RealtimeServerEvent::InputAudioBufferSpeechStopped(v) => {
-                Self::InputAudioBufferSpeechStopped(v)
-            }
-            RealtimeServerEvent::RateLimitsUpdated(v) => Self::RateLimitsUpdated(v),
-            RealtimeServerEvent::ResponseAudioDelta(v) => Self::ResponseAudioDelta(v),
-            RealtimeServerEvent::ResponseAudioDone(v) => Self::ResponseAudioDone(v),
-            RealtimeServerEvent::ResponseAudioTranscriptDelta(v) => {
-                Self::ResponseAudioTranscriptDelta(v)
-            }
-            RealtimeServerEvent::ResponseAudioTranscriptDone(v) => {
-                Self::ResponseAudioTranscriptDone(v)
-            }
-            RealtimeServerEvent::ResponseContentPartAdded(v) => Self::ResponseContentPartAdded(v),
-            RealtimeServerEvent::ResponseContentPartDone(v) => Self::ResponseContentPartDone(v),
-            RealtimeServerEvent::ResponseCreated(v) => Self::ResponseCreated(v),
-            RealtimeServerEvent::ResponseDone(v) => Self::ResponseDone(v),
-            RealtimeServerEvent::ResponseFunctionCallArgumentsDelta(v) => {
-                Self::ResponseFunctionCallArgumentsDelta(v)
-            }
-            RealtimeServerEvent::ResponseFunctionCallArgumentsDone(v) => {
-                Self::ResponseFunctionCallArgumentsDone(v)
-            }
-            RealtimeServerEvent::ResponseOutputItemAdded(v) => Self::ResponseOutputItemAdded(v),
-            RealtimeServerEvent::ResponseOutputItemDone(v) => Self::ResponseOutputItemDone(v),
-            RealtimeServerEvent::ResponseTextDelta(v) => Self::ResponseTextDelta(v),
-            RealtimeServerEvent::ResponseTextDone(v) => Self::ResponseTextDone(v),
-            RealtimeServerEvent::SessionCreated(v) => Self::SessionCreated(v),
-            RealtimeServerEvent::SessionUpdated(v) => Self::SessionUpdated(v),
-            RealtimeServerEvent::TranscriptionSessionUpdated(v) => {
-                Self::TranscriptionSessionUpdated(v)
-            }
-            RealtimeServerEvent::OutputAudioBufferStarted(v) => Self::OutputAudioBufferStarted(v),
-            RealtimeServerEvent::OutputAudioBufferStopped(v) => Self::OutputAudioBufferStopped(v),
-            RealtimeServerEvent::OutputAudioBufferCleared(v) => Self::OutputAudioBufferCleared(v),
-        })
-    }
-}
-impl serde::Serialize for RealtimeServerEvent {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum RealtimeServerEvent<'a> {
-            ConversationCreated(#[allow(dead_code)] &'a RealtimeServerEventConversationCreated),
-            ConversationItemCreated(
-                #[allow(dead_code)] &'a RealtimeServerEventConversationItemCreated,
-            ),
-            ConversationItemDeleted(
-                #[allow(dead_code)] &'a RealtimeServerEventConversationItemDeleted,
-            ),
-            ConversationItemInputAudioTranscriptionCompleted(
-                #[allow(dead_code)]
-                &'a RealtimeServerEventConversationItemInputAudioTranscriptionCompleted,
-            ),
-            ConversationItemInputAudioTranscriptionDelta(
-                #[allow(dead_code)]
-                &'a RealtimeServerEventConversationItemInputAudioTranscriptionDelta,
-            ),
-            ConversationItemInputAudioTranscriptionFailed(
-                #[allow(dead_code)]
-                &'a RealtimeServerEventConversationItemInputAudioTranscriptionFailed,
-            ),
-            ConversationItemRetrieved(
-                #[allow(dead_code)] &'a RealtimeServerEventConversationItemRetrieved,
-            ),
-            ConversationItemTruncated(
-                #[allow(dead_code)] &'a RealtimeServerEventConversationItemTruncated,
-            ),
-            Error(#[allow(dead_code)] &'a RealtimeServerEventError),
-            InputAudioBufferCleared(
-                #[allow(dead_code)] &'a RealtimeServerEventInputAudioBufferCleared,
-            ),
-            InputAudioBufferCommitted(
-                #[allow(dead_code)] &'a RealtimeServerEventInputAudioBufferCommitted,
-            ),
-            InputAudioBufferSpeechStarted(
-                #[allow(dead_code)] &'a RealtimeServerEventInputAudioBufferSpeechStarted,
-            ),
-            InputAudioBufferSpeechStopped(
-                #[allow(dead_code)] &'a RealtimeServerEventInputAudioBufferSpeechStopped,
-            ),
-            RateLimitsUpdated(#[allow(dead_code)] &'a RealtimeServerEventRateLimitsUpdated),
-            ResponseAudioDelta(#[allow(dead_code)] &'a RealtimeServerEventResponseAudioDelta),
-            ResponseAudioDone(#[allow(dead_code)] &'a RealtimeServerEventResponseAudioDone),
-            ResponseAudioTranscriptDelta(
-                #[allow(dead_code)] &'a RealtimeServerEventResponseAudioTranscriptDelta,
-            ),
-            ResponseAudioTranscriptDone(
-                #[allow(dead_code)] &'a RealtimeServerEventResponseAudioTranscriptDone,
-            ),
-            ResponseContentPartAdded(
-                #[allow(dead_code)] &'a RealtimeServerEventResponseContentPartAdded,
-            ),
-            ResponseContentPartDone(
-                #[allow(dead_code)] &'a RealtimeServerEventResponseContentPartDone,
-            ),
-            ResponseCreated(#[allow(dead_code)] &'a RealtimeServerEventResponseCreated),
-            ResponseDone(#[allow(dead_code)] &'a RealtimeServerEventResponseDone),
-            ResponseFunctionCallArgumentsDelta(
-                #[allow(dead_code)] &'a RealtimeServerEventResponseFunctionCallArgumentsDelta,
-            ),
-            ResponseFunctionCallArgumentsDone(
-                #[allow(dead_code)] &'a RealtimeServerEventResponseFunctionCallArgumentsDone,
-            ),
-            ResponseOutputItemAdded(
-                #[allow(dead_code)] &'a RealtimeServerEventResponseOutputItemAdded,
-            ),
-            ResponseOutputItemDone(
-                #[allow(dead_code)] &'a RealtimeServerEventResponseOutputItemDone,
-            ),
-            ResponseTextDelta(#[allow(dead_code)] &'a RealtimeServerEventResponseTextDelta),
-            ResponseTextDone(#[allow(dead_code)] &'a RealtimeServerEventResponseTextDone),
-            SessionCreated(#[allow(dead_code)] &'a RealtimeServerEventSessionCreated),
-            SessionUpdated(#[allow(dead_code)] &'a RealtimeServerEventSessionUpdated),
-            TranscriptionSessionUpdated(
-                #[allow(dead_code)] &'a RealtimeServerEventTranscriptionSessionUpdated,
-            ),
-            OutputAudioBufferStarted(
-                #[allow(dead_code)] &'a RealtimeServerEventOutputAudioBufferStarted,
-            ),
-            OutputAudioBufferStopped(
-                #[allow(dead_code)] &'a RealtimeServerEventOutputAudioBufferStopped,
-            ),
-            OutputAudioBufferCleared(
-                #[allow(dead_code)] &'a RealtimeServerEventOutputAudioBufferCleared,
-            ),
-        }
-        match self {
-            Self::ConversationCreated(v) => {
-                RealtimeServerEvent::ConversationCreated(v).serialize(serializer)
-            }
-            Self::ConversationItemCreated(v) => {
-                RealtimeServerEvent::ConversationItemCreated(v).serialize(serializer)
-            }
-            Self::ConversationItemDeleted(v) => {
-                RealtimeServerEvent::ConversationItemDeleted(v).serialize(serializer)
-            }
-            Self::ConversationItemInputAudioTranscriptionCompleted(v) => {
-                RealtimeServerEvent::ConversationItemInputAudioTranscriptionCompleted(v)
-                    .serialize(serializer)
-            }
-            Self::ConversationItemInputAudioTranscriptionDelta(v) => {
-                RealtimeServerEvent::ConversationItemInputAudioTranscriptionDelta(v)
-                    .serialize(serializer)
-            }
-            Self::ConversationItemInputAudioTranscriptionFailed(v) => {
-                RealtimeServerEvent::ConversationItemInputAudioTranscriptionFailed(v)
-                    .serialize(serializer)
-            }
-            Self::ConversationItemRetrieved(v) => {
-                RealtimeServerEvent::ConversationItemRetrieved(v).serialize(serializer)
-            }
-            Self::ConversationItemTruncated(v) => {
-                RealtimeServerEvent::ConversationItemTruncated(v).serialize(serializer)
-            }
-            Self::Error(v) => RealtimeServerEvent::Error(v).serialize(serializer),
-            Self::InputAudioBufferCleared(v) => {
-                RealtimeServerEvent::InputAudioBufferCleared(v).serialize(serializer)
-            }
-            Self::InputAudioBufferCommitted(v) => {
-                RealtimeServerEvent::InputAudioBufferCommitted(v).serialize(serializer)
-            }
-            Self::InputAudioBufferSpeechStarted(v) => {
-                RealtimeServerEvent::InputAudioBufferSpeechStarted(v).serialize(serializer)
-            }
-            Self::InputAudioBufferSpeechStopped(v) => {
-                RealtimeServerEvent::InputAudioBufferSpeechStopped(v).serialize(serializer)
-            }
-            Self::RateLimitsUpdated(v) => {
-                RealtimeServerEvent::RateLimitsUpdated(v).serialize(serializer)
-            }
-            Self::ResponseAudioDelta(v) => {
-                RealtimeServerEvent::ResponseAudioDelta(v).serialize(serializer)
-            }
-            Self::ResponseAudioDone(v) => {
-                RealtimeServerEvent::ResponseAudioDone(v).serialize(serializer)
-            }
-            Self::ResponseAudioTranscriptDelta(v) => {
-                RealtimeServerEvent::ResponseAudioTranscriptDelta(v).serialize(serializer)
-            }
-            Self::ResponseAudioTranscriptDone(v) => {
-                RealtimeServerEvent::ResponseAudioTranscriptDone(v).serialize(serializer)
-            }
-            Self::ResponseContentPartAdded(v) => {
-                RealtimeServerEvent::ResponseContentPartAdded(v).serialize(serializer)
-            }
-            Self::ResponseContentPartDone(v) => {
-                RealtimeServerEvent::ResponseContentPartDone(v).serialize(serializer)
-            }
-            Self::ResponseCreated(v) => {
-                RealtimeServerEvent::ResponseCreated(v).serialize(serializer)
-            }
-            Self::ResponseDone(v) => RealtimeServerEvent::ResponseDone(v).serialize(serializer),
-            Self::ResponseFunctionCallArgumentsDelta(v) => {
-                RealtimeServerEvent::ResponseFunctionCallArgumentsDelta(v).serialize(serializer)
-            }
-            Self::ResponseFunctionCallArgumentsDone(v) => {
-                RealtimeServerEvent::ResponseFunctionCallArgumentsDone(v).serialize(serializer)
-            }
-            Self::ResponseOutputItemAdded(v) => {
-                RealtimeServerEvent::ResponseOutputItemAdded(v).serialize(serializer)
-            }
-            Self::ResponseOutputItemDone(v) => {
-                RealtimeServerEvent::ResponseOutputItemDone(v).serialize(serializer)
-            }
-            Self::ResponseTextDelta(v) => {
-                RealtimeServerEvent::ResponseTextDelta(v).serialize(serializer)
-            }
-            Self::ResponseTextDone(v) => {
-                RealtimeServerEvent::ResponseTextDone(v).serialize(serializer)
-            }
-            Self::SessionCreated(v) => RealtimeServerEvent::SessionCreated(v).serialize(serializer),
-            Self::SessionUpdated(v) => RealtimeServerEvent::SessionUpdated(v).serialize(serializer),
-            Self::TranscriptionSessionUpdated(v) => {
-                RealtimeServerEvent::TranscriptionSessionUpdated(v).serialize(serializer)
-            }
-            Self::OutputAudioBufferStarted(v) => {
-                RealtimeServerEvent::OutputAudioBufferStarted(v).serialize(serializer)
-            }
-            Self::OutputAudioBufferStopped(v) => {
-                RealtimeServerEvent::OutputAudioBufferStopped(v).serialize(serializer)
-            }
-            Self::OutputAudioBufferCleared(v) => {
-                RealtimeServerEvent::OutputAudioBufferCleared(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[doc = "A realtime server event.\n"]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeServerEvent {
     ConversationCreated(RealtimeServerEventConversationCreated),
@@ -61153,46 +56883,11 @@ pub struct ResponseIncompleteDetails {
     #[builder(default)]
     pub reason: Option<ResponseIncompleteDetailsReason>,
 }
-impl<'de> serde::Deserialize<'de> for ResponseInstructions {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum ResponseInstructions {
-            String(#[allow(dead_code)] String),
-            Array(#[allow(dead_code)] Vec<InputItem>),
-        }
-        Ok(match ResponseInstructions::deserialize(deserializer)? {
-            ResponseInstructions::String(v) => Self::String(v),
-            ResponseInstructions::Array(v) => Self::Array(v),
-        })
-    }
-}
-impl serde::Serialize for ResponseInstructions {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum ResponseInstructions<'a> {
-            String(#[allow(dead_code)] &'a String),
-            Array(#[allow(dead_code)] &'a Vec<InputItem>),
-        }
-        match self {
-            Self::String(v) => ResponseInstructions::String(v).serialize(serializer),
-            Self::Array(v) => ResponseInstructions::Array(v).serialize(serializer),
-        }
-    }
-}
 #[doc = "A system (or developer) message inserted into the model's context.\n\nWhen using along with `previous_response_id`, the instructions from a previous\nresponse will not be carried over to the next response. This makes it simple\nto swap out system (or developer) messages in new responses.\n"]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum ResponseInstructions {
     #[doc = "A text input to the model, equivalent to a text input with the \n`developer` role.\n"]
@@ -65814,53 +61509,10 @@ pub struct ResponseOutputTextAnnotationAddedEvent {
     #[doc = "The annotation object being added. (See annotation schema for details.)"]
     pub annotation: indexmap::IndexMap<String, serde_json::Value>,
 }
-impl<'de> serde::Deserialize<'de> for ResponsePromptVariable {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum ResponsePromptVariable {
-            Other(#[allow(dead_code)] String),
-            InputText(#[allow(dead_code)] InputTextContent),
-            InputImage(#[allow(dead_code)] InputImageContent),
-            InputFile(#[allow(dead_code)] InputFileContent),
-        }
-        Ok(match ResponsePromptVariable::deserialize(deserializer)? {
-            ResponsePromptVariable::Other(v) => Self::Other(v),
-            ResponsePromptVariable::InputText(v) => Self::InputText(v),
-            ResponsePromptVariable::InputImage(v) => Self::InputImage(v),
-            ResponsePromptVariable::InputFile(v) => Self::InputFile(v),
-        })
-    }
-}
-impl serde::Serialize for ResponsePromptVariable {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum ResponsePromptVariable<'a> {
-            Other(#[allow(dead_code)] &'a String),
-            InputText(#[allow(dead_code)] &'a InputTextContent),
-            InputImage(#[allow(dead_code)] &'a InputImageContent),
-            InputFile(#[allow(dead_code)] &'a InputFileContent),
-        }
-        match self {
-            Self::Other(v) => ResponsePromptVariable::Other(v).serialize(serializer),
-            Self::InputText(v) => ResponsePromptVariable::InputText(v).serialize(serializer),
-            Self::InputImage(v) => ResponsePromptVariable::InputImage(v).serialize(serializer),
-            Self::InputFile(v) => ResponsePromptVariable::InputFile(v).serialize(serializer),
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum ResponsePromptVariable {
     Other(String),
@@ -67640,505 +63292,10 @@ pub struct ResponseRefusalDoneEvent {
     #[doc = "The sequence number of this event.\n"]
     pub sequence_number: i64,
 }
-impl<'de> serde::Deserialize<'de> for ResponseStreamEvent {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum ResponseStreamEvent {
-            ResponseAudioDelta(#[allow(dead_code)] ResponseAudioDeltaEvent),
-            ResponseAudioDone(#[allow(dead_code)] ResponseAudioDoneEvent),
-            ResponseAudioTranscriptDelta(#[allow(dead_code)] ResponseAudioTranscriptDeltaEvent),
-            ResponseAudioTranscriptDone(#[allow(dead_code)] ResponseAudioTranscriptDoneEvent),
-            ResponseCodeInterpreterCallCodeDelta(
-                #[allow(dead_code)] ResponseCodeInterpreterCallCodeDeltaEvent,
-            ),
-            ResponseCodeInterpreterCallCodeDone(
-                #[allow(dead_code)] ResponseCodeInterpreterCallCodeDoneEvent,
-            ),
-            ResponseCodeInterpreterCallCompleted(
-                #[allow(dead_code)] ResponseCodeInterpreterCallCompletedEvent,
-            ),
-            ResponseCodeInterpreterCallInProgress(
-                #[allow(dead_code)] ResponseCodeInterpreterCallInProgressEvent,
-            ),
-            ResponseCodeInterpreterCallInterpreting(
-                #[allow(dead_code)] ResponseCodeInterpreterCallInterpretingEvent,
-            ),
-            ResponseCompleted(#[allow(dead_code)] ResponseCompletedEvent),
-            ResponseContentPartAdded(#[allow(dead_code)] ResponseContentPartAddedEvent),
-            ResponseContentPartDone(#[allow(dead_code)] ResponseContentPartDoneEvent),
-            ResponseCreated(#[allow(dead_code)] ResponseCreatedEvent),
-            Error(#[allow(dead_code)] ResponseErrorEvent),
-            ResponseFileSearchCallCompleted(
-                #[allow(dead_code)] ResponseFileSearchCallCompletedEvent,
-            ),
-            ResponseFileSearchCallInProgress(
-                #[allow(dead_code)] ResponseFileSearchCallInProgressEvent,
-            ),
-            ResponseFileSearchCallSearching(
-                #[allow(dead_code)] ResponseFileSearchCallSearchingEvent,
-            ),
-            ResponseFunctionCallArgumentsDelta(
-                #[allow(dead_code)] ResponseFunctionCallArgumentsDeltaEvent,
-            ),
-            ResponseFunctionCallArgumentsDone(
-                #[allow(dead_code)] ResponseFunctionCallArgumentsDoneEvent,
-            ),
-            ResponseInProgress(#[allow(dead_code)] ResponseInProgressEvent),
-            ResponseFailed(#[allow(dead_code)] ResponseFailedEvent),
-            ResponseIncomplete(#[allow(dead_code)] ResponseIncompleteEvent),
-            ResponseOutputItemAdded(#[allow(dead_code)] ResponseOutputItemAddedEvent),
-            ResponseOutputItemDone(#[allow(dead_code)] ResponseOutputItemDoneEvent),
-            ResponseReasoningSummaryPartAdded(
-                #[allow(dead_code)] ResponseReasoningSummaryPartAddedEvent,
-            ),
-            ResponseReasoningSummaryPartDone(
-                #[allow(dead_code)] ResponseReasoningSummaryPartDoneEvent,
-            ),
-            ResponseReasoningSummaryTextDelta(
-                #[allow(dead_code)] ResponseReasoningSummaryTextDeltaEvent,
-            ),
-            ResponseReasoningSummaryTextDone(
-                #[allow(dead_code)] ResponseReasoningSummaryTextDoneEvent,
-            ),
-            ResponseRefusalDelta(#[allow(dead_code)] ResponseRefusalDeltaEvent),
-            ResponseRefusalDone(#[allow(dead_code)] ResponseRefusalDoneEvent),
-            ResponseOutputTextDelta(#[allow(dead_code)] ResponseTextDeltaEvent),
-            ResponseOutputTextDone(#[allow(dead_code)] ResponseTextDoneEvent),
-            ResponseWebSearchCallCompleted(#[allow(dead_code)] ResponseWebSearchCallCompletedEvent),
-            ResponseWebSearchCallInProgress(
-                #[allow(dead_code)] ResponseWebSearchCallInProgressEvent,
-            ),
-            ResponseWebSearchCallSearching(#[allow(dead_code)] ResponseWebSearchCallSearchingEvent),
-            ResponseImageGenerationCallCompleted(
-                #[allow(dead_code)] ResponseImageGenCallCompletedEvent,
-            ),
-            ResponseImageGenerationCallGenerating(
-                #[allow(dead_code)] ResponseImageGenCallGeneratingEvent,
-            ),
-            ResponseImageGenerationCallInProgress(
-                #[allow(dead_code)] ResponseImageGenCallInProgressEvent,
-            ),
-            ResponseImageGenerationCallPartialImage(
-                #[allow(dead_code)] ResponseImageGenCallPartialImageEvent,
-            ),
-            ResponseMcpCallArgumentsDelta(#[allow(dead_code)] ResponseMcpCallArgumentsDeltaEvent),
-            ResponseMcpCallArgumentsDone(#[allow(dead_code)] ResponseMcpCallArgumentsDoneEvent),
-            ResponseMcpCallCompleted(#[allow(dead_code)] ResponseMcpCallCompletedEvent),
-            ResponseMcpCallFailed(#[allow(dead_code)] ResponseMcpCallFailedEvent),
-            ResponseMcpCallInProgress(#[allow(dead_code)] ResponseMcpCallInProgressEvent),
-            ResponseMcpListToolsCompleted(#[allow(dead_code)] ResponseMcpListToolsCompletedEvent),
-            ResponseMcpListToolsFailed(#[allow(dead_code)] ResponseMcpListToolsFailedEvent),
-            ResponseMcpListToolsInProgress(#[allow(dead_code)] ResponseMcpListToolsInProgressEvent),
-            ResponseOutputTextAnnotationAdded(
-                #[allow(dead_code)] ResponseOutputTextAnnotationAddedEvent,
-            ),
-            ResponseQueued(#[allow(dead_code)] ResponseQueuedEvent),
-            ResponseReasoningDelta(#[allow(dead_code)] ResponseReasoningDeltaEvent),
-            ResponseReasoningDone(#[allow(dead_code)] ResponseReasoningDoneEvent),
-            ResponseReasoningSummaryDelta(#[allow(dead_code)] ResponseReasoningSummaryDeltaEvent),
-            ResponseReasoningSummaryDone(#[allow(dead_code)] ResponseReasoningSummaryDoneEvent),
-        }
-        Ok(match ResponseStreamEvent::deserialize(deserializer)? {
-            ResponseStreamEvent::ResponseAudioDelta(v) => Self::ResponseAudioDelta(v),
-            ResponseStreamEvent::ResponseAudioDone(v) => Self::ResponseAudioDone(v),
-            ResponseStreamEvent::ResponseAudioTranscriptDelta(v) => {
-                Self::ResponseAudioTranscriptDelta(v)
-            }
-            ResponseStreamEvent::ResponseAudioTranscriptDone(v) => {
-                Self::ResponseAudioTranscriptDone(v)
-            }
-            ResponseStreamEvent::ResponseCodeInterpreterCallCodeDelta(v) => {
-                Self::ResponseCodeInterpreterCallCodeDelta(v)
-            }
-            ResponseStreamEvent::ResponseCodeInterpreterCallCodeDone(v) => {
-                Self::ResponseCodeInterpreterCallCodeDone(v)
-            }
-            ResponseStreamEvent::ResponseCodeInterpreterCallCompleted(v) => {
-                Self::ResponseCodeInterpreterCallCompleted(v)
-            }
-            ResponseStreamEvent::ResponseCodeInterpreterCallInProgress(v) => {
-                Self::ResponseCodeInterpreterCallInProgress(v)
-            }
-            ResponseStreamEvent::ResponseCodeInterpreterCallInterpreting(v) => {
-                Self::ResponseCodeInterpreterCallInterpreting(v)
-            }
-            ResponseStreamEvent::ResponseCompleted(v) => Self::ResponseCompleted(v),
-            ResponseStreamEvent::ResponseContentPartAdded(v) => Self::ResponseContentPartAdded(v),
-            ResponseStreamEvent::ResponseContentPartDone(v) => Self::ResponseContentPartDone(v),
-            ResponseStreamEvent::ResponseCreated(v) => Self::ResponseCreated(v),
-            ResponseStreamEvent::Error(v) => Self::Error(v),
-            ResponseStreamEvent::ResponseFileSearchCallCompleted(v) => {
-                Self::ResponseFileSearchCallCompleted(v)
-            }
-            ResponseStreamEvent::ResponseFileSearchCallInProgress(v) => {
-                Self::ResponseFileSearchCallInProgress(v)
-            }
-            ResponseStreamEvent::ResponseFileSearchCallSearching(v) => {
-                Self::ResponseFileSearchCallSearching(v)
-            }
-            ResponseStreamEvent::ResponseFunctionCallArgumentsDelta(v) => {
-                Self::ResponseFunctionCallArgumentsDelta(v)
-            }
-            ResponseStreamEvent::ResponseFunctionCallArgumentsDone(v) => {
-                Self::ResponseFunctionCallArgumentsDone(v)
-            }
-            ResponseStreamEvent::ResponseInProgress(v) => Self::ResponseInProgress(v),
-            ResponseStreamEvent::ResponseFailed(v) => Self::ResponseFailed(v),
-            ResponseStreamEvent::ResponseIncomplete(v) => Self::ResponseIncomplete(v),
-            ResponseStreamEvent::ResponseOutputItemAdded(v) => Self::ResponseOutputItemAdded(v),
-            ResponseStreamEvent::ResponseOutputItemDone(v) => Self::ResponseOutputItemDone(v),
-            ResponseStreamEvent::ResponseReasoningSummaryPartAdded(v) => {
-                Self::ResponseReasoningSummaryPartAdded(v)
-            }
-            ResponseStreamEvent::ResponseReasoningSummaryPartDone(v) => {
-                Self::ResponseReasoningSummaryPartDone(v)
-            }
-            ResponseStreamEvent::ResponseReasoningSummaryTextDelta(v) => {
-                Self::ResponseReasoningSummaryTextDelta(v)
-            }
-            ResponseStreamEvent::ResponseReasoningSummaryTextDone(v) => {
-                Self::ResponseReasoningSummaryTextDone(v)
-            }
-            ResponseStreamEvent::ResponseRefusalDelta(v) => Self::ResponseRefusalDelta(v),
-            ResponseStreamEvent::ResponseRefusalDone(v) => Self::ResponseRefusalDone(v),
-            ResponseStreamEvent::ResponseOutputTextDelta(v) => Self::ResponseOutputTextDelta(v),
-            ResponseStreamEvent::ResponseOutputTextDone(v) => Self::ResponseOutputTextDone(v),
-            ResponseStreamEvent::ResponseWebSearchCallCompleted(v) => {
-                Self::ResponseWebSearchCallCompleted(v)
-            }
-            ResponseStreamEvent::ResponseWebSearchCallInProgress(v) => {
-                Self::ResponseWebSearchCallInProgress(v)
-            }
-            ResponseStreamEvent::ResponseWebSearchCallSearching(v) => {
-                Self::ResponseWebSearchCallSearching(v)
-            }
-            ResponseStreamEvent::ResponseImageGenerationCallCompleted(v) => {
-                Self::ResponseImageGenerationCallCompleted(v)
-            }
-            ResponseStreamEvent::ResponseImageGenerationCallGenerating(v) => {
-                Self::ResponseImageGenerationCallGenerating(v)
-            }
-            ResponseStreamEvent::ResponseImageGenerationCallInProgress(v) => {
-                Self::ResponseImageGenerationCallInProgress(v)
-            }
-            ResponseStreamEvent::ResponseImageGenerationCallPartialImage(v) => {
-                Self::ResponseImageGenerationCallPartialImage(v)
-            }
-            ResponseStreamEvent::ResponseMcpCallArgumentsDelta(v) => {
-                Self::ResponseMcpCallArgumentsDelta(v)
-            }
-            ResponseStreamEvent::ResponseMcpCallArgumentsDone(v) => {
-                Self::ResponseMcpCallArgumentsDone(v)
-            }
-            ResponseStreamEvent::ResponseMcpCallCompleted(v) => Self::ResponseMcpCallCompleted(v),
-            ResponseStreamEvent::ResponseMcpCallFailed(v) => Self::ResponseMcpCallFailed(v),
-            ResponseStreamEvent::ResponseMcpCallInProgress(v) => Self::ResponseMcpCallInProgress(v),
-            ResponseStreamEvent::ResponseMcpListToolsCompleted(v) => {
-                Self::ResponseMcpListToolsCompleted(v)
-            }
-            ResponseStreamEvent::ResponseMcpListToolsFailed(v) => {
-                Self::ResponseMcpListToolsFailed(v)
-            }
-            ResponseStreamEvent::ResponseMcpListToolsInProgress(v) => {
-                Self::ResponseMcpListToolsInProgress(v)
-            }
-            ResponseStreamEvent::ResponseOutputTextAnnotationAdded(v) => {
-                Self::ResponseOutputTextAnnotationAdded(v)
-            }
-            ResponseStreamEvent::ResponseQueued(v) => Self::ResponseQueued(v),
-            ResponseStreamEvent::ResponseReasoningDelta(v) => Self::ResponseReasoningDelta(v),
-            ResponseStreamEvent::ResponseReasoningDone(v) => Self::ResponseReasoningDone(v),
-            ResponseStreamEvent::ResponseReasoningSummaryDelta(v) => {
-                Self::ResponseReasoningSummaryDelta(v)
-            }
-            ResponseStreamEvent::ResponseReasoningSummaryDone(v) => {
-                Self::ResponseReasoningSummaryDone(v)
-            }
-        })
-    }
-}
-impl serde::Serialize for ResponseStreamEvent {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum ResponseStreamEvent<'a> {
-            ResponseAudioDelta(#[allow(dead_code)] &'a ResponseAudioDeltaEvent),
-            ResponseAudioDone(#[allow(dead_code)] &'a ResponseAudioDoneEvent),
-            ResponseAudioTranscriptDelta(#[allow(dead_code)] &'a ResponseAudioTranscriptDeltaEvent),
-            ResponseAudioTranscriptDone(#[allow(dead_code)] &'a ResponseAudioTranscriptDoneEvent),
-            ResponseCodeInterpreterCallCodeDelta(
-                #[allow(dead_code)] &'a ResponseCodeInterpreterCallCodeDeltaEvent,
-            ),
-            ResponseCodeInterpreterCallCodeDone(
-                #[allow(dead_code)] &'a ResponseCodeInterpreterCallCodeDoneEvent,
-            ),
-            ResponseCodeInterpreterCallCompleted(
-                #[allow(dead_code)] &'a ResponseCodeInterpreterCallCompletedEvent,
-            ),
-            ResponseCodeInterpreterCallInProgress(
-                #[allow(dead_code)] &'a ResponseCodeInterpreterCallInProgressEvent,
-            ),
-            ResponseCodeInterpreterCallInterpreting(
-                #[allow(dead_code)] &'a ResponseCodeInterpreterCallInterpretingEvent,
-            ),
-            ResponseCompleted(#[allow(dead_code)] &'a ResponseCompletedEvent),
-            ResponseContentPartAdded(#[allow(dead_code)] &'a ResponseContentPartAddedEvent),
-            ResponseContentPartDone(#[allow(dead_code)] &'a ResponseContentPartDoneEvent),
-            ResponseCreated(#[allow(dead_code)] &'a ResponseCreatedEvent),
-            Error(#[allow(dead_code)] &'a ResponseErrorEvent),
-            ResponseFileSearchCallCompleted(
-                #[allow(dead_code)] &'a ResponseFileSearchCallCompletedEvent,
-            ),
-            ResponseFileSearchCallInProgress(
-                #[allow(dead_code)] &'a ResponseFileSearchCallInProgressEvent,
-            ),
-            ResponseFileSearchCallSearching(
-                #[allow(dead_code)] &'a ResponseFileSearchCallSearchingEvent,
-            ),
-            ResponseFunctionCallArgumentsDelta(
-                #[allow(dead_code)] &'a ResponseFunctionCallArgumentsDeltaEvent,
-            ),
-            ResponseFunctionCallArgumentsDone(
-                #[allow(dead_code)] &'a ResponseFunctionCallArgumentsDoneEvent,
-            ),
-            ResponseInProgress(#[allow(dead_code)] &'a ResponseInProgressEvent),
-            ResponseFailed(#[allow(dead_code)] &'a ResponseFailedEvent),
-            ResponseIncomplete(#[allow(dead_code)] &'a ResponseIncompleteEvent),
-            ResponseOutputItemAdded(#[allow(dead_code)] &'a ResponseOutputItemAddedEvent),
-            ResponseOutputItemDone(#[allow(dead_code)] &'a ResponseOutputItemDoneEvent),
-            ResponseReasoningSummaryPartAdded(
-                #[allow(dead_code)] &'a ResponseReasoningSummaryPartAddedEvent,
-            ),
-            ResponseReasoningSummaryPartDone(
-                #[allow(dead_code)] &'a ResponseReasoningSummaryPartDoneEvent,
-            ),
-            ResponseReasoningSummaryTextDelta(
-                #[allow(dead_code)] &'a ResponseReasoningSummaryTextDeltaEvent,
-            ),
-            ResponseReasoningSummaryTextDone(
-                #[allow(dead_code)] &'a ResponseReasoningSummaryTextDoneEvent,
-            ),
-            ResponseRefusalDelta(#[allow(dead_code)] &'a ResponseRefusalDeltaEvent),
-            ResponseRefusalDone(#[allow(dead_code)] &'a ResponseRefusalDoneEvent),
-            ResponseOutputTextDelta(#[allow(dead_code)] &'a ResponseTextDeltaEvent),
-            ResponseOutputTextDone(#[allow(dead_code)] &'a ResponseTextDoneEvent),
-            ResponseWebSearchCallCompleted(
-                #[allow(dead_code)] &'a ResponseWebSearchCallCompletedEvent,
-            ),
-            ResponseWebSearchCallInProgress(
-                #[allow(dead_code)] &'a ResponseWebSearchCallInProgressEvent,
-            ),
-            ResponseWebSearchCallSearching(
-                #[allow(dead_code)] &'a ResponseWebSearchCallSearchingEvent,
-            ),
-            ResponseImageGenerationCallCompleted(
-                #[allow(dead_code)] &'a ResponseImageGenCallCompletedEvent,
-            ),
-            ResponseImageGenerationCallGenerating(
-                #[allow(dead_code)] &'a ResponseImageGenCallGeneratingEvent,
-            ),
-            ResponseImageGenerationCallInProgress(
-                #[allow(dead_code)] &'a ResponseImageGenCallInProgressEvent,
-            ),
-            ResponseImageGenerationCallPartialImage(
-                #[allow(dead_code)] &'a ResponseImageGenCallPartialImageEvent,
-            ),
-            ResponseMcpCallArgumentsDelta(
-                #[allow(dead_code)] &'a ResponseMcpCallArgumentsDeltaEvent,
-            ),
-            ResponseMcpCallArgumentsDone(#[allow(dead_code)] &'a ResponseMcpCallArgumentsDoneEvent),
-            ResponseMcpCallCompleted(#[allow(dead_code)] &'a ResponseMcpCallCompletedEvent),
-            ResponseMcpCallFailed(#[allow(dead_code)] &'a ResponseMcpCallFailedEvent),
-            ResponseMcpCallInProgress(#[allow(dead_code)] &'a ResponseMcpCallInProgressEvent),
-            ResponseMcpListToolsCompleted(
-                #[allow(dead_code)] &'a ResponseMcpListToolsCompletedEvent,
-            ),
-            ResponseMcpListToolsFailed(#[allow(dead_code)] &'a ResponseMcpListToolsFailedEvent),
-            ResponseMcpListToolsInProgress(
-                #[allow(dead_code)] &'a ResponseMcpListToolsInProgressEvent,
-            ),
-            ResponseOutputTextAnnotationAdded(
-                #[allow(dead_code)] &'a ResponseOutputTextAnnotationAddedEvent,
-            ),
-            ResponseQueued(#[allow(dead_code)] &'a ResponseQueuedEvent),
-            ResponseReasoningDelta(#[allow(dead_code)] &'a ResponseReasoningDeltaEvent),
-            ResponseReasoningDone(#[allow(dead_code)] &'a ResponseReasoningDoneEvent),
-            ResponseReasoningSummaryDelta(
-                #[allow(dead_code)] &'a ResponseReasoningSummaryDeltaEvent,
-            ),
-            ResponseReasoningSummaryDone(#[allow(dead_code)] &'a ResponseReasoningSummaryDoneEvent),
-        }
-        match self {
-            Self::ResponseAudioDelta(v) => {
-                ResponseStreamEvent::ResponseAudioDelta(v).serialize(serializer)
-            }
-            Self::ResponseAudioDone(v) => {
-                ResponseStreamEvent::ResponseAudioDone(v).serialize(serializer)
-            }
-            Self::ResponseAudioTranscriptDelta(v) => {
-                ResponseStreamEvent::ResponseAudioTranscriptDelta(v).serialize(serializer)
-            }
-            Self::ResponseAudioTranscriptDone(v) => {
-                ResponseStreamEvent::ResponseAudioTranscriptDone(v).serialize(serializer)
-            }
-            Self::ResponseCodeInterpreterCallCodeDelta(v) => {
-                ResponseStreamEvent::ResponseCodeInterpreterCallCodeDelta(v).serialize(serializer)
-            }
-            Self::ResponseCodeInterpreterCallCodeDone(v) => {
-                ResponseStreamEvent::ResponseCodeInterpreterCallCodeDone(v).serialize(serializer)
-            }
-            Self::ResponseCodeInterpreterCallCompleted(v) => {
-                ResponseStreamEvent::ResponseCodeInterpreterCallCompleted(v).serialize(serializer)
-            }
-            Self::ResponseCodeInterpreterCallInProgress(v) => {
-                ResponseStreamEvent::ResponseCodeInterpreterCallInProgress(v).serialize(serializer)
-            }
-            Self::ResponseCodeInterpreterCallInterpreting(v) => {
-                ResponseStreamEvent::ResponseCodeInterpreterCallInterpreting(v)
-                    .serialize(serializer)
-            }
-            Self::ResponseCompleted(v) => {
-                ResponseStreamEvent::ResponseCompleted(v).serialize(serializer)
-            }
-            Self::ResponseContentPartAdded(v) => {
-                ResponseStreamEvent::ResponseContentPartAdded(v).serialize(serializer)
-            }
-            Self::ResponseContentPartDone(v) => {
-                ResponseStreamEvent::ResponseContentPartDone(v).serialize(serializer)
-            }
-            Self::ResponseCreated(v) => {
-                ResponseStreamEvent::ResponseCreated(v).serialize(serializer)
-            }
-            Self::Error(v) => ResponseStreamEvent::Error(v).serialize(serializer),
-            Self::ResponseFileSearchCallCompleted(v) => {
-                ResponseStreamEvent::ResponseFileSearchCallCompleted(v).serialize(serializer)
-            }
-            Self::ResponseFileSearchCallInProgress(v) => {
-                ResponseStreamEvent::ResponseFileSearchCallInProgress(v).serialize(serializer)
-            }
-            Self::ResponseFileSearchCallSearching(v) => {
-                ResponseStreamEvent::ResponseFileSearchCallSearching(v).serialize(serializer)
-            }
-            Self::ResponseFunctionCallArgumentsDelta(v) => {
-                ResponseStreamEvent::ResponseFunctionCallArgumentsDelta(v).serialize(serializer)
-            }
-            Self::ResponseFunctionCallArgumentsDone(v) => {
-                ResponseStreamEvent::ResponseFunctionCallArgumentsDone(v).serialize(serializer)
-            }
-            Self::ResponseInProgress(v) => {
-                ResponseStreamEvent::ResponseInProgress(v).serialize(serializer)
-            }
-            Self::ResponseFailed(v) => ResponseStreamEvent::ResponseFailed(v).serialize(serializer),
-            Self::ResponseIncomplete(v) => {
-                ResponseStreamEvent::ResponseIncomplete(v).serialize(serializer)
-            }
-            Self::ResponseOutputItemAdded(v) => {
-                ResponseStreamEvent::ResponseOutputItemAdded(v).serialize(serializer)
-            }
-            Self::ResponseOutputItemDone(v) => {
-                ResponseStreamEvent::ResponseOutputItemDone(v).serialize(serializer)
-            }
-            Self::ResponseReasoningSummaryPartAdded(v) => {
-                ResponseStreamEvent::ResponseReasoningSummaryPartAdded(v).serialize(serializer)
-            }
-            Self::ResponseReasoningSummaryPartDone(v) => {
-                ResponseStreamEvent::ResponseReasoningSummaryPartDone(v).serialize(serializer)
-            }
-            Self::ResponseReasoningSummaryTextDelta(v) => {
-                ResponseStreamEvent::ResponseReasoningSummaryTextDelta(v).serialize(serializer)
-            }
-            Self::ResponseReasoningSummaryTextDone(v) => {
-                ResponseStreamEvent::ResponseReasoningSummaryTextDone(v).serialize(serializer)
-            }
-            Self::ResponseRefusalDelta(v) => {
-                ResponseStreamEvent::ResponseRefusalDelta(v).serialize(serializer)
-            }
-            Self::ResponseRefusalDone(v) => {
-                ResponseStreamEvent::ResponseRefusalDone(v).serialize(serializer)
-            }
-            Self::ResponseOutputTextDelta(v) => {
-                ResponseStreamEvent::ResponseOutputTextDelta(v).serialize(serializer)
-            }
-            Self::ResponseOutputTextDone(v) => {
-                ResponseStreamEvent::ResponseOutputTextDone(v).serialize(serializer)
-            }
-            Self::ResponseWebSearchCallCompleted(v) => {
-                ResponseStreamEvent::ResponseWebSearchCallCompleted(v).serialize(serializer)
-            }
-            Self::ResponseWebSearchCallInProgress(v) => {
-                ResponseStreamEvent::ResponseWebSearchCallInProgress(v).serialize(serializer)
-            }
-            Self::ResponseWebSearchCallSearching(v) => {
-                ResponseStreamEvent::ResponseWebSearchCallSearching(v).serialize(serializer)
-            }
-            Self::ResponseImageGenerationCallCompleted(v) => {
-                ResponseStreamEvent::ResponseImageGenerationCallCompleted(v).serialize(serializer)
-            }
-            Self::ResponseImageGenerationCallGenerating(v) => {
-                ResponseStreamEvent::ResponseImageGenerationCallGenerating(v).serialize(serializer)
-            }
-            Self::ResponseImageGenerationCallInProgress(v) => {
-                ResponseStreamEvent::ResponseImageGenerationCallInProgress(v).serialize(serializer)
-            }
-            Self::ResponseImageGenerationCallPartialImage(v) => {
-                ResponseStreamEvent::ResponseImageGenerationCallPartialImage(v)
-                    .serialize(serializer)
-            }
-            Self::ResponseMcpCallArgumentsDelta(v) => {
-                ResponseStreamEvent::ResponseMcpCallArgumentsDelta(v).serialize(serializer)
-            }
-            Self::ResponseMcpCallArgumentsDone(v) => {
-                ResponseStreamEvent::ResponseMcpCallArgumentsDone(v).serialize(serializer)
-            }
-            Self::ResponseMcpCallCompleted(v) => {
-                ResponseStreamEvent::ResponseMcpCallCompleted(v).serialize(serializer)
-            }
-            Self::ResponseMcpCallFailed(v) => {
-                ResponseStreamEvent::ResponseMcpCallFailed(v).serialize(serializer)
-            }
-            Self::ResponseMcpCallInProgress(v) => {
-                ResponseStreamEvent::ResponseMcpCallInProgress(v).serialize(serializer)
-            }
-            Self::ResponseMcpListToolsCompleted(v) => {
-                ResponseStreamEvent::ResponseMcpListToolsCompleted(v).serialize(serializer)
-            }
-            Self::ResponseMcpListToolsFailed(v) => {
-                ResponseStreamEvent::ResponseMcpListToolsFailed(v).serialize(serializer)
-            }
-            Self::ResponseMcpListToolsInProgress(v) => {
-                ResponseStreamEvent::ResponseMcpListToolsInProgress(v).serialize(serializer)
-            }
-            Self::ResponseOutputTextAnnotationAdded(v) => {
-                ResponseStreamEvent::ResponseOutputTextAnnotationAdded(v).serialize(serializer)
-            }
-            Self::ResponseQueued(v) => ResponseStreamEvent::ResponseQueued(v).serialize(serializer),
-            Self::ResponseReasoningDelta(v) => {
-                ResponseStreamEvent::ResponseReasoningDelta(v).serialize(serializer)
-            }
-            Self::ResponseReasoningDone(v) => {
-                ResponseStreamEvent::ResponseReasoningDone(v).serialize(serializer)
-            }
-            Self::ResponseReasoningSummaryDelta(v) => {
-                ResponseStreamEvent::ResponseReasoningSummaryDelta(v).serialize(serializer)
-            }
-            Self::ResponseReasoningSummaryDone(v) => {
-                ResponseStreamEvent::ResponseReasoningSummaryDone(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum ResponseStreamEvent {
     ResponseAudioDelta(ResponseAudioDeltaEvent),
@@ -68986,60 +64143,11 @@ pub struct RunCompletionUsage {
     #[doc = "Total number of tokens used (prompt + completion)."]
     pub total_tokens: i64,
 }
-impl<'de> serde::Deserialize<'de> for RunGraderRequestGrader {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum RunGraderRequestGrader {
-            StringCheck(#[allow(dead_code)] GraderStringCheck),
-            TextSimilarity(#[allow(dead_code)] GraderTextSimilarity),
-            Python(#[allow(dead_code)] GraderPython),
-            ScoreModel(#[allow(dead_code)] GraderScoreModel),
-            Multi(#[allow(dead_code)] GraderMulti),
-        }
-        Ok(match RunGraderRequestGrader::deserialize(deserializer)? {
-            RunGraderRequestGrader::StringCheck(v) => Self::StringCheck(v),
-            RunGraderRequestGrader::TextSimilarity(v) => Self::TextSimilarity(v),
-            RunGraderRequestGrader::Python(v) => Self::Python(v),
-            RunGraderRequestGrader::ScoreModel(v) => Self::ScoreModel(v),
-            RunGraderRequestGrader::Multi(v) => Self::Multi(v),
-        })
-    }
-}
-impl serde::Serialize for RunGraderRequestGrader {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum RunGraderRequestGrader<'a> {
-            StringCheck(#[allow(dead_code)] &'a GraderStringCheck),
-            TextSimilarity(#[allow(dead_code)] &'a GraderTextSimilarity),
-            Python(#[allow(dead_code)] &'a GraderPython),
-            ScoreModel(#[allow(dead_code)] &'a GraderScoreModel),
-            Multi(#[allow(dead_code)] &'a GraderMulti),
-        }
-        match self {
-            Self::StringCheck(v) => RunGraderRequestGrader::StringCheck(v).serialize(serializer),
-            Self::TextSimilarity(v) => {
-                RunGraderRequestGrader::TextSimilarity(v).serialize(serializer)
-            }
-            Self::Python(v) => RunGraderRequestGrader::Python(v).serialize(serializer),
-            Self::ScoreModel(v) => RunGraderRequestGrader::ScoreModel(v).serialize(serializer),
-            Self::Multi(v) => RunGraderRequestGrader::Multi(v).serialize(serializer),
-        }
-    }
-}
 #[doc = "The grader used for the fine-tuning job."]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum RunGraderRequestGrader {
     StringCheck(GraderStringCheck),
@@ -69767,49 +64875,10 @@ pub struct RunObjectIncompleteDetails {
     #[builder(default)]
     pub reason: Option<RunObjectIncompleteDetailsReason>,
 }
-impl<'de> serde::Deserialize<'de> for RunObjectTool {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum RunObjectTool {
-            CodeInterpreter(#[allow(dead_code)] AssistantToolsCode),
-            FileSearch(#[allow(dead_code)] AssistantToolsFileSearch),
-            Function(#[allow(dead_code)] AssistantToolsFunction),
-        }
-        Ok(match RunObjectTool::deserialize(deserializer)? {
-            RunObjectTool::CodeInterpreter(v) => Self::CodeInterpreter(v),
-            RunObjectTool::FileSearch(v) => Self::FileSearch(v),
-            RunObjectTool::Function(v) => Self::Function(v),
-        })
-    }
-}
-impl serde::Serialize for RunObjectTool {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum RunObjectTool<'a> {
-            CodeInterpreter(#[allow(dead_code)] &'a AssistantToolsCode),
-            FileSearch(#[allow(dead_code)] &'a AssistantToolsFileSearch),
-            Function(#[allow(dead_code)] &'a AssistantToolsFunction),
-        }
-        match self {
-            Self::CodeInterpreter(v) => RunObjectTool::CodeInterpreter(v).serialize(serializer),
-            Self::FileSearch(v) => RunObjectTool::FileSearch(v).serialize(serializer),
-            Self::Function(v) => RunObjectTool::Function(v).serialize(serializer),
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum RunObjectTool {
     CodeInterpreter(AssistantToolsCode),
@@ -70268,52 +65337,11 @@ impl serde::Serialize for RunStepDeltaObjectObject {
 #[doc = "The object type, which is always `thread.run.step.delta`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStepDeltaObjectObject;
-impl<'de> serde::Deserialize<'de> for RunStepDeltaObjectDeltaStepDetails {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum RunStepDeltaObjectDeltaStepDetails {
-            MessageCreation(#[allow(dead_code)] RunStepDeltaStepDetailsMessageCreationObject),
-            ToolCalls(#[allow(dead_code)] RunStepDeltaStepDetailsToolCallsObject),
-        }
-        Ok(
-            match RunStepDeltaObjectDeltaStepDetails::deserialize(deserializer)? {
-                RunStepDeltaObjectDeltaStepDetails::MessageCreation(v) => Self::MessageCreation(v),
-                RunStepDeltaObjectDeltaStepDetails::ToolCalls(v) => Self::ToolCalls(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for RunStepDeltaObjectDeltaStepDetails {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum RunStepDeltaObjectDeltaStepDetails<'a> {
-            MessageCreation(#[allow(dead_code)] &'a RunStepDeltaStepDetailsMessageCreationObject),
-            ToolCalls(#[allow(dead_code)] &'a RunStepDeltaStepDetailsToolCallsObject),
-        }
-        match self {
-            Self::MessageCreation(v) => {
-                RunStepDeltaObjectDeltaStepDetails::MessageCreation(v).serialize(serializer)
-            }
-            Self::ToolCalls(v) => {
-                RunStepDeltaObjectDeltaStepDetails::ToolCalls(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[doc = "The details of the run step."]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum RunStepDeltaObjectDeltaStepDetails {
     MessageCreation(RunStepDeltaStepDetailsMessageCreationObject),
@@ -70558,61 +65586,10 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsCodeObjectType {
 #[doc = "The type of tool call. This is always going to be `code_interpreter` for this type of tool call."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStepDeltaStepDetailsToolCallsCodeObjectType;
-impl<'de> serde::Deserialize<'de>
-    for RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterOutputs
-{
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterOutputs {
-            Logs(#[allow(dead_code)] RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject),
-            Image(#[allow(dead_code)] RunStepDeltaStepDetailsToolCallsCodeOutputImageObject),
-        }
-        Ok(
-            match RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterOutputs::deserialize(
-                deserializer,
-            )? {
-                RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterOutputs::Logs(v) => {
-                    Self::Logs(v)
-                }
-                RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterOutputs::Image(v) => {
-                    Self::Image(v)
-                }
-            },
-        )
-    }
-}
-impl serde::Serialize for RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterOutputs {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterOutputs<'a> {
-            Logs(#[allow(dead_code)] &'a RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject),
-            Image(#[allow(dead_code)] &'a RunStepDeltaStepDetailsToolCallsCodeOutputImageObject),
-        }
-        match self {
-            Self::Logs(v) => {
-                RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterOutputs::Logs(v)
-                    .serialize(serializer)
-            }
-            Self::Image(v) => {
-                RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterOutputs::Image(v)
-                    .serialize(serializer)
-            }
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterOutputs {
     Logs(RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject),
@@ -71263,62 +66240,10 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsObjectType {
 #[doc = "Always `tool_calls`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStepDeltaStepDetailsToolCallsObjectType;
-impl<'de> serde::Deserialize<'de> for RunStepDeltaStepDetailsToolCallsObjectToolCalls {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum RunStepDeltaStepDetailsToolCallsObjectToolCalls {
-            CodeInterpreter(#[allow(dead_code)] RunStepDeltaStepDetailsToolCallsCodeObject),
-            FileSearch(#[allow(dead_code)] RunStepDeltaStepDetailsToolCallsFileSearchObject),
-            Function(#[allow(dead_code)] RunStepDeltaStepDetailsToolCallsFunctionObject),
-        }
-        Ok(
-            match RunStepDeltaStepDetailsToolCallsObjectToolCalls::deserialize(deserializer)? {
-                RunStepDeltaStepDetailsToolCallsObjectToolCalls::CodeInterpreter(v) => {
-                    Self::CodeInterpreter(v)
-                }
-                RunStepDeltaStepDetailsToolCallsObjectToolCalls::FileSearch(v) => {
-                    Self::FileSearch(v)
-                }
-                RunStepDeltaStepDetailsToolCallsObjectToolCalls::Function(v) => Self::Function(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for RunStepDeltaStepDetailsToolCallsObjectToolCalls {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum RunStepDeltaStepDetailsToolCallsObjectToolCalls<'a> {
-            CodeInterpreter(#[allow(dead_code)] &'a RunStepDeltaStepDetailsToolCallsCodeObject),
-            FileSearch(#[allow(dead_code)] &'a RunStepDeltaStepDetailsToolCallsFileSearchObject),
-            Function(#[allow(dead_code)] &'a RunStepDeltaStepDetailsToolCallsFunctionObject),
-        }
-        match self {
-            Self::CodeInterpreter(v) => {
-                RunStepDeltaStepDetailsToolCallsObjectToolCalls::CodeInterpreter(v)
-                    .serialize(serializer)
-            }
-            Self::FileSearch(v) => {
-                RunStepDeltaStepDetailsToolCallsObjectToolCalls::FileSearch(v).serialize(serializer)
-            }
-            Self::Function(v) => {
-                RunStepDeltaStepDetailsToolCallsObjectToolCalls::Function(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum RunStepDeltaStepDetailsToolCallsObjectToolCalls {
     CodeInterpreter(RunStepDeltaStepDetailsToolCallsCodeObject),
@@ -71512,51 +66437,10 @@ impl serde::Serialize for RunStepDetailsToolCallsCodeObjectType {
 #[doc = "The type of tool call. This is always going to be `code_interpreter` for this type of tool call."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStepDetailsToolCallsCodeObjectType;
-impl<'de> serde::Deserialize<'de> for RunStepDetailsToolCallsCodeObjectCodeInterpreterOutputs {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum RunStepDetailsToolCallsCodeObjectCodeInterpreterOutputs {
-            Logs(#[allow(dead_code)] RunStepDetailsToolCallsCodeOutputLogsObject),
-            Image(#[allow(dead_code)] RunStepDetailsToolCallsCodeOutputImageObject),
-        }
-        Ok(
-            match RunStepDetailsToolCallsCodeObjectCodeInterpreterOutputs::deserialize(
-                deserializer,
-            )? {
-                RunStepDetailsToolCallsCodeObjectCodeInterpreterOutputs::Logs(v) => Self::Logs(v),
-                RunStepDetailsToolCallsCodeObjectCodeInterpreterOutputs::Image(v) => Self::Image(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for RunStepDetailsToolCallsCodeObjectCodeInterpreterOutputs {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum RunStepDetailsToolCallsCodeObjectCodeInterpreterOutputs<'a> {
-            Logs(#[allow(dead_code)] &'a RunStepDetailsToolCallsCodeOutputLogsObject),
-            Image(#[allow(dead_code)] &'a RunStepDetailsToolCallsCodeOutputImageObject),
-        }
-        match self {
-            Self::Logs(v) => RunStepDetailsToolCallsCodeObjectCodeInterpreterOutputs::Logs(v)
-                .serialize(serializer),
-            Self::Image(v) => RunStepDetailsToolCallsCodeObjectCodeInterpreterOutputs::Image(v)
-                .serialize(serializer),
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum RunStepDetailsToolCallsCodeObjectCodeInterpreterOutputs {
     Logs(RunStepDetailsToolCallsCodeOutputLogsObject),
@@ -72391,59 +67275,10 @@ impl serde::Serialize for RunStepDetailsToolCallsObjectType {
 #[doc = "Always `tool_calls`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStepDetailsToolCallsObjectType;
-impl<'de> serde::Deserialize<'de> for RunStepDetailsToolCallsObjectToolCalls {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum RunStepDetailsToolCallsObjectToolCalls {
-            CodeInterpreter(#[allow(dead_code)] RunStepDetailsToolCallsCodeObject),
-            FileSearch(#[allow(dead_code)] RunStepDetailsToolCallsFileSearchObject),
-            Function(#[allow(dead_code)] RunStepDetailsToolCallsFunctionObject),
-        }
-        Ok(
-            match RunStepDetailsToolCallsObjectToolCalls::deserialize(deserializer)? {
-                RunStepDetailsToolCallsObjectToolCalls::CodeInterpreter(v) => {
-                    Self::CodeInterpreter(v)
-                }
-                RunStepDetailsToolCallsObjectToolCalls::FileSearch(v) => Self::FileSearch(v),
-                RunStepDetailsToolCallsObjectToolCalls::Function(v) => Self::Function(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for RunStepDetailsToolCallsObjectToolCalls {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum RunStepDetailsToolCallsObjectToolCalls<'a> {
-            CodeInterpreter(#[allow(dead_code)] &'a RunStepDetailsToolCallsCodeObject),
-            FileSearch(#[allow(dead_code)] &'a RunStepDetailsToolCallsFileSearchObject),
-            Function(#[allow(dead_code)] &'a RunStepDetailsToolCallsFunctionObject),
-        }
-        match self {
-            Self::CodeInterpreter(v) => {
-                RunStepDetailsToolCallsObjectToolCalls::CodeInterpreter(v).serialize(serializer)
-            }
-            Self::FileSearch(v) => {
-                RunStepDetailsToolCallsObjectToolCalls::FileSearch(v).serialize(serializer)
-            }
-            Self::Function(v) => {
-                RunStepDetailsToolCallsObjectToolCalls::Function(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum RunStepDetailsToolCallsObjectToolCalls {
     CodeInterpreter(RunStepDetailsToolCallsCodeObject),
@@ -72553,48 +67388,11 @@ pub enum RunStepObjectStatus {
     #[serde(rename = "expired")]
     Expired,
 }
-impl<'de> serde::Deserialize<'de> for RunStepObjectStepDetails {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum RunStepObjectStepDetails {
-            MessageCreation(#[allow(dead_code)] RunStepDetailsMessageCreationObject),
-            ToolCalls(#[allow(dead_code)] RunStepDetailsToolCallsObject),
-        }
-        Ok(match RunStepObjectStepDetails::deserialize(deserializer)? {
-            RunStepObjectStepDetails::MessageCreation(v) => Self::MessageCreation(v),
-            RunStepObjectStepDetails::ToolCalls(v) => Self::ToolCalls(v),
-        })
-    }
-}
-impl serde::Serialize for RunStepObjectStepDetails {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum RunStepObjectStepDetails<'a> {
-            MessageCreation(#[allow(dead_code)] &'a RunStepDetailsMessageCreationObject),
-            ToolCalls(#[allow(dead_code)] &'a RunStepDetailsToolCallsObject),
-        }
-        match self {
-            Self::MessageCreation(v) => {
-                RunStepObjectStepDetails::MessageCreation(v).serialize(serializer)
-            }
-            Self::ToolCalls(v) => RunStepObjectStepDetails::ToolCalls(v).serialize(serializer),
-        }
-    }
-}
 #[doc = "The details of the run step."]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum RunStepObjectStepDetails {
     MessageCreation(RunStepDetailsMessageCreationObject),
@@ -73385,85 +68183,10 @@ impl serde::Serialize for RunStepStreamEventThreadRunStepExpired {
 pub struct RunStepStreamEventThreadRunStepExpired {
     pub data: RunStepObject,
 }
-impl<'de> serde::Deserialize<'de> for RunStepStreamEvent {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum RunStepStreamEvent {
-            ThreadRunStepCreated(#[allow(dead_code)] RunStepStreamEventThreadRunStepCreated),
-            ThreadRunStepInProgress(#[allow(dead_code)] RunStepStreamEventThreadRunStepInProgress),
-            ThreadRunStepDelta(#[allow(dead_code)] RunStepStreamEventThreadRunStepDelta),
-            ThreadRunStepCompleted(#[allow(dead_code)] RunStepStreamEventThreadRunStepCompleted),
-            ThreadRunStepFailed(#[allow(dead_code)] RunStepStreamEventThreadRunStepFailed),
-            ThreadRunStepCancelled(#[allow(dead_code)] RunStepStreamEventThreadRunStepCancelled),
-            ThreadRunStepExpired(#[allow(dead_code)] RunStepStreamEventThreadRunStepExpired),
-        }
-        Ok(match RunStepStreamEvent::deserialize(deserializer)? {
-            RunStepStreamEvent::ThreadRunStepCreated(v) => Self::ThreadRunStepCreated(v),
-            RunStepStreamEvent::ThreadRunStepInProgress(v) => Self::ThreadRunStepInProgress(v),
-            RunStepStreamEvent::ThreadRunStepDelta(v) => Self::ThreadRunStepDelta(v),
-            RunStepStreamEvent::ThreadRunStepCompleted(v) => Self::ThreadRunStepCompleted(v),
-            RunStepStreamEvent::ThreadRunStepFailed(v) => Self::ThreadRunStepFailed(v),
-            RunStepStreamEvent::ThreadRunStepCancelled(v) => Self::ThreadRunStepCancelled(v),
-            RunStepStreamEvent::ThreadRunStepExpired(v) => Self::ThreadRunStepExpired(v),
-        })
-    }
-}
-impl serde::Serialize for RunStepStreamEvent {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum RunStepStreamEvent<'a> {
-            ThreadRunStepCreated(#[allow(dead_code)] &'a RunStepStreamEventThreadRunStepCreated),
-            ThreadRunStepInProgress(
-                #[allow(dead_code)] &'a RunStepStreamEventThreadRunStepInProgress,
-            ),
-            ThreadRunStepDelta(#[allow(dead_code)] &'a RunStepStreamEventThreadRunStepDelta),
-            ThreadRunStepCompleted(
-                #[allow(dead_code)] &'a RunStepStreamEventThreadRunStepCompleted,
-            ),
-            ThreadRunStepFailed(#[allow(dead_code)] &'a RunStepStreamEventThreadRunStepFailed),
-            ThreadRunStepCancelled(
-                #[allow(dead_code)] &'a RunStepStreamEventThreadRunStepCancelled,
-            ),
-            ThreadRunStepExpired(#[allow(dead_code)] &'a RunStepStreamEventThreadRunStepExpired),
-        }
-        match self {
-            Self::ThreadRunStepCreated(v) => {
-                RunStepStreamEvent::ThreadRunStepCreated(v).serialize(serializer)
-            }
-            Self::ThreadRunStepInProgress(v) => {
-                RunStepStreamEvent::ThreadRunStepInProgress(v).serialize(serializer)
-            }
-            Self::ThreadRunStepDelta(v) => {
-                RunStepStreamEvent::ThreadRunStepDelta(v).serialize(serializer)
-            }
-            Self::ThreadRunStepCompleted(v) => {
-                RunStepStreamEvent::ThreadRunStepCompleted(v).serialize(serializer)
-            }
-            Self::ThreadRunStepFailed(v) => {
-                RunStepStreamEvent::ThreadRunStepFailed(v).serialize(serializer)
-            }
-            Self::ThreadRunStepCancelled(v) => {
-                RunStepStreamEvent::ThreadRunStepCancelled(v).serialize(serializer)
-            }
-            Self::ThreadRunStepExpired(v) => {
-                RunStepStreamEvent::ThreadRunStepExpired(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum RunStepStreamEvent {
     #[doc = "Occurs when a [run step](https://platform.openai.com/docs/api-reference/run-steps/step-object) is created."]
@@ -74211,89 +68934,10 @@ impl serde::Serialize for RunStreamEventThreadRunExpired {
 pub struct RunStreamEventThreadRunExpired {
     pub data: RunObject,
 }
-impl<'de> serde::Deserialize<'de> for RunStreamEvent {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum RunStreamEvent {
-            ThreadRunCreated(#[allow(dead_code)] RunStreamEventThreadRunCreated),
-            ThreadRunQueued(#[allow(dead_code)] RunStreamEventThreadRunQueued),
-            ThreadRunInProgress(#[allow(dead_code)] RunStreamEventThreadRunInProgress),
-            ThreadRunRequiresAction(#[allow(dead_code)] RunStreamEventThreadRunRequiresAction),
-            ThreadRunCompleted(#[allow(dead_code)] RunStreamEventThreadRunCompleted),
-            ThreadRunIncomplete(#[allow(dead_code)] RunStreamEventThreadRunIncomplete),
-            ThreadRunFailed(#[allow(dead_code)] RunStreamEventThreadRunFailed),
-            ThreadRunCancelling(#[allow(dead_code)] RunStreamEventThreadRunCancelling),
-            ThreadRunCancelled(#[allow(dead_code)] RunStreamEventThreadRunCancelled),
-            ThreadRunExpired(#[allow(dead_code)] RunStreamEventThreadRunExpired),
-        }
-        Ok(match RunStreamEvent::deserialize(deserializer)? {
-            RunStreamEvent::ThreadRunCreated(v) => Self::ThreadRunCreated(v),
-            RunStreamEvent::ThreadRunQueued(v) => Self::ThreadRunQueued(v),
-            RunStreamEvent::ThreadRunInProgress(v) => Self::ThreadRunInProgress(v),
-            RunStreamEvent::ThreadRunRequiresAction(v) => Self::ThreadRunRequiresAction(v),
-            RunStreamEvent::ThreadRunCompleted(v) => Self::ThreadRunCompleted(v),
-            RunStreamEvent::ThreadRunIncomplete(v) => Self::ThreadRunIncomplete(v),
-            RunStreamEvent::ThreadRunFailed(v) => Self::ThreadRunFailed(v),
-            RunStreamEvent::ThreadRunCancelling(v) => Self::ThreadRunCancelling(v),
-            RunStreamEvent::ThreadRunCancelled(v) => Self::ThreadRunCancelled(v),
-            RunStreamEvent::ThreadRunExpired(v) => Self::ThreadRunExpired(v),
-        })
-    }
-}
-impl serde::Serialize for RunStreamEvent {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum RunStreamEvent<'a> {
-            ThreadRunCreated(#[allow(dead_code)] &'a RunStreamEventThreadRunCreated),
-            ThreadRunQueued(#[allow(dead_code)] &'a RunStreamEventThreadRunQueued),
-            ThreadRunInProgress(#[allow(dead_code)] &'a RunStreamEventThreadRunInProgress),
-            ThreadRunRequiresAction(#[allow(dead_code)] &'a RunStreamEventThreadRunRequiresAction),
-            ThreadRunCompleted(#[allow(dead_code)] &'a RunStreamEventThreadRunCompleted),
-            ThreadRunIncomplete(#[allow(dead_code)] &'a RunStreamEventThreadRunIncomplete),
-            ThreadRunFailed(#[allow(dead_code)] &'a RunStreamEventThreadRunFailed),
-            ThreadRunCancelling(#[allow(dead_code)] &'a RunStreamEventThreadRunCancelling),
-            ThreadRunCancelled(#[allow(dead_code)] &'a RunStreamEventThreadRunCancelled),
-            ThreadRunExpired(#[allow(dead_code)] &'a RunStreamEventThreadRunExpired),
-        }
-        match self {
-            Self::ThreadRunCreated(v) => RunStreamEvent::ThreadRunCreated(v).serialize(serializer),
-            Self::ThreadRunQueued(v) => RunStreamEvent::ThreadRunQueued(v).serialize(serializer),
-            Self::ThreadRunInProgress(v) => {
-                RunStreamEvent::ThreadRunInProgress(v).serialize(serializer)
-            }
-            Self::ThreadRunRequiresAction(v) => {
-                RunStreamEvent::ThreadRunRequiresAction(v).serialize(serializer)
-            }
-            Self::ThreadRunCompleted(v) => {
-                RunStreamEvent::ThreadRunCompleted(v).serialize(serializer)
-            }
-            Self::ThreadRunIncomplete(v) => {
-                RunStreamEvent::ThreadRunIncomplete(v).serialize(serializer)
-            }
-            Self::ThreadRunFailed(v) => RunStreamEvent::ThreadRunFailed(v).serialize(serializer),
-            Self::ThreadRunCancelling(v) => {
-                RunStreamEvent::ThreadRunCancelling(v).serialize(serializer)
-            }
-            Self::ThreadRunCancelled(v) => {
-                RunStreamEvent::ThreadRunCancelled(v).serialize(serializer)
-            }
-            Self::ThreadRunExpired(v) => RunStreamEvent::ThreadRunExpired(v).serialize(serializer),
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum RunStreamEvent {
     #[doc = "Occurs when a new [run](https://platform.openai.com/docs/api-reference/runs/object) is created."]
@@ -75058,46 +69702,11 @@ impl serde::Serialize for StaticChunkingStrategyResponseParam {
 pub struct StaticChunkingStrategyResponseParam {
     pub r#static: StaticChunkingStrategy,
 }
-impl<'de> serde::Deserialize<'de> for StopConfiguration {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum StopConfiguration {
-            String(#[allow(dead_code)] String),
-            Array(#[allow(dead_code)] Vec<String>),
-        }
-        Ok(match StopConfiguration::deserialize(deserializer)? {
-            StopConfiguration::String(v) => Self::String(v),
-            StopConfiguration::Array(v) => Self::Array(v),
-        })
-    }
-}
-impl serde::Serialize for StopConfiguration {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum StopConfiguration<'a> {
-            String(#[allow(dead_code)] &'a String),
-            Array(#[allow(dead_code)] &'a Vec<String>),
-        }
-        match self {
-            Self::String(v) => StopConfiguration::String(v).serialize(serializer),
-            Self::Array(v) => StopConfiguration::Array(v).serialize(serializer),
-        }
-    }
-}
 #[doc = "Not supported with latest reasoning models `o3` and `o4-mini`.\n\nUp to 4 sequences where the API will stop generating further tokens. The\nreturned text will not contain the stop sequence.\n"]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum StopConfiguration {
     String(String),
@@ -75223,56 +69832,11 @@ pub struct SubmitToolOutputsRunRequest {
     #[builder(default)]
     pub stream: Option<bool>,
 }
-impl<'de> serde::Deserialize<'de> for TextResponseFormatConfiguration {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum TextResponseFormatConfiguration {
-            Text(#[allow(dead_code)] ResponseFormatText),
-            JsonSchema(#[allow(dead_code)] TextResponseFormatJsonSchema),
-            JsonObject(#[allow(dead_code)] ResponseFormatJsonObject),
-        }
-        Ok(
-            match TextResponseFormatConfiguration::deserialize(deserializer)? {
-                TextResponseFormatConfiguration::Text(v) => Self::Text(v),
-                TextResponseFormatConfiguration::JsonSchema(v) => Self::JsonSchema(v),
-                TextResponseFormatConfiguration::JsonObject(v) => Self::JsonObject(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for TextResponseFormatConfiguration {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum TextResponseFormatConfiguration<'a> {
-            Text(#[allow(dead_code)] &'a ResponseFormatText),
-            JsonSchema(#[allow(dead_code)] &'a TextResponseFormatJsonSchema),
-            JsonObject(#[allow(dead_code)] &'a ResponseFormatJsonObject),
-        }
-        match self {
-            Self::Text(v) => TextResponseFormatConfiguration::Text(v).serialize(serializer),
-            Self::JsonSchema(v) => {
-                TextResponseFormatConfiguration::JsonSchema(v).serialize(serializer)
-            }
-            Self::JsonObject(v) => {
-                TextResponseFormatConfiguration::JsonObject(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[doc = "An object specifying the format that the model must output.\n\nConfiguring `{ \"type\": \"json_schema\" }` enables Structured Outputs, \nwhich ensures the model will match your supplied JSON schema. Learn more in the \n[Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).\n\nThe default format is `{ \"type\": \"text\" }` with no additional options.\n\n**Not recommended for gpt-4o and newer models:**\n\nSetting to `{ \"type\": \"json_object\" }` enables the older JSON mode, which\nensures the message the model generates is valid JSON. Using `json_schema`\nis preferred for models that support it.\n"]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum TextResponseFormatConfiguration {
     Text(ResponseFormatText),
@@ -75733,41 +70297,10 @@ pub struct ThreadStreamEventThreadCreated {
     pub enabled: Option<bool>,
     pub data: ThreadObject,
 }
-impl<'de> serde::Deserialize<'de> for ThreadStreamEvent {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum ThreadStreamEvent {
-            ThreadCreated(#[allow(dead_code)] ThreadStreamEventThreadCreated),
-        }
-        Ok(match ThreadStreamEvent::deserialize(deserializer)? {
-            ThreadStreamEvent::ThreadCreated(v) => Self::ThreadCreated(v),
-        })
-    }
-}
-impl serde::Serialize for ThreadStreamEvent {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum ThreadStreamEvent<'a> {
-            ThreadCreated(#[allow(dead_code)] &'a ThreadStreamEventThreadCreated),
-        }
-        match self {
-            Self::ThreadCreated(v) => ThreadStreamEvent::ThreadCreated(v).serialize(serializer),
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum ThreadStreamEvent {
     #[doc = "Occurs when a new [thread](https://platform.openai.com/docs/api-reference/threads/object) is created."]
@@ -75810,72 +70343,11 @@ impl serde::Serialize for ToggleCertificatesRequest {
 pub struct ToggleCertificatesRequest {
     pub certificate_ids: Vec<String>,
 }
-impl<'de> serde::Deserialize<'de> for Tool {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum Tool {
-            FunctionTool(#[allow(dead_code)] FunctionTool),
-            FileSearchTool(#[allow(dead_code)] FileSearchTool),
-            WebSearchPreviewTool(#[allow(dead_code)] WebSearchPreviewTool),
-            ComputerUsePreviewTool(#[allow(dead_code)] ComputerUsePreviewTool),
-            McpTool(#[allow(dead_code)] McpTool),
-            CodeInterpreterTool(#[allow(dead_code)] CodeInterpreterTool),
-            ImageGenTool(#[allow(dead_code)] ImageGenTool),
-            LocalShellTool(#[allow(dead_code)] LocalShellTool),
-        }
-        Ok(match Tool::deserialize(deserializer)? {
-            Tool::FunctionTool(v) => Self::FunctionTool(v),
-            Tool::FileSearchTool(v) => Self::FileSearchTool(v),
-            Tool::WebSearchPreviewTool(v) => Self::WebSearchPreviewTool(v),
-            Tool::ComputerUsePreviewTool(v) => Self::ComputerUsePreviewTool(v),
-            Tool::McpTool(v) => Self::McpTool(v),
-            Tool::CodeInterpreterTool(v) => Self::CodeInterpreterTool(v),
-            Tool::ImageGenTool(v) => Self::ImageGenTool(v),
-            Tool::LocalShellTool(v) => Self::LocalShellTool(v),
-        })
-    }
-}
-impl serde::Serialize for Tool {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum Tool<'a> {
-            FunctionTool(#[allow(dead_code)] &'a FunctionTool),
-            FileSearchTool(#[allow(dead_code)] &'a FileSearchTool),
-            WebSearchPreviewTool(#[allow(dead_code)] &'a WebSearchPreviewTool),
-            ComputerUsePreviewTool(#[allow(dead_code)] &'a ComputerUsePreviewTool),
-            McpTool(#[allow(dead_code)] &'a McpTool),
-            CodeInterpreterTool(#[allow(dead_code)] &'a CodeInterpreterTool),
-            ImageGenTool(#[allow(dead_code)] &'a ImageGenTool),
-            LocalShellTool(#[allow(dead_code)] &'a LocalShellTool),
-        }
-        match self {
-            Self::FunctionTool(v) => Tool::FunctionTool(v).serialize(serializer),
-            Self::FileSearchTool(v) => Tool::FileSearchTool(v).serialize(serializer),
-            Self::WebSearchPreviewTool(v) => Tool::WebSearchPreviewTool(v).serialize(serializer),
-            Self::ComputerUsePreviewTool(v) => {
-                Tool::ComputerUsePreviewTool(v).serialize(serializer)
-            }
-            Self::McpTool(v) => Tool::McpTool(v).serialize(serializer),
-            Self::CodeInterpreterTool(v) => Tool::CodeInterpreterTool(v).serialize(serializer),
-            Self::ImageGenTool(v) => Tool::ImageGenTool(v).serialize(serializer),
-            Self::LocalShellTool(v) => Tool::LocalShellTool(v).serialize(serializer),
-        }
-    }
-}
 #[doc = "A tool that can be used to generate a response.\n"]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum Tool {
     FunctionTool(FunctionTool),
@@ -78746,117 +73218,10 @@ impl serde::Serialize for UsageTimeBucketObject {
 #[doc = "bucket"]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct UsageTimeBucketObject;
-impl<'de> serde::Deserialize<'de> for UsageTimeBucketResult {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum UsageTimeBucketResult {
-            OrganizationUsageCompletionsResult(#[allow(dead_code)] UsageCompletionsResult),
-            OrganizationUsageEmbeddingsResult(#[allow(dead_code)] UsageEmbeddingsResult),
-            OrganizationUsageModerationsResult(#[allow(dead_code)] UsageModerationsResult),
-            OrganizationUsageImagesResult(#[allow(dead_code)] UsageImagesResult),
-            OrganizationUsageAudioSpeechesResult(#[allow(dead_code)] UsageAudioSpeechesResult),
-            OrganizationUsageAudioTranscriptionsResult(
-                #[allow(dead_code)] UsageAudioTranscriptionsResult,
-            ),
-            OrganizationUsageVectorStoresResult(#[allow(dead_code)] UsageVectorStoresResult),
-            OrganizationUsageCodeInterpreterSessionsResult(
-                #[allow(dead_code)] UsageCodeInterpreterSessionsResult,
-            ),
-            OrganizationCostsResult(#[allow(dead_code)] CostsResult),
-        }
-        Ok(match UsageTimeBucketResult::deserialize(deserializer)? {
-            UsageTimeBucketResult::OrganizationUsageCompletionsResult(v) => {
-                Self::OrganizationUsageCompletionsResult(v)
-            }
-            UsageTimeBucketResult::OrganizationUsageEmbeddingsResult(v) => {
-                Self::OrganizationUsageEmbeddingsResult(v)
-            }
-            UsageTimeBucketResult::OrganizationUsageModerationsResult(v) => {
-                Self::OrganizationUsageModerationsResult(v)
-            }
-            UsageTimeBucketResult::OrganizationUsageImagesResult(v) => {
-                Self::OrganizationUsageImagesResult(v)
-            }
-            UsageTimeBucketResult::OrganizationUsageAudioSpeechesResult(v) => {
-                Self::OrganizationUsageAudioSpeechesResult(v)
-            }
-            UsageTimeBucketResult::OrganizationUsageAudioTranscriptionsResult(v) => {
-                Self::OrganizationUsageAudioTranscriptionsResult(v)
-            }
-            UsageTimeBucketResult::OrganizationUsageVectorStoresResult(v) => {
-                Self::OrganizationUsageVectorStoresResult(v)
-            }
-            UsageTimeBucketResult::OrganizationUsageCodeInterpreterSessionsResult(v) => {
-                Self::OrganizationUsageCodeInterpreterSessionsResult(v)
-            }
-            UsageTimeBucketResult::OrganizationCostsResult(v) => Self::OrganizationCostsResult(v),
-        })
-    }
-}
-impl serde::Serialize for UsageTimeBucketResult {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum UsageTimeBucketResult<'a> {
-            OrganizationUsageCompletionsResult(#[allow(dead_code)] &'a UsageCompletionsResult),
-            OrganizationUsageEmbeddingsResult(#[allow(dead_code)] &'a UsageEmbeddingsResult),
-            OrganizationUsageModerationsResult(#[allow(dead_code)] &'a UsageModerationsResult),
-            OrganizationUsageImagesResult(#[allow(dead_code)] &'a UsageImagesResult),
-            OrganizationUsageAudioSpeechesResult(#[allow(dead_code)] &'a UsageAudioSpeechesResult),
-            OrganizationUsageAudioTranscriptionsResult(
-                #[allow(dead_code)] &'a UsageAudioTranscriptionsResult,
-            ),
-            OrganizationUsageVectorStoresResult(#[allow(dead_code)] &'a UsageVectorStoresResult),
-            OrganizationUsageCodeInterpreterSessionsResult(
-                #[allow(dead_code)] &'a UsageCodeInterpreterSessionsResult,
-            ),
-            OrganizationCostsResult(#[allow(dead_code)] &'a CostsResult),
-        }
-        match self {
-            Self::OrganizationUsageCompletionsResult(v) => {
-                UsageTimeBucketResult::OrganizationUsageCompletionsResult(v).serialize(serializer)
-            }
-            Self::OrganizationUsageEmbeddingsResult(v) => {
-                UsageTimeBucketResult::OrganizationUsageEmbeddingsResult(v).serialize(serializer)
-            }
-            Self::OrganizationUsageModerationsResult(v) => {
-                UsageTimeBucketResult::OrganizationUsageModerationsResult(v).serialize(serializer)
-            }
-            Self::OrganizationUsageImagesResult(v) => {
-                UsageTimeBucketResult::OrganizationUsageImagesResult(v).serialize(serializer)
-            }
-            Self::OrganizationUsageAudioSpeechesResult(v) => {
-                UsageTimeBucketResult::OrganizationUsageAudioSpeechesResult(v).serialize(serializer)
-            }
-            Self::OrganizationUsageAudioTranscriptionsResult(v) => {
-                UsageTimeBucketResult::OrganizationUsageAudioTranscriptionsResult(v)
-                    .serialize(serializer)
-            }
-            Self::OrganizationUsageVectorStoresResult(v) => {
-                UsageTimeBucketResult::OrganizationUsageVectorStoresResult(v).serialize(serializer)
-            }
-            Self::OrganizationUsageCodeInterpreterSessionsResult(v) => {
-                UsageTimeBucketResult::OrganizationUsageCodeInterpreterSessionsResult(v)
-                    .serialize(serializer)
-            }
-            Self::OrganizationCostsResult(v) => {
-                UsageTimeBucketResult::OrganizationCostsResult(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum UsageTimeBucketResult {
     OrganizationUsageCompletionsResult(UsageCompletionsResult),
@@ -79491,64 +73856,11 @@ pub struct VadConfig {
     #[builder(default)]
     pub threshold: Option<serde_json::Number>,
 }
-impl<'de> serde::Deserialize<'de> for ValidateGraderRequestGrader {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum ValidateGraderRequestGrader {
-            StringCheck(#[allow(dead_code)] GraderStringCheck),
-            TextSimilarity(#[allow(dead_code)] GraderTextSimilarity),
-            Python(#[allow(dead_code)] GraderPython),
-            ScoreModel(#[allow(dead_code)] GraderScoreModel),
-            Multi(#[allow(dead_code)] GraderMulti),
-        }
-        Ok(
-            match ValidateGraderRequestGrader::deserialize(deserializer)? {
-                ValidateGraderRequestGrader::StringCheck(v) => Self::StringCheck(v),
-                ValidateGraderRequestGrader::TextSimilarity(v) => Self::TextSimilarity(v),
-                ValidateGraderRequestGrader::Python(v) => Self::Python(v),
-                ValidateGraderRequestGrader::ScoreModel(v) => Self::ScoreModel(v),
-                ValidateGraderRequestGrader::Multi(v) => Self::Multi(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for ValidateGraderRequestGrader {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum ValidateGraderRequestGrader<'a> {
-            StringCheck(#[allow(dead_code)] &'a GraderStringCheck),
-            TextSimilarity(#[allow(dead_code)] &'a GraderTextSimilarity),
-            Python(#[allow(dead_code)] &'a GraderPython),
-            ScoreModel(#[allow(dead_code)] &'a GraderScoreModel),
-            Multi(#[allow(dead_code)] &'a GraderMulti),
-        }
-        match self {
-            Self::StringCheck(v) => {
-                ValidateGraderRequestGrader::StringCheck(v).serialize(serializer)
-            }
-            Self::TextSimilarity(v) => {
-                ValidateGraderRequestGrader::TextSimilarity(v).serialize(serializer)
-            }
-            Self::Python(v) => ValidateGraderRequestGrader::Python(v).serialize(serializer),
-            Self::ScoreModel(v) => ValidateGraderRequestGrader::ScoreModel(v).serialize(serializer),
-            Self::Multi(v) => ValidateGraderRequestGrader::Multi(v).serialize(serializer),
-        }
-    }
-}
 #[doc = "The grader used for the fine-tuning job."]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum ValidateGraderRequestGrader {
     StringCheck(GraderStringCheck),
@@ -79594,66 +73906,11 @@ pub struct ValidateGraderRequest {
     #[doc = "The grader used for the fine-tuning job."]
     pub grader: ValidateGraderRequestGrader,
 }
-impl<'de> serde::Deserialize<'de> for ValidateGraderResponseGrader {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum ValidateGraderResponseGrader {
-            StringCheck(#[allow(dead_code)] GraderStringCheck),
-            TextSimilarity(#[allow(dead_code)] GraderTextSimilarity),
-            Python(#[allow(dead_code)] GraderPython),
-            ScoreModel(#[allow(dead_code)] GraderScoreModel),
-            Multi(#[allow(dead_code)] GraderMulti),
-        }
-        Ok(
-            match ValidateGraderResponseGrader::deserialize(deserializer)? {
-                ValidateGraderResponseGrader::StringCheck(v) => Self::StringCheck(v),
-                ValidateGraderResponseGrader::TextSimilarity(v) => Self::TextSimilarity(v),
-                ValidateGraderResponseGrader::Python(v) => Self::Python(v),
-                ValidateGraderResponseGrader::ScoreModel(v) => Self::ScoreModel(v),
-                ValidateGraderResponseGrader::Multi(v) => Self::Multi(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for ValidateGraderResponseGrader {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum ValidateGraderResponseGrader<'a> {
-            StringCheck(#[allow(dead_code)] &'a GraderStringCheck),
-            TextSimilarity(#[allow(dead_code)] &'a GraderTextSimilarity),
-            Python(#[allow(dead_code)] &'a GraderPython),
-            ScoreModel(#[allow(dead_code)] &'a GraderScoreModel),
-            Multi(#[allow(dead_code)] &'a GraderMulti),
-        }
-        match self {
-            Self::StringCheck(v) => {
-                ValidateGraderResponseGrader::StringCheck(v).serialize(serializer)
-            }
-            Self::TextSimilarity(v) => {
-                ValidateGraderResponseGrader::TextSimilarity(v).serialize(serializer)
-            }
-            Self::Python(v) => ValidateGraderResponseGrader::Python(v).serialize(serializer),
-            Self::ScoreModel(v) => {
-                ValidateGraderResponseGrader::ScoreModel(v).serialize(serializer)
-            }
-            Self::Multi(v) => ValidateGraderResponseGrader::Multi(v).serialize(serializer),
-        }
-    }
-}
 #[doc = "The grader used for the fine-tuning job."]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum ValidateGraderResponseGrader {
     StringCheck(GraderStringCheck),
@@ -79775,49 +74032,10 @@ pub struct VectorStoreExpirationAfter {
     #[doc = "The number of days after the anchor time that the vector store will expire."]
     pub days: i64,
 }
-impl<'de> serde::Deserialize<'de> for VectorStoreFileAttribute {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum VectorStoreFileAttribute {
-            String(#[allow(dead_code)] String),
-            Number(#[allow(dead_code)] serde_json::Number),
-            Bool(#[allow(dead_code)] bool),
-        }
-        Ok(match VectorStoreFileAttribute::deserialize(deserializer)? {
-            VectorStoreFileAttribute::String(v) => Self::String(v),
-            VectorStoreFileAttribute::Number(v) => Self::Number(v),
-            VectorStoreFileAttribute::Bool(v) => Self::Bool(v),
-        })
-    }
-}
-impl serde::Serialize for VectorStoreFileAttribute {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum VectorStoreFileAttribute<'a> {
-            String(#[allow(dead_code)] &'a String),
-            Number(#[allow(dead_code)] &'a serde_json::Number),
-            Bool(#[allow(dead_code)] &'a bool),
-        }
-        match self {
-            Self::String(v) => VectorStoreFileAttribute::String(v).serialize(serializer),
-            Self::Number(v) => VectorStoreFileAttribute::Number(v).serialize(serializer),
-            Self::Bool(v) => VectorStoreFileAttribute::Bool(v).serialize(serializer),
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum VectorStoreFileAttribute {
     String(String),
@@ -80308,50 +74526,11 @@ pub struct VectorStoreFileObjectLastError {
     #[doc = "A human-readable description of the error."]
     pub message: String,
 }
-impl<'de> serde::Deserialize<'de> for VectorStoreFileObjectChunkingStrategy {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum VectorStoreFileObjectChunkingStrategy {
-            Static(#[allow(dead_code)] StaticChunkingStrategyResponseParam),
-            Other(#[allow(dead_code)] OtherChunkingStrategyResponseParam),
-        }
-        Ok(
-            match VectorStoreFileObjectChunkingStrategy::deserialize(deserializer)? {
-                VectorStoreFileObjectChunkingStrategy::Static(v) => Self::Static(v),
-                VectorStoreFileObjectChunkingStrategy::Other(v) => Self::Other(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for VectorStoreFileObjectChunkingStrategy {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum VectorStoreFileObjectChunkingStrategy<'a> {
-            Static(#[allow(dead_code)] &'a StaticChunkingStrategyResponseParam),
-            Other(#[allow(dead_code)] &'a OtherChunkingStrategyResponseParam),
-        }
-        match self {
-            Self::Static(v) => {
-                VectorStoreFileObjectChunkingStrategy::Static(v).serialize(serializer)
-            }
-            Self::Other(v) => VectorStoreFileObjectChunkingStrategy::Other(v).serialize(serializer),
-        }
-    }
-}
 #[doc = "The strategy used to chunk the file."]
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum VectorStoreFileObjectChunkingStrategy {
     Static(StaticChunkingStrategyResponseParam),
@@ -80779,99 +74958,21 @@ pub struct VectorStoreObject {
     #[builder(default)]
     pub metadata: Option<Metadata>,
 }
-impl<'de> serde::Deserialize<'de> for VectorStoreSearchRequestQuery {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum VectorStoreSearchRequestQuery {
-            String(#[allow(dead_code)] String),
-            Array(#[allow(dead_code)] Vec<String>),
-        }
-        Ok(
-            match VectorStoreSearchRequestQuery::deserialize(deserializer)? {
-                VectorStoreSearchRequestQuery::String(v) => Self::String(v),
-                VectorStoreSearchRequestQuery::Array(v) => Self::Array(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for VectorStoreSearchRequestQuery {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum VectorStoreSearchRequestQuery<'a> {
-            String(#[allow(dead_code)] &'a String),
-            Array(#[allow(dead_code)] &'a Vec<String>),
-        }
-        match self {
-            Self::String(v) => VectorStoreSearchRequestQuery::String(v).serialize(serializer),
-            Self::Array(v) => VectorStoreSearchRequestQuery::Array(v).serialize(serializer),
-        }
-    }
-}
 #[doc = "A query string for a search"]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum VectorStoreSearchRequestQuery {
     String(String),
     Array(Vec<String>),
 }
-impl<'de> serde::Deserialize<'de> for VectorStoreSearchRequestFilters {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum VectorStoreSearchRequestFilters {
-            ComparisonFilter(#[allow(dead_code)] ComparisonFilter),
-            CompoundFilter(#[allow(dead_code)] CompoundFilter),
-        }
-        Ok(
-            match VectorStoreSearchRequestFilters::deserialize(deserializer)? {
-                VectorStoreSearchRequestFilters::ComparisonFilter(v) => Self::ComparisonFilter(v),
-                VectorStoreSearchRequestFilters::CompoundFilter(v) => Self::CompoundFilter(v),
-            },
-        )
-    }
-}
-impl serde::Serialize for VectorStoreSearchRequestFilters {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum VectorStoreSearchRequestFilters<'a> {
-            ComparisonFilter(#[allow(dead_code)] &'a ComparisonFilter),
-            CompoundFilter(#[allow(dead_code)] &'a CompoundFilter),
-        }
-        match self {
-            Self::ComparisonFilter(v) => {
-                VectorStoreSearchRequestFilters::ComparisonFilter(v).serialize(serializer)
-            }
-            Self::CompoundFilter(v) => {
-                VectorStoreSearchRequestFilters::CompoundFilter(v).serialize(serializer)
-            }
-        }
-    }
-}
 #[doc = "A filter to apply based on file attributes."]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum VectorStoreSearchRequestFilters {
     ComparisonFilter(ComparisonFilter),
@@ -82140,50 +76241,11 @@ pub enum WebSearchToolCallStatus {
     #[serde(rename = "failed")]
     Failed,
 }
-impl<'de> serde::Deserialize<'de> for WebSearchToolCallAction {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum WebSearchToolCallAction {
-            Search(#[allow(dead_code)] WebSearchActionSearch),
-            OpenPage(#[allow(dead_code)] WebSearchActionOpenPage),
-            Find(#[allow(dead_code)] WebSearchActionFind),
-        }
-        Ok(match WebSearchToolCallAction::deserialize(deserializer)? {
-            WebSearchToolCallAction::Search(v) => Self::Search(v),
-            WebSearchToolCallAction::OpenPage(v) => Self::OpenPage(v),
-            WebSearchToolCallAction::Find(v) => Self::Find(v),
-        })
-    }
-}
-impl serde::Serialize for WebSearchToolCallAction {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum WebSearchToolCallAction<'a> {
-            Search(#[allow(dead_code)] &'a WebSearchActionSearch),
-            OpenPage(#[allow(dead_code)] &'a WebSearchActionOpenPage),
-            Find(#[allow(dead_code)] &'a WebSearchActionFind),
-        }
-        match self {
-            Self::Search(v) => WebSearchToolCallAction::Search(v).serialize(serializer),
-            Self::OpenPage(v) => WebSearchToolCallAction::OpenPage(v).serialize(serializer),
-            Self::Find(v) => WebSearchToolCallAction::Find(v).serialize(serializer),
-        }
-    }
-}
 #[doc = "An object describing the specific action taken in this web search call.\nIncludes details on how the model used the web (search, open_page, find).\n"]
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum WebSearchToolCallAction {
     Search(WebSearchActionSearch),
@@ -85263,45 +79325,10 @@ pub struct RankingOptions {
     #[builder(default)]
     pub score_threshold: Option<serde_json::Number>,
 }
-impl<'de> serde::Deserialize<'de> for Filters {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum Filters {
-            ComparisonFilter(#[allow(dead_code)] ComparisonFilter),
-            CompoundFilter(#[allow(dead_code)] CompoundFilter),
-        }
-        Ok(match Filters::deserialize(deserializer)? {
-            Filters::ComparisonFilter(v) => Self::ComparisonFilter(v),
-            Filters::CompoundFilter(v) => Self::CompoundFilter(v),
-        })
-    }
-}
-impl serde::Serialize for Filters {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum Filters<'a> {
-            ComparisonFilter(#[allow(dead_code)] &'a ComparisonFilter),
-            CompoundFilter(#[allow(dead_code)] &'a CompoundFilter),
-        }
-        match self {
-            Self::ComparisonFilter(v) => Filters::ComparisonFilter(v).serialize(serializer),
-            Self::CompoundFilter(v) => Filters::CompoundFilter(v).serialize(serializer),
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum Filters {
     ComparisonFilter(ComparisonFilter),
@@ -86104,55 +80131,10 @@ pub struct ContainerFileCitationBody {
     #[doc = "The filename of the container file cited."]
     pub filename: String,
 }
-impl<'de> serde::Deserialize<'de> for Annotation {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
-        enum Annotation {
-            FileCitation(#[allow(dead_code)] FileCitationBody),
-            UrlCitation(#[allow(dead_code)] UrlCitationBody),
-            ContainerFileCitation(#[allow(dead_code)] ContainerFileCitationBody),
-            FilePath(#[allow(dead_code)] FilePath),
-        }
-        Ok(match Annotation::deserialize(deserializer)? {
-            Annotation::FileCitation(v) => Self::FileCitation(v),
-            Annotation::UrlCitation(v) => Self::UrlCitation(v),
-            Annotation::ContainerFileCitation(v) => Self::ContainerFileCitation(v),
-            Annotation::FilePath(v) => Self::FilePath(v),
-        })
-    }
-}
-impl serde::Serialize for Annotation {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        #[serde(untagged)]
-        #[allow(clippy::enum_variant_names)]
-        enum Annotation<'a> {
-            FileCitation(#[allow(dead_code)] &'a FileCitationBody),
-            UrlCitation(#[allow(dead_code)] &'a UrlCitationBody),
-            ContainerFileCitation(#[allow(dead_code)] &'a ContainerFileCitationBody),
-            FilePath(#[allow(dead_code)] &'a FilePath),
-        }
-        match self {
-            Self::FileCitation(v) => Annotation::FileCitation(v).serialize(serializer),
-            Self::UrlCitation(v) => Annotation::UrlCitation(v).serialize(serializer),
-            Self::ContainerFileCitation(v) => {
-                Annotation::ContainerFileCitation(v).serialize(serializer)
-            }
-            Self::FilePath(v) => Annotation::FilePath(v).serialize(serializer),
-        }
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
 pub enum Annotation {
     FileCitation(FileCitationBody),
