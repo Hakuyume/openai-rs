@@ -1,5 +1,5 @@
 [package]
-name = "openai-http"
+name = "openai-openapi-http"
 version = "0.1.0"
 edition = "2024"
 
@@ -10,6 +10,7 @@ http-body.workspace = true
 http-body-server-sent-events.workspace = true
 http-body-util.workspace = true
 openai-openapi-types.path = "../openai-openapi-types"
+pin-project.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 thiserror.workspace = true

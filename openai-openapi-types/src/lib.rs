@@ -27,8 +27,8 @@ macro_rules! impl_serde {
     };
 }
 
-mod generated;
-pub use generated::*;
-
 #[cfg(test)]
 mod tests;
+
+mod generated;
+pub use generated::*;

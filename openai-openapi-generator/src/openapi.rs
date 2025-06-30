@@ -4,6 +4,42 @@ use serde::Deserialize;
 #[derive(Clone, Debug, Deserialize)]
 pub struct Document {
     pub components: Components,
+    pub paths: IndexMap<String, IndexMap<String, Operation>>,
+}
+
+#[serde_with::serde_as]
+#[derive(Clone, Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Operation {
+    pub operation_id: String,
+    pub parameters: Option<Vec<Parameter>>,
+    pub request_body: Option<RequestBody>,
+    #[serde_as(as = "IndexMap<serde_with::DisplayFromStr, _>")]
+    pub responses: IndexMap<u16, Response>,
+    pub summary: String,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct RequestBody {
+    pub content: IndexMap<String, Content>,
+    pub required: Option<bool>,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Parameter {}
+
+#[derive(Clone, Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Response {
+    pub content: Option<IndexMap<String, Content>>,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Content {
+    pub schema: Schema,
 }
 
 #[derive(Clone, Debug, Deserialize)]

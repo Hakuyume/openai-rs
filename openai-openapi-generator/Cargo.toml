@@ -5,6 +5,7 @@ edition = "2024"
 
 [dependencies]
 anyhow.workspace = true
+clap = { workspace = true, features = ["derive"] }
 either.workspace = true
 heck.workspace = true
 indexmap = { workspace = true, features = ["serde"] }
@@ -13,5 +14,6 @@ openai-openapi-generator-macros.path = "../openai-openapi-generator-macros"
 quote.workspace = true
 serde = { workspace = true, features = ["derive"] }
 serde_json.workspace = true
+serde_with = { workspace = true, features = ["indexmap_2"] }
 serde_yaml.workspace = true
 syn = { workspace = true, features = ["full"] }

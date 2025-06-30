@@ -4,16 +4,31 @@ mod patch;
 mod to_item_const;
 mod to_item_enum;
 mod to_item_struct;
+mod to_items_fn;
 mod visit;
 
 use anyhow::Context;
+use clap::Parser;
 use heck::{ToPascalCase, ToSnakeCase};
 use indexmap::{IndexMap, IndexSet};
-use quote::ToTokens;
-use std::io;
+use std::fs::{self, File};
+use std::path::PathBuf;
+
+#[derive(Parser)]
+struct Args {
+    #[clap(long)]
+    document: PathBuf,
+    #[clap(long)]
+    types: Option<PathBuf>,
+    #[clap(long)]
+    functions: Option<PathBuf>,
+}
 
 fn main() -> anyhow::Result<()> {
-    let mut document = serde_yaml::from_reader::<_, openapi::Document>(io::stdin().lock())?;
+    let args = Args::parse();
+
+    let mut document =
+        serde_yaml::from_reader::<_, openapi::Document>(File::open(&args.document)?)?;
 
     for (name, schema) in &mut document.components.schemas {
         patch::patch(name, schema);
@@ -30,13 +45,17 @@ fn main() -> anyhow::Result<()> {
         })
         .collect::<Result<IndexMap<_, _>, _>>()?;
 
-    let mut items = Vec::new();
-    for (name, schema) in &schemas {
-        to_item(name, schema, &schemas, true, &mut items);
+    if let Some(path) = &args.types {
+        let mut items = Vec::new();
+        for (name, schema) in &schemas {
+            to_item(name, schema, &schemas, true, &mut items);
+        }
+        fs::write(path, quote::quote!(#(#items)*).to_string())?;
     }
 
-    for item in items {
-        println!("{}", item.to_token_stream());
+    if let Some(path) = &args.functions {
+        let items = to_items_fn::to_items_fn(&document, &schemas)?;
+        fs::write(path, quote::quote!(#(#items)*).to_string())?;
     }
 
     Ok(())

@@ -34,5 +34,10 @@ jobs:
       - uses: actions/checkout@v4
       - run: curl -LO https://app.stainless.com/api/spec/documented/openai/openapi.documented.yml
       - run: rustup update
-      - run: cargo run --bin=openai-openapi-generator --locked < openapi.documented.yml | rustfmt > openai-openapi-types/src/generated.rs
+      - run: >-
+          cargo run --bin=openai-openapi-generator --locked --
+          --document=openapi.documented.yml
+          --types=openai-openapi-types/src/generated.rs
+          --functions=openai-openapi-http/src/generated.rs
+      - run: cargo fmt
       - run: git diff --exit-code
