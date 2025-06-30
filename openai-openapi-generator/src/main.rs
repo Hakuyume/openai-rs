@@ -35,47 +35,9 @@ fn main() -> anyhow::Result<()> {
         to_item(name, schema, &schemas, true, &mut items);
     }
 
-    println!(
-        "{}",
-        quote::quote! {
-            macro_rules! impl_serde {
-                ($ty:ident, $value:literal) => {
-                    impl<'de> serde::Deserialize<'de> for $ty {
-                        fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-                        where D: serde::Deserializer<'de> {
-                            let value = String::deserialize(deserializer)?;
-                            if value == $value {
-                                Ok(Self)
-                            } else {
-                                Err(<D::Error as serde::de::Error>::invalid_value(
-                                    serde::de::Unexpected::Str(&value),
-                                    &$value,
-                                ))
-                            }
-                        }
-                    }
-                    impl serde::Serialize for $ty {
-                        fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-                        where S: serde::Serializer {
-                            $value.serialize(serializer)
-                        }
-                    }
-                };
-            }
-        }
-        .to_token_stream()
-    );
     for item in items {
         println!("{}", item.to_token_stream());
     }
-    println!(
-        "{}",
-        quote::quote! {
-            #[cfg(test)]
-            mod tests;
-        }
-        .to_token_stream()
-    );
 
     Ok(())
 }
