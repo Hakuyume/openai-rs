@@ -14,10 +14,10 @@ where
     T: for<'de> Deserialize<'de>,
 {
     #[pin]
-    decode: Option<http_body_server_sent_events::Decode<Body<B, Infallible, B::Error>>>,
+    decode: Option<http_body_server_sent_events::Decode<Body<B, B::Error>>>,
     _phantom: PhantomData<fn() -> T>,
 }
-type Body<B, SE, BE> = http_body_util::combinators::MapErr<B, fn(BE) -> Error<SE, BE>>;
+type Body<B, E> = http_body_util::combinators::MapErr<B, fn(E) -> Error<Infallible, E>>;
 
 impl<B, T> EventStream<B, T>
 where
