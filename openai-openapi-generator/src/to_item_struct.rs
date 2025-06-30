@@ -12,7 +12,7 @@ pub fn to_item_struct(
     schemas: &IndexMap<String, Schema>,
     public: bool,
     items: &mut Vec<syn::Item>,
-) -> syn::Item {
+) {
     struct FieldInfo<'a> {
         default: bool,
         description: Option<&'a str>,
@@ -144,7 +144,7 @@ pub fn to_item_struct(
                 }
             },
         );
-        syn::parse_quote! {
+        items.push(syn::parse_quote! {
             #description
             #derive
             #[serde_with::serde_as]
@@ -153,8 +153,45 @@ pub fn to_item_struct(
             #vis struct #ident {
                 #(#fields),*
             }
-        }
+        });
     } else {
+        {
+            let fields = fields.iter().filter_map(
+                |FieldInfo {
+                     default,
+                     description,
+                     ident,
+                     nullable,
+                     optional,
+                     public,
+                     type_,
+                     ..
+                 }| {
+                    let description = to_description(*description);
+                    let attr_builder = (*default || *nullable || *optional)
+                        .then_some(quote::quote!(#[builder(default)]));
+                    let type_ = if *nullable || *optional {
+                        quote::quote!(Option<#type_>)
+                    } else {
+                        quote::quote!(#type_)
+                    };
+                    public.then_some(quote::quote! {
+                        #description
+                        #attr_builder
+                        #vis #ident: #type_
+                    })
+                },
+            );
+            items.push(syn::parse_quote! {
+                #description
+                #derive
+                #[derive(typed_builder::TypedBuilder)]
+                #vis struct #ident {
+                    #(#fields),*
+                }
+            });
+        }
+
         {
             let fields_inner = fields.iter().map(
                 |FieldInfo {
@@ -277,43 +314,6 @@ pub fn to_item_struct(
                     }
                 }
             });
-        }
-
-        {
-            let fields = fields.iter().filter_map(
-                |FieldInfo {
-                     default,
-                     description,
-                     ident,
-                     nullable,
-                     optional,
-                     public,
-                     type_,
-                     ..
-                 }| {
-                    let description = to_description(*description);
-                    let attr_builder = (*default || *nullable || *optional)
-                        .then_some(quote::quote!(#[builder(default)]));
-                    let type_ = if *nullable || *optional {
-                        quote::quote!(Option<#type_>)
-                    } else {
-                        quote::quote!(#type_)
-                    };
-                    public.then_some(quote::quote! {
-                        #description
-                        #attr_builder
-                        #vis #ident: #type_
-                    })
-                },
-            );
-            syn::parse_quote! {
-                #description
-                #derive
-                #[derive(typed_builder::TypedBuilder)]
-                #vis struct #ident {
-                    #(#fields),*
-                }
-            }
         }
     }
 }

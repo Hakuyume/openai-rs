@@ -11,7 +11,7 @@ pub fn to_item_enum(
     schemas: &IndexMap<String, Schema>,
     public: bool,
     items: &mut Vec<syn::Item>,
-) -> syn::Item {
+) {
     struct VariantInfo<'a> {
         const_: bool,
         default: bool,
@@ -49,14 +49,14 @@ pub fn to_item_enum(
                 #ident
             }
         });
-        syn::parse_quote! {
+        items.push(syn::parse_quote! {
             #description
             #derive
             #[derive(serde::Deserialize, serde::Serialize)]
             #vis enum #ident {
                 #(#variants),*
             }
-        }
+        });
     } else {
         let variants = extract_variants(schema);
         let variant_info = variants
@@ -116,7 +116,7 @@ pub fn to_item_enum(
                     }
                 },
             );
-            syn::parse_quote! {
+            items.push(syn::parse_quote! {
                 #description
                 #derive
                 #[serde_with::serde_as]
@@ -126,8 +126,45 @@ pub fn to_item_enum(
                 #vis enum #ident {
                     #(#variants),*
                 }
-            }
+            });
         } else {
+            {
+                let variants = variant_info.iter().map(
+                    |VariantInfo {
+                         default,
+                         description,
+                         ident,
+                         public,
+                         type_,
+                         ..
+                     }| {
+                        let description = to_description(*description);
+                        let attr_default = default.then_some(quote::quote!(#[default]));
+                        if *public {
+                            quote::quote! {
+                                #description
+                                #attr_default
+                                #ident(#type_)
+                            }
+                        } else {
+                            quote::quote! {
+                                #description
+                                #attr_default
+                                #ident
+                            }
+                        }
+                    },
+                );
+                items.push(syn::parse_quote! {
+                    #description
+                    #derive
+                    #[allow(clippy::large_enum_variant)]
+                    #vis enum #ident {
+                        #(#variants),*
+                    }
+                });
+            }
+
             {
                 let variants_inner = variant_info
                     .iter()
@@ -246,43 +283,6 @@ pub fn to_item_enum(
                         }
                     }
                 });
-            }
-
-            {
-                let variants = variant_info.iter().map(
-                    |VariantInfo {
-                         default,
-                         description,
-                         ident,
-                         public,
-                         type_,
-                         ..
-                     }| {
-                        let description = to_description(*description);
-                        let attr_default = default.then_some(quote::quote!(#[default]));
-                        if *public {
-                            quote::quote! {
-                                #description
-                                #attr_default
-                                #ident(#type_)
-                            }
-                        } else {
-                            quote::quote! {
-                                #description
-                                #attr_default
-                                #ident
-                            }
-                        }
-                    },
-                );
-                syn::parse_quote! {
-                    #description
-                    #derive
-                    #[allow(clippy::large_enum_variant)]
-                    #vis enum #ident {
-                        #(#variants),*
-                    }
-                }
             }
         }
     }

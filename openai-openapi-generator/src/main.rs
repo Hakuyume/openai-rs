@@ -32,10 +32,39 @@ fn main() -> anyhow::Result<()> {
 
     let mut items = Vec::new();
     for (name, schema) in &schemas {
-        let item = to_item(name, schema, &schemas, true, &mut items);
-        items.push(item);
+        to_item(name, schema, &schemas, true, &mut items);
     }
 
+    println!(
+        "{}",
+        quote::quote! {
+            macro_rules! impl_serde {
+                ($ty:ident, $value:literal) => {
+                    impl<'de> serde::Deserialize<'de> for $ty {
+                        fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+                        where D: serde::Deserializer<'de> {
+                            let value = String::deserialize(deserializer)?;
+                            if value == $value {
+                                Ok(Self)
+                            } else {
+                                Err(<D::Error as serde::de::Error>::invalid_value(
+                                    serde::de::Unexpected::Str(&value),
+                                    &$value,
+                                ))
+                            }
+                        }
+                    }
+                    impl serde::Serialize for $ty {
+                        fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+                        where S: serde::Serializer {
+                            $value.serialize(serializer)
+                        }
+                    }
+                };
+            }
+        }
+        .to_token_stream()
+    );
     for item in items {
         println!("{}", item.to_token_stream());
     }
@@ -107,8 +136,7 @@ fn to_type(
         Type::String => syn::parse_quote!(String),
         _ => {
             let ident = to_ident_pascal(name);
-            let item = to_item(name, schema, schemas, public, items);
-            items.push(item);
+            to_item(name, schema, schemas, public, items);
             syn::parse_quote!(#ident)
         }
     }
@@ -120,7 +148,7 @@ fn to_item(
     schemas: &IndexMap<String, Schema>,
     public: bool,
     items: &mut Vec<syn::Item>,
-) -> syn::Item {
+) {
     let description = to_description(schema.description.as_deref());
     let vis = public.then_some(quote::quote!(pub));
     let ident = to_ident_pascal(name);
@@ -136,10 +164,10 @@ fn to_item(
         }
         _ => {
             let type_ = to_type(name, schema, schemas, public, items);
-            syn::parse_quote! {
+            items.push(syn::parse_quote! {
                 #description
                 #vis type #ident = #type_;
-            }
+            });
         }
     }
 }
