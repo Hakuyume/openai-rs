@@ -34,7 +34,7 @@ mod openai {
     use std::future::{self, Ready};
     use ureq::RequestExt;
 
-    fn service()
+    fn client()
     -> impl FnOnce(http::Request<String>) -> Ready<Result<http::Response<String>, ureq::Error>>
     {
         fn run(
@@ -66,14 +66,14 @@ mod openai {
 
     #[futures_test::test]
     async fn test_list_models() {
-        let response = crate::list_models(service()).await.unwrap();
+        let response = crate::list_models(client()).await.unwrap();
         dbg!(response);
     }
 
     #[futures_test::test]
     async fn test_create_chat_completion() {
         let response = crate::create_chat_completion(
-            service(),
+            client(),
             &openai_openapi_types::CreateChatCompletionRequest::builder()
                 .model(openai_openapi_types::ModelIdsShared::Gpt4_1Nano)
                 .messages(vec![
@@ -97,7 +97,7 @@ mod openai {
     #[futures_test::test]
     async fn test_create_chat_completion_stream() {
         let mut stream = crate::create_chat_completion_stream(
-            service(),
+            client(),
             &openai_openapi_types::CreateChatCompletionRequest::builder()
                 .model(openai_openapi_types::ModelIdsShared::Gpt4_1Nano)
                 .messages(vec![

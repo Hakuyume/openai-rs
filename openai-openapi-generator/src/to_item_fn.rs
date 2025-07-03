@@ -172,20 +172,20 @@ pub fn to_item_fn(
 
             items.push(syn::parse_quote! {
                 #description
-                pub fn #ident_fn<S, Fut, B, E>(
-                    service: S,
+                pub fn #ident_fn<C, Fut, B, E>(
+                    client: C,
                     #params
                     #request
                 ) -> #ident_future<Fut, B, E>
                 where
-                S: FnOnce(http::Request<String>) -> Fut,
+                C: FnOnce(http::Request<String>) -> Fut,
                 Fut: Future<Output = Result<http::Response<B>, E>>,
                 B: http_body::Body,
                 {
                     #ident_future(
                         futures::TryFutureExt::and_then(
                             crate::__combinators::Send::new(
-                                service,
+                                client,
                                 || {
                                     #path
                                     #body
@@ -238,20 +238,20 @@ pub fn to_item_fn(
 
             items.push(syn::parse_quote! {
                 #description
-                pub fn #ident_fn<S, Fut, B, E>(
-                    service: S,
+                pub fn #ident_fn<C, Fut, B, E>(
+                    client: C,
                     #params
                     #request
                 ) -> #ident_future<Fut, B, E>
                 where
-                S: FnOnce(http::Request<String>) -> Fut,
+                C: FnOnce(http::Request<String>) -> Fut,
                 Fut: Future<Output = Result<http::Response<B>, E>>,
                 B: http_body::Body,
                 {
                     #ident_future(
                         futures::TryFutureExt::map_ok(
                             crate::__combinators::Send::new(
-                                service,
+                                client,
                                 || {
                                     #path
                                     #body

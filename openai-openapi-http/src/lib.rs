@@ -13,9 +13,9 @@ pub use generated::*;
 use openai_openapi_types as __types;
 
 #[derive(Debug, thiserror::Error)]
-pub enum Error<S, B> {
+pub enum Error<C, B> {
     #[error(transparent)]
-    Service(S),
+    Client(C),
     #[error(transparent)]
     Body(B),
     #[error(transparent)]
@@ -30,14 +30,14 @@ pub enum Error<S, B> {
     Api(#[from] ApiError),
 }
 
-impl<S, B> Error<S, B> {
+impl<C, B> Error<C, B> {
     pub fn boxed(self) -> Box<dyn std::error::Error + Send + Sync + 'static>
     where
-        S: Into<Box<dyn std::error::Error + Send + Sync + 'static>>,
+        C: Into<Box<dyn std::error::Error + Send + Sync + 'static>>,
         B: Into<Box<dyn std::error::Error + Send + Sync + 'static>>,
     {
         match self {
-            Self::Service(e) => e.into(),
+            Self::Client(e) => e.into(),
             Self::Body(e) => e.into(),
             Self::Http(e) => e.into(),
             Self::Json(e) => e.into(),

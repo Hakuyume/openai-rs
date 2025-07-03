@@ -31,20 +31,20 @@ where
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
-    pub(crate) fn new<S, R>(
-        service: S,
+    pub(crate) fn new<C, R>(
+        client: C,
         request: R,
         expected: (http::StatusCode, Option<mime::Mime>),
     ) -> Self
     where
-        S: FnOnce(http::Request<String>) -> Fut,
+        C: FnOnce(http::Request<String>) -> Fut,
         R: FnOnce() -> Result<http::Request<String>, Error<E, B::Error>>,
     {
         match request() {
             Ok(request) => {
                 tracing::debug!(?request);
                 Self::S0 {
-                    f: service(request),
+                    f: client(request),
                     expected,
                 }
             }
@@ -64,7 +64,7 @@ where
         loop {
             match self.as_mut().project() {
                 SendProj::S0 { f, expected } => {
-                    let response = ready!(f.poll(cx)).map_err(Error::Service)?;
+                    let response = ready!(f.poll(cx)).map_err(Error::Client)?;
                     let content_type = response
                         .headers()
                         .get(http::header::CONTENT_TYPE)

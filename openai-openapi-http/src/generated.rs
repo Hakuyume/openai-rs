@@ -1,16 +1,16 @@
 #[doc = "Returns a list of assistants."]
-pub fn list_assistants<S, Fut, B, E>(
-    service: S,
+pub fn list_assistants<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::ListAssistantsParams,
 ) -> ListAssistants<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ListAssistants(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -80,18 +80,18 @@ future!(
     crate::__types::ListAssistantsResponse
 );
 #[doc = "Create an assistant with a model and instructions."]
-pub fn create_assistant<S, Fut, B, E>(
-    service: S,
+pub fn create_assistant<C, Fut, B, E>(
+    client: C,
     request: &crate::__types::CreateAssistantRequest,
 ) -> CreateAssistant<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     CreateAssistant(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = "/assistants";
                 let body = serde_json::to_string(request)?;
@@ -120,18 +120,18 @@ future!(
     crate::__types::AssistantObject
 );
 #[doc = "Retrieves an assistant."]
-pub fn get_assistant<S, Fut, B, E>(
-    service: S,
+pub fn get_assistant<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::GetAssistantParams,
 ) -> GetAssistant<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     GetAssistant(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -180,19 +180,19 @@ future!(
     crate::__types::AssistantObject
 );
 #[doc = "Modifies an assistant."]
-pub fn modify_assistant<S, Fut, B, E>(
-    service: S,
+pub fn modify_assistant<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::ModifyAssistantParams,
     request: &crate::__types::ModifyAssistantRequest,
 ) -> ModifyAssistant<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ModifyAssistant(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -242,18 +242,18 @@ future!(
     crate::__types::AssistantObject
 );
 #[doc = "Delete an assistant."]
-pub fn delete_assistant<S, Fut, B, E>(
-    service: S,
+pub fn delete_assistant<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::DeleteAssistantParams,
 ) -> DeleteAssistant<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     DeleteAssistant(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -304,18 +304,18 @@ future!(
     crate::__types::DeleteAssistantResponse
 );
 #[doc = "Generates audio from the input text."]
-pub fn create_speech_stream<S, Fut, B, E>(
-    service: S,
+pub fn create_speech_stream<C, Fut, B, E>(
+    client: C,
     request: &crate::__types::CreateSpeechRequest,
 ) -> CreateSpeechStream<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     CreateSpeechStream(futures::TryFutureExt::map_ok(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = "/audio/speech";
                 let body = serde_json::to_string(request)?;
@@ -336,18 +336,18 @@ where
 }
 future ! (CreateSpeechStream , futures :: future :: MapOk < crate :: __combinators :: Send < Fut , B , E > , fn (http :: Response < B >) -> crate :: __combinators :: EventStream < B , crate :: __types :: CreateSpeechResponseStreamEvent > , > , crate :: __combinators :: EventStream < B , crate :: __types :: CreateSpeechResponseStreamEvent >);
 #[doc = "Creates and executes a batch from an uploaded file of requests"]
-pub fn create_batch<S, Fut, B, E>(
-    service: S,
+pub fn create_batch<C, Fut, B, E>(
+    client: C,
     request: &crate::__types::CreateBatchRequest,
 ) -> CreateBatch<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     CreateBatch(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = "/batches";
                 let body = serde_json::to_string(request)?;
@@ -376,18 +376,18 @@ future!(
     crate::__types::Batch
 );
 #[doc = "List your organization's batches."]
-pub fn list_batches<S, Fut, B, E>(
-    service: S,
+pub fn list_batches<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::ListBatchesParams,
 ) -> ListBatches<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ListBatches(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -443,18 +443,18 @@ future!(
     crate::__types::ListBatchesResponse
 );
 #[doc = "Retrieves a batch."]
-pub fn retrieve_batch<S, Fut, B, E>(
-    service: S,
+pub fn retrieve_batch<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::RetrieveBatchParams,
 ) -> RetrieveBatch<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     RetrieveBatch(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -500,18 +500,18 @@ future!(
     crate::__types::Batch
 );
 #[doc = "Cancels an in-progress batch. The batch will be in status `cancelling` for up to 10 minutes, before changing to `cancelled`, where it will have partial results (if any) available in the output file."]
-pub fn cancel_batch<S, Fut, B, E>(
-    service: S,
+pub fn cancel_batch<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::CancelBatchParams,
 ) -> CancelBatch<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     CancelBatch(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -558,18 +558,18 @@ future!(
     crate::__types::Batch
 );
 #[doc = "List stored Chat Completions. Only Chat Completions that have been stored\nwith the `store` parameter set to `true` will be returned.\n"]
-pub fn list_chat_completions<S, Fut, B, E>(
-    service: S,
+pub fn list_chat_completions<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::ListChatCompletionsParams,
 ) -> ListChatCompletions<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ListChatCompletions(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -644,18 +644,18 @@ future!(
     crate::__types::ChatCompletionList
 );
 #[doc = "**Starting a new project?** We recommend trying [Responses](https://platform.openai.com/docs/api-reference/responses) \nto take advantage of the latest OpenAI platform features. Compare\n[Chat Completions with Responses](https://platform.openai.com/docs/guides/responses-vs-chat-completions?api-mode=responses).\n\n---\n\nCreates a model response for the given chat conversation. Learn more in the\n[text generation](https://platform.openai.com/docs/guides/text-generation), [vision](https://platform.openai.com/docs/guides/vision),\nand [audio](https://platform.openai.com/docs/guides/audio) guides.\n\nParameter support can differ depending on the model used to generate the\nresponse, particularly for newer reasoning models. Parameters that are only\nsupported for reasoning models are noted below. For the current state of \nunsupported parameters in reasoning models, \n[refer to the reasoning guide](https://platform.openai.com/docs/guides/reasoning).\n"]
-pub fn create_chat_completion<S, Fut, B, E>(
-    service: S,
+pub fn create_chat_completion<C, Fut, B, E>(
+    client: C,
     request: &crate::__types::CreateChatCompletionRequest,
 ) -> CreateChatCompletion<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     CreateChatCompletion(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = "/chat/completions";
                 let body = serde_json::to_string(request)?;
@@ -687,18 +687,18 @@ future!(
     crate::__types::CreateChatCompletionResponse
 );
 #[doc = "**Starting a new project?** We recommend trying [Responses](https://platform.openai.com/docs/api-reference/responses) \nto take advantage of the latest OpenAI platform features. Compare\n[Chat Completions with Responses](https://platform.openai.com/docs/guides/responses-vs-chat-completions?api-mode=responses).\n\n---\n\nCreates a model response for the given chat conversation. Learn more in the\n[text generation](https://platform.openai.com/docs/guides/text-generation), [vision](https://platform.openai.com/docs/guides/vision),\nand [audio](https://platform.openai.com/docs/guides/audio) guides.\n\nParameter support can differ depending on the model used to generate the\nresponse, particularly for newer reasoning models. Parameters that are only\nsupported for reasoning models are noted below. For the current state of \nunsupported parameters in reasoning models, \n[refer to the reasoning guide](https://platform.openai.com/docs/guides/reasoning).\n"]
-pub fn create_chat_completion_stream<S, Fut, B, E>(
-    service: S,
+pub fn create_chat_completion_stream<C, Fut, B, E>(
+    client: C,
     request: &crate::__types::CreateChatCompletionRequest,
 ) -> CreateChatCompletionStream<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     CreateChatCompletionStream(futures::TryFutureExt::map_ok(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = "/chat/completions";
                 let body = serde_json::to_string(request)?;
@@ -719,18 +719,18 @@ where
 }
 future ! (CreateChatCompletionStream , futures :: future :: MapOk < crate :: __combinators :: Send < Fut , B , E > , fn (http :: Response < B >) -> crate :: __combinators :: EventStream < B , crate :: __types :: CreateChatCompletionStreamResponse > , > , crate :: __combinators :: EventStream < B , crate :: __types :: CreateChatCompletionStreamResponse >);
 #[doc = "Get a stored chat completion. Only Chat Completions that have been created\nwith the `store` parameter set to `true` will be returned.\n"]
-pub fn get_chat_completion<S, Fut, B, E>(
-    service: S,
+pub fn get_chat_completion<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::GetChatCompletionParams,
 ) -> GetChatCompletion<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     GetChatCompletion(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -782,19 +782,19 @@ future!(
     crate::__types::CreateChatCompletionResponse
 );
 #[doc = "Modify a stored chat completion. Only Chat Completions that have been\ncreated with the `store` parameter set to `true` can be modified. Currently,\nthe only supported modification is to update the `metadata` field.\n"]
-pub fn update_chat_completion<S, Fut, B, E>(
-    service: S,
+pub fn update_chat_completion<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::UpdateChatCompletionParams,
     request: &crate::__types::UpdateChatCompletionRequest,
 ) -> UpdateChatCompletion<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     UpdateChatCompletion(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -847,18 +847,18 @@ future!(
     crate::__types::CreateChatCompletionResponse
 );
 #[doc = "Delete a stored chat completion. Only Chat Completions that have been\ncreated with the `store` parameter set to `true` can be deleted.\n"]
-pub fn delete_chat_completion<S, Fut, B, E>(
-    service: S,
+pub fn delete_chat_completion<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::DeleteChatCompletionParams,
 ) -> DeleteChatCompletion<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     DeleteChatCompletion(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -909,18 +909,18 @@ future!(
     crate::__types::ChatCompletionDeleted
 );
 #[doc = "Get the messages in a stored chat completion. Only Chat Completions that\nhave been created with the `store` parameter set to `true` will be\nreturned.\n"]
-pub fn get_chat_completion_messages<S, Fut, B, E>(
-    service: S,
+pub fn get_chat_completion_messages<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::GetChatCompletionMessagesParams,
 ) -> GetChatCompletionMessages<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     GetChatCompletionMessages(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -988,18 +988,18 @@ future!(
     crate::__types::ChatCompletionMessageList
 );
 #[doc = "Creates a completion for the provided prompt and parameters."]
-pub fn create_completion<S, Fut, B, E>(
-    service: S,
+pub fn create_completion<C, Fut, B, E>(
+    client: C,
     request: &crate::__types::CreateCompletionRequest,
 ) -> CreateCompletion<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     CreateCompletion(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = "/completions";
                 let body = serde_json::to_string(request)?;
@@ -1030,18 +1030,18 @@ future!(
     crate::__types::CreateCompletionResponse
 );
 #[doc = "List Containers"]
-pub fn list_containers<S, Fut, B, E>(
-    service: S,
+pub fn list_containers<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::ListContainersParams,
 ) -> ListContainers<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ListContainers(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -1106,18 +1106,18 @@ future!(
     crate::__types::ContainerListResource
 );
 #[doc = "Retrieve Container"]
-pub fn retrieve_container<S, Fut, B, E>(
-    service: S,
+pub fn retrieve_container<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::RetrieveContainerParams,
 ) -> RetrieveContainer<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     RetrieveContainer(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -1168,18 +1168,18 @@ future!(
     crate::__types::ContainerResource
 );
 #[doc = "List Container files"]
-pub fn list_container_files<S, Fut, B, E>(
-    service: S,
+pub fn list_container_files<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::ListContainerFilesParams,
 ) -> ListContainerFiles<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ListContainerFiles(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -1247,18 +1247,18 @@ future!(
     crate::__types::ContainerFileListResource
 );
 #[doc = "Retrieve Container File"]
-pub fn retrieve_container_file<S, Fut, B, E>(
-    service: S,
+pub fn retrieve_container_file<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::RetrieveContainerFileParams,
 ) -> RetrieveContainerFile<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     RetrieveContainerFile(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -1310,18 +1310,18 @@ future!(
     crate::__types::ContainerFileResource
 );
 #[doc = "Creates an embedding vector representing the input text."]
-pub fn create_embedding<S, Fut, B, E>(
-    service: S,
+pub fn create_embedding<C, Fut, B, E>(
+    client: C,
     request: &crate::__types::CreateEmbeddingRequest,
 ) -> CreateEmbedding<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     CreateEmbedding(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = "/embeddings";
                 let body = serde_json::to_string(request)?;
@@ -1352,18 +1352,18 @@ future!(
     crate::__types::CreateEmbeddingResponse
 );
 #[doc = "List evaluations for a project.\n"]
-pub fn list_evals<S, Fut, B, E>(
-    service: S,
+pub fn list_evals<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::ListEvalsParams,
 ) -> ListEvals<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ListEvals(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -1431,18 +1431,18 @@ future!(
     crate::__types::EvalList
 );
 #[doc = "Create the structure of an evaluation that can be used to test a model's performance.\nAn evaluation is a set of testing criteria and the config for a data source, which dictates the schema of the data used in the evaluation. After creating an evaluation, you can run it on different models and model parameters. We support several types of graders and datasources.\nFor more information, see the [Evals guide](https://platform.openai.com/docs/guides/evals).\n"]
-pub fn create_eval<S, Fut, B, E>(
-    service: S,
+pub fn create_eval<C, Fut, B, E>(
+    client: C,
     request: &crate::__types::CreateEvalRequest,
 ) -> CreateEval<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     CreateEval(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = "/evals";
                 let body = serde_json::to_string(request)?;
@@ -1471,18 +1471,18 @@ future!(
     crate::__types::Eval
 );
 #[doc = "Get an evaluation by ID.\n"]
-pub fn get_eval<S, Fut, B, E>(
-    service: S,
+pub fn get_eval<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::GetEvalParams,
 ) -> GetEval<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     GetEval(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -1528,19 +1528,19 @@ future!(
     crate::__types::Eval
 );
 #[doc = "Update certain properties of an evaluation.\n"]
-pub fn update_eval<S, Fut, B, E>(
-    service: S,
+pub fn update_eval<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::UpdateEvalParams,
     request: &crate::__types::UpdateEvalRequest,
 ) -> UpdateEval<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     UpdateEval(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -1587,18 +1587,18 @@ future!(
     crate::__types::Eval
 );
 #[doc = "Delete an evaluation.\n"]
-pub fn delete_eval<S, Fut, B, E>(
-    service: S,
+pub fn delete_eval<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::DeleteEvalParams,
 ) -> DeleteEval<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     DeleteEval(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -1646,18 +1646,18 @@ future!(
     crate::__types::DeleteEvalResponse
 );
 #[doc = "Get a list of runs for an evaluation.\n"]
-pub fn get_eval_runs<S, Fut, B, E>(
-    service: S,
+pub fn get_eval_runs<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::GetEvalRunsParams,
 ) -> GetEvalRuns<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     GetEvalRuns(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -1725,19 +1725,19 @@ future!(
     crate::__types::EvalRunList
 );
 #[doc = "Kicks off a new run for a given evaluation, specifying the data source, and what model configuration to use to test. The datasource will be validated against the schema specified in the config of the evaluation.\n"]
-pub fn create_eval_run<S, Fut, B, E>(
-    service: S,
+pub fn create_eval_run<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::CreateEvalRunParams,
     request: &crate::__types::CreateEvalRunRequest,
 ) -> CreateEvalRun<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     CreateEvalRun(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -1784,18 +1784,18 @@ future!(
     crate::__types::EvalRun
 );
 #[doc = "Get an evaluation run by ID.\n"]
-pub fn get_eval_run<S, Fut, B, E>(
-    service: S,
+pub fn get_eval_run<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::GetEvalRunParams,
 ) -> GetEvalRun<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     GetEvalRun(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -1845,18 +1845,18 @@ future!(
     crate::__types::EvalRun
 );
 #[doc = "Cancel an ongoing evaluation run.\n"]
-pub fn cancel_eval_run<S, Fut, B, E>(
-    service: S,
+pub fn cancel_eval_run<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::CancelEvalRunParams,
 ) -> CancelEvalRun<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     CancelEvalRun(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -1906,18 +1906,18 @@ future!(
     crate::__types::EvalRun
 );
 #[doc = "Delete an eval run.\n"]
-pub fn delete_eval_run<S, Fut, B, E>(
-    service: S,
+pub fn delete_eval_run<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::DeleteEvalRunParams,
 ) -> DeleteEvalRun<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     DeleteEvalRun(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -1969,18 +1969,18 @@ future!(
     crate::__types::DeleteEvalRunResponse
 );
 #[doc = "Get a list of output items for an evaluation run.\n"]
-pub fn get_eval_run_output_items<S, Fut, B, E>(
-    service: S,
+pub fn get_eval_run_output_items<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::GetEvalRunOutputItemsParams,
 ) -> GetEvalRunOutputItems<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     GetEvalRunOutputItems(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -2054,18 +2054,18 @@ future!(
     crate::__types::EvalRunOutputItemList
 );
 #[doc = "Get an evaluation run output item by ID.\n"]
-pub fn get_eval_run_output_item<S, Fut, B, E>(
-    service: S,
+pub fn get_eval_run_output_item<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::GetEvalRunOutputItemParams,
 ) -> GetEvalRunOutputItem<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     GetEvalRunOutputItem(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -2118,18 +2118,18 @@ future!(
     crate::__types::EvalRunOutputItem
 );
 #[doc = "Returns a list of files."]
-pub fn list_files<S, Fut, B, E>(
-    service: S,
+pub fn list_files<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::ListFilesParams,
 ) -> ListFiles<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ListFiles(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -2199,18 +2199,18 @@ future!(
     crate::__types::ListFilesResponse
 );
 #[doc = "Delete a file."]
-pub fn delete_file<S, Fut, B, E>(
-    service: S,
+pub fn delete_file<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::DeleteFileParams,
 ) -> DeleteFile<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     DeleteFile(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -2258,18 +2258,18 @@ future!(
     crate::__types::DeleteFileResponse
 );
 #[doc = "Returns information about a specific file."]
-pub fn retrieve_file<S, Fut, B, E>(
-    service: S,
+pub fn retrieve_file<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::RetrieveFileParams,
 ) -> RetrieveFile<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     RetrieveFile(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -2315,18 +2315,18 @@ future!(
     crate::__types::OpenAiFile
 );
 #[doc = "Returns the contents of the specified file."]
-pub fn download_file<S, Fut, B, E>(
-    service: S,
+pub fn download_file<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::DownloadFileParams,
 ) -> DownloadFile<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     DownloadFile(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -2372,18 +2372,18 @@ future!(
     String
 );
 #[doc = "Run a grader.\n"]
-pub fn run_grader<S, Fut, B, E>(
-    service: S,
+pub fn run_grader<C, Fut, B, E>(
+    client: C,
     request: &crate::__types::RunGraderRequest,
 ) -> RunGrader<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     RunGrader(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = "/fine_tuning/alpha/graders/run";
                 let body = serde_json::to_string(request)?;
@@ -2414,18 +2414,18 @@ future!(
     crate::__types::RunGraderResponse
 );
 #[doc = "Validate a grader.\n"]
-pub fn validate_grader<S, Fut, B, E>(
-    service: S,
+pub fn validate_grader<C, Fut, B, E>(
+    client: C,
     request: &crate::__types::ValidateGraderRequest,
 ) -> ValidateGrader<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ValidateGrader(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = "/fine_tuning/alpha/graders/validate";
                 let body = serde_json::to_string(request)?;
@@ -2456,18 +2456,18 @@ future!(
     crate::__types::ValidateGraderResponse
 );
 #[doc = "**NOTE:** This endpoint requires an [admin API key](../admin-api-keys).\n\nOrganization owners can use this endpoint to view all permissions for a fine-tuned model checkpoint.\n"]
-pub fn list_fine_tuning_checkpoint_permissions<S, Fut, B, E>(
-    service: S,
+pub fn list_fine_tuning_checkpoint_permissions<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::ListFineTuningCheckpointPermissionsParams,
 ) -> ListFineTuningCheckpointPermissions<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ListFineTuningCheckpointPermissions(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -2550,19 +2550,19 @@ future!(
     crate::__types::ListFineTuningCheckpointPermissionResponse
 );
 #[doc = "**NOTE:** Calling this endpoint requires an [admin API key](../admin-api-keys).\n\nThis enables organization owners to share fine-tuned models with other projects in their organization.\n"]
-pub fn create_fine_tuning_checkpoint_permission<S, Fut, B, E>(
-    service: S,
+pub fn create_fine_tuning_checkpoint_permission<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::CreateFineTuningCheckpointPermissionParams,
     request: &crate::__types::CreateFineTuningCheckpointPermissionRequest,
 ) -> CreateFineTuningCheckpointPermission<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     CreateFineTuningCheckpointPermission(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -2622,18 +2622,18 @@ future!(
     crate::__types::ListFineTuningCheckpointPermissionResponse
 );
 #[doc = "**NOTE:** This endpoint requires an [admin API key](../admin-api-keys).\n\nOrganization owners can use this endpoint to delete a permission for a fine-tuned model checkpoint.\n"]
-pub fn delete_fine_tuning_checkpoint_permission<S, Fut, B, E>(
-    service: S,
+pub fn delete_fine_tuning_checkpoint_permission<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::DeleteFineTuningCheckpointPermissionParams,
 ) -> DeleteFineTuningCheckpointPermission<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     DeleteFineTuningCheckpointPermission(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -2693,18 +2693,18 @@ future!(
     crate::__types::DeleteFineTuningCheckpointPermissionResponse
 );
 #[doc = "Creates a fine-tuning job which begins the process of creating a new model from a given dataset.\n\nResponse includes details of the enqueued job including job status and the name of the fine-tuned models once complete.\n\n[Learn more about fine-tuning](https://platform.openai.com/docs/guides/model-optimization)\n"]
-pub fn create_fine_tuning_job<S, Fut, B, E>(
-    service: S,
+pub fn create_fine_tuning_job<C, Fut, B, E>(
+    client: C,
     request: &crate::__types::CreateFineTuningJobRequest,
 ) -> CreateFineTuningJob<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     CreateFineTuningJob(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = "/fine_tuning/jobs";
                 let body = serde_json::to_string(request)?;
@@ -2733,18 +2733,18 @@ future!(
     crate::__types::FineTuningJob
 );
 #[doc = "List your organization's fine-tuning jobs\n"]
-pub fn list_paginated_fine_tuning_jobs<S, Fut, B, E>(
-    service: S,
+pub fn list_paginated_fine_tuning_jobs<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::ListPaginatedFineTuningJobsParams,
 ) -> ListPaginatedFineTuningJobs<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ListPaginatedFineTuningJobs(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -2810,18 +2810,18 @@ future!(
     crate::__types::ListPaginatedFineTuningJobsResponse
 );
 #[doc = "Get info about a fine-tuning job.\n\n[Learn more about fine-tuning](https://platform.openai.com/docs/guides/model-optimization)\n"]
-pub fn retrieve_fine_tuning_job<S, Fut, B, E>(
-    service: S,
+pub fn retrieve_fine_tuning_job<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::RetrieveFineTuningJobParams,
 ) -> RetrieveFineTuningJob<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     RetrieveFineTuningJob(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -2870,18 +2870,18 @@ future!(
     crate::__types::FineTuningJob
 );
 #[doc = "Immediately cancel a fine-tune job.\n"]
-pub fn cancel_fine_tuning_job<S, Fut, B, E>(
-    service: S,
+pub fn cancel_fine_tuning_job<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::CancelFineTuningJobParams,
 ) -> CancelFineTuningJob<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     CancelFineTuningJob(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -2930,18 +2930,18 @@ future!(
     crate::__types::FineTuningJob
 );
 #[doc = "List checkpoints for a fine-tuning job.\n"]
-pub fn list_fine_tuning_job_checkpoints<S, Fut, B, E>(
-    service: S,
+pub fn list_fine_tuning_job_checkpoints<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::ListFineTuningJobCheckpointsParams,
 ) -> ListFineTuningJobCheckpoints<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ListFineTuningJobCheckpoints(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -3005,18 +3005,18 @@ future!(
     crate::__types::ListFineTuningJobCheckpointsResponse
 );
 #[doc = "Get status updates for a fine-tuning job.\n"]
-pub fn list_fine_tuning_events<S, Fut, B, E>(
-    service: S,
+pub fn list_fine_tuning_events<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::ListFineTuningEventsParams,
 ) -> ListFineTuningEvents<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ListFineTuningEvents(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -3076,18 +3076,18 @@ future!(
     crate::__types::ListFineTuningJobEventsResponse
 );
 #[doc = "Pause a fine-tune job.\n"]
-pub fn pause_fine_tuning_job<S, Fut, B, E>(
-    service: S,
+pub fn pause_fine_tuning_job<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::PauseFineTuningJobParams,
 ) -> PauseFineTuningJob<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     PauseFineTuningJob(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -3136,18 +3136,18 @@ future!(
     crate::__types::FineTuningJob
 );
 #[doc = "Resume a fine-tune job.\n"]
-pub fn resume_fine_tuning_job<S, Fut, B, E>(
-    service: S,
+pub fn resume_fine_tuning_job<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::ResumeFineTuningJobParams,
 ) -> ResumeFineTuningJob<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ResumeFineTuningJob(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -3196,18 +3196,18 @@ future!(
     crate::__types::FineTuningJob
 );
 #[doc = "Creates an image given a prompt. [Learn more](https://platform.openai.com/docs/guides/images).\n"]
-pub fn create_image<S, Fut, B, E>(
-    service: S,
+pub fn create_image<C, Fut, B, E>(
+    client: C,
     request: &crate::__types::CreateImageRequest,
 ) -> CreateImage<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     CreateImage(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = "/images/generations";
                 let body = serde_json::to_string(request)?;
@@ -3236,15 +3236,15 @@ future!(
     crate::__types::ImagesResponse
 );
 #[doc = "Lists the currently available models, and provides basic information about each one such as the owner and availability."]
-pub fn list_models<S, Fut, B, E>(service: S) -> ListModels<Fut, B, E>
+pub fn list_models<C, Fut, B, E>(client: C) -> ListModels<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ListModels(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = "/models";
                 let body = String::new();
@@ -3274,18 +3274,18 @@ future!(
     crate::__types::ListModelsResponse
 );
 #[doc = "Retrieves a model instance, providing basic information about the model such as the owner and permissioning."]
-pub fn retrieve_model<S, Fut, B, E>(
-    service: S,
+pub fn retrieve_model<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::RetrieveModelParams,
 ) -> RetrieveModel<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     RetrieveModel(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -3331,18 +3331,18 @@ future!(
     crate::__types::Model
 );
 #[doc = "Delete a fine-tuned model. You must have the Owner role in your organization to delete a model."]
-pub fn delete_model<S, Fut, B, E>(
-    service: S,
+pub fn delete_model<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::DeleteModelParams,
 ) -> DeleteModel<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     DeleteModel(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -3390,18 +3390,18 @@ future!(
     crate::__types::DeleteModelResponse
 );
 #[doc = "Classifies if text and/or image inputs are potentially harmful. Learn\nmore in the [moderation guide](https://platform.openai.com/docs/guides/moderation).\n"]
-pub fn create_moderation<S, Fut, B, E>(
-    service: S,
+pub fn create_moderation<C, Fut, B, E>(
+    client: C,
     request: &crate::__types::CreateModerationRequest,
 ) -> CreateModeration<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     CreateModeration(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = "/moderations";
                 let body = serde_json::to_string(request)?;
@@ -3432,18 +3432,18 @@ future!(
     crate::__types::CreateModerationResponse
 );
 #[doc = "List organization API keys"]
-pub fn admin_api_keys_list<S, Fut, B, E>(
-    service: S,
+pub fn admin_api_keys_list<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::AdminApiKeysListParams,
 ) -> AdminApiKeysList<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     AdminApiKeysList(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -3506,18 +3506,18 @@ future!(
     crate::__types::ApiKeyList
 );
 #[doc = "Create an organization admin API key"]
-pub fn admin_api_keys_create<S, Fut, B, E>(
-    service: S,
+pub fn admin_api_keys_create<C, Fut, B, E>(
+    client: C,
     request: &crate::__types::AdminApiKeysCreateRequest,
 ) -> AdminApiKeysCreate<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     AdminApiKeysCreate(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = "/organization/admin_api_keys";
                 let body = serde_json::to_string(request)?;
@@ -3546,18 +3546,18 @@ future!(
     crate::__types::AdminApiKey
 );
 #[doc = "Retrieve a single organization API key"]
-pub fn admin_api_keys_get<S, Fut, B, E>(
-    service: S,
+pub fn admin_api_keys_get<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::AdminApiKeysGetParams,
 ) -> AdminApiKeysGet<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     AdminApiKeysGet(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -3606,18 +3606,18 @@ future!(
     crate::__types::AdminApiKey
 );
 #[doc = "Delete an organization admin API key"]
-pub fn admin_api_keys_delete<S, Fut, B, E>(
-    service: S,
+pub fn admin_api_keys_delete<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::AdminApiKeysDeleteParams,
 ) -> AdminApiKeysDelete<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     AdminApiKeysDelete(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -3668,18 +3668,18 @@ future!(
     crate::__types::AdminApiKeysDeleteResponse
 );
 #[doc = "List user actions and configuration changes within this organization."]
-pub fn list_audit_logs<S, Fut, B, E>(
-    service: S,
+pub fn list_audit_logs<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::ListAuditLogsParams,
 ) -> ListAuditLogs<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ListAuditLogs(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -3774,18 +3774,18 @@ future!(
     crate::__types::ListAuditLogsResponse
 );
 #[doc = "List uploaded certificates for this organization."]
-pub fn list_organization_certificates<S, Fut, B, E>(
-    service: S,
+pub fn list_organization_certificates<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::ListOrganizationCertificatesParams,
 ) -> ListOrganizationCertificates<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ListOrganizationCertificates(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -3850,18 +3850,18 @@ future!(
     crate::__types::ListCertificatesResponse
 );
 #[doc = "Upload a certificate to the organization. This does **not** automatically activate the certificate.\n\nOrganizations can upload up to 50 certificates.\n"]
-pub fn upload_certificate<S, Fut, B, E>(
-    service: S,
+pub fn upload_certificate<C, Fut, B, E>(
+    client: C,
     request: &crate::__types::UploadCertificateRequest,
 ) -> UploadCertificate<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     UploadCertificate(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = "/organization/certificates";
                 let body = serde_json::to_string(request)?;
@@ -3890,18 +3890,18 @@ future!(
     crate::__types::Certificate
 );
 #[doc = "Activate certificates at the organization level.\n\nYou can atomically and idempotently activate up to 10 certificates at a time.\n"]
-pub fn activate_organization_certificates<S, Fut, B, E>(
-    service: S,
+pub fn activate_organization_certificates<C, Fut, B, E>(
+    client: C,
     request: &crate::__types::ToggleCertificatesRequest,
 ) -> ActivateOrganizationCertificates<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ActivateOrganizationCertificates(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = "/organization/certificates/activate";
                 let body = serde_json::to_string(request)?;
@@ -3932,18 +3932,18 @@ future!(
     crate::__types::ListCertificatesResponse
 );
 #[doc = "Deactivate certificates at the organization level.\n\nYou can atomically and idempotently deactivate up to 10 certificates at a time.\n"]
-pub fn deactivate_organization_certificates<S, Fut, B, E>(
-    service: S,
+pub fn deactivate_organization_certificates<C, Fut, B, E>(
+    client: C,
     request: &crate::__types::ToggleCertificatesRequest,
 ) -> DeactivateOrganizationCertificates<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     DeactivateOrganizationCertificates(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = "/organization/certificates/deactivate";
                 let body = serde_json::to_string(request)?;
@@ -3974,18 +3974,18 @@ future!(
     crate::__types::ListCertificatesResponse
 );
 #[doc = "Get a certificate that has been uploaded to the organization.\n\nYou can get a certificate regardless of whether it is active or not.\n"]
-pub fn get_certificate<S, Fut, B, E>(
-    service: S,
+pub fn get_certificate<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::GetCertificateParams,
 ) -> GetCertificate<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     GetCertificate(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -4038,18 +4038,18 @@ future!(
     crate::__types::Certificate
 );
 #[doc = "Modify a certificate. Note that only the name can be modified.\n"]
-pub fn modify_certificate<S, Fut, B, E>(
-    service: S,
+pub fn modify_certificate<C, Fut, B, E>(
+    client: C,
     request: &crate::__types::ModifyCertificateRequest,
 ) -> ModifyCertificate<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ModifyCertificate(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = "/organization/certificates/{certificate_id}";
                 let body = serde_json::to_string(request)?;
@@ -4078,15 +4078,15 @@ future!(
     crate::__types::Certificate
 );
 #[doc = "Delete a certificate from the organization.\n\nThe certificate must be inactive for the organization and all projects.\n"]
-pub fn delete_certificate<S, Fut, B, E>(service: S) -> DeleteCertificate<Fut, B, E>
+pub fn delete_certificate<C, Fut, B, E>(client: C) -> DeleteCertificate<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     DeleteCertificate(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = "/organization/certificates/{certificate_id}";
                 let body = String::new();
@@ -4116,18 +4116,18 @@ future!(
     crate::__types::DeleteCertificateResponse
 );
 #[doc = "Get costs details for the organization."]
-pub fn usage_costs<S, Fut, B, E>(
-    service: S,
+pub fn usage_costs<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::UsageCostsParams,
 ) -> UsageCosts<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     UsageCosts(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -4209,18 +4209,18 @@ future!(
     crate::__types::UsageResponse
 );
 #[doc = "Returns a list of invites in the organization."]
-pub fn list_invites<S, Fut, B, E>(
-    service: S,
+pub fn list_invites<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::ListInvitesParams,
 ) -> ListInvites<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ListInvites(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -4276,18 +4276,18 @@ future!(
     crate::__types::InviteListResponse
 );
 #[doc = "Create an invite for a user to the organization. The invite must be accepted by the user before they have access to the organization."]
-pub fn invite_user<S, Fut, B, E>(
-    service: S,
+pub fn invite_user<C, Fut, B, E>(
+    client: C,
     request: &crate::__types::InviteRequest,
 ) -> InviteUser<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     InviteUser(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = "/organization/invites";
                 let body = serde_json::to_string(request)?;
@@ -4316,18 +4316,18 @@ future!(
     crate::__types::Invite
 );
 #[doc = "Retrieves an invite."]
-pub fn retrieve_invite<S, Fut, B, E>(
-    service: S,
+pub fn retrieve_invite<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::RetrieveInviteParams,
 ) -> RetrieveInvite<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     RetrieveInvite(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -4376,18 +4376,18 @@ future!(
     crate::__types::Invite
 );
 #[doc = "Delete an invite. If the invite has already been accepted, it cannot be deleted."]
-pub fn delete_invite<S, Fut, B, E>(
-    service: S,
+pub fn delete_invite<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::DeleteInviteParams,
 ) -> DeleteInvite<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     DeleteInvite(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -4438,18 +4438,18 @@ future!(
     crate::__types::InviteDeleteResponse
 );
 #[doc = "Returns a list of projects."]
-pub fn list_projects<S, Fut, B, E>(
-    service: S,
+pub fn list_projects<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::ListProjectsParams,
 ) -> ListProjects<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ListProjects(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -4514,18 +4514,18 @@ future!(
     crate::__types::ProjectListResponse
 );
 #[doc = "Create a new project in the organization. Projects can be created and archived, but cannot be deleted."]
-pub fn create_project<S, Fut, B, E>(
-    service: S,
+pub fn create_project<C, Fut, B, E>(
+    client: C,
     request: &crate::__types::ProjectCreateRequest,
 ) -> CreateProject<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     CreateProject(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = "/organization/projects";
                 let body = serde_json::to_string(request)?;
@@ -4554,18 +4554,18 @@ future!(
     crate::__types::Project
 );
 #[doc = "Retrieves a project."]
-pub fn retrieve_project<S, Fut, B, E>(
-    service: S,
+pub fn retrieve_project<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::RetrieveProjectParams,
 ) -> RetrieveProject<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     RetrieveProject(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -4614,19 +4614,19 @@ future!(
     crate::__types::Project
 );
 #[doc = "Modifies a project in the organization."]
-pub fn modify_project<S, Fut, B, E>(
-    service: S,
+pub fn modify_project<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::ModifyProjectParams,
     request: &crate::__types::ProjectUpdateRequest,
 ) -> ModifyProject<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ModifyProject(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -4676,18 +4676,18 @@ future!(
     crate::__types::Project
 );
 #[doc = "Returns a list of API keys in the project."]
-pub fn list_project_api_keys<S, Fut, B, E>(
-    service: S,
+pub fn list_project_api_keys<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::ListProjectApiKeysParams,
 ) -> ListProjectApiKeys<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ListProjectApiKeys(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -4746,18 +4746,18 @@ future!(
     crate::__types::ProjectApiKeyListResponse
 );
 #[doc = "Retrieves an API key in the project."]
-pub fn retrieve_project_api_key<S, Fut, B, E>(
-    service: S,
+pub fn retrieve_project_api_key<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::RetrieveProjectApiKeyParams,
 ) -> RetrieveProjectApiKey<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     RetrieveProjectApiKey(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -4807,18 +4807,18 @@ future!(
     crate::__types::ProjectApiKey
 );
 #[doc = "Deletes an API key from the project."]
-pub fn delete_project_api_key<S, Fut, B, E>(
-    service: S,
+pub fn delete_project_api_key<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::DeleteProjectApiKeyParams,
 ) -> DeleteProjectApiKey<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     DeleteProjectApiKey(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -4871,18 +4871,18 @@ future!(
     crate::__types::ProjectApiKeyDeleteResponse
 );
 #[doc = "Archives a project in the organization. Archived projects cannot be used or updated."]
-pub fn archive_project<S, Fut, B, E>(
-    service: S,
+pub fn archive_project<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::ArchiveProjectParams,
 ) -> ArchiveProject<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ArchiveProject(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -4931,18 +4931,18 @@ future!(
     crate::__types::Project
 );
 #[doc = "List certificates for this project."]
-pub fn list_project_certificates<S, Fut, B, E>(
-    service: S,
+pub fn list_project_certificates<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::ListProjectCertificatesParams,
 ) -> ListProjectCertificates<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ListProjectCertificates(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -5010,19 +5010,19 @@ future!(
     crate::__types::ListCertificatesResponse
 );
 #[doc = "Activate certificates at the project level.\n\nYou can atomically and idempotently activate up to 10 certificates at a time.\n"]
-pub fn activate_project_certificates<S, Fut, B, E>(
-    service: S,
+pub fn activate_project_certificates<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::ActivateProjectCertificatesParams,
     request: &crate::__types::ToggleCertificatesRequest,
 ) -> ActivateProjectCertificates<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ActivateProjectCertificates(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -5074,19 +5074,19 @@ future!(
     crate::__types::ListCertificatesResponse
 );
 #[doc = "Deactivate certificates at the project level. You can atomically and \nidempotently deactivate up to 10 certificates at a time.\n"]
-pub fn deactivate_project_certificates<S, Fut, B, E>(
-    service: S,
+pub fn deactivate_project_certificates<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::DeactivateProjectCertificatesParams,
     request: &crate::__types::ToggleCertificatesRequest,
 ) -> DeactivateProjectCertificates<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     DeactivateProjectCertificates(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -5138,18 +5138,18 @@ future!(
     crate::__types::ListCertificatesResponse
 );
 #[doc = "Returns the rate limits per model for a project."]
-pub fn list_project_rate_limits<S, Fut, B, E>(
-    service: S,
+pub fn list_project_rate_limits<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::ListProjectRateLimitsParams,
 ) -> ListProjectRateLimits<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ListProjectRateLimits(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -5218,19 +5218,19 @@ future!(
     crate::__types::ProjectRateLimitListResponse
 );
 #[doc = "Updates a project rate limit."]
-pub fn update_project_rate_limits<S, Fut, B, E>(
-    service: S,
+pub fn update_project_rate_limits<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::UpdateProjectRateLimitsParams,
     request: &crate::__types::ProjectRateLimitUpdateRequest,
 ) -> UpdateProjectRateLimits<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     UpdateProjectRateLimits(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -5281,18 +5281,18 @@ future!(
     crate::__types::ProjectRateLimit
 );
 #[doc = "Returns a list of service accounts in the project."]
-pub fn list_project_service_accounts<S, Fut, B, E>(
-    service: S,
+pub fn list_project_service_accounts<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::ListProjectServiceAccountsParams,
 ) -> ListProjectServiceAccounts<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ListProjectServiceAccounts(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -5353,19 +5353,19 @@ future!(
     crate::__types::ProjectServiceAccountListResponse
 );
 #[doc = "Creates a new service account in the project. This also returns an unredacted API key for the service account."]
-pub fn create_project_service_account<S, Fut, B, E>(
-    service: S,
+pub fn create_project_service_account<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::CreateProjectServiceAccountParams,
     request: &crate::__types::ProjectServiceAccountCreateRequest,
 ) -> CreateProjectServiceAccount<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     CreateProjectServiceAccount(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -5418,18 +5418,18 @@ future!(
     crate::__types::ProjectServiceAccountCreateResponse
 );
 #[doc = "Retrieves a service account in the project."]
-pub fn retrieve_project_service_account<S, Fut, B, E>(
-    service: S,
+pub fn retrieve_project_service_account<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::RetrieveProjectServiceAccountParams,
 ) -> RetrieveProjectServiceAccount<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     RetrieveProjectServiceAccount(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -5481,18 +5481,18 @@ future!(
     crate::__types::ProjectServiceAccount
 );
 #[doc = "Deletes a service account from the project."]
-pub fn delete_project_service_account<S, Fut, B, E>(
-    service: S,
+pub fn delete_project_service_account<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::DeleteProjectServiceAccountParams,
 ) -> DeleteProjectServiceAccount<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     DeleteProjectServiceAccount(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -5545,18 +5545,18 @@ future!(
     crate::__types::ProjectServiceAccountDeleteResponse
 );
 #[doc = "Returns a list of users in the project."]
-pub fn list_project_users<S, Fut, B, E>(
-    service: S,
+pub fn list_project_users<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::ListProjectUsersParams,
 ) -> ListProjectUsers<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ListProjectUsers(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -5615,19 +5615,19 @@ future!(
     crate::__types::ProjectUserListResponse
 );
 #[doc = "Adds a user to the project. Users must already be members of the organization to be added to a project."]
-pub fn create_project_user<S, Fut, B, E>(
-    service: S,
+pub fn create_project_user<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::CreateProjectUserParams,
     request: &crate::__types::ProjectUserCreateRequest,
 ) -> CreateProjectUser<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     CreateProjectUser(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -5677,18 +5677,18 @@ future!(
     crate::__types::ProjectUser
 );
 #[doc = "Retrieves a user in the project."]
-pub fn retrieve_project_user<S, Fut, B, E>(
-    service: S,
+pub fn retrieve_project_user<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::RetrieveProjectUserParams,
 ) -> RetrieveProjectUser<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     RetrieveProjectUser(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -5738,19 +5738,19 @@ future!(
     crate::__types::ProjectUser
 );
 #[doc = "Modifies a user's role in the project."]
-pub fn modify_project_user<S, Fut, B, E>(
-    service: S,
+pub fn modify_project_user<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::ModifyProjectUserParams,
     request: &crate::__types::ProjectUserUpdateRequest,
 ) -> ModifyProjectUser<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ModifyProjectUser(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -5801,18 +5801,18 @@ future!(
     crate::__types::ProjectUser
 );
 #[doc = "Deletes a user from the project."]
-pub fn delete_project_user<S, Fut, B, E>(
-    service: S,
+pub fn delete_project_user<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::DeleteProjectUserParams,
 ) -> DeleteProjectUser<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     DeleteProjectUser(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -5864,18 +5864,18 @@ future!(
     crate::__types::ProjectUserDeleteResponse
 );
 #[doc = "Get audio speeches usage details for the organization."]
-pub fn usage_audio_speeches<S, Fut, B, E>(
-    service: S,
+pub fn usage_audio_speeches<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::UsageAudioSpeechesParams,
 ) -> UsageAudioSpeeches<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     UsageAudioSpeeches(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -5973,18 +5973,18 @@ future!(
     crate::__types::UsageResponse
 );
 #[doc = "Get audio transcriptions usage details for the organization."]
-pub fn usage_audio_transcriptions<S, Fut, B, E>(
-    service: S,
+pub fn usage_audio_transcriptions<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::UsageAudioTranscriptionsParams,
 ) -> UsageAudioTranscriptions<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     UsageAudioTranscriptions(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -6083,18 +6083,18 @@ future!(
     crate::__types::UsageResponse
 );
 #[doc = "Get code interpreter sessions usage details for the organization."]
-pub fn usage_code_interpreter_sessions<S, Fut, B, E>(
-    service: S,
+pub fn usage_code_interpreter_sessions<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::UsageCodeInterpreterSessionsParams,
 ) -> UsageCodeInterpreterSessions<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     UsageCodeInterpreterSessions(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -6180,18 +6180,18 @@ future!(
     crate::__types::UsageResponse
 );
 #[doc = "Get completions usage details for the organization."]
-pub fn usage_completions<S, Fut, B, E>(
-    service: S,
+pub fn usage_completions<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::UsageCompletionsParams,
 ) -> UsageCompletions<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     UsageCompletions(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -6293,18 +6293,18 @@ future!(
     crate::__types::UsageResponse
 );
 #[doc = "Get embeddings usage details for the organization."]
-pub fn usage_embeddings<S, Fut, B, E>(
-    service: S,
+pub fn usage_embeddings<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::UsageEmbeddingsParams,
 ) -> UsageEmbeddings<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     UsageEmbeddings(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -6401,18 +6401,18 @@ future!(
     crate::__types::UsageResponse
 );
 #[doc = "Get images usage details for the organization."]
-pub fn usage_images<S, Fut, B, E>(
-    service: S,
+pub fn usage_images<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::UsageImagesParams,
 ) -> UsageImages<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     UsageImages(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -6519,18 +6519,18 @@ future!(
     crate::__types::UsageResponse
 );
 #[doc = "Get moderations usage details for the organization."]
-pub fn usage_moderations<S, Fut, B, E>(
-    service: S,
+pub fn usage_moderations<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::UsageModerationsParams,
 ) -> UsageModerations<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     UsageModerations(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -6627,18 +6627,18 @@ future!(
     crate::__types::UsageResponse
 );
 #[doc = "Get vector stores usage details for the organization."]
-pub fn usage_vector_stores<S, Fut, B, E>(
-    service: S,
+pub fn usage_vector_stores<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::UsageVectorStoresParams,
 ) -> UsageVectorStores<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     UsageVectorStores(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -6721,18 +6721,18 @@ future!(
     crate::__types::UsageResponse
 );
 #[doc = "Lists all of the users in the organization."]
-pub fn list_users<S, Fut, B, E>(
-    service: S,
+pub fn list_users<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::ListUsersParams,
 ) -> ListUsers<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ListUsers(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -6795,18 +6795,18 @@ future!(
     crate::__types::UserListResponse
 );
 #[doc = "Retrieves a user by their identifier."]
-pub fn retrieve_user<S, Fut, B, E>(
-    service: S,
+pub fn retrieve_user<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::RetrieveUserParams,
 ) -> RetrieveUser<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     RetrieveUser(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -6853,19 +6853,19 @@ future!(
     crate::__types::User
 );
 #[doc = "Modifies a user's role in the organization."]
-pub fn modify_user<S, Fut, B, E>(
-    service: S,
+pub fn modify_user<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::ModifyUserParams,
     request: &crate::__types::UserRoleUpdateRequest,
 ) -> ModifyUser<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ModifyUser(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -6913,18 +6913,18 @@ future!(
     crate::__types::User
 );
 #[doc = "Deletes a user from the organization."]
-pub fn delete_user<S, Fut, B, E>(
-    service: S,
+pub fn delete_user<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::DeleteUserParams,
 ) -> DeleteUser<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     DeleteUser(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -6973,18 +6973,18 @@ future!(
     crate::__types::UserDeleteResponse
 );
 #[doc = "Create an ephemeral API token for use in client-side applications with the\nRealtime API. Can be configured with the same session parameters as the\n`session.update` client event.\n\nIt responds with a session object, plus a `client_secret` key which contains\na usable ephemeral API token that can be used to authenticate browser clients\nfor the Realtime API.\n"]
-pub fn create_realtime_session<S, Fut, B, E>(
-    service: S,
+pub fn create_realtime_session<C, Fut, B, E>(
+    client: C,
     request: &crate::__types::RealtimeSessionCreateRequest,
 ) -> CreateRealtimeSession<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     CreateRealtimeSession(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = "/realtime/sessions";
                 let body = serde_json::to_string(request)?;
@@ -7016,18 +7016,18 @@ future!(
     crate::__types::RealtimeSessionCreateResponse
 );
 #[doc = "Create an ephemeral API token for use in client-side applications with the\nRealtime API specifically for realtime transcriptions. \nCan be configured with the same session parameters as the `transcription_session.update` client event.\n\nIt responds with a session object, plus a `client_secret` key which contains\na usable ephemeral API token that can be used to authenticate browser clients\nfor the Realtime API.\n"]
-pub fn create_realtime_transcription_session<S, Fut, B, E>(
-    service: S,
+pub fn create_realtime_transcription_session<C, Fut, B, E>(
+    client: C,
     request: &crate::__types::RealtimeTranscriptionSessionCreateRequest,
 ) -> CreateRealtimeTranscriptionSession<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     CreateRealtimeTranscriptionSession(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = "/realtime/transcription_sessions";
                 let body = serde_json::to_string(request)?;
@@ -7066,18 +7066,18 @@ future!(
     crate::__types::RealtimeTranscriptionSessionCreateResponse
 );
 #[doc = "Creates a model response. Provide [text](https://platform.openai.com/docs/guides/text) or\n[image](https://platform.openai.com/docs/guides/images) inputs to generate [text](https://platform.openai.com/docs/guides/text)\nor [JSON](https://platform.openai.com/docs/guides/structured-outputs) outputs. Have the model call\nyour own [custom code](https://platform.openai.com/docs/guides/function-calling) or use built-in\n[tools](https://platform.openai.com/docs/guides/tools) like [web search](https://platform.openai.com/docs/guides/tools-web-search)\nor [file search](https://platform.openai.com/docs/guides/tools-file-search) to use your own data\nas input for the model's response.\n"]
-pub fn create_response<S, Fut, B, E>(
-    service: S,
+pub fn create_response<C, Fut, B, E>(
+    client: C,
     request: &crate::__types::CreateResponse,
 ) -> CreateResponse<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     CreateResponse(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = "/responses";
                 let body = serde_json::to_string(request)?;
@@ -7106,18 +7106,18 @@ future!(
     crate::__types::Response
 );
 #[doc = "Creates a model response. Provide [text](https://platform.openai.com/docs/guides/text) or\n[image](https://platform.openai.com/docs/guides/images) inputs to generate [text](https://platform.openai.com/docs/guides/text)\nor [JSON](https://platform.openai.com/docs/guides/structured-outputs) outputs. Have the model call\nyour own [custom code](https://platform.openai.com/docs/guides/function-calling) or use built-in\n[tools](https://platform.openai.com/docs/guides/tools) like [web search](https://platform.openai.com/docs/guides/tools-web-search)\nor [file search](https://platform.openai.com/docs/guides/tools-file-search) to use your own data\nas input for the model's response.\n"]
-pub fn create_response_stream<S, Fut, B, E>(
-    service: S,
+pub fn create_response_stream<C, Fut, B, E>(
+    client: C,
     request: &crate::__types::CreateResponse,
 ) -> CreateResponseStream<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     CreateResponseStream(futures::TryFutureExt::map_ok(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = "/responses";
                 let body = serde_json::to_string(request)?;
@@ -7138,18 +7138,18 @@ where
 }
 future ! (CreateResponseStream , futures :: future :: MapOk < crate :: __combinators :: Send < Fut , B , E > , fn (http :: Response < B >) -> crate :: __combinators :: EventStream < B , crate :: __types :: ResponseStreamEvent > , > , crate :: __combinators :: EventStream < B , crate :: __types :: ResponseStreamEvent >);
 #[doc = "Retrieves a model response with the given ID.\n"]
-pub fn get_response<S, Fut, B, E>(
-    service: S,
+pub fn get_response<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::GetResponseParams,
 ) -> GetResponse<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     GetResponse(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -7213,18 +7213,18 @@ future!(
     crate::__types::Response
 );
 #[doc = "Cancels a model response with the given ID. Only responses created with\nthe `background` parameter set to `true` can be cancelled. \n[Learn more](https://platform.openai.com/docs/guides/background).\n"]
-pub fn cancel_response<S, Fut, B, E>(
-    service: S,
+pub fn cancel_response<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::CancelResponseParams,
 ) -> CancelResponse<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     CancelResponse(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -7273,18 +7273,18 @@ future!(
     crate::__types::Response
 );
 #[doc = "Returns a list of input items for a given response."]
-pub fn list_input_items<S, Fut, B, E>(
-    service: S,
+pub fn list_input_items<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::ListInputItemsParams,
 ) -> ListInputItems<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ListInputItems(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -7360,18 +7360,18 @@ future!(
     crate::__types::ResponseItemList
 );
 #[doc = "Create a thread and run it in one request."]
-pub fn create_thread_and_run<S, Fut, B, E>(
-    service: S,
+pub fn create_thread_and_run<C, Fut, B, E>(
+    client: C,
     request: &crate::__types::CreateThreadAndRunRequest,
 ) -> CreateThreadAndRun<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     CreateThreadAndRun(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = "/threads/runs";
                 let body = serde_json::to_string(request)?;
@@ -7400,18 +7400,18 @@ future!(
     crate::__types::RunObject
 );
 #[doc = "Retrieves a thread."]
-pub fn get_thread<S, Fut, B, E>(
-    service: S,
+pub fn get_thread<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::GetThreadParams,
 ) -> GetThread<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     GetThread(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -7457,19 +7457,19 @@ future!(
     crate::__types::ThreadObject
 );
 #[doc = "Modifies a thread."]
-pub fn modify_thread<S, Fut, B, E>(
-    service: S,
+pub fn modify_thread<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::ModifyThreadParams,
     request: &crate::__types::ModifyThreadRequest,
 ) -> ModifyThread<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ModifyThread(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -7516,18 +7516,18 @@ future!(
     crate::__types::ThreadObject
 );
 #[doc = "Delete a thread."]
-pub fn delete_thread<S, Fut, B, E>(
-    service: S,
+pub fn delete_thread<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::DeleteThreadParams,
 ) -> DeleteThread<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     DeleteThread(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -7575,18 +7575,18 @@ future!(
     crate::__types::DeleteThreadResponse
 );
 #[doc = "Returns a list of messages for a given thread."]
-pub fn list_messages<S, Fut, B, E>(
-    service: S,
+pub fn list_messages<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::ListMessagesParams,
 ) -> ListMessages<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ListMessages(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -7664,19 +7664,19 @@ future!(
     crate::__types::ListMessagesResponse
 );
 #[doc = "Create a message."]
-pub fn create_message<S, Fut, B, E>(
-    service: S,
+pub fn create_message<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::CreateMessageParams,
     request: &crate::__types::CreateMessageRequest,
 ) -> CreateMessage<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     CreateMessage(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -7726,18 +7726,18 @@ future!(
     crate::__types::MessageObject
 );
 #[doc = "Retrieve a message."]
-pub fn get_message<S, Fut, B, E>(
-    service: S,
+pub fn get_message<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::GetMessageParams,
 ) -> GetMessage<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     GetMessage(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -7787,19 +7787,19 @@ future!(
     crate::__types::MessageObject
 );
 #[doc = "Modifies a message."]
-pub fn modify_message<S, Fut, B, E>(
-    service: S,
+pub fn modify_message<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::ModifyMessageParams,
     request: &crate::__types::ModifyMessageRequest,
 ) -> ModifyMessage<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ModifyMessage(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -7850,18 +7850,18 @@ future!(
     crate::__types::MessageObject
 );
 #[doc = "Deletes a message."]
-pub fn delete_message<S, Fut, B, E>(
-    service: S,
+pub fn delete_message<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::DeleteMessageParams,
 ) -> DeleteMessage<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     DeleteMessage(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -7913,18 +7913,18 @@ future!(
     crate::__types::DeleteMessageResponse
 );
 #[doc = "Returns a list of runs belonging to a thread."]
-pub fn list_runs<S, Fut, B, E>(
-    service: S,
+pub fn list_runs<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::ListRunsParams,
 ) -> ListRuns<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ListRuns(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -7993,19 +7993,19 @@ future!(
     crate::__types::ListRunsResponse
 );
 #[doc = "Create a run."]
-pub fn create_run<S, Fut, B, E>(
-    service: S,
+pub fn create_run<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::CreateRunParams,
     request: &crate::__types::CreateRunRequest,
 ) -> CreateRun<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     CreateRun(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -8057,15 +8057,15 @@ future!(
     crate::__types::RunObject
 );
 #[doc = "Retrieves a run."]
-pub fn get_run<S, Fut, B, E>(service: S, params: &crate::__types::GetRunParams) -> GetRun<Fut, B, E>
+pub fn get_run<C, Fut, B, E>(client: C, params: &crate::__types::GetRunParams) -> GetRun<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     GetRun(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -8115,19 +8115,19 @@ future!(
     crate::__types::RunObject
 );
 #[doc = "Modifies a run."]
-pub fn modify_run<S, Fut, B, E>(
-    service: S,
+pub fn modify_run<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::ModifyRunParams,
     request: &crate::__types::ModifyRunRequest,
 ) -> ModifyRun<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ModifyRun(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -8178,18 +8178,18 @@ future!(
     crate::__types::RunObject
 );
 #[doc = "Cancels a run that is `in_progress`."]
-pub fn cancel_run<S, Fut, B, E>(
-    service: S,
+pub fn cancel_run<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::CancelRunParams,
 ) -> CancelRun<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     CancelRun(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -8239,18 +8239,18 @@ future!(
     crate::__types::RunObject
 );
 #[doc = "Returns a list of run steps belonging to a run."]
-pub fn list_run_steps<S, Fut, B, E>(
-    service: S,
+pub fn list_run_steps<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::ListRunStepsParams,
 ) -> ListRunSteps<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ListRunSteps(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -8329,18 +8329,18 @@ future!(
     crate::__types::ListRunStepsResponse
 );
 #[doc = "Retrieves a run step."]
-pub fn get_run_step<S, Fut, B, E>(
-    service: S,
+pub fn get_run_step<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::GetRunStepParams,
 ) -> GetRunStep<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     GetRunStep(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -8395,19 +8395,19 @@ future!(
     crate::__types::RunStepObject
 );
 #[doc = "When a run has the `status: \"requires_action\"` and `required_action.type` is `submit_tool_outputs`, this endpoint can be used to submit the outputs from the tool calls once they're all completed. All outputs must be submitted in a single request.\n"]
-pub fn submit_tool_ouputs_to_run<S, Fut, B, E>(
-    service: S,
+pub fn submit_tool_ouputs_to_run<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::SubmitToolOuputsToRunParams,
     request: &crate::__types::SubmitToolOutputsRunRequest,
 ) -> SubmitToolOuputsToRun<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     SubmitToolOuputsToRun(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -8458,18 +8458,18 @@ future!(
     crate::__types::RunObject
 );
 #[doc = "Creates an intermediate [Upload](https://platform.openai.com/docs/api-reference/uploads/object) object\nthat you can add [Parts](https://platform.openai.com/docs/api-reference/uploads/part-object) to.\nCurrently, an Upload can accept at most 8 GB in total and expires after an\nhour after you create it.\n\nOnce you complete the Upload, we will create a\n[File](https://platform.openai.com/docs/api-reference/files/object) object that contains all the parts\nyou uploaded. This File is usable in the rest of our platform as a regular\nFile object.\n\nFor certain `purpose` values, the correct `mime_type` must be specified. \nPlease refer to documentation for the \n[supported MIME types for your use case](https://platform.openai.com/docs/assistants/tools/file-search#supported-files).\n\nFor guidance on the proper filename extensions for each purpose, please\nfollow the documentation on [creating a\nFile](https://platform.openai.com/docs/api-reference/files/create).\n"]
-pub fn create_upload<S, Fut, B, E>(
-    service: S,
+pub fn create_upload<C, Fut, B, E>(
+    client: C,
     request: &crate::__types::CreateUploadRequest,
 ) -> CreateUpload<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     CreateUpload(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = "/uploads";
                 let body = serde_json::to_string(request)?;
@@ -8498,18 +8498,18 @@ future!(
     crate::__types::Upload
 );
 #[doc = "Cancels the Upload. No Parts may be added after an Upload is cancelled.\n"]
-pub fn cancel_upload<S, Fut, B, E>(
-    service: S,
+pub fn cancel_upload<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::CancelUploadParams,
 ) -> CancelUpload<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     CancelUpload(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -8556,19 +8556,19 @@ future!(
     crate::__types::Upload
 );
 #[doc = "Completes the [Upload](https://platform.openai.com/docs/api-reference/uploads/object). \n\nWithin the returned Upload object, there is a nested [File](https://platform.openai.com/docs/api-reference/files/object) object that is ready to use in the rest of the platform.\n\nYou can specify the order of the Parts by passing in an ordered list of the Part IDs.\n\nThe number of bytes uploaded upon completion must match the number of bytes initially specified when creating the Upload object. No Parts may be added after an Upload is completed.\n"]
-pub fn complete_upload<S, Fut, B, E>(
-    service: S,
+pub fn complete_upload<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::CompleteUploadParams,
     request: &crate::__types::CompleteUploadRequest,
 ) -> CompleteUpload<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     CompleteUpload(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -8618,18 +8618,18 @@ future!(
     crate::__types::Upload
 );
 #[doc = "Returns a list of vector stores."]
-pub fn list_vector_stores<S, Fut, B, E>(
-    service: S,
+pub fn list_vector_stores<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::ListVectorStoresParams,
 ) -> ListVectorStores<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ListVectorStores(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -8699,18 +8699,18 @@ future!(
     crate::__types::ListVectorStoresResponse
 );
 #[doc = "Create a vector store."]
-pub fn create_vector_store<S, Fut, B, E>(
-    service: S,
+pub fn create_vector_store<C, Fut, B, E>(
+    client: C,
     request: &crate::__types::CreateVectorStoreRequest,
 ) -> CreateVectorStore<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     CreateVectorStore(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = "/vector_stores";
                 let body = serde_json::to_string(request)?;
@@ -8741,18 +8741,18 @@ future!(
     crate::__types::VectorStoreObject
 );
 #[doc = "Retrieves a vector store."]
-pub fn get_vector_store<S, Fut, B, E>(
-    service: S,
+pub fn get_vector_store<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::GetVectorStoreParams,
 ) -> GetVectorStore<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     GetVectorStore(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -8803,19 +8803,19 @@ future!(
     crate::__types::VectorStoreObject
 );
 #[doc = "Modifies a vector store."]
-pub fn modify_vector_store<S, Fut, B, E>(
-    service: S,
+pub fn modify_vector_store<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::ModifyVectorStoreParams,
     request: &crate::__types::UpdateVectorStoreRequest,
 ) -> ModifyVectorStore<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ModifyVectorStore(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -8867,18 +8867,18 @@ future!(
     crate::__types::VectorStoreObject
 );
 #[doc = "Delete a vector store."]
-pub fn delete_vector_store<S, Fut, B, E>(
-    service: S,
+pub fn delete_vector_store<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::DeleteVectorStoreParams,
 ) -> DeleteVectorStore<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     DeleteVectorStore(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -8929,19 +8929,19 @@ future!(
     crate::__types::DeleteVectorStoreResponse
 );
 #[doc = "Create a vector store file batch."]
-pub fn create_vector_store_file_batch<S, Fut, B, E>(
-    service: S,
+pub fn create_vector_store_file_batch<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::CreateVectorStoreFileBatchParams,
     request: &crate::__types::CreateVectorStoreFileBatchRequest,
 ) -> CreateVectorStoreFileBatch<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     CreateVectorStoreFileBatch(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -8993,18 +8993,18 @@ future!(
     crate::__types::VectorStoreFileBatchObject
 );
 #[doc = "Retrieves a vector store file batch."]
-pub fn get_vector_store_file_batch<S, Fut, B, E>(
-    service: S,
+pub fn get_vector_store_file_batch<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::GetVectorStoreFileBatchParams,
 ) -> GetVectorStoreFileBatch<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     GetVectorStoreFileBatch(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -9056,18 +9056,18 @@ future!(
     crate::__types::VectorStoreFileBatchObject
 );
 #[doc = "Cancel a vector store file batch. This attempts to cancel the processing of files in this batch as soon as possible."]
-pub fn cancel_vector_store_file_batch<S, Fut, B, E>(
-    service: S,
+pub fn cancel_vector_store_file_batch<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::CancelVectorStoreFileBatchParams,
 ) -> CancelVectorStoreFileBatch<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     CancelVectorStoreFileBatch(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -9119,18 +9119,18 @@ future!(
     crate::__types::VectorStoreFileBatchObject
 );
 #[doc = "Returns a list of vector store files in a batch."]
-pub fn list_files_in_vector_store_batch<S, Fut, B, E>(
-    service: S,
+pub fn list_files_in_vector_store_batch<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::ListFilesInVectorStoreBatchParams,
 ) -> ListFilesInVectorStoreBatch<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ListFilesInVectorStoreBatch(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -9210,18 +9210,18 @@ future!(
     crate::__types::ListVectorStoreFilesResponse
 );
 #[doc = "Returns a list of vector store files."]
-pub fn list_vector_store_files<S, Fut, B, E>(
-    service: S,
+pub fn list_vector_store_files<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::ListVectorStoreFilesParams,
 ) -> ListVectorStoreFiles<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     ListVectorStoreFiles(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -9300,19 +9300,19 @@ future!(
     crate::__types::ListVectorStoreFilesResponse
 );
 #[doc = "Create a vector store file by attaching a [File](https://platform.openai.com/docs/api-reference/files) to a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object)."]
-pub fn create_vector_store_file<S, Fut, B, E>(
-    service: S,
+pub fn create_vector_store_file<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::CreateVectorStoreFileParams,
     request: &crate::__types::CreateVectorStoreFileRequest,
 ) -> CreateVectorStoreFile<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     CreateVectorStoreFile(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -9364,18 +9364,18 @@ future!(
     crate::__types::VectorStoreFileObject
 );
 #[doc = "Retrieves a vector store file."]
-pub fn get_vector_store_file<S, Fut, B, E>(
-    service: S,
+pub fn get_vector_store_file<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::GetVectorStoreFileParams,
 ) -> GetVectorStoreFile<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     GetVectorStoreFile(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -9427,18 +9427,18 @@ future!(
     crate::__types::VectorStoreFileObject
 );
 #[doc = "Delete a vector store file. This will remove the file from the vector store but the file itself will not be deleted. To delete the file, use the [delete file](https://platform.openai.com/docs/api-reference/files/delete) endpoint."]
-pub fn delete_vector_store_file<S, Fut, B, E>(
-    service: S,
+pub fn delete_vector_store_file<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::DeleteVectorStoreFileParams,
 ) -> DeleteVectorStoreFile<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     DeleteVectorStoreFile(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -9491,19 +9491,19 @@ future!(
     crate::__types::DeleteVectorStoreFileResponse
 );
 #[doc = "Update attributes on a vector store file."]
-pub fn update_vector_store_file_attributes<S, Fut, B, E>(
-    service: S,
+pub fn update_vector_store_file_attributes<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::UpdateVectorStoreFileAttributesParams,
     request: &crate::__types::UpdateVectorStoreFileAttributesRequest,
 ) -> UpdateVectorStoreFileAttributes<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     UpdateVectorStoreFileAttributes(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -9556,18 +9556,18 @@ future!(
     crate::__types::VectorStoreFileObject
 );
 #[doc = "Retrieve the parsed contents of a vector store file."]
-pub fn retrieve_vector_store_file_content<S, Fut, B, E>(
-    service: S,
+pub fn retrieve_vector_store_file_content<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::RetrieveVectorStoreFileContentParams,
 ) -> RetrieveVectorStoreFileContent<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     RetrieveVectorStoreFileContent(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
@@ -9620,19 +9620,19 @@ future!(
     crate::__types::VectorStoreFileContentResponse
 );
 #[doc = "Search a vector store for relevant chunks based on a query and file attributes filter."]
-pub fn search_vector_store<S, Fut, B, E>(
-    service: S,
+pub fn search_vector_store<C, Fut, B, E>(
+    client: C,
     params: &crate::__types::SearchVectorStoreParams,
     request: &crate::__types::VectorStoreSearchRequest,
 ) -> SearchVectorStore<Fut, B, E>
 where
-    S: FnOnce(http::Request<String>) -> Fut,
+    C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
     B: http_body::Body,
 {
     SearchVectorStore(futures::TryFutureExt::and_then(
         crate::__combinators::Send::new(
-            service,
+            client,
             || {
                 let path = {
                     #[serde_with::serde_as]
