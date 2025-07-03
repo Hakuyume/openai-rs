@@ -31,15 +31,14 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    #[allow(clippy::useless_format)]
-                    let mut path = format!("/assistants",);
                     let crate::__types::ListAssistantsParams {
                         limit,
                         order,
                         after,
                         before,
-                        ..
                     } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/assistants");
                     let query = serde_urlencoded::to_string(Query {
                         limit,
                         order,
@@ -140,12 +139,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::GetAssistantParams { assistant_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/assistants/{assistant_id}",
-                        assistant_id = params.assistant_id
-                    );
-                    let crate::__types::GetAssistantParams { .. } = params;
+                    let mut path = format!("/assistants/{assistant_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -201,12 +197,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::ModifyAssistantParams { assistant_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/assistants/{assistant_id}",
-                        assistant_id = params.assistant_id
-                    );
-                    let crate::__types::ModifyAssistantParams { .. } = params;
+                    let mut path = format!("/assistants/{assistant_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -262,12 +255,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::DeleteAssistantParams { assistant_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/assistants/{assistant_id}",
-                        assistant_id = params.assistant_id
-                    );
-                    let crate::__types::DeleteAssistantParams { .. } = params;
+                    let mut path = format!("/assistants/{assistant_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -402,9 +392,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::ListBatchesParams { after, limit } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!("/batches",);
-                    let crate::__types::ListBatchesParams { after, limit, .. } = params;
+                    let mut path = format!("/batches");
                     let query = serde_urlencoded::to_string(Query {
                         after,
                         limit,
@@ -463,9 +453,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::RetrieveBatchParams { batch_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!("/batches/{batch_id}", batch_id = params.batch_id);
-                    let crate::__types::RetrieveBatchParams { .. } = params;
+                    let mut path = format!("/batches/{batch_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -520,10 +510,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::CancelBatchParams { batch_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path =
-                        format!("/batches/{batch_id}/cancel", batch_id = params.batch_id);
-                    let crate::__types::CancelBatchParams { .. } = params;
+                    let mut path = format!("/batches/{batch_id}/cancel");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -593,16 +582,15 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    #[allow(clippy::useless_format)]
-                    let mut path = format!("/chat/completions",);
                     let crate::__types::ListChatCompletionsParams {
                         model,
                         metadata,
                         after,
                         limit,
                         order,
-                        ..
                     } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/chat/completions");
                     let query = serde_urlencoded::to_string(Query {
                         model,
                         metadata,
@@ -739,12 +727,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::GetChatCompletionParams { completion_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/chat/completions/{completion_id}",
-                        completion_id = params.completion_id
-                    );
-                    let crate::__types::GetChatCompletionParams { .. } = params;
+                    let mut path = format!("/chat/completions/{completion_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -803,12 +788,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::UpdateChatCompletionParams { completion_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/chat/completions/{completion_id}",
-                        completion_id = params.completion_id
-                    );
-                    let crate::__types::UpdateChatCompletionParams { .. } = params;
+                    let mut path = format!("/chat/completions/{completion_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -867,12 +849,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::DeleteChatCompletionParams { completion_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/chat/completions/{completion_id}",
-                        completion_id = params.completion_id
-                    );
-                    let crate::__types::DeleteChatCompletionParams { .. } = params;
+                    let mut path = format!("/chat/completions/{completion_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -938,17 +917,14 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/chat/completions/{completion_id}/messages",
-                        completion_id = params.completion_id
-                    );
                     let crate::__types::GetChatCompletionMessagesParams {
+                        completion_id,
                         after,
                         limit,
                         order,
-                        ..
                     } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/chat/completions/{completion_id}/messages");
                     let query = serde_urlencoded::to_string(Query {
                         after,
                         limit,
@@ -1059,14 +1035,13 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    #[allow(clippy::useless_format)]
-                    let mut path = format!("/containers",);
                     let crate::__types::ListContainersParams {
                         limit,
                         order,
                         after,
-                        ..
                     } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/containers");
                     let query = serde_urlencoded::to_string(Query {
                         limit,
                         order,
@@ -1126,12 +1101,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::RetrieveContainerParams { container_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/containers/{container_id}",
-                        container_id = params.container_id
-                    );
-                    let crate::__types::RetrieveContainerParams { .. } = params;
+                    let mut path = format!("/containers/{container_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -1197,17 +1169,14 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/containers/{container_id}/files",
-                        container_id = params.container_id
-                    );
                     let crate::__types::ListContainerFilesParams {
+                        container_id,
                         limit,
                         order,
                         after,
-                        ..
                     } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/containers/{container_id}/files");
                     let query = serde_urlencoded::to_string(Query {
                         limit,
                         order,
@@ -1267,13 +1236,12 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::RetrieveContainerFileParams {
+                        container_id,
+                        file_id,
+                    } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/containers/{container_id}/files/{file_id}",
-                        container_id = params.container_id,
-                        file_id = params.file_id
-                    );
-                    let crate::__types::RetrieveContainerFileParams { .. } = params;
+                    let mut path = format!("/containers/{container_id}/files/{file_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -1384,15 +1352,14 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    #[allow(clippy::useless_format)]
-                    let mut path = format!("/evals",);
                     let crate::__types::ListEvalsParams {
                         after,
                         limit,
                         order,
                         order_by,
-                        ..
                     } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/evals");
                     let query = serde_urlencoded::to_string(Query {
                         after,
                         limit,
@@ -1491,9 +1458,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::GetEvalParams { eval_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!("/evals/{eval_id}", eval_id = params.eval_id);
-                    let crate::__types::GetEvalParams { .. } = params;
+                    let mut path = format!("/evals/{eval_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -1549,9 +1516,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::UpdateEvalParams { eval_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!("/evals/{eval_id}", eval_id = params.eval_id);
-                    let crate::__types::UpdateEvalParams { .. } = params;
+                    let mut path = format!("/evals/{eval_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -1607,9 +1574,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::DeleteEvalParams { eval_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!("/evals/{eval_id}", eval_id = params.eval_id);
-                    let crate::__types::DeleteEvalParams { .. } = params;
+                    let mut path = format!("/evals/{eval_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -1678,15 +1645,15 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    #[allow(clippy::useless_format)]
-                    let mut path = format!("/evals/{eval_id}/runs", eval_id = params.eval_id);
                     let crate::__types::GetEvalRunsParams {
+                        eval_id,
                         after,
                         limit,
                         order,
                         status,
-                        ..
                     } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/evals/{eval_id}/runs");
                     let query = serde_urlencoded::to_string(Query {
                         after,
                         limit,
@@ -1746,9 +1713,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::CreateEvalRunParams { eval_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!("/evals/{eval_id}/runs", eval_id = params.eval_id);
-                    let crate::__types::CreateEvalRunParams { .. } = params;
+                    let mut path = format!("/evals/{eval_id}/runs");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -1804,13 +1771,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::GetEvalRunParams { eval_id, run_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/evals/{eval_id}/runs/{run_id}",
-                        eval_id = params.eval_id,
-                        run_id = params.run_id
-                    );
-                    let crate::__types::GetEvalRunParams { .. } = params;
+                    let mut path = format!("/evals/{eval_id}/runs/{run_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -1865,13 +1828,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::CancelEvalRunParams { eval_id, run_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/evals/{eval_id}/runs/{run_id}",
-                        eval_id = params.eval_id,
-                        run_id = params.run_id
-                    );
-                    let crate::__types::CancelEvalRunParams { .. } = params;
+                    let mut path = format!("/evals/{eval_id}/runs/{run_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -1926,13 +1885,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::DeleteEvalRunParams { eval_id, run_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/evals/{eval_id}/runs/{run_id}",
-                        eval_id = params.eval_id,
-                        run_id = params.run_id
-                    );
-                    let crate::__types::DeleteEvalRunParams { .. } = params;
+                    let mut path = format!("/evals/{eval_id}/runs/{run_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -2001,19 +1956,16 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/evals/{eval_id}/runs/{run_id}/output_items",
-                        eval_id = params.eval_id,
-                        run_id = params.run_id
-                    );
                     let crate::__types::GetEvalRunOutputItemsParams {
+                        eval_id,
+                        run_id,
                         after,
                         limit,
                         status,
                         order,
-                        ..
                     } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/evals/{eval_id}/runs/{run_id}/output_items");
                     let query = serde_urlencoded::to_string(Query {
                         after,
                         limit,
@@ -2074,14 +2026,14 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::GetEvalRunOutputItemParams {
+                        eval_id,
+                        run_id,
+                        output_item_id,
+                    } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/evals/{eval_id}/runs/{run_id}/output_items/{output_item_id}",
-                        eval_id = params.eval_id,
-                        run_id = params.run_id,
-                        output_item_id = params.output_item_id
-                    );
-                    let crate::__types::GetEvalRunOutputItemParams { .. } = params;
+                    let mut path =
+                        format!("/evals/{eval_id}/runs/{run_id}/output_items/{output_item_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -2150,15 +2102,14 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    #[allow(clippy::useless_format)]
-                    let mut path = format!("/files",);
                     let crate::__types::ListFilesParams {
                         purpose,
                         limit,
                         order,
                         after,
-                        ..
                     } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/files");
                     let query = serde_urlencoded::to_string(Query {
                         purpose,
                         limit,
@@ -2219,9 +2170,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::DeleteFileParams { file_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!("/files/{file_id}", file_id = params.file_id);
-                    let crate::__types::DeleteFileParams { .. } = params;
+                    let mut path = format!("/files/{file_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -2278,9 +2229,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::RetrieveFileParams { file_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!("/files/{file_id}", file_id = params.file_id);
-                    let crate::__types::RetrieveFileParams { .. } = params;
+                    let mut path = format!("/files/{file_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -2335,9 +2286,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::DownloadFileParams { file_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!("/files/{file_id}/content", file_id = params.file_id);
-                    let crate::__types::DownloadFileParams { .. } = params;
+                    let mut path = format!("/files/{file_id}/content");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -2490,18 +2441,17 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/fine_tuning/checkpoints/{fine_tuned_model_checkpoint}/permissions",
-                        fine_tuned_model_checkpoint = params.fine_tuned_model_checkpoint
-                    );
                     let crate::__types::ListFineTuningCheckpointPermissionsParams {
+                        fine_tuned_model_checkpoint,
                         project_id,
                         after,
                         limit,
                         order,
-                        ..
                     } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!(
+                        "/fine_tuning/checkpoints/{fine_tuned_model_checkpoint}/permissions"
+                    );
                     let query = serde_urlencoded::to_string(Query {
                         project_id,
                         after,
@@ -2571,12 +2521,13 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::CreateFineTuningCheckpointPermissionParams {
+                        fine_tuned_model_checkpoint,
+                    } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!(
-                        "/fine_tuning/checkpoints/{fine_tuned_model_checkpoint}/permissions",
-                        fine_tuned_model_checkpoint = params.fine_tuned_model_checkpoint
+                        "/fine_tuning/checkpoints/{fine_tuned_model_checkpoint}/permissions"
                     );
-                    let crate::__types::CreateFineTuningCheckpointPermissionParams { .. } = params;
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -2642,13 +2593,14 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::DeleteFineTuningCheckpointPermissionParams {
+                        fine_tuned_model_checkpoint,
+                        permission_id,
+                    } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!(
-                        "/fine_tuning/checkpoints/{fine_tuned_model_checkpoint}/permissions/{permission_id}",
-                        fine_tuned_model_checkpoint = params.fine_tuned_model_checkpoint,
-                        permission_id = params.permission_id
+                        "/fine_tuning/checkpoints/{fine_tuned_model_checkpoint}/permissions/{permission_id}"
                     );
-                    let crate::__types::DeleteFineTuningCheckpointPermissionParams { .. } = params;
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -2762,14 +2714,13 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    #[allow(clippy::useless_format)]
-                    let mut path = format!("/fine_tuning/jobs",);
                     let crate::__types::ListPaginatedFineTuningJobsParams {
                         after,
                         limit,
                         metadata,
-                        ..
                     } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/fine_tuning/jobs");
                     let query = serde_urlencoded::to_string(Query {
                         after,
                         limit,
@@ -2830,12 +2781,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::RetrieveFineTuningJobParams { fine_tuning_job_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/fine_tuning/jobs/{fine_tuning_job_id}",
-                        fine_tuning_job_id = params.fine_tuning_job_id
-                    );
-                    let crate::__types::RetrieveFineTuningJobParams { .. } = params;
+                    let mut path = format!("/fine_tuning/jobs/{fine_tuning_job_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -2890,12 +2838,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::CancelFineTuningJobParams { fine_tuning_job_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/fine_tuning/jobs/{fine_tuning_job_id}/cancel",
-                        fine_tuning_job_id = params.fine_tuning_job_id
-                    );
-                    let crate::__types::CancelFineTuningJobParams { .. } = params;
+                    let mut path = format!("/fine_tuning/jobs/{fine_tuning_job_id}/cancel");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -2956,13 +2901,13 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::ListFineTuningJobCheckpointsParams {
+                        fine_tuning_job_id,
+                        after,
+                        limit,
+                    } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/fine_tuning/jobs/{fine_tuning_job_id}/checkpoints",
-                        fine_tuning_job_id = params.fine_tuning_job_id
-                    );
-                    let crate::__types::ListFineTuningJobCheckpointsParams { after, limit, .. } =
-                        params;
+                    let mut path = format!("/fine_tuning/jobs/{fine_tuning_job_id}/checkpoints");
                     let query = serde_urlencoded::to_string(Query {
                         after,
                         limit,
@@ -3031,12 +2976,13 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::ListFineTuningEventsParams {
+                        fine_tuning_job_id,
+                        after,
+                        limit,
+                    } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/fine_tuning/jobs/{fine_tuning_job_id}/events",
-                        fine_tuning_job_id = params.fine_tuning_job_id
-                    );
-                    let crate::__types::ListFineTuningEventsParams { after, limit, .. } = params;
+                    let mut path = format!("/fine_tuning/jobs/{fine_tuning_job_id}/events");
                     let query = serde_urlencoded::to_string(Query {
                         after,
                         limit,
@@ -3096,12 +3042,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::PauseFineTuningJobParams { fine_tuning_job_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/fine_tuning/jobs/{fine_tuning_job_id}/pause",
-                        fine_tuning_job_id = params.fine_tuning_job_id
-                    );
-                    let crate::__types::PauseFineTuningJobParams { .. } = params;
+                    let mut path = format!("/fine_tuning/jobs/{fine_tuning_job_id}/pause");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -3156,12 +3099,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::ResumeFineTuningJobParams { fine_tuning_job_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/fine_tuning/jobs/{fine_tuning_job_id}/resume",
-                        fine_tuning_job_id = params.fine_tuning_job_id
-                    );
-                    let crate::__types::ResumeFineTuningJobParams { .. } = params;
+                    let mut path = format!("/fine_tuning/jobs/{fine_tuning_job_id}/resume");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -3294,9 +3234,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::RetrieveModelParams { model } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!("/models/{model}", model = params.model);
-                    let crate::__types::RetrieveModelParams { .. } = params;
+                    let mut path = format!("/models/{model}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -3351,9 +3291,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::DeleteModelParams { model } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!("/models/{model}", model = params.model);
-                    let crate::__types::DeleteModelParams { .. } = params;
+                    let mut path = format!("/models/{model}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -3461,14 +3401,13 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    #[allow(clippy::useless_format)]
-                    let mut path = format!("/organization/admin_api_keys",);
                     let crate::__types::AdminApiKeysListParams {
                         after,
                         order,
                         limit,
-                        ..
                     } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/organization/admin_api_keys");
                     let query = serde_urlencoded::to_string(Query {
                         after,
                         order,
@@ -3566,12 +3505,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::AdminApiKeysGetParams { key_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/organization/admin_api_keys/{key_id}",
-                        key_id = params.key_id
-                    );
-                    let crate::__types::AdminApiKeysGetParams { .. } = params;
+                    let mut path = format!("/organization/admin_api_keys/{key_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -3626,12 +3562,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::AdminApiKeysDeleteParams { key_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/organization/admin_api_keys/{key_id}",
-                        key_id = params.key_id
-                    );
-                    let crate::__types::AdminApiKeysDeleteParams { .. } = params;
+                    let mut path = format!("/organization/admin_api_keys/{key_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -3715,8 +3648,6 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    #[allow(clippy::useless_format)]
-                    let mut path = format!("/organization/audit_logs",);
                     let crate::__types::ListAuditLogsParams {
                         effective_at,
                         project_ids,
@@ -3727,8 +3658,9 @@ where
                         limit,
                         after,
                         before,
-                        ..
                     } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/organization/audit_logs");
                     let query = serde_urlencoded::to_string(Query {
                         effective_at,
                         project_ids,
@@ -3803,14 +3735,13 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    #[allow(clippy::useless_format)]
-                    let mut path = format!("/organization/certificates",);
                     let crate::__types::ListOrganizationCertificatesParams {
                         limit,
                         after,
                         order,
-                        ..
                     } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/organization/certificates");
                     let query = serde_urlencoded::to_string(Query {
                         limit,
                         after,
@@ -3997,12 +3928,12 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::GetCertificateParams {
+                        certificate_id,
+                        include,
+                    } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/organization/certificates/{certificate_id}",
-                        certificate_id = params.certificate_id
-                    );
-                    let crate::__types::GetCertificateParams { include, .. } = params;
+                    let mut path = format!("/organization/certificates/{certificate_id}");
                     let query = serde_urlencoded::to_string(Query {
                         include,
                         _phantom: std::marker::PhantomData,
@@ -4156,8 +4087,6 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    #[allow(clippy::useless_format)]
-                    let mut path = format!("/organization/costs",);
                     let crate::__types::UsageCostsParams {
                         start_time,
                         end_time,
@@ -4166,8 +4095,9 @@ where
                         group_by,
                         limit,
                         page,
-                        ..
                     } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/organization/costs");
                     let query = serde_urlencoded::to_string(Query {
                         start_time,
                         end_time,
@@ -4235,9 +4165,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::ListInvitesParams { limit, after } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!("/organization/invites",);
-                    let crate::__types::ListInvitesParams { limit, after, .. } = params;
+                    let mut path = format!("/organization/invites");
                     let query = serde_urlencoded::to_string(Query {
                         limit,
                         after,
@@ -4336,12 +4266,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::RetrieveInviteParams { invite_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/organization/invites/{invite_id}",
-                        invite_id = params.invite_id
-                    );
-                    let crate::__types::RetrieveInviteParams { .. } = params;
+                    let mut path = format!("/organization/invites/{invite_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -4396,12 +4323,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::DeleteInviteParams { invite_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/organization/invites/{invite_id}",
-                        invite_id = params.invite_id
-                    );
-                    let crate::__types::DeleteInviteParams { .. } = params;
+                    let mut path = format!("/organization/invites/{invite_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -4467,14 +4391,13 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    #[allow(clippy::useless_format)]
-                    let mut path = format!("/organization/projects",);
                     let crate::__types::ListProjectsParams {
                         limit,
                         after,
                         include_archived,
-                        ..
                     } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/organization/projects");
                     let query = serde_urlencoded::to_string(Query {
                         limit,
                         after,
@@ -4574,12 +4497,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::RetrieveProjectParams { project_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/organization/projects/{project_id}",
-                        project_id = params.project_id
-                    );
-                    let crate::__types::RetrieveProjectParams { .. } = params;
+                    let mut path = format!("/organization/projects/{project_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -4635,12 +4555,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::ModifyProjectParams { project_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/organization/projects/{project_id}",
-                        project_id = params.project_id
-                    );
-                    let crate::__types::ModifyProjectParams { .. } = params;
+                    let mut path = format!("/organization/projects/{project_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -4702,12 +4619,13 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::ListProjectApiKeysParams {
+                        project_id,
+                        limit,
+                        after,
+                    } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/organization/projects/{project_id}/api_keys",
-                        project_id = params.project_id
-                    );
-                    let crate::__types::ListProjectApiKeysParams { limit, after, .. } = params;
+                    let mut path = format!("/organization/projects/{project_id}/api_keys");
                     let query = serde_urlencoded::to_string(Query {
                         limit,
                         after,
@@ -4766,13 +4684,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::RetrieveProjectApiKeyParams { project_id, key_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/organization/projects/{project_id}/api_keys/{key_id}",
-                        project_id = params.project_id,
-                        key_id = params.key_id
-                    );
-                    let crate::__types::RetrieveProjectApiKeyParams { .. } = params;
+                    let mut path = format!("/organization/projects/{project_id}/api_keys/{key_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -4827,13 +4741,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::DeleteProjectApiKeyParams { project_id, key_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/organization/projects/{project_id}/api_keys/{key_id}",
-                        project_id = params.project_id,
-                        key_id = params.key_id
-                    );
-                    let crate::__types::DeleteProjectApiKeyParams { .. } = params;
+                    let mut path = format!("/organization/projects/{project_id}/api_keys/{key_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -4891,12 +4801,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::ArchiveProjectParams { project_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/organization/projects/{project_id}/archive",
-                        project_id = params.project_id
-                    );
-                    let crate::__types::ArchiveProjectParams { .. } = params;
+                    let mut path = format!("/organization/projects/{project_id}/archive");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -4960,17 +4867,14 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/organization/projects/{project_id}/certificates",
-                        project_id = params.project_id
-                    );
                     let crate::__types::ListProjectCertificatesParams {
+                        project_id,
                         limit,
                         after,
                         order,
-                        ..
                     } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/organization/projects/{project_id}/certificates");
                     let query = serde_urlencoded::to_string(Query {
                         limit,
                         after,
@@ -5031,12 +4935,10 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::ActivateProjectCertificatesParams { project_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/organization/projects/{project_id}/certificates/activate",
-                        project_id = params.project_id
-                    );
-                    let crate::__types::ActivateProjectCertificatesParams { .. } = params;
+                    let mut path =
+                        format!("/organization/projects/{project_id}/certificates/activate");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -5095,12 +4997,10 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::DeactivateProjectCertificatesParams { project_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/organization/projects/{project_id}/certificates/deactivate",
-                        project_id = params.project_id
-                    );
-                    let crate::__types::DeactivateProjectCertificatesParams { .. } = params;
+                    let mut path =
+                        format!("/organization/projects/{project_id}/certificates/deactivate");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -5167,17 +5067,14 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/organization/projects/{project_id}/rate_limits",
-                        project_id = params.project_id
-                    );
                     let crate::__types::ListProjectRateLimitsParams {
+                        project_id,
                         limit,
                         after,
                         before,
-                        ..
                     } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/organization/projects/{project_id}/rate_limits");
                     let query = serde_urlencoded::to_string(Query {
                         limit,
                         after,
@@ -5239,13 +5136,13 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::UpdateProjectRateLimitsParams {
+                        project_id,
+                        rate_limit_id,
+                    } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/organization/projects/{project_id}/rate_limits/{rate_limit_id}",
-                        project_id = params.project_id,
-                        rate_limit_id = params.rate_limit_id
-                    );
-                    let crate::__types::UpdateProjectRateLimitsParams { .. } = params;
+                    let mut path =
+                        format!("/organization/projects/{project_id}/rate_limits/{rate_limit_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -5307,13 +5204,13 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::ListProjectServiceAccountsParams {
+                        project_id,
+                        limit,
+                        after,
+                    } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/organization/projects/{project_id}/service_accounts",
-                        project_id = params.project_id
-                    );
-                    let crate::__types::ListProjectServiceAccountsParams { limit, after, .. } =
-                        params;
+                    let mut path = format!("/organization/projects/{project_id}/service_accounts");
                     let query = serde_urlencoded::to_string(Query {
                         limit,
                         after,
@@ -5374,12 +5271,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::CreateProjectServiceAccountParams { project_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/organization/projects/{project_id}/service_accounts",
-                        project_id = params.project_id
-                    );
-                    let crate::__types::CreateProjectServiceAccountParams { .. } = params;
+                    let mut path = format!("/organization/projects/{project_id}/service_accounts");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -5438,13 +5332,14 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::RetrieveProjectServiceAccountParams {
+                        project_id,
+                        service_account_id,
+                    } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!(
-                        "/organization/projects/{project_id}/service_accounts/{service_account_id}",
-                        project_id = params.project_id,
-                        service_account_id = params.service_account_id
+                        "/organization/projects/{project_id}/service_accounts/{service_account_id}"
                     );
-                    let crate::__types::RetrieveProjectServiceAccountParams { .. } = params;
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -5501,13 +5396,14 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::DeleteProjectServiceAccountParams {
+                        project_id,
+                        service_account_id,
+                    } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!(
-                        "/organization/projects/{project_id}/service_accounts/{service_account_id}",
-                        project_id = params.project_id,
-                        service_account_id = params.service_account_id
+                        "/organization/projects/{project_id}/service_accounts/{service_account_id}"
                     );
-                    let crate::__types::DeleteProjectServiceAccountParams { .. } = params;
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -5571,12 +5467,13 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::ListProjectUsersParams {
+                        project_id,
+                        limit,
+                        after,
+                    } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/organization/projects/{project_id}/users",
-                        project_id = params.project_id
-                    );
-                    let crate::__types::ListProjectUsersParams { limit, after, .. } = params;
+                    let mut path = format!("/organization/projects/{project_id}/users");
                     let query = serde_urlencoded::to_string(Query {
                         limit,
                         after,
@@ -5636,12 +5533,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::CreateProjectUserParams { project_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/organization/projects/{project_id}/users",
-                        project_id = params.project_id
-                    );
-                    let crate::__types::CreateProjectUserParams { .. } = params;
+                    let mut path = format!("/organization/projects/{project_id}/users");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -5697,13 +5591,12 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::RetrieveProjectUserParams {
+                        project_id,
+                        user_id,
+                    } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/organization/projects/{project_id}/users/{user_id}",
-                        project_id = params.project_id,
-                        user_id = params.user_id
-                    );
-                    let crate::__types::RetrieveProjectUserParams { .. } = params;
+                    let mut path = format!("/organization/projects/{project_id}/users/{user_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -5759,13 +5652,12 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::ModifyProjectUserParams {
+                        project_id,
+                        user_id,
+                    } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/organization/projects/{project_id}/users/{user_id}",
-                        project_id = params.project_id,
-                        user_id = params.user_id
-                    );
-                    let crate::__types::ModifyProjectUserParams { .. } = params;
+                    let mut path = format!("/organization/projects/{project_id}/users/{user_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -5821,13 +5713,12 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::DeleteProjectUserParams {
+                        project_id,
+                        user_id,
+                    } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/organization/projects/{project_id}/users/{user_id}",
-                        project_id = params.project_id,
-                        user_id = params.user_id
-                    );
-                    let crate::__types::DeleteProjectUserParams { .. } = params;
+                    let mut path = format!("/organization/projects/{project_id}/users/{user_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -5914,8 +5805,6 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    #[allow(clippy::useless_format)]
-                    let mut path = format!("/organization/usage/audio_speeches",);
                     let crate::__types::UsageAudioSpeechesParams {
                         start_time,
                         end_time,
@@ -5927,8 +5816,9 @@ where
                         group_by,
                         limit,
                         page,
-                        ..
                     } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/organization/usage/audio_speeches");
                     let query = serde_urlencoded::to_string(Query {
                         start_time,
                         end_time,
@@ -6024,8 +5914,6 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    #[allow(clippy::useless_format)]
-                    let mut path = format!("/organization/usage/audio_transcriptions",);
                     let crate::__types::UsageAudioTranscriptionsParams {
                         start_time,
                         end_time,
@@ -6037,8 +5925,9 @@ where
                         group_by,
                         limit,
                         page,
-                        ..
                     } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/organization/usage/audio_transcriptions");
                     let query = serde_urlencoded::to_string(Query {
                         start_time,
                         end_time,
@@ -6127,8 +6016,6 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    #[allow(clippy::useless_format)]
-                    let mut path = format!("/organization/usage/code_interpreter_sessions",);
                     let crate::__types::UsageCodeInterpreterSessionsParams {
                         start_time,
                         end_time,
@@ -6137,8 +6024,9 @@ where
                         group_by,
                         limit,
                         page,
-                        ..
                     } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/organization/usage/code_interpreter_sessions");
                     let query = serde_urlencoded::to_string(Query {
                         start_time,
                         end_time,
@@ -6232,8 +6120,6 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    #[allow(clippy::useless_format)]
-                    let mut path = format!("/organization/usage/completions",);
                     let crate::__types::UsageCompletionsParams {
                         start_time,
                         end_time,
@@ -6246,8 +6132,9 @@ where
                         group_by,
                         limit,
                         page,
-                        ..
                     } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/organization/usage/completions");
                     let query = serde_urlencoded::to_string(Query {
                         start_time,
                         end_time,
@@ -6342,8 +6229,6 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    #[allow(clippy::useless_format)]
-                    let mut path = format!("/organization/usage/embeddings",);
                     let crate::__types::UsageEmbeddingsParams {
                         start_time,
                         end_time,
@@ -6355,8 +6240,9 @@ where
                         group_by,
                         limit,
                         page,
-                        ..
                     } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/organization/usage/embeddings");
                     let query = serde_urlencoded::to_string(Query {
                         start_time,
                         end_time,
@@ -6456,8 +6342,6 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    #[allow(clippy::useless_format)]
-                    let mut path = format!("/organization/usage/images",);
                     let crate::__types::UsageImagesParams {
                         start_time,
                         end_time,
@@ -6471,8 +6355,9 @@ where
                         group_by,
                         limit,
                         page,
-                        ..
                     } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/organization/usage/images");
                     let query = serde_urlencoded::to_string(Query {
                         start_time,
                         end_time,
@@ -6568,8 +6453,6 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    #[allow(clippy::useless_format)]
-                    let mut path = format!("/organization/usage/moderations",);
                     let crate::__types::UsageModerationsParams {
                         start_time,
                         end_time,
@@ -6581,8 +6464,9 @@ where
                         group_by,
                         limit,
                         page,
-                        ..
                     } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/organization/usage/moderations");
                     let query = serde_urlencoded::to_string(Query {
                         start_time,
                         end_time,
@@ -6668,8 +6552,6 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    #[allow(clippy::useless_format)]
-                    let mut path = format!("/organization/usage/vector_stores",);
                     let crate::__types::UsageVectorStoresParams {
                         start_time,
                         end_time,
@@ -6678,8 +6560,9 @@ where
                         group_by,
                         limit,
                         page,
-                        ..
                     } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/organization/usage/vector_stores");
                     let query = serde_urlencoded::to_string(Query {
                         start_time,
                         end_time,
@@ -6750,14 +6633,13 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    #[allow(clippy::useless_format)]
-                    let mut path = format!("/organization/users",);
                     let crate::__types::ListUsersParams {
                         limit,
                         after,
                         emails,
-                        ..
                     } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/organization/users");
                     let query = serde_urlencoded::to_string(Query {
                         limit,
                         after,
@@ -6815,10 +6697,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::RetrieveUserParams { user_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path =
-                        format!("/organization/users/{user_id}", user_id = params.user_id);
-                    let crate::__types::RetrieveUserParams { .. } = params;
+                    let mut path = format!("/organization/users/{user_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -6874,10 +6755,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::ModifyUserParams { user_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path =
-                        format!("/organization/users/{user_id}", user_id = params.user_id);
-                    let crate::__types::ModifyUserParams { .. } = params;
+                    let mut path = format!("/organization/users/{user_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -6933,10 +6813,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::DeleteUserParams { user_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path =
-                        format!("/organization/users/{user_id}", user_id = params.user_id);
-                    let crate::__types::DeleteUserParams { .. } = params;
+                    let mut path = format!("/organization/users/{user_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -7167,15 +7046,14 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    #[allow(clippy::useless_format)]
-                    let mut path =
-                        format!("/responses/{response_id}", response_id = params.response_id);
                     let crate::__types::GetResponseParams {
+                        response_id,
                         include,
                         stream,
                         starting_after,
-                        ..
                     } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/responses/{response_id}");
                     let query = serde_urlencoded::to_string(Query {
                         include,
                         stream,
@@ -7233,12 +7111,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::CancelResponseParams { response_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/responses/{response_id}/cancel",
-                        response_id = params.response_id
-                    );
-                    let crate::__types::CancelResponseParams { .. } = params;
+                    let mut path = format!("/responses/{response_id}/cancel");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -7308,19 +7183,16 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/responses/{response_id}/input_items",
-                        response_id = params.response_id
-                    );
                     let crate::__types::ListInputItemsParams {
+                        response_id,
                         limit,
                         order,
                         after,
                         before,
                         include,
-                        ..
                     } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/responses/{response_id}/input_items");
                     let query = serde_urlencoded::to_string(Query {
                         limit,
                         order,
@@ -7420,9 +7292,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::GetThreadParams { thread_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!("/threads/{thread_id}", thread_id = params.thread_id);
-                    let crate::__types::GetThreadParams { .. } = params;
+                    let mut path = format!("/threads/{thread_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -7478,9 +7350,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::ModifyThreadParams { thread_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!("/threads/{thread_id}", thread_id = params.thread_id);
-                    let crate::__types::ModifyThreadParams { .. } = params;
+                    let mut path = format!("/threads/{thread_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -7536,9 +7408,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::DeleteThreadParams { thread_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!("/threads/{thread_id}", thread_id = params.thread_id);
-                    let crate::__types::DeleteThreadParams { .. } = params;
+                    let mut path = format!("/threads/{thread_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -7610,19 +7482,16 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/threads/{thread_id}/messages",
-                        thread_id = params.thread_id
-                    );
                     let crate::__types::ListMessagesParams {
+                        thread_id,
                         limit,
                         order,
                         after,
                         before,
                         run_id,
-                        ..
                     } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/threads/{thread_id}/messages");
                     let query = serde_urlencoded::to_string(Query {
                         limit,
                         order,
@@ -7685,12 +7554,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::CreateMessageParams { thread_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/threads/{thread_id}/messages",
-                        thread_id = params.thread_id
-                    );
-                    let crate::__types::CreateMessageParams { .. } = params;
+                    let mut path = format!("/threads/{thread_id}/messages");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -7746,13 +7612,12 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::GetMessageParams {
+                        thread_id,
+                        message_id,
+                    } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/threads/{thread_id}/messages/{message_id}",
-                        thread_id = params.thread_id,
-                        message_id = params.message_id
-                    );
-                    let crate::__types::GetMessageParams { .. } = params;
+                    let mut path = format!("/threads/{thread_id}/messages/{message_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -7808,13 +7673,12 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::ModifyMessageParams {
+                        thread_id,
+                        message_id,
+                    } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/threads/{thread_id}/messages/{message_id}",
-                        thread_id = params.thread_id,
-                        message_id = params.message_id
-                    );
-                    let crate::__types::ModifyMessageParams { .. } = params;
+                    let mut path = format!("/threads/{thread_id}/messages/{message_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -7870,13 +7734,12 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::DeleteMessageParams {
+                        thread_id,
+                        message_id,
+                    } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/threads/{thread_id}/messages/{message_id}",
-                        thread_id = params.thread_id,
-                        message_id = params.message_id
-                    );
-                    let crate::__types::DeleteMessageParams { .. } = params;
+                    let mut path = format!("/threads/{thread_id}/messages/{message_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -7945,16 +7808,15 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    #[allow(clippy::useless_format)]
-                    let mut path =
-                        format!("/threads/{thread_id}/runs", thread_id = params.thread_id);
                     let crate::__types::ListRunsParams {
+                        thread_id,
                         limit,
                         order,
                         after,
                         before,
-                        ..
                     } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/threads/{thread_id}/runs");
                     let query = serde_urlencoded::to_string(Query {
                         limit,
                         order,
@@ -8017,10 +7879,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::CreateRunParams { thread_id, include } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path =
-                        format!("/threads/{thread_id}/runs", thread_id = params.thread_id);
-                    let crate::__types::CreateRunParams { include, .. } = params;
+                    let mut path = format!("/threads/{thread_id}/runs");
                     let query = serde_urlencoded::to_string(Query {
                         include,
                         _phantom: std::marker::PhantomData,
@@ -8074,13 +7935,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::GetRunParams { thread_id, run_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/threads/{thread_id}/runs/{run_id}",
-                        thread_id = params.thread_id,
-                        run_id = params.run_id
-                    );
-                    let crate::__types::GetRunParams { .. } = params;
+                    let mut path = format!("/threads/{thread_id}/runs/{run_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -8136,13 +7993,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::ModifyRunParams { thread_id, run_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/threads/{thread_id}/runs/{run_id}",
-                        thread_id = params.thread_id,
-                        run_id = params.run_id
-                    );
-                    let crate::__types::ModifyRunParams { .. } = params;
+                    let mut path = format!("/threads/{thread_id}/runs/{run_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -8198,13 +8051,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::CancelRunParams { thread_id, run_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/threads/{thread_id}/runs/{run_id}/cancel",
-                        thread_id = params.thread_id,
-                        run_id = params.run_id
-                    );
-                    let crate::__types::CancelRunParams { .. } = params;
+                    let mut path = format!("/threads/{thread_id}/runs/{run_id}/cancel");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -8274,20 +8123,17 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/threads/{thread_id}/runs/{run_id}/steps",
-                        thread_id = params.thread_id,
-                        run_id = params.run_id
-                    );
                     let crate::__types::ListRunStepsParams {
+                        thread_id,
+                        run_id,
                         limit,
                         order,
                         after,
                         before,
                         include,
-                        ..
                     } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/threads/{thread_id}/runs/{run_id}/steps");
                     let query = serde_urlencoded::to_string(Query {
                         limit,
                         order,
@@ -8352,14 +8198,14 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::GetRunStepParams {
+                        thread_id,
+                        run_id,
+                        step_id,
+                        include,
+                    } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/threads/{thread_id}/runs/{run_id}/steps/{step_id}",
-                        thread_id = params.thread_id,
-                        run_id = params.run_id,
-                        step_id = params.step_id
-                    );
-                    let crate::__types::GetRunStepParams { include, .. } = params;
+                    let mut path = format!("/threads/{thread_id}/runs/{run_id}/steps/{step_id}");
                     let query = serde_urlencoded::to_string(Query {
                         include,
                         _phantom: std::marker::PhantomData,
@@ -8416,13 +8262,10 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::SubmitToolOuputsToRunParams { thread_id, run_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/threads/{thread_id}/runs/{run_id}/submit_tool_outputs",
-                        thread_id = params.thread_id,
-                        run_id = params.run_id
-                    );
-                    let crate::__types::SubmitToolOuputsToRunParams { .. } = params;
+                    let mut path =
+                        format!("/threads/{thread_id}/runs/{run_id}/submit_tool_outputs");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -8518,10 +8361,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::CancelUploadParams { upload_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path =
-                        format!("/uploads/{upload_id}/cancel", upload_id = params.upload_id);
-                    let crate::__types::CancelUploadParams { .. } = params;
+                    let mut path = format!("/uploads/{upload_id}/cancel");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -8577,12 +8419,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::CompleteUploadParams { upload_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/uploads/{upload_id}/complete",
-                        upload_id = params.upload_id
-                    );
-                    let crate::__types::CompleteUploadParams { .. } = params;
+                    let mut path = format!("/uploads/{upload_id}/complete");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -8650,15 +8489,14 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    #[allow(clippy::useless_format)]
-                    let mut path = format!("/vector_stores",);
                     let crate::__types::ListVectorStoresParams {
                         limit,
                         order,
                         after,
                         before,
-                        ..
                     } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/vector_stores");
                     let query = serde_urlencoded::to_string(Query {
                         limit,
                         order,
@@ -8761,12 +8599,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::GetVectorStoreParams { vector_store_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/vector_stores/{vector_store_id}",
-                        vector_store_id = params.vector_store_id
-                    );
-                    let crate::__types::GetVectorStoreParams { .. } = params;
+                    let mut path = format!("/vector_stores/{vector_store_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -8824,12 +8659,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::ModifyVectorStoreParams { vector_store_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/vector_stores/{vector_store_id}",
-                        vector_store_id = params.vector_store_id
-                    );
-                    let crate::__types::ModifyVectorStoreParams { .. } = params;
+                    let mut path = format!("/vector_stores/{vector_store_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -8887,12 +8719,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::DeleteVectorStoreParams { vector_store_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/vector_stores/{vector_store_id}",
-                        vector_store_id = params.vector_store_id
-                    );
-                    let crate::__types::DeleteVectorStoreParams { .. } = params;
+                    let mut path = format!("/vector_stores/{vector_store_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -8950,12 +8779,10 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::CreateVectorStoreFileBatchParams { vector_store_id } =
+                        params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/vector_stores/{vector_store_id}/file_batches",
-                        vector_store_id = params.vector_store_id
-                    );
-                    let crate::__types::CreateVectorStoreFileBatchParams { .. } = params;
+                    let mut path = format!("/vector_stores/{vector_store_id}/file_batches");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -9013,13 +8840,13 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::GetVectorStoreFileBatchParams {
+                        vector_store_id,
+                        batch_id,
+                    } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/vector_stores/{vector_store_id}/file_batches/{batch_id}",
-                        vector_store_id = params.vector_store_id,
-                        batch_id = params.batch_id
-                    );
-                    let crate::__types::GetVectorStoreFileBatchParams { .. } = params;
+                    let mut path =
+                        format!("/vector_stores/{vector_store_id}/file_batches/{batch_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -9076,13 +8903,13 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::CancelVectorStoreFileBatchParams {
+                        vector_store_id,
+                        batch_id,
+                    } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/vector_stores/{vector_store_id}/file_batches/{batch_id}/cancel",
-                        vector_store_id = params.vector_store_id,
-                        batch_id = params.batch_id
-                    );
-                    let crate::__types::CancelVectorStoreFileBatchParams { .. } = params;
+                    let mut path =
+                        format!("/vector_stores/{vector_store_id}/file_batches/{batch_id}/cancel");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -9154,20 +8981,18 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/vector_stores/{vector_store_id}/file_batches/{batch_id}/files",
-                        vector_store_id = params.vector_store_id,
-                        batch_id = params.batch_id
-                    );
                     let crate::__types::ListFilesInVectorStoreBatchParams {
+                        vector_store_id,
+                        batch_id,
                         limit,
                         order,
                         after,
                         before,
                         filter,
-                        ..
                     } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path =
+                        format!("/vector_stores/{vector_store_id}/file_batches/{batch_id}/files");
                     let query = serde_urlencoded::to_string(Query {
                         limit,
                         order,
@@ -9245,19 +9070,16 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/vector_stores/{vector_store_id}/files",
-                        vector_store_id = params.vector_store_id
-                    );
                     let crate::__types::ListVectorStoreFilesParams {
+                        vector_store_id,
                         limit,
                         order,
                         after,
                         before,
                         filter,
-                        ..
                     } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/vector_stores/{vector_store_id}/files");
                     let query = serde_urlencoded::to_string(Query {
                         limit,
                         order,
@@ -9321,12 +9143,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::CreateVectorStoreFileParams { vector_store_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/vector_stores/{vector_store_id}/files",
-                        vector_store_id = params.vector_store_id
-                    );
-                    let crate::__types::CreateVectorStoreFileParams { .. } = params;
+                    let mut path = format!("/vector_stores/{vector_store_id}/files");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -9384,13 +9203,12 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::GetVectorStoreFileParams {
+                        vector_store_id,
+                        file_id,
+                    } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/vector_stores/{vector_store_id}/files/{file_id}",
-                        vector_store_id = params.vector_store_id,
-                        file_id = params.file_id
-                    );
-                    let crate::__types::GetVectorStoreFileParams { .. } = params;
+                    let mut path = format!("/vector_stores/{vector_store_id}/files/{file_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -9447,13 +9265,12 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::DeleteVectorStoreFileParams {
+                        vector_store_id,
+                        file_id,
+                    } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/vector_stores/{vector_store_id}/files/{file_id}",
-                        vector_store_id = params.vector_store_id,
-                        file_id = params.file_id
-                    );
-                    let crate::__types::DeleteVectorStoreFileParams { .. } = params;
+                    let mut path = format!("/vector_stores/{vector_store_id}/files/{file_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -9512,13 +9329,12 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::UpdateVectorStoreFileAttributesParams {
+                        vector_store_id,
+                        file_id,
+                    } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/vector_stores/{vector_store_id}/files/{file_id}",
-                        vector_store_id = params.vector_store_id,
-                        file_id = params.file_id
-                    );
-                    let crate::__types::UpdateVectorStoreFileAttributesParams { .. } = params;
+                    let mut path = format!("/vector_stores/{vector_store_id}/files/{file_id}");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -9576,13 +9392,13 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::RetrieveVectorStoreFileContentParams {
+                        vector_store_id,
+                        file_id,
+                    } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/vector_stores/{vector_store_id}/files/{file_id}/content",
-                        vector_store_id = params.vector_store_id,
-                        file_id = params.file_id
-                    );
-                    let crate::__types::RetrieveVectorStoreFileContentParams { .. } = params;
+                    let mut path =
+                        format!("/vector_stores/{vector_store_id}/files/{file_id}/content");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;
@@ -9641,12 +9457,9 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
+                    let crate::__types::SearchVectorStoreParams { vector_store_id } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(
-                        "/vector_stores/{vector_store_id}/search",
-                        vector_store_id = params.vector_store_id
-                    );
-                    let crate::__types::SearchVectorStoreParams { .. } = params;
+                    let mut path = format!("/vector_stores/{vector_store_id}/search");
                     let query = serde_urlencoded::to_string(Query {
                         _phantom: std::marker::PhantomData,
                     })?;

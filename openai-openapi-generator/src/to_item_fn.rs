@@ -31,14 +31,6 @@ pub fn to_item_fn(
             None,
         );
         let path = &operation.path;
-        let params_path = parameters
-            .iter()
-            .filter(|parameter| matches!(parameter.in_, openapi::In::Path))
-            .map(|parameter| {
-                let name = quote::format_ident!("{}", parameter.name);
-                let ident = to_ident_snake(&parameter.name);
-                quote::quote!(#name = params.#ident)
-            });
         let fields_query = parameters
             .iter()
             .filter(|parameter| matches!(parameter.in_, openapi::In::Query))
@@ -76,10 +68,10 @@ pub fn to_item_fn(
                     #ident: &'a #type_
                 }
             });
-        let idents_query = parameters
-            .iter()
-            .filter(|parameter| matches!(parameter.in_, openapi::In::Query))
-            .map(|parameter| to_ident_snake(&parameter.name));
+        let idents = parameters.iter().map(|parameter| {
+            // assume parameters in path are snake_case
+            to_ident_snake(&parameter.name)
+        });
         let field_values_query = parameters
             .iter()
             .filter(|parameter| matches!(parameter.in_, openapi::In::Query))
@@ -96,12 +88,9 @@ pub fn to_item_fn(
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
 
+                    let #params { #(#idents),* } = params;
                     #[allow(clippy::useless_format)]
-                    let mut path = format!(#path, #(#params_path),*);
-                    let #params {
-                        #(#idents_query,)*
-                        ..
-                    } = params;
+                    let mut path = format!(#path);
                     let query = serde_urlencoded::to_string(
                         Query {
                             #(#field_values_query,)*
