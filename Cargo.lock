@@ -685,7 +685,7 @@ dependencies = [
 
 [[package]]
 name = "openai-openapi-types"
-version = "0.4.1"
+version = "0.4.2"
 dependencies = [
  "indexmap 2.9.0",
  "serde",
