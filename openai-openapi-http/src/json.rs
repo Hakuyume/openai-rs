@@ -8,6 +8,7 @@ use std::task::{Context, Poll, ready};
 #[pin_project::pin_project]
 pub(crate) struct Json<B, E, T>(
     #[pin] http_body_util::combinators::Collect<B>,
+    Option<http::response::Parts>,
     PhantomData<fn() -> (E, T)>,
 )
 where
@@ -19,8 +20,9 @@ where
     B: http_body::Body,
     T: for<'de> Deserialize<'de>,
 {
-    pub(crate) fn new(body: B) -> Self {
-        Self(body.collect(), PhantomData)
+    pub(crate) fn new(response: http::Response<B>) -> Self {
+        let (parts, body) = response.into_parts();
+        Self(body.collect(), Some(parts), PhantomData)
     }
 }
 
@@ -34,8 +36,8 @@ where
     fn poll(self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output> {
         let this = self.project();
         let body = ready!(this.0.poll(cx)).map_err(Error::Body)?;
-        let body = body.to_bytes();
-        tracing::debug!(?body);
-        Poll::Ready(Ok(serde_json::from_slice(&body)?))
+        let response = http::Response::from_parts(this.1.take().unwrap(), body.to_bytes());
+        tracing::debug!(?response);
+        Poll::Ready(Ok(serde_json::from_slice(response.body())?))
     }
 }

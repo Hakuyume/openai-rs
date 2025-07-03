@@ -7,6 +7,7 @@ mod __combinators {
     pub(super) use crate::json::Json;
     pub(super) use crate::send::Send;
 }
+use bytes::Bytes;
 pub use event_stream::EventStream;
 pub use generated::*;
 use openai_openapi_types as __types;
@@ -48,12 +49,15 @@ impl<S, B> Error<S, B> {
 }
 
 #[derive(Debug, thiserror::Error)]
-#[error("{}", message)]
+#[error("{:?}", message)]
 pub struct ApiError {
-    pub status: Option<http::StatusCode>,
     pub code: Option<String>,
-    pub message: String,
+    pub message: Option<String>,
+    pub response: Option<http::Response<Bytes>>,
 }
+
+#[cfg(test)]
+mod tests;
 
 macro_rules! future {
     ($ident:ident, $fut:ty, $output:ty) => {

@@ -60,7 +60,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -70,7 +73,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ListAssistantsResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ListAssistantsResponse>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::ListAssistantsResponse>,
     >,
     crate::__types::ListAssistantsResponse
 );
@@ -94,10 +99,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -107,7 +115,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::AssistantObject>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::AssistantObject>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::AssistantObject>,
     >,
     crate::__types::AssistantObject
 );
@@ -154,7 +162,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -164,7 +175,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::AssistantObject>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::AssistantObject>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::AssistantObject>,
     >,
     crate::__types::AssistantObject
 );
@@ -210,10 +221,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -223,7 +237,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::AssistantObject>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::AssistantObject>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::AssistantObject>,
     >,
     crate::__types::AssistantObject
 );
@@ -270,7 +284,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -280,7 +297,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::DeleteAssistantResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::DeleteAssistantResponse>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::DeleteAssistantResponse>,
     >,
     crate::__types::DeleteAssistantResponse
 );
@@ -304,15 +323,18 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::TEXT_EVENT_STREAM),
+            ),
         ),
         crate::__combinators::EventStream::new,
     ))
 }
-future ! (CreateSpeechStream , futures :: future :: MapOk < crate :: __combinators :: Send < Fut , B , E > , fn (B) -> crate :: __combinators :: EventStream < B , crate :: __types :: CreateSpeechResponseStreamEvent > , > , crate :: __combinators :: EventStream < B , crate :: __types :: CreateSpeechResponseStreamEvent >);
+future ! (CreateSpeechStream , futures :: future :: MapOk < crate :: __combinators :: Send < Fut , B , E > , fn (http :: Response < B >) -> crate :: __combinators :: EventStream < B , crate :: __types :: CreateSpeechResponseStreamEvent > , > , crate :: __combinators :: EventStream < B , crate :: __types :: CreateSpeechResponseStreamEvent >);
 #[doc = "Creates and executes a batch from an uploaded file of requests"]
 pub fn create_batch<S, Fut, B, E>(
     service: S,
@@ -333,10 +355,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -346,7 +371,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::Batch>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::Batch>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::Batch>,
     >,
     crate::__types::Batch
 );
@@ -398,7 +423,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -408,7 +436,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ListBatchesResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ListBatchesResponse>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::ListBatchesResponse>,
     >,
     crate::__types::ListBatchesResponse
 );
@@ -452,7 +482,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -462,7 +495,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::Batch>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::Batch>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::Batch>,
     >,
     crate::__types::Batch
 );
@@ -507,7 +540,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -517,7 +553,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::Batch>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::Batch>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::Batch>,
     >,
     crate::__types::Batch
 );
@@ -588,7 +624,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -598,7 +637,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ChatCompletionList>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ChatCompletionList>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::ChatCompletionList>,
     >,
     crate::__types::ChatCompletionList
 );
@@ -622,10 +663,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -635,7 +679,10 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::CreateChatCompletionResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::CreateChatCompletionResponse>,
+        fn(
+            http::Response<B>,
+        )
+            -> crate::__combinators::Json<B, E, crate::__types::CreateChatCompletionResponse>,
     >,
     crate::__types::CreateChatCompletionResponse
 );
@@ -659,15 +706,18 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::TEXT_EVENT_STREAM),
+            ),
         ),
         crate::__combinators::EventStream::new,
     ))
 }
-future ! (CreateChatCompletionStream , futures :: future :: MapOk < crate :: __combinators :: Send < Fut , B , E > , fn (B) -> crate :: __combinators :: EventStream < B , crate :: __types :: CreateChatCompletionStreamResponse > , > , crate :: __combinators :: EventStream < B , crate :: __types :: CreateChatCompletionStreamResponse >);
+future ! (CreateChatCompletionStream , futures :: future :: MapOk < crate :: __combinators :: Send < Fut , B , E > , fn (http :: Response < B >) -> crate :: __combinators :: EventStream < B , crate :: __types :: CreateChatCompletionStreamResponse > , > , crate :: __combinators :: EventStream < B , crate :: __types :: CreateChatCompletionStreamResponse >);
 #[doc = "Get a stored chat completion. Only Chat Completions that have been created\nwith the `store` parameter set to `true` will be returned.\n"]
 pub fn get_chat_completion<S, Fut, B, E>(
     service: S,
@@ -711,7 +761,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -721,7 +774,10 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::CreateChatCompletionResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::CreateChatCompletionResponse>,
+        fn(
+            http::Response<B>,
+        )
+            -> crate::__combinators::Json<B, E, crate::__types::CreateChatCompletionResponse>,
     >,
     crate::__types::CreateChatCompletionResponse
 );
@@ -767,10 +823,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -780,7 +839,10 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::CreateChatCompletionResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::CreateChatCompletionResponse>,
+        fn(
+            http::Response<B>,
+        )
+            -> crate::__combinators::Json<B, E, crate::__types::CreateChatCompletionResponse>,
     >,
     crate::__types::CreateChatCompletionResponse
 );
@@ -827,7 +889,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -837,7 +902,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ChatCompletionDeleted>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ChatCompletionDeleted>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::ChatCompletionDeleted>,
     >,
     crate::__types::ChatCompletionDeleted
 );
@@ -901,7 +968,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -911,7 +981,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ChatCompletionMessageList>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ChatCompletionMessageList>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::ChatCompletionMessageList>,
     >,
     crate::__types::ChatCompletionMessageList
 );
@@ -935,10 +1007,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -948,7 +1023,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::CreateCompletionResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::CreateCompletionResponse>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::CreateCompletionResponse>,
     >,
     crate::__types::CreateCompletionResponse
 );
@@ -1009,7 +1086,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -1019,7 +1099,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ContainerListResource>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ContainerListResource>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::ContainerListResource>,
     >,
     crate::__types::ContainerListResource
 );
@@ -1066,7 +1148,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -1076,7 +1161,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ContainerResource>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ContainerResource>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::ContainerResource>,
     >,
     crate::__types::ContainerResource
 );
@@ -1140,7 +1227,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -1150,7 +1240,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ContainerFileListResource>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ContainerFileListResource>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::ContainerFileListResource>,
     >,
     crate::__types::ContainerFileListResource
 );
@@ -1198,7 +1290,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -1208,7 +1303,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ContainerFileResource>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ContainerFileResource>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::ContainerFileResource>,
     >,
     crate::__types::ContainerFileResource
 );
@@ -1232,10 +1329,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -1245,7 +1345,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::CreateEmbeddingResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::CreateEmbeddingResponse>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::CreateEmbeddingResponse>,
     >,
     crate::__types::CreateEmbeddingResponse
 );
@@ -1311,7 +1413,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -1321,7 +1426,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::EvalList>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::EvalList>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::EvalList>,
     >,
     crate::__types::EvalList
 );
@@ -1345,10 +1450,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(201u16).unwrap(),
+            (
+                http::StatusCode::from_u16(201u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -1358,7 +1466,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::Eval>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::Eval>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::Eval>,
     >,
     crate::__types::Eval
 );
@@ -1402,7 +1510,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -1412,7 +1523,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::Eval>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::Eval>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::Eval>,
     >,
     crate::__types::Eval
 );
@@ -1455,10 +1566,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -1468,7 +1582,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::Eval>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::Eval>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::Eval>,
     >,
     crate::__types::Eval
 );
@@ -1512,7 +1626,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -1522,7 +1639,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::DeleteEvalResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::DeleteEvalResponse>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::DeleteEvalResponse>,
     >,
     crate::__types::DeleteEvalResponse
 );
@@ -1588,7 +1707,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -1598,7 +1720,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::EvalRunList>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::EvalRunList>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::EvalRunList>,
     >,
     crate::__types::EvalRunList
 );
@@ -1641,10 +1763,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(201u16).unwrap(),
+            (
+                http::StatusCode::from_u16(201u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -1654,7 +1779,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::EvalRun>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::EvalRun>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::EvalRun>,
     >,
     crate::__types::EvalRun
 );
@@ -1702,7 +1827,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -1712,7 +1840,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::EvalRun>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::EvalRun>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::EvalRun>,
     >,
     crate::__types::EvalRun
 );
@@ -1760,7 +1888,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -1770,7 +1901,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::EvalRun>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::EvalRun>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::EvalRun>,
     >,
     crate::__types::EvalRun
 );
@@ -1818,7 +1949,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -1828,7 +1962,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::DeleteEvalRunResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::DeleteEvalRunResponse>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::DeleteEvalRunResponse>,
     >,
     crate::__types::DeleteEvalRunResponse
 );
@@ -1898,7 +2034,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -1908,7 +2047,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::EvalRunOutputItemList>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::EvalRunOutputItemList>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::EvalRunOutputItemList>,
     >,
     crate::__types::EvalRunOutputItemList
 );
@@ -1957,7 +2098,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -1967,7 +2111,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::EvalRunOutputItem>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::EvalRunOutputItem>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::EvalRunOutputItem>,
     >,
     crate::__types::EvalRunOutputItem
 );
@@ -2033,7 +2179,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -2043,7 +2192,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ListFilesResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ListFilesResponse>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::ListFilesResponse>,
     >,
     crate::__types::ListFilesResponse
 );
@@ -2087,7 +2238,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -2097,7 +2251,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::DeleteFileResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::DeleteFileResponse>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::DeleteFileResponse>,
     >,
     crate::__types::DeleteFileResponse
 );
@@ -2141,7 +2297,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -2151,7 +2310,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::OpenAiFile>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::OpenAiFile>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::OpenAiFile>,
     >,
     crate::__types::OpenAiFile
 );
@@ -2195,7 +2354,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -2205,7 +2367,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, String>,
-        fn(B) -> crate::__combinators::Json<B, E, String>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, String>,
     >,
     String
 );
@@ -2229,10 +2391,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -2242,7 +2407,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::RunGraderResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::RunGraderResponse>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::RunGraderResponse>,
     >,
     crate::__types::RunGraderResponse
 );
@@ -2266,10 +2433,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -2279,7 +2449,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ValidateGraderResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ValidateGraderResponse>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::ValidateGraderResponse>,
     >,
     crate::__types::ValidateGraderResponse
 );
@@ -2350,7 +2522,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -2365,7 +2540,7 @@ future!(
             crate::__types::ListFineTuningCheckpointPermissionResponse,
         >,
         fn(
-            B,
+            http::Response<B>,
         ) -> crate::__combinators::Json<
             B,
             E,
@@ -2416,10 +2591,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -2434,7 +2612,7 @@ future!(
             crate::__types::ListFineTuningCheckpointPermissionResponse,
         >,
         fn(
-            B,
+            http::Response<B>,
         ) -> crate::__combinators::Json<
             B,
             E,
@@ -2487,7 +2665,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -2502,7 +2683,7 @@ future!(
             crate::__types::DeleteFineTuningCheckpointPermissionResponse,
         >,
         fn(
-            B,
+            http::Response<B>,
         ) -> crate::__combinators::Json<
             B,
             E,
@@ -2531,10 +2712,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -2544,7 +2728,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::FineTuningJob>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::FineTuningJob>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::FineTuningJob>,
     >,
     crate::__types::FineTuningJob
 );
@@ -2605,7 +2789,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -2616,7 +2803,7 @@ future!(
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ListPaginatedFineTuningJobsResponse>,
         fn(
-            B,
+            http::Response<B>,
         )
             -> crate::__combinators::Json<B, E, crate::__types::ListPaginatedFineTuningJobsResponse>,
     >,
@@ -2665,7 +2852,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -2675,7 +2865,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::FineTuningJob>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::FineTuningJob>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::FineTuningJob>,
     >,
     crate::__types::FineTuningJob
 );
@@ -2722,7 +2912,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -2732,7 +2925,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::FineTuningJob>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::FineTuningJob>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::FineTuningJob>,
     >,
     crate::__types::FineTuningJob
 );
@@ -2788,7 +2981,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -2799,7 +2995,7 @@ future!(
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ListFineTuningJobCheckpointsResponse>,
         fn(
-            B,
+            http::Response<B>,
         ) -> crate::__combinators::Json<
             B,
             E,
@@ -2859,7 +3055,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -2869,7 +3068,10 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ListFineTuningJobEventsResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ListFineTuningJobEventsResponse>,
+        fn(
+            http::Response<B>,
+        )
+            -> crate::__combinators::Json<B, E, crate::__types::ListFineTuningJobEventsResponse>,
     >,
     crate::__types::ListFineTuningJobEventsResponse
 );
@@ -2916,7 +3118,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -2926,7 +3131,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::FineTuningJob>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::FineTuningJob>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::FineTuningJob>,
     >,
     crate::__types::FineTuningJob
 );
@@ -2973,7 +3178,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -2983,7 +3191,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::FineTuningJob>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::FineTuningJob>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::FineTuningJob>,
     >,
     crate::__types::FineTuningJob
 );
@@ -3007,10 +3215,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -3020,7 +3231,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ImagesResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ImagesResponse>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::ImagesResponse>,
     >,
     crate::__types::ImagesResponse
 );
@@ -3043,7 +3254,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -3053,7 +3267,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ListModelsResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ListModelsResponse>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::ListModelsResponse>,
     >,
     crate::__types::ListModelsResponse
 );
@@ -3097,7 +3313,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -3107,7 +3326,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::Model>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::Model>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::Model>,
     >,
     crate::__types::Model
 );
@@ -3151,7 +3370,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -3161,7 +3383,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::DeleteModelResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::DeleteModelResponse>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::DeleteModelResponse>,
     >,
     crate::__types::DeleteModelResponse
 );
@@ -3185,10 +3409,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -3198,7 +3425,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::CreateModerationResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::CreateModerationResponse>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::CreateModerationResponse>,
     >,
     crate::__types::CreateModerationResponse
 );
@@ -3259,7 +3488,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -3269,7 +3501,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ApiKeyList>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ApiKeyList>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::ApiKeyList>,
     >,
     crate::__types::ApiKeyList
 );
@@ -3293,10 +3525,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -3306,7 +3541,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::AdminApiKey>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::AdminApiKey>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::AdminApiKey>,
     >,
     crate::__types::AdminApiKey
 );
@@ -3353,7 +3588,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -3363,7 +3601,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::AdminApiKey>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::AdminApiKey>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::AdminApiKey>,
     >,
     crate::__types::AdminApiKey
 );
@@ -3410,7 +3648,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -3420,7 +3661,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::AdminApiKeysDeleteResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::AdminApiKeysDeleteResponse>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::AdminApiKeysDeleteResponse>,
     >,
     crate::__types::AdminApiKeysDeleteResponse
 );
@@ -3511,7 +3754,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -3521,7 +3767,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ListAuditLogsResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ListAuditLogsResponse>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::ListAuditLogsResponse>,
     >,
     crate::__types::ListAuditLogsResponse
 );
@@ -3582,7 +3830,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -3592,7 +3843,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ListCertificatesResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ListCertificatesResponse>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::ListCertificatesResponse>,
     >,
     crate::__types::ListCertificatesResponse
 );
@@ -3616,10 +3869,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -3629,7 +3885,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::Certificate>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::Certificate>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::Certificate>,
     >,
     crate::__types::Certificate
 );
@@ -3653,10 +3909,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -3666,7 +3925,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ListCertificatesResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ListCertificatesResponse>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::ListCertificatesResponse>,
     >,
     crate::__types::ListCertificatesResponse
 );
@@ -3690,10 +3951,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -3703,7 +3967,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ListCertificatesResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ListCertificatesResponse>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::ListCertificatesResponse>,
     >,
     crate::__types::ListCertificatesResponse
 );
@@ -3754,7 +4020,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -3764,7 +4033,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::Certificate>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::Certificate>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::Certificate>,
     >,
     crate::__types::Certificate
 );
@@ -3788,10 +4057,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -3801,7 +4073,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::Certificate>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::Certificate>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::Certificate>,
     >,
     crate::__types::Certificate
 );
@@ -3824,7 +4096,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -3834,7 +4109,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::DeleteCertificateResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::DeleteCertificateResponse>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::DeleteCertificateResponse>,
     >,
     crate::__types::DeleteCertificateResponse
 );
@@ -3914,7 +4191,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -3924,7 +4204,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::UsageResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::UsageResponse>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::UsageResponse>,
     >,
     crate::__types::UsageResponse
 );
@@ -3976,7 +4256,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -3986,7 +4269,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::InviteListResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::InviteListResponse>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::InviteListResponse>,
     >,
     crate::__types::InviteListResponse
 );
@@ -4010,10 +4295,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -4023,7 +4311,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::Invite>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::Invite>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::Invite>,
     >,
     crate::__types::Invite
 );
@@ -4070,7 +4358,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -4080,7 +4371,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::Invite>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::Invite>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::Invite>,
     >,
     crate::__types::Invite
 );
@@ -4127,7 +4418,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -4137,7 +4431,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::InviteDeleteResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::InviteDeleteResponse>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::InviteDeleteResponse>,
     >,
     crate::__types::InviteDeleteResponse
 );
@@ -4198,7 +4494,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -4208,7 +4507,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ProjectListResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ProjectListResponse>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::ProjectListResponse>,
     >,
     crate::__types::ProjectListResponse
 );
@@ -4232,10 +4533,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -4245,7 +4549,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::Project>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::Project>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::Project>,
     >,
     crate::__types::Project
 );
@@ -4292,7 +4596,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -4302,7 +4609,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::Project>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::Project>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::Project>,
     >,
     crate::__types::Project
 );
@@ -4348,10 +4655,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -4361,7 +4671,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::Project>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::Project>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::Project>,
     >,
     crate::__types::Project
 );
@@ -4416,7 +4726,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -4426,7 +4739,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ProjectApiKeyListResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ProjectApiKeyListResponse>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::ProjectApiKeyListResponse>,
     >,
     crate::__types::ProjectApiKeyListResponse
 );
@@ -4474,7 +4789,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -4484,7 +4802,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ProjectApiKey>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ProjectApiKey>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::ProjectApiKey>,
     >,
     crate::__types::ProjectApiKey
 );
@@ -4532,7 +4850,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -4542,7 +4863,10 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ProjectApiKeyDeleteResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ProjectApiKeyDeleteResponse>,
+        fn(
+            http::Response<B>,
+        )
+            -> crate::__combinators::Json<B, E, crate::__types::ProjectApiKeyDeleteResponse>,
     >,
     crate::__types::ProjectApiKeyDeleteResponse
 );
@@ -4589,7 +4913,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -4599,7 +4926,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::Project>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::Project>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::Project>,
     >,
     crate::__types::Project
 );
@@ -4663,7 +4990,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -4673,7 +5003,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ListCertificatesResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ListCertificatesResponse>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::ListCertificatesResponse>,
     >,
     crate::__types::ListCertificatesResponse
 );
@@ -4719,10 +5051,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -4732,7 +5067,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ListCertificatesResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ListCertificatesResponse>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::ListCertificatesResponse>,
     >,
     crate::__types::ListCertificatesResponse
 );
@@ -4778,10 +5115,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -4791,7 +5131,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ListCertificatesResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ListCertificatesResponse>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::ListCertificatesResponse>,
     >,
     crate::__types::ListCertificatesResponse
 );
@@ -4855,7 +5197,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -4865,7 +5210,10 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ProjectRateLimitListResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ProjectRateLimitListResponse>,
+        fn(
+            http::Response<B>,
+        )
+            -> crate::__combinators::Json<B, E, crate::__types::ProjectRateLimitListResponse>,
     >,
     crate::__types::ProjectRateLimitListResponse
 );
@@ -4912,10 +5260,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -4925,7 +5276,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ProjectRateLimit>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ProjectRateLimit>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::ProjectRateLimit>,
     >,
     crate::__types::ProjectRateLimit
 );
@@ -4981,7 +5332,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -4992,7 +5346,7 @@ future!(
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ProjectServiceAccountListResponse>,
         fn(
-            B,
+            http::Response<B>,
         )
             -> crate::__combinators::Json<B, E, crate::__types::ProjectServiceAccountListResponse>,
     >,
@@ -5040,10 +5394,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -5054,7 +5411,7 @@ future!(
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ProjectServiceAccountCreateResponse>,
         fn(
-            B,
+            http::Response<B>,
         )
             -> crate::__combinators::Json<B, E, crate::__types::ProjectServiceAccountCreateResponse>,
     >,
@@ -5104,7 +5461,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -5114,7 +5474,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ProjectServiceAccount>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ProjectServiceAccount>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::ProjectServiceAccount>,
     >,
     crate::__types::ProjectServiceAccount
 );
@@ -5162,7 +5524,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -5173,7 +5538,7 @@ future!(
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ProjectServiceAccountDeleteResponse>,
         fn(
-            B,
+            http::Response<B>,
         )
             -> crate::__combinators::Json<B, E, crate::__types::ProjectServiceAccountDeleteResponse>,
     >,
@@ -5230,7 +5595,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -5240,7 +5608,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ProjectUserListResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ProjectUserListResponse>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::ProjectUserListResponse>,
     >,
     crate::__types::ProjectUserListResponse
 );
@@ -5286,10 +5656,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -5299,7 +5672,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ProjectUser>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ProjectUser>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::ProjectUser>,
     >,
     crate::__types::ProjectUser
 );
@@ -5347,7 +5720,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -5357,7 +5733,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ProjectUser>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ProjectUser>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::ProjectUser>,
     >,
     crate::__types::ProjectUser
 );
@@ -5404,10 +5780,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -5417,7 +5796,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ProjectUser>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ProjectUser>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::ProjectUser>,
     >,
     crate::__types::ProjectUser
 );
@@ -5465,7 +5844,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -5475,7 +5857,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ProjectUserDeleteResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ProjectUserDeleteResponse>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::ProjectUserDeleteResponse>,
     >,
     crate::__types::ProjectUserDeleteResponse
 );
@@ -5571,7 +5955,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -5581,7 +5968,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::UsageResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::UsageResponse>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::UsageResponse>,
     >,
     crate::__types::UsageResponse
 );
@@ -5678,7 +6065,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -5688,7 +6078,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::UsageResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::UsageResponse>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::UsageResponse>,
     >,
     crate::__types::UsageResponse
 );
@@ -5772,7 +6162,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -5782,7 +6175,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::UsageResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::UsageResponse>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::UsageResponse>,
     >,
     crate::__types::UsageResponse
 );
@@ -5882,7 +6275,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -5892,7 +6288,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::UsageResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::UsageResponse>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::UsageResponse>,
     >,
     crate::__types::UsageResponse
 );
@@ -5987,7 +6383,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -5997,7 +6396,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::UsageResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::UsageResponse>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::UsageResponse>,
     >,
     crate::__types::UsageResponse
 );
@@ -6102,7 +6501,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -6112,7 +6514,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::UsageResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::UsageResponse>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::UsageResponse>,
     >,
     crate::__types::UsageResponse
 );
@@ -6207,7 +6609,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -6217,7 +6622,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::UsageResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::UsageResponse>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::UsageResponse>,
     >,
     crate::__types::UsageResponse
 );
@@ -6298,7 +6703,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -6308,7 +6716,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::UsageResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::UsageResponse>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::UsageResponse>,
     >,
     crate::__types::UsageResponse
 );
@@ -6369,7 +6777,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -6379,7 +6790,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::UserListResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::UserListResponse>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::UserListResponse>,
     >,
     crate::__types::UserListResponse
 );
@@ -6424,7 +6835,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -6434,7 +6848,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::User>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::User>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::User>,
     >,
     crate::__types::User
 );
@@ -6478,10 +6892,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -6491,7 +6908,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::User>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::User>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::User>,
     >,
     crate::__types::User
 );
@@ -6536,7 +6953,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -6546,7 +6966,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::UserDeleteResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::UserDeleteResponse>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::UserDeleteResponse>,
     >,
     crate::__types::UserDeleteResponse
 );
@@ -6570,10 +6992,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -6583,7 +7008,10 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::RealtimeSessionCreateResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::RealtimeSessionCreateResponse>,
+        fn(
+            http::Response<B>,
+        )
+            -> crate::__combinators::Json<B, E, crate::__types::RealtimeSessionCreateResponse>,
     >,
     crate::__types::RealtimeSessionCreateResponse
 );
@@ -6607,10 +7035,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -6625,7 +7056,7 @@ future!(
             crate::__types::RealtimeTranscriptionSessionCreateResponse,
         >,
         fn(
-            B,
+            http::Response<B>,
         ) -> crate::__combinators::Json<
             B,
             E,
@@ -6654,10 +7085,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -6667,7 +7101,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::Response>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::Response>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::Response>,
     >,
     crate::__types::Response
 );
@@ -6691,15 +7125,18 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::TEXT_EVENT_STREAM),
+            ),
         ),
         crate::__combinators::EventStream::new,
     ))
 }
-future ! (CreateResponseStream , futures :: future :: MapOk < crate :: __combinators :: Send < Fut , B , E > , fn (B) -> crate :: __combinators :: EventStream < B , crate :: __types :: ResponseStreamEvent > , > , crate :: __combinators :: EventStream < B , crate :: __types :: ResponseStreamEvent >);
+future ! (CreateResponseStream , futures :: future :: MapOk < crate :: __combinators :: Send < Fut , B , E > , fn (http :: Response < B >) -> crate :: __combinators :: EventStream < B , crate :: __types :: ResponseStreamEvent > , > , crate :: __combinators :: EventStream < B , crate :: __types :: ResponseStreamEvent >);
 #[doc = "Retrieves a model response with the given ID.\n"]
 pub fn get_response<S, Fut, B, E>(
     service: S,
@@ -6758,7 +7195,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -6768,7 +7208,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::Response>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::Response>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::Response>,
     >,
     crate::__types::Response
 );
@@ -6815,7 +7255,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -6825,7 +7268,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::Response>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::Response>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::Response>,
     >,
     crate::__types::Response
 );
@@ -6899,7 +7342,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -6909,7 +7355,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ResponseItemList>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ResponseItemList>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::ResponseItemList>,
     >,
     crate::__types::ResponseItemList
 );
@@ -6933,10 +7379,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -6946,7 +7395,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::RunObject>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::RunObject>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::RunObject>,
     >,
     crate::__types::RunObject
 );
@@ -6990,7 +7439,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -7000,7 +7452,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ThreadObject>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ThreadObject>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::ThreadObject>,
     >,
     crate::__types::ThreadObject
 );
@@ -7043,10 +7495,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -7056,7 +7511,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ThreadObject>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ThreadObject>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::ThreadObject>,
     >,
     crate::__types::ThreadObject
 );
@@ -7100,7 +7555,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -7110,7 +7568,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::DeleteThreadResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::DeleteThreadResponse>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::DeleteThreadResponse>,
     >,
     crate::__types::DeleteThreadResponse
 );
@@ -7184,7 +7644,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -7194,7 +7657,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ListMessagesResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ListMessagesResponse>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::ListMessagesResponse>,
     >,
     crate::__types::ListMessagesResponse
 );
@@ -7240,10 +7705,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -7253,7 +7721,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::MessageObject>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::MessageObject>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::MessageObject>,
     >,
     crate::__types::MessageObject
 );
@@ -7301,7 +7769,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -7311,7 +7782,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::MessageObject>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::MessageObject>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::MessageObject>,
     >,
     crate::__types::MessageObject
 );
@@ -7358,10 +7829,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -7371,7 +7845,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::MessageObject>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::MessageObject>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::MessageObject>,
     >,
     crate::__types::MessageObject
 );
@@ -7419,7 +7893,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -7429,7 +7906,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::DeleteMessageResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::DeleteMessageResponse>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::DeleteMessageResponse>,
     >,
     crate::__types::DeleteMessageResponse
 );
@@ -7496,7 +7975,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -7506,7 +7988,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ListRunsResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ListRunsResponse>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::ListRunsResponse>,
     >,
     crate::__types::ListRunsResponse
 );
@@ -7554,10 +8036,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -7567,7 +8052,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::RunObject>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::RunObject>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::RunObject>,
     >,
     crate::__types::RunObject
 );
@@ -7612,7 +8097,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -7622,7 +8110,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::RunObject>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::RunObject>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::RunObject>,
     >,
     crate::__types::RunObject
 );
@@ -7669,10 +8157,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -7682,7 +8173,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::RunObject>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::RunObject>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::RunObject>,
     >,
     crate::__types::RunObject
 );
@@ -7730,7 +8221,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -7740,7 +8234,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::RunObject>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::RunObject>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::RunObject>,
     >,
     crate::__types::RunObject
 );
@@ -7815,7 +8309,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -7825,7 +8322,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ListRunStepsResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ListRunStepsResponse>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::ListRunStepsResponse>,
     >,
     crate::__types::ListRunStepsResponse
 );
@@ -7878,7 +8377,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -7888,7 +8390,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::RunStepObject>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::RunStepObject>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::RunStepObject>,
     >,
     crate::__types::RunStepObject
 );
@@ -7935,10 +8437,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -7948,7 +8453,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::RunObject>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::RunObject>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::RunObject>,
     >,
     crate::__types::RunObject
 );
@@ -7972,10 +8477,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -7985,7 +8493,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::Upload>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::Upload>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::Upload>,
     >,
     crate::__types::Upload
 );
@@ -8030,7 +8538,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -8040,7 +8551,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::Upload>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::Upload>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::Upload>,
     >,
     crate::__types::Upload
 );
@@ -8086,10 +8597,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -8099,7 +8613,7 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::Upload>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::Upload>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::Upload>,
     >,
     crate::__types::Upload
 );
@@ -8165,7 +8679,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -8175,7 +8692,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ListVectorStoresResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ListVectorStoresResponse>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::ListVectorStoresResponse>,
     >,
     crate::__types::ListVectorStoresResponse
 );
@@ -8199,10 +8718,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -8212,7 +8734,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::VectorStoreObject>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::VectorStoreObject>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::VectorStoreObject>,
     >,
     crate::__types::VectorStoreObject
 );
@@ -8259,7 +8783,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -8269,7 +8796,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::VectorStoreObject>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::VectorStoreObject>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::VectorStoreObject>,
     >,
     crate::__types::VectorStoreObject
 );
@@ -8315,10 +8844,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -8328,7 +8860,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::VectorStoreObject>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::VectorStoreObject>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::VectorStoreObject>,
     >,
     crate::__types::VectorStoreObject
 );
@@ -8375,7 +8909,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -8385,7 +8922,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::DeleteVectorStoreResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::DeleteVectorStoreResponse>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::DeleteVectorStoreResponse>,
     >,
     crate::__types::DeleteVectorStoreResponse
 );
@@ -8431,10 +8970,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -8444,7 +8986,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::VectorStoreFileBatchObject>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::VectorStoreFileBatchObject>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::VectorStoreFileBatchObject>,
     >,
     crate::__types::VectorStoreFileBatchObject
 );
@@ -8492,7 +9036,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -8502,7 +9049,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::VectorStoreFileBatchObject>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::VectorStoreFileBatchObject>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::VectorStoreFileBatchObject>,
     >,
     crate::__types::VectorStoreFileBatchObject
 );
@@ -8550,7 +9099,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -8560,7 +9112,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::VectorStoreFileBatchObject>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::VectorStoreFileBatchObject>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::VectorStoreFileBatchObject>,
     >,
     crate::__types::VectorStoreFileBatchObject
 );
@@ -8635,7 +9189,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -8645,7 +9202,10 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ListVectorStoreFilesResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ListVectorStoreFilesResponse>,
+        fn(
+            http::Response<B>,
+        )
+            -> crate::__combinators::Json<B, E, crate::__types::ListVectorStoreFilesResponse>,
     >,
     crate::__types::ListVectorStoreFilesResponse
 );
@@ -8719,7 +9279,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -8729,7 +9292,10 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::ListVectorStoreFilesResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::ListVectorStoreFilesResponse>,
+        fn(
+            http::Response<B>,
+        )
+            -> crate::__combinators::Json<B, E, crate::__types::ListVectorStoreFilesResponse>,
     >,
     crate::__types::ListVectorStoreFilesResponse
 );
@@ -8775,10 +9341,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -8788,7 +9357,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::VectorStoreFileObject>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::VectorStoreFileObject>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::VectorStoreFileObject>,
     >,
     crate::__types::VectorStoreFileObject
 );
@@ -8836,7 +9407,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -8846,7 +9420,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::VectorStoreFileObject>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::VectorStoreFileObject>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::VectorStoreFileObject>,
     >,
     crate::__types::VectorStoreFileObject
 );
@@ -8894,7 +9470,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -8904,7 +9483,10 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::DeleteVectorStoreFileResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::DeleteVectorStoreFileResponse>,
+        fn(
+            http::Response<B>,
+        )
+            -> crate::__combinators::Json<B, E, crate::__types::DeleteVectorStoreFileResponse>,
     >,
     crate::__types::DeleteVectorStoreFileResponse
 );
@@ -8951,10 +9533,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -8964,7 +9549,9 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::VectorStoreFileObject>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::VectorStoreFileObject>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::VectorStoreFileObject>,
     >,
     crate::__types::VectorStoreFileObject
 );
@@ -9012,7 +9599,10 @@ where
                     .header(http::header::CONTENT_LENGTH, body.len())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -9022,7 +9612,10 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::VectorStoreFileContentResponse>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::VectorStoreFileContentResponse>,
+        fn(
+            http::Response<B>,
+        )
+            -> crate::__combinators::Json<B, E, crate::__types::VectorStoreFileContentResponse>,
     >,
     crate::__types::VectorStoreFileContentResponse
 );
@@ -9068,10 +9661,13 @@ where
                     .method(http::Method::POST)
                     .uri(path)
                     .header(http::header::CONTENT_LENGTH, body.len())
-                    .header(http::header::CONTENT_TYPE, "application/json")
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(body)?)
             },
-            http::StatusCode::from_u16(200u16).unwrap(),
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
         ),
         crate::__combinators::Json::new,
     ))
@@ -9081,7 +9677,10 @@ future!(
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
         crate::__combinators::Json<B, E, crate::__types::VectorStoreSearchResultsPage>,
-        fn(B) -> crate::__combinators::Json<B, E, crate::__types::VectorStoreSearchResultsPage>,
+        fn(
+            http::Response<B>,
+        )
+            -> crate::__combinators::Json<B, E, crate::__types::VectorStoreSearchResultsPage>,
     >,
     crate::__types::VectorStoreSearchResultsPage
 );

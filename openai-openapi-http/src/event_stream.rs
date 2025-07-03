@@ -25,7 +25,9 @@ where
     B: http_body::Body,
     T: for<'de> Deserialize<'de>,
 {
-    pub(crate) fn new(body: B) -> Self {
+    pub(crate) fn new(response: http::Response<B>) -> Self {
+        let (parts, body) = response.into_parts();
+        tracing::debug!(response.parts = ?parts);
         Self(
             http_body_server_sent_events::decode(body.map_err(Error::Body)),
             PhantomData,
@@ -56,11 +58,11 @@ where
                         let openai_openapi_types::ErrorResponse {
                             error: openai_openapi_types::Error { code, message, .. },
                         } = serde_json::from_str(&data)?;
-                        Err(ApiError {
-                            status: None,
+                        break Poll::Ready(Some(Err(Error::Api(ApiError {
                             code,
-                            message,
-                        })?;
+                            message: Some(message),
+                            response: None,
+                        }))));
                     } else {
                         break Poll::Ready(Some(Ok(serde_json::from_str(&data)?)));
                     };

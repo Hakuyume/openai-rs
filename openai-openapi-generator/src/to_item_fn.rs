@@ -137,7 +137,9 @@ pub fn to_item_fn(
             );
             (
                 Some(quote::quote!(request: &#request,)),
-                Some(quote::quote!(.header(http::header::CONTENT_TYPE, "application/json"))),
+                Some(
+                    quote::quote!(.header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())),
+                ),
                 quote::quote! {
                     let body = serde_json::to_string(request)?;
                 },
@@ -196,7 +198,10 @@ pub fn to_item_fn(
                                         .body(body)?
                                     )
                                 },
-                                http::StatusCode::from_u16(#status).unwrap(),
+                                (
+                                    http::StatusCode::from_u16(#status).unwrap(),
+                                    Some(mime::APPLICATION_JSON),
+                                ),
                             ),
                             crate::__combinators::Json::new,
                         )
@@ -210,7 +215,7 @@ pub fn to_item_fn(
                     futures::future::AndThen<
                     crate::__combinators::Send<Fut, B, E>,
                     crate::__combinators::Json<B, E, #response>,
-                    fn(B) -> crate::__combinators::Json<B, E, #response>,
+                    fn(http::Response<B>) -> crate::__combinators::Json<B, E, #response>,
                     >,
                     #response
                 );
@@ -259,7 +264,10 @@ pub fn to_item_fn(
                                         .body(body)?
                                     )
                                 },
-                                http::StatusCode::from_u16(#status).unwrap(),
+                                (
+                                    http::StatusCode::from_u16(#status).unwrap(),
+                                    Some(mime::TEXT_EVENT_STREAM),
+                                ),
                             ),
                             crate::__combinators::EventStream::new,
                         )
@@ -272,7 +280,7 @@ pub fn to_item_fn(
                     #ident_future,
                     futures::future::MapOk<
                     crate::__combinators::Send<Fut, B, E>,
-                    fn(B) -> crate::__combinators::EventStream<B, #response>,
+                    fn(http::Response<B>) -> crate::__combinators::EventStream<B, #response>,
                     >,
                     crate::__combinators::EventStream<B, #response>
                 );

@@ -4,12 +4,14 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+bytes.workspace = true
 futures.workspace = true
 http.workspace = true
 http-body.workspace = true
 http-body-server-sent-events.workspace = true
 http-body-util.workspace = true
 indexmap = { workspace = true, features = ["serde"] }
+mime.workspace = true
 openai-openapi-types = { version = "0.4.1", path = "../openai-openapi-types" }
 pin-project.workspace = true
 serde = { workspace = true, features = ["derive"] }
@@ -18,3 +20,7 @@ serde_urlencoded.workspace = true
 serde_with.workspace = true
 thiserror.workspace = true
 tracing.workspace = true
+
+[dev-dependencies]
+futures-test.workspace = true
+ureq.workspace = true
