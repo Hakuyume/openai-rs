@@ -39,7 +39,7 @@ pub fn to_item_enum(
         .collect::<Option<Vec<_>>>()
     {
         let variants = variants.iter().map(|(description, value, default)| {
-            let description = to_description(Some(description.unwrap_or(value)));
+            let description = to_description(Some(description.unwrap_or(&format!("`{value}`"))));
             let attr_default = default.then_some(quote::quote!(#[default]));
             let ident = to_ident_pascal(value);
             quote::quote! {

@@ -439,112 +439,112 @@ pub enum AssistantStreamEvent {
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum AssistantSupportedModels {
-    #[doc = "gpt-4.1"]
+    #[doc = "`gpt-4.1`"]
     #[serde(rename = "gpt-4.1")]
     Gpt4_1,
-    #[doc = "gpt-4.1-mini"]
+    #[doc = "`gpt-4.1-mini`"]
     #[serde(rename = "gpt-4.1-mini")]
     Gpt4_1Mini,
-    #[doc = "gpt-4.1-nano"]
+    #[doc = "`gpt-4.1-nano`"]
     #[serde(rename = "gpt-4.1-nano")]
     Gpt4_1Nano,
-    #[doc = "gpt-4.1-2025-04-14"]
+    #[doc = "`gpt-4.1-2025-04-14`"]
     #[serde(rename = "gpt-4.1-2025-04-14")]
     Gpt4_1_2025_04_14,
-    #[doc = "gpt-4.1-mini-2025-04-14"]
+    #[doc = "`gpt-4.1-mini-2025-04-14`"]
     #[serde(rename = "gpt-4.1-mini-2025-04-14")]
     Gpt4_1Mini2025_04_14,
-    #[doc = "gpt-4.1-nano-2025-04-14"]
+    #[doc = "`gpt-4.1-nano-2025-04-14`"]
     #[serde(rename = "gpt-4.1-nano-2025-04-14")]
     Gpt4_1Nano2025_04_14,
-    #[doc = "o3-mini"]
+    #[doc = "`o3-mini`"]
     #[serde(rename = "o3-mini")]
     O3Mini,
-    #[doc = "o3-mini-2025-01-31"]
+    #[doc = "`o3-mini-2025-01-31`"]
     #[serde(rename = "o3-mini-2025-01-31")]
     O3Mini2025_01_31,
-    #[doc = "o1"]
+    #[doc = "`o1`"]
     #[serde(rename = "o1")]
     O1,
-    #[doc = "o1-2024-12-17"]
+    #[doc = "`o1-2024-12-17`"]
     #[serde(rename = "o1-2024-12-17")]
     O1_2024_12_17,
-    #[doc = "gpt-4o"]
+    #[doc = "`gpt-4o`"]
     #[serde(rename = "gpt-4o")]
     Gpt4o,
-    #[doc = "gpt-4o-2024-11-20"]
+    #[doc = "`gpt-4o-2024-11-20`"]
     #[serde(rename = "gpt-4o-2024-11-20")]
     Gpt4o2024_11_20,
-    #[doc = "gpt-4o-2024-08-06"]
+    #[doc = "`gpt-4o-2024-08-06`"]
     #[serde(rename = "gpt-4o-2024-08-06")]
     Gpt4o2024_08_06,
-    #[doc = "gpt-4o-2024-05-13"]
+    #[doc = "`gpt-4o-2024-05-13`"]
     #[serde(rename = "gpt-4o-2024-05-13")]
     Gpt4o2024_05_13,
-    #[doc = "gpt-4o-mini"]
+    #[doc = "`gpt-4o-mini`"]
     #[serde(rename = "gpt-4o-mini")]
     Gpt4oMini,
-    #[doc = "gpt-4o-mini-2024-07-18"]
+    #[doc = "`gpt-4o-mini-2024-07-18`"]
     #[serde(rename = "gpt-4o-mini-2024-07-18")]
     Gpt4oMini2024_07_18,
-    #[doc = "gpt-4.5-preview"]
+    #[doc = "`gpt-4.5-preview`"]
     #[serde(rename = "gpt-4.5-preview")]
     Gpt4_5Preview,
-    #[doc = "gpt-4.5-preview-2025-02-27"]
+    #[doc = "`gpt-4.5-preview-2025-02-27`"]
     #[serde(rename = "gpt-4.5-preview-2025-02-27")]
     Gpt4_5Preview2025_02_27,
-    #[doc = "gpt-4-turbo"]
+    #[doc = "`gpt-4-turbo`"]
     #[serde(rename = "gpt-4-turbo")]
     Gpt4Turbo,
-    #[doc = "gpt-4-turbo-2024-04-09"]
+    #[doc = "`gpt-4-turbo-2024-04-09`"]
     #[serde(rename = "gpt-4-turbo-2024-04-09")]
     Gpt4Turbo2024_04_09,
-    #[doc = "gpt-4-0125-preview"]
+    #[doc = "`gpt-4-0125-preview`"]
     #[serde(rename = "gpt-4-0125-preview")]
     Gpt4_0125Preview,
-    #[doc = "gpt-4-turbo-preview"]
+    #[doc = "`gpt-4-turbo-preview`"]
     #[serde(rename = "gpt-4-turbo-preview")]
     Gpt4TurboPreview,
-    #[doc = "gpt-4-1106-preview"]
+    #[doc = "`gpt-4-1106-preview`"]
     #[serde(rename = "gpt-4-1106-preview")]
     Gpt4_1106Preview,
-    #[doc = "gpt-4-vision-preview"]
+    #[doc = "`gpt-4-vision-preview`"]
     #[serde(rename = "gpt-4-vision-preview")]
     Gpt4VisionPreview,
-    #[doc = "gpt-4"]
+    #[doc = "`gpt-4`"]
     #[serde(rename = "gpt-4")]
     Gpt4,
-    #[doc = "gpt-4-0314"]
+    #[doc = "`gpt-4-0314`"]
     #[serde(rename = "gpt-4-0314")]
     Gpt4_0314,
-    #[doc = "gpt-4-0613"]
+    #[doc = "`gpt-4-0613`"]
     #[serde(rename = "gpt-4-0613")]
     Gpt4_0613,
-    #[doc = "gpt-4-32k"]
+    #[doc = "`gpt-4-32k`"]
     #[serde(rename = "gpt-4-32k")]
     Gpt4_32k,
-    #[doc = "gpt-4-32k-0314"]
+    #[doc = "`gpt-4-32k-0314`"]
     #[serde(rename = "gpt-4-32k-0314")]
     Gpt4_32k0314,
-    #[doc = "gpt-4-32k-0613"]
+    #[doc = "`gpt-4-32k-0613`"]
     #[serde(rename = "gpt-4-32k-0613")]
     Gpt4_32k0613,
-    #[doc = "gpt-3.5-turbo"]
+    #[doc = "`gpt-3.5-turbo`"]
     #[serde(rename = "gpt-3.5-turbo")]
     Gpt3_5Turbo,
-    #[doc = "gpt-3.5-turbo-16k"]
+    #[doc = "`gpt-3.5-turbo-16k`"]
     #[serde(rename = "gpt-3.5-turbo-16k")]
     Gpt3_5Turbo16k,
-    #[doc = "gpt-3.5-turbo-0613"]
+    #[doc = "`gpt-3.5-turbo-0613`"]
     #[serde(rename = "gpt-3.5-turbo-0613")]
     Gpt3_5Turbo0613,
-    #[doc = "gpt-3.5-turbo-1106"]
+    #[doc = "`gpt-3.5-turbo-1106`"]
     #[serde(rename = "gpt-3.5-turbo-1106")]
     Gpt3_5Turbo1106,
-    #[doc = "gpt-3.5-turbo-0125"]
+    #[doc = "`gpt-3.5-turbo-0125`"]
     #[serde(rename = "gpt-3.5-turbo-0125")]
     Gpt3_5Turbo0125,
-    #[doc = "gpt-3.5-turbo-16k-0613"]
+    #[doc = "`gpt-3.5-turbo-16k-0613`"]
     #[serde(rename = "gpt-3.5-turbo-16k-0613")]
     Gpt3_5Turbo16k0613,
 }
@@ -886,13 +886,13 @@ impl serde::Serialize for AssistantsApiToolChoiceOption {
 #[doc = "The type of the tool. If type is `function`, the function name must be set"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum AssistantsNamedToolChoiceType {
-    #[doc = "function"]
+    #[doc = "`function`"]
     #[serde(rename = "function")]
     Function,
-    #[doc = "code_interpreter"]
+    #[doc = "`code_interpreter`"]
     #[serde(rename = "code_interpreter")]
     CodeInterpreter,
-    #[doc = "file_search"]
+    #[doc = "`file_search`"]
     #[serde(rename = "file_search")]
     FileSearch,
 }
@@ -920,20 +920,20 @@ pub struct AssistantsNamedToolChoice {
 #[doc = "The format of the output, in one of these options: `json`, `text`, `srt`, `verbose_json`, or `vtt`. For `gpt-4o-transcribe` and `gpt-4o-mini-transcribe`, the only supported format is `json`.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum AudioResponseFormat {
-    #[doc = "json"]
+    #[doc = "`json`"]
     #[default]
     #[serde(rename = "json")]
     Json,
-    #[doc = "text"]
+    #[doc = "`text`"]
     #[serde(rename = "text")]
     Text,
-    #[doc = "srt"]
+    #[doc = "`srt`"]
     #[serde(rename = "srt")]
     Srt,
-    #[doc = "verbose_json"]
+    #[doc = "`verbose_json`"]
     #[serde(rename = "verbose_json")]
     VerboseJson,
-    #[doc = "vtt"]
+    #[doc = "`vtt`"]
     #[serde(rename = "vtt")]
     Vtt,
 }
@@ -1730,10 +1730,10 @@ pub struct AuditLog {
 #[doc = "The type of actor. Is either `session` or `api_key`."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum AuditLogActorType {
-    #[doc = "session"]
+    #[doc = "`session`"]
     #[serde(rename = "session")]
     Session,
-    #[doc = "api_key"]
+    #[doc = "`api_key`"]
     #[serde(rename = "api_key")]
     ApiKey,
 }
@@ -1759,10 +1759,10 @@ pub struct AuditLogActor {
 #[doc = "The type of API key. Can be either `user` or `service_account`."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum AuditLogActorApiKeyType {
-    #[doc = "user"]
+    #[doc = "`user`"]
     #[serde(rename = "user")]
     User,
-    #[doc = "service_account"]
+    #[doc = "`service_account`"]
     #[serde(rename = "service_account")]
     ServiceAccount,
 }
@@ -1835,76 +1835,76 @@ pub struct AuditLogActorUser {
 #[doc = "The event type."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum AuditLogEventType {
-    #[doc = "api_key.created"]
+    #[doc = "`api_key.created`"]
     #[serde(rename = "api_key.created")]
     ApiKeyCreated,
-    #[doc = "api_key.updated"]
+    #[doc = "`api_key.updated`"]
     #[serde(rename = "api_key.updated")]
     ApiKeyUpdated,
-    #[doc = "api_key.deleted"]
+    #[doc = "`api_key.deleted`"]
     #[serde(rename = "api_key.deleted")]
     ApiKeyDeleted,
-    #[doc = "checkpoint_permission.created"]
+    #[doc = "`checkpoint_permission.created`"]
     #[serde(rename = "checkpoint_permission.created")]
     CheckpointPermissionCreated,
-    #[doc = "checkpoint_permission.deleted"]
+    #[doc = "`checkpoint_permission.deleted`"]
     #[serde(rename = "checkpoint_permission.deleted")]
     CheckpointPermissionDeleted,
-    #[doc = "invite.sent"]
+    #[doc = "`invite.sent`"]
     #[serde(rename = "invite.sent")]
     InviteSent,
-    #[doc = "invite.accepted"]
+    #[doc = "`invite.accepted`"]
     #[serde(rename = "invite.accepted")]
     InviteAccepted,
-    #[doc = "invite.deleted"]
+    #[doc = "`invite.deleted`"]
     #[serde(rename = "invite.deleted")]
     InviteDeleted,
-    #[doc = "login.succeeded"]
+    #[doc = "`login.succeeded`"]
     #[serde(rename = "login.succeeded")]
     LoginSucceeded,
-    #[doc = "login.failed"]
+    #[doc = "`login.failed`"]
     #[serde(rename = "login.failed")]
     LoginFailed,
-    #[doc = "logout.succeeded"]
+    #[doc = "`logout.succeeded`"]
     #[serde(rename = "logout.succeeded")]
     LogoutSucceeded,
-    #[doc = "logout.failed"]
+    #[doc = "`logout.failed`"]
     #[serde(rename = "logout.failed")]
     LogoutFailed,
-    #[doc = "organization.updated"]
+    #[doc = "`organization.updated`"]
     #[serde(rename = "organization.updated")]
     OrganizationUpdated,
-    #[doc = "project.created"]
+    #[doc = "`project.created`"]
     #[serde(rename = "project.created")]
     ProjectCreated,
-    #[doc = "project.updated"]
+    #[doc = "`project.updated`"]
     #[serde(rename = "project.updated")]
     ProjectUpdated,
-    #[doc = "project.archived"]
+    #[doc = "`project.archived`"]
     #[serde(rename = "project.archived")]
     ProjectArchived,
-    #[doc = "service_account.created"]
+    #[doc = "`service_account.created`"]
     #[serde(rename = "service_account.created")]
     ServiceAccountCreated,
-    #[doc = "service_account.updated"]
+    #[doc = "`service_account.updated`"]
     #[serde(rename = "service_account.updated")]
     ServiceAccountUpdated,
-    #[doc = "service_account.deleted"]
+    #[doc = "`service_account.deleted`"]
     #[serde(rename = "service_account.deleted")]
     ServiceAccountDeleted,
-    #[doc = "rate_limit.updated"]
+    #[doc = "`rate_limit.updated`"]
     #[serde(rename = "rate_limit.updated")]
     RateLimitUpdated,
-    #[doc = "rate_limit.deleted"]
+    #[doc = "`rate_limit.deleted`"]
     #[serde(rename = "rate_limit.deleted")]
     RateLimitDeleted,
-    #[doc = "user.added"]
+    #[doc = "`user.added`"]
     #[serde(rename = "user.added")]
     UserAdded,
-    #[doc = "user.updated"]
+    #[doc = "`user.updated`"]
     #[serde(rename = "user.updated")]
     UserUpdated,
-    #[doc = "user.deleted"]
+    #[doc = "`user.deleted`"]
     #[serde(rename = "user.deleted")]
     UserDeleted,
 }
@@ -2000,28 +2000,28 @@ pub struct BatchErrors {
 #[doc = "The current status of the batch."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum BatchStatus {
-    #[doc = "validating"]
+    #[doc = "`validating`"]
     #[serde(rename = "validating")]
     Validating,
-    #[doc = "failed"]
+    #[doc = "`failed`"]
     #[serde(rename = "failed")]
     Failed,
-    #[doc = "in_progress"]
+    #[doc = "`in_progress`"]
     #[serde(rename = "in_progress")]
     InProgress,
-    #[doc = "finalizing"]
+    #[doc = "`finalizing`"]
     #[serde(rename = "finalizing")]
     Finalizing,
-    #[doc = "completed"]
+    #[doc = "`completed`"]
     #[serde(rename = "completed")]
     Completed,
-    #[doc = "expired"]
+    #[doc = "`expired`"]
     #[serde(rename = "expired")]
     Expired,
-    #[doc = "cancelling"]
+    #[doc = "`cancelling`"]
     #[serde(rename = "cancelling")]
     Cancelling,
-    #[doc = "cancelled"]
+    #[doc = "`cancelled`"]
     #[serde(rename = "cancelled")]
     Cancelled,
 }
@@ -2382,13 +2382,13 @@ pub struct BatchRequestOutput {
 #[doc = "The object type.\n\n- If creating, updating, or getting a specific certificate, the object type is `certificate`.\n- If listing, activating, or deactivating certificates for the organization, the object type is `organization.certificate`.\n- If listing, activating, or deactivating certificates for a project, the object type is `organization.project.certificate`.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CertificateObject {
-    #[doc = "certificate"]
+    #[doc = "`certificate`"]
     #[serde(rename = "certificate")]
     Certificate,
-    #[doc = "organization.certificate"]
+    #[doc = "`organization.certificate`"]
     #[serde(rename = "organization.certificate")]
     OrganizationCertificate,
-    #[doc = "organization.project.certificate"]
+    #[doc = "`organization.project.certificate`"]
     #[serde(rename = "organization.project.certificate")]
     OrganizationProjectCertificate,
 }
@@ -2926,10 +2926,10 @@ pub struct ChatCompletionMessageToolCallChunk {
 pub type ChatCompletionMessageToolCalls = Vec<crate::__types::ChatCompletionMessageToolCall>;
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ChatCompletionModality {
-    #[doc = "text"]
+    #[doc = "`text`"]
     #[serde(rename = "text")]
     Text,
-    #[doc = "audio"]
+    #[doc = "`audio`"]
     #[serde(rename = "audio")]
     Audio,
 }
@@ -3305,10 +3305,10 @@ impl_serde!(
 #[doc = "The format of the encoded audio data. Currently supports \"wav\" and \"mp3\".\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ChatCompletionRequestMessageContentPartAudioInputAudioFormat {
-    #[doc = "wav"]
+    #[doc = "`wav`"]
     #[serde(rename = "wav")]
     Wav,
-    #[doc = "mp3"]
+    #[doc = "`mp3`"]
     #[serde(rename = "mp3")]
     Mp3,
 }
@@ -3448,14 +3448,14 @@ impl_serde!(
 #[doc = "Specifies the detail level of the image. Learn more in the [Vision guide](https://platform.openai.com/docs/guides/vision#low-or-high-fidelity-image-understanding)."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ChatCompletionRequestMessageContentPartImageImageUrlDetail {
-    #[doc = "auto"]
+    #[doc = "`auto`"]
     #[default]
     #[serde(rename = "auto")]
     Auto,
-    #[doc = "low"]
+    #[doc = "`low`"]
     #[serde(rename = "low")]
     Low,
-    #[doc = "high"]
+    #[doc = "`high`"]
     #[serde(rename = "high")]
     High,
 }
@@ -4087,22 +4087,22 @@ impl serde::Serialize for ChatCompletionResponseMessage {
 #[doc = "The role of the author of a message"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ChatCompletionRole {
-    #[doc = "developer"]
+    #[doc = "`developer`"]
     #[serde(rename = "developer")]
     Developer,
-    #[doc = "system"]
+    #[doc = "`system`"]
     #[serde(rename = "system")]
     System,
-    #[doc = "user"]
+    #[doc = "`user`"]
     #[serde(rename = "user")]
     User,
-    #[doc = "assistant"]
+    #[doc = "`assistant`"]
     #[serde(rename = "assistant")]
     Assistant,
-    #[doc = "tool"]
+    #[doc = "`tool`"]
     #[serde(rename = "tool")]
     Tool,
-    #[doc = "function"]
+    #[doc = "`function`"]
     #[serde(rename = "function")]
     Function,
 }
@@ -4136,19 +4136,19 @@ pub struct ChatCompletionStreamResponseDeltaFunctionCall {
 #[doc = "The role of the author of this message."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ChatCompletionStreamResponseDeltaRole {
-    #[doc = "developer"]
+    #[doc = "`developer`"]
     #[serde(rename = "developer")]
     Developer,
-    #[doc = "system"]
+    #[doc = "`system`"]
     #[serde(rename = "system")]
     System,
-    #[doc = "user"]
+    #[doc = "`user`"]
     #[serde(rename = "user")]
     User,
-    #[doc = "assistant"]
+    #[doc = "`assistant`"]
     #[serde(rename = "assistant")]
     Assistant,
-    #[doc = "tool"]
+    #[doc = "`tool`"]
     #[serde(rename = "tool")]
     Tool,
 }
@@ -4358,19 +4358,19 @@ impl_serde!(ClickType, "click");
 #[doc = "Indicates which mouse button was pressed during the click. One of `left`, `right`, `wheel`, `back`, or `forward`.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ClickButton {
-    #[doc = "left"]
+    #[doc = "`left`"]
     #[serde(rename = "left")]
     Left,
-    #[doc = "right"]
+    #[doc = "`right`"]
     #[serde(rename = "right")]
     Right,
-    #[doc = "wheel"]
+    #[doc = "`wheel`"]
     #[serde(rename = "wheel")]
     Wheel,
-    #[doc = "back"]
+    #[doc = "`back`"]
     #[serde(rename = "back")]
     Back,
-    #[doc = "forward"]
+    #[doc = "`forward`"]
     #[serde(rename = "forward")]
     Forward,
 }
@@ -4762,19 +4762,19 @@ impl_serde!(CodeInterpreterToolCallType, "code_interpreter_call");
 #[doc = "The status of the code interpreter tool call.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CodeInterpreterToolCallStatus {
-    #[doc = "in_progress"]
+    #[doc = "`in_progress`"]
     #[serde(rename = "in_progress")]
     InProgress,
-    #[doc = "completed"]
+    #[doc = "`completed`"]
     #[serde(rename = "completed")]
     Completed,
-    #[doc = "incomplete"]
+    #[doc = "`incomplete`"]
     #[serde(rename = "incomplete")]
     Incomplete,
-    #[doc = "interpreting"]
+    #[doc = "`interpreting`"]
     #[serde(rename = "interpreting")]
     Interpreting,
-    #[doc = "failed"]
+    #[doc = "`failed`"]
     #[serde(rename = "failed")]
     Failed,
 }
@@ -4886,23 +4886,23 @@ impl serde::Serialize for CodeInterpreterToolCall {
 #[doc = "Specifies the comparison operator: `eq`, `ne`, `gt`, `gte`, `lt`, `lte`.\n- `eq`: equals\n- `ne`: not equal\n- `gt`: greater than\n- `gte`: greater than or equal\n- `lt`: less than\n- `lte`: less than or equal\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ComparisonFilterType {
-    #[doc = "eq"]
+    #[doc = "`eq`"]
     #[default]
     #[serde(rename = "eq")]
     Eq,
-    #[doc = "ne"]
+    #[doc = "`ne`"]
     #[serde(rename = "ne")]
     Ne,
-    #[doc = "gt"]
+    #[doc = "`gt`"]
     #[serde(rename = "gt")]
     Gt,
-    #[doc = "gte"]
+    #[doc = "`gte`"]
     #[serde(rename = "gte")]
     Gte,
-    #[doc = "lt"]
+    #[doc = "`lt`"]
     #[serde(rename = "lt")]
     Lt,
-    #[doc = "lte"]
+    #[doc = "`lte`"]
     #[serde(rename = "lte")]
     Lte,
 }
@@ -5016,10 +5016,10 @@ pub struct CompletionUsage {
 #[doc = "Type of operation: `and` or `or`."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CompoundFilterType {
-    #[doc = "and"]
+    #[doc = "`and`"]
     #[serde(rename = "and")]
     And,
-    #[doc = "or"]
+    #[doc = "`or`"]
     #[serde(rename = "or")]
     Or,
 }
@@ -5129,13 +5129,13 @@ impl_serde!(ComputerToolCallType, "computer_call");
 #[doc = "The status of the item. One of `in_progress`, `completed`, or\n`incomplete`. Populated when items are returned via API.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ComputerToolCallStatus {
-    #[doc = "in_progress"]
+    #[doc = "`in_progress`"]
     #[serde(rename = "in_progress")]
     InProgress,
-    #[doc = "completed"]
+    #[doc = "`completed`"]
     #[serde(rename = "completed")]
     Completed,
-    #[doc = "incomplete"]
+    #[doc = "`incomplete`"]
     #[serde(rename = "incomplete")]
     Incomplete,
 }
@@ -5237,13 +5237,13 @@ impl_serde!(ComputerToolCallOutputType, "computer_call_output");
 #[doc = "The status of the message input. One of `in_progress`, `completed`, or\n`incomplete`. Populated when input items are returned via API.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ComputerToolCallOutputStatus {
-    #[doc = "in_progress"]
+    #[doc = "`in_progress`"]
     #[serde(rename = "in_progress")]
     InProgress,
-    #[doc = "completed"]
+    #[doc = "`completed`"]
     #[serde(rename = "completed")]
     Completed,
-    #[doc = "incomplete"]
+    #[doc = "`incomplete`"]
     #[serde(rename = "incomplete")]
     Incomplete,
 }
@@ -5656,7 +5656,7 @@ impl serde::Serialize for ContainerListResource {
 #[doc = "The reference point for the expiration."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ContainerResourceExpiresAfterAnchor {
-    #[doc = "last_active_at"]
+    #[doc = "`last_active_at`"]
     #[serde(rename = "last_active_at")]
     LastActiveAt,
 }
@@ -6275,22 +6275,22 @@ pub enum CreateChatCompletionRequestResponseFormat {
 #[doc = "Specifies the output audio format. Must be one of `wav`, `mp3`, `flac`,\n`opus`, or `pcm16`.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateChatCompletionRequestAudioFormat {
-    #[doc = "wav"]
+    #[doc = "`wav`"]
     #[serde(rename = "wav")]
     Wav,
-    #[doc = "aac"]
+    #[doc = "`aac`"]
     #[serde(rename = "aac")]
     Aac,
-    #[doc = "mp3"]
+    #[doc = "`mp3`"]
     #[serde(rename = "mp3")]
     Mp3,
-    #[doc = "flac"]
+    #[doc = "`flac`"]
     #[serde(rename = "flac")]
     Flac,
-    #[doc = "opus"]
+    #[doc = "`opus`"]
     #[serde(rename = "opus")]
     Opus,
-    #[doc = "pcm16"]
+    #[doc = "`pcm16`"]
     #[serde(rename = "pcm16")]
     Pcm16,
 }
@@ -6533,19 +6533,19 @@ pub struct CreateChatCompletionRequest {
 #[doc = "The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,\n`length` if the maximum number of tokens specified in the request was reached,\n`content_filter` if content was omitted due to a flag from our content filters,\n`tool_calls` if the model called a tool, or `function_call` (deprecated) if the model called a function.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateChatCompletionResponseChoiceFinishReason {
-    #[doc = "stop"]
+    #[doc = "`stop`"]
     #[serde(rename = "stop")]
     Stop,
-    #[doc = "length"]
+    #[doc = "`length`"]
     #[serde(rename = "length")]
     Length,
-    #[doc = "tool_calls"]
+    #[doc = "`tool_calls`"]
     #[serde(rename = "tool_calls")]
     ToolCalls,
-    #[doc = "content_filter"]
+    #[doc = "`content_filter`"]
     #[serde(rename = "content_filter")]
     ContentFilter,
-    #[doc = "function_call"]
+    #[doc = "`function_call`"]
     #[serde(rename = "function_call")]
     FunctionCall,
 }
@@ -6723,19 +6723,19 @@ pub struct CreateChatCompletionStreamResponseChoiceLogprobs {
 #[doc = "The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,\n`length` if the maximum number of tokens specified in the request was reached,\n`content_filter` if content was omitted due to a flag from our content filters,\n`tool_calls` if the model called a tool, or `function_call` (deprecated) if the model called a function.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateChatCompletionStreamResponseChoiceFinishReason {
-    #[doc = "stop"]
+    #[doc = "`stop`"]
     #[serde(rename = "stop")]
     Stop,
-    #[doc = "length"]
+    #[doc = "`length`"]
     #[serde(rename = "length")]
     Length,
-    #[doc = "tool_calls"]
+    #[doc = "`tool_calls`"]
     #[serde(rename = "tool_calls")]
     ToolCalls,
-    #[doc = "content_filter"]
+    #[doc = "`content_filter`"]
     #[serde(rename = "content_filter")]
     ContentFilter,
-    #[doc = "function_call"]
+    #[doc = "`function_call`"]
     #[serde(rename = "function_call")]
     FunctionCall,
 }
@@ -6990,13 +6990,13 @@ pub struct CreateCompletionRequest {
 #[doc = "The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,\n`length` if the maximum number of tokens specified in the request was reached,\nor `content_filter` if content was omitted due to a flag from our content filters.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateCompletionResponseChoiceFinishReason {
-    #[doc = "stop"]
+    #[doc = "`stop`"]
     #[serde(rename = "stop")]
     Stop,
-    #[doc = "length"]
+    #[doc = "`length`"]
     #[serde(rename = "length")]
     Length,
-    #[doc = "content_filter"]
+    #[doc = "`content_filter`"]
     #[serde(rename = "content_filter")]
     ContentFilter,
 }
@@ -7149,7 +7149,7 @@ impl serde::Serialize for CreateCompletionResponse {
 #[doc = "Time anchor for the expiration time. Currently only 'last_active_at' is supported."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateContainerBodyExpiresAfterAnchor {
-    #[doc = "last_active_at"]
+    #[doc = "`last_active_at`"]
     #[serde(rename = "last_active_at")]
     LastActiveAt,
 }
@@ -7217,11 +7217,11 @@ pub enum CreateEmbeddingRequestInput {
 #[doc = "The format to return the embeddings in. Can be either `float` or [`base64`](https://pypi.org/project/pybase64/)."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateEmbeddingRequestEncodingFormat {
-    #[doc = "float"]
+    #[doc = "`float`"]
     #[default]
     #[serde(rename = "float")]
     Float,
-    #[doc = "base64"]
+    #[doc = "`base64`"]
     #[serde(rename = "base64")]
     Base64,
 }
@@ -8319,22 +8319,22 @@ impl serde::Serialize for CreateEvalStoredCompletionsDataSourceConfig {
 #[doc = "The intended purpose of the uploaded file. One of: - `assistants`: Used in the Assistants API - `batch`: Used in the Batch API - `fine-tune`: Used for fine-tuning - `vision`: Images used for vision fine-tuning - `user_data`: Flexible file type for any purpose - `evals`: Used for eval data sets\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateFileRequestPurpose {
-    #[doc = "assistants"]
+    #[doc = "`assistants`"]
     #[serde(rename = "assistants")]
     Assistants,
-    #[doc = "batch"]
+    #[doc = "`batch`"]
     #[serde(rename = "batch")]
     Batch,
-    #[doc = "fine-tune"]
+    #[doc = "`fine-tune`"]
     #[serde(rename = "fine-tune")]
     FineTune,
-    #[doc = "vision"]
+    #[doc = "`vision`"]
     #[serde(rename = "vision")]
     Vision,
-    #[doc = "user_data"]
+    #[doc = "`user_data`"]
     #[serde(rename = "user_data")]
     UserData,
-    #[doc = "evals"]
+    #[doc = "`evals`"]
     #[serde(rename = "evals")]
     Evals,
 }
@@ -8568,7 +8568,7 @@ pub struct CreateFineTuningJobRequestHyperparameters {
 #[doc = "The type of integration to enable. Currently, only \"wandb\" (Weights and Biases) is supported.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateFineTuningJobRequestIntegrationType {
-    #[doc = "wandb"]
+    #[doc = "`wandb`"]
     #[serde(rename = "wandb")]
     Wandb,
 }
@@ -8664,13 +8664,13 @@ pub enum CreateImageEditRequestImage {
 #[doc = "Allows to set transparency for the background of the generated image(s). \nThis parameter is only supported for `gpt-image-1`. Must be one of \n`transparent`, `opaque` or `auto` (default value). When `auto` is used, the \nmodel will automatically determine the best background for the image.\n\nIf `transparent`, the output format needs to support transparency, so it \nshould be set to either `png` (default value) or `webp`.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateImageEditRequestBackground {
-    #[doc = "transparent"]
+    #[doc = "`transparent`"]
     #[serde(rename = "transparent")]
     Transparent,
-    #[doc = "opaque"]
+    #[doc = "`opaque`"]
     #[serde(rename = "opaque")]
     Opaque,
-    #[doc = "auto"]
+    #[doc = "`auto`"]
     #[default]
     #[serde(rename = "auto")]
     Auto,
@@ -8678,67 +8678,67 @@ pub enum CreateImageEditRequestBackground {
 #[doc = "The size of the generated images. Must be one of `1024x1024`, `1536x1024` (landscape), `1024x1536` (portrait), or `auto` (default value) for `gpt-image-1`, and one of `256x256`, `512x512`, or `1024x1024` for `dall-e-2`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateImageEditRequestSize {
-    #[doc = "256x256"]
+    #[doc = "`256x256`"]
     #[serde(rename = "256x256")]
     _256x256,
-    #[doc = "512x512"]
+    #[doc = "`512x512`"]
     #[serde(rename = "512x512")]
     _512x512,
-    #[doc = "1024x1024"]
+    #[doc = "`1024x1024`"]
     #[default]
     #[serde(rename = "1024x1024")]
     _1024x1024,
-    #[doc = "1536x1024"]
+    #[doc = "`1536x1024`"]
     #[serde(rename = "1536x1024")]
     _1536x1024,
-    #[doc = "1024x1536"]
+    #[doc = "`1024x1536`"]
     #[serde(rename = "1024x1536")]
     _1024x1536,
-    #[doc = "auto"]
+    #[doc = "`auto`"]
     #[serde(rename = "auto")]
     Auto,
 }
 #[doc = "The format in which the generated images are returned. Must be one of `url` or `b64_json`. URLs are only valid for 60 minutes after the image has been generated. This parameter is only supported for `dall-e-2`, as `gpt-image-1` will always return base64-encoded images."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateImageEditRequestResponseFormat {
-    #[doc = "url"]
+    #[doc = "`url`"]
     #[default]
     #[serde(rename = "url")]
     Url,
-    #[doc = "b64_json"]
+    #[doc = "`b64_json`"]
     #[serde(rename = "b64_json")]
     B64Json,
 }
 #[doc = "The format in which the generated images are returned. This parameter is\nonly supported for `gpt-image-1`. Must be one of `png`, `jpeg`, or `webp`.\nThe default value is `png`.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateImageEditRequestOutputFormat {
-    #[doc = "png"]
+    #[doc = "`png`"]
     #[default]
     #[serde(rename = "png")]
     Png,
-    #[doc = "jpeg"]
+    #[doc = "`jpeg`"]
     #[serde(rename = "jpeg")]
     Jpeg,
-    #[doc = "webp"]
+    #[doc = "`webp`"]
     #[serde(rename = "webp")]
     Webp,
 }
 #[doc = "The quality of the image that will be generated. `high`, `medium` and `low` are only supported for `gpt-image-1`. `dall-e-2` only supports `standard` quality. Defaults to `auto`.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateImageEditRequestQuality {
-    #[doc = "standard"]
+    #[doc = "`standard`"]
     #[serde(rename = "standard")]
     Standard,
-    #[doc = "low"]
+    #[doc = "`low`"]
     #[serde(rename = "low")]
     Low,
-    #[doc = "medium"]
+    #[doc = "`medium`"]
     #[serde(rename = "medium")]
     Medium,
-    #[doc = "high"]
+    #[doc = "`high`"]
     #[serde(rename = "high")]
     High,
-    #[doc = "auto"]
+    #[doc = "`auto`"]
     #[default]
     #[serde(rename = "auto")]
     Auto,
@@ -8808,22 +8808,22 @@ pub struct CreateImageEditRequest {
 #[doc = "The quality of the image that will be generated. \n\n- `auto` (default value) will automatically select the best quality for the given model.\n- `high`, `medium` and `low` are supported for `gpt-image-1`.\n- `hd` and `standard` are supported for `dall-e-3`.\n- `standard` is the only option for `dall-e-2`.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateImageRequestQuality {
-    #[doc = "standard"]
+    #[doc = "`standard`"]
     #[serde(rename = "standard")]
     Standard,
-    #[doc = "hd"]
+    #[doc = "`hd`"]
     #[serde(rename = "hd")]
     Hd,
-    #[doc = "low"]
+    #[doc = "`low`"]
     #[serde(rename = "low")]
     Low,
-    #[doc = "medium"]
+    #[doc = "`medium`"]
     #[serde(rename = "medium")]
     Medium,
-    #[doc = "high"]
+    #[doc = "`high`"]
     #[serde(rename = "high")]
     High,
-    #[doc = "auto"]
+    #[doc = "`auto`"]
     #[default]
     #[serde(rename = "auto")]
     Auto,
@@ -8831,64 +8831,64 @@ pub enum CreateImageRequestQuality {
 #[doc = "The format in which generated images with `dall-e-2` and `dall-e-3` are returned. Must be one of `url` or `b64_json`. URLs are only valid for 60 minutes after the image has been generated. This parameter isn't supported for `gpt-image-1` which will always return base64-encoded images."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateImageRequestResponseFormat {
-    #[doc = "url"]
+    #[doc = "`url`"]
     #[default]
     #[serde(rename = "url")]
     Url,
-    #[doc = "b64_json"]
+    #[doc = "`b64_json`"]
     #[serde(rename = "b64_json")]
     B64Json,
 }
 #[doc = "The format in which the generated images are returned. This parameter is only supported for `gpt-image-1`. Must be one of `png`, `jpeg`, or `webp`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateImageRequestOutputFormat {
-    #[doc = "png"]
+    #[doc = "`png`"]
     #[default]
     #[serde(rename = "png")]
     Png,
-    #[doc = "jpeg"]
+    #[doc = "`jpeg`"]
     #[serde(rename = "jpeg")]
     Jpeg,
-    #[doc = "webp"]
+    #[doc = "`webp`"]
     #[serde(rename = "webp")]
     Webp,
 }
 #[doc = "The size of the generated images. Must be one of `1024x1024`, `1536x1024` (landscape), `1024x1536` (portrait), or `auto` (default value) for `gpt-image-1`, one of `256x256`, `512x512`, or `1024x1024` for `dall-e-2`, and one of `1024x1024`, `1792x1024`, or `1024x1792` for `dall-e-3`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateImageRequestSize {
-    #[doc = "auto"]
+    #[doc = "`auto`"]
     #[default]
     #[serde(rename = "auto")]
     Auto,
-    #[doc = "1024x1024"]
+    #[doc = "`1024x1024`"]
     #[serde(rename = "1024x1024")]
     _1024x1024,
-    #[doc = "1536x1024"]
+    #[doc = "`1536x1024`"]
     #[serde(rename = "1536x1024")]
     _1536x1024,
-    #[doc = "1024x1536"]
+    #[doc = "`1024x1536`"]
     #[serde(rename = "1024x1536")]
     _1024x1536,
-    #[doc = "256x256"]
+    #[doc = "`256x256`"]
     #[serde(rename = "256x256")]
     _256x256,
-    #[doc = "512x512"]
+    #[doc = "`512x512`"]
     #[serde(rename = "512x512")]
     _512x512,
-    #[doc = "1792x1024"]
+    #[doc = "`1792x1024`"]
     #[serde(rename = "1792x1024")]
     _1792x1024,
-    #[doc = "1024x1792"]
+    #[doc = "`1024x1792`"]
     #[serde(rename = "1024x1792")]
     _1024x1792,
 }
 #[doc = "Control the content-moderation level for images generated by `gpt-image-1`. Must be either `low` for less restrictive filtering or `auto` (default value)."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateImageRequestModeration {
-    #[doc = "low"]
+    #[doc = "`low`"]
     #[serde(rename = "low")]
     Low,
-    #[doc = "auto"]
+    #[doc = "`auto`"]
     #[default]
     #[serde(rename = "auto")]
     Auto,
@@ -8896,13 +8896,13 @@ pub enum CreateImageRequestModeration {
 #[doc = "Allows to set transparency for the background of the generated image(s). \nThis parameter is only supported for `gpt-image-1`. Must be one of \n`transparent`, `opaque` or `auto` (default value). When `auto` is used, the \nmodel will automatically determine the best background for the image.\n\nIf `transparent`, the output format needs to support transparency, so it \nshould be set to either `png` (default value) or `webp`.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateImageRequestBackground {
-    #[doc = "transparent"]
+    #[doc = "`transparent`"]
     #[serde(rename = "transparent")]
     Transparent,
-    #[doc = "opaque"]
+    #[doc = "`opaque`"]
     #[serde(rename = "opaque")]
     Opaque,
-    #[doc = "auto"]
+    #[doc = "`auto`"]
     #[default]
     #[serde(rename = "auto")]
     Auto,
@@ -8910,11 +8910,11 @@ pub enum CreateImageRequestBackground {
 #[doc = "The style of the generated images. This parameter is only supported for `dall-e-3`. Must be one of `vivid` or `natural`. Vivid causes the model to lean towards generating hyper-real and dramatic images. Natural causes the model to produce more natural, less hyper-real looking images."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateImageRequestStyle {
-    #[doc = "vivid"]
+    #[doc = "`vivid`"]
     #[default]
     #[serde(rename = "vivid")]
     Vivid,
-    #[doc = "natural"]
+    #[doc = "`natural`"]
     #[serde(rename = "natural")]
     Natural,
 }
@@ -8984,24 +8984,24 @@ pub struct CreateImageRequest {
 #[doc = "The format in which the generated images are returned. Must be one of `url` or `b64_json`. URLs are only valid for 60 minutes after the image has been generated."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateImageVariationRequestResponseFormat {
-    #[doc = "url"]
+    #[doc = "`url`"]
     #[default]
     #[serde(rename = "url")]
     Url,
-    #[doc = "b64_json"]
+    #[doc = "`b64_json`"]
     #[serde(rename = "b64_json")]
     B64Json,
 }
 #[doc = "The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateImageVariationRequestSize {
-    #[doc = "256x256"]
+    #[doc = "`256x256`"]
     #[serde(rename = "256x256")]
     _256x256,
-    #[doc = "512x512"]
+    #[doc = "`512x512`"]
     #[serde(rename = "512x512")]
     _512x512,
-    #[doc = "1024x1024"]
+    #[doc = "`1024x1024`"]
     #[default]
     #[serde(rename = "1024x1024")]
     _1024x1024,
@@ -9043,10 +9043,10 @@ pub struct CreateImageVariationRequest {
 #[doc = "The role of the entity that is creating the message. Allowed values include:\n- `user`: Indicates the message is sent by an actual user and should be used in most cases to represent user-generated messages.\n- `assistant`: Indicates the message is generated by the assistant. Use this value to insert messages from the assistant into the conversation.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateMessageRequestRole {
-    #[doc = "user"]
+    #[doc = "`user`"]
     #[serde(rename = "user")]
     User,
-    #[doc = "assistant"]
+    #[doc = "`assistant`"]
     #[serde(rename = "assistant")]
     Assistant,
 }
@@ -9428,37 +9428,37 @@ impl_serde!(
 );
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateModerationResponseResultCategoryAppliedInputTypesSelfHarm {
-    #[doc = "text"]
+    #[doc = "`text`"]
     #[serde(rename = "text")]
     Text,
-    #[doc = "image"]
+    #[doc = "`image`"]
     #[serde(rename = "image")]
     Image,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateModerationResponseResultCategoryAppliedInputTypesSelfHarmIntent {
-    #[doc = "text"]
+    #[doc = "`text`"]
     #[serde(rename = "text")]
     Text,
-    #[doc = "image"]
+    #[doc = "`image`"]
     #[serde(rename = "image")]
     Image,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateModerationResponseResultCategoryAppliedInputTypesSelfHarmInstructions {
-    #[doc = "text"]
+    #[doc = "`text`"]
     #[serde(rename = "text")]
     Text,
-    #[doc = "image"]
+    #[doc = "`image`"]
     #[serde(rename = "image")]
     Image,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateModerationResponseResultCategoryAppliedInputTypesSexual {
-    #[doc = "text"]
+    #[doc = "`text`"]
     #[serde(rename = "text")]
     Text,
-    #[doc = "image"]
+    #[doc = "`image`"]
     #[serde(rename = "image")]
     Image,
 }
@@ -9471,19 +9471,19 @@ impl_serde!(
 );
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateModerationResponseResultCategoryAppliedInputTypesViolence {
-    #[doc = "text"]
+    #[doc = "`text`"]
     #[serde(rename = "text")]
     Text,
-    #[doc = "image"]
+    #[doc = "`image`"]
     #[serde(rename = "image")]
     Image,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateModerationResponseResultCategoryAppliedInputTypesViolenceGraphic {
-    #[doc = "text"]
+    #[doc = "`text`"]
     #[serde(rename = "text")]
     Text,
-    #[doc = "image"]
+    #[doc = "`image`"]
     #[serde(rename = "image")]
     Image,
 }
@@ -9748,33 +9748,33 @@ pub struct CreateRunRequest {
 #[doc = "The format to audio in. Supported formats are `mp3`, `opus`, `aac`, `flac`, `wav`, and `pcm`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateSpeechRequestResponseFormat {
-    #[doc = "mp3"]
+    #[doc = "`mp3`"]
     #[default]
     #[serde(rename = "mp3")]
     Mp3,
-    #[doc = "opus"]
+    #[doc = "`opus`"]
     #[serde(rename = "opus")]
     Opus,
-    #[doc = "aac"]
+    #[doc = "`aac`"]
     #[serde(rename = "aac")]
     Aac,
-    #[doc = "flac"]
+    #[doc = "`flac`"]
     #[serde(rename = "flac")]
     Flac,
-    #[doc = "wav"]
+    #[doc = "`wav`"]
     #[serde(rename = "wav")]
     Wav,
-    #[doc = "pcm"]
+    #[doc = "`pcm`"]
     #[serde(rename = "pcm")]
     Pcm,
 }
 #[doc = "The format to stream the audio in. Supported formats are `sse` and `audio`. `sse` is not supported for `tts-1` or `tts-1-hd`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateSpeechRequestStreamFormat {
-    #[doc = "sse"]
+    #[doc = "`sse`"]
     #[serde(rename = "sse")]
     Sse,
-    #[doc = "audio"]
+    #[doc = "`audio`"]
     #[default]
     #[serde(rename = "audio")]
     Audio,
@@ -10270,10 +10270,10 @@ pub struct CreateThreadRequest {
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateTranscriptionRequestTimestampGranularities {
-    #[doc = "word"]
+    #[doc = "`word`"]
     #[serde(rename = "word")]
     Word,
-    #[doc = "segment"]
+    #[doc = "`segment`"]
     #[serde(rename = "segment")]
     Segment,
 }
@@ -10419,20 +10419,20 @@ pub struct CreateTranscriptionResponseVerboseJson {
 #[doc = "The format of the output, in one of these options: `json`, `text`, `srt`, `verbose_json`, or `vtt`.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateTranslationRequestResponseFormat {
-    #[doc = "json"]
+    #[doc = "`json`"]
     #[default]
     #[serde(rename = "json")]
     Json,
-    #[doc = "text"]
+    #[doc = "`text`"]
     #[serde(rename = "text")]
     Text,
-    #[doc = "srt"]
+    #[doc = "`srt`"]
     #[serde(rename = "srt")]
     Srt,
-    #[doc = "verbose_json"]
+    #[doc = "`verbose_json`"]
     #[serde(rename = "verbose_json")]
     VerboseJson,
-    #[doc = "vtt"]
+    #[doc = "`vtt`"]
     #[serde(rename = "vtt")]
     Vtt,
 }
@@ -10492,16 +10492,16 @@ pub struct CreateTranslationResponseVerboseJson {
 #[doc = "The intended purpose of the uploaded file.\n\nSee the [documentation on File purposes](https://platform.openai.com/docs/api-reference/files/create#files-create-purpose).\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateUploadRequestPurpose {
-    #[doc = "assistants"]
+    #[doc = "`assistants`"]
     #[serde(rename = "assistants")]
     Assistants,
-    #[doc = "batch"]
+    #[doc = "`batch`"]
     #[serde(rename = "batch")]
     Batch,
-    #[doc = "fine-tune"]
+    #[doc = "`fine-tune`"]
     #[serde(rename = "fine-tune")]
     FineTune,
-    #[doc = "vision"]
+    #[doc = "`vision`"]
     #[serde(rename = "vision")]
     Vision,
 }
@@ -11196,16 +11196,16 @@ impl serde::Serialize for Drag {
 #[doc = "The role of the message input. One of `user`, `assistant`, `system`, or\n`developer`.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum EasyInputMessageRole {
-    #[doc = "user"]
+    #[doc = "`user`"]
     #[serde(rename = "user")]
     User,
-    #[doc = "assistant"]
+    #[doc = "`assistant`"]
     #[serde(rename = "assistant")]
     Assistant,
-    #[doc = "system"]
+    #[doc = "`system`"]
     #[serde(rename = "system")]
     System,
-    #[doc = "developer"]
+    #[doc = "`developer`"]
     #[serde(rename = "developer")]
     Developer,
 }
@@ -12020,16 +12020,16 @@ impl serde::Serialize for EvalGraderTextSimilarity {
 #[doc = "The role of the message input. One of `user`, `assistant`, `system`, or\n`developer`.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum EvalItemRole {
-    #[doc = "user"]
+    #[doc = "`user`"]
     #[serde(rename = "user")]
     User,
-    #[doc = "assistant"]
+    #[doc = "`assistant`"]
     #[serde(rename = "assistant")]
     Assistant,
-    #[doc = "system"]
+    #[doc = "`system`"]
     #[serde(rename = "system")]
     System,
-    #[doc = "developer"]
+    #[doc = "`developer`"]
     #[serde(rename = "developer")]
     Developer,
 }
@@ -13392,10 +13392,10 @@ impl serde::Serialize for FilePath {
 #[doc = "The ranker to use for the file search. If not specified will use the `auto` ranker."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum FileSearchRanker {
-    #[doc = "auto"]
+    #[doc = "`auto`"]
     #[serde(rename = "auto")]
     Auto,
-    #[doc = "default_2024_08_21"]
+    #[doc = "`default_2024_08_21`"]
     #[serde(rename = "default_2024_08_21")]
     Default2024_08_21,
 }
@@ -13419,19 +13419,19 @@ impl_serde!(FileSearchToolCallType, "file_search_call");
 #[doc = "The status of the file search tool call. One of `in_progress`, \n`searching`, `incomplete` or `failed`,\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum FileSearchToolCallStatus {
-    #[doc = "in_progress"]
+    #[doc = "`in_progress`"]
     #[serde(rename = "in_progress")]
     InProgress,
-    #[doc = "searching"]
+    #[doc = "`searching`"]
     #[serde(rename = "searching")]
     Searching,
-    #[doc = "completed"]
+    #[doc = "`completed`"]
     #[serde(rename = "completed")]
     Completed,
-    #[doc = "incomplete"]
+    #[doc = "`incomplete`"]
     #[serde(rename = "incomplete")]
     Incomplete,
-    #[doc = "failed"]
+    #[doc = "`failed`"]
     #[serde(rename = "failed")]
     Failed,
 }
@@ -13964,13 +13964,13 @@ pub struct FineTuneDpoMethod {
 #[doc = "The type of method. Is either `supervised`, `dpo`, or `reinforcement`."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum FineTuneMethodType {
-    #[doc = "supervised"]
+    #[doc = "`supervised`"]
     #[serde(rename = "supervised")]
     Supervised,
-    #[doc = "dpo"]
+    #[doc = "`dpo`"]
     #[serde(rename = "dpo")]
     Dpo,
-    #[doc = "reinforcement"]
+    #[doc = "`reinforcement`"]
     #[serde(rename = "reinforcement")]
     Reinforcement,
 }
@@ -14236,17 +14236,17 @@ impl serde::Serialize for FineTuneReinforcementHyperparametersNEpochs {
 #[doc = "Level of reasoning effort.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum FineTuneReinforcementHyperparametersReasoningEffort {
-    #[doc = "default"]
+    #[doc = "`default`"]
     #[default]
     #[serde(rename = "default")]
     Default,
-    #[doc = "low"]
+    #[doc = "`low`"]
     #[serde(rename = "low")]
     Low,
-    #[doc = "medium"]
+    #[doc = "`medium`"]
     #[serde(rename = "medium")]
     Medium,
-    #[doc = "high"]
+    #[doc = "`high`"]
     #[serde(rename = "high")]
     High,
 }
@@ -15072,22 +15072,22 @@ impl_serde!(FineTuningJobObject, "fine_tuning.job");
 #[doc = "The current status of the fine-tuning job, which can be either `validating_files`, `queued`, `running`, `succeeded`, `failed`, or `cancelled`."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum FineTuningJobStatus {
-    #[doc = "validating_files"]
+    #[doc = "`validating_files`"]
     #[serde(rename = "validating_files")]
     ValidatingFiles,
-    #[doc = "queued"]
+    #[doc = "`queued`"]
     #[serde(rename = "queued")]
     Queued,
-    #[doc = "running"]
+    #[doc = "`running`"]
     #[serde(rename = "running")]
     Running,
-    #[doc = "succeeded"]
+    #[doc = "`succeeded`"]
     #[serde(rename = "succeeded")]
     Succeeded,
-    #[doc = "failed"]
+    #[doc = "`failed`"]
     #[serde(rename = "failed")]
     Failed,
-    #[doc = "cancelled"]
+    #[doc = "`cancelled`"]
     #[serde(rename = "cancelled")]
     Cancelled,
 }
@@ -15486,23 +15486,23 @@ impl_serde!(FineTuningJobEventObject, "fine_tuning.job.event");
 #[doc = "The log level of the event."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum FineTuningJobEventLevel {
-    #[doc = "info"]
+    #[doc = "`info`"]
     #[serde(rename = "info")]
     Info,
-    #[doc = "warn"]
+    #[doc = "`warn`"]
     #[serde(rename = "warn")]
     Warn,
-    #[doc = "error"]
+    #[doc = "`error`"]
     #[serde(rename = "error")]
     Error,
 }
 #[doc = "The type of event."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum FineTuningJobEventType {
-    #[doc = "message"]
+    #[doc = "`message`"]
     #[serde(rename = "message")]
     Message,
-    #[doc = "metrics"]
+    #[doc = "`metrics`"]
     #[serde(rename = "metrics")]
     Metrics,
 }
@@ -15643,13 +15643,13 @@ impl_serde!(FunctionToolCallType, "function_call");
 #[doc = "The status of the item. One of `in_progress`, `completed`, or\n`incomplete`. Populated when items are returned via API.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum FunctionToolCallStatus {
-    #[doc = "in_progress"]
+    #[doc = "`in_progress`"]
     #[serde(rename = "in_progress")]
     InProgress,
-    #[doc = "completed"]
+    #[doc = "`completed`"]
     #[serde(rename = "completed")]
     Completed,
-    #[doc = "incomplete"]
+    #[doc = "`incomplete`"]
     #[serde(rename = "incomplete")]
     Incomplete,
 }
@@ -15756,13 +15756,13 @@ impl_serde!(FunctionToolCallOutputType, "function_call_output");
 #[doc = "The status of the item. One of `in_progress`, `completed`, or\n`incomplete`. Populated when items are returned via API.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum FunctionToolCallOutputStatus {
-    #[doc = "in_progress"]
+    #[doc = "`in_progress`"]
     #[serde(rename = "in_progress")]
     InProgress,
-    #[doc = "completed"]
+    #[doc = "`completed`"]
     #[serde(rename = "completed")]
     Completed,
-    #[doc = "incomplete"]
+    #[doc = "`incomplete`"]
     #[serde(rename = "incomplete")]
     Incomplete,
 }
@@ -16395,16 +16395,16 @@ impl_serde!(GraderStringCheckType, "string_check");
 #[doc = "The string check operation to perform. One of `eq`, `ne`, `like`, or `ilike`."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum GraderStringCheckOperation {
-    #[doc = "eq"]
+    #[doc = "`eq`"]
     #[serde(rename = "eq")]
     Eq,
-    #[doc = "ne"]
+    #[doc = "`ne`"]
     #[serde(rename = "ne")]
     Ne,
-    #[doc = "like"]
+    #[doc = "`like`"]
     #[serde(rename = "like")]
     Like,
-    #[doc = "ilike"]
+    #[doc = "`ilike`"]
     #[serde(rename = "ilike")]
     Ilike,
 }
@@ -16497,34 +16497,34 @@ impl_serde!(GraderTextSimilarityType, "text_similarity");
 #[doc = "The evaluation metric to use. One of `fuzzy_match`, `bleu`, `gleu`, `meteor`, `rouge_1`, `rouge_2`, `rouge_3`, `rouge_4`, `rouge_5`, or `rouge_l`."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum GraderTextSimilarityEvaluationMetric {
-    #[doc = "fuzzy_match"]
+    #[doc = "`fuzzy_match`"]
     #[serde(rename = "fuzzy_match")]
     FuzzyMatch,
-    #[doc = "bleu"]
+    #[doc = "`bleu`"]
     #[serde(rename = "bleu")]
     Bleu,
-    #[doc = "gleu"]
+    #[doc = "`gleu`"]
     #[serde(rename = "gleu")]
     Gleu,
-    #[doc = "meteor"]
+    #[doc = "`meteor`"]
     #[serde(rename = "meteor")]
     Meteor,
-    #[doc = "rouge_1"]
+    #[doc = "`rouge_1`"]
     #[serde(rename = "rouge_1")]
     Rouge1,
-    #[doc = "rouge_2"]
+    #[doc = "`rouge_2`"]
     #[serde(rename = "rouge_2")]
     Rouge2,
-    #[doc = "rouge_3"]
+    #[doc = "`rouge_3`"]
     #[serde(rename = "rouge_3")]
     Rouge3,
-    #[doc = "rouge_4"]
+    #[doc = "`rouge_4`"]
     #[serde(rename = "rouge_4")]
     Rouge4,
-    #[doc = "rouge_5"]
+    #[doc = "`rouge_5`"]
     #[serde(rename = "rouge_5")]
     Rouge5,
-    #[doc = "rouge_l"]
+    #[doc = "`rouge_l`"]
     #[serde(rename = "rouge_l")]
     RougeL,
 }
@@ -16638,7 +16638,7 @@ impl_serde!(ImageGenToolType, "image_generation");
 #[doc = "The image generation model to use. Default: `gpt-image-1`.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ImageGenToolModel {
-    #[doc = "gpt-image-1"]
+    #[doc = "`gpt-image-1`"]
     #[default]
     #[serde(rename = "gpt-image-1")]
     GptImage1,
@@ -16646,16 +16646,16 @@ pub enum ImageGenToolModel {
 #[doc = "The quality of the generated image. One of `low`, `medium`, `high`, \nor `auto`. Default: `auto`.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ImageGenToolQuality {
-    #[doc = "low"]
+    #[doc = "`low`"]
     #[serde(rename = "low")]
     Low,
-    #[doc = "medium"]
+    #[doc = "`medium`"]
     #[serde(rename = "medium")]
     Medium,
-    #[doc = "high"]
+    #[doc = "`high`"]
     #[serde(rename = "high")]
     High,
-    #[doc = "auto"]
+    #[doc = "`auto`"]
     #[default]
     #[serde(rename = "auto")]
     Auto,
@@ -16663,16 +16663,16 @@ pub enum ImageGenToolQuality {
 #[doc = "The size of the generated image. One of `1024x1024`, `1024x1536`, \n`1536x1024`, or `auto`. Default: `auto`.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ImageGenToolSize {
-    #[doc = "1024x1024"]
+    #[doc = "`1024x1024`"]
     #[serde(rename = "1024x1024")]
     _1024x1024,
-    #[doc = "1024x1536"]
+    #[doc = "`1024x1536`"]
     #[serde(rename = "1024x1536")]
     _1024x1536,
-    #[doc = "1536x1024"]
+    #[doc = "`1536x1024`"]
     #[serde(rename = "1536x1024")]
     _1536x1024,
-    #[doc = "auto"]
+    #[doc = "`auto`"]
     #[default]
     #[serde(rename = "auto")]
     Auto,
@@ -16680,38 +16680,38 @@ pub enum ImageGenToolSize {
 #[doc = "The output format of the generated image. One of `png`, `webp`, or \n`jpeg`. Default: `png`.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ImageGenToolOutputFormat {
-    #[doc = "png"]
+    #[doc = "`png`"]
     #[default]
     #[serde(rename = "png")]
     Png,
-    #[doc = "webp"]
+    #[doc = "`webp`"]
     #[serde(rename = "webp")]
     Webp,
-    #[doc = "jpeg"]
+    #[doc = "`jpeg`"]
     #[serde(rename = "jpeg")]
     Jpeg,
 }
 #[doc = "Moderation level for the generated image. Default: `auto`.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ImageGenToolModeration {
-    #[doc = "auto"]
+    #[doc = "`auto`"]
     #[default]
     #[serde(rename = "auto")]
     Auto,
-    #[doc = "low"]
+    #[doc = "`low`"]
     #[serde(rename = "low")]
     Low,
 }
 #[doc = "Background type for the generated image. One of `transparent`, \n`opaque`, or `auto`. Default: `auto`.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ImageGenToolBackground {
-    #[doc = "transparent"]
+    #[doc = "`transparent`"]
     #[serde(rename = "transparent")]
     Transparent,
-    #[doc = "opaque"]
+    #[doc = "`opaque`"]
     #[serde(rename = "opaque")]
     Opaque,
-    #[doc = "auto"]
+    #[doc = "`auto`"]
     #[default]
     #[serde(rename = "auto")]
     Auto,
@@ -16889,16 +16889,16 @@ impl_serde!(ImageGenToolCallType, "image_generation_call");
 #[doc = "The status of the image generation call.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ImageGenToolCallStatus {
-    #[doc = "in_progress"]
+    #[doc = "`in_progress`"]
     #[serde(rename = "in_progress")]
     InProgress,
-    #[doc = "completed"]
+    #[doc = "`completed`"]
     #[serde(rename = "completed")]
     Completed,
-    #[doc = "generating"]
+    #[doc = "`generating`"]
     #[serde(rename = "generating")]
     Generating,
-    #[doc = "failed"]
+    #[doc = "`failed`"]
     #[serde(rename = "failed")]
     Failed,
 }
@@ -16968,49 +16968,49 @@ impl serde::Serialize for ImageGenToolCall {
 #[doc = "The background parameter used for the image generation. Either `transparent` or `opaque`."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ImagesResponseBackground {
-    #[doc = "transparent"]
+    #[doc = "`transparent`"]
     #[serde(rename = "transparent")]
     Transparent,
-    #[doc = "opaque"]
+    #[doc = "`opaque`"]
     #[serde(rename = "opaque")]
     Opaque,
 }
 #[doc = "The output format of the image generation. Either `png`, `webp`, or `jpeg`."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ImagesResponseOutputFormat {
-    #[doc = "png"]
+    #[doc = "`png`"]
     #[serde(rename = "png")]
     Png,
-    #[doc = "webp"]
+    #[doc = "`webp`"]
     #[serde(rename = "webp")]
     Webp,
-    #[doc = "jpeg"]
+    #[doc = "`jpeg`"]
     #[serde(rename = "jpeg")]
     Jpeg,
 }
 #[doc = "The size of the image generated. Either `1024x1024`, `1024x1536`, or `1536x1024`."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ImagesResponseSize {
-    #[doc = "1024x1024"]
+    #[doc = "`1024x1024`"]
     #[serde(rename = "1024x1024")]
     _1024x1024,
-    #[doc = "1024x1536"]
+    #[doc = "`1024x1536`"]
     #[serde(rename = "1024x1536")]
     _1024x1536,
-    #[doc = "1536x1024"]
+    #[doc = "`1536x1024`"]
     #[serde(rename = "1536x1024")]
     _1536x1024,
 }
 #[doc = "The quality of the image generated. Either `low`, `medium`, or `high`."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ImagesResponseQuality {
-    #[doc = "low"]
+    #[doc = "`low`"]
     #[serde(rename = "low")]
     Low,
-    #[doc = "medium"]
+    #[doc = "`medium`"]
     #[serde(rename = "medium")]
     Medium,
-    #[doc = "high"]
+    #[doc = "`high`"]
     #[serde(rename = "high")]
     High,
 }
@@ -17086,22 +17086,22 @@ pub struct ImagesResponse {
 #[doc = "Specify additional output data to include in the model response. Currently\nsupported values are:\n- `code_interpreter_call.outputs`: Includes the outputs of python code execution\n  in code interpreter tool call items.\n- `computer_call_output.output.image_url`: Include image urls from the computer call output.\n- `file_search_call.results`: Include the search results of\n  the file search tool call.\n- `message.input_image.image_url`: Include image urls from the input message.\n- `message.output_text.logprobs`: Include logprobs with assistant messages.\n- `reasoning.encrypted_content`: Includes an encrypted version of reasoning\n  tokens in reasoning item outputs. This enables reasoning items to be used in\n  multi-turn conversations when using the Responses API statelessly (like\n  when the `store` parameter is set to `false`, or when an organization is\n  enrolled in the zero data retention program).\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum Includable {
-    #[doc = "code_interpreter_call.outputs"]
+    #[doc = "`code_interpreter_call.outputs`"]
     #[serde(rename = "code_interpreter_call.outputs")]
     CodeInterpreterCallOutputs,
-    #[doc = "computer_call_output.output.image_url"]
+    #[doc = "`computer_call_output.output.image_url`"]
     #[serde(rename = "computer_call_output.output.image_url")]
     ComputerCallOutputOutputImageUrl,
-    #[doc = "file_search_call.results"]
+    #[doc = "`file_search_call.results`"]
     #[serde(rename = "file_search_call.results")]
     FileSearchCallResults,
-    #[doc = "message.input_image.image_url"]
+    #[doc = "`message.input_image.image_url`"]
     #[serde(rename = "message.input_image.image_url")]
     MessageInputImageImageUrl,
-    #[doc = "message.output_text.logprobs"]
+    #[doc = "`message.output_text.logprobs`"]
     #[serde(rename = "message.output_text.logprobs")]
     MessageOutputTextLogprobs,
-    #[doc = "reasoning.encrypted_content"]
+    #[doc = "`reasoning.encrypted_content`"]
     #[serde(rename = "reasoning.encrypted_content")]
     ReasoningEncryptedContent,
 }
@@ -17112,10 +17112,10 @@ impl_serde!(InputAudioType, "input_audio");
 #[doc = "The format of the audio data. Currently supported formats are `mp3` and\n`wav`.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum InputAudioFormat {
-    #[doc = "mp3"]
+    #[doc = "`mp3`"]
     #[serde(rename = "mp3")]
     Mp3,
-    #[doc = "wav"]
+    #[doc = "`wav`"]
     #[serde(rename = "wav")]
     Wav,
 }
@@ -17199,26 +17199,26 @@ impl_serde!(InputMessageType, "message");
 #[doc = "The role of the message input. One of `user`, `system`, or `developer`.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum InputMessageRole {
-    #[doc = "user"]
+    #[doc = "`user`"]
     #[serde(rename = "user")]
     User,
-    #[doc = "system"]
+    #[doc = "`system`"]
     #[serde(rename = "system")]
     System,
-    #[doc = "developer"]
+    #[doc = "`developer`"]
     #[serde(rename = "developer")]
     Developer,
 }
 #[doc = "The status of item. One of `in_progress`, `completed`, or\n`incomplete`. Populated when items are returned via API.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum InputMessageStatus {
-    #[doc = "in_progress"]
+    #[doc = "`in_progress`"]
     #[serde(rename = "in_progress")]
     InProgress,
-    #[doc = "completed"]
+    #[doc = "`completed`"]
     #[serde(rename = "completed")]
     Completed,
-    #[doc = "incomplete"]
+    #[doc = "`incomplete`"]
     #[serde(rename = "incomplete")]
     Incomplete,
 }
@@ -17275,33 +17275,33 @@ impl_serde!(InviteObject, "organization.invite");
 #[doc = "`owner` or `reader`"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum InviteRole {
-    #[doc = "owner"]
+    #[doc = "`owner`"]
     #[serde(rename = "owner")]
     Owner,
-    #[doc = "reader"]
+    #[doc = "`reader`"]
     #[serde(rename = "reader")]
     Reader,
 }
 #[doc = "`accepted`,`expired`, or `pending`"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum InviteStatus {
-    #[doc = "accepted"]
+    #[doc = "`accepted`"]
     #[serde(rename = "accepted")]
     Accepted,
-    #[doc = "expired"]
+    #[doc = "`expired`"]
     #[serde(rename = "expired")]
     Expired,
-    #[doc = "pending"]
+    #[doc = "`pending`"]
     #[serde(rename = "pending")]
     Pending,
 }
 #[doc = "Project membership role"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum InviteProjectsRole {
-    #[doc = "member"]
+    #[doc = "`member`"]
     #[serde(rename = "member")]
     Member,
-    #[doc = "owner"]
+    #[doc = "`owner`"]
     #[serde(rename = "owner")]
     Owner,
 }
@@ -17593,20 +17593,20 @@ impl serde::Serialize for InviteListResponse {
 #[doc = "`owner` or `reader`"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum InviteRequestRole {
-    #[doc = "reader"]
+    #[doc = "`reader`"]
     #[serde(rename = "reader")]
     Reader,
-    #[doc = "owner"]
+    #[doc = "`owner`"]
     #[serde(rename = "owner")]
     Owner,
 }
 #[doc = "Project membership role"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum InviteRequestProjectsRole {
-    #[doc = "member"]
+    #[doc = "`member`"]
     #[serde(rename = "member")]
     Member,
-    #[doc = "owner"]
+    #[doc = "`owner`"]
     #[serde(rename = "owner")]
     Owner,
 }
@@ -18566,13 +18566,13 @@ impl_serde!(LocalShellToolCallType, "local_shell_call");
 #[doc = "The status of the local shell call.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum LocalShellToolCallStatus {
-    #[doc = "in_progress"]
+    #[doc = "`in_progress`"]
     #[serde(rename = "in_progress")]
     InProgress,
-    #[doc = "completed"]
+    #[doc = "`completed`"]
     #[serde(rename = "completed")]
     Completed,
-    #[doc = "incomplete"]
+    #[doc = "`incomplete`"]
     #[serde(rename = "incomplete")]
     Incomplete,
 }
@@ -18664,13 +18664,13 @@ impl_serde!(LocalShellToolCallOutputType, "local_shell_call_output");
 #[doc = "The status of the item. One of `in_progress`, `completed`, or `incomplete`.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum LocalShellToolCallOutputStatus {
-    #[doc = "in_progress"]
+    #[doc = "`in_progress`"]
     #[serde(rename = "in_progress")]
     InProgress,
-    #[doc = "completed"]
+    #[doc = "`completed`"]
     #[serde(rename = "completed")]
     Completed,
-    #[doc = "incomplete"]
+    #[doc = "`incomplete`"]
     #[serde(rename = "incomplete")]
     Incomplete,
 }
@@ -19504,14 +19504,14 @@ impl_serde!(MessageContentImageFileObjectType, "image_file");
 #[doc = "Specifies the detail level of the image if specified by the user. `low` uses fewer tokens, you can opt in to high resolution using `high`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum MessageContentImageFileObjectImageFileDetail {
-    #[doc = "auto"]
+    #[doc = "`auto`"]
     #[default]
     #[serde(rename = "auto")]
     Auto,
-    #[doc = "low"]
+    #[doc = "`low`"]
     #[serde(rename = "low")]
     Low,
-    #[doc = "high"]
+    #[doc = "`high`"]
     #[serde(rename = "high")]
     High,
 }
@@ -19580,14 +19580,14 @@ impl_serde!(MessageContentImageUrlObjectType, "image_url");
 #[doc = "Specifies the detail level of the image. `low` uses fewer tokens, you can opt in to high resolution using `high`. Default value is `auto`"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum MessageContentImageUrlObjectImageUrlDetail {
-    #[doc = "auto"]
+    #[doc = "`auto`"]
     #[default]
     #[serde(rename = "auto")]
     Auto,
-    #[doc = "low"]
+    #[doc = "`low`"]
     #[serde(rename = "low")]
     Low,
-    #[doc = "high"]
+    #[doc = "`high`"]
     #[serde(rename = "high")]
     High,
 }
@@ -19960,14 +19960,14 @@ impl_serde!(MessageDeltaContentImageFileObjectType, "image_file");
 #[doc = "Specifies the detail level of the image if specified by the user. `low` uses fewer tokens, you can opt in to high resolution using `high`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum MessageDeltaContentImageFileObjectImageFileDetail {
-    #[doc = "auto"]
+    #[doc = "`auto`"]
     #[default]
     #[serde(rename = "auto")]
     Auto,
-    #[doc = "low"]
+    #[doc = "`low`"]
     #[serde(rename = "low")]
     Low,
-    #[doc = "high"]
+    #[doc = "`high`"]
     #[serde(rename = "high")]
     High,
 }
@@ -20048,14 +20048,14 @@ impl_serde!(MessageDeltaContentImageUrlObjectType, "image_url");
 #[doc = "Specifies the detail level of the image. `low` uses fewer tokens, you can opt in to high resolution using `high`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum MessageDeltaContentImageUrlObjectImageUrlDetail {
-    #[doc = "auto"]
+    #[doc = "`auto`"]
     #[default]
     #[serde(rename = "auto")]
     Auto,
-    #[doc = "low"]
+    #[doc = "`low`"]
     #[serde(rename = "low")]
     Low,
-    #[doc = "high"]
+    #[doc = "`high`"]
     #[serde(rename = "high")]
     High,
 }
@@ -20516,10 +20516,10 @@ impl_serde!(MessageDeltaObjectObject, "thread.message.delta");
 #[doc = "The entity that produced the message. One of `user` or `assistant`."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum MessageDeltaObjectDeltaRole {
-    #[doc = "user"]
+    #[doc = "`user`"]
     #[serde(rename = "user")]
     User,
-    #[doc = "assistant"]
+    #[doc = "`assistant`"]
     #[serde(rename = "assistant")]
     Assistant,
 }
@@ -20610,32 +20610,32 @@ impl_serde!(MessageObjectObject, "thread.message");
 #[doc = "The status of the message, which can be either `in_progress`, `incomplete`, or `completed`."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum MessageObjectStatus {
-    #[doc = "in_progress"]
+    #[doc = "`in_progress`"]
     #[serde(rename = "in_progress")]
     InProgress,
-    #[doc = "incomplete"]
+    #[doc = "`incomplete`"]
     #[serde(rename = "incomplete")]
     Incomplete,
-    #[doc = "completed"]
+    #[doc = "`completed`"]
     #[serde(rename = "completed")]
     Completed,
 }
 #[doc = "The reason the message is incomplete."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum MessageObjectIncompleteDetailsReason {
-    #[doc = "content_filter"]
+    #[doc = "`content_filter`"]
     #[serde(rename = "content_filter")]
     ContentFilter,
-    #[doc = "max_tokens"]
+    #[doc = "`max_tokens`"]
     #[serde(rename = "max_tokens")]
     MaxTokens,
-    #[doc = "run_cancelled"]
+    #[doc = "`run_cancelled`"]
     #[serde(rename = "run_cancelled")]
     RunCancelled,
-    #[doc = "run_expired"]
+    #[doc = "`run_expired`"]
     #[serde(rename = "run_expired")]
     RunExpired,
-    #[doc = "run_failed"]
+    #[doc = "`run_failed`"]
     #[serde(rename = "run_failed")]
     RunFailed,
 }
@@ -20651,10 +20651,10 @@ pub struct MessageObjectIncompleteDetails {
 #[doc = "The entity that produced the message. One of `user` or `assistant`."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum MessageObjectRole {
-    #[doc = "user"]
+    #[doc = "`user`"]
     #[serde(rename = "user")]
     User,
-    #[doc = "assistant"]
+    #[doc = "`assistant`"]
     #[serde(rename = "assistant")]
     Assistant,
 }
@@ -22435,38 +22435,38 @@ impl_serde!(OpenAiFileObject, "file");
 #[doc = "The intended purpose of the file. Supported values are `assistants`, `assistants_output`, `batch`, `batch_output`, `fine-tune`, `fine-tune-results` and `vision`."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum OpenAiFilePurpose {
-    #[doc = "assistants"]
+    #[doc = "`assistants`"]
     #[serde(rename = "assistants")]
     Assistants,
-    #[doc = "assistants_output"]
+    #[doc = "`assistants_output`"]
     #[serde(rename = "assistants_output")]
     AssistantsOutput,
-    #[doc = "batch"]
+    #[doc = "`batch`"]
     #[serde(rename = "batch")]
     Batch,
-    #[doc = "batch_output"]
+    #[doc = "`batch_output`"]
     #[serde(rename = "batch_output")]
     BatchOutput,
-    #[doc = "fine-tune"]
+    #[doc = "`fine-tune`"]
     #[serde(rename = "fine-tune")]
     FineTune,
-    #[doc = "fine-tune-results"]
+    #[doc = "`fine-tune-results`"]
     #[serde(rename = "fine-tune-results")]
     FineTuneResults,
-    #[doc = "vision"]
+    #[doc = "`vision`"]
     #[serde(rename = "vision")]
     Vision,
 }
 #[doc = "Deprecated. The current status of the file, which can be either `uploaded`, `processed`, or `error`."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum OpenAiFileStatus {
-    #[doc = "uploaded"]
+    #[doc = "`uploaded`"]
     #[serde(rename = "uploaded")]
     Uploaded,
-    #[doc = "processed"]
+    #[doc = "`processed`"]
     #[serde(rename = "processed")]
     Processed,
-    #[doc = "error"]
+    #[doc = "`error`"]
     #[serde(rename = "error")]
     Error,
 }
@@ -22735,13 +22735,13 @@ impl_serde!(OutputMessageRole, "assistant");
 #[doc = "The status of the message input. One of `in_progress`, `completed`, or\n`incomplete`. Populated when input items are returned via API.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum OutputMessageStatus {
-    #[doc = "in_progress"]
+    #[doc = "`in_progress`"]
     #[serde(rename = "in_progress")]
     InProgress,
-    #[doc = "completed"]
+    #[doc = "`completed`"]
     #[serde(rename = "completed")]
     Completed,
-    #[doc = "incomplete"]
+    #[doc = "`incomplete`"]
     #[serde(rename = "incomplete")]
     Incomplete,
 }
@@ -22893,10 +22893,10 @@ impl_serde!(ProjectObject, "organization.project");
 #[doc = "`active` or `archived`"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ProjectStatus {
-    #[doc = "active"]
+    #[doc = "`active`"]
     #[serde(rename = "active")]
     Active,
-    #[doc = "archived"]
+    #[doc = "`archived`"]
     #[serde(rename = "archived")]
     Archived,
 }
@@ -23001,10 +23001,10 @@ impl_serde!(ProjectApiKeyObject, "organization.project.api_key");
 #[doc = "`user` or `service_account`"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ProjectApiKeyOwnerType {
-    #[doc = "user"]
+    #[doc = "`user`"]
     #[serde(rename = "user")]
     User,
-    #[doc = "service_account"]
+    #[doc = "`service_account`"]
     #[serde(rename = "service_account")]
     ServiceAccount,
 }
@@ -23615,10 +23615,10 @@ impl_serde!(
 #[doc = "`owner` or `member`"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ProjectServiceAccountRole {
-    #[doc = "owner"]
+    #[doc = "`owner`"]
     #[serde(rename = "owner")]
     Owner,
-    #[doc = "member"]
+    #[doc = "`member`"]
     #[serde(rename = "member")]
     Member,
 }
@@ -24043,10 +24043,10 @@ impl_serde!(ProjectUserObject, "organization.project.user");
 #[doc = "`owner` or `member`"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ProjectUserRole {
-    #[doc = "owner"]
+    #[doc = "`owner`"]
     #[serde(rename = "owner")]
     Owner,
-    #[doc = "member"]
+    #[doc = "`member`"]
     #[serde(rename = "member")]
     Member,
 }
@@ -24145,10 +24145,10 @@ impl serde::Serialize for ProjectUser {
 #[doc = "`owner` or `member`"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ProjectUserCreateRequestRole {
-    #[doc = "owner"]
+    #[doc = "`owner`"]
     #[serde(rename = "owner")]
     Owner,
-    #[doc = "member"]
+    #[doc = "`member`"]
     #[serde(rename = "member")]
     Member,
 }
@@ -24238,10 +24238,10 @@ pub struct ProjectUserListResponse {
 #[doc = "`owner` or `member`"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ProjectUserUpdateRequestRole {
-    #[doc = "owner"]
+    #[doc = "`owner`"]
     #[serde(rename = "owner")]
     Owner,
-    #[doc = "member"]
+    #[doc = "`member`"]
     #[serde(rename = "member")]
     Member,
 }
@@ -25076,13 +25076,13 @@ impl serde::Serialize for RealtimeClientEventTranscriptionSessionUpdate {
 #[doc = "The type of the item (`message`, `function_call`, `function_call_output`).\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeConversationItemType {
-    #[doc = "message"]
+    #[doc = "`message`"]
     #[serde(rename = "message")]
     Message,
-    #[doc = "function_call"]
+    #[doc = "`function_call`"]
     #[serde(rename = "function_call")]
     FunctionCall,
-    #[doc = "function_call_output"]
+    #[doc = "`function_call_output`"]
     #[serde(rename = "function_call_output")]
     FunctionCallOutput,
 }
@@ -25093,39 +25093,39 @@ impl_serde!(RealtimeConversationItemObject, "realtime.item");
 #[doc = "The status of the item (`completed`, `incomplete`). These have no effect \non the conversation, but are accepted for consistency with the \n`conversation.item.created` event.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeConversationItemStatus {
-    #[doc = "completed"]
+    #[doc = "`completed`"]
     #[serde(rename = "completed")]
     Completed,
-    #[doc = "incomplete"]
+    #[doc = "`incomplete`"]
     #[serde(rename = "incomplete")]
     Incomplete,
 }
 #[doc = "The role of the message sender (`user`, `assistant`, `system`), only \napplicable for `message` items.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeConversationItemRole {
-    #[doc = "user"]
+    #[doc = "`user`"]
     #[serde(rename = "user")]
     User,
-    #[doc = "assistant"]
+    #[doc = "`assistant`"]
     #[serde(rename = "assistant")]
     Assistant,
-    #[doc = "system"]
+    #[doc = "`system`"]
     #[serde(rename = "system")]
     System,
 }
 #[doc = "The content type (`input_text`, `input_audio`, `item_reference`, `text`).\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeConversationItemContentType {
-    #[doc = "input_audio"]
+    #[doc = "`input_audio`"]
     #[serde(rename = "input_audio")]
     InputAudio,
-    #[doc = "input_text"]
+    #[doc = "`input_text`"]
     #[serde(rename = "input_text")]
     InputText,
-    #[doc = "item_reference"]
+    #[doc = "`item_reference`"]
     #[serde(rename = "item_reference")]
     ItemReference,
-    #[doc = "text"]
+    #[doc = "`text`"]
     #[serde(rename = "text")]
     Text,
 }
@@ -25218,13 +25218,13 @@ pub struct RealtimeConversationItem {
 #[doc = "The type of the item (`message`, `function_call`, `function_call_output`, `item_reference`).\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeConversationItemWithReferenceType {
-    #[doc = "message"]
+    #[doc = "`message`"]
     #[serde(rename = "message")]
     Message,
-    #[doc = "function_call"]
+    #[doc = "`function_call`"]
     #[serde(rename = "function_call")]
     FunctionCall,
-    #[doc = "function_call_output"]
+    #[doc = "`function_call_output`"]
     #[serde(rename = "function_call_output")]
     FunctionCallOutput,
 }
@@ -25235,39 +25235,39 @@ impl_serde!(RealtimeConversationItemWithReferenceObject, "realtime.item");
 #[doc = "The status of the item (`completed`, `incomplete`). These have no effect \non the conversation, but are accepted for consistency with the \n`conversation.item.created` event.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeConversationItemWithReferenceStatus {
-    #[doc = "completed"]
+    #[doc = "`completed`"]
     #[serde(rename = "completed")]
     Completed,
-    #[doc = "incomplete"]
+    #[doc = "`incomplete`"]
     #[serde(rename = "incomplete")]
     Incomplete,
 }
 #[doc = "The role of the message sender (`user`, `assistant`, `system`), only \napplicable for `message` items.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeConversationItemWithReferenceRole {
-    #[doc = "user"]
+    #[doc = "`user`"]
     #[serde(rename = "user")]
     User,
-    #[doc = "assistant"]
+    #[doc = "`assistant`"]
     #[serde(rename = "assistant")]
     Assistant,
-    #[doc = "system"]
+    #[doc = "`system`"]
     #[serde(rename = "system")]
     System,
 }
 #[doc = "The content type (`input_text`, `input_audio`, `item_reference`, `text`).\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeConversationItemWithReferenceContentType {
-    #[doc = "input_audio"]
+    #[doc = "`input_audio`"]
     #[serde(rename = "input_audio")]
     InputAudio,
-    #[doc = "input_text"]
+    #[doc = "`input_text`"]
     #[serde(rename = "input_text")]
     InputText,
-    #[doc = "item_reference"]
+    #[doc = "`item_reference`"]
     #[serde(rename = "item_reference")]
     ItemReference,
-    #[doc = "text"]
+    #[doc = "`text`"]
     #[serde(rename = "text")]
     Text,
 }
@@ -25364,48 +25364,48 @@ impl_serde!(RealtimeResponseObject, "realtime.response");
 #[doc = "The final status of the response (`completed`, `cancelled`, `failed`, or \n`incomplete`).\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeResponseStatus {
-    #[doc = "completed"]
+    #[doc = "`completed`"]
     #[serde(rename = "completed")]
     Completed,
-    #[doc = "cancelled"]
+    #[doc = "`cancelled`"]
     #[serde(rename = "cancelled")]
     Cancelled,
-    #[doc = "failed"]
+    #[doc = "`failed`"]
     #[serde(rename = "failed")]
     Failed,
-    #[doc = "incomplete"]
+    #[doc = "`incomplete`"]
     #[serde(rename = "incomplete")]
     Incomplete,
 }
 #[doc = "The type of error that caused the response to fail, corresponding \nwith the `status` field (`completed`, `cancelled`, `incomplete`, \n`failed`).\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeResponseStatusDetailsType {
-    #[doc = "completed"]
+    #[doc = "`completed`"]
     #[serde(rename = "completed")]
     Completed,
-    #[doc = "cancelled"]
+    #[doc = "`cancelled`"]
     #[serde(rename = "cancelled")]
     Cancelled,
-    #[doc = "failed"]
+    #[doc = "`failed`"]
     #[serde(rename = "failed")]
     Failed,
-    #[doc = "incomplete"]
+    #[doc = "`incomplete`"]
     #[serde(rename = "incomplete")]
     Incomplete,
 }
 #[doc = "The reason the Response did not complete. For a `cancelled` Response, \none of `turn_detected` (the server VAD detected a new start of speech) \nor `client_cancelled` (the client sent a cancel event). For an \n`incomplete` Response, one of `max_output_tokens` or `content_filter` \n(the server-side safety filter activated and cut off the response).\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeResponseStatusDetailsReason {
-    #[doc = "turn_detected"]
+    #[doc = "`turn_detected`"]
     #[serde(rename = "turn_detected")]
     TurnDetected,
-    #[doc = "client_cancelled"]
+    #[doc = "`client_cancelled`"]
     #[serde(rename = "client_cancelled")]
     ClientCancelled,
-    #[doc = "max_output_tokens"]
+    #[doc = "`max_output_tokens`"]
     #[serde(rename = "max_output_tokens")]
     MaxOutputTokens,
-    #[doc = "content_filter"]
+    #[doc = "`content_filter`"]
     #[serde(rename = "content_filter")]
     ContentFilter,
 }
@@ -25516,23 +25516,23 @@ pub struct RealtimeResponseUsage {
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeResponseModality {
-    #[doc = "text"]
+    #[doc = "`text`"]
     #[serde(rename = "text")]
     Text,
-    #[doc = "audio"]
+    #[doc = "`audio`"]
     #[serde(rename = "audio")]
     Audio,
 }
 #[doc = "The format of output audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeResponseOutputAudioFormat {
-    #[doc = "pcm16"]
+    #[doc = "`pcm16`"]
     #[serde(rename = "pcm16")]
     Pcm16,
-    #[doc = "g711_ulaw"]
+    #[doc = "`g711_ulaw`"]
     #[serde(rename = "g711_ulaw")]
     G711Ulaw,
-    #[doc = "g711_alaw"]
+    #[doc = "`g711_alaw`"]
     #[serde(rename = "g711_alaw")]
     G711Alaw,
 }
@@ -25661,23 +25661,23 @@ pub struct RealtimeResponse {
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeResponseCreateParamsModality {
-    #[doc = "text"]
+    #[doc = "`text`"]
     #[serde(rename = "text")]
     Text,
-    #[doc = "audio"]
+    #[doc = "`audio`"]
     #[serde(rename = "audio")]
     Audio,
 }
 #[doc = "The format of output audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeResponseCreateParamsOutputAudioFormat {
-    #[doc = "pcm16"]
+    #[doc = "`pcm16`"]
     #[serde(rename = "pcm16")]
     Pcm16,
-    #[doc = "g711_ulaw"]
+    #[doc = "`g711_ulaw`"]
     #[serde(rename = "g711_ulaw")]
     G711Ulaw,
-    #[doc = "g711_alaw"]
+    #[doc = "`g711_alaw`"]
     #[serde(rename = "g711_alaw")]
     G711Alaw,
 }
@@ -27187,10 +27187,10 @@ impl_serde!(
 #[doc = "The name of the rate limit (`requests`, `tokens`).\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeServerEventRateLimitsUpdatedRateLimitsName {
-    #[doc = "requests"]
+    #[doc = "`requests`"]
     #[serde(rename = "requests")]
     Requests,
-    #[doc = "tokens"]
+    #[doc = "`tokens`"]
     #[serde(rename = "tokens")]
     Tokens,
 }
@@ -27717,10 +27717,10 @@ impl_serde!(
 #[doc = "The content type (\"text\", \"audio\")."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeServerEventResponseContentPartAddedPartType {
-    #[doc = "audio"]
+    #[doc = "`audio`"]
     #[serde(rename = "audio")]
     Audio,
-    #[doc = "text"]
+    #[doc = "`text`"]
     #[serde(rename = "text")]
     Text,
 }
@@ -27863,10 +27863,10 @@ impl_serde!(
 #[doc = "The content type (\"text\", \"audio\")."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeServerEventResponseContentPartDonePartType {
-    #[doc = "audio"]
+    #[doc = "`audio`"]
     #[serde(rename = "audio")]
     Audio,
-    #[doc = "text"]
+    #[doc = "`text`"]
     #[serde(rename = "text")]
     Text,
 }
@@ -28907,60 +28907,60 @@ impl serde::Serialize for RealtimeServerEventTranscriptionSessionUpdated {
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeSessionModality {
-    #[doc = "text"]
+    #[doc = "`text`"]
     #[serde(rename = "text")]
     Text,
-    #[doc = "audio"]
+    #[doc = "`audio`"]
     #[serde(rename = "audio")]
     Audio,
 }
 #[doc = "The Realtime model used for this session.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeSessionModel {
-    #[doc = "gpt-4o-realtime-preview"]
+    #[doc = "`gpt-4o-realtime-preview`"]
     #[serde(rename = "gpt-4o-realtime-preview")]
     Gpt4oRealtimePreview,
-    #[doc = "gpt-4o-realtime-preview-2024-10-01"]
+    #[doc = "`gpt-4o-realtime-preview-2024-10-01`"]
     #[serde(rename = "gpt-4o-realtime-preview-2024-10-01")]
     Gpt4oRealtimePreview2024_10_01,
-    #[doc = "gpt-4o-realtime-preview-2024-12-17"]
+    #[doc = "`gpt-4o-realtime-preview-2024-12-17`"]
     #[serde(rename = "gpt-4o-realtime-preview-2024-12-17")]
     Gpt4oRealtimePreview2024_12_17,
-    #[doc = "gpt-4o-realtime-preview-2025-06-03"]
+    #[doc = "`gpt-4o-realtime-preview-2025-06-03`"]
     #[serde(rename = "gpt-4o-realtime-preview-2025-06-03")]
     Gpt4oRealtimePreview2025_06_03,
-    #[doc = "gpt-4o-mini-realtime-preview"]
+    #[doc = "`gpt-4o-mini-realtime-preview`"]
     #[serde(rename = "gpt-4o-mini-realtime-preview")]
     Gpt4oMiniRealtimePreview,
-    #[doc = "gpt-4o-mini-realtime-preview-2024-12-17"]
+    #[doc = "`gpt-4o-mini-realtime-preview-2024-12-17`"]
     #[serde(rename = "gpt-4o-mini-realtime-preview-2024-12-17")]
     Gpt4oMiniRealtimePreview2024_12_17,
 }
 #[doc = "The format of input audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.\nFor `pcm16`, input audio must be 16-bit PCM at a 24kHz sample rate, \nsingle channel (mono), and little-endian byte order.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeSessionInputAudioFormat {
-    #[doc = "pcm16"]
+    #[doc = "`pcm16`"]
     #[default]
     #[serde(rename = "pcm16")]
     Pcm16,
-    #[doc = "g711_ulaw"]
+    #[doc = "`g711_ulaw`"]
     #[serde(rename = "g711_ulaw")]
     G711Ulaw,
-    #[doc = "g711_alaw"]
+    #[doc = "`g711_alaw`"]
     #[serde(rename = "g711_alaw")]
     G711Alaw,
 }
 #[doc = "The format of output audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.\nFor `pcm16`, output audio is sampled at a rate of 24kHz.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeSessionOutputAudioFormat {
-    #[doc = "pcm16"]
+    #[doc = "`pcm16`"]
     #[default]
     #[serde(rename = "pcm16")]
     Pcm16,
-    #[doc = "g711_ulaw"]
+    #[doc = "`g711_ulaw`"]
     #[serde(rename = "g711_ulaw")]
     G711Ulaw,
-    #[doc = "g711_alaw"]
+    #[doc = "`g711_alaw`"]
     #[serde(rename = "g711_alaw")]
     G711Alaw,
 }
@@ -28988,27 +28988,27 @@ pub struct RealtimeSessionInputAudioTranscription {
 #[doc = "Type of turn detection.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeSessionTurnDetectionType {
-    #[doc = "server_vad"]
+    #[doc = "`server_vad`"]
     #[default]
     #[serde(rename = "server_vad")]
     ServerVad,
-    #[doc = "semantic_vad"]
+    #[doc = "`semantic_vad`"]
     #[serde(rename = "semantic_vad")]
     SemanticVad,
 }
 #[doc = "Used only for `semantic_vad` mode. The eagerness of the model to respond. `low` will wait longer for the user to continue speaking, `high` will respond more quickly. `auto` is the default and is equivalent to `medium`.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeSessionTurnDetectionEagerness {
-    #[doc = "low"]
+    #[doc = "`low`"]
     #[serde(rename = "low")]
     Low,
-    #[doc = "medium"]
+    #[doc = "`medium`"]
     #[serde(rename = "medium")]
     Medium,
-    #[doc = "high"]
+    #[doc = "`high`"]
     #[serde(rename = "high")]
     High,
-    #[doc = "auto"]
+    #[doc = "`auto`"]
     #[default]
     #[serde(rename = "auto")]
     Auto,
@@ -29057,10 +29057,10 @@ pub struct RealtimeSessionTurnDetection {
 #[doc = "Type of noise reduction. `near_field` is for close-talking microphones such as headphones, `far_field` is for far-field microphones such as laptop or conference room microphones.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeSessionInputAudioNoiseReductionType {
-    #[doc = "near_field"]
+    #[doc = "`near_field`"]
     #[serde(rename = "near_field")]
     NearField,
-    #[doc = "far_field"]
+    #[doc = "`far_field`"]
     #[serde(rename = "far_field")]
     FarField,
 }
@@ -29319,60 +29319,60 @@ pub struct RealtimeSession {
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeSessionCreateRequestModality {
-    #[doc = "text"]
+    #[doc = "`text`"]
     #[serde(rename = "text")]
     Text,
-    #[doc = "audio"]
+    #[doc = "`audio`"]
     #[serde(rename = "audio")]
     Audio,
 }
 #[doc = "The Realtime model used for this session.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeSessionCreateRequestModel {
-    #[doc = "gpt-4o-realtime-preview"]
+    #[doc = "`gpt-4o-realtime-preview`"]
     #[serde(rename = "gpt-4o-realtime-preview")]
     Gpt4oRealtimePreview,
-    #[doc = "gpt-4o-realtime-preview-2024-10-01"]
+    #[doc = "`gpt-4o-realtime-preview-2024-10-01`"]
     #[serde(rename = "gpt-4o-realtime-preview-2024-10-01")]
     Gpt4oRealtimePreview2024_10_01,
-    #[doc = "gpt-4o-realtime-preview-2024-12-17"]
+    #[doc = "`gpt-4o-realtime-preview-2024-12-17`"]
     #[serde(rename = "gpt-4o-realtime-preview-2024-12-17")]
     Gpt4oRealtimePreview2024_12_17,
-    #[doc = "gpt-4o-realtime-preview-2025-06-03"]
+    #[doc = "`gpt-4o-realtime-preview-2025-06-03`"]
     #[serde(rename = "gpt-4o-realtime-preview-2025-06-03")]
     Gpt4oRealtimePreview2025_06_03,
-    #[doc = "gpt-4o-mini-realtime-preview"]
+    #[doc = "`gpt-4o-mini-realtime-preview`"]
     #[serde(rename = "gpt-4o-mini-realtime-preview")]
     Gpt4oMiniRealtimePreview,
-    #[doc = "gpt-4o-mini-realtime-preview-2024-12-17"]
+    #[doc = "`gpt-4o-mini-realtime-preview-2024-12-17`"]
     #[serde(rename = "gpt-4o-mini-realtime-preview-2024-12-17")]
     Gpt4oMiniRealtimePreview2024_12_17,
 }
 #[doc = "The format of input audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.\nFor `pcm16`, input audio must be 16-bit PCM at a 24kHz sample rate,\nsingle channel (mono), and little-endian byte order.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeSessionCreateRequestInputAudioFormat {
-    #[doc = "pcm16"]
+    #[doc = "`pcm16`"]
     #[default]
     #[serde(rename = "pcm16")]
     Pcm16,
-    #[doc = "g711_ulaw"]
+    #[doc = "`g711_ulaw`"]
     #[serde(rename = "g711_ulaw")]
     G711Ulaw,
-    #[doc = "g711_alaw"]
+    #[doc = "`g711_alaw`"]
     #[serde(rename = "g711_alaw")]
     G711Alaw,
 }
 #[doc = "The format of output audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.\nFor `pcm16`, output audio is sampled at a rate of 24kHz.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeSessionCreateRequestOutputAudioFormat {
-    #[doc = "pcm16"]
+    #[doc = "`pcm16`"]
     #[default]
     #[serde(rename = "pcm16")]
     Pcm16,
-    #[doc = "g711_ulaw"]
+    #[doc = "`g711_ulaw`"]
     #[serde(rename = "g711_ulaw")]
     G711Ulaw,
-    #[doc = "g711_alaw"]
+    #[doc = "`g711_alaw`"]
     #[serde(rename = "g711_alaw")]
     G711Alaw,
 }
@@ -29400,27 +29400,27 @@ pub struct RealtimeSessionCreateRequestInputAudioTranscription {
 #[doc = "Type of turn detection.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeSessionCreateRequestTurnDetectionType {
-    #[doc = "server_vad"]
+    #[doc = "`server_vad`"]
     #[default]
     #[serde(rename = "server_vad")]
     ServerVad,
-    #[doc = "semantic_vad"]
+    #[doc = "`semantic_vad`"]
     #[serde(rename = "semantic_vad")]
     SemanticVad,
 }
 #[doc = "Used only for `semantic_vad` mode. The eagerness of the model to respond. `low` will wait longer for the user to continue speaking, `high` will respond more quickly. `auto` is the default and is equivalent to `medium`.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeSessionCreateRequestTurnDetectionEagerness {
-    #[doc = "low"]
+    #[doc = "`low`"]
     #[serde(rename = "low")]
     Low,
-    #[doc = "medium"]
+    #[doc = "`medium`"]
     #[serde(rename = "medium")]
     Medium,
-    #[doc = "high"]
+    #[doc = "`high`"]
     #[serde(rename = "high")]
     High,
-    #[doc = "auto"]
+    #[doc = "`auto`"]
     #[default]
     #[serde(rename = "auto")]
     Auto,
@@ -29469,10 +29469,10 @@ pub struct RealtimeSessionCreateRequestTurnDetection {
 #[doc = "Type of noise reduction. `near_field` is for close-talking microphones such as headphones, `far_field` is for far-field microphones such as laptop or conference room microphones.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeSessionCreateRequestInputAudioNoiseReductionType {
-    #[doc = "near_field"]
+    #[doc = "`near_field`"]
     #[serde(rename = "near_field")]
     NearField,
-    #[doc = "far_field"]
+    #[doc = "`far_field`"]
     #[serde(rename = "far_field")]
     FarField,
 }
@@ -29652,7 +29652,7 @@ impl serde::Serialize for RealtimeSessionCreateRequestMaxResponseOutputTokens {
 #[doc = "The anchor point for the ephemeral token expiration. Only `created_at` is currently supported.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeSessionCreateRequestClientSecretExpiresAfterAnchor {
-    #[doc = "created_at"]
+    #[doc = "`created_at`"]
     #[serde(rename = "created_at")]
     CreatedAt,
 }
@@ -29784,10 +29784,10 @@ pub struct RealtimeSessionCreateResponseClientSecret {
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeSessionCreateResponseModality {
-    #[doc = "text"]
+    #[doc = "`text`"]
     #[serde(rename = "text")]
     Text,
-    #[doc = "audio"]
+    #[doc = "`audio`"]
     #[serde(rename = "audio")]
     Audio,
 }
@@ -30070,37 +30070,37 @@ pub struct RealtimeSessionCreateResponse {
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeTranscriptionSessionCreateRequestModality {
-    #[doc = "text"]
+    #[doc = "`text`"]
     #[serde(rename = "text")]
     Text,
-    #[doc = "audio"]
+    #[doc = "`audio`"]
     #[serde(rename = "audio")]
     Audio,
 }
 #[doc = "The format of input audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.\nFor `pcm16`, input audio must be 16-bit PCM at a 24kHz sample rate,\nsingle channel (mono), and little-endian byte order.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeTranscriptionSessionCreateRequestInputAudioFormat {
-    #[doc = "pcm16"]
+    #[doc = "`pcm16`"]
     #[default]
     #[serde(rename = "pcm16")]
     Pcm16,
-    #[doc = "g711_ulaw"]
+    #[doc = "`g711_ulaw`"]
     #[serde(rename = "g711_ulaw")]
     G711Ulaw,
-    #[doc = "g711_alaw"]
+    #[doc = "`g711_alaw`"]
     #[serde(rename = "g711_alaw")]
     G711Alaw,
 }
 #[doc = "The model to use for transcription, current options are `gpt-4o-transcribe`, `gpt-4o-mini-transcribe`, and `whisper-1`.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeTranscriptionSessionCreateRequestInputAudioTranscriptionModel {
-    #[doc = "gpt-4o-transcribe"]
+    #[doc = "`gpt-4o-transcribe`"]
     #[serde(rename = "gpt-4o-transcribe")]
     Gpt4oTranscribe,
-    #[doc = "gpt-4o-mini-transcribe"]
+    #[doc = "`gpt-4o-mini-transcribe`"]
     #[serde(rename = "gpt-4o-mini-transcribe")]
     Gpt4oMiniTranscribe,
-    #[doc = "whisper-1"]
+    #[doc = "`whisper-1`"]
     #[serde(rename = "whisper-1")]
     Whisper1,
 }
@@ -30130,27 +30130,27 @@ pub struct RealtimeTranscriptionSessionCreateRequestInputAudioTranscription {
 #[doc = "Type of turn detection.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeTranscriptionSessionCreateRequestTurnDetectionType {
-    #[doc = "server_vad"]
+    #[doc = "`server_vad`"]
     #[default]
     #[serde(rename = "server_vad")]
     ServerVad,
-    #[doc = "semantic_vad"]
+    #[doc = "`semantic_vad`"]
     #[serde(rename = "semantic_vad")]
     SemanticVad,
 }
 #[doc = "Used only for `semantic_vad` mode. The eagerness of the model to respond. `low` will wait longer for the user to continue speaking, `high` will respond more quickly. `auto` is the default and is equivalent to `medium`.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeTranscriptionSessionCreateRequestTurnDetectionEagerness {
-    #[doc = "low"]
+    #[doc = "`low`"]
     #[serde(rename = "low")]
     Low,
-    #[doc = "medium"]
+    #[doc = "`medium`"]
     #[serde(rename = "medium")]
     Medium,
-    #[doc = "high"]
+    #[doc = "`high`"]
     #[serde(rename = "high")]
     High,
-    #[doc = "auto"]
+    #[doc = "`auto`"]
     #[default]
     #[serde(rename = "auto")]
     Auto,
@@ -30200,10 +30200,10 @@ pub struct RealtimeTranscriptionSessionCreateRequestTurnDetection {
 #[doc = "Type of noise reduction. `near_field` is for close-talking microphones such as headphones, `far_field` is for far-field microphones such as laptop or conference room microphones.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeTranscriptionSessionCreateRequestInputAudioNoiseReductionType {
-    #[doc = "near_field"]
+    #[doc = "`near_field`"]
     #[serde(rename = "near_field")]
     NearField,
-    #[doc = "far_field"]
+    #[doc = "`far_field`"]
     #[serde(rename = "far_field")]
     FarField,
 }
@@ -30223,7 +30223,7 @@ pub struct RealtimeTranscriptionSessionCreateRequestInputAudioNoiseReduction {
 #[doc = "The anchor point for the ephemeral token expiration. Only `created_at` is currently supported.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeTranscriptionSessionCreateRequestClientSecretExpiresAtAnchor {
-    #[doc = "created_at"]
+    #[doc = "`created_at`"]
     #[default]
     #[serde(rename = "created_at")]
     CreatedAt,
@@ -30318,23 +30318,23 @@ pub struct RealtimeTranscriptionSessionCreateResponseClientSecret {
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeTranscriptionSessionCreateResponseModality {
-    #[doc = "text"]
+    #[doc = "`text`"]
     #[serde(rename = "text")]
     Text,
-    #[doc = "audio"]
+    #[doc = "`audio`"]
     #[serde(rename = "audio")]
     Audio,
 }
 #[doc = "The model to use for transcription. Can be `gpt-4o-transcribe`, `gpt-4o-mini-transcribe`, or `whisper-1`.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeTranscriptionSessionCreateResponseInputAudioTranscriptionModel {
-    #[doc = "gpt-4o-transcribe"]
+    #[doc = "`gpt-4o-transcribe`"]
     #[serde(rename = "gpt-4o-transcribe")]
     Gpt4oTranscribe,
-    #[doc = "gpt-4o-mini-transcribe"]
+    #[doc = "`gpt-4o-mini-transcribe`"]
     #[serde(rename = "gpt-4o-mini-transcribe")]
     Gpt4oMiniTranscribe,
-    #[doc = "whisper-1"]
+    #[doc = "`whisper-1`"]
     #[serde(rename = "whisper-1")]
     Whisper1,
 }
@@ -30421,26 +30421,26 @@ pub struct RealtimeTranscriptionSessionCreateResponse {
 #[doc = "A summary of the reasoning performed by the model. This can be\nuseful for debugging and understanding the model's reasoning process.\nOne of `auto`, `concise`, or `detailed`.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ReasoningSummary {
-    #[doc = "auto"]
+    #[doc = "`auto`"]
     #[serde(rename = "auto")]
     Auto,
-    #[doc = "concise"]
+    #[doc = "`concise`"]
     #[serde(rename = "concise")]
     Concise,
-    #[doc = "detailed"]
+    #[doc = "`detailed`"]
     #[serde(rename = "detailed")]
     Detailed,
 }
 #[doc = "**Deprecated:** use `summary` instead.\n\nA summary of the reasoning performed by the model. This can be\nuseful for debugging and understanding the model's reasoning process.\nOne of `auto`, `concise`, or `detailed`.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ReasoningGenerateSummary {
-    #[doc = "auto"]
+    #[doc = "`auto`"]
     #[serde(rename = "auto")]
     Auto,
-    #[doc = "concise"]
+    #[doc = "`concise`"]
     #[serde(rename = "concise")]
     Concise,
-    #[doc = "detailed"]
+    #[doc = "`detailed`"]
     #[serde(rename = "detailed")]
     Detailed,
 }
@@ -30467,14 +30467,14 @@ pub struct Reasoning {
 #[doc = "**o-series models only** \n\nConstrains effort on reasoning for \n[reasoning models](https://platform.openai.com/docs/guides/reasoning).\nCurrently supported values are `low`, `medium`, and `high`. Reducing\nreasoning effort can result in faster responses and fewer tokens used\non reasoning in a response.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ReasoningEffort {
-    #[doc = "low"]
+    #[doc = "`low`"]
     #[serde(rename = "low")]
     Low,
-    #[doc = "medium"]
+    #[doc = "`medium`"]
     #[default]
     #[serde(rename = "medium")]
     Medium,
-    #[doc = "high"]
+    #[doc = "`high`"]
     #[serde(rename = "high")]
     High,
 }
@@ -30533,13 +30533,13 @@ impl serde::Serialize for ReasoningItemSummary {
 #[doc = "The status of the item. One of `in_progress`, `completed`, or\n`incomplete`. Populated when items are returned via API.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ReasoningItemStatus {
-    #[doc = "in_progress"]
+    #[doc = "`in_progress`"]
     #[serde(rename = "in_progress")]
     InProgress,
-    #[doc = "completed"]
+    #[doc = "`completed`"]
     #[serde(rename = "completed")]
     Completed,
-    #[doc = "incomplete"]
+    #[doc = "`incomplete`"]
     #[serde(rename = "incomplete")]
     Incomplete,
 }
@@ -30636,32 +30636,32 @@ impl_serde!(ResponseObject, "response");
 #[doc = "The status of the response generation. One of `completed`, `failed`, \n`in_progress`, `cancelled`, `queued`, or `incomplete`.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ResponseStatus {
-    #[doc = "completed"]
+    #[doc = "`completed`"]
     #[serde(rename = "completed")]
     Completed,
-    #[doc = "failed"]
+    #[doc = "`failed`"]
     #[serde(rename = "failed")]
     Failed,
-    #[doc = "in_progress"]
+    #[doc = "`in_progress`"]
     #[serde(rename = "in_progress")]
     InProgress,
-    #[doc = "cancelled"]
+    #[doc = "`cancelled`"]
     #[serde(rename = "cancelled")]
     Cancelled,
-    #[doc = "queued"]
+    #[doc = "`queued`"]
     #[serde(rename = "queued")]
     Queued,
-    #[doc = "incomplete"]
+    #[doc = "`incomplete`"]
     #[serde(rename = "incomplete")]
     Incomplete,
 }
 #[doc = "The reason why the response is incomplete."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ResponseIncompleteDetailsReason {
-    #[doc = "max_output_tokens"]
+    #[doc = "`max_output_tokens`"]
     #[serde(rename = "max_output_tokens")]
     MaxOutputTokens,
-    #[doc = "content_filter"]
+    #[doc = "`content_filter`"]
     #[serde(rename = "content_filter")]
     ContentFilter,
 }
@@ -32069,58 +32069,58 @@ pub struct ResponseError {
 #[doc = "The error code for the response.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ResponseErrorCode {
-    #[doc = "server_error"]
+    #[doc = "`server_error`"]
     #[serde(rename = "server_error")]
     ServerError,
-    #[doc = "rate_limit_exceeded"]
+    #[doc = "`rate_limit_exceeded`"]
     #[serde(rename = "rate_limit_exceeded")]
     RateLimitExceeded,
-    #[doc = "invalid_prompt"]
+    #[doc = "`invalid_prompt`"]
     #[serde(rename = "invalid_prompt")]
     InvalidPrompt,
-    #[doc = "vector_store_timeout"]
+    #[doc = "`vector_store_timeout`"]
     #[serde(rename = "vector_store_timeout")]
     VectorStoreTimeout,
-    #[doc = "invalid_image"]
+    #[doc = "`invalid_image`"]
     #[serde(rename = "invalid_image")]
     InvalidImage,
-    #[doc = "invalid_image_format"]
+    #[doc = "`invalid_image_format`"]
     #[serde(rename = "invalid_image_format")]
     InvalidImageFormat,
-    #[doc = "invalid_base64_image"]
+    #[doc = "`invalid_base64_image`"]
     #[serde(rename = "invalid_base64_image")]
     InvalidBase64Image,
-    #[doc = "invalid_image_url"]
+    #[doc = "`invalid_image_url`"]
     #[serde(rename = "invalid_image_url")]
     InvalidImageUrl,
-    #[doc = "image_too_large"]
+    #[doc = "`image_too_large`"]
     #[serde(rename = "image_too_large")]
     ImageTooLarge,
-    #[doc = "image_too_small"]
+    #[doc = "`image_too_small`"]
     #[serde(rename = "image_too_small")]
     ImageTooSmall,
-    #[doc = "image_parse_error"]
+    #[doc = "`image_parse_error`"]
     #[serde(rename = "image_parse_error")]
     ImageParseError,
-    #[doc = "image_content_policy_violation"]
+    #[doc = "`image_content_policy_violation`"]
     #[serde(rename = "image_content_policy_violation")]
     ImageContentPolicyViolation,
-    #[doc = "invalid_image_mode"]
+    #[doc = "`invalid_image_mode`"]
     #[serde(rename = "invalid_image_mode")]
     InvalidImageMode,
-    #[doc = "image_file_too_large"]
+    #[doc = "`image_file_too_large`"]
     #[serde(rename = "image_file_too_large")]
     ImageFileTooLarge,
-    #[doc = "unsupported_image_media_type"]
+    #[doc = "`unsupported_image_media_type`"]
     #[serde(rename = "unsupported_image_media_type")]
     UnsupportedImageMediaType,
-    #[doc = "empty_image_file"]
+    #[doc = "`empty_image_file`"]
     #[serde(rename = "empty_image_file")]
     EmptyImageFile,
-    #[doc = "failed_to_download_image"]
+    #[doc = "`failed_to_download_image`"]
     #[serde(rename = "failed_to_download_image")]
     FailedToDownloadImage,
-    #[doc = "image_file_not_found"]
+    #[doc = "`image_file_not_found`"]
     #[serde(rename = "image_file_not_found")]
     ImageFileNotFound,
 }
@@ -33932,10 +33932,10 @@ impl serde::Serialize for ResponseMcpListToolsInProgressEvent {
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ResponseModality {
-    #[doc = "text"]
+    #[doc = "`text`"]
     #[serde(rename = "text")]
     Text,
-    #[doc = "audio"]
+    #[doc = "`audio`"]
     #[serde(rename = "audio")]
     Audio,
 }
@@ -34290,10 +34290,10 @@ impl serde::Serialize for ResponsePropertiesToolChoice {
 #[doc = "The truncation strategy to use for the model response.\n- `auto`: If the context of this response and previous ones exceeds\n  the model's context window size, the model will truncate the \n  response to fit the context window by dropping input items in the\n  middle of the conversation. \n- `disabled` (default): If a model response will exceed the context window \n  size for a model, the request will fail with a 400 error.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ResponsePropertiesTruncation {
-    #[doc = "auto"]
+    #[doc = "`auto`"]
     #[serde(rename = "auto")]
     Auto,
-    #[doc = "disabled"]
+    #[doc = "`disabled`"]
     #[default]
     #[serde(rename = "disabled")]
     Disabled,
@@ -36164,31 +36164,31 @@ impl_serde!(RunObjectObject, "thread.run");
 #[doc = "The status of the run, which can be either `queued`, `in_progress`, `requires_action`, `cancelling`, `cancelled`, `failed`, `completed`, `incomplete`, or `expired`."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RunObjectStatus {
-    #[doc = "queued"]
+    #[doc = "`queued`"]
     #[serde(rename = "queued")]
     Queued,
-    #[doc = "in_progress"]
+    #[doc = "`in_progress`"]
     #[serde(rename = "in_progress")]
     InProgress,
-    #[doc = "requires_action"]
+    #[doc = "`requires_action`"]
     #[serde(rename = "requires_action")]
     RequiresAction,
-    #[doc = "cancelling"]
+    #[doc = "`cancelling`"]
     #[serde(rename = "cancelling")]
     Cancelling,
-    #[doc = "cancelled"]
+    #[doc = "`cancelled`"]
     #[serde(rename = "cancelled")]
     Cancelled,
-    #[doc = "failed"]
+    #[doc = "`failed`"]
     #[serde(rename = "failed")]
     Failed,
-    #[doc = "completed"]
+    #[doc = "`completed`"]
     #[serde(rename = "completed")]
     Completed,
-    #[doc = "incomplete"]
+    #[doc = "`incomplete`"]
     #[serde(rename = "incomplete")]
     Incomplete,
-    #[doc = "expired"]
+    #[doc = "`expired`"]
     #[serde(rename = "expired")]
     Expired,
 }
@@ -36260,13 +36260,13 @@ impl serde::Serialize for RunObjectRequiredAction {
 #[doc = "One of `server_error`, `rate_limit_exceeded`, or `invalid_prompt`."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RunObjectLastErrorCode {
-    #[doc = "server_error"]
+    #[doc = "`server_error`"]
     #[serde(rename = "server_error")]
     ServerError,
-    #[doc = "rate_limit_exceeded"]
+    #[doc = "`rate_limit_exceeded`"]
     #[serde(rename = "rate_limit_exceeded")]
     RateLimitExceeded,
-    #[doc = "invalid_prompt"]
+    #[doc = "`invalid_prompt`"]
     #[serde(rename = "invalid_prompt")]
     InvalidPrompt,
 }
@@ -36285,10 +36285,10 @@ pub struct RunObjectLastError {
 #[doc = "The reason why the run is incomplete. This will point to which specific token limit was reached over the course of the run."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RunObjectIncompleteDetailsReason {
-    #[doc = "max_completion_tokens"]
+    #[doc = "`max_completion_tokens`"]
     #[serde(rename = "max_completion_tokens")]
     MaxCompletionTokens,
-    #[doc = "max_prompt_tokens"]
+    #[doc = "`max_prompt_tokens`"]
     #[serde(rename = "max_prompt_tokens")]
     MaxPromptTokens,
 }
@@ -37822,29 +37822,29 @@ impl_serde!(RunStepObjectObject, "thread.run.step");
 #[doc = "The type of run step, which can be either `message_creation` or `tool_calls`."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RunStepObjectType {
-    #[doc = "message_creation"]
+    #[doc = "`message_creation`"]
     #[serde(rename = "message_creation")]
     MessageCreation,
-    #[doc = "tool_calls"]
+    #[doc = "`tool_calls`"]
     #[serde(rename = "tool_calls")]
     ToolCalls,
 }
 #[doc = "The status of the run step, which can be either `in_progress`, `cancelled`, `failed`, `completed`, or `expired`."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RunStepObjectStatus {
-    #[doc = "in_progress"]
+    #[doc = "`in_progress`"]
     #[serde(rename = "in_progress")]
     InProgress,
-    #[doc = "cancelled"]
+    #[doc = "`cancelled`"]
     #[serde(rename = "cancelled")]
     Cancelled,
-    #[doc = "failed"]
+    #[doc = "`failed`"]
     #[serde(rename = "failed")]
     Failed,
-    #[doc = "completed"]
+    #[doc = "`completed`"]
     #[serde(rename = "completed")]
     Completed,
-    #[doc = "expired"]
+    #[doc = "`expired`"]
     #[serde(rename = "expired")]
     Expired,
 }
@@ -37861,10 +37861,10 @@ pub enum RunStepObjectStepDetails {
 #[doc = "One of `server_error` or `rate_limit_exceeded`."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RunStepObjectLastErrorCode {
-    #[doc = "server_error"]
+    #[doc = "`server_error`"]
     #[serde(rename = "server_error")]
     ServerError,
-    #[doc = "rate_limit_exceeded"]
+    #[doc = "`rate_limit_exceeded`"]
     #[serde(rename = "rate_limit_exceeded")]
     RateLimitExceeded,
 }
@@ -39202,20 +39202,20 @@ impl serde::Serialize for Scroll {
 #[doc = "Specifies the processing type used for serving the request.\n  - If set to 'auto', then the request will be processed with the service tier configured in the Project settings. Unless otherwise configured, the Project will use 'default'.\n  - If set to 'default', then the requset will be processed with the standard pricing and performance for the selected model.\n  - If set to '[flex](https://platform.openai.com/docs/guides/flex-processing)' or 'priority', then the request will be processed with the corresponding service tier. [Contact sales](https://openai.com/contact-sales) to learn more about Priority processing.\n  - When not set, the default behavior is 'auto'.\n\n  When the `service_tier` parameter is set, the response body will include the `service_tier` value based on the processing mode actually used to serve the request. This response value may be different from the value set in the parameter.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ServiceTier {
-    #[doc = "auto"]
+    #[doc = "`auto`"]
     #[default]
     #[serde(rename = "auto")]
     Auto,
-    #[doc = "default"]
+    #[doc = "`default`"]
     #[serde(rename = "default")]
     Default,
-    #[doc = "flex"]
+    #[doc = "`flex`"]
     #[serde(rename = "flex")]
     Flex,
-    #[doc = "scale"]
+    #[doc = "`scale`"]
     #[serde(rename = "scale")]
     Scale,
-    #[doc = "priority"]
+    #[doc = "`priority`"]
     #[serde(rename = "priority")]
     Priority,
 }
@@ -39903,35 +39903,35 @@ impl serde::Serialize for ToolChoiceMcp {
 #[doc = "Controls which (if any) tool is called by the model.\n\n`none` means the model will not call any tool and instead generates a message.\n\n`auto` means the model can pick between generating a message or calling one or\nmore tools.\n\n`required` means the model must call one or more tools.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ToolChoiceOptions {
-    #[doc = "none"]
+    #[doc = "`none`"]
     #[serde(rename = "none")]
     None,
-    #[doc = "auto"]
+    #[doc = "`auto`"]
     #[serde(rename = "auto")]
     Auto,
-    #[doc = "required"]
+    #[doc = "`required`"]
     #[serde(rename = "required")]
     Required,
 }
 #[doc = "The type of hosted tool the model should to use. Learn more about\n[built-in tools](https://platform.openai.com/docs/guides/tools).\n\nAllowed values are:\n- `file_search`\n- `web_search_preview`\n- `computer_use_preview`\n- `code_interpreter`\n- `image_generation`\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ToolChoiceTypesType {
-    #[doc = "file_search"]
+    #[doc = "`file_search`"]
     #[serde(rename = "file_search")]
     FileSearch,
-    #[doc = "web_search_preview"]
+    #[doc = "`web_search_preview`"]
     #[serde(rename = "web_search_preview")]
     WebSearchPreview,
-    #[doc = "computer_use_preview"]
+    #[doc = "`computer_use_preview`"]
     #[serde(rename = "computer_use_preview")]
     ComputerUsePreview,
-    #[doc = "web_search_preview_2025_03_11"]
+    #[doc = "`web_search_preview_2025_03_11`"]
     #[serde(rename = "web_search_preview_2025_03_11")]
     WebSearchPreview2025_03_11,
-    #[doc = "image_generation"]
+    #[doc = "`image_generation`"]
     #[serde(rename = "image_generation")]
     ImageGeneration,
-    #[doc = "code_interpreter"]
+    #[doc = "`code_interpreter`"]
     #[serde(rename = "code_interpreter")]
     CodeInterpreter,
 }
@@ -40333,7 +40333,7 @@ impl serde::Serialize for TranscriptionChunkingStrategy {
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum TranscriptionInclude {
-    #[doc = "logprobs"]
+    #[doc = "`logprobs`"]
     #[serde(rename = "logprobs")]
     Logprobs,
 }
@@ -40389,10 +40389,10 @@ pub struct TranscriptionWord {
 #[doc = "The truncation strategy to use for the thread. The default is `auto`. If set to `last_messages`, the thread will be truncated to the n most recent messages in the thread. When set to `auto`, messages in the middle of the thread will be dropped to fit the context length of the model, `max_prompt_tokens`."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum TruncationObjectType {
-    #[doc = "auto"]
+    #[doc = "`auto`"]
     #[serde(rename = "auto")]
     Auto,
-    #[doc = "last_messages"]
+    #[doc = "`last_messages`"]
     #[serde(rename = "last_messages")]
     LastMessages,
 }
@@ -40489,16 +40489,16 @@ pub struct UpdateVectorStoreRequest {
 #[doc = "The status of the Upload."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum UploadStatus {
-    #[doc = "pending"]
+    #[doc = "`pending`"]
     #[serde(rename = "pending")]
     Pending,
-    #[doc = "completed"]
+    #[doc = "`completed`"]
     #[serde(rename = "completed")]
     Completed,
-    #[doc = "cancelled"]
+    #[doc = "`cancelled`"]
     #[serde(rename = "cancelled")]
     Cancelled,
-    #[doc = "expired"]
+    #[doc = "`expired`"]
     #[serde(rename = "expired")]
     Expired,
 }
@@ -41735,10 +41735,10 @@ impl_serde!(UserObject, "organization.user");
 #[doc = "`owner` or `reader`"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum UserRole {
-    #[doc = "owner"]
+    #[doc = "`owner`"]
     #[serde(rename = "owner")]
     Owner,
-    #[doc = "reader"]
+    #[doc = "`reader`"]
     #[serde(rename = "reader")]
     Reader,
 }
@@ -41971,10 +41971,10 @@ impl serde::Serialize for UserListResponse {
 #[doc = "`owner` or `reader`"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum UserRoleUpdateRequestRole {
-    #[doc = "owner"]
+    #[doc = "`owner`"]
     #[serde(rename = "owner")]
     Owner,
-    #[doc = "reader"]
+    #[doc = "`reader`"]
     #[serde(rename = "reader")]
     Reader,
 }
@@ -41989,7 +41989,7 @@ pub struct UserRoleUpdateRequest {
 #[doc = "Must be set to `server_vad` to enable manual chunking using server side VAD."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum VadConfigType {
-    #[doc = "server_vad"]
+    #[doc = "`server_vad`"]
     #[serde(rename = "server_vad")]
     ServerVad,
 }
@@ -42130,16 +42130,16 @@ impl_serde!(VectorStoreFileBatchObjectObject, "vector_store.files_batch");
 #[doc = "The status of the vector store files batch, which can be either `in_progress`, `completed`, `cancelled` or `failed`."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum VectorStoreFileBatchObjectStatus {
-    #[doc = "in_progress"]
+    #[doc = "`in_progress`"]
     #[serde(rename = "in_progress")]
     InProgress,
-    #[doc = "completed"]
+    #[doc = "`completed`"]
     #[serde(rename = "completed")]
     Completed,
-    #[doc = "cancelled"]
+    #[doc = "`cancelled`"]
     #[serde(rename = "cancelled")]
     Cancelled,
-    #[doc = "failed"]
+    #[doc = "`failed`"]
     #[serde(rename = "failed")]
     Failed,
 }
@@ -42357,29 +42357,29 @@ impl_serde!(VectorStoreFileObjectObject, "vector_store.file");
 #[doc = "The status of the vector store file, which can be either `in_progress`, `completed`, `cancelled`, or `failed`. The status `completed` indicates that the vector store file is ready for use."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum VectorStoreFileObjectStatus {
-    #[doc = "in_progress"]
+    #[doc = "`in_progress`"]
     #[serde(rename = "in_progress")]
     InProgress,
-    #[doc = "completed"]
+    #[doc = "`completed`"]
     #[serde(rename = "completed")]
     Completed,
-    #[doc = "cancelled"]
+    #[doc = "`cancelled`"]
     #[serde(rename = "cancelled")]
     Cancelled,
-    #[doc = "failed"]
+    #[doc = "`failed`"]
     #[serde(rename = "failed")]
     Failed,
 }
 #[doc = "One of `server_error` or `rate_limit_exceeded`."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum VectorStoreFileObjectLastErrorCode {
-    #[doc = "server_error"]
+    #[doc = "`server_error`"]
     #[serde(rename = "server_error")]
     ServerError,
-    #[doc = "unsupported_file"]
+    #[doc = "`unsupported_file`"]
     #[serde(rename = "unsupported_file")]
     UnsupportedFile,
-    #[doc = "invalid_file"]
+    #[doc = "`invalid_file`"]
     #[serde(rename = "invalid_file")]
     InvalidFile,
 }
@@ -42559,13 +42559,13 @@ pub struct VectorStoreObjectFileCounts {
 #[doc = "The status of the vector store, which can be either `expired`, `in_progress`, or `completed`. A status of `completed` indicates that the vector store is ready for use."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum VectorStoreObjectStatus {
-    #[doc = "expired"]
+    #[doc = "`expired`"]
     #[serde(rename = "expired")]
     Expired,
-    #[doc = "in_progress"]
+    #[doc = "`in_progress`"]
     #[serde(rename = "in_progress")]
     InProgress,
-    #[doc = "completed"]
+    #[doc = "`completed`"]
     #[serde(rename = "completed")]
     Completed,
 }
@@ -42738,11 +42738,11 @@ pub enum VectorStoreSearchRequestFilters {
 }
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum VectorStoreSearchRequestRankingOptionsRanker {
-    #[doc = "auto"]
+    #[doc = "`auto`"]
     #[default]
     #[serde(rename = "auto")]
     Auto,
-    #[doc = "default-2024-11-15"]
+    #[doc = "`default-2024-11-15`"]
     #[serde(rename = "default-2024-11-15")]
     Default2024_11_15,
 }
@@ -42791,7 +42791,7 @@ pub struct VectorStoreSearchRequest {
 #[doc = "The type of content."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum VectorStoreSearchResultContentObjectType {
-    #[doc = "text"]
+    #[doc = "`text`"]
     #[serde(rename = "text")]
     Text,
 }
@@ -43266,14 +43266,14 @@ impl serde::Serialize for WebSearchActionSearch {
 #[doc = "High level guidance for the amount of context window space to use for the \nsearch. One of `low`, `medium`, or `high`. `medium` is the default.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum WebSearchContextSize {
-    #[doc = "low"]
+    #[doc = "`low`"]
     #[serde(rename = "low")]
     Low,
-    #[doc = "medium"]
+    #[doc = "`medium`"]
     #[default]
     #[serde(rename = "medium")]
     Medium,
-    #[doc = "high"]
+    #[doc = "`high`"]
     #[serde(rename = "high")]
     High,
 }
@@ -43310,16 +43310,16 @@ impl_serde!(WebSearchToolCallType, "web_search_call");
 #[doc = "The status of the web search tool call.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum WebSearchToolCallStatus {
-    #[doc = "in_progress"]
+    #[doc = "`in_progress`"]
     #[serde(rename = "in_progress")]
     InProgress,
-    #[doc = "searching"]
+    #[doc = "`searching`"]
     #[serde(rename = "searching")]
     Searching,
-    #[doc = "completed"]
+    #[doc = "`completed`"]
     #[serde(rename = "completed")]
     Completed,
-    #[doc = "failed"]
+    #[doc = "`failed`"]
     #[serde(rename = "failed")]
     Failed,
 }
@@ -44871,13 +44871,13 @@ impl_serde!(InputImageContentType, "input_image");
 #[doc = "The detail level of the image to be sent to the model. One of `high`, `low`, or `auto`. Defaults to `auto`."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum InputImageContentDetail {
-    #[doc = "low"]
+    #[doc = "`low`"]
     #[serde(rename = "low")]
     Low,
-    #[doc = "high"]
+    #[doc = "`high`"]
     #[serde(rename = "high")]
     High,
-    #[doc = "auto"]
+    #[doc = "`auto`"]
     #[serde(rename = "auto")]
     Auto,
 }
@@ -45134,10 +45134,10 @@ impl serde::Serialize for FunctionTool {
 #[doc = "The ranker to use for the file search."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RankingOptionsRanker {
-    #[doc = "auto"]
+    #[doc = "`auto`"]
     #[serde(rename = "auto")]
     Auto,
-    #[doc = "default-2024-11-15"]
+    #[doc = "`default-2024-11-15`"]
     #[serde(rename = "default-2024-11-15")]
     Default2024_11_15,
 }
@@ -45353,24 +45353,24 @@ impl serde::Serialize for ApproximateLocation {
 #[doc = "The type of the web search tool. One of `web_search_preview` or `web_search_preview_2025_03_11`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum WebSearchPreviewToolType {
-    #[doc = "web_search_preview"]
+    #[doc = "`web_search_preview`"]
     #[default]
     #[serde(rename = "web_search_preview")]
     WebSearchPreview,
-    #[doc = "web_search_preview_2025_03_11"]
+    #[doc = "`web_search_preview_2025_03_11`"]
     #[serde(rename = "web_search_preview_2025_03_11")]
     WebSearchPreview2025_03_11,
 }
 #[doc = "High level guidance for the amount of context window space to use for the search. One of `low`, `medium`, or `high`. `medium` is the default."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum WebSearchPreviewToolSearchContextSize {
-    #[doc = "low"]
+    #[doc = "`low`"]
     #[serde(rename = "low")]
     Low,
-    #[doc = "medium"]
+    #[doc = "`medium`"]
     #[serde(rename = "medium")]
     Medium,
-    #[doc = "high"]
+    #[doc = "`high`"]
     #[serde(rename = "high")]
     High,
 }
@@ -45401,19 +45401,19 @@ impl_serde!(ComputerUsePreviewToolType, "computer_use_preview");
 #[doc = "The type of computer environment to control."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ComputerUsePreviewToolEnvironment {
-    #[doc = "windows"]
+    #[doc = "`windows`"]
     #[serde(rename = "windows")]
     Windows,
-    #[doc = "mac"]
+    #[doc = "`mac`"]
     #[serde(rename = "mac")]
     Mac,
-    #[doc = "linux"]
+    #[doc = "`linux`"]
     #[serde(rename = "linux")]
     Linux,
-    #[doc = "ubuntu"]
+    #[doc = "`ubuntu`"]
     #[serde(rename = "ubuntu")]
     Ubuntu,
-    #[doc = "browser"]
+    #[doc = "`browser`"]
     #[serde(rename = "browser")]
     Browser,
 }
@@ -45936,13 +45936,13 @@ impl_serde!(ComputerCallOutputItemParamType, "computer_call_output");
 #[doc = "The status of the message input. One of `in_progress`, `completed`, or `incomplete`. Populated when input items are returned via API."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ComputerCallOutputItemParamStatus {
-    #[doc = "in_progress"]
+    #[doc = "`in_progress`"]
     #[serde(rename = "in_progress")]
     InProgress,
-    #[doc = "completed"]
+    #[doc = "`completed`"]
     #[serde(rename = "completed")]
     Completed,
-    #[doc = "incomplete"]
+    #[doc = "`incomplete`"]
     #[serde(rename = "incomplete")]
     Incomplete,
 }
@@ -46052,13 +46052,13 @@ impl_serde!(FunctionCallOutputItemParamType, "function_call_output");
 #[doc = "The status of the item. One of `in_progress`, `completed`, or `incomplete`. Populated when items are returned via API."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum FunctionCallOutputItemParamStatus {
-    #[doc = "in_progress"]
+    #[doc = "`in_progress`"]
     #[serde(rename = "in_progress")]
     InProgress,
-    #[doc = "completed"]
+    #[doc = "`completed`"]
     #[serde(rename = "completed")]
     Completed,
-    #[doc = "incomplete"]
+    #[doc = "`incomplete`"]
     #[serde(rename = "incomplete")]
     Incomplete,
 }
@@ -46169,10 +46169,10 @@ pub struct ItemReferenceParam {
 #[doc = "Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc` for descending order.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ListAssistantsParamsOrder {
-    #[doc = "asc"]
+    #[doc = "`asc`"]
     #[serde(rename = "asc")]
     Asc,
-    #[doc = "desc"]
+    #[doc = "`desc`"]
     #[default]
     #[serde(rename = "desc")]
     Desc,
@@ -46247,23 +46247,23 @@ pub enum CreateTranslationResponse {
 #[doc = "The endpoint to be used for all requests in the batch. Currently `/v1/responses`, `/v1/chat/completions`, `/v1/embeddings`, and `/v1/completions` are supported. Note that `/v1/embeddings` batches are also restricted to a maximum of 50,000 embedding inputs across all requests in the batch."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateBatchRequestEndpoint {
-    #[doc = "/v1/responses"]
+    #[doc = "`/v1/responses`"]
     #[serde(rename = "/v1/responses")]
     V1Responses,
-    #[doc = "/v1/chat/completions"]
+    #[doc = "`/v1/chat/completions`"]
     #[serde(rename = "/v1/chat/completions")]
     V1ChatCompletions,
-    #[doc = "/v1/embeddings"]
+    #[doc = "`/v1/embeddings`"]
     #[serde(rename = "/v1/embeddings")]
     V1Embeddings,
-    #[doc = "/v1/completions"]
+    #[doc = "`/v1/completions`"]
     #[serde(rename = "/v1/completions")]
     V1Completions,
 }
 #[doc = "The time frame within which the batch should be processed. Currently only `24h` is supported."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateBatchRequestCompletionWindow {
-    #[doc = "24h"]
+    #[doc = "`24h`"]
     #[serde(rename = "24h")]
     _24h,
 }
@@ -46319,11 +46319,11 @@ pub struct CancelBatchParams {
 #[doc = "Sort order for Chat Completions by timestamp. Use `asc` for ascending order or `desc` for descending order. Defaults to `asc`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ListChatCompletionsParamsOrder {
-    #[doc = "asc"]
+    #[doc = "`asc`"]
     #[default]
     #[serde(rename = "asc")]
     Asc,
-    #[doc = "desc"]
+    #[doc = "`desc`"]
     #[serde(rename = "desc")]
     Desc,
 }
@@ -46393,11 +46393,11 @@ pub struct DeleteChatCompletionParams {
 #[doc = "Sort order for messages by timestamp. Use `asc` for ascending order or `desc` for descending order. Defaults to `asc`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum GetChatCompletionMessagesParamsOrder {
-    #[doc = "asc"]
+    #[doc = "`asc`"]
     #[default]
     #[serde(rename = "asc")]
     Asc,
-    #[doc = "desc"]
+    #[doc = "`desc`"]
     #[serde(rename = "desc")]
     Desc,
 }
@@ -46427,10 +46427,10 @@ pub struct GetChatCompletionMessagesParams {
 #[doc = "Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc` for descending order.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ListContainersParamsOrder {
-    #[doc = "asc"]
+    #[doc = "`asc`"]
     #[serde(rename = "asc")]
     Asc,
-    #[doc = "desc"]
+    #[doc = "`desc`"]
     #[default]
     #[serde(rename = "desc")]
     Desc,
@@ -46484,10 +46484,10 @@ pub struct CreateContainerFileParams {
 #[doc = "Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc` for descending order.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ListContainerFilesParamsOrder {
-    #[doc = "asc"]
+    #[doc = "`asc`"]
     #[serde(rename = "asc")]
     Asc,
-    #[doc = "desc"]
+    #[doc = "`desc`"]
     #[default]
     #[serde(rename = "desc")]
     Desc,
@@ -46544,22 +46544,22 @@ pub struct RetrieveContainerFileContentParams {
 #[doc = "Sort order for evals by timestamp. Use `asc` for ascending order or `desc` for descending order."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ListEvalsParamsOrder {
-    #[doc = "asc"]
+    #[doc = "`asc`"]
     #[default]
     #[serde(rename = "asc")]
     Asc,
-    #[doc = "desc"]
+    #[doc = "`desc`"]
     #[serde(rename = "desc")]
     Desc,
 }
 #[doc = "Evals can be ordered by creation time or last updated time. Use\n`created_at` for creation time or `updated_at` for last updated time.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ListEvalsParamsOrderBy {
-    #[doc = "created_at"]
+    #[doc = "`created_at`"]
     #[default]
     #[serde(rename = "created_at")]
     CreatedAt,
-    #[doc = "updated_at"]
+    #[doc = "`updated_at`"]
     #[serde(rename = "updated_at")]
     UpdatedAt,
 }
@@ -46640,30 +46640,30 @@ pub struct DeleteEvalResponse {
 #[doc = "Sort order for runs by timestamp. Use `asc` for ascending order or `desc` for descending order. Defaults to `asc`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum GetEvalRunsParamsOrder {
-    #[doc = "asc"]
+    #[doc = "`asc`"]
     #[default]
     #[serde(rename = "asc")]
     Asc,
-    #[doc = "desc"]
+    #[doc = "`desc`"]
     #[serde(rename = "desc")]
     Desc,
 }
 #[doc = "Filter runs by status. One of `queued` | `in_progress` | `failed` | `completed` | `canceled`."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum GetEvalRunsParamsStatus {
-    #[doc = "queued"]
+    #[doc = "`queued`"]
     #[serde(rename = "queued")]
     Queued,
-    #[doc = "in_progress"]
+    #[doc = "`in_progress`"]
     #[serde(rename = "in_progress")]
     InProgress,
-    #[doc = "completed"]
+    #[doc = "`completed`"]
     #[serde(rename = "completed")]
     Completed,
-    #[doc = "canceled"]
+    #[doc = "`canceled`"]
     #[serde(rename = "canceled")]
     Canceled,
-    #[doc = "failed"]
+    #[doc = "`failed`"]
     #[serde(rename = "failed")]
     Failed,
 }
@@ -46756,21 +46756,21 @@ pub struct DeleteEvalRunResponse {
 #[doc = "Filter output items by status. Use `failed` to filter by failed output\nitems or `pass` to filter by passed output items.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum GetEvalRunOutputItemsParamsStatus {
-    #[doc = "fail"]
+    #[doc = "`fail`"]
     #[serde(rename = "fail")]
     Fail,
-    #[doc = "pass"]
+    #[doc = "`pass`"]
     #[serde(rename = "pass")]
     Pass,
 }
 #[doc = "Sort order for output items by timestamp. Use `asc` for ascending order or `desc` for descending order. Defaults to `asc`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum GetEvalRunOutputItemsParamsOrder {
-    #[doc = "asc"]
+    #[doc = "`asc`"]
     #[default]
     #[serde(rename = "asc")]
     Asc,
-    #[doc = "desc"]
+    #[doc = "`desc`"]
     #[serde(rename = "desc")]
     Desc,
 }
@@ -46822,10 +46822,10 @@ pub struct GetEvalRunOutputItemParams {
 #[doc = "Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc` for descending order.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ListFilesParamsOrder {
-    #[doc = "asc"]
+    #[doc = "`asc`"]
     #[serde(rename = "asc")]
     Asc,
-    #[doc = "desc"]
+    #[doc = "`desc`"]
     #[default]
     #[serde(rename = "desc")]
     Desc,
@@ -46882,10 +46882,10 @@ pub struct DownloadFileParams {
 #[doc = "The order in which to retrieve permissions."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ListFineTuningCheckpointPermissionsParamsOrder {
-    #[doc = "ascending"]
+    #[doc = "`ascending`"]
     #[serde(rename = "ascending")]
     Ascending,
-    #[doc = "descending"]
+    #[doc = "`descending`"]
     #[default]
     #[serde(rename = "descending")]
     Descending,
@@ -47043,11 +47043,11 @@ pub struct DeleteModelParams {
 }
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum AdminApiKeysListParamsOrder {
-    #[doc = "asc"]
+    #[doc = "`asc`"]
     #[default]
     #[serde(rename = "asc")]
     Asc,
-    #[doc = "desc"]
+    #[doc = "`desc`"]
     #[serde(rename = "desc")]
     Desc,
 }
@@ -47185,10 +47185,10 @@ pub struct ListAuditLogsParams {
 #[doc = "Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc` for descending order.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ListOrganizationCertificatesParamsOrder {
-    #[doc = "asc"]
+    #[doc = "`asc`"]
     #[serde(rename = "asc")]
     Asc,
-    #[doc = "desc"]
+    #[doc = "`desc`"]
     #[default]
     #[serde(rename = "desc")]
     Desc,
@@ -47215,7 +47215,7 @@ pub struct ListOrganizationCertificatesParams {
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum GetCertificateParamsInclude {
-    #[doc = "content"]
+    #[doc = "`content`"]
     #[serde(rename = "content")]
     Content,
 }
@@ -47235,17 +47235,17 @@ pub struct GetCertificateParams {
 #[doc = "Width of each time bucket in response. Currently only `1d` is supported, default to `1d`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum UsageCostsParamsBucketWidth {
-    #[doc = "1d"]
+    #[doc = "`1d`"]
     #[default]
     #[serde(rename = "1d")]
     _1d,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum UsageCostsParamsGroupBy {
-    #[doc = "project_id"]
+    #[doc = "`project_id`"]
     #[serde(rename = "project_id")]
     ProjectId,
-    #[doc = "line_item"]
+    #[doc = "`line_item`"]
     #[serde(rename = "line_item")]
     LineItem,
 }
@@ -47405,10 +47405,10 @@ pub struct ArchiveProjectParams {
 #[doc = "Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc` for descending order.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ListProjectCertificatesParamsOrder {
-    #[doc = "asc"]
+    #[doc = "`asc`"]
     #[serde(rename = "asc")]
     Asc,
-    #[doc = "desc"]
+    #[doc = "`desc`"]
     #[default]
     #[serde(rename = "desc")]
     Desc,
@@ -47596,29 +47596,29 @@ pub struct DeleteProjectUserParams {
 #[doc = "Width of each time bucket in response. Currently `1m`, `1h` and `1d` are supported, default to `1d`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum UsageAudioSpeechesParamsBucketWidth {
-    #[doc = "1m"]
+    #[doc = "`1m`"]
     #[serde(rename = "1m")]
     _1m,
-    #[doc = "1h"]
+    #[doc = "`1h`"]
     #[serde(rename = "1h")]
     _1h,
-    #[doc = "1d"]
+    #[doc = "`1d`"]
     #[default]
     #[serde(rename = "1d")]
     _1d,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum UsageAudioSpeechesParamsGroupBy {
-    #[doc = "project_id"]
+    #[doc = "`project_id`"]
     #[serde(rename = "project_id")]
     ProjectId,
-    #[doc = "user_id"]
+    #[doc = "`user_id`"]
     #[serde(rename = "user_id")]
     UserId,
-    #[doc = "api_key_id"]
+    #[doc = "`api_key_id`"]
     #[serde(rename = "api_key_id")]
     ApiKeyId,
-    #[doc = "model"]
+    #[doc = "`model`"]
     #[serde(rename = "model")]
     Model,
 }
@@ -47678,29 +47678,29 @@ pub struct UsageAudioSpeechesParams {
 #[doc = "Width of each time bucket in response. Currently `1m`, `1h` and `1d` are supported, default to `1d`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum UsageAudioTranscriptionsParamsBucketWidth {
-    #[doc = "1m"]
+    #[doc = "`1m`"]
     #[serde(rename = "1m")]
     _1m,
-    #[doc = "1h"]
+    #[doc = "`1h`"]
     #[serde(rename = "1h")]
     _1h,
-    #[doc = "1d"]
+    #[doc = "`1d`"]
     #[default]
     #[serde(rename = "1d")]
     _1d,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum UsageAudioTranscriptionsParamsGroupBy {
-    #[doc = "project_id"]
+    #[doc = "`project_id`"]
     #[serde(rename = "project_id")]
     ProjectId,
-    #[doc = "user_id"]
+    #[doc = "`user_id`"]
     #[serde(rename = "user_id")]
     UserId,
-    #[doc = "api_key_id"]
+    #[doc = "`api_key_id`"]
     #[serde(rename = "api_key_id")]
     ApiKeyId,
-    #[doc = "model"]
+    #[doc = "`model`"]
     #[serde(rename = "model")]
     Model,
 }
@@ -47760,20 +47760,20 @@ pub struct UsageAudioTranscriptionsParams {
 #[doc = "Width of each time bucket in response. Currently `1m`, `1h` and `1d` are supported, default to `1d`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum UsageCodeInterpreterSessionsParamsBucketWidth {
-    #[doc = "1m"]
+    #[doc = "`1m`"]
     #[serde(rename = "1m")]
     _1m,
-    #[doc = "1h"]
+    #[doc = "`1h`"]
     #[serde(rename = "1h")]
     _1h,
-    #[doc = "1d"]
+    #[doc = "`1d`"]
     #[default]
     #[serde(rename = "1d")]
     _1d,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum UsageCodeInterpreterSessionsParamsGroupBy {
-    #[doc = "project_id"]
+    #[doc = "`project_id`"]
     #[serde(rename = "project_id")]
     ProjectId,
 }
@@ -47818,32 +47818,32 @@ pub struct UsageCodeInterpreterSessionsParams {
 #[doc = "Width of each time bucket in response. Currently `1m`, `1h` and `1d` are supported, default to `1d`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum UsageCompletionsParamsBucketWidth {
-    #[doc = "1m"]
+    #[doc = "`1m`"]
     #[serde(rename = "1m")]
     _1m,
-    #[doc = "1h"]
+    #[doc = "`1h`"]
     #[serde(rename = "1h")]
     _1h,
-    #[doc = "1d"]
+    #[doc = "`1d`"]
     #[default]
     #[serde(rename = "1d")]
     _1d,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum UsageCompletionsParamsGroupBy {
-    #[doc = "project_id"]
+    #[doc = "`project_id`"]
     #[serde(rename = "project_id")]
     ProjectId,
-    #[doc = "user_id"]
+    #[doc = "`user_id`"]
     #[serde(rename = "user_id")]
     UserId,
-    #[doc = "api_key_id"]
+    #[doc = "`api_key_id`"]
     #[serde(rename = "api_key_id")]
     ApiKeyId,
-    #[doc = "model"]
+    #[doc = "`model`"]
     #[serde(rename = "model")]
     Model,
-    #[doc = "batch"]
+    #[doc = "`batch`"]
     #[serde(rename = "batch")]
     Batch,
 }
@@ -47908,29 +47908,29 @@ pub struct UsageCompletionsParams {
 #[doc = "Width of each time bucket in response. Currently `1m`, `1h` and `1d` are supported, default to `1d`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum UsageEmbeddingsParamsBucketWidth {
-    #[doc = "1m"]
+    #[doc = "`1m`"]
     #[serde(rename = "1m")]
     _1m,
-    #[doc = "1h"]
+    #[doc = "`1h`"]
     #[serde(rename = "1h")]
     _1h,
-    #[doc = "1d"]
+    #[doc = "`1d`"]
     #[default]
     #[serde(rename = "1d")]
     _1d,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum UsageEmbeddingsParamsGroupBy {
-    #[doc = "project_id"]
+    #[doc = "`project_id`"]
     #[serde(rename = "project_id")]
     ProjectId,
-    #[doc = "user_id"]
+    #[doc = "`user_id`"]
     #[serde(rename = "user_id")]
     UserId,
-    #[doc = "api_key_id"]
+    #[doc = "`api_key_id`"]
     #[serde(rename = "api_key_id")]
     ApiKeyId,
-    #[doc = "model"]
+    #[doc = "`model`"]
     #[serde(rename = "model")]
     Model,
 }
@@ -47990,65 +47990,65 @@ pub struct UsageEmbeddingsParams {
 #[doc = "Width of each time bucket in response. Currently `1m`, `1h` and `1d` are supported, default to `1d`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum UsageImagesParamsBucketWidth {
-    #[doc = "1m"]
+    #[doc = "`1m`"]
     #[serde(rename = "1m")]
     _1m,
-    #[doc = "1h"]
+    #[doc = "`1h`"]
     #[serde(rename = "1h")]
     _1h,
-    #[doc = "1d"]
+    #[doc = "`1d`"]
     #[default]
     #[serde(rename = "1d")]
     _1d,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum UsageImagesParamsSources {
-    #[doc = "image.generation"]
+    #[doc = "`image.generation`"]
     #[serde(rename = "image.generation")]
     ImageGeneration,
-    #[doc = "image.edit"]
+    #[doc = "`image.edit`"]
     #[serde(rename = "image.edit")]
     ImageEdit,
-    #[doc = "image.variation"]
+    #[doc = "`image.variation`"]
     #[serde(rename = "image.variation")]
     ImageVariation,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum UsageImagesParamsSizes {
-    #[doc = "256x256"]
+    #[doc = "`256x256`"]
     #[serde(rename = "256x256")]
     _256x256,
-    #[doc = "512x512"]
+    #[doc = "`512x512`"]
     #[serde(rename = "512x512")]
     _512x512,
-    #[doc = "1024x1024"]
+    #[doc = "`1024x1024`"]
     #[serde(rename = "1024x1024")]
     _1024x1024,
-    #[doc = "1792x1792"]
+    #[doc = "`1792x1792`"]
     #[serde(rename = "1792x1792")]
     _1792x1792,
-    #[doc = "1024x1792"]
+    #[doc = "`1024x1792`"]
     #[serde(rename = "1024x1792")]
     _1024x1792,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum UsageImagesParamsGroupBy {
-    #[doc = "project_id"]
+    #[doc = "`project_id`"]
     #[serde(rename = "project_id")]
     ProjectId,
-    #[doc = "user_id"]
+    #[doc = "`user_id`"]
     #[serde(rename = "user_id")]
     UserId,
-    #[doc = "api_key_id"]
+    #[doc = "`api_key_id`"]
     #[serde(rename = "api_key_id")]
     ApiKeyId,
-    #[doc = "model"]
+    #[doc = "`model`"]
     #[serde(rename = "model")]
     Model,
-    #[doc = "size"]
+    #[doc = "`size`"]
     #[serde(rename = "size")]
     Size,
-    #[doc = "source"]
+    #[doc = "`source`"]
     #[serde(rename = "source")]
     Source,
 }
@@ -48118,29 +48118,29 @@ pub struct UsageImagesParams {
 #[doc = "Width of each time bucket in response. Currently `1m`, `1h` and `1d` are supported, default to `1d`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum UsageModerationsParamsBucketWidth {
-    #[doc = "1m"]
+    #[doc = "`1m`"]
     #[serde(rename = "1m")]
     _1m,
-    #[doc = "1h"]
+    #[doc = "`1h`"]
     #[serde(rename = "1h")]
     _1h,
-    #[doc = "1d"]
+    #[doc = "`1d`"]
     #[default]
     #[serde(rename = "1d")]
     _1d,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum UsageModerationsParamsGroupBy {
-    #[doc = "project_id"]
+    #[doc = "`project_id`"]
     #[serde(rename = "project_id")]
     ProjectId,
-    #[doc = "user_id"]
+    #[doc = "`user_id`"]
     #[serde(rename = "user_id")]
     UserId,
-    #[doc = "api_key_id"]
+    #[doc = "`api_key_id`"]
     #[serde(rename = "api_key_id")]
     ApiKeyId,
-    #[doc = "model"]
+    #[doc = "`model`"]
     #[serde(rename = "model")]
     Model,
 }
@@ -48200,20 +48200,20 @@ pub struct UsageModerationsParams {
 #[doc = "Width of each time bucket in response. Currently `1m`, `1h` and `1d` are supported, default to `1d`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum UsageVectorStoresParamsBucketWidth {
-    #[doc = "1m"]
+    #[doc = "`1m`"]
     #[serde(rename = "1m")]
     _1m,
-    #[doc = "1h"]
+    #[doc = "`1h`"]
     #[serde(rename = "1h")]
     _1h,
-    #[doc = "1d"]
+    #[doc = "`1d`"]
     #[default]
     #[serde(rename = "1d")]
     _1d,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum UsageVectorStoresParamsGroupBy {
-    #[doc = "project_id"]
+    #[doc = "`project_id`"]
     #[serde(rename = "project_id")]
     ProjectId,
 }
@@ -48341,10 +48341,10 @@ pub struct CancelResponseParams {
 #[doc = "The order to return the input items in. Default is `desc`.\n- `asc`: Return the input items in ascending order.\n- `desc`: Return the input items in descending order.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ListInputItemsParamsOrder {
-    #[doc = "asc"]
+    #[doc = "`asc`"]
     #[serde(rename = "asc")]
     Asc,
-    #[doc = "desc"]
+    #[doc = "`desc`"]
     #[serde(rename = "desc")]
     Desc,
 }
@@ -48408,10 +48408,10 @@ pub struct DeleteThreadParams {
 #[doc = "Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc` for descending order.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ListMessagesParamsOrder {
-    #[doc = "asc"]
+    #[doc = "`asc`"]
     #[serde(rename = "asc")]
     Asc,
-    #[doc = "desc"]
+    #[doc = "`desc`"]
     #[default]
     #[serde(rename = "desc")]
     Desc,
@@ -48493,10 +48493,10 @@ pub struct DeleteMessageParams {
 #[doc = "Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc` for descending order.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ListRunsParamsOrder {
-    #[doc = "asc"]
+    #[doc = "`asc`"]
     #[serde(rename = "asc")]
     Asc,
-    #[doc = "desc"]
+    #[doc = "`desc`"]
     #[default]
     #[serde(rename = "desc")]
     Desc,
@@ -48531,7 +48531,7 @@ pub struct ListRunsParams {
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateRunParamsInclude {
-    #[doc = "step_details.tool_calls[*].file_search.results[*].content"]
+    #[doc = "`step_details.tool_calls[*].file_search.results[*].content`"]
     #[serde(rename = "step_details.tool_calls[*].file_search.results[*].content")]
     StepDetailsToolCallsFileSearchResultsContent,
 }
@@ -48584,17 +48584,17 @@ pub struct CancelRunParams {
 #[doc = "Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc` for descending order.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ListRunStepsParamsOrder {
-    #[doc = "asc"]
+    #[doc = "`asc`"]
     #[serde(rename = "asc")]
     Asc,
-    #[doc = "desc"]
+    #[doc = "`desc`"]
     #[default]
     #[serde(rename = "desc")]
     Desc,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ListRunStepsParamsInclude {
-    #[doc = "step_details.tool_calls[*].file_search.results[*].content"]
+    #[doc = "`step_details.tool_calls[*].file_search.results[*].content`"]
     #[serde(rename = "step_details.tool_calls[*].file_search.results[*].content")]
     StepDetailsToolCallsFileSearchResultsContent,
 }
@@ -48636,7 +48636,7 @@ pub struct ListRunStepsParams {
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum GetRunStepParamsInclude {
-    #[doc = "step_details.tool_calls[*].file_search.results[*].content"]
+    #[doc = "`step_details.tool_calls[*].file_search.results[*].content`"]
     #[serde(rename = "step_details.tool_calls[*].file_search.results[*].content")]
     StepDetailsToolCallsFileSearchResultsContent,
 }
@@ -48697,10 +48697,10 @@ pub struct AddUploadPartParams {
 #[doc = "Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc` for descending order.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ListVectorStoresParamsOrder {
-    #[doc = "asc"]
+    #[doc = "`asc`"]
     #[serde(rename = "asc")]
     Asc,
-    #[doc = "desc"]
+    #[doc = "`desc`"]
     #[default]
     #[serde(rename = "desc")]
     Desc,
@@ -48787,10 +48787,10 @@ pub struct CancelVectorStoreFileBatchParams {
 #[doc = "Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc` for descending order.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ListFilesInVectorStoreBatchParamsOrder {
-    #[doc = "asc"]
+    #[doc = "`asc`"]
     #[serde(rename = "asc")]
     Asc,
-    #[doc = "desc"]
+    #[doc = "`desc`"]
     #[default]
     #[serde(rename = "desc")]
     Desc,
@@ -48798,16 +48798,16 @@ pub enum ListFilesInVectorStoreBatchParamsOrder {
 #[doc = "Filter by file status. One of `in_progress`, `completed`, `failed`, `cancelled`."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ListFilesInVectorStoreBatchParamsFilter {
-    #[doc = "in_progress"]
+    #[doc = "`in_progress`"]
     #[serde(rename = "in_progress")]
     InProgress,
-    #[doc = "completed"]
+    #[doc = "`completed`"]
     #[serde(rename = "completed")]
     Completed,
-    #[doc = "failed"]
+    #[doc = "`failed`"]
     #[serde(rename = "failed")]
     Failed,
-    #[doc = "cancelled"]
+    #[doc = "`cancelled`"]
     #[serde(rename = "cancelled")]
     Cancelled,
 }
@@ -48850,10 +48850,10 @@ pub struct ListFilesInVectorStoreBatchParams {
 #[doc = "Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc` for descending order.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ListVectorStoreFilesParamsOrder {
-    #[doc = "asc"]
+    #[doc = "`asc`"]
     #[serde(rename = "asc")]
     Asc,
-    #[doc = "desc"]
+    #[doc = "`desc`"]
     #[default]
     #[serde(rename = "desc")]
     Desc,
@@ -48861,16 +48861,16 @@ pub enum ListVectorStoreFilesParamsOrder {
 #[doc = "Filter by file status. One of `in_progress`, `completed`, `failed`, `cancelled`."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ListVectorStoreFilesParamsFilter {
-    #[doc = "in_progress"]
+    #[doc = "`in_progress`"]
     #[serde(rename = "in_progress")]
     InProgress,
-    #[doc = "completed"]
+    #[doc = "`completed`"]
     #[serde(rename = "completed")]
     Completed,
-    #[doc = "failed"]
+    #[doc = "`failed`"]
     #[serde(rename = "failed")]
     Failed,
-    #[doc = "cancelled"]
+    #[doc = "`cancelled`"]
     #[serde(rename = "cancelled")]
     Cancelled,
 }
