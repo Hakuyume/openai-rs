@@ -29,6 +29,24 @@ pub enum Error<S, B> {
     Api(#[from] ApiError),
 }
 
+impl<S, B> Error<S, B> {
+    pub fn boxed(self) -> Box<dyn std::error::Error + Send + Sync + 'static>
+    where
+        S: Into<Box<dyn std::error::Error + Send + Sync + 'static>>,
+        B: Into<Box<dyn std::error::Error + Send + Sync + 'static>>,
+    {
+        match self {
+            Self::Service(e) => e.into(),
+            Self::Body(e) => e.into(),
+            Self::Http(e) => e.into(),
+            Self::Json(e) => e.into(),
+            Self::Urlencode(e) => e.into(),
+            Self::Utf8(e) => e.into(),
+            Self::Api(e) => e.into(),
+        }
+    }
+}
+
 #[derive(Debug, thiserror::Error)]
 #[error("{}", message)]
 pub struct ApiError {
