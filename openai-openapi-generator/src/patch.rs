@@ -1,7 +1,7 @@
 use crate::{openapi, visit};
 
 #[openai_openapi_generator_macros::strict(openapi::Schema)]
-pub fn patch(name: &str, schema: &mut openapi::Schema) {
+pub fn patch(name: Option<&str>, schema: &mut openapi::Schema) {
     for (_, schema) in visit::iter_mut(schema) {
         patch(name, schema)
     }
@@ -31,9 +31,10 @@ pub fn patch(name: &str, schema: &mut openapi::Schema) {
         schema.x_stainless_const = Some(true);
     }
 
-    if let openapi::Schema {
-        recursive_ref: Some(recursive_ref),
-    } = schema
+    if let Some(name) = name
+        && let openapi::Schema {
+            recursive_ref: Some(recursive_ref),
+        } = schema
         && recursive_ref == "#"
     {
         schema.recursive_ref = None;

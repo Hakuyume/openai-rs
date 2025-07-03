@@ -124,7 +124,6 @@ pub fn to_item_struct(
                     };
                     quote::quote!(#[serde_as(as = #serde_as)])
                 });
-                let attr_serde_rename = quote::quote!(#[serde(rename = #name)]);
                 let attr_serde_skip_serializing_if = (*optional || *nullable)
                     .then_some(quote::quote!(#[serde(skip_serializing_if = "Option::is_none")]));
                 let attr_builder = (*default || *nullable || *optional)
@@ -137,7 +136,7 @@ pub fn to_item_struct(
                 quote::quote! {
                     #description
                     #attr_serde_as
-                    #attr_serde_rename
+                    #[serde(rename = #name)]
                     #attr_serde_skip_serializing_if
                     #attr_builder
                     #vis #ident: #type_
@@ -212,7 +211,6 @@ pub fn to_item_struct(
                         };
                         quote::quote!(#[serde_as(as = #serde_as)])
                     });
-                    let attr_serde_rename = quote::quote!(#[serde(rename = #name)]);
                     let type_ = if *nullable || *optional {
                         quote::quote!(Option<#type_>)
                     } else {
@@ -221,13 +219,13 @@ pub fn to_item_struct(
                     if *public {
                         quote::quote! {
                             #attr_serde_as
-                            #attr_serde_rename
+                            #[serde(rename = #name)]
                             #ident: #type_
                         }
                     } else {
                         quote::quote! {
                             #attr_serde_as
-                            #attr_serde_rename
+                            #[serde(rename = #name)]
                             #[allow(dead_code)]
                             #ident: #type_
                         }
@@ -280,7 +278,6 @@ pub fn to_item_struct(
                         };
                         quote::quote!(#[serde_as(as = #serde_as)])
                     });
-                    let attr_serde_rename = quote::quote!(#[serde(rename = #name)]);
                     let attr_serde_skip_serializing_if = (*optional || *nullable).then_some(
                         quote::quote!(#[serde(skip_serializing_if = "Option::is_none")]),
                     );
@@ -291,7 +288,7 @@ pub fn to_item_struct(
                     };
                     quote::quote! {
                         #attr_serde_as
-                        #attr_serde_rename
+                        #[serde(rename = #name)]
                         #attr_serde_skip_serializing_if
                         #ident: &'a #type_
                     }

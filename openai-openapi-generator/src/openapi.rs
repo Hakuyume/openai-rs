@@ -4,7 +4,15 @@ use serde::Deserialize;
 #[derive(Clone, Debug, Deserialize)]
 pub struct Document {
     pub components: Components,
-    pub paths: IndexMap<String, IndexMap<String, Operation>>,
+    pub paths: IndexMap<String, IndexMap<Method, Operation>>,
+}
+
+#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq, Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum Method {
+    Delete,
+    Get,
+    Post,
 }
 
 #[serde_with::serde_as]
@@ -22,18 +30,44 @@ pub struct Operation {
 #[derive(Clone, Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct RequestBody {
-    pub content: IndexMap<String, Content>,
+    pub content: IndexMap<ContentType, Content>,
     pub required: Option<bool>,
 }
 
 #[derive(Clone, Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Parameter {}
+pub struct Parameter {
+    pub description: Option<String>,
+    #[serde(rename = "in")]
+    pub in_: In,
+    pub name: String,
+    pub required: Option<bool>,
+    pub schema: Schema,
+}
+
+#[derive(Clone, Copy, Debug, Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum In {
+    Path,
+    Query,
+}
 
 #[derive(Clone, Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Response {
-    pub content: Option<IndexMap<String, Content>>,
+    pub content: Option<IndexMap<ContentType, Content>>,
+}
+
+#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq, Deserialize)]
+pub enum ContentType {
+    #[serde(rename = "application/json")]
+    ApplicationJson,
+    #[serde(rename = "application/octet-stream")]
+    ApplicationOoctetStream,
+    #[serde(rename = "multipart/form-data")]
+    MultipartFormData,
+    #[serde(rename = "text/event-stream")]
+    TextEventStream,
 }
 
 #[derive(Clone, Debug, Deserialize)]

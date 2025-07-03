@@ -30,6 +30,82 @@ pub fn parse(
     }
 }
 
+pub fn parse_operation(
+    method: openapi::Method,
+    path: &str,
+    operation: &openapi::Operation,
+    schemas: &IndexMap<String, openapi::Schema>,
+) -> anyhow::Result<crate::Operation> {
+    Ok(crate::Operation {
+        description: operation.summary.clone(),
+        id: operation.operation_id.clone(),
+        method,
+        parameters: operation
+            .parameters
+            .as_ref()
+            .map(|parameters| {
+                parameters
+                    .iter()
+                    .enumerate()
+                    .map(|(i, parameter)| {
+                        parse(&parameter.schema, schemas)
+                            .map(|schema| crate::Parameter {
+                                description: parameter.description.clone(),
+                                in_: parameter.in_,
+                                name: parameter.name.clone(),
+                                required: parameter.required.unwrap_or_default(),
+                                schema,
+                            })
+                            .context("schema")
+                            .with_context(|| format!("parameters[{i}]"))
+                    })
+                    .collect()
+            })
+            .transpose()?,
+        path: path.to_owned(),
+        requests: operation
+            .request_body
+            .as_ref()
+            .map(|request_body| {
+                request_body
+                    .content
+                    .iter()
+                    .map(|(content_type, content)| {
+                        parse(&content.schema, schemas)
+                            .map(|schema| {
+                                (
+                                    *content_type,
+                                    schema,
+                                    request_body.required.unwrap_or_default(),
+                                )
+                            })
+                            .context("schema")
+                            .with_context(|| format!("content[{content_type:?}]"))
+                            .context("requestBody")
+                    })
+                    .collect()
+            })
+            .transpose()?,
+        responses: operation
+            .responses
+            .iter()
+            .flat_map(|(status, response)| {
+                if let Some(content) = &response.content {
+                    either::Left(content.iter().map(|(content_type, content)| {
+                        parse(&content.schema, schemas)
+                            .map(|schema| (*status, Some((*content_type, schema))))
+                            .context("schema")
+                            .with_context(|| format!("content[{content_type:?}]"))
+                            .context("requestBody")
+                    }))
+                } else {
+                    either::Right(iter::once(Ok((*status, None))))
+                }
+            })
+            .collect::<Result<_, _>>()?,
+    })
+}
+
 #[openai_openapi_generator_macros::strict(openapi::Schema)]
 fn parse_additional_properties(
     schema: &openapi::Schema,

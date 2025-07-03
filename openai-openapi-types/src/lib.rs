@@ -1,3 +1,9 @@
+use generated as __types;
+pub use generated::*;
+
+#[cfg(test)]
+mod tests;
+
 macro_rules! impl_serde {
     ($ty:ident, $value:literal) => {
         impl<'de> serde::Deserialize<'de> for $ty {
@@ -27,8 +33,4 @@ macro_rules! impl_serde {
     };
 }
 
-#[cfg(test)]
-mod tests;
-
 mod generated;
-pub use generated::*;

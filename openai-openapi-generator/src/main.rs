@@ -3,8 +3,8 @@ mod parse;
 mod patch;
 mod to_item_const;
 mod to_item_enum;
+mod to_item_fn;
 mod to_item_struct;
-mod to_items_fn;
 mod visit;
 
 use anyhow::Context;
@@ -31,7 +31,28 @@ fn main() -> anyhow::Result<()> {
         serde_yaml::from_reader::<_, openapi::Document>(File::open(&args.document)?)?;
 
     for (name, schema) in &mut document.components.schemas {
-        patch::patch(name, schema);
+        patch::patch(Some(name), schema);
+    }
+    for operations in document.paths.values_mut() {
+        for operation in operations.values_mut() {
+            if let Some(parameters) = &mut operation.parameters {
+                for parameter in parameters {
+                    patch::patch(None, &mut parameter.schema);
+                }
+            }
+            if let Some(request_body) = &mut operation.request_body {
+                for content in request_body.content.values_mut() {
+                    patch::patch(None, &mut content.schema);
+                }
+            }
+            for response in operation.responses.values_mut() {
+                if let Some(content) = &mut response.content {
+                    for content in content.values_mut() {
+                        patch::patch(None, &mut content.schema);
+                    }
+                }
+            }
+        }
     }
 
     let schemas = document
@@ -40,35 +61,125 @@ fn main() -> anyhow::Result<()> {
         .iter()
         .map(|(name, schema)| {
             parse::parse(schema, &document.components.schemas)
-                .with_context(|| name.clone())
                 .map(|schema| (name.clone(), schema))
+                .with_context(|| format!("schemas[{name:?}]"))
+                .context("schemas")
+                .context("components")
         })
         .collect::<Result<IndexMap<_, _>, _>>()?;
+
+    let operations = document
+        .paths
+        .iter()
+        .flat_map(|(path, operations)| {
+            let schemas = &document.components.schemas;
+            operations.iter().map(move |(method, operation)| {
+                parse::parse_operation(*method, path, operation, schemas)
+                    .with_context(|| format!("path[{path:?}][{method:?}]"))
+            })
+        })
+        .collect::<Result<Vec<_>, _>>()?;
 
     if let Some(path) = &args.types {
         let mut items = Vec::new();
         for (name, schema) in &schemas {
             to_item(name, schema, &schemas, true, &mut items);
         }
+        for operation in &operations {
+            if let Some(parameters) = &operation.parameters {
+                let schema = Schema {
+                    description: None,
+                    nullable: false,
+                    type_: Type::Struct {
+                        fields: parameters
+                            .iter()
+                            .map(|parameter| {
+                                let mut schema = parameter.schema.clone();
+                                schema.description = parameter.description.clone();
+                                either::Left((parameter.name.clone(), schema))
+                            })
+                            .collect(),
+                        required: parameters
+                            .iter()
+                            .filter_map(|parameter| {
+                                parameter.required.then_some(parameter.name.clone())
+                            })
+                            .collect(),
+                    },
+                };
+                to_type(
+                    &format!("{}.params", operation.id),
+                    &schema,
+                    &schemas,
+                    true,
+                    Some(&mut items),
+                );
+            }
+            if let Some(requests) = &operation.requests {
+                for (_, schema, _) in requests {
+                    to_type(
+                        &format!("{}.request", operation.id),
+                        schema,
+                        &schemas,
+                        true,
+                        Some(&mut items),
+                    );
+                }
+            }
+            for (_, response) in &operation.responses {
+                if let Some((_, schema)) = response {
+                    to_type(
+                        &format!("{}.response", operation.id),
+                        schema,
+                        &schemas,
+                        true,
+                        Some(&mut items),
+                    );
+                }
+            }
+        }
         fs::write(path, quote::quote!(#(#items)*).to_string())?;
     }
 
     if let Some(path) = &args.functions {
-        let items = to_items_fn::to_items_fn(&document, &schemas)?;
+        let mut items = Vec::new();
+        for operation in &operations {
+            to_item_fn::to_item_fn(operation, &schemas, &mut items);
+        }
         fs::write(path, quote::quote!(#(#items)*).to_string())?;
     }
 
     Ok(())
 }
 
-#[derive(Debug)]
+#[derive(Clone, Debug)]
+struct Operation {
+    description: String,
+    id: String,
+    method: openapi::Method,
+    parameters: Option<Vec<Parameter>>,
+    path: String,
+    requests: Option<Vec<(openapi::ContentType, Schema, bool)>>,
+    responses: Vec<(u16, Option<(openapi::ContentType, Schema)>)>,
+}
+
+#[derive(Clone, Debug)]
+struct Parameter {
+    description: Option<String>,
+    in_: openapi::In,
+    name: String,
+    required: bool,
+    schema: Schema,
+}
+
+#[derive(Clone, Debug)]
 struct Schema {
     description: Option<String>,
     nullable: bool,
     type_: Type,
 }
 
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 enum Type {
     Any,
     Array(Box<Schema>),
@@ -112,7 +223,7 @@ fn to_type(
         Type::Number => syn::parse_quote!(serde_json::Number),
         Type::Ref(ref_) => {
             let ident = to_ident_pascal(ref_);
-            syn::parse_quote!(#ident)
+            syn::parse_quote!(crate::__types::#ident)
         }
         Type::String => syn::parse_quote!(String),
         _ => {
@@ -120,7 +231,7 @@ fn to_type(
             if let Some(items) = items {
                 to_item(name, schema, schemas, public, items);
             }
-            syn::parse_quote!(#ident)
+            syn::parse_quote!(crate::__types::#ident)
         }
     }
 }
