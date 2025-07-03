@@ -595,6 +595,7 @@ dependencies = [
  "http-body",
  "http-body-server-sent-events",
  "http-body-util",
+ "indexmap 2.9.0",
  "openai-openapi-types",
  "pin-project",
  "serde",

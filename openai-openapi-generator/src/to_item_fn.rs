@@ -9,23 +9,6 @@ pub fn to_item_fn(
     schemas: &IndexMap<String, Schema>,
     items: &mut Vec<syn::Item>,
 ) {
-    // if let Some([(openapi::ContentType::ApplicationJson, request, required)]) =
-    //     &operation.requests.as_deref()
-    // {
-
-    //     // body: &crate::types::#request,
-    //     // #method_expr, #path, body
-    // }
-
-    // if let Some(parameters) = &operation.parameters {
-    //     let type_ = to_ident_pascal(&format!("{}.params", operation.id));
-    //     quote::quote!(params: &crate::types::#type_),
-    //     parameters.iter().
-
-    //     // body: &crate::types::#request,
-    //     // #method_expr, #path, body
-    // }
-
     let method = match operation.method {
         openapi::Method::Delete => quote::quote!(http::Method::DELETE),
         openapi::Method::Get => quote::quote!(http::Method::GET),
@@ -56,90 +39,83 @@ pub fn to_item_fn(
                 let ident = to_ident_snake(&parameter.name);
                 quote::quote!(#name = params.#ident)
             });
-        if parameters
+        let fields_query = parameters
             .iter()
-            .any(|parameter| matches!(parameter.in_, openapi::In::Query))
-        {
-            let fields_query = parameters
-                .iter()
-                .filter(|parameter| matches!(parameter.in_, openapi::In::Query))
-                .map(|parameter| {
-                    let attr_serde_as = to_serde_as(&parameter.schema).map(|serde_as| {
-                        let serde_as = if parameter.required {
-                            serde_as
-                        } else {
-                            format!("Option<{serde_as}>")
-                        };
-                        quote::quote!(#[serde_as(as = #serde_as)])
-                    });
-                    let name = &parameter.name;
-                    let attr_serde_skip_serializing_if = (!parameter.required).then_some(
-                        quote::quote!(#[serde(skip_serializing_if = "Option::is_none")]),
-                    );
-                    let ident = to_ident_snake(&parameter.name);
-                    let type_ = {
-                        let type_ = to_type(
-                            &format!("{}.params.{}", operation.id, parameter.name),
-                            &parameter.schema,
-                            schemas,
-                            false,
-                            None,
-                        );
-                        if parameter.required {
-                            quote::quote!(#type_)
-                        } else {
-                            quote::quote!(Option<#type_>)
-                        }
+            .filter(|parameter| matches!(parameter.in_, openapi::In::Query))
+            .map(|parameter| {
+                let attr_serde_as = to_serde_as(&parameter.schema).map(|serde_as| {
+                    let serde_as = if parameter.required {
+                        serde_as
+                    } else {
+                        format!("Option<{serde_as}>")
                     };
-                    quote::quote! {
-                        #attr_serde_as
-                        #[serde(rename = #name)]
-                        #attr_serde_skip_serializing_if
-                        #ident: &'a #type_
-                    }
+                    quote::quote!(#[serde_as(as = #serde_as)])
                 });
-            let idents_query = parameters
-                .iter()
-                .filter(|parameter| matches!(parameter.in_, openapi::In::Query))
-                .map(|parameter| to_ident_snake(&parameter.name));
-            let field_values_query = parameters
-                .iter()
-                .filter(|parameter| matches!(parameter.in_, openapi::In::Query))
-                .map(|parameter| to_ident_snake(&parameter.name));
-            (
-                Some(quote::quote!(params: &#params,)),
+                let name = &parameter.name;
+                let attr_serde_skip_serializing_if = (!parameter.required)
+                    .then_some(quote::quote!(#[serde(skip_serializing_if = "Option::is_none")]));
+                let ident = to_ident_snake(&parameter.name);
+                let type_ = {
+                    let type_ = to_type(
+                        &format!("{}.params.{}", operation.id, parameter.name),
+                        &parameter.schema,
+                        schemas,
+                        false,
+                        None,
+                    );
+                    if parameter.required {
+                        quote::quote!(#type_)
+                    } else {
+                        quote::quote!(Option<#type_>)
+                    }
+                };
                 quote::quote! {
-                    let path = {
-                        #[serde_with::serde_as]
-                        #[derive(serde::Serialize)]
-                        struct Query<'a> {
-                            #(#fields_query),*
-                        }
+                    #attr_serde_as
+                    #[serde(rename = #name)]
+                    #attr_serde_skip_serializing_if
+                    #ident: &'a #type_
+                }
+            });
+        let idents_query = parameters
+            .iter()
+            .filter(|parameter| matches!(parameter.in_, openapi::In::Query))
+            .map(|parameter| to_ident_snake(&parameter.name));
+        let field_values_query = parameters
+            .iter()
+            .filter(|parameter| matches!(parameter.in_, openapi::In::Query))
+            .map(|parameter| to_ident_snake(&parameter.name));
+        (
+            Some(quote::quote!(params: &#params,)),
+            quote::quote! {
+                let path = {
+                    #[serde_with::serde_as]
+                    #[derive(serde::Serialize)]
+                    struct Query<'a> {
+                        #(#fields_query,)*
+                        #[serde(skip_serializing)]
+                        _phantom: std::marker::PhantomData<&'a ()>,
+                    }
 
-                        let mut path = format!(#path, #(#params_path),*);
-                        let #params {
-                            #(#idents_query,)*
-                            ..
-                        } = params;
-                        let query = serde_urlencoded::to_string(
-                            Query { #(#field_values_query),* }
-                        )?;
-                        if !query.is_empty() {
-                            path.push('?');
-                            path.push_str(&query);
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!(#path, #(#params_path),*);
+                    let #params {
+                        #(#idents_query,)*
+                        ..
+                    } = params;
+                    let query = serde_urlencoded::to_string(
+                        Query {
+                            #(#field_values_query,)*
+                            _phantom: std::marker::PhantomData,
                         }
-                        path
-                    };
-                },
-            )
-        } else {
-            (
-                Some(quote::quote!(params: &#params,)),
-                quote::quote! {
-                    let path = format!(#path, #(#params_path),*);
-                },
-            )
-        }
+                    )?;
+                    if !query.is_empty() {
+                        path.push('?');
+                        path.push_str(&query);
+                    }
+                    path
+                };
+            },
+        )
     } else {
         let path = &operation.path;
         (
@@ -161,12 +137,19 @@ pub fn to_item_fn(
             );
             (
                 Some(quote::quote!(request: &#request,)),
-                "application/json",
+                Some(quote::quote!(.header(http::header::CONTENT_TYPE, "application/json"))),
                 quote::quote! {
                     let body = serde_json::to_string(request)?;
                 },
             )
         }
+        None => (
+            None,
+            None,
+            quote::quote! {
+                let body = String::new();
+            },
+        ),
         _ => return,
     };
 
@@ -209,7 +192,7 @@ pub fn to_item_fn(
                                         .method(#method)
                                         .uri(path)
                                         .header(http::header::CONTENT_LENGTH, body.len())
-                                        .header(http::header::CONTENT_TYPE, #content_type)
+                                        #content_type
                                         .body(body)?
                                     )
                                 },
@@ -272,7 +255,7 @@ pub fn to_item_fn(
                                         .method(#method)
                                         .uri(path)
                                         .header(http::header::CONTENT_LENGTH, body.len())
-                                        .header(http::header::CONTENT_TYPE, #content_type)
+                                        #content_type
                                         .body(body)?
                                     )
                                 },
