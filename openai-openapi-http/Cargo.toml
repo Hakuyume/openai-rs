@@ -1,7 +1,11 @@
 [package]
 name = "openai-openapi-http"
-version = "0.1.0"
+version = "0.4.2"
 edition = "2024"
+
+description = "Client for OpenAI API generated from OpenAPI spec"
+license = "MIT"
+repository = "https://github.com/Hakuyume/openai-rs"
 
 [features]
 test-openai = []
@@ -15,7 +19,7 @@ http-body-server-sent-events.workspace = true
 http-body-util.workspace = true
 indexmap = { workspace = true, features = ["serde"] }
 mime.workspace = true
-openai-openapi-types = { version = "0.4.1", path = "../openai-openapi-types" }
+openai-openapi-types = { version = "0.4.2", path = "../openai-openapi-types" }
 pin-project.workspace = true
 serde = { workspace = true, features = ["derive"] }
 serde_json.workspace = true
