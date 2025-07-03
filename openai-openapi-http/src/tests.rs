@@ -1,10 +1,11 @@
-use futures::TryStreamExt;
-use std::env;
-use std::future::{self, Ready};
-use ureq::RequestExt;
-
+#[cfg(feature = "test-openai")]
 fn service()
--> impl FnOnce(http::Request<String>) -> Ready<Result<http::Response<String>, ureq::Error>> {
+-> impl FnOnce(http::Request<String>) -> std::future::Ready<Result<http::Response<String>, ureq::Error>>
+{
+    use std::env;
+    use std::future;
+    use ureq::RequestExt;
+
     fn run(mut request: http::Request<String>) -> Result<http::Response<String>, ureq::Error> {
         let api_key = env::var("OPENAI_API_KEY").unwrap();
         *request.uri_mut() = format!("https://api.openai.com/v1{}", request.uri().path())
@@ -29,12 +30,14 @@ fn service()
     |request| future::ready(run(request))
 }
 
+#[cfg(feature = "test-openai")]
 #[futures_test::test]
 async fn test_list_models() {
     let response = super::list_models(service()).await.unwrap();
-    println!("{response:#?}");
+    dbg!(response);
 }
 
+#[cfg(feature = "test-openai")]
 #[futures_test::test]
 async fn test_create_chat_completion() {
     let response = super::create_chat_completion(
@@ -56,11 +59,14 @@ async fn test_create_chat_completion() {
     )
     .await
     .unwrap();
-    println!("{response:#?}");
+    dbg!(response);
 }
 
+#[cfg(feature = "test-openai")]
 #[futures_test::test]
 async fn test_create_chat_completion_stream() {
+    use futures::TryStreamExt;
+
     let mut stream = super::create_chat_completion_stream(
         service(),
         &openai_openapi_types::CreateChatCompletionRequest::builder()
@@ -82,6 +88,6 @@ async fn test_create_chat_completion_stream() {
     .await
     .unwrap();
     while let Some(response) = stream.try_next().await.unwrap() {
-        println!("{response:#?}");
+        dbg!(response);
     }
 }

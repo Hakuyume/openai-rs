@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: rustup update
-      - run: cargo clippy --all-targets --locked -- --deny=warnings
+      - run: cargo clippy --all-features --all-targets --locked -- --deny=warnings
   test:
     runs-on: ubuntu-latest
     steps:
