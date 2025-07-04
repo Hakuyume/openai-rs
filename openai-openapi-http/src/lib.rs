@@ -7,6 +7,7 @@ mod __combinators {
     pub(super) use crate::json::Json;
     pub(super) use crate::send::Send;
 }
+
 use bytes::Bytes;
 pub use event_stream::EventStream;
 pub use generated::*;
