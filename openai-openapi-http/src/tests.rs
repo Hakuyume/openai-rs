@@ -1,3 +1,4 @@
+use openai_openapi_types as types;
 use std::convert::Infallible;
 use std::future;
 
@@ -15,12 +16,10 @@ async fn test_get_chat_completion_messages() {
                 .unwrap();
             future::ready(Ok::<_, Infallible>(response))
         },
-        &openai_openapi_types::GetChatCompletionMessagesParams::builder()
+        &types::GetChatCompletionMessagesParams::builder()
             .completion_id("foo".to_owned())
             .limit(Some(42))
-            .order(Some(
-                openai_openapi_types::GetChatCompletionMessagesParamsOrder::Desc,
-            ))
+            .order(Some(types::GetChatCompletionMessagesParamsOrder::Desc))
             .build(),
     )
     .await;
@@ -30,6 +29,7 @@ async fn test_get_chat_completion_messages() {
 #[cfg(feature = "test-openai")]
 mod openai {
     use futures::TryStreamExt;
+    use openai_openapi_types as types;
     use std::env;
     use std::future::{self, Ready};
     use ureq::RequestExt;
@@ -74,19 +74,15 @@ mod openai {
     async fn test_create_chat_completion() {
         let response = crate::create_chat_completion(
             client(),
-            &openai_openapi_types::CreateChatCompletionRequest::builder()
-                .model(openai_openapi_types::ModelIdsShared::Gpt4_1Nano)
-                .messages(vec![
-                openai_openapi_types::ChatCompletionRequestMessage::User(
-                    openai_openapi_types::ChatCompletionRequestUserMessage::builder()
-                        .content(
-                            openai_openapi_types::ChatCompletionRequestUserMessageContent::String(
-                                "hello world".to_owned(),
-                            ),
-                        )
+            &types::CreateChatCompletionRequest::builder()
+                .model(types::ModelIdsShared::Gpt4_1Nano)
+                .messages(vec![types::ChatCompletionRequestMessage::User(
+                    types::ChatCompletionRequestUserMessage::builder()
+                        .content(types::ChatCompletionRequestUserMessageContent::String(
+                            "hello world".to_owned(),
+                        ))
                         .build(),
-                ),
-            ])
+                )])
                 .build(),
         )
         .await
@@ -98,19 +94,15 @@ mod openai {
     async fn test_create_chat_completion_stream() {
         let mut stream = crate::create_chat_completion_stream(
             client(),
-            &openai_openapi_types::CreateChatCompletionRequest::builder()
-                .model(openai_openapi_types::ModelIdsShared::Gpt4_1Nano)
-                .messages(vec![
-                openai_openapi_types::ChatCompletionRequestMessage::User(
-                    openai_openapi_types::ChatCompletionRequestUserMessage::builder()
-                        .content(
-                            openai_openapi_types::ChatCompletionRequestUserMessageContent::String(
-                                "hello world".to_owned(),
-                            ),
-                        )
+            &types::CreateChatCompletionRequest::builder()
+                .model(types::ModelIdsShared::Gpt4_1Nano)
+                .messages(vec![types::ChatCompletionRequestMessage::User(
+                    types::ChatCompletionRequestUserMessage::builder()
+                        .content(types::ChatCompletionRequestUserMessageContent::String(
+                            "hello world".to_owned(),
+                        ))
                         .build(),
-                ),
-            ])
+                )])
                 .stream(Some(true))
                 .build(),
         )
