@@ -23,7 +23,10 @@ async fn test_get_chat_completion_messages() {
             .build(),
     )
     .await;
-    assert!(matches!(response, Err(crate::Error::Api(_))));
+    assert!(matches!(
+        response,
+        Err(crate::Error::UnexpectedContentType(_)),
+    ));
 }
 
 #[cfg(feature = "test-openai")]
