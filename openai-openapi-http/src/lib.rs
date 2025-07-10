@@ -8,7 +8,6 @@ mod __combinators {
     pub(super) use crate::send::Send;
 }
 
-use bytes::Bytes;
 pub use event_stream::EventStream;
 pub use generated::*;
 use openai_openapi_types as __types;
@@ -29,6 +28,8 @@ pub enum Error<C, B> {
     Utf8(#[from] std::str::Utf8Error),
     #[error(transparent)]
     Api(#[from] ApiError),
+    #[error(transparent)]
+    UnexpectedContentType(#[from] UnexpectedContentTypeError),
 }
 
 impl<C, B> Error<C, B> {
@@ -45,16 +46,25 @@ impl<C, B> Error<C, B> {
             Self::Urlencode(e) => e.into(),
             Self::Utf8(e) => e.into(),
             Self::Api(e) => e.into(),
+            Self::UnexpectedContentType(e) => e.into(),
         }
     }
 }
 
 #[derive(Debug, thiserror::Error)]
-#[error("{:?}", message)]
+#[error("{message}")]
 pub struct ApiError {
     pub code: Option<String>,
-    pub message: Option<String>,
-    pub response: Option<http::Response<Bytes>>,
+    pub message: String,
+    pub param: Option<String>,
+    pub r#type: String,
+}
+
+#[derive(Debug, thiserror::Error)]
+#[error("unexpected content-type: expected = {expected:?}, actual = {actual:?}")]
+pub struct UnexpectedContentTypeError {
+    pub expected: mime::Mime,
+    pub actual: Option<mime::Mime>,
 }
 
 #[cfg(test)]

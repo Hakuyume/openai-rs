@@ -56,12 +56,19 @@ where
                         break Poll::Ready(None);
                     } else if event.event.is_some_and(|event| event == "error") {
                         let openai_openapi_types::ErrorResponse {
-                            error: openai_openapi_types::Error { code, message, .. },
+                            error:
+                                openai_openapi_types::Error {
+                                    code,
+                                    message,
+                                    param,
+                                    r#type,
+                                },
                         } = serde_json::from_str(&data)?;
                         break Poll::Ready(Some(Err(Error::Api(ApiError {
                             code,
-                            message: Some(message),
-                            response: None,
+                            message,
+                            param,
+                            r#type,
                         }))));
                     } else {
                         break Poll::Ready(Some(Ok(serde_json::from_str(&data)?)));
