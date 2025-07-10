@@ -3,8 +3,8 @@ use http_body_util::BodyExt;
 use std::pin::Pin;
 use std::task::{Context, Poll, ready};
 
-#[allow(clippy::large_enum_variant)]
 #[pin_project::pin_project(project = SendProj)]
+#[allow(clippy::large_enum_variant)]
 pub(crate) enum Send<Fut, B, E>
 where
     Fut: Future<Output = Result<http::Response<B>, E>>,
