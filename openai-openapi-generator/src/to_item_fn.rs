@@ -145,6 +145,114 @@ pub fn to_item_fn(
     };
 
     for (status, response) in &operation.responses {
+        if let (200..300, None) = (status, response) {
+            let description = to_description(Some(&operation.description));
+            let ident_fn = to_ident_snake(&operation.id);
+            let ident_future = to_ident_pascal(&operation.id);
+
+            if matches!(operation.method, openapi::Method::Get) {
+                items.push(syn::parse_quote! {
+                    #description
+                    pub fn #ident_fn<C, Fut, B, E>(
+                        client: C,
+                        #params
+                        #request
+                    ) -> #ident_future<Fut, B, E>
+                    where
+                    C: FnOnce(http::Request<String>) -> Fut,
+                    Fut: Future<Output = Result<http::Response<B>, E>>,
+                    B: http_body::Body,
+                    {
+                        #ident_future(
+                            futures::TryFutureExt::map_ok(
+                                crate::__combinators::Send::new(
+                                    client,
+                                    || {
+                                        #path
+                                        #body
+                                        Ok(
+                                            http::Request::builder()
+                                            .method(#method)
+                                            .uri(path)
+                                            .header(http::header::CONTENT_LENGTH, body.len())
+                                            #content_type
+                                            .body(body)?
+                                        )
+                                    },
+                                    (
+                                        http::StatusCode::from_u16(#status).unwrap(),
+                                        None,
+                                    ),
+                                ),
+                                http::Response::into_body,
+                            )
+                        )
+                    }
+                });
+
+                items.push(syn::parse_quote! {
+                    future!(
+                        #ident_future,
+                        futures::future::MapOk<
+                        crate::__combinators::Send<Fut, B, E>,
+                        fn(http::Response<B>) -> B,
+                        >,
+                        B
+                    );
+                });
+            } else {
+                items.push(syn::parse_quote! {
+                    #description
+                    pub fn #ident_fn<C, Fut, B, E>(
+                        client: C,
+                        #params
+                        #request
+                    ) -> #ident_future<Fut, B, E>
+                    where
+                    C: FnOnce(http::Request<String>) -> Fut,
+                    Fut: Future<Output = Result<http::Response<B>, E>>,
+                    B: http_body::Body,
+                    {
+                        #ident_future(
+                            futures::TryFutureExt::map_ok(
+                                crate::__combinators::Send::new(
+                                    client,
+                                    || {
+                                        #path
+                                        #body
+                                        Ok(
+                                            http::Request::builder()
+                                            .method(#method)
+                                            .uri(path)
+                                            .header(http::header::CONTENT_LENGTH, body.len())
+                                            #content_type
+                                            .body(body)?
+                                        )
+                                    },
+                                    (
+                                        http::StatusCode::from_u16(#status).unwrap(),
+                                        None,
+                                    ),
+                                ),
+                                |_| (),
+                            )
+                        )
+                    }
+                });
+
+                items.push(syn::parse_quote! {
+                    future!(
+                        #ident_future,
+                        futures::future::MapOk<
+                        crate::__combinators::Send<Fut, B, E>,
+                        fn(http::Response<B>) -> (),
+                        >,
+                        ()
+                    );
+                });
+            }
+        }
+
         if let (200..300, Some((openapi::ContentType::ApplicationJson, response))) =
             (status, response)
         {

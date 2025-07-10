@@ -1139,6 +1139,56 @@ future!(
     >,
     crate::__types::ContainerResource
 );
+#[doc = "Delete Container"]
+pub fn delete_container<C, Fut, B, E>(
+    client: C,
+    params: &crate::__types::DeleteContainerParams,
+) -> DeleteContainer<Fut, B, E>
+where
+    C: FnOnce(http::Request<String>) -> Fut,
+    Fut: Future<Output = Result<http::Response<B>, E>>,
+    B: http_body::Body,
+{
+    DeleteContainer(futures::TryFutureExt::map_ok(
+        crate::__combinators::Send::new(
+            client,
+            || {
+                let path = {
+                    #[serde_with::serde_as]
+                    #[derive(serde :: Serialize)]
+                    struct Query<'a> {
+                        #[serde(skip_serializing)]
+                        _phantom: std::marker::PhantomData<&'a ()>,
+                    }
+                    let crate::__types::DeleteContainerParams { container_id } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/containers/{container_id}");
+                    let query = serde_urlencoded::to_string(Query {
+                        _phantom: std::marker::PhantomData,
+                    })?;
+                    if !query.is_empty() {
+                        path.push('?');
+                        path.push_str(&query);
+                    }
+                    path
+                };
+                let body = String::new();
+                Ok(http::Request::builder()
+                    .method(http::Method::DELETE)
+                    .uri(path)
+                    .header(http::header::CONTENT_LENGTH, body.len())
+                    .body(body)?)
+            },
+            (http::StatusCode::from_u16(200u16).unwrap(), None),
+        ),
+        |_| (),
+    ))
+}
+future!(
+    DeleteContainer,
+    futures::future::MapOk<crate::__combinators::Send<Fut, B, E>, fn(http::Response<B>) -> ()>,
+    ()
+);
 #[doc = "List Container files"]
 pub fn list_container_files<C, Fut, B, E>(
     client: C,
@@ -1276,6 +1326,112 @@ future!(
         ) -> crate::__combinators::Json<B, E, crate::__types::ContainerFileResource>,
     >,
     crate::__types::ContainerFileResource
+);
+#[doc = "Delete Container File"]
+pub fn delete_container_file<C, Fut, B, E>(
+    client: C,
+    params: &crate::__types::DeleteContainerFileParams,
+) -> DeleteContainerFile<Fut, B, E>
+where
+    C: FnOnce(http::Request<String>) -> Fut,
+    Fut: Future<Output = Result<http::Response<B>, E>>,
+    B: http_body::Body,
+{
+    DeleteContainerFile(futures::TryFutureExt::map_ok(
+        crate::__combinators::Send::new(
+            client,
+            || {
+                let path = {
+                    #[serde_with::serde_as]
+                    #[derive(serde :: Serialize)]
+                    struct Query<'a> {
+                        #[serde(skip_serializing)]
+                        _phantom: std::marker::PhantomData<&'a ()>,
+                    }
+                    let crate::__types::DeleteContainerFileParams {
+                        container_id,
+                        file_id,
+                    } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/containers/{container_id}/files/{file_id}");
+                    let query = serde_urlencoded::to_string(Query {
+                        _phantom: std::marker::PhantomData,
+                    })?;
+                    if !query.is_empty() {
+                        path.push('?');
+                        path.push_str(&query);
+                    }
+                    path
+                };
+                let body = String::new();
+                Ok(http::Request::builder()
+                    .method(http::Method::DELETE)
+                    .uri(path)
+                    .header(http::header::CONTENT_LENGTH, body.len())
+                    .body(body)?)
+            },
+            (http::StatusCode::from_u16(200u16).unwrap(), None),
+        ),
+        |_| (),
+    ))
+}
+future!(
+    DeleteContainerFile,
+    futures::future::MapOk<crate::__combinators::Send<Fut, B, E>, fn(http::Response<B>) -> ()>,
+    ()
+);
+#[doc = "Retrieve Container File Content"]
+pub fn retrieve_container_file_content<C, Fut, B, E>(
+    client: C,
+    params: &crate::__types::RetrieveContainerFileContentParams,
+) -> RetrieveContainerFileContent<Fut, B, E>
+where
+    C: FnOnce(http::Request<String>) -> Fut,
+    Fut: Future<Output = Result<http::Response<B>, E>>,
+    B: http_body::Body,
+{
+    RetrieveContainerFileContent(futures::TryFutureExt::map_ok(
+        crate::__combinators::Send::new(
+            client,
+            || {
+                let path = {
+                    #[serde_with::serde_as]
+                    #[derive(serde :: Serialize)]
+                    struct Query<'a> {
+                        #[serde(skip_serializing)]
+                        _phantom: std::marker::PhantomData<&'a ()>,
+                    }
+                    let crate::__types::RetrieveContainerFileContentParams {
+                        container_id,
+                        file_id,
+                    } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/containers/{container_id}/files/{file_id}/content");
+                    let query = serde_urlencoded::to_string(Query {
+                        _phantom: std::marker::PhantomData,
+                    })?;
+                    if !query.is_empty() {
+                        path.push('?');
+                        path.push_str(&query);
+                    }
+                    path
+                };
+                let body = String::new();
+                Ok(http::Request::builder()
+                    .method(http::Method::GET)
+                    .uri(path)
+                    .header(http::header::CONTENT_LENGTH, body.len())
+                    .body(body)?)
+            },
+            (http::StatusCode::from_u16(200u16).unwrap(), None),
+        ),
+        http::Response::into_body,
+    ))
+}
+future!(
+    RetrieveContainerFileContent,
+    futures::future::MapOk<crate::__combinators::Send<Fut, B, E>, fn(http::Response<B>) -> B>,
+    B
 );
 #[doc = "Creates an embedding vector representing the input text."]
 pub fn create_embedding<C, Fut, B, E>(
@@ -7089,6 +7245,56 @@ future!(
         fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::Response>,
     >,
     crate::__types::Response
+);
+#[doc = "Deletes a model response with the given ID.\n"]
+pub fn delete_response<C, Fut, B, E>(
+    client: C,
+    params: &crate::__types::DeleteResponseParams,
+) -> DeleteResponse<Fut, B, E>
+where
+    C: FnOnce(http::Request<String>) -> Fut,
+    Fut: Future<Output = Result<http::Response<B>, E>>,
+    B: http_body::Body,
+{
+    DeleteResponse(futures::TryFutureExt::map_ok(
+        crate::__combinators::Send::new(
+            client,
+            || {
+                let path = {
+                    #[serde_with::serde_as]
+                    #[derive(serde :: Serialize)]
+                    struct Query<'a> {
+                        #[serde(skip_serializing)]
+                        _phantom: std::marker::PhantomData<&'a ()>,
+                    }
+                    let crate::__types::DeleteResponseParams { response_id } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/responses/{response_id}");
+                    let query = serde_urlencoded::to_string(Query {
+                        _phantom: std::marker::PhantomData,
+                    })?;
+                    if !query.is_empty() {
+                        path.push('?');
+                        path.push_str(&query);
+                    }
+                    path
+                };
+                let body = String::new();
+                Ok(http::Request::builder()
+                    .method(http::Method::DELETE)
+                    .uri(path)
+                    .header(http::header::CONTENT_LENGTH, body.len())
+                    .body(body)?)
+            },
+            (http::StatusCode::from_u16(200u16).unwrap(), None),
+        ),
+        |_| (),
+    ))
+}
+future!(
+    DeleteResponse,
+    futures::future::MapOk<crate::__combinators::Send<Fut, B, E>, fn(http::Response<B>) -> ()>,
+    ()
 );
 #[doc = "Cancels a model response with the given ID. Only responses created with\nthe `background` parameter set to `true` can be cancelled. \n[Learn more](https://platform.openai.com/docs/guides/background).\n"]
 pub fn cancel_response<C, Fut, B, E>(
