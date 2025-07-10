@@ -3,9 +3,9 @@ mod json;
 mod send;
 
 mod __combinators {
-    pub(super) use crate::event_stream::EventStream;
-    pub(super) use crate::json::Json;
-    pub(super) use crate::send::Send;
+    pub(crate) use crate::event_stream::EventStream;
+    pub(crate) use crate::json::Json;
+    pub(crate) use crate::send::Send;
 }
 
 pub use event_stream::EventStream;
