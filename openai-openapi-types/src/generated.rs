@@ -203,16 +203,6 @@ pub struct ApiKeyList {
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct AssistantObjectObject;
 impl_serde!(AssistantObjectObject, "assistant");
-#[derive(Clone, Debug, PartialEq)]
-#[serde_with::serde_as]
-#[derive(serde :: Deserialize, serde :: Serialize)]
-#[serde(untagged)]
-#[allow(clippy::large_enum_variant)]
-pub enum AssistantObjectTool {
-    CodeInterpreter(crate::__types::AssistantToolsCode),
-    FileSearch(crate::__types::AssistantToolsFileSearch),
-    Function(crate::__types::AssistantToolsFunction),
-}
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
@@ -266,7 +256,7 @@ pub struct AssistantObject {
     #[builder(default)]
     pub instructions: Option<String>,
     #[doc = "A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `file_search`, or `function`.\n"]
-    pub tools: Vec<crate::__types::AssistantObjectTool>,
+    pub tools: Vec<crate::__types::AssistantTool>,
     #[doc = "A set of resources that are used by the assistant's tools. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.\n"]
     #[builder(default)]
     pub tool_resources: Option<crate::__types::AssistantObjectToolResources>,
@@ -305,7 +295,7 @@ impl<'de> serde::Deserialize<'de> for AssistantObject {
             #[serde(rename = "instructions")]
             instructions: Option<String>,
             #[serde(rename = "tools")]
-            tools: Vec<crate::__types::AssistantObjectTool>,
+            tools: Vec<crate::__types::AssistantTool>,
             #[serde(rename = "tool_resources")]
             tool_resources: Option<crate::__types::AssistantObjectToolResources>,
             #[serde(rename = "metadata")]
@@ -374,7 +364,7 @@ impl serde::Serialize for AssistantObject {
             #[serde(skip_serializing_if = "Option::is_none")]
             instructions: &'a Option<String>,
             #[serde(rename = "tools")]
-            tools: &'a Vec<crate::__types::AssistantObjectTool>,
+            tools: &'a Vec<crate::__types::AssistantTool>,
             #[serde(rename = "tool_resources")]
             #[serde(skip_serializing_if = "Option::is_none")]
             tool_resources: &'a Option<crate::__types::AssistantObjectToolResources>,
@@ -435,10 +425,27 @@ pub enum AssistantStreamEvent {
     RunStepStreamEvent(crate::__types::RunStepStreamEvent),
     MessageStreamEvent(crate::__types::MessageStreamEvent),
     ErrorEvent(crate::__types::ErrorEvent),
-    DoneEvent(crate::__types::DoneEvent),
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum AssistantSupportedModels {
+    #[doc = "`gpt-5`"]
+    #[serde(rename = "gpt-5")]
+    Gpt5,
+    #[doc = "`gpt-5-mini`"]
+    #[serde(rename = "gpt-5-mini")]
+    Gpt5Mini,
+    #[doc = "`gpt-5-nano`"]
+    #[serde(rename = "gpt-5-nano")]
+    Gpt5Nano,
+    #[doc = "`gpt-5-2025-08-07`"]
+    #[serde(rename = "gpt-5-2025-08-07")]
+    Gpt5_2025_08_07,
+    #[doc = "`gpt-5-mini-2025-08-07`"]
+    #[serde(rename = "gpt-5-mini-2025-08-07")]
+    Gpt5Mini2025_08_07,
+    #[doc = "`gpt-5-nano-2025-08-07`"]
+    #[serde(rename = "gpt-5-nano-2025-08-07")]
+    Gpt5Nano2025_08_07,
     #[doc = "`gpt-4.1`"]
     #[serde(rename = "gpt-4.1")]
     Gpt4_1,
@@ -937,7 +944,7 @@ pub enum AudioResponseFormat {
     #[serde(rename = "vtt")]
     Vtt,
 }
-#[doc = "The project that the action was scoped to. Absent for actions not scoped to projects."]
+#[doc = "The project that the action was scoped to. Absent for actions not scoped to projects. Note that any admin actions taken via Admin API keys are associated with the default project."]
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
@@ -1523,7 +1530,7 @@ pub struct AuditLogCertificateDeleted {
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct AuditLogCertificatesActivatedCertificate {
+pub struct AuditLogCertificatesActivatedCertificatesItem {
     #[doc = "The certificate ID."]
     #[serde(rename = "id")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1543,12 +1550,12 @@ pub struct AuditLogCertificatesActivated {
     #[serde(rename = "certificates")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub certificates: Option<Vec<crate::__types::AuditLogCertificatesActivatedCertificate>>,
+    pub certificates: Option<Vec<crate::__types::AuditLogCertificatesActivatedCertificatesItem>>,
 }
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct AuditLogCertificatesDeactivatedCertificate {
+pub struct AuditLogCertificatesDeactivatedCertificatesItem {
     #[doc = "The certificate ID."]
     #[serde(rename = "id")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1568,7 +1575,7 @@ pub struct AuditLogCertificatesDeactivated {
     #[serde(rename = "certificates")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub certificates: Option<Vec<crate::__types::AuditLogCertificatesDeactivatedCertificate>>,
+    pub certificates: Option<Vec<crate::__types::AuditLogCertificatesDeactivatedCertificatesItem>>,
 }
 #[doc = "A log of a user action or configuration change within this organization."]
 #[derive(Clone, Debug, PartialEq)]
@@ -1583,7 +1590,7 @@ pub struct AuditLog {
     #[doc = "The Unix timestamp (in seconds) of the event."]
     #[serde(rename = "effective_at")]
     pub effective_at: i64,
-    #[doc = "The project that the action was scoped to. Absent for actions not scoped to projects."]
+    #[doc = "The project that the action was scoped to. Absent for actions not scoped to projects. Note that any admin actions taken via Admin API keys are associated with the default project."]
     #[serde(rename = "project")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -1961,31 +1968,6 @@ impl_serde!(BatchErrorsObject, "list");
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct BatchErrorsDatum {
-    #[doc = "An error code identifying the error type."]
-    #[serde(rename = "code")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default)]
-    pub code: Option<String>,
-    #[doc = "A human-readable message providing more details about the error."]
-    #[serde(rename = "message")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default)]
-    pub message: Option<String>,
-    #[doc = "The name of the parameter that caused the error, if applicable."]
-    #[serde(rename = "param")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default)]
-    pub param: Option<String>,
-    #[doc = "The line number of the input file where the error occurred, if applicable."]
-    #[serde(rename = "line")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default)]
-    pub line: Option<i64>,
-}
-#[derive(Clone, Debug, Default, PartialEq)]
-#[serde_with::serde_as]
-#[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
 pub struct BatchErrors {
     #[doc = "The object type, which is always `list`."]
     #[serde(rename = "object")]
@@ -1995,7 +1977,7 @@ pub struct BatchErrors {
     #[serde(rename = "data")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub data: Option<Vec<crate::__types::BatchErrorsDatum>>,
+    pub data: Option<Vec<crate::__types::BatchError>>,
 }
 #[doc = "The current status of the batch."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
@@ -2024,21 +2006,6 @@ pub enum BatchStatus {
     #[doc = "`cancelled`"]
     #[serde(rename = "cancelled")]
     Cancelled,
-}
-#[doc = "The request counts for different statuses within the batch."]
-#[derive(Clone, Copy, Debug, PartialEq)]
-#[serde_with::serde_as]
-#[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct BatchRequestCounts {
-    #[doc = "Total number of requests in the batch."]
-    #[serde(rename = "total")]
-    pub total: i64,
-    #[doc = "Number of requests that have been completed successfully."]
-    #[serde(rename = "completed")]
-    pub completed: i64,
-    #[doc = "Number of requests that have failed."]
-    #[serde(rename = "failed")]
-    pub failed: i64,
 }
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct Batch {
@@ -2085,7 +2052,6 @@ pub struct Batch {
     #[doc = "The Unix timestamp (in seconds) for when the batch was cancelled."]
     #[builder(default)]
     pub cancelled_at: Option<i64>,
-    #[doc = "The request counts for different statuses within the batch."]
     #[builder(default)]
     pub request_counts: Option<crate::__types::BatchRequestCounts>,
     #[builder(default)]
@@ -2294,6 +2260,56 @@ impl serde::Serialize for Batch {
         .serialize(serializer)
     }
 }
+#[doc = "Anchor timestamp after which the expiration policy applies. Supported anchors: `created_at`. Note that the anchor is the file creation time, not the time the batch is created."]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct BatchFileExpirationAfterAnchor;
+impl_serde!(BatchFileExpirationAfterAnchor, "created_at");
+#[doc = "The expiration policy for the output and/or error file that are generated for a batch."]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct BatchFileExpirationAfter {
+    #[doc = "The number of seconds after the anchor time that the file will expire. Must be between 3600 (1 hour) and 2592000 (30 days)."]
+    pub seconds: i64,
+}
+impl<'de> serde::Deserialize<'de> for BatchFileExpirationAfter {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct BatchFileExpirationAfter {
+            #[serde(rename = "anchor")]
+            #[allow(dead_code)]
+            anchor: crate::__types::BatchFileExpirationAfterAnchor,
+            #[serde(rename = "seconds")]
+            seconds: i64,
+        }
+        let BatchFileExpirationAfter { seconds, .. } =
+            BatchFileExpirationAfter::deserialize(deserializer)?;
+        Ok(Self { seconds })
+    }
+}
+impl serde::Serialize for BatchFileExpirationAfter {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct BatchFileExpirationAfter<'a> {
+            #[serde(rename = "anchor")]
+            anchor: &'a crate::__types::BatchFileExpirationAfterAnchor,
+            #[serde(rename = "seconds")]
+            seconds: &'a i64,
+        }
+        let Self { seconds } = self;
+        BatchFileExpirationAfter {
+            anchor: &Default::default(),
+            seconds,
+        }
+        .serialize(serializer)
+    }
+}
 #[doc = "The HTTP method to be used for the request. Currently only `POST` is supported."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct BatchRequestInputMethod;
@@ -2437,6 +2453,77 @@ pub struct Certificate {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub active: Option<bool>,
+}
+#[doc = "Constrains the tools available to the model to a pre-defined set.\n\n`auto` allows the model to pick from among the allowed tools and generate a\nmessage.\n\n`required` requires the model to call one or more of the allowed tools.\n"]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+pub enum ChatCompletionAllowedToolsMode {
+    #[doc = "`auto`"]
+    #[serde(rename = "auto")]
+    Auto,
+    #[doc = "`required`"]
+    #[serde(rename = "required")]
+    Required,
+}
+#[doc = "Constrains the tools available to the model to a pre-defined set.\n"]
+#[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
+pub struct ChatCompletionAllowedTools {
+    #[doc = "Constrains the tools available to the model to a pre-defined set.\n\n`auto` allows the model to pick from among the allowed tools and generate a\nmessage.\n\n`required` requires the model to call one or more of the allowed tools.\n"]
+    #[serde(rename = "mode")]
+    pub mode: crate::__types::ChatCompletionAllowedToolsMode,
+    #[doc = "A list of tool definitions that the model should be allowed to call.\n\nFor the Chat Completions API, the list of tool definitions might look like:\n```json\n[\n  { \"type\": \"function\", \"function\": { \"name\": \"get_weather\" } },\n  { \"type\": \"function\", \"function\": { \"name\": \"get_time\" } }\n]\n```text\n"]
+    #[serde(rename = "tools")]
+    pub tools: Vec<indexmap::IndexMap<String, serde_json::Value>>,
+}
+#[doc = "Allowed tool configuration type. Always `allowed_tools`."]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ChatCompletionAllowedToolsChoiceType;
+impl_serde!(ChatCompletionAllowedToolsChoiceType, "allowed_tools");
+#[doc = "Constrains the tools available to the model to a pre-defined set.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct ChatCompletionAllowedToolsChoice {
+    pub allowed_tools: crate::__types::ChatCompletionAllowedTools,
+}
+impl<'de> serde::Deserialize<'de> for ChatCompletionAllowedToolsChoice {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct ChatCompletionAllowedToolsChoice {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: crate::__types::ChatCompletionAllowedToolsChoiceType,
+            #[serde(rename = "allowed_tools")]
+            allowed_tools: crate::__types::ChatCompletionAllowedTools,
+        }
+        let ChatCompletionAllowedToolsChoice { allowed_tools, .. } =
+            ChatCompletionAllowedToolsChoice::deserialize(deserializer)?;
+        Ok(Self { allowed_tools })
+    }
+}
+impl serde::Serialize for ChatCompletionAllowedToolsChoice {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct ChatCompletionAllowedToolsChoice<'a> {
+            #[serde(rename = "type")]
+            r#type: &'a crate::__types::ChatCompletionAllowedToolsChoiceType,
+            #[serde(rename = "allowed_tools")]
+            allowed_tools: &'a crate::__types::ChatCompletionAllowedTools,
+        }
+        let Self { allowed_tools } = self;
+        ChatCompletionAllowedToolsChoice {
+            r#type: &Default::default(),
+            allowed_tools,
+        }
+        .serialize(serializer)
+    }
 }
 #[doc = "The type of object being deleted."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
@@ -2606,12 +2693,90 @@ impl serde::Serialize for ChatCompletionList {
         .serialize(serializer)
     }
 }
+#[doc = "The type of the tool. Always `custom`."]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ChatCompletionMessageCustomToolCallType;
+impl_serde!(ChatCompletionMessageCustomToolCallType, "custom");
+#[doc = "The custom tool that the model called."]
+#[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
+pub struct ChatCompletionMessageCustomToolCallCustom {
+    #[doc = "The name of the custom tool to call."]
+    #[serde(rename = "name")]
+    pub name: String,
+    #[doc = "The input for the custom tool call generated by the model."]
+    #[serde(rename = "input")]
+    pub input: String,
+}
+#[doc = "A call to a custom tool created by the model.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct ChatCompletionMessageCustomToolCall {
+    #[doc = "The ID of the tool call."]
+    pub id: String,
+    #[doc = "The custom tool that the model called."]
+    pub custom: crate::__types::ChatCompletionMessageCustomToolCallCustom,
+}
+impl<'de> serde::Deserialize<'de> for ChatCompletionMessageCustomToolCall {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct ChatCompletionMessageCustomToolCall {
+            #[serde(rename = "id")]
+            id: String,
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: crate::__types::ChatCompletionMessageCustomToolCallType,
+            #[serde(rename = "custom")]
+            custom: crate::__types::ChatCompletionMessageCustomToolCallCustom,
+        }
+        let ChatCompletionMessageCustomToolCall { id, custom, .. } =
+            ChatCompletionMessageCustomToolCall::deserialize(deserializer)?;
+        Ok(Self { id, custom })
+    }
+}
+impl serde::Serialize for ChatCompletionMessageCustomToolCall {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct ChatCompletionMessageCustomToolCall<'a> {
+            #[serde(rename = "id")]
+            id: &'a String,
+            #[serde(rename = "type")]
+            r#type: &'a crate::__types::ChatCompletionMessageCustomToolCallType,
+            #[serde(rename = "custom")]
+            custom: &'a crate::__types::ChatCompletionMessageCustomToolCallCustom,
+        }
+        let Self { id, custom } = self;
+        ChatCompletionMessageCustomToolCall {
+            id,
+            r#type: &Default::default(),
+            custom,
+        }
+        .serialize(serializer)
+    }
+}
 #[doc = "The type of this object. It is always set to \"list\".\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ChatCompletionMessageListObject;
 impl_serde!(ChatCompletionMessageListObject, "list");
+#[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
+#[allow(clippy::large_enum_variant)]
+pub enum ChatCompletionMessageListDataItemContentPartsItem {
+    Text(crate::__types::ChatCompletionRequestMessageContentPartText),
+    ImageUrl(crate::__types::ChatCompletionRequestMessageContentPartImage),
+}
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
-pub struct ChatCompletionMessageListDatum {
+pub struct ChatCompletionMessageListDataItem {
     #[doc = "The contents of the message."]
     #[builder(default)]
     pub content: Option<String>,
@@ -2622,7 +2787,7 @@ pub struct ChatCompletionMessageListDatum {
     pub tool_calls: Option<crate::__types::ChatCompletionMessageToolCalls>,
     #[doc = "Annotations for the message, when applicable, as when using the\n[web search tool](https://platform.openai.com/docs/guides/tools-web-search?api-mode=chat).\n"]
     #[builder(default)]
-    pub annotations: Option<Vec<crate::__types::ChatCompletionResponseMessageAnnotation>>,
+    pub annotations: Option<Vec<crate::__types::ChatCompletionResponseMessageAnnotationsItem>>,
     #[doc = "Deprecated and replaced by `tool_calls`. The name and arguments of a function that should be called, as generated by the model."]
     #[builder(default)]
     pub function_call: Option<crate::__types::ChatCompletionResponseMessageFunctionCall>,
@@ -2631,15 +2796,19 @@ pub struct ChatCompletionMessageListDatum {
     pub audio: Option<crate::__types::ChatCompletionResponseMessageAudio>,
     #[doc = "The identifier of the chat message."]
     pub id: String,
+    #[doc = "If a content parts array was provided, this is an array of `text` and `image_url` parts. \nOtherwise, null.\n"]
+    #[builder(default)]
+    pub content_parts:
+        Option<Vec<crate::__types::ChatCompletionMessageListDataItemContentPartsItem>>,
 }
-impl<'de> serde::Deserialize<'de> for ChatCompletionMessageListDatum {
+impl<'de> serde::Deserialize<'de> for ChatCompletionMessageListDataItem {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
         D: serde::Deserializer<'de>,
     {
         #[serde_with::serde_as]
         #[derive(serde :: Deserialize)]
-        struct ChatCompletionMessageListDatum {
+        struct ChatCompletionMessageListDataItem {
             #[serde(rename = "content")]
             content: Option<String>,
             #[serde(rename = "refusal")]
@@ -2647,7 +2816,7 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionMessageListDatum {
             #[serde(rename = "tool_calls")]
             tool_calls: Option<crate::__types::ChatCompletionMessageToolCalls>,
             #[serde(rename = "annotations")]
-            annotations: Option<Vec<crate::__types::ChatCompletionResponseMessageAnnotation>>,
+            annotations: Option<Vec<crate::__types::ChatCompletionResponseMessageAnnotationsItem>>,
             #[serde(rename = "role")]
             #[allow(dead_code)]
             role: crate::__types::ChatCompletionResponseMessageRole,
@@ -2657,8 +2826,11 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionMessageListDatum {
             audio: Option<crate::__types::ChatCompletionResponseMessageAudio>,
             #[serde(rename = "id")]
             id: String,
+            #[serde(rename = "content_parts")]
+            content_parts:
+                Option<Vec<crate::__types::ChatCompletionMessageListDataItemContentPartsItem>>,
         }
-        let ChatCompletionMessageListDatum {
+        let ChatCompletionMessageListDataItem {
             content,
             refusal,
             tool_calls,
@@ -2666,8 +2838,9 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionMessageListDatum {
             function_call,
             audio,
             id,
+            content_parts,
             ..
-        } = ChatCompletionMessageListDatum::deserialize(deserializer)?;
+        } = ChatCompletionMessageListDataItem::deserialize(deserializer)?;
         Ok(Self {
             content,
             refusal,
@@ -2676,17 +2849,18 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionMessageListDatum {
             function_call,
             audio,
             id,
+            content_parts,
         })
     }
 }
-impl serde::Serialize for ChatCompletionMessageListDatum {
+impl serde::Serialize for ChatCompletionMessageListDataItem {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: serde::Serializer,
     {
         #[serde_with::serde_as]
         #[derive(serde :: Serialize)]
-        struct ChatCompletionMessageListDatum<'a> {
+        struct ChatCompletionMessageListDataItem<'a> {
             #[serde(rename = "content")]
             #[serde(skip_serializing_if = "Option::is_none")]
             content: &'a Option<String>,
@@ -2698,7 +2872,8 @@ impl serde::Serialize for ChatCompletionMessageListDatum {
             tool_calls: &'a Option<crate::__types::ChatCompletionMessageToolCalls>,
             #[serde(rename = "annotations")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            annotations: &'a Option<Vec<crate::__types::ChatCompletionResponseMessageAnnotation>>,
+            annotations:
+                &'a Option<Vec<crate::__types::ChatCompletionResponseMessageAnnotationsItem>>,
             #[serde(rename = "role")]
             role: &'a crate::__types::ChatCompletionResponseMessageRole,
             #[serde(rename = "function_call")]
@@ -2709,6 +2884,10 @@ impl serde::Serialize for ChatCompletionMessageListDatum {
             audio: &'a Option<crate::__types::ChatCompletionResponseMessageAudio>,
             #[serde(rename = "id")]
             id: &'a String,
+            #[serde(rename = "content_parts")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            content_parts:
+                &'a Option<Vec<crate::__types::ChatCompletionMessageListDataItemContentPartsItem>>,
         }
         let Self {
             content,
@@ -2718,8 +2897,9 @@ impl serde::Serialize for ChatCompletionMessageListDatum {
             function_call,
             audio,
             id,
+            content_parts,
         } = self;
-        ChatCompletionMessageListDatum {
+        ChatCompletionMessageListDataItem {
             content,
             refusal,
             tool_calls,
@@ -2728,6 +2908,7 @@ impl serde::Serialize for ChatCompletionMessageListDatum {
             function_call,
             audio,
             id,
+            content_parts,
         }
         .serialize(serializer)
     }
@@ -2736,7 +2917,7 @@ impl serde::Serialize for ChatCompletionMessageListDatum {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ChatCompletionMessageList {
     #[doc = "An array of chat completion message objects.\n"]
-    pub data: Vec<crate::__types::ChatCompletionMessageListDatum>,
+    pub data: Vec<crate::__types::ChatCompletionMessageListDataItem>,
     #[doc = "The identifier of the first chat message in the data array."]
     pub first_id: String,
     #[doc = "The identifier of the last chat message in the data array."]
@@ -2756,7 +2937,7 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionMessageList {
             #[allow(dead_code)]
             object: crate::__types::ChatCompletionMessageListObject,
             #[serde(rename = "data")]
-            data: Vec<crate::__types::ChatCompletionMessageListDatum>,
+            data: Vec<crate::__types::ChatCompletionMessageListDataItem>,
             #[serde(rename = "first_id")]
             first_id: String,
             #[serde(rename = "last_id")]
@@ -2790,7 +2971,7 @@ impl serde::Serialize for ChatCompletionMessageList {
             #[serde(rename = "object")]
             object: &'a crate::__types::ChatCompletionMessageListObject,
             #[serde(rename = "data")]
-            data: &'a Vec<crate::__types::ChatCompletionMessageListDatum>,
+            data: &'a Vec<crate::__types::ChatCompletionMessageListDataItem>,
             #[serde(rename = "first_id")]
             first_id: &'a String,
             #[serde(rename = "last_id")]
@@ -2830,6 +3011,7 @@ pub struct ChatCompletionMessageToolCallFunction {
     #[serde(rename = "arguments")]
     pub arguments: String,
 }
+#[doc = "A call to a function tool created by the model.\n"]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ChatCompletionMessageToolCall {
     #[doc = "The ID of the tool call."]
@@ -2922,10 +3104,19 @@ pub struct ChatCompletionMessageToolCallChunk {
     #[builder(default)]
     pub function: Option<crate::__types::ChatCompletionMessageToolCallChunkFunction>,
 }
+#[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
+#[allow(clippy::large_enum_variant)]
+pub enum ChatCompletionMessageToolCallsItem {
+    Function(crate::__types::ChatCompletionMessageToolCall),
+    Custom(crate::__types::ChatCompletionMessageCustomToolCall),
+}
 #[doc = "The tool calls generated by the model, such as function calls."]
-pub type ChatCompletionMessageToolCalls = Vec<crate::__types::ChatCompletionMessageToolCall>;
+pub type ChatCompletionMessageToolCalls = Vec<crate::__types::ChatCompletionMessageToolCallsItem>;
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum ChatCompletionModality {
+pub enum ChatCompletionModalitiesItem {
     #[doc = "`text`"]
     #[serde(rename = "text")]
     Text,
@@ -2934,8 +3125,8 @@ pub enum ChatCompletionModality {
     Audio,
 }
 #[doc = "Output types that you would like the model to generate for this request.\nMost models are capable of generating text, which is the default:\n\n`[\"text\"]`\n\nThe `gpt-4o-audio-preview` model can also be used to [generate audio](https://platform.openai.com/docs/guides/audio). To\nrequest that this model generate both text and audio responses, you can\nuse:\n\n`[\"text\", \"audio\"]`\n"]
-pub type ChatCompletionModalities = Vec<crate::__types::ChatCompletionModality>;
-#[doc = "The type of the tool. Currently, only `function` is supported."]
+pub type ChatCompletionModalities = Vec<crate::__types::ChatCompletionModalitiesItem>;
+#[doc = "For function calling, the type is always `function`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ChatCompletionNamedToolChoiceType;
 impl_serde!(ChatCompletionNamedToolChoiceType, "function");
@@ -2988,6 +3179,63 @@ impl serde::Serialize for ChatCompletionNamedToolChoice {
         ChatCompletionNamedToolChoice {
             r#type: &Default::default(),
             function,
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "For custom tool calling, the type is always `custom`."]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ChatCompletionNamedToolChoiceCustomType;
+impl_serde!(ChatCompletionNamedToolChoiceCustomType, "custom");
+#[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
+pub struct ChatCompletionNamedToolChoiceCustomCustom {
+    #[doc = "The name of the custom tool to call."]
+    #[serde(rename = "name")]
+    pub name: String,
+}
+#[doc = "Specifies a tool the model should use. Use to force the model to call a specific custom tool."]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct ChatCompletionNamedToolChoiceCustom {
+    pub custom: crate::__types::ChatCompletionNamedToolChoiceCustomCustom,
+}
+impl<'de> serde::Deserialize<'de> for ChatCompletionNamedToolChoiceCustom {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct ChatCompletionNamedToolChoiceCustom {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: crate::__types::ChatCompletionNamedToolChoiceCustomType,
+            #[serde(rename = "custom")]
+            custom: crate::__types::ChatCompletionNamedToolChoiceCustomCustom,
+        }
+        let ChatCompletionNamedToolChoiceCustom { custom, .. } =
+            ChatCompletionNamedToolChoiceCustom::deserialize(deserializer)?;
+        Ok(Self { custom })
+    }
+}
+impl serde::Serialize for ChatCompletionNamedToolChoiceCustom {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct ChatCompletionNamedToolChoiceCustom<'a> {
+            #[serde(rename = "type")]
+            r#type: &'a crate::__types::ChatCompletionNamedToolChoiceCustomType,
+            #[serde(rename = "custom")]
+            custom: &'a crate::__types::ChatCompletionNamedToolChoiceCustomCustom,
+        }
+        let Self { custom } = self;
+        ChatCompletionNamedToolChoiceCustom {
+            r#type: &Default::default(),
+            custom,
         }
         .serialize(serializer)
     }
@@ -3871,13 +4119,16 @@ pub enum ChatCompletionRequestUserMessageContentPart {
 }
 #[doc = "The type of the URL citation. Always `url_citation`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ChatCompletionResponseMessageAnnotationType;
-impl_serde!(ChatCompletionResponseMessageAnnotationType, "url_citation");
+struct ChatCompletionResponseMessageAnnotationsItemType;
+impl_serde!(
+    ChatCompletionResponseMessageAnnotationsItemType,
+    "url_citation"
+);
 #[doc = "A URL citation when using web search."]
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct ChatCompletionResponseMessageAnnotationUrlCitation {
+pub struct ChatCompletionResponseMessageAnnotationsItemUrlCitation {
     #[doc = "The index of the last character of the URL citation in the message."]
     #[serde(rename = "end_index")]
     pub end_index: i64,
@@ -3893,44 +4144,45 @@ pub struct ChatCompletionResponseMessageAnnotationUrlCitation {
 }
 #[doc = "A URL citation when using web search.\n"]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
-pub struct ChatCompletionResponseMessageAnnotation {
+pub struct ChatCompletionResponseMessageAnnotationsItem {
     #[doc = "A URL citation when using web search."]
-    pub url_citation: crate::__types::ChatCompletionResponseMessageAnnotationUrlCitation,
+    pub url_citation: crate::__types::ChatCompletionResponseMessageAnnotationsItemUrlCitation,
 }
-impl<'de> serde::Deserialize<'de> for ChatCompletionResponseMessageAnnotation {
+impl<'de> serde::Deserialize<'de> for ChatCompletionResponseMessageAnnotationsItem {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
         D: serde::Deserializer<'de>,
     {
         #[serde_with::serde_as]
         #[derive(serde :: Deserialize)]
-        struct ChatCompletionResponseMessageAnnotation {
+        struct ChatCompletionResponseMessageAnnotationsItem {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            r#type: crate::__types::ChatCompletionResponseMessageAnnotationType,
+            r#type: crate::__types::ChatCompletionResponseMessageAnnotationsItemType,
             #[serde(rename = "url_citation")]
-            url_citation: crate::__types::ChatCompletionResponseMessageAnnotationUrlCitation,
+            url_citation: crate::__types::ChatCompletionResponseMessageAnnotationsItemUrlCitation,
         }
-        let ChatCompletionResponseMessageAnnotation { url_citation, .. } =
-            ChatCompletionResponseMessageAnnotation::deserialize(deserializer)?;
+        let ChatCompletionResponseMessageAnnotationsItem { url_citation, .. } =
+            ChatCompletionResponseMessageAnnotationsItem::deserialize(deserializer)?;
         Ok(Self { url_citation })
     }
 }
-impl serde::Serialize for ChatCompletionResponseMessageAnnotation {
+impl serde::Serialize for ChatCompletionResponseMessageAnnotationsItem {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: serde::Serializer,
     {
         #[serde_with::serde_as]
         #[derive(serde :: Serialize)]
-        struct ChatCompletionResponseMessageAnnotation<'a> {
+        struct ChatCompletionResponseMessageAnnotationsItem<'a> {
             #[serde(rename = "type")]
-            r#type: &'a crate::__types::ChatCompletionResponseMessageAnnotationType,
+            r#type: &'a crate::__types::ChatCompletionResponseMessageAnnotationsItemType,
             #[serde(rename = "url_citation")]
-            url_citation: &'a crate::__types::ChatCompletionResponseMessageAnnotationUrlCitation,
+            url_citation:
+                &'a crate::__types::ChatCompletionResponseMessageAnnotationsItemUrlCitation,
         }
         let Self { url_citation } = self;
-        ChatCompletionResponseMessageAnnotation {
+        ChatCompletionResponseMessageAnnotationsItem {
             r#type: &Default::default(),
             url_citation,
         }
@@ -3984,7 +4236,7 @@ pub struct ChatCompletionResponseMessage {
     pub tool_calls: Option<crate::__types::ChatCompletionMessageToolCalls>,
     #[doc = "Annotations for the message, when applicable, as when using the\n[web search tool](https://platform.openai.com/docs/guides/tools-web-search?api-mode=chat).\n"]
     #[builder(default)]
-    pub annotations: Option<Vec<crate::__types::ChatCompletionResponseMessageAnnotation>>,
+    pub annotations: Option<Vec<crate::__types::ChatCompletionResponseMessageAnnotationsItem>>,
     #[doc = "Deprecated and replaced by `tool_calls`. The name and arguments of a function that should be called, as generated by the model."]
     #[builder(default)]
     pub function_call: Option<crate::__types::ChatCompletionResponseMessageFunctionCall>,
@@ -4007,7 +4259,7 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionResponseMessage {
             #[serde(rename = "tool_calls")]
             tool_calls: Option<crate::__types::ChatCompletionMessageToolCalls>,
             #[serde(rename = "annotations")]
-            annotations: Option<Vec<crate::__types::ChatCompletionResponseMessageAnnotation>>,
+            annotations: Option<Vec<crate::__types::ChatCompletionResponseMessageAnnotationsItem>>,
             #[serde(rename = "role")]
             #[allow(dead_code)]
             role: crate::__types::ChatCompletionResponseMessageRole,
@@ -4054,7 +4306,8 @@ impl serde::Serialize for ChatCompletionResponseMessage {
             tool_calls: &'a Option<crate::__types::ChatCompletionMessageToolCalls>,
             #[serde(rename = "annotations")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            annotations: &'a Option<Vec<crate::__types::ChatCompletionResponseMessageAnnotation>>,
+            annotations:
+                &'a Option<Vec<crate::__types::ChatCompletionResponseMessageAnnotationsItem>>,
             #[serde(rename = "role")]
             role: &'a crate::__types::ChatCompletionResponseMessageRole,
             #[serde(rename = "function_call")]
@@ -4111,11 +4364,16 @@ pub enum ChatCompletionRole {
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
 pub struct ChatCompletionStreamOptions {
-    #[doc = "If set, an additional chunk will be streamed before the `data: [DONE]`\nmessage. The `usage` field on this chunk shows the token usage statistics\nfor the entire request, and the `choices` field will always be an empty\narray. \n\nAll other chunks will also include a `usage` field, but with a null\nvalue. **NOTE:** If the stream is interrupted, you may not receive the\nfinal usage chunk which contains the total token usage for the request.\n"]
+    #[doc = "If set, an additional chunk will be streamed before the `data: [DONE]`\nmessage. The `usage` field on this chunk shows the token usage statistics\nfor the entire request, and the `choices` field will always be an empty\narray.\n\nAll other chunks will also include a `usage` field, but with a null\nvalue. **NOTE:** If the stream is interrupted, you may not receive the\nfinal usage chunk which contains the total token usage for the request.\n"]
     #[serde(rename = "include_usage")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub include_usage: Option<bool>,
+    #[doc = "When true, stream obfuscation will be enabled. Stream obfuscation adds\nrandom characters to an `obfuscation` field on streaming delta events to\nnormalize payload sizes as a mitigation to certain side-channel attacks.\nThese obfuscation fields are included by default, but add a small amount\nof overhead to the data stream. You can set `include_obfuscation` to\nfalse to optimize for bandwidth if you trust the network links between\nyour application and the OpenAI API.\n"]
+    #[serde(rename = "include_obfuscation")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub include_obfuscation: Option<bool>,
 }
 #[doc = "Deprecated and replaced by `tool_calls`. The name and arguments of a function that should be called, as generated by the model."]
 #[derive(Clone, Debug, Default, PartialEq)]
@@ -4185,7 +4443,7 @@ pub struct ChatCompletionStreamResponseDelta {
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct ChatCompletionTokenLogprobTopLogprob {
+pub struct ChatCompletionTokenLogprobTopLogprobsItem {
     #[doc = "The token."]
     #[serde(rename = "token")]
     pub token: String,
@@ -4215,12 +4473,13 @@ pub struct ChatCompletionTokenLogprob {
     pub bytes: Option<Vec<i64>>,
     #[doc = "List of the most likely tokens and their log probability, at this token position. In rare cases, there may be fewer than the number of requested `top_logprobs` returned."]
     #[serde(rename = "top_logprobs")]
-    pub top_logprobs: Vec<crate::__types::ChatCompletionTokenLogprobTopLogprob>,
+    pub top_logprobs: Vec<crate::__types::ChatCompletionTokenLogprobTopLogprobsItem>,
 }
 #[doc = "The type of the tool. Currently, only `function` is supported."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ChatCompletionToolType;
 impl_serde!(ChatCompletionToolType, "function");
+#[doc = "A function tool that can be used to generate a response.\n"]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ChatCompletionTool {
     pub function: crate::__types::FunctionObject,
@@ -4286,7 +4545,9 @@ pub enum ChatCompletionToolChoiceOption {
     Auto,
     #[doc = "required"]
     Required,
-    ChatCompletionNamedToolChoice(crate::__types::ChatCompletionNamedToolChoice),
+    AllowedTools(crate::__types::ChatCompletionAllowedToolsChoice),
+    Function(crate::__types::ChatCompletionNamedToolChoice),
+    Custom(crate::__types::ChatCompletionNamedToolChoiceCustom),
 }
 impl<'de> serde::Deserialize<'de> for ChatCompletionToolChoiceOption {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -4301,16 +4562,18 @@ impl<'de> serde::Deserialize<'de> for ChatCompletionToolChoiceOption {
             None(crate::__types::ChatCompletionToolChoiceOptionNone),
             Auto(crate::__types::ChatCompletionToolChoiceOptionAuto),
             Required(crate::__types::ChatCompletionToolChoiceOptionRequired),
-            ChatCompletionNamedToolChoice(crate::__types::ChatCompletionNamedToolChoice),
+            AllowedTools(crate::__types::ChatCompletionAllowedToolsChoice),
+            Function(crate::__types::ChatCompletionNamedToolChoice),
+            Custom(crate::__types::ChatCompletionNamedToolChoiceCustom),
         }
         Ok(
             match ChatCompletionToolChoiceOption::deserialize(deserializer)? {
                 ChatCompletionToolChoiceOption::None(_) => Self::None,
                 ChatCompletionToolChoiceOption::Auto(_) => Self::Auto,
                 ChatCompletionToolChoiceOption::Required(_) => Self::Required,
-                ChatCompletionToolChoiceOption::ChatCompletionNamedToolChoice(v) => {
-                    Self::ChatCompletionNamedToolChoice(v)
-                }
+                ChatCompletionToolChoiceOption::AllowedTools(v) => Self::AllowedTools(v),
+                ChatCompletionToolChoiceOption::Function(v) => Self::Function(v),
+                ChatCompletionToolChoiceOption::Custom(v) => Self::Custom(v),
             },
         )
     }
@@ -4328,20 +4591,22 @@ impl serde::Serialize for ChatCompletionToolChoiceOption {
             None(crate::__types::ChatCompletionToolChoiceOptionNone),
             Auto(crate::__types::ChatCompletionToolChoiceOptionAuto),
             Required(crate::__types::ChatCompletionToolChoiceOptionRequired),
-            ChatCompletionNamedToolChoice(&'a crate::__types::ChatCompletionNamedToolChoice),
+            AllowedTools(&'a crate::__types::ChatCompletionAllowedToolsChoice),
+            Function(&'a crate::__types::ChatCompletionNamedToolChoice),
+            Custom(&'a crate::__types::ChatCompletionNamedToolChoiceCustom),
         }
         match self {
             Self::None => ChatCompletionToolChoiceOption::None(Default::default()),
             Self::Auto => ChatCompletionToolChoiceOption::Auto(Default::default()),
             Self::Required => ChatCompletionToolChoiceOption::Required(Default::default()),
-            Self::ChatCompletionNamedToolChoice(v) => {
-                ChatCompletionToolChoiceOption::ChatCompletionNamedToolChoice(v)
-            }
+            Self::AllowedTools(v) => ChatCompletionToolChoiceOption::AllowedTools(v),
+            Self::Function(v) => ChatCompletionToolChoiceOption::Function(v),
+            Self::Custom(v) => ChatCompletionToolChoiceOption::Custom(v),
         }
         .serialize(serializer)
     }
 }
-#[doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy."]
+#[doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy. Only applicable if `file_ids` is non-empty."]
 #[derive(Clone, Copy, Debug, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize)]
@@ -4440,7 +4705,7 @@ impl_serde!(CodeInterpreterFileOutputType, "files");
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct CodeInterpreterFileOutputFile {
+pub struct CodeInterpreterFileOutputFilesItem {
     #[doc = "The MIME type of the file.\n"]
     #[serde(rename = "mime_type")]
     pub mime_type: String,
@@ -4451,7 +4716,7 @@ pub struct CodeInterpreterFileOutputFile {
 #[doc = "The output of a code interpreter tool call that is a file.\n"]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CodeInterpreterFileOutput {
-    pub files: Vec<crate::__types::CodeInterpreterFileOutputFile>,
+    pub files: Vec<crate::__types::CodeInterpreterFileOutputFilesItem>,
 }
 impl<'de> serde::Deserialize<'de> for CodeInterpreterFileOutput {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -4465,7 +4730,7 @@ impl<'de> serde::Deserialize<'de> for CodeInterpreterFileOutput {
             #[allow(dead_code)]
             r#type: crate::__types::CodeInterpreterFileOutputType,
             #[serde(rename = "files")]
-            files: Vec<crate::__types::CodeInterpreterFileOutputFile>,
+            files: Vec<crate::__types::CodeInterpreterFileOutputFilesItem>,
         }
         let CodeInterpreterFileOutput { files, .. } =
             CodeInterpreterFileOutput::deserialize(deserializer)?;
@@ -4483,7 +4748,7 @@ impl serde::Serialize for CodeInterpreterFileOutput {
             #[serde(rename = "type")]
             r#type: &'a crate::__types::CodeInterpreterFileOutputType,
             #[serde(rename = "files")]
-            files: &'a Vec<crate::__types::CodeInterpreterFileOutputFile>,
+            files: &'a Vec<crate::__types::CodeInterpreterFileOutputFilesItem>,
         }
         let Self { files } = self;
         CodeInterpreterFileOutput {
@@ -4759,7 +5024,7 @@ impl serde::Serialize for CodeInterpreterToolAuto {
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct CodeInterpreterToolCallType;
 impl_serde!(CodeInterpreterToolCallType, "code_interpreter_call");
-#[doc = "The status of the code interpreter tool call.\n"]
+#[doc = "The status of the code interpreter tool call. Valid values are `in_progress`, `completed`, `incomplete`, `interpreting`, and `failed`.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CodeInterpreterToolCallStatus {
     #[doc = "`in_progress`"]
@@ -4783,7 +5048,7 @@ pub enum CodeInterpreterToolCallStatus {
 #[derive(serde :: Deserialize, serde :: Serialize)]
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
-pub enum CodeInterpreterToolCallOutputs {
+pub enum CodeInterpreterToolCallOutputsItem {
     Logs(crate::__types::CodeInterpreterOutputLogs),
     Image(crate::__types::CodeInterpreterOutputImage),
 }
@@ -4792,7 +5057,7 @@ pub enum CodeInterpreterToolCallOutputs {
 pub struct CodeInterpreterToolCall {
     #[doc = "The unique ID of the code interpreter tool call.\n"]
     pub id: String,
-    #[doc = "The status of the code interpreter tool call.\n"]
+    #[doc = "The status of the code interpreter tool call. Valid values are `in_progress`, `completed`, `incomplete`, `interpreting`, and `failed`.\n"]
     pub status: crate::__types::CodeInterpreterToolCallStatus,
     #[doc = "The ID of the container used to run the code.\n"]
     pub container_id: String,
@@ -4801,7 +5066,7 @@ pub struct CodeInterpreterToolCall {
     pub code: Option<String>,
     #[doc = "The outputs generated by the code interpreter, such as logs or images. \nCan be null if no outputs are available.\n"]
     #[builder(default)]
-    pub outputs: Option<Vec<crate::__types::CodeInterpreterToolCallOutputs>>,
+    pub outputs: Option<Vec<crate::__types::CodeInterpreterToolCallOutputsItem>>,
 }
 impl<'de> serde::Deserialize<'de> for CodeInterpreterToolCall {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -4823,7 +5088,7 @@ impl<'de> serde::Deserialize<'de> for CodeInterpreterToolCall {
             #[serde(rename = "code")]
             code: Option<String>,
             #[serde(rename = "outputs")]
-            outputs: Option<Vec<crate::__types::CodeInterpreterToolCallOutputs>>,
+            outputs: Option<Vec<crate::__types::CodeInterpreterToolCallOutputsItem>>,
         }
         let CodeInterpreterToolCall {
             id,
@@ -4863,7 +5128,7 @@ impl serde::Serialize for CodeInterpreterToolCall {
             code: &'a Option<String>,
             #[serde(rename = "outputs")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            outputs: &'a Option<Vec<crate::__types::CodeInterpreterToolCallOutputs>>,
+            outputs: &'a Option<Vec<crate::__types::CodeInterpreterToolCallOutputsItem>>,
         }
         let Self {
             id,
@@ -5028,7 +5293,7 @@ pub enum CompoundFilterType {
 #[derive(serde :: Deserialize, serde :: Serialize)]
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
-pub enum CompoundFilterFilter {
+pub enum CompoundFilterFiltersItem {
     ComparisonFilter(crate::__types::ComparisonFilter),
     CompoundFilter(crate::__types::CompoundFilter),
 }
@@ -5042,7 +5307,7 @@ pub struct CompoundFilter {
     pub r#type: crate::__types::CompoundFilterType,
     #[doc = "Array of filters to combine. Items can be `ComparisonFilter` or `CompoundFilter`."]
     #[serde(rename = "filters")]
-    pub filters: Vec<crate::__types::CompoundFilterFilter>,
+    pub filters: Vec<crate::__types::CompoundFilterFiltersItem>,
 }
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
@@ -5821,15 +6086,57 @@ impl serde::Serialize for CostsResult {
         .serialize(serializer)
     }
 }
+#[doc = "ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models) for descriptions of them.\n"]
 #[derive(Clone, Debug, PartialEq)]
-#[serde_with::serde_as]
-#[derive(serde :: Deserialize, serde :: Serialize)]
-#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
-pub enum CreateAssistantRequestTool {
-    CodeInterpreter(crate::__types::AssistantToolsCode),
-    FileSearch(crate::__types::AssistantToolsFileSearch),
-    Function(crate::__types::AssistantToolsFunction),
+pub enum CreateAssistantRequestModel {
+    Other(String),
+    AssistantSupportedModels(crate::__types::AssistantSupportedModels),
+}
+impl<'de> serde::Deserialize<'de> for CreateAssistantRequestModel {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
+        enum CreateAssistantRequestModel {
+            AssistantSupportedModels(crate::__types::AssistantSupportedModels),
+            Other(String),
+        }
+        Ok(
+            match CreateAssistantRequestModel::deserialize(deserializer)? {
+                CreateAssistantRequestModel::Other(v) => Self::Other(v),
+                CreateAssistantRequestModel::AssistantSupportedModels(v) => {
+                    Self::AssistantSupportedModels(v)
+                }
+            },
+        )
+    }
+}
+impl serde::Serialize for CreateAssistantRequestModel {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names)]
+        enum CreateAssistantRequestModel<'a> {
+            Other(&'a String),
+            AssistantSupportedModels(&'a crate::__types::AssistantSupportedModels),
+        }
+        match self {
+            Self::Other(v) => CreateAssistantRequestModel::Other(v),
+            Self::AssistantSupportedModels(v) => {
+                CreateAssistantRequestModel::AssistantSupportedModels(v)
+            }
+        }
+        .serialize(serializer)
+    }
 }
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
@@ -5843,16 +6150,16 @@ pub struct CreateAssistantRequestToolResourcesCodeInterpreter {
 }
 #[doc = "Always `auto`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAutoType;
+struct CreateAssistantRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyAutoType;
 impl_serde!(
-    CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAutoType,
+    CreateAssistantRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyAutoType,
     "auto"
 );
 #[doc = "The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
-pub struct CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto {}
+pub struct CreateAssistantRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyAuto {}
 impl<'de> serde::Deserialize<'de>
-    for CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto
+    for CreateAssistantRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyAuto
 {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -5860,13 +6167,13 @@ impl<'de> serde::Deserialize<'de>
     {
         #[serde_with::serde_as]
         #[derive(serde :: Deserialize)]
-        struct CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto { # [serde (rename = "type")] # [allow (dead_code)] r#type : crate :: __types :: CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAutoType }
-        let CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto { .. } = CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto :: deserialize (deserializer) ? ;
+        struct CreateAssistantRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyAuto { # [serde (rename = "type")] # [allow (dead_code)] r#type : crate :: __types :: CreateAssistantRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyAutoType }
+        let CreateAssistantRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyAuto { .. } = CreateAssistantRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyAuto :: deserialize (deserializer) ? ;
         Ok(Self {})
     }
 }
 impl serde::Serialize
-    for CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto
+    for CreateAssistantRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyAuto
 {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
@@ -5874,9 +6181,9 @@ impl serde::Serialize
     {
         #[serde_with::serde_as]
         #[derive(serde :: Serialize)]
-        struct CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto < 'a > { # [serde (rename = "type")] r#type : & 'a crate :: __types :: CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAutoType }
+        struct CreateAssistantRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyAuto < 'a > { # [serde (rename = "type")] r#type : & 'a crate :: __types :: CreateAssistantRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyAutoType }
         let Self {} = self;
-        CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto {
+        CreateAssistantRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyAuto {
             r#type: &Default::default(),
         }
         .serialize(serializer)
@@ -5884,15 +6191,16 @@ impl serde::Serialize
 }
 #[doc = "Always `static`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticType;
+struct CreateAssistantRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyStaticType;
 impl_serde!(
-    CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticType,
+    CreateAssistantRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyStaticType,
     "static"
 );
 #[derive(Clone, Copy, Debug, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticStatic {
+pub struct CreateAssistantRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyStaticStatic
+{
     #[doc = "The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the maximum value is `4096`."]
     #[serde(rename = "max_chunk_size_tokens")]
     pub max_chunk_size_tokens: i64,
@@ -5901,9 +6209,9 @@ pub struct CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStra
     pub chunk_overlap_tokens: i64,
 }
 #[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
-pub struct CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic { pub r#static : crate :: __types :: CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticStatic }
+pub struct CreateAssistantRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyStatic { pub r#static : crate :: __types :: CreateAssistantRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyStaticStatic }
 impl<'de> serde::Deserialize<'de>
-    for CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic
+    for CreateAssistantRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyStatic
 {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -5911,13 +6219,13 @@ impl<'de> serde::Deserialize<'de>
     {
         #[serde_with::serde_as]
         #[derive(serde :: Deserialize)]
-        struct CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic { # [serde (rename = "type")] # [allow (dead_code)] r#type : crate :: __types :: CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticType , # [serde (rename = "static")] r#static : crate :: __types :: CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticStatic }
-        let CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic { r#static , .. } = CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic :: deserialize (deserializer) ? ;
+        struct CreateAssistantRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyStatic { # [serde (rename = "type")] # [allow (dead_code)] r#type : crate :: __types :: CreateAssistantRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyStaticType , # [serde (rename = "static")] r#static : crate :: __types :: CreateAssistantRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyStaticStatic }
+        let CreateAssistantRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyStatic { r#static , .. } = CreateAssistantRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyStatic :: deserialize (deserializer) ? ;
         Ok(Self { r#static })
     }
 }
 impl serde::Serialize
-    for CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic
+    for CreateAssistantRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyStatic
 {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
@@ -5925,9 +6233,9 @@ impl serde::Serialize
     {
         #[serde_with::serde_as]
         #[derive(serde :: Serialize)]
-        struct CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic < 'a > { # [serde (rename = "type")] r#type : & 'a crate :: __types :: CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticType , # [serde (rename = "static")] r#static : & 'a crate :: __types :: CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticStatic }
+        struct CreateAssistantRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyStatic < 'a > { # [serde (rename = "type")] r#type : & 'a crate :: __types :: CreateAssistantRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyStaticType , # [serde (rename = "static")] r#static : & 'a crate :: __types :: CreateAssistantRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyStaticStatic }
         let Self { r#static } = self;
-        CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic {
+        CreateAssistantRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyStatic {
             r#type: &Default::default(),
             r#static,
         }
@@ -5940,29 +6248,12 @@ impl serde::Serialize
 #[derive(serde :: Deserialize, serde :: Serialize)]
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
-pub enum CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategy {
-    # [doc = "The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`."] Auto (crate :: __types :: CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto) , Static (crate :: __types :: CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic) }
+pub enum CreateAssistantRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategy {
+    # [doc = "The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`."] Auto (crate :: __types :: CreateAssistantRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyAuto) , Static (crate :: __types :: CreateAssistantRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyStatic) }
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct CreateAssistantRequestToolResourcesFileSearch0VectorStore {
-    #[doc = "A list of [file](https://platform.openai.com/docs/api-reference/files) IDs to add to the vector store. There can be a maximum of 10000 files in a vector store.\n"]
-    #[serde(rename = "file_ids")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default)]
-    pub file_ids: Option<Vec<String>>,
-    #[doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy."]
-    #[serde(rename = "chunking_strategy")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default)]
-    pub chunking_strategy: Option<
-        crate::__types::CreateAssistantRequestToolResourcesFileSearch0VectorStoreChunkingStrategy,
-    >,
-    #[serde(rename = "metadata")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default)]
-    pub metadata: Option<crate::__types::Metadata>,
-}
+pub struct CreateAssistantRequestToolResourcesFileSearch0VectorStoresItem { # [doc = "A list of [file](https://platform.openai.com/docs/api-reference/files) IDs to add to the vector store. There can be a maximum of 10000 files in a vector store.\n"] # [serde (rename = "file_ids")] # [serde (skip_serializing_if = "Option::is_none")] # [builder (default)] pub file_ids : Option < Vec < String > > , # [doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy."] # [serde (rename = "chunking_strategy")] # [serde (skip_serializing_if = "Option::is_none")] # [builder (default)] pub chunking_strategy : Option < crate :: __types :: CreateAssistantRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategy > , # [serde (rename = "metadata")] # [serde (skip_serializing_if = "Option::is_none")] # [builder (default)] pub metadata : Option < crate :: __types :: Metadata > }
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
@@ -5975,20 +6266,20 @@ pub struct CreateAssistantRequestToolResourcesFileSearch0 {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub vector_stores:
-        Option<Vec<crate::__types::CreateAssistantRequestToolResourcesFileSearch0VectorStore>>,
+        Option<Vec<crate::__types::CreateAssistantRequestToolResourcesFileSearch0VectorStoresItem>>,
 }
 #[doc = "Always `auto`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAutoType;
+struct CreateAssistantRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyAutoType;
 impl_serde!(
-    CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAutoType,
+    CreateAssistantRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyAutoType,
     "auto"
 );
 #[doc = "The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
-pub struct CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto {}
+pub struct CreateAssistantRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyAuto {}
 impl<'de> serde::Deserialize<'de>
-    for CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto
+    for CreateAssistantRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyAuto
 {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -5996,13 +6287,13 @@ impl<'de> serde::Deserialize<'de>
     {
         #[serde_with::serde_as]
         #[derive(serde :: Deserialize)]
-        struct CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto { # [serde (rename = "type")] # [allow (dead_code)] r#type : crate :: __types :: CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAutoType }
-        let CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto { .. } = CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto :: deserialize (deserializer) ? ;
+        struct CreateAssistantRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyAuto { # [serde (rename = "type")] # [allow (dead_code)] r#type : crate :: __types :: CreateAssistantRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyAutoType }
+        let CreateAssistantRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyAuto { .. } = CreateAssistantRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyAuto :: deserialize (deserializer) ? ;
         Ok(Self {})
     }
 }
 impl serde::Serialize
-    for CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto
+    for CreateAssistantRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyAuto
 {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
@@ -6010,9 +6301,9 @@ impl serde::Serialize
     {
         #[serde_with::serde_as]
         #[derive(serde :: Serialize)]
-        struct CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto < 'a > { # [serde (rename = "type")] r#type : & 'a crate :: __types :: CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAutoType }
+        struct CreateAssistantRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyAuto < 'a > { # [serde (rename = "type")] r#type : & 'a crate :: __types :: CreateAssistantRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyAutoType }
         let Self {} = self;
-        CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto {
+        CreateAssistantRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyAuto {
             r#type: &Default::default(),
         }
         .serialize(serializer)
@@ -6020,15 +6311,16 @@ impl serde::Serialize
 }
 #[doc = "Always `static`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticType;
+struct CreateAssistantRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyStaticType;
 impl_serde!(
-    CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticType,
+    CreateAssistantRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyStaticType,
     "static"
 );
 #[derive(Clone, Copy, Debug, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticStatic {
+pub struct CreateAssistantRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyStaticStatic
+{
     #[doc = "The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the maximum value is `4096`."]
     #[serde(rename = "max_chunk_size_tokens")]
     pub max_chunk_size_tokens: i64,
@@ -6037,9 +6329,9 @@ pub struct CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStra
     pub chunk_overlap_tokens: i64,
 }
 #[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
-pub struct CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic { pub r#static : crate :: __types :: CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticStatic }
+pub struct CreateAssistantRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyStatic { pub r#static : crate :: __types :: CreateAssistantRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyStaticStatic }
 impl<'de> serde::Deserialize<'de>
-    for CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic
+    for CreateAssistantRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyStatic
 {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -6047,13 +6339,13 @@ impl<'de> serde::Deserialize<'de>
     {
         #[serde_with::serde_as]
         #[derive(serde :: Deserialize)]
-        struct CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic { # [serde (rename = "type")] # [allow (dead_code)] r#type : crate :: __types :: CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticType , # [serde (rename = "static")] r#static : crate :: __types :: CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticStatic }
-        let CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic { r#static , .. } = CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic :: deserialize (deserializer) ? ;
+        struct CreateAssistantRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyStatic { # [serde (rename = "type")] # [allow (dead_code)] r#type : crate :: __types :: CreateAssistantRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyStaticType , # [serde (rename = "static")] r#static : crate :: __types :: CreateAssistantRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyStaticStatic }
+        let CreateAssistantRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyStatic { r#static , .. } = CreateAssistantRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyStatic :: deserialize (deserializer) ? ;
         Ok(Self { r#static })
     }
 }
 impl serde::Serialize
-    for CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic
+    for CreateAssistantRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyStatic
 {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
@@ -6061,9 +6353,9 @@ impl serde::Serialize
     {
         #[serde_with::serde_as]
         #[derive(serde :: Serialize)]
-        struct CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic < 'a > { # [serde (rename = "type")] r#type : & 'a crate :: __types :: CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticType , # [serde (rename = "static")] r#static : & 'a crate :: __types :: CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticStatic }
+        struct CreateAssistantRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyStatic < 'a > { # [serde (rename = "type")] r#type : & 'a crate :: __types :: CreateAssistantRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyStaticType , # [serde (rename = "static")] r#static : & 'a crate :: __types :: CreateAssistantRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyStaticStatic }
         let Self { r#static } = self;
-        CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic {
+        CreateAssistantRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyStatic {
             r#type: &Default::default(),
             r#static,
         }
@@ -6076,29 +6368,12 @@ impl serde::Serialize
 #[derive(serde :: Deserialize, serde :: Serialize)]
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
-pub enum CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategy {
-    # [doc = "The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`."] Auto (crate :: __types :: CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto) , Static (crate :: __types :: CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic) }
+pub enum CreateAssistantRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategy {
+    # [doc = "The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`."] Auto (crate :: __types :: CreateAssistantRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyAuto) , Static (crate :: __types :: CreateAssistantRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyStatic) }
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct CreateAssistantRequestToolResourcesFileSearch1VectorStore {
-    #[doc = "A list of [file](https://platform.openai.com/docs/api-reference/files) IDs to add to the vector store. There can be a maximum of 10000 files in a vector store.\n"]
-    #[serde(rename = "file_ids")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default)]
-    pub file_ids: Option<Vec<String>>,
-    #[doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy."]
-    #[serde(rename = "chunking_strategy")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default)]
-    pub chunking_strategy: Option<
-        crate::__types::CreateAssistantRequestToolResourcesFileSearch1VectorStoreChunkingStrategy,
-    >,
-    #[serde(rename = "metadata")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default)]
-    pub metadata: Option<crate::__types::Metadata>,
-}
+pub struct CreateAssistantRequestToolResourcesFileSearch1VectorStoresItem { # [doc = "A list of [file](https://platform.openai.com/docs/api-reference/files) IDs to add to the vector store. There can be a maximum of 10000 files in a vector store.\n"] # [serde (rename = "file_ids")] # [serde (skip_serializing_if = "Option::is_none")] # [builder (default)] pub file_ids : Option < Vec < String > > , # [doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy."] # [serde (rename = "chunking_strategy")] # [serde (skip_serializing_if = "Option::is_none")] # [builder (default)] pub chunking_strategy : Option < crate :: __types :: CreateAssistantRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategy > , # [serde (rename = "metadata")] # [serde (skip_serializing_if = "Option::is_none")] # [builder (default)] pub metadata : Option < crate :: __types :: Metadata > }
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
@@ -6111,7 +6386,7 @@ pub struct CreateAssistantRequestToolResourcesFileSearch1 {
     #[doc = "A helper to create a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) with file_ids and attach it to this assistant. There can be a maximum of 1 vector store attached to the assistant.\n"]
     #[serde(rename = "vector_stores")]
     pub vector_stores:
-        Vec<crate::__types::CreateAssistantRequestToolResourcesFileSearch1VectorStore>,
+        Vec<crate::__types::CreateAssistantRequestToolResourcesFileSearch1VectorStoresItem>,
 }
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
@@ -6143,7 +6418,7 @@ pub struct CreateAssistantRequestToolResources {
 pub struct CreateAssistantRequest {
     #[doc = "ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models) for descriptions of them.\n"]
     #[serde(rename = "model")]
-    pub model: String,
+    pub model: crate::__types::CreateAssistantRequestModel,
     #[doc = "The name of the assistant. The maximum length is 256 characters.\n"]
     #[serde(rename = "name")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -6167,7 +6442,7 @@ pub struct CreateAssistantRequest {
     #[serde(rename = "tools")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub tools: Option<Vec<crate::__types::CreateAssistantRequestTool>>,
+    pub tools: Option<Vec<crate::__types::AssistantTool>>,
     #[doc = "A set of resources that are used by the assistant's tools. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.\n"]
     #[serde(rename = "tool_resources")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -6299,7 +6574,7 @@ pub enum CreateChatCompletionRequestAudioFormat {
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
 pub struct CreateChatCompletionRequestAudio {
-    #[doc = "The voice the model uses to respond. Supported voices are \n`alloy`, `ash`, `ballad`, `coral`, `echo`, `fable`, `nova`, `onyx`, `sage`, and `shimmer`.\n"]
+    #[doc = "The voice the model uses to respond. Supported voices are\n`alloy`, `ash`, `ballad`, `coral`, `echo`, `fable`, `nova`, `onyx`, `sage`, and `shimmer`.\n"]
     #[serde(rename = "voice")]
     pub voice: crate::__types::VoiceIdsShared,
     #[doc = "Specifies the output audio format. Must be one of `wav`, `mp3`, `flac`,\n`opus`, or `pcm16`.\n"]
@@ -6314,6 +6589,15 @@ pub struct CreateChatCompletionRequestAudio {
 #[allow(clippy::large_enum_variant)]
 pub enum CreateChatCompletionRequestPrediction {
     PredictionContent(crate::__types::PredictionContent),
+}
+#[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
+#[allow(clippy::large_enum_variant)]
+pub enum CreateChatCompletionRequestToolsItem {
+    Function(crate::__types::ChatCompletionTool),
+    Custom(crate::__types::CustomToolChatCompletions),
 }
 #[doc = "none"]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
@@ -6386,6 +6670,10 @@ impl serde::Serialize for CreateChatCompletionRequestFunctionCall {
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
 pub struct CreateChatCompletionRequest {
+    #[serde(rename = "text")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub text: Option<crate::__types::ModelResponsePropertiesText>,
     #[serde(rename = "metadata")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -6400,11 +6688,21 @@ pub struct CreateChatCompletionRequest {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub top_p: Option<serde_json::Number>,
-    #[doc = "A stable identifier for your end-users. \nUsed to boost cache hit rates by better bucketing similar requests and  to help OpenAI detect and prevent abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#end-user-ids).\n"]
+    #[doc = "This field is being replaced by `safety_identifier` and `prompt_cache_key`. Use `prompt_cache_key` instead to maintain caching optimizations.\nA stable identifier for your end-users. \nUsed to boost cache hit rates by better bucketing similar requests and  to help OpenAI detect and prevent abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#safety-identifiers).\n"]
     #[serde(rename = "user")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub user: Option<String>,
+    #[doc = "A stable identifier used to help detect users of your application that may be violating OpenAI's usage policies. \nThe IDs should be a string that uniquely identifies each user. We recommend hashing their username or email address, in order to avoid sending us any identifying information. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#safety-identifiers).\n"]
+    #[serde(rename = "safety_identifier")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub safety_identifier: Option<String>,
+    #[doc = "Used by OpenAI to cache responses for similar requests to optimize your cache hit rates. Replaces the `user` field. [Learn more](https://platform.openai.com/docs/guides/prompt-caching).\n"]
+    #[serde(rename = "prompt_cache_key")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub prompt_cache_key: Option<String>,
     #[serde(rename = "service_tier")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -6458,7 +6756,7 @@ pub struct CreateChatCompletionRequest {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub audio: Option<crate::__types::CreateChatCompletionRequestAudio>,
-    #[doc = "Whether or not to store the output of this chat completion request for \nuse in our [model distillation](https://platform.openai.com/docs/guides/distillation) or\n[evals](https://platform.openai.com/docs/guides/evals) products. \n\nSupports text and image inputs. Note: image inputs over 10MB will be dropped.\n"]
+    #[doc = "Whether or not to store the output of this chat completion request for\nuse in our [model distillation](https://platform.openai.com/docs/guides/distillation) or\n[evals](https://platform.openai.com/docs/guides/evals) products.\n\nSupports text and image inputs. Note: image inputs over 10MB will be dropped.\n"]
     #[serde(rename = "store")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -6506,11 +6804,11 @@ pub struct CreateChatCompletionRequest {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub stream_options: Option<crate::__types::ChatCompletionStreamOptions>,
-    #[doc = "A list of tools the model may call. Currently, only functions are supported as a tool. Use this to provide a list of functions the model may generate JSON inputs for. A max of 128 functions are supported.\n"]
+    #[doc = "A list of tools the model may call. You can provide either\n[custom tools](https://platform.openai.com/docs/guides/function-calling#custom-tools) or\n[function tools](https://platform.openai.com/docs/guides/function-calling).\n"]
     #[serde(rename = "tools")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub tools: Option<Vec<crate::__types::ChatCompletionTool>>,
+    pub tools: Option<Vec<crate::__types::CreateChatCompletionRequestToolsItem>>,
     #[serde(rename = "tool_choice")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -6529,10 +6827,14 @@ pub struct CreateChatCompletionRequest {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub functions: Option<Vec<crate::__types::ChatCompletionFunctions>>,
+    #[serde(rename = "verbosity")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub verbosity: Option<crate::__types::Verbosity>,
 }
 #[doc = "The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,\n`length` if the maximum number of tokens specified in the request was reached,\n`content_filter` if content was omitted due to a flag from our content filters,\n`tool_calls` if the model called a tool, or `function_call` (deprecated) if the model called a function.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum CreateChatCompletionResponseChoiceFinishReason {
+pub enum CreateChatCompletionResponseChoicesItemFinishReason {
     #[doc = "`stop`"]
     #[serde(rename = "stop")]
     Stop,
@@ -6553,7 +6855,7 @@ pub enum CreateChatCompletionResponseChoiceFinishReason {
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct CreateChatCompletionResponseChoiceLogprobs {
+pub struct CreateChatCompletionResponseChoicesItemLogprobs {
     #[doc = "A list of message content tokens with log probability information."]
     #[serde(rename = "content")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -6568,10 +6870,10 @@ pub struct CreateChatCompletionResponseChoiceLogprobs {
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct CreateChatCompletionResponseChoice {
+pub struct CreateChatCompletionResponseChoicesItem {
     #[doc = "The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,\n`length` if the maximum number of tokens specified in the request was reached,\n`content_filter` if content was omitted due to a flag from our content filters,\n`tool_calls` if the model called a tool, or `function_call` (deprecated) if the model called a function.\n"]
     #[serde(rename = "finish_reason")]
-    pub finish_reason: crate::__types::CreateChatCompletionResponseChoiceFinishReason,
+    pub finish_reason: crate::__types::CreateChatCompletionResponseChoicesItemFinishReason,
     #[doc = "The index of the choice in the list of choices."]
     #[serde(rename = "index")]
     pub index: i64,
@@ -6582,7 +6884,7 @@ pub struct CreateChatCompletionResponseChoice {
     #[serde(rename = "logprobs")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub logprobs: Option<crate::__types::CreateChatCompletionResponseChoiceLogprobs>,
+    pub logprobs: Option<crate::__types::CreateChatCompletionResponseChoicesItemLogprobs>,
 }
 #[doc = "The object type, which is always `chat.completion`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
@@ -6594,7 +6896,7 @@ pub struct CreateChatCompletionResponse {
     #[doc = "A unique identifier for the chat completion."]
     pub id: String,
     #[doc = "A list of chat completion choices. Can be more than one if `n` is greater than 1."]
-    pub choices: Vec<crate::__types::CreateChatCompletionResponseChoice>,
+    pub choices: Vec<crate::__types::CreateChatCompletionResponseChoicesItem>,
     #[doc = "The Unix timestamp (in seconds) of when the chat completion was created."]
     pub created: i64,
     #[doc = "The model used for the chat completion."]
@@ -6618,7 +6920,7 @@ impl<'de> serde::Deserialize<'de> for CreateChatCompletionResponse {
             #[serde(rename = "id")]
             id: String,
             #[serde(rename = "choices")]
-            choices: Vec<crate::__types::CreateChatCompletionResponseChoice>,
+            choices: Vec<crate::__types::CreateChatCompletionResponseChoicesItem>,
             #[serde(rename = "created")]
             created: i64,
             #[serde(rename = "model")]
@@ -6665,7 +6967,7 @@ impl serde::Serialize for CreateChatCompletionResponse {
             #[serde(rename = "id")]
             id: &'a String,
             #[serde(rename = "choices")]
-            choices: &'a Vec<crate::__types::CreateChatCompletionResponseChoice>,
+            choices: &'a Vec<crate::__types::CreateChatCompletionResponseChoicesItem>,
             #[serde(rename = "created")]
             created: &'a i64,
             #[serde(rename = "model")]
@@ -6708,7 +7010,7 @@ impl serde::Serialize for CreateChatCompletionResponse {
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct CreateChatCompletionStreamResponseChoiceLogprobs {
+pub struct CreateChatCompletionStreamResponseChoicesItemLogprobs {
     #[doc = "A list of message content tokens with log probability information."]
     #[serde(rename = "content")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -6722,7 +7024,7 @@ pub struct CreateChatCompletionStreamResponseChoiceLogprobs {
 }
 #[doc = "The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,\n`length` if the maximum number of tokens specified in the request was reached,\n`content_filter` if content was omitted due to a flag from our content filters,\n`tool_calls` if the model called a tool, or `function_call` (deprecated) if the model called a function.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum CreateChatCompletionStreamResponseChoiceFinishReason {
+pub enum CreateChatCompletionStreamResponseChoicesItemFinishReason {
     #[doc = "`stop`"]
     #[serde(rename = "stop")]
     Stop,
@@ -6742,7 +7044,7 @@ pub enum CreateChatCompletionStreamResponseChoiceFinishReason {
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct CreateChatCompletionStreamResponseChoice {
+pub struct CreateChatCompletionStreamResponseChoicesItem {
     #[serde(rename = "delta")]
     #[builder(default)]
     pub delta: crate::__types::ChatCompletionStreamResponseDelta,
@@ -6750,12 +7052,13 @@ pub struct CreateChatCompletionStreamResponseChoice {
     #[serde(rename = "logprobs")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub logprobs: Option<crate::__types::CreateChatCompletionStreamResponseChoiceLogprobs>,
+    pub logprobs: Option<crate::__types::CreateChatCompletionStreamResponseChoicesItemLogprobs>,
     #[doc = "The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,\n`length` if the maximum number of tokens specified in the request was reached,\n`content_filter` if content was omitted due to a flag from our content filters,\n`tool_calls` if the model called a tool, or `function_call` (deprecated) if the model called a function.\n"]
     #[serde(rename = "finish_reason")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub finish_reason: Option<crate::__types::CreateChatCompletionStreamResponseChoiceFinishReason>,
+    pub finish_reason:
+        Option<crate::__types::CreateChatCompletionStreamResponseChoicesItemFinishReason>,
     #[doc = "The index of the choice in the list of choices."]
     #[serde(rename = "index")]
     pub index: i64,
@@ -6773,7 +7076,7 @@ pub struct CreateChatCompletionStreamResponse {
     #[doc = "A unique identifier for the chat completion. Each chunk has the same ID."]
     pub id: String,
     #[doc = "A list of chat completion choices. Can contain more than one elements if `n` is greater than 1. Can also be empty for the\nlast chunk if you set `stream_options: {\"include_usage\": true}`.\n"]
-    pub choices: Vec<crate::__types::CreateChatCompletionStreamResponseChoice>,
+    pub choices: Vec<crate::__types::CreateChatCompletionStreamResponseChoicesItem>,
     #[doc = "The Unix timestamp (in seconds) of when the chat completion was created. Each chunk has the same timestamp."]
     pub created: i64,
     #[doc = "The model to generate the completion."]
@@ -6798,7 +7101,7 @@ impl<'de> serde::Deserialize<'de> for CreateChatCompletionStreamResponse {
             #[serde(rename = "id")]
             id: String,
             #[serde(rename = "choices")]
-            choices: Vec<crate::__types::CreateChatCompletionStreamResponseChoice>,
+            choices: Vec<crate::__types::CreateChatCompletionStreamResponseChoicesItem>,
             #[serde(rename = "created")]
             created: i64,
             #[serde(rename = "model")]
@@ -6845,7 +7148,7 @@ impl serde::Serialize for CreateChatCompletionStreamResponse {
             #[serde(rename = "id")]
             id: &'a String,
             #[serde(rename = "choices")]
-            choices: &'a Vec<crate::__types::CreateChatCompletionStreamResponseChoice>,
+            choices: &'a Vec<crate::__types::CreateChatCompletionStreamResponseChoicesItem>,
             #[serde(rename = "created")]
             created: &'a i64,
             #[serde(rename = "model")]
@@ -6884,6 +7187,84 @@ impl serde::Serialize for CreateChatCompletionStreamResponse {
         .serialize(serializer)
     }
 }
+#[doc = "gpt-3.5-turbo-instruct"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateCompletionRequestModelGpt3_5TurboInstruct;
+impl_serde!(
+    CreateCompletionRequestModelGpt3_5TurboInstruct,
+    "gpt-3.5-turbo-instruct"
+);
+#[doc = "davinci-002"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateCompletionRequestModelDavinci002;
+impl_serde!(CreateCompletionRequestModelDavinci002, "davinci-002");
+#[doc = "babbage-002"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateCompletionRequestModelBabbage002;
+impl_serde!(CreateCompletionRequestModelBabbage002, "babbage-002");
+#[doc = "ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models) for descriptions of them.\n"]
+#[derive(Clone, Debug, PartialEq)]
+#[allow(clippy::large_enum_variant)]
+pub enum CreateCompletionRequestModel {
+    Other(String),
+    #[doc = "gpt-3.5-turbo-instruct"]
+    Gpt3_5TurboInstruct,
+    #[doc = "davinci-002"]
+    Davinci002,
+    #[doc = "babbage-002"]
+    Babbage002,
+}
+impl<'de> serde::Deserialize<'de> for CreateCompletionRequestModel {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
+        enum CreateCompletionRequestModel {
+            Gpt3_5TurboInstruct(crate::__types::CreateCompletionRequestModelGpt3_5TurboInstruct),
+            Davinci002(crate::__types::CreateCompletionRequestModelDavinci002),
+            Babbage002(crate::__types::CreateCompletionRequestModelBabbage002),
+            Other(String),
+        }
+        Ok(
+            match CreateCompletionRequestModel::deserialize(deserializer)? {
+                CreateCompletionRequestModel::Other(v) => Self::Other(v),
+                CreateCompletionRequestModel::Gpt3_5TurboInstruct(_) => Self::Gpt3_5TurboInstruct,
+                CreateCompletionRequestModel::Davinci002(_) => Self::Davinci002,
+                CreateCompletionRequestModel::Babbage002(_) => Self::Babbage002,
+            },
+        )
+    }
+}
+impl serde::Serialize for CreateCompletionRequestModel {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names)]
+        enum CreateCompletionRequestModel<'a> {
+            Other(&'a String),
+            Gpt3_5TurboInstruct(crate::__types::CreateCompletionRequestModelGpt3_5TurboInstruct),
+            Davinci002(crate::__types::CreateCompletionRequestModelDavinci002),
+            Babbage002(crate::__types::CreateCompletionRequestModelBabbage002),
+        }
+        match self {
+            Self::Other(v) => CreateCompletionRequestModel::Other(v),
+            Self::Gpt3_5TurboInstruct => {
+                CreateCompletionRequestModel::Gpt3_5TurboInstruct(Default::default())
+            }
+            Self::Davinci002 => CreateCompletionRequestModel::Davinci002(Default::default()),
+            Self::Babbage002 => CreateCompletionRequestModel::Babbage002(Default::default()),
+        }
+        .serialize(serializer)
+    }
+}
 #[doc = "The prompt(s) to generate completions for, encoded as a string, array of strings, array of tokens, or array of token arrays.\n\nNote that <|endoftext|> is the document separator that the model sees during training, so if a prompt is not specified the model will generate as if from the beginning of a new document.\n"]
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
@@ -6902,7 +7283,7 @@ pub enum CreateCompletionRequestPrompt {
 pub struct CreateCompletionRequest {
     #[doc = "ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models) for descriptions of them.\n"]
     #[serde(rename = "model")]
-    pub model: String,
+    pub model: crate::__types::CreateCompletionRequestModel,
     #[doc = "The prompt(s) to generate completions for, encoded as a string, array of strings, array of tokens, or array of token arrays.\n\nNote that <|endoftext|> is the document separator that the model sees during training, so if a prompt is not specified the model will generate as if from the beginning of a new document.\n"]
     #[serde(rename = "prompt")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -6989,7 +7370,7 @@ pub struct CreateCompletionRequest {
 }
 #[doc = "The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,\n`length` if the maximum number of tokens specified in the request was reached,\nor `content_filter` if content was omitted due to a flag from our content filters.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum CreateCompletionResponseChoiceFinishReason {
+pub enum CreateCompletionResponseChoicesItemFinishReason {
     #[doc = "`stop`"]
     #[serde(rename = "stop")]
     Stop,
@@ -7003,7 +7384,7 @@ pub enum CreateCompletionResponseChoiceFinishReason {
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct CreateCompletionResponseChoiceLogprobs {
+pub struct CreateCompletionResponseChoicesItemLogprobs {
     #[serde(rename = "text_offset")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -7024,16 +7405,16 @@ pub struct CreateCompletionResponseChoiceLogprobs {
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct CreateCompletionResponseChoice {
+pub struct CreateCompletionResponseChoicesItem {
     #[doc = "The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,\n`length` if the maximum number of tokens specified in the request was reached,\nor `content_filter` if content was omitted due to a flag from our content filters.\n"]
     #[serde(rename = "finish_reason")]
-    pub finish_reason: crate::__types::CreateCompletionResponseChoiceFinishReason,
+    pub finish_reason: crate::__types::CreateCompletionResponseChoicesItemFinishReason,
     #[serde(rename = "index")]
     pub index: i64,
     #[serde(rename = "logprobs")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub logprobs: Option<crate::__types::CreateCompletionResponseChoiceLogprobs>,
+    pub logprobs: Option<crate::__types::CreateCompletionResponseChoicesItemLogprobs>,
     #[serde(rename = "text")]
     pub text: String,
 }
@@ -7047,7 +7428,7 @@ pub struct CreateCompletionResponse {
     #[doc = "A unique identifier for the completion."]
     pub id: String,
     #[doc = "The list of completion choices the model generated for the input prompt."]
-    pub choices: Vec<crate::__types::CreateCompletionResponseChoice>,
+    pub choices: Vec<crate::__types::CreateCompletionResponseChoicesItem>,
     #[doc = "The Unix timestamp (in seconds) of when the completion was created."]
     pub created: i64,
     #[doc = "The model used for completion."]
@@ -7069,7 +7450,7 @@ impl<'de> serde::Deserialize<'de> for CreateCompletionResponse {
             #[serde(rename = "id")]
             id: String,
             #[serde(rename = "choices")]
-            choices: Vec<crate::__types::CreateCompletionResponseChoice>,
+            choices: Vec<crate::__types::CreateCompletionResponseChoicesItem>,
             #[serde(rename = "created")]
             created: i64,
             #[serde(rename = "model")]
@@ -7112,7 +7493,7 @@ impl serde::Serialize for CreateCompletionResponse {
             #[serde(rename = "id")]
             id: &'a String,
             #[serde(rename = "choices")]
-            choices: &'a Vec<crate::__types::CreateCompletionResponseChoice>,
+            choices: &'a Vec<crate::__types::CreateCompletionResponseChoicesItem>,
             #[serde(rename = "created")]
             created: &'a i64,
             #[serde(rename = "model")]
@@ -7214,6 +7595,94 @@ pub enum CreateEmbeddingRequestInput {
     #[doc = "The array of arrays containing integers that will be turned into an embedding."]
     ArrayOfArray(Vec<Vec<i64>>),
 }
+#[doc = "text-embedding-ada-002"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateEmbeddingRequestModelTextEmbeddingAda002;
+impl_serde!(
+    CreateEmbeddingRequestModelTextEmbeddingAda002,
+    "text-embedding-ada-002"
+);
+#[doc = "text-embedding-3-small"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateEmbeddingRequestModelTextEmbedding3Small;
+impl_serde!(
+    CreateEmbeddingRequestModelTextEmbedding3Small,
+    "text-embedding-3-small"
+);
+#[doc = "text-embedding-3-large"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateEmbeddingRequestModelTextEmbedding3Large;
+impl_serde!(
+    CreateEmbeddingRequestModelTextEmbedding3Large,
+    "text-embedding-3-large"
+);
+#[doc = "ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models) for descriptions of them.\n"]
+#[derive(Clone, Debug, PartialEq)]
+#[allow(clippy::large_enum_variant)]
+pub enum CreateEmbeddingRequestModel {
+    Other(String),
+    #[doc = "text-embedding-ada-002"]
+    TextEmbeddingAda002,
+    #[doc = "text-embedding-3-small"]
+    TextEmbedding3Small,
+    #[doc = "text-embedding-3-large"]
+    TextEmbedding3Large,
+}
+impl<'de> serde::Deserialize<'de> for CreateEmbeddingRequestModel {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
+        enum CreateEmbeddingRequestModel {
+            TextEmbeddingAda002(crate::__types::CreateEmbeddingRequestModelTextEmbeddingAda002),
+            TextEmbedding3Small(crate::__types::CreateEmbeddingRequestModelTextEmbedding3Small),
+            TextEmbedding3Large(crate::__types::CreateEmbeddingRequestModelTextEmbedding3Large),
+            Other(String),
+        }
+        Ok(
+            match CreateEmbeddingRequestModel::deserialize(deserializer)? {
+                CreateEmbeddingRequestModel::Other(v) => Self::Other(v),
+                CreateEmbeddingRequestModel::TextEmbeddingAda002(_) => Self::TextEmbeddingAda002,
+                CreateEmbeddingRequestModel::TextEmbedding3Small(_) => Self::TextEmbedding3Small,
+                CreateEmbeddingRequestModel::TextEmbedding3Large(_) => Self::TextEmbedding3Large,
+            },
+        )
+    }
+}
+impl serde::Serialize for CreateEmbeddingRequestModel {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names)]
+        enum CreateEmbeddingRequestModel<'a> {
+            Other(&'a String),
+            TextEmbeddingAda002(crate::__types::CreateEmbeddingRequestModelTextEmbeddingAda002),
+            TextEmbedding3Small(crate::__types::CreateEmbeddingRequestModelTextEmbedding3Small),
+            TextEmbedding3Large(crate::__types::CreateEmbeddingRequestModelTextEmbedding3Large),
+        }
+        match self {
+            Self::Other(v) => CreateEmbeddingRequestModel::Other(v),
+            Self::TextEmbeddingAda002 => {
+                CreateEmbeddingRequestModel::TextEmbeddingAda002(Default::default())
+            }
+            Self::TextEmbedding3Small => {
+                CreateEmbeddingRequestModel::TextEmbedding3Small(Default::default())
+            }
+            Self::TextEmbedding3Large => {
+                CreateEmbeddingRequestModel::TextEmbedding3Large(Default::default())
+            }
+        }
+        .serialize(serializer)
+    }
+}
 #[doc = "The format to return the embeddings in. Can be either `float` or [`base64`](https://pypi.org/project/pybase64/)."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateEmbeddingRequestEncodingFormat {
@@ -7234,7 +7703,7 @@ pub struct CreateEmbeddingRequest {
     pub input: crate::__types::CreateEmbeddingRequestInput,
     #[doc = "ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models) for descriptions of them.\n"]
     #[serde(rename = "model")]
-    pub model: String,
+    pub model: crate::__types::CreateEmbeddingRequestModel,
     #[doc = "The format to return the embeddings in. Can be either `float` or [`base64`](https://pypi.org/project/pybase64/)."]
     #[serde(rename = "encoding_format")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -7343,7 +7812,7 @@ impl_serde!(
 #[derive(serde :: Deserialize, serde :: Serialize)]
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
-pub enum CreateEvalCompletionsRunDataSourceInputMessagesTemplateTemplate {
+pub enum CreateEvalCompletionsRunDataSourceInputMessagesTemplateTemplateItem {
     EasyInputMessage(crate::__types::EasyInputMessage),
     EvalItem(crate::__types::EvalItem),
 }
@@ -7351,7 +7820,7 @@ pub enum CreateEvalCompletionsRunDataSourceInputMessagesTemplateTemplate {
 pub struct CreateEvalCompletionsRunDataSourceInputMessagesTemplate {
     #[doc = "A list of chat messages forming the prompt or context. May include variable references to the `item` namespace, ie {{item.name}}."]
     pub template:
-        Vec<crate::__types::CreateEvalCompletionsRunDataSourceInputMessagesTemplateTemplate>,
+        Vec<crate::__types::CreateEvalCompletionsRunDataSourceInputMessagesTemplateTemplateItem>,
 }
 impl<'de> serde::Deserialize<'de> for CreateEvalCompletionsRunDataSourceInputMessagesTemplate {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -7366,7 +7835,7 @@ impl<'de> serde::Deserialize<'de> for CreateEvalCompletionsRunDataSourceInputMes
             r#type: crate::__types::CreateEvalCompletionsRunDataSourceInputMessagesTemplateType,
             #[serde(rename = "template")]
             template: Vec<
-                crate::__types::CreateEvalCompletionsRunDataSourceInputMessagesTemplateTemplate,
+                crate::__types::CreateEvalCompletionsRunDataSourceInputMessagesTemplateTemplateItem,
             >,
         }
         let CreateEvalCompletionsRunDataSourceInputMessagesTemplate { template, .. } =
@@ -7386,7 +7855,7 @@ impl serde::Serialize for CreateEvalCompletionsRunDataSourceInputMessagesTemplat
             r#type: &'a crate::__types::CreateEvalCompletionsRunDataSourceInputMessagesTemplateType,
             #[serde(rename = "template")]
             template: &'a Vec<
-                crate::__types::CreateEvalCompletionsRunDataSourceInputMessagesTemplateTemplate,
+                crate::__types::CreateEvalCompletionsRunDataSourceInputMessagesTemplateTemplateItem,
             >,
         }
         let Self { template } = self;
@@ -7918,7 +8387,7 @@ pub enum CreateEvalRequestDataSourceConfig {
 #[derive(serde :: Deserialize, serde :: Serialize)]
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
-pub enum CreateEvalRequestTestingCriteria {
+pub enum CreateEvalRequestTestingCriteriaItem {
     LabelModel(crate::__types::CreateEvalLabelModelGrader),
     StringCheck(crate::__types::EvalGraderStringCheck),
     TextSimilarity(crate::__types::EvalGraderTextSimilarity),
@@ -7943,7 +8412,7 @@ pub struct CreateEvalRequest {
     pub data_source_config: crate::__types::CreateEvalRequestDataSourceConfig,
     #[doc = "A list of graders for all eval runs in this group. Graders can reference variables in the data source using double curly braces notation, like `{{item.variable_name}}`. To reference the model's output, use the `sample` namespace (ie, `{{sample.output_text}}`)."]
     #[serde(rename = "testing_criteria")]
-    pub testing_criteria: Vec<crate::__types::CreateEvalRequestTestingCriteria>,
+    pub testing_criteria: Vec<crate::__types::CreateEvalRequestTestingCriteriaItem>,
 }
 #[doc = "The type of run data source. Always `responses`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
@@ -7959,7 +8428,7 @@ impl_serde!(
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct CreateEvalResponsesRunDataSourceInputMessagesTemplateTemplate0 {
+pub struct CreateEvalResponsesRunDataSourceInputMessagesTemplateTemplateItem0 {
     #[doc = "The role of the message (e.g. \"system\", \"assistant\", \"user\")."]
     #[serde(rename = "role")]
     pub role: String,
@@ -7972,15 +8441,15 @@ pub struct CreateEvalResponsesRunDataSourceInputMessagesTemplateTemplate0 {
 #[derive(serde :: Deserialize, serde :: Serialize)]
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
-pub enum CreateEvalResponsesRunDataSourceInputMessagesTemplateTemplate {
-    _0(crate::__types::CreateEvalResponsesRunDataSourceInputMessagesTemplateTemplate0),
+pub enum CreateEvalResponsesRunDataSourceInputMessagesTemplateTemplateItem {
+    _0(crate::__types::CreateEvalResponsesRunDataSourceInputMessagesTemplateTemplateItem0),
     EvalItem(crate::__types::EvalItem),
 }
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct CreateEvalResponsesRunDataSourceInputMessagesTemplate {
     #[doc = "A list of chat messages forming the prompt or context. May include variable references to the `item` namespace, ie {{item.name}}."]
     pub template:
-        Vec<crate::__types::CreateEvalResponsesRunDataSourceInputMessagesTemplateTemplate>,
+        Vec<crate::__types::CreateEvalResponsesRunDataSourceInputMessagesTemplateTemplateItem>,
 }
 impl<'de> serde::Deserialize<'de> for CreateEvalResponsesRunDataSourceInputMessagesTemplate {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -7994,8 +8463,9 @@ impl<'de> serde::Deserialize<'de> for CreateEvalResponsesRunDataSourceInputMessa
             #[allow(dead_code)]
             r#type: crate::__types::CreateEvalResponsesRunDataSourceInputMessagesTemplateType,
             #[serde(rename = "template")]
-            template:
-                Vec<crate::__types::CreateEvalResponsesRunDataSourceInputMessagesTemplateTemplate>,
+            template: Vec<
+                crate::__types::CreateEvalResponsesRunDataSourceInputMessagesTemplateTemplateItem,
+            >,
         }
         let CreateEvalResponsesRunDataSourceInputMessagesTemplate { template, .. } =
             CreateEvalResponsesRunDataSourceInputMessagesTemplate::deserialize(deserializer)?;
@@ -8014,7 +8484,7 @@ impl serde::Serialize for CreateEvalResponsesRunDataSourceInputMessagesTemplate 
             r#type: &'a crate::__types::CreateEvalResponsesRunDataSourceInputMessagesTemplateType,
             #[serde(rename = "template")]
             template: &'a Vec<
-                crate::__types::CreateEvalResponsesRunDataSourceInputMessagesTemplateTemplate,
+                crate::__types::CreateEvalResponsesRunDataSourceInputMessagesTemplateTemplateItem,
             >,
         }
         let Self { template } = self;
@@ -8316,28 +8786,6 @@ impl serde::Serialize for CreateEvalStoredCompletionsDataSourceConfig {
         .serialize(serializer)
     }
 }
-#[doc = "The intended purpose of the uploaded file. One of: - `assistants`: Used in the Assistants API - `batch`: Used in the Batch API - `fine-tune`: Used for fine-tuning - `vision`: Images used for vision fine-tuning - `user_data`: Flexible file type for any purpose - `evals`: Used for eval data sets\n"]
-#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum CreateFileRequestPurpose {
-    #[doc = "`assistants`"]
-    #[serde(rename = "assistants")]
-    Assistants,
-    #[doc = "`batch`"]
-    #[serde(rename = "batch")]
-    Batch,
-    #[doc = "`fine-tune`"]
-    #[serde(rename = "fine-tune")]
-    FineTune,
-    #[doc = "`vision`"]
-    #[serde(rename = "vision")]
-    Vision,
-    #[doc = "`user_data`"]
-    #[serde(rename = "user_data")]
-    UserData,
-    #[doc = "`evals`"]
-    #[serde(rename = "evals")]
-    Evals,
-}
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
@@ -8346,9 +8794,12 @@ pub struct CreateFileRequest {
     #[serde_as(as = "serde_with::base64::Base64")]
     #[serde(rename = "file")]
     pub file: Vec<u8>,
-    #[doc = "The intended purpose of the uploaded file. One of: - `assistants`: Used in the Assistants API - `batch`: Used in the Batch API - `fine-tune`: Used for fine-tuning - `vision`: Images used for vision fine-tuning - `user_data`: Flexible file type for any purpose - `evals`: Used for eval data sets\n"]
     #[serde(rename = "purpose")]
-    pub purpose: crate::__types::CreateFileRequestPurpose,
+    pub purpose: crate::__types::FilePurpose,
+    #[serde(rename = "expires_after")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub expires_after: Option<crate::__types::FileExpirationAfter>,
 }
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
@@ -8357,6 +8808,89 @@ pub struct CreateFineTuningCheckpointPermissionRequest {
     #[doc = "The project identifiers to grant access to."]
     #[serde(rename = "project_ids")]
     pub project_ids: Vec<String>,
+}
+#[doc = "babbage-002"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateFineTuningJobRequestModelBabbage002;
+impl_serde!(CreateFineTuningJobRequestModelBabbage002, "babbage-002");
+#[doc = "davinci-002"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateFineTuningJobRequestModelDavinci002;
+impl_serde!(CreateFineTuningJobRequestModelDavinci002, "davinci-002");
+#[doc = "gpt-3.5-turbo"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateFineTuningJobRequestModelGpt3_5Turbo;
+impl_serde!(CreateFineTuningJobRequestModelGpt3_5Turbo, "gpt-3.5-turbo");
+#[doc = "gpt-4o-mini"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateFineTuningJobRequestModelGpt4oMini;
+impl_serde!(CreateFineTuningJobRequestModelGpt4oMini, "gpt-4o-mini");
+#[doc = "The name of the model to fine-tune. You can select one of the\n[supported models](https://platform.openai.com/docs/guides/fine-tuning#which-models-can-be-fine-tuned).\n"]
+#[derive(Clone, Debug, PartialEq)]
+#[allow(clippy::large_enum_variant)]
+pub enum CreateFineTuningJobRequestModel {
+    Other(String),
+    #[doc = "babbage-002"]
+    Babbage002,
+    #[doc = "davinci-002"]
+    Davinci002,
+    #[doc = "gpt-3.5-turbo"]
+    Gpt3_5Turbo,
+    #[doc = "gpt-4o-mini"]
+    Gpt4oMini,
+}
+impl<'de> serde::Deserialize<'de> for CreateFineTuningJobRequestModel {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
+        enum CreateFineTuningJobRequestModel {
+            Babbage002(crate::__types::CreateFineTuningJobRequestModelBabbage002),
+            Davinci002(crate::__types::CreateFineTuningJobRequestModelDavinci002),
+            Gpt3_5Turbo(crate::__types::CreateFineTuningJobRequestModelGpt3_5Turbo),
+            Gpt4oMini(crate::__types::CreateFineTuningJobRequestModelGpt4oMini),
+            Other(String),
+        }
+        Ok(
+            match CreateFineTuningJobRequestModel::deserialize(deserializer)? {
+                CreateFineTuningJobRequestModel::Other(v) => Self::Other(v),
+                CreateFineTuningJobRequestModel::Babbage002(_) => Self::Babbage002,
+                CreateFineTuningJobRequestModel::Davinci002(_) => Self::Davinci002,
+                CreateFineTuningJobRequestModel::Gpt3_5Turbo(_) => Self::Gpt3_5Turbo,
+                CreateFineTuningJobRequestModel::Gpt4oMini(_) => Self::Gpt4oMini,
+            },
+        )
+    }
+}
+impl serde::Serialize for CreateFineTuningJobRequestModel {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names)]
+        enum CreateFineTuningJobRequestModel<'a> {
+            Other(&'a String),
+            Babbage002(crate::__types::CreateFineTuningJobRequestModelBabbage002),
+            Davinci002(crate::__types::CreateFineTuningJobRequestModelDavinci002),
+            Gpt3_5Turbo(crate::__types::CreateFineTuningJobRequestModelGpt3_5Turbo),
+            Gpt4oMini(crate::__types::CreateFineTuningJobRequestModelGpt4oMini),
+        }
+        match self {
+            Self::Other(v) => CreateFineTuningJobRequestModel::Other(v),
+            Self::Babbage002 => CreateFineTuningJobRequestModel::Babbage002(Default::default()),
+            Self::Davinci002 => CreateFineTuningJobRequestModel::Davinci002(Default::default()),
+            Self::Gpt3_5Turbo => CreateFineTuningJobRequestModel::Gpt3_5Turbo(Default::default()),
+            Self::Gpt4oMini => CreateFineTuningJobRequestModel::Gpt4oMini(Default::default()),
+        }
+        .serialize(serializer)
+    }
 }
 #[doc = "auto"]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
@@ -8567,7 +9101,7 @@ pub struct CreateFineTuningJobRequestHyperparameters {
 }
 #[doc = "The type of integration to enable. Currently, only \"wandb\" (Weights and Biases) is supported.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum CreateFineTuningJobRequestIntegrationType {
+pub enum CreateFineTuningJobRequestIntegrationsItemType {
     #[doc = "`wandb`"]
     #[serde(rename = "wandb")]
     Wandb,
@@ -8576,7 +9110,7 @@ pub enum CreateFineTuningJobRequestIntegrationType {
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct CreateFineTuningJobRequestIntegrationWandb {
+pub struct CreateFineTuningJobRequestIntegrationsItemWandb {
     #[doc = "The name of the project that the new run will be created under.\n"]
     #[serde(rename = "project")]
     pub project: String,
@@ -8599,13 +9133,13 @@ pub struct CreateFineTuningJobRequestIntegrationWandb {
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct CreateFineTuningJobRequestIntegration {
+pub struct CreateFineTuningJobRequestIntegrationsItem {
     #[doc = "The type of integration to enable. Currently, only \"wandb\" (Weights and Biases) is supported.\n"]
     #[serde(rename = "type")]
-    pub r#type: crate::__types::CreateFineTuningJobRequestIntegrationType,
+    pub r#type: crate::__types::CreateFineTuningJobRequestIntegrationsItemType,
     #[doc = "The settings for your integration with Weights and Biases. This payload specifies the project that\nmetrics will be sent to. Optionally, you can set an explicit display name for your run, add tags\nto your run, and set a default entity (team, username, etc) to be associated with your run.\n"]
     #[serde(rename = "wandb")]
-    pub wandb: crate::__types::CreateFineTuningJobRequestIntegrationWandb,
+    pub wandb: crate::__types::CreateFineTuningJobRequestIntegrationsItemWandb,
 }
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
@@ -8613,7 +9147,7 @@ pub struct CreateFineTuningJobRequestIntegration {
 pub struct CreateFineTuningJobRequest {
     #[doc = "The name of the model to fine-tune. You can select one of the\n[supported models](https://platform.openai.com/docs/guides/fine-tuning#which-models-can-be-fine-tuned).\n"]
     #[serde(rename = "model")]
-    pub model: String,
+    pub model: crate::__types::CreateFineTuningJobRequestModel,
     #[doc = "The ID of an uploaded file that contains training data.\n\nSee [upload file](https://platform.openai.com/docs/api-reference/files/create) for how to upload a file.\n\nYour dataset must be formatted as a JSONL file. Additionally, you must upload your file with the purpose `fine-tune`.\n\nThe contents of the file should differ depending on if the model uses the [chat](https://platform.openai.com/docs/api-reference/fine-tuning/chat-input), [completions](https://platform.openai.com/docs/api-reference/fine-tuning/completions-input) format, or if the fine-tuning method uses the [preference](https://platform.openai.com/docs/api-reference/fine-tuning/preference-input) format.\n\nSee the [fine-tuning guide](https://platform.openai.com/docs/guides/model-optimization) for more details.\n"]
     #[serde(rename = "training_file")]
     pub training_file: String,
@@ -8636,7 +9170,7 @@ pub struct CreateFineTuningJobRequest {
     #[serde(rename = "integrations")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub integrations: Option<Vec<crate::__types::CreateFineTuningJobRequestIntegration>>,
+    pub integrations: Option<Vec<crate::__types::CreateFineTuningJobRequestIntegrationsItem>>,
     #[doc = "The seed controls the reproducibility of the job. Passing in the same seed and job parameters should produce the same results, but may differ in rare cases.\nIf a seed is not specified, one will be generated for you.\n"]
     #[serde(rename = "seed")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -8674,6 +9208,69 @@ pub enum CreateImageEditRequestBackground {
     #[default]
     #[serde(rename = "auto")]
     Auto,
+}
+#[doc = "dall-e-2"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateImageEditRequestModelDallE2;
+impl_serde!(CreateImageEditRequestModelDallE2, "dall-e-2");
+#[doc = "gpt-image-1"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateImageEditRequestModelGptImage1;
+impl_serde!(CreateImageEditRequestModelGptImage1, "gpt-image-1");
+#[doc = "The model to use for image generation. Only `dall-e-2` and `gpt-image-1` are supported. Defaults to `dall-e-2` unless a parameter specific to `gpt-image-1` is used."]
+#[derive(Clone, Debug, PartialEq)]
+#[allow(clippy::large_enum_variant)]
+pub enum CreateImageEditRequestModel {
+    Other(String),
+    #[doc = "dall-e-2"]
+    DallE2,
+    #[doc = "gpt-image-1"]
+    GptImage1,
+}
+impl<'de> serde::Deserialize<'de> for CreateImageEditRequestModel {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
+        enum CreateImageEditRequestModel {
+            DallE2(crate::__types::CreateImageEditRequestModelDallE2),
+            GptImage1(crate::__types::CreateImageEditRequestModelGptImage1),
+            Other(String),
+        }
+        Ok(
+            match CreateImageEditRequestModel::deserialize(deserializer)? {
+                CreateImageEditRequestModel::Other(v) => Self::Other(v),
+                CreateImageEditRequestModel::DallE2(_) => Self::DallE2,
+                CreateImageEditRequestModel::GptImage1(_) => Self::GptImage1,
+            },
+        )
+    }
+}
+impl serde::Serialize for CreateImageEditRequestModel {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names)]
+        enum CreateImageEditRequestModel<'a> {
+            Other(&'a String),
+            DallE2(crate::__types::CreateImageEditRequestModelDallE2),
+            GptImage1(crate::__types::CreateImageEditRequestModelGptImage1),
+        }
+        match self {
+            Self::Other(v) => CreateImageEditRequestModel::Other(v),
+            Self::DallE2 => CreateImageEditRequestModel::DallE2(Default::default()),
+            Self::GptImage1 => CreateImageEditRequestModel::GptImage1(Default::default()),
+        }
+        .serialize(serializer)
+    }
 }
 #[doc = "The size of the generated images. Must be one of `1024x1024`, `1536x1024` (landscape), `1024x1536` (portrait), or `auto` (default value) for `gpt-image-1`, and one of `256x256`, `512x512`, or `1024x1024` for `dall-e-2`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
@@ -8768,7 +9365,7 @@ pub struct CreateImageEditRequest {
     #[serde(rename = "model")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub model: Option<String>,
+    pub model: Option<crate::__types::CreateImageEditRequestModel>,
     #[doc = "The number of images to generate. Must be between 1 and 10."]
     #[serde(rename = "n")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -8799,11 +9396,95 @@ pub struct CreateImageEditRequest {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub user: Option<String>,
+    #[serde(rename = "input_fidelity")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub input_fidelity: Option<crate::__types::ImageInputFidelity>,
+    #[doc = "Edit the image in streaming mode. Defaults to `false`. See the \n[Image generation guide](https://platform.openai.com/docs/guides/image-generation) for more information.\n"]
+    #[serde(rename = "stream")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub stream: Option<bool>,
+    #[serde(rename = "partial_images")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub partial_images: Option<crate::__types::PartialImages>,
     #[doc = "The quality of the image that will be generated. `high`, `medium` and `low` are only supported for `gpt-image-1`. `dall-e-2` only supports `standard` quality. Defaults to `auto`.\n"]
     #[serde(rename = "quality")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub quality: Option<crate::__types::CreateImageEditRequestQuality>,
+}
+#[doc = "dall-e-2"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateImageRequestModelDallE2;
+impl_serde!(CreateImageRequestModelDallE2, "dall-e-2");
+#[doc = "dall-e-3"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateImageRequestModelDallE3;
+impl_serde!(CreateImageRequestModelDallE3, "dall-e-3");
+#[doc = "gpt-image-1"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateImageRequestModelGptImage1;
+impl_serde!(CreateImageRequestModelGptImage1, "gpt-image-1");
+#[doc = "The model to use for image generation. One of `dall-e-2`, `dall-e-3`, or `gpt-image-1`. Defaults to `dall-e-2` unless a parameter specific to `gpt-image-1` is used."]
+#[derive(Clone, Debug, PartialEq)]
+#[allow(clippy::large_enum_variant)]
+pub enum CreateImageRequestModel {
+    Other(String),
+    #[doc = "dall-e-2"]
+    DallE2,
+    #[doc = "dall-e-3"]
+    DallE3,
+    #[doc = "gpt-image-1"]
+    GptImage1,
+}
+impl<'de> serde::Deserialize<'de> for CreateImageRequestModel {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
+        enum CreateImageRequestModel {
+            DallE2(crate::__types::CreateImageRequestModelDallE2),
+            DallE3(crate::__types::CreateImageRequestModelDallE3),
+            GptImage1(crate::__types::CreateImageRequestModelGptImage1),
+            Other(String),
+        }
+        Ok(match CreateImageRequestModel::deserialize(deserializer)? {
+            CreateImageRequestModel::Other(v) => Self::Other(v),
+            CreateImageRequestModel::DallE2(_) => Self::DallE2,
+            CreateImageRequestModel::DallE3(_) => Self::DallE3,
+            CreateImageRequestModel::GptImage1(_) => Self::GptImage1,
+        })
+    }
+}
+impl serde::Serialize for CreateImageRequestModel {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names)]
+        enum CreateImageRequestModel<'a> {
+            Other(&'a String),
+            DallE2(crate::__types::CreateImageRequestModelDallE2),
+            DallE3(crate::__types::CreateImageRequestModelDallE3),
+            GptImage1(crate::__types::CreateImageRequestModelGptImage1),
+        }
+        match self {
+            Self::Other(v) => CreateImageRequestModel::Other(v),
+            Self::DallE2 => CreateImageRequestModel::DallE2(Default::default()),
+            Self::DallE3 => CreateImageRequestModel::DallE3(Default::default()),
+            Self::GptImage1 => CreateImageRequestModel::GptImage1(Default::default()),
+        }
+        .serialize(serializer)
+    }
 }
 #[doc = "The quality of the image that will be generated. \n\n- `auto` (default value) will automatically select the best quality for the given model.\n- `high`, `medium` and `low` are supported for `gpt-image-1`.\n- `hd` and `standard` are supported for `dall-e-3`.\n- `standard` is the only option for `dall-e-2`.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
@@ -8929,7 +9610,7 @@ pub struct CreateImageRequest {
     #[serde(rename = "model")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub model: Option<String>,
+    pub model: Option<crate::__types::CreateImageRequestModel>,
     #[doc = "The number of images to generate. Must be between 1 and 10. For `dall-e-3`, only `n=1` is supported."]
     #[serde(rename = "n")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -8955,6 +9636,15 @@ pub struct CreateImageRequest {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub output_compression: Option<i64>,
+    #[doc = "Generate the image in streaming mode. Defaults to `false`. See the \n[Image generation guide](https://platform.openai.com/docs/guides/image-generation) for more information.\nThis parameter is only supported for `gpt-image-1`.\n"]
+    #[serde(rename = "stream")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub stream: Option<bool>,
+    #[serde(rename = "partial_images")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub partial_images: Option<crate::__types::PartialImages>,
     #[doc = "The size of the generated images. Must be one of `1024x1024`, `1536x1024` (landscape), `1024x1536` (portrait), or `auto` (default value) for `gpt-image-1`, one of `256x256`, `512x512`, or `1024x1024` for `dall-e-2`, and one of `1024x1024`, `1792x1024`, or `1024x1792` for `dall-e-3`."]
     #[serde(rename = "size")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -8980,6 +9670,59 @@ pub struct CreateImageRequest {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub user: Option<String>,
+}
+#[doc = "dall-e-2"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateImageVariationRequestModelDallE2;
+impl_serde!(CreateImageVariationRequestModelDallE2, "dall-e-2");
+#[doc = "The model to use for image generation. Only `dall-e-2` is supported at this time."]
+#[derive(Clone, Debug, PartialEq)]
+#[allow(clippy::large_enum_variant)]
+pub enum CreateImageVariationRequestModel {
+    Other(String),
+    #[doc = "dall-e-2"]
+    DallE2,
+}
+impl<'de> serde::Deserialize<'de> for CreateImageVariationRequestModel {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
+        enum CreateImageVariationRequestModel {
+            DallE2(crate::__types::CreateImageVariationRequestModelDallE2),
+            Other(String),
+        }
+        Ok(
+            match CreateImageVariationRequestModel::deserialize(deserializer)? {
+                CreateImageVariationRequestModel::Other(v) => Self::Other(v),
+                CreateImageVariationRequestModel::DallE2(_) => Self::DallE2,
+            },
+        )
+    }
+}
+impl serde::Serialize for CreateImageVariationRequestModel {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names)]
+        enum CreateImageVariationRequestModel<'a> {
+            Other(&'a String),
+            DallE2(crate::__types::CreateImageVariationRequestModelDallE2),
+        }
+        match self {
+            Self::Other(v) => CreateImageVariationRequestModel::Other(v),
+            Self::DallE2 => CreateImageVariationRequestModel::DallE2(Default::default()),
+        }
+        .serialize(serializer)
+    }
 }
 #[doc = "The format in which the generated images are returned. Must be one of `url` or `b64_json`. URLs are only valid for 60 minutes after the image has been generated."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
@@ -9018,7 +9761,7 @@ pub struct CreateImageVariationRequest {
     #[serde(rename = "model")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub model: Option<String>,
+    pub model: Option<crate::__types::CreateImageVariationRequestModel>,
     #[doc = "The number of images to generate. Must be between 1 and 10."]
     #[serde(rename = "n")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -9055,7 +9798,7 @@ pub enum CreateMessageRequestRole {
 #[derive(serde :: Deserialize, serde :: Serialize)]
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
-pub enum CreateMessageRequestContentArray {
+pub enum CreateMessageRequestContentArrayItem {
     ImageFile(crate::__types::MessageContentImageFileObject),
     ImageUrl(crate::__types::MessageContentImageUrlObject),
     Text(crate::__types::MessageRequestContentTextObject),
@@ -9069,27 +9812,27 @@ pub enum CreateMessageRequestContent {
     #[doc = "The text contents of the message."]
     String(String),
     #[doc = "An array of content parts with a defined type, each can be of type `text` or images can be passed with `image_url` or `image_file`. Image types are only supported on [Vision-compatible models](https://platform.openai.com/docs/models)."]
-    Array(Vec<crate::__types::CreateMessageRequestContentArray>),
+    Array(Vec<crate::__types::CreateMessageRequestContentArrayItem>),
 }
 #[derive(Clone, Copy, Debug, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize)]
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
-pub enum CreateMessageRequestAttachmentsTool {
+pub enum CreateMessageRequestAttachmentsItemToolsItem {
     CodeInterpreter(crate::__types::AssistantToolsCode),
     FileSearch(crate::__types::AssistantToolsFileSearchTypeOnly),
 }
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct CreateMessageRequestAttachments {
+pub struct CreateMessageRequestAttachmentsItem {
     #[doc = "The ID of the file to attach to the message."]
     #[serde(rename = "file_id")]
     pub file_id: String,
     #[doc = "The tools to add this file to."]
     #[serde(rename = "tools")]
-    pub tools: Vec<crate::__types::CreateMessageRequestAttachmentsTool>,
+    pub tools: Vec<crate::__types::CreateMessageRequestAttachmentsItemToolsItem>,
 }
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
@@ -9104,7 +9847,7 @@ pub struct CreateMessageRequest {
     #[serde(rename = "attachments")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub attachments: Option<Vec<crate::__types::CreateMessageRequestAttachments>>,
+    pub attachments: Option<Vec<crate::__types::CreateMessageRequestAttachmentsItem>>,
     #[serde(rename = "metadata")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -9114,6 +9857,10 @@ pub struct CreateMessageRequest {
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
 pub struct CreateModelResponseProperties {
+    #[serde(rename = "text")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub text: Option<crate::__types::ModelResponsePropertiesText>,
     #[serde(rename = "metadata")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -9128,11 +9875,21 @@ pub struct CreateModelResponseProperties {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub top_p: Option<serde_json::Number>,
-    #[doc = "A stable identifier for your end-users. \nUsed to boost cache hit rates by better bucketing similar requests and  to help OpenAI detect and prevent abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#end-user-ids).\n"]
+    #[doc = "This field is being replaced by `safety_identifier` and `prompt_cache_key`. Use `prompt_cache_key` instead to maintain caching optimizations.\nA stable identifier for your end-users. \nUsed to boost cache hit rates by better bucketing similar requests and  to help OpenAI detect and prevent abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#safety-identifiers).\n"]
     #[serde(rename = "user")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub user: Option<String>,
+    #[doc = "A stable identifier used to help detect users of your application that may be violating OpenAI's usage policies. \nThe IDs should be a string that uniquely identifies each user. We recommend hashing their username or email address, in order to avoid sending us any identifying information. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#safety-identifiers).\n"]
+    #[serde(rename = "safety_identifier")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub safety_identifier: Option<String>,
+    #[doc = "Used by OpenAI to cache responses for similar requests to optimize your cache hit rates. Replaces the `user` field. [Learn more](https://platform.openai.com/docs/guides/prompt-caching).\n"]
+    #[serde(rename = "prompt_cache_key")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub prompt_cache_key: Option<String>,
     #[serde(rename = "service_tier")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -9143,125 +9900,14 @@ pub struct CreateModelResponseProperties {
     #[builder(default)]
     pub top_logprobs: Option<i64>,
 }
-#[doc = "Always `image_url`."]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct CreateModerationRequestInput2ImageUrlType;
-impl_serde!(CreateModerationRequestInput2ImageUrlType, "image_url");
-#[doc = "Contains either an image URL or a data URL for a base64 encoded image."]
-#[derive(Clone, Debug, PartialEq)]
-#[serde_with::serde_as]
-#[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct CreateModerationRequestInput2ImageUrlImageUrl {
-    #[doc = "Either a URL of the image or the base64 encoded image data."]
-    #[serde(rename = "url")]
-    pub url: String,
-}
-#[doc = "An object describing an image to classify."]
-#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
-pub struct CreateModerationRequestInput2ImageUrl {
-    #[doc = "Contains either an image URL or a data URL for a base64 encoded image."]
-    pub image_url: crate::__types::CreateModerationRequestInput2ImageUrlImageUrl,
-}
-impl<'de> serde::Deserialize<'de> for CreateModerationRequestInput2ImageUrl {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        struct CreateModerationRequestInput2ImageUrl {
-            #[serde(rename = "type")]
-            #[allow(dead_code)]
-            r#type: crate::__types::CreateModerationRequestInput2ImageUrlType,
-            #[serde(rename = "image_url")]
-            image_url: crate::__types::CreateModerationRequestInput2ImageUrlImageUrl,
-        }
-        let CreateModerationRequestInput2ImageUrl { image_url, .. } =
-            CreateModerationRequestInput2ImageUrl::deserialize(deserializer)?;
-        Ok(Self { image_url })
-    }
-}
-impl serde::Serialize for CreateModerationRequestInput2ImageUrl {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        struct CreateModerationRequestInput2ImageUrl<'a> {
-            #[serde(rename = "type")]
-            r#type: &'a crate::__types::CreateModerationRequestInput2ImageUrlType,
-            #[serde(rename = "image_url")]
-            image_url: &'a crate::__types::CreateModerationRequestInput2ImageUrlImageUrl,
-        }
-        let Self { image_url } = self;
-        CreateModerationRequestInput2ImageUrl {
-            r#type: &Default::default(),
-            image_url,
-        }
-        .serialize(serializer)
-    }
-}
-#[doc = "Always `text`."]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct CreateModerationRequestInput2TextType;
-impl_serde!(CreateModerationRequestInput2TextType, "text");
-#[doc = "An object describing text to classify."]
-#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
-pub struct CreateModerationRequestInput2Text {
-    #[doc = "A string of text to classify."]
-    pub text: String,
-}
-impl<'de> serde::Deserialize<'de> for CreateModerationRequestInput2Text {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        struct CreateModerationRequestInput2Text {
-            #[serde(rename = "type")]
-            #[allow(dead_code)]
-            r#type: crate::__types::CreateModerationRequestInput2TextType,
-            #[serde(rename = "text")]
-            text: String,
-        }
-        let CreateModerationRequestInput2Text { text, .. } =
-            CreateModerationRequestInput2Text::deserialize(deserializer)?;
-        Ok(Self { text })
-    }
-}
-impl serde::Serialize for CreateModerationRequestInput2Text {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        struct CreateModerationRequestInput2Text<'a> {
-            #[serde(rename = "type")]
-            r#type: &'a crate::__types::CreateModerationRequestInput2TextType,
-            #[serde(rename = "text")]
-            text: &'a String,
-        }
-        let Self { text } = self;
-        CreateModerationRequestInput2Text {
-            r#type: &Default::default(),
-            text,
-        }
-        .serialize(serializer)
-    }
-}
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize)]
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
-pub enum CreateModerationRequestInput2 {
-    #[doc = "An object describing an image to classify."]
-    ImageUrl(crate::__types::CreateModerationRequestInput2ImageUrl),
-    #[doc = "An object describing text to classify."]
-    Text(crate::__types::CreateModerationRequestInput2Text),
+pub enum CreateModerationRequestInput2Item {
+    ImageUrl(crate::__types::ModerationImageUrlInput),
+    Text(crate::__types::ModerationTextInput),
 }
 #[doc = "Input (or inputs) to classify. Can be a single string, an array of strings, or\nan array of multi-modal input objects similar to other models.\n"]
 #[derive(Clone, Debug, PartialEq)]
@@ -9275,7 +9921,116 @@ pub enum CreateModerationRequestInput {
     #[doc = "An array of strings to classify for moderation."]
     ArrayOfString(Vec<String>),
     #[doc = "An array of multi-modal inputs to the moderation model."]
-    _2(Vec<crate::__types::CreateModerationRequestInput2>),
+    _2(Vec<crate::__types::CreateModerationRequestInput2Item>),
+}
+#[doc = "omni-moderation-latest"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateModerationRequestModelOmniModerationLatest;
+impl_serde!(
+    CreateModerationRequestModelOmniModerationLatest,
+    "omni-moderation-latest"
+);
+#[doc = "omni-moderation-2024-09-26"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateModerationRequestModelOmniModeration2024_09_26;
+impl_serde!(
+    CreateModerationRequestModelOmniModeration2024_09_26,
+    "omni-moderation-2024-09-26"
+);
+#[doc = "text-moderation-latest"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateModerationRequestModelTextModerationLatest;
+impl_serde!(
+    CreateModerationRequestModelTextModerationLatest,
+    "text-moderation-latest"
+);
+#[doc = "text-moderation-stable"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateModerationRequestModelTextModerationStable;
+impl_serde!(
+    CreateModerationRequestModelTextModerationStable,
+    "text-moderation-stable"
+);
+#[doc = "The content moderation model you would like to use. Learn more in\n[the moderation guide](https://platform.openai.com/docs/guides/moderation), and learn about\navailable models [here](https://platform.openai.com/docs/models#moderation).\n"]
+#[derive(Clone, Debug, PartialEq)]
+#[allow(clippy::large_enum_variant)]
+pub enum CreateModerationRequestModel {
+    Other(String),
+    #[doc = "omni-moderation-latest"]
+    OmniModerationLatest,
+    #[doc = "omni-moderation-2024-09-26"]
+    OmniModeration2024_09_26,
+    #[doc = "text-moderation-latest"]
+    TextModerationLatest,
+    #[doc = "text-moderation-stable"]
+    TextModerationStable,
+}
+impl<'de> serde::Deserialize<'de> for CreateModerationRequestModel {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
+        enum CreateModerationRequestModel {
+            OmniModerationLatest(crate::__types::CreateModerationRequestModelOmniModerationLatest),
+            OmniModeration2024_09_26(
+                crate::__types::CreateModerationRequestModelOmniModeration2024_09_26,
+            ),
+            TextModerationLatest(crate::__types::CreateModerationRequestModelTextModerationLatest),
+            TextModerationStable(crate::__types::CreateModerationRequestModelTextModerationStable),
+            Other(String),
+        }
+        Ok(
+            match CreateModerationRequestModel::deserialize(deserializer)? {
+                CreateModerationRequestModel::Other(v) => Self::Other(v),
+                CreateModerationRequestModel::OmniModerationLatest(_) => Self::OmniModerationLatest,
+                CreateModerationRequestModel::OmniModeration2024_09_26(_) => {
+                    Self::OmniModeration2024_09_26
+                }
+                CreateModerationRequestModel::TextModerationLatest(_) => Self::TextModerationLatest,
+                CreateModerationRequestModel::TextModerationStable(_) => Self::TextModerationStable,
+            },
+        )
+    }
+}
+impl serde::Serialize for CreateModerationRequestModel {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names)]
+        enum CreateModerationRequestModel<'a> {
+            Other(&'a String),
+            OmniModerationLatest(crate::__types::CreateModerationRequestModelOmniModerationLatest),
+            OmniModeration2024_09_26(
+                crate::__types::CreateModerationRequestModelOmniModeration2024_09_26,
+            ),
+            TextModerationLatest(crate::__types::CreateModerationRequestModelTextModerationLatest),
+            TextModerationStable(crate::__types::CreateModerationRequestModelTextModerationStable),
+        }
+        match self {
+            Self::Other(v) => CreateModerationRequestModel::Other(v),
+            Self::OmniModerationLatest => {
+                CreateModerationRequestModel::OmniModerationLatest(Default::default())
+            }
+            Self::OmniModeration2024_09_26 => {
+                CreateModerationRequestModel::OmniModeration2024_09_26(Default::default())
+            }
+            Self::TextModerationLatest => {
+                CreateModerationRequestModel::TextModerationLatest(Default::default())
+            }
+            Self::TextModerationStable => {
+                CreateModerationRequestModel::TextModerationStable(Default::default())
+            }
+        }
+        .serialize(serializer)
+    }
 }
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
@@ -9288,13 +10043,13 @@ pub struct CreateModerationRequest {
     #[serde(rename = "model")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub model: Option<String>,
+    pub model: Option<crate::__types::CreateModerationRequestModel>,
 }
 #[doc = "A list of the categories, and whether they are flagged or not."]
 #[derive(Clone, Copy, Debug, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct CreateModerationResponseResultCategories {
+pub struct CreateModerationResponseResultsItemCategories {
     #[doc = "Content that expresses, incites, or promotes hate based on race, gender, ethnicity, religion, nationality, sexual orientation, disability status, or caste. Hateful content aimed at non-protected groups (e.g., chess players) is harassment."]
     #[serde(rename = "hate")]
     pub hate: bool,
@@ -9343,7 +10098,7 @@ pub struct CreateModerationResponseResultCategories {
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct CreateModerationResponseResultCategoryScores {
+pub struct CreateModerationResponseResultsItemCategoryScores {
     #[doc = "The score for the category 'hate'."]
     #[serde(rename = "hate")]
     pub hate: serde_json::Number,
@@ -9386,48 +10141,48 @@ pub struct CreateModerationResponseResultCategoryScores {
 }
 #[doc = "text"]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
-pub struct CreateModerationResponseResultCategoryAppliedInputTypesHate;
+pub struct CreateModerationResponseResultsItemCategoryAppliedInputTypesHateItem;
 impl_serde!(
-    CreateModerationResponseResultCategoryAppliedInputTypesHate,
+    CreateModerationResponseResultsItemCategoryAppliedInputTypesHateItem,
     "text"
 );
 #[doc = "text"]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
-pub struct CreateModerationResponseResultCategoryAppliedInputTypesHateThreatening;
+pub struct CreateModerationResponseResultsItemCategoryAppliedInputTypesHateThreateningItem;
 impl_serde!(
-    CreateModerationResponseResultCategoryAppliedInputTypesHateThreatening,
+    CreateModerationResponseResultsItemCategoryAppliedInputTypesHateThreateningItem,
     "text"
 );
 #[doc = "text"]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
-pub struct CreateModerationResponseResultCategoryAppliedInputTypesHarassment;
+pub struct CreateModerationResponseResultsItemCategoryAppliedInputTypesHarassmentItem;
 impl_serde!(
-    CreateModerationResponseResultCategoryAppliedInputTypesHarassment,
+    CreateModerationResponseResultsItemCategoryAppliedInputTypesHarassmentItem,
     "text"
 );
 #[doc = "text"]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
-pub struct CreateModerationResponseResultCategoryAppliedInputTypesHarassmentThreatening;
+pub struct CreateModerationResponseResultsItemCategoryAppliedInputTypesHarassmentThreateningItem;
 impl_serde!(
-    CreateModerationResponseResultCategoryAppliedInputTypesHarassmentThreatening,
+    CreateModerationResponseResultsItemCategoryAppliedInputTypesHarassmentThreateningItem,
     "text"
 );
 #[doc = "text"]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
-pub struct CreateModerationResponseResultCategoryAppliedInputTypesIllicit;
+pub struct CreateModerationResponseResultsItemCategoryAppliedInputTypesIllicitItem;
 impl_serde!(
-    CreateModerationResponseResultCategoryAppliedInputTypesIllicit,
+    CreateModerationResponseResultsItemCategoryAppliedInputTypesIllicitItem,
     "text"
 );
 #[doc = "text"]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
-pub struct CreateModerationResponseResultCategoryAppliedInputTypesIllicitViolent;
+pub struct CreateModerationResponseResultsItemCategoryAppliedInputTypesIllicitViolentItem;
 impl_serde!(
-    CreateModerationResponseResultCategoryAppliedInputTypesIllicitViolent,
+    CreateModerationResponseResultsItemCategoryAppliedInputTypesIllicitViolentItem,
     "text"
 );
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum CreateModerationResponseResultCategoryAppliedInputTypesSelfHarm {
+pub enum CreateModerationResponseResultsItemCategoryAppliedInputTypesSelfHarmItem {
     #[doc = "`text`"]
     #[serde(rename = "text")]
     Text,
@@ -9436,7 +10191,7 @@ pub enum CreateModerationResponseResultCategoryAppliedInputTypesSelfHarm {
     Image,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum CreateModerationResponseResultCategoryAppliedInputTypesSelfHarmIntent {
+pub enum CreateModerationResponseResultsItemCategoryAppliedInputTypesSelfHarmIntentItem {
     #[doc = "`text`"]
     #[serde(rename = "text")]
     Text,
@@ -9445,7 +10200,7 @@ pub enum CreateModerationResponseResultCategoryAppliedInputTypesSelfHarmIntent {
     Image,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum CreateModerationResponseResultCategoryAppliedInputTypesSelfHarmInstructions {
+pub enum CreateModerationResponseResultsItemCategoryAppliedInputTypesSelfHarmInstructionsItem {
     #[doc = "`text`"]
     #[serde(rename = "text")]
     Text,
@@ -9454,7 +10209,7 @@ pub enum CreateModerationResponseResultCategoryAppliedInputTypesSelfHarmInstruct
     Image,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum CreateModerationResponseResultCategoryAppliedInputTypesSexual {
+pub enum CreateModerationResponseResultsItemCategoryAppliedInputTypesSexualItem {
     #[doc = "`text`"]
     #[serde(rename = "text")]
     Text,
@@ -9464,13 +10219,13 @@ pub enum CreateModerationResponseResultCategoryAppliedInputTypesSexual {
 }
 #[doc = "text"]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
-pub struct CreateModerationResponseResultCategoryAppliedInputTypesSexualMinors;
+pub struct CreateModerationResponseResultsItemCategoryAppliedInputTypesSexualMinorsItem;
 impl_serde!(
-    CreateModerationResponseResultCategoryAppliedInputTypesSexualMinors,
+    CreateModerationResponseResultsItemCategoryAppliedInputTypesSexualMinorsItem,
     "text"
 );
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum CreateModerationResponseResultCategoryAppliedInputTypesViolence {
+pub enum CreateModerationResponseResultsItemCategoryAppliedInputTypesViolenceItem {
     #[doc = "`text`"]
     #[serde(rename = "text")]
     Text,
@@ -9479,7 +10234,7 @@ pub enum CreateModerationResponseResultCategoryAppliedInputTypesViolence {
     Image,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum CreateModerationResponseResultCategoryAppliedInputTypesViolenceGraphic {
+pub enum CreateModerationResponseResultsItemCategoryAppliedInputTypesViolenceGraphicItem {
     #[doc = "`text`"]
     #[serde(rename = "text")]
     Text,
@@ -9491,24 +10246,24 @@ pub enum CreateModerationResponseResultCategoryAppliedInputTypesViolenceGraphic 
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct CreateModerationResponseResultCategoryAppliedInputTypes { # [doc = "The applied input type(s) for the category 'hate'."] # [serde (rename = "hate")] pub hate : Vec < crate :: __types :: CreateModerationResponseResultCategoryAppliedInputTypesHate > , # [doc = "The applied input type(s) for the category 'hate/threatening'."] # [serde (rename = "hate/threatening")] pub hate_threatening : Vec < crate :: __types :: CreateModerationResponseResultCategoryAppliedInputTypesHateThreatening > , # [doc = "The applied input type(s) for the category 'harassment'."] # [serde (rename = "harassment")] pub harassment : Vec < crate :: __types :: CreateModerationResponseResultCategoryAppliedInputTypesHarassment > , # [doc = "The applied input type(s) for the category 'harassment/threatening'."] # [serde (rename = "harassment/threatening")] pub harassment_threatening : Vec < crate :: __types :: CreateModerationResponseResultCategoryAppliedInputTypesHarassmentThreatening > , # [doc = "The applied input type(s) for the category 'illicit'."] # [serde (rename = "illicit")] pub illicit : Vec < crate :: __types :: CreateModerationResponseResultCategoryAppliedInputTypesIllicit > , # [doc = "The applied input type(s) for the category 'illicit/violent'."] # [serde (rename = "illicit/violent")] pub illicit_violent : Vec < crate :: __types :: CreateModerationResponseResultCategoryAppliedInputTypesIllicitViolent > , # [doc = "The applied input type(s) for the category 'self-harm'."] # [serde (rename = "self-harm")] pub self_harm : Vec < crate :: __types :: CreateModerationResponseResultCategoryAppliedInputTypesSelfHarm > , # [doc = "The applied input type(s) for the category 'self-harm/intent'."] # [serde (rename = "self-harm/intent")] pub self_harm_intent : Vec < crate :: __types :: CreateModerationResponseResultCategoryAppliedInputTypesSelfHarmIntent > , # [doc = "The applied input type(s) for the category 'self-harm/instructions'."] # [serde (rename = "self-harm/instructions")] pub self_harm_instructions : Vec < crate :: __types :: CreateModerationResponseResultCategoryAppliedInputTypesSelfHarmInstructions > , # [doc = "The applied input type(s) for the category 'sexual'."] # [serde (rename = "sexual")] pub sexual : Vec < crate :: __types :: CreateModerationResponseResultCategoryAppliedInputTypesSexual > , # [doc = "The applied input type(s) for the category 'sexual/minors'."] # [serde (rename = "sexual/minors")] pub sexual_minors : Vec < crate :: __types :: CreateModerationResponseResultCategoryAppliedInputTypesSexualMinors > , # [doc = "The applied input type(s) for the category 'violence'."] # [serde (rename = "violence")] pub violence : Vec < crate :: __types :: CreateModerationResponseResultCategoryAppliedInputTypesViolence > , # [doc = "The applied input type(s) for the category 'violence/graphic'."] # [serde (rename = "violence/graphic")] pub violence_graphic : Vec < crate :: __types :: CreateModerationResponseResultCategoryAppliedInputTypesViolenceGraphic > }
+pub struct CreateModerationResponseResultsItemCategoryAppliedInputTypes { # [doc = "The applied input type(s) for the category 'hate'."] # [serde (rename = "hate")] pub hate : Vec < crate :: __types :: CreateModerationResponseResultsItemCategoryAppliedInputTypesHateItem > , # [doc = "The applied input type(s) for the category 'hate/threatening'."] # [serde (rename = "hate/threatening")] pub hate_threatening : Vec < crate :: __types :: CreateModerationResponseResultsItemCategoryAppliedInputTypesHateThreateningItem > , # [doc = "The applied input type(s) for the category 'harassment'."] # [serde (rename = "harassment")] pub harassment : Vec < crate :: __types :: CreateModerationResponseResultsItemCategoryAppliedInputTypesHarassmentItem > , # [doc = "The applied input type(s) for the category 'harassment/threatening'."] # [serde (rename = "harassment/threatening")] pub harassment_threatening : Vec < crate :: __types :: CreateModerationResponseResultsItemCategoryAppliedInputTypesHarassmentThreateningItem > , # [doc = "The applied input type(s) for the category 'illicit'."] # [serde (rename = "illicit")] pub illicit : Vec < crate :: __types :: CreateModerationResponseResultsItemCategoryAppliedInputTypesIllicitItem > , # [doc = "The applied input type(s) for the category 'illicit/violent'."] # [serde (rename = "illicit/violent")] pub illicit_violent : Vec < crate :: __types :: CreateModerationResponseResultsItemCategoryAppliedInputTypesIllicitViolentItem > , # [doc = "The applied input type(s) for the category 'self-harm'."] # [serde (rename = "self-harm")] pub self_harm : Vec < crate :: __types :: CreateModerationResponseResultsItemCategoryAppliedInputTypesSelfHarmItem > , # [doc = "The applied input type(s) for the category 'self-harm/intent'."] # [serde (rename = "self-harm/intent")] pub self_harm_intent : Vec < crate :: __types :: CreateModerationResponseResultsItemCategoryAppliedInputTypesSelfHarmIntentItem > , # [doc = "The applied input type(s) for the category 'self-harm/instructions'."] # [serde (rename = "self-harm/instructions")] pub self_harm_instructions : Vec < crate :: __types :: CreateModerationResponseResultsItemCategoryAppliedInputTypesSelfHarmInstructionsItem > , # [doc = "The applied input type(s) for the category 'sexual'."] # [serde (rename = "sexual")] pub sexual : Vec < crate :: __types :: CreateModerationResponseResultsItemCategoryAppliedInputTypesSexualItem > , # [doc = "The applied input type(s) for the category 'sexual/minors'."] # [serde (rename = "sexual/minors")] pub sexual_minors : Vec < crate :: __types :: CreateModerationResponseResultsItemCategoryAppliedInputTypesSexualMinorsItem > , # [doc = "The applied input type(s) for the category 'violence'."] # [serde (rename = "violence")] pub violence : Vec < crate :: __types :: CreateModerationResponseResultsItemCategoryAppliedInputTypesViolenceItem > , # [doc = "The applied input type(s) for the category 'violence/graphic'."] # [serde (rename = "violence/graphic")] pub violence_graphic : Vec < crate :: __types :: CreateModerationResponseResultsItemCategoryAppliedInputTypesViolenceGraphicItem > }
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct CreateModerationResponseResult {
+pub struct CreateModerationResponseResultsItem {
     #[doc = "Whether any of the below categories are flagged."]
     #[serde(rename = "flagged")]
     pub flagged: bool,
     #[doc = "A list of the categories, and whether they are flagged or not."]
     #[serde(rename = "categories")]
-    pub categories: crate::__types::CreateModerationResponseResultCategories,
+    pub categories: crate::__types::CreateModerationResponseResultsItemCategories,
     #[doc = "A list of the categories along with their scores as predicted by model."]
     #[serde(rename = "category_scores")]
-    pub category_scores: crate::__types::CreateModerationResponseResultCategoryScores,
+    pub category_scores: crate::__types::CreateModerationResponseResultsItemCategoryScores,
     #[doc = "A list of the categories along with the input type(s) that the score applies to."]
     #[serde(rename = "category_applied_input_types")]
     pub category_applied_input_types:
-        crate::__types::CreateModerationResponseResultCategoryAppliedInputTypes,
+        crate::__types::CreateModerationResponseResultsItemCategoryAppliedInputTypes,
 }
 #[doc = "Represents if a given text input is potentially harmful."]
 #[derive(Clone, Debug, PartialEq)]
@@ -9523,7 +10278,7 @@ pub struct CreateModerationResponse {
     pub model: String,
     #[doc = "A list of moderation objects."]
     #[serde(rename = "results")]
-    pub results: Vec<crate::__types::CreateModerationResponseResult>,
+    pub results: Vec<crate::__types::CreateModerationResponseResultsItem>,
 }
 #[doc = "Text, image, or file inputs to the model, used to generate a response.\n\nLearn more:\n- [Text inputs and outputs](https://platform.openai.com/docs/guides/text)\n- [Image inputs](https://platform.openai.com/docs/guides/images)\n- [File inputs](https://platform.openai.com/docs/guides/pdf-files)\n- [Conversation state](https://platform.openai.com/docs/guides/conversation-state)\n- [Function calling](https://platform.openai.com/docs/guides/function-calling)\n"]
 #[derive(Clone, Debug, PartialEq)]
@@ -9541,6 +10296,10 @@ pub enum CreateResponseInput {
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
 pub struct CreateResponse {
+    #[serde(rename = "text")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub text: Option<crate::__types::ModelResponsePropertiesText>,
     #[serde(rename = "metadata")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -9555,11 +10314,21 @@ pub struct CreateResponse {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub top_p: Option<serde_json::Number>,
-    #[doc = "A stable identifier for your end-users. \nUsed to boost cache hit rates by better bucketing similar requests and  to help OpenAI detect and prevent abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#end-user-ids).\n"]
+    #[doc = "This field is being replaced by `safety_identifier` and `prompt_cache_key`. Use `prompt_cache_key` instead to maintain caching optimizations.\nA stable identifier for your end-users. \nUsed to boost cache hit rates by better bucketing similar requests and  to help OpenAI detect and prevent abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#safety-identifiers).\n"]
     #[serde(rename = "user")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub user: Option<String>,
+    #[doc = "A stable identifier used to help detect users of your application that may be violating OpenAI's usage policies. \nThe IDs should be a string that uniquely identifies each user. We recommend hashing their username or email address, in order to avoid sending us any identifying information. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#safety-identifiers).\n"]
+    #[serde(rename = "safety_identifier")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub safety_identifier: Option<String>,
+    #[doc = "Used by OpenAI to cache responses for similar requests to optimize your cache hit rates. Replaces the `user` field. [Learn more](https://platform.openai.com/docs/guides/prompt-caching).\n"]
+    #[serde(rename = "prompt_cache_key")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub prompt_cache_key: Option<String>,
     #[serde(rename = "service_tier")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -9569,7 +10338,7 @@ pub struct CreateResponse {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub top_logprobs: Option<i64>,
-    #[doc = "The unique ID of the previous response to the model. Use this to\ncreate multi-turn conversations. Learn more about \n[conversation state](https://platform.openai.com/docs/guides/conversation-state).\n"]
+    #[doc = "The unique ID of the previous response to the model. Use this to\ncreate multi-turn conversations. Learn more about\n[conversation state](https://platform.openai.com/docs/guides/conversation-state).\n"]
     #[serde(rename = "previous_response_id")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -9583,7 +10352,7 @@ pub struct CreateResponse {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub reasoning: Option<crate::__types::Reasoning>,
-    #[doc = "Whether to run the model response in the background. \n[Learn more](https://platform.openai.com/docs/guides/background).\n"]
+    #[doc = "Whether to run the model response in the background.\n[Learn more](https://platform.openai.com/docs/guides/background).\n"]
     #[serde(rename = "background")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -9598,12 +10367,7 @@ pub struct CreateResponse {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub max_tool_calls: Option<i64>,
-    #[doc = "Configuration options for a text response from the model. Can be plain\ntext or structured JSON data. Learn more:\n- [Text inputs and outputs](https://platform.openai.com/docs/guides/text)\n- [Structured Outputs](https://platform.openai.com/docs/guides/structured-outputs)\n"]
-    #[serde(rename = "text")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default)]
-    pub text: Option<crate::__types::ResponsePropertiesText>,
-    #[doc = "An array of tools the model may call while generating a response. You \ncan specify which tool to use by setting the `tool_choice` parameter.\n\nThe two categories of tools you can provide the model are:\n\n- **Built-in tools**: Tools that are provided by OpenAI that extend the\n  model's capabilities, like [web search](https://platform.openai.com/docs/guides/tools-web-search)\n  or [file search](https://platform.openai.com/docs/guides/tools-file-search). Learn more about\n  [built-in tools](https://platform.openai.com/docs/guides/tools).\n- **Function calls (custom tools)**: Functions that are defined by you,\n  enabling the model to call your own code. Learn more about\n  [function calling](https://platform.openai.com/docs/guides/function-calling).\n"]
+    #[doc = "An array of tools the model may call while generating a response. You\ncan specify which tool to use by setting the `tool_choice` parameter.\n\nThe two categories of tools you can provide the model are:\n\n- **Built-in tools**: Tools that are provided by OpenAI that extend the\n  model's capabilities, like [web search](https://platform.openai.com/docs/guides/tools-web-search)\n  or [file search](https://platform.openai.com/docs/guides/tools-file-search). Learn more about\n  [built-in tools](https://platform.openai.com/docs/guides/tools).\n- **Function calls (custom tools)**: Functions that are defined by you,\n  enabling the model to call your own code with strongly typed arguments\n  and outputs. Learn more about\n  [function calling](https://platform.openai.com/docs/guides/function-calling). You can also use\n  custom tools to call your own code.\n"]
     #[serde(rename = "tools")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -9617,7 +10381,7 @@ pub struct CreateResponse {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub prompt: Option<crate::__types::Prompt>,
-    #[doc = "The truncation strategy to use for the model response.\n- `auto`: If the context of this response and previous ones exceeds\n  the model's context window size, the model will truncate the \n  response to fit the context window by dropping input items in the\n  middle of the conversation. \n- `disabled` (default): If a model response will exceed the context window \n  size for a model, the request will fail with a 400 error.\n"]
+    #[doc = "The truncation strategy to use for the model response.\n- `auto`: If the context of this response and previous ones exceeds\n  the model's context window size, the model will truncate the\n  response to fit the context window by dropping input items in the\n  middle of the conversation.\n- `disabled` (default): If a model response will exceed the context window\n  size for a model, the request will fail with a 400 error.\n"]
     #[serde(rename = "truncation")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -9652,16 +10416,56 @@ pub struct CreateResponse {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub stream: Option<bool>,
+    #[serde(rename = "stream_options")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub stream_options: Option<crate::__types::ResponseStreamOptions>,
 }
+#[doc = "The ID of the [Model](https://platform.openai.com/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used."]
 #[derive(Clone, Debug, PartialEq)]
-#[serde_with::serde_as]
-#[derive(serde :: Deserialize, serde :: Serialize)]
-#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
-pub enum CreateRunRequestTool {
-    CodeInterpreter(crate::__types::AssistantToolsCode),
-    FileSearch(crate::__types::AssistantToolsFileSearch),
-    Function(crate::__types::AssistantToolsFunction),
+pub enum CreateRunRequestModel {
+    Other(String),
+    AssistantSupportedModels(crate::__types::AssistantSupportedModels),
+}
+impl<'de> serde::Deserialize<'de> for CreateRunRequestModel {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
+        enum CreateRunRequestModel {
+            AssistantSupportedModels(crate::__types::AssistantSupportedModels),
+            Other(String),
+        }
+        Ok(match CreateRunRequestModel::deserialize(deserializer)? {
+            CreateRunRequestModel::Other(v) => Self::Other(v),
+            CreateRunRequestModel::AssistantSupportedModels(v) => Self::AssistantSupportedModels(v),
+        })
+    }
+}
+impl serde::Serialize for CreateRunRequestModel {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names)]
+        enum CreateRunRequestModel<'a> {
+            Other(&'a String),
+            AssistantSupportedModels(&'a crate::__types::AssistantSupportedModels),
+        }
+        match self {
+            Self::Other(v) => CreateRunRequestModel::Other(v),
+            Self::AssistantSupportedModels(v) => CreateRunRequestModel::AssistantSupportedModels(v),
+        }
+        .serialize(serializer)
+    }
 }
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
@@ -9674,7 +10478,7 @@ pub struct CreateRunRequest {
     #[serde(rename = "model")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub model: Option<String>,
+    pub model: Option<crate::__types::CreateRunRequestModel>,
     #[serde(rename = "reasoning_effort")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -9698,7 +10502,7 @@ pub struct CreateRunRequest {
     #[serde(rename = "tools")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub tools: Option<Vec<crate::__types::CreateRunRequestTool>>,
+    pub tools: Option<Vec<crate::__types::AssistantTool>>,
     #[serde(rename = "metadata")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -9745,6 +10549,77 @@ pub struct CreateRunRequest {
     #[builder(default)]
     pub response_format: Option<crate::__types::AssistantsApiResponseFormatOption>,
 }
+#[doc = "tts-1"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateSpeechRequestModelTts1;
+impl_serde!(CreateSpeechRequestModelTts1, "tts-1");
+#[doc = "tts-1-hd"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateSpeechRequestModelTts1Hd;
+impl_serde!(CreateSpeechRequestModelTts1Hd, "tts-1-hd");
+#[doc = "gpt-4o-mini-tts"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateSpeechRequestModelGpt4oMiniTts;
+impl_serde!(CreateSpeechRequestModelGpt4oMiniTts, "gpt-4o-mini-tts");
+#[doc = "One of the available [TTS models](https://platform.openai.com/docs/models#tts): `tts-1`, `tts-1-hd` or `gpt-4o-mini-tts`.\n"]
+#[derive(Clone, Debug, PartialEq)]
+#[allow(clippy::large_enum_variant)]
+pub enum CreateSpeechRequestModel {
+    Other(String),
+    #[doc = "tts-1"]
+    Tts1,
+    #[doc = "tts-1-hd"]
+    Tts1Hd,
+    #[doc = "gpt-4o-mini-tts"]
+    Gpt4oMiniTts,
+}
+impl<'de> serde::Deserialize<'de> for CreateSpeechRequestModel {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
+        enum CreateSpeechRequestModel {
+            Tts1(crate::__types::CreateSpeechRequestModelTts1),
+            Tts1Hd(crate::__types::CreateSpeechRequestModelTts1Hd),
+            Gpt4oMiniTts(crate::__types::CreateSpeechRequestModelGpt4oMiniTts),
+            Other(String),
+        }
+        Ok(match CreateSpeechRequestModel::deserialize(deserializer)? {
+            CreateSpeechRequestModel::Other(v) => Self::Other(v),
+            CreateSpeechRequestModel::Tts1(_) => Self::Tts1,
+            CreateSpeechRequestModel::Tts1Hd(_) => Self::Tts1Hd,
+            CreateSpeechRequestModel::Gpt4oMiniTts(_) => Self::Gpt4oMiniTts,
+        })
+    }
+}
+impl serde::Serialize for CreateSpeechRequestModel {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names)]
+        enum CreateSpeechRequestModel<'a> {
+            Other(&'a String),
+            Tts1(crate::__types::CreateSpeechRequestModelTts1),
+            Tts1Hd(crate::__types::CreateSpeechRequestModelTts1Hd),
+            Gpt4oMiniTts(crate::__types::CreateSpeechRequestModelGpt4oMiniTts),
+        }
+        match self {
+            Self::Other(v) => CreateSpeechRequestModel::Other(v),
+            Self::Tts1 => CreateSpeechRequestModel::Tts1(Default::default()),
+            Self::Tts1Hd => CreateSpeechRequestModel::Tts1Hd(Default::default()),
+            Self::Gpt4oMiniTts => CreateSpeechRequestModel::Gpt4oMiniTts(Default::default()),
+        }
+        .serialize(serializer)
+    }
+}
 #[doc = "The format to audio in. Supported formats are `mp3`, `opus`, `aac`, `flac`, `wav`, and `pcm`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateSpeechRequestResponseFormat {
@@ -9785,7 +10660,7 @@ pub enum CreateSpeechRequestStreamFormat {
 pub struct CreateSpeechRequest {
     #[doc = "One of the available [TTS models](https://platform.openai.com/docs/models#tts): `tts-1`, `tts-1-hd` or `gpt-4o-mini-tts`.\n"]
     #[serde(rename = "model")]
-    pub model: String,
+    pub model: crate::__types::CreateSpeechRequestModel,
     #[doc = "The text to generate audio for. The maximum length is 4096 characters."]
     #[serde(rename = "input")]
     pub input: String,
@@ -9822,15 +10697,556 @@ pub enum CreateSpeechResponseStreamEvent {
     SpeechAudioDelta(crate::__types::SpeechAudioDeltaEvent),
     SpeechAudioDone(crate::__types::SpeechAudioDoneEvent),
 }
+#[doc = "gpt-5"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestModelGpt5;
+impl_serde!(CreateThreadAndRunRequestModelGpt5, "gpt-5");
+#[doc = "gpt-5-mini"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestModelGpt5Mini;
+impl_serde!(CreateThreadAndRunRequestModelGpt5Mini, "gpt-5-mini");
+#[doc = "gpt-5-nano"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestModelGpt5Nano;
+impl_serde!(CreateThreadAndRunRequestModelGpt5Nano, "gpt-5-nano");
+#[doc = "gpt-5-2025-08-07"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestModelGpt5_2025_08_07;
+impl_serde!(
+    CreateThreadAndRunRequestModelGpt5_2025_08_07,
+    "gpt-5-2025-08-07"
+);
+#[doc = "gpt-5-mini-2025-08-07"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestModelGpt5Mini2025_08_07;
+impl_serde!(
+    CreateThreadAndRunRequestModelGpt5Mini2025_08_07,
+    "gpt-5-mini-2025-08-07"
+);
+#[doc = "gpt-5-nano-2025-08-07"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestModelGpt5Nano2025_08_07;
+impl_serde!(
+    CreateThreadAndRunRequestModelGpt5Nano2025_08_07,
+    "gpt-5-nano-2025-08-07"
+);
+#[doc = "gpt-4.1"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestModelGpt4_1;
+impl_serde!(CreateThreadAndRunRequestModelGpt4_1, "gpt-4.1");
+#[doc = "gpt-4.1-mini"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestModelGpt4_1Mini;
+impl_serde!(CreateThreadAndRunRequestModelGpt4_1Mini, "gpt-4.1-mini");
+#[doc = "gpt-4.1-nano"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestModelGpt4_1Nano;
+impl_serde!(CreateThreadAndRunRequestModelGpt4_1Nano, "gpt-4.1-nano");
+#[doc = "gpt-4.1-2025-04-14"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestModelGpt4_1_2025_04_14;
+impl_serde!(
+    CreateThreadAndRunRequestModelGpt4_1_2025_04_14,
+    "gpt-4.1-2025-04-14"
+);
+#[doc = "gpt-4.1-mini-2025-04-14"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestModelGpt4_1Mini2025_04_14;
+impl_serde!(
+    CreateThreadAndRunRequestModelGpt4_1Mini2025_04_14,
+    "gpt-4.1-mini-2025-04-14"
+);
+#[doc = "gpt-4.1-nano-2025-04-14"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestModelGpt4_1Nano2025_04_14;
+impl_serde!(
+    CreateThreadAndRunRequestModelGpt4_1Nano2025_04_14,
+    "gpt-4.1-nano-2025-04-14"
+);
+#[doc = "gpt-4o"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestModelGpt4o;
+impl_serde!(CreateThreadAndRunRequestModelGpt4o, "gpt-4o");
+#[doc = "gpt-4o-2024-11-20"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestModelGpt4o2024_11_20;
+impl_serde!(
+    CreateThreadAndRunRequestModelGpt4o2024_11_20,
+    "gpt-4o-2024-11-20"
+);
+#[doc = "gpt-4o-2024-08-06"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestModelGpt4o2024_08_06;
+impl_serde!(
+    CreateThreadAndRunRequestModelGpt4o2024_08_06,
+    "gpt-4o-2024-08-06"
+);
+#[doc = "gpt-4o-2024-05-13"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestModelGpt4o2024_05_13;
+impl_serde!(
+    CreateThreadAndRunRequestModelGpt4o2024_05_13,
+    "gpt-4o-2024-05-13"
+);
+#[doc = "gpt-4o-mini"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestModelGpt4oMini;
+impl_serde!(CreateThreadAndRunRequestModelGpt4oMini, "gpt-4o-mini");
+#[doc = "gpt-4o-mini-2024-07-18"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestModelGpt4oMini2024_07_18;
+impl_serde!(
+    CreateThreadAndRunRequestModelGpt4oMini2024_07_18,
+    "gpt-4o-mini-2024-07-18"
+);
+#[doc = "gpt-4.5-preview"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestModelGpt4_5Preview;
+impl_serde!(
+    CreateThreadAndRunRequestModelGpt4_5Preview,
+    "gpt-4.5-preview"
+);
+#[doc = "gpt-4.5-preview-2025-02-27"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestModelGpt4_5Preview2025_02_27;
+impl_serde!(
+    CreateThreadAndRunRequestModelGpt4_5Preview2025_02_27,
+    "gpt-4.5-preview-2025-02-27"
+);
+#[doc = "gpt-4-turbo"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestModelGpt4Turbo;
+impl_serde!(CreateThreadAndRunRequestModelGpt4Turbo, "gpt-4-turbo");
+#[doc = "gpt-4-turbo-2024-04-09"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestModelGpt4Turbo2024_04_09;
+impl_serde!(
+    CreateThreadAndRunRequestModelGpt4Turbo2024_04_09,
+    "gpt-4-turbo-2024-04-09"
+);
+#[doc = "gpt-4-0125-preview"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestModelGpt4_0125Preview;
+impl_serde!(
+    CreateThreadAndRunRequestModelGpt4_0125Preview,
+    "gpt-4-0125-preview"
+);
+#[doc = "gpt-4-turbo-preview"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestModelGpt4TurboPreview;
+impl_serde!(
+    CreateThreadAndRunRequestModelGpt4TurboPreview,
+    "gpt-4-turbo-preview"
+);
+#[doc = "gpt-4-1106-preview"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestModelGpt4_1106Preview;
+impl_serde!(
+    CreateThreadAndRunRequestModelGpt4_1106Preview,
+    "gpt-4-1106-preview"
+);
+#[doc = "gpt-4-vision-preview"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestModelGpt4VisionPreview;
+impl_serde!(
+    CreateThreadAndRunRequestModelGpt4VisionPreview,
+    "gpt-4-vision-preview"
+);
+#[doc = "gpt-4"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestModelGpt4;
+impl_serde!(CreateThreadAndRunRequestModelGpt4, "gpt-4");
+#[doc = "gpt-4-0314"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestModelGpt4_0314;
+impl_serde!(CreateThreadAndRunRequestModelGpt4_0314, "gpt-4-0314");
+#[doc = "gpt-4-0613"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestModelGpt4_0613;
+impl_serde!(CreateThreadAndRunRequestModelGpt4_0613, "gpt-4-0613");
+#[doc = "gpt-4-32k"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestModelGpt4_32k;
+impl_serde!(CreateThreadAndRunRequestModelGpt4_32k, "gpt-4-32k");
+#[doc = "gpt-4-32k-0314"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestModelGpt4_32k0314;
+impl_serde!(CreateThreadAndRunRequestModelGpt4_32k0314, "gpt-4-32k-0314");
+#[doc = "gpt-4-32k-0613"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestModelGpt4_32k0613;
+impl_serde!(CreateThreadAndRunRequestModelGpt4_32k0613, "gpt-4-32k-0613");
+#[doc = "gpt-3.5-turbo"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestModelGpt3_5Turbo;
+impl_serde!(CreateThreadAndRunRequestModelGpt3_5Turbo, "gpt-3.5-turbo");
+#[doc = "gpt-3.5-turbo-16k"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestModelGpt3_5Turbo16k;
+impl_serde!(
+    CreateThreadAndRunRequestModelGpt3_5Turbo16k,
+    "gpt-3.5-turbo-16k"
+);
+#[doc = "gpt-3.5-turbo-0613"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestModelGpt3_5Turbo0613;
+impl_serde!(
+    CreateThreadAndRunRequestModelGpt3_5Turbo0613,
+    "gpt-3.5-turbo-0613"
+);
+#[doc = "gpt-3.5-turbo-1106"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestModelGpt3_5Turbo1106;
+impl_serde!(
+    CreateThreadAndRunRequestModelGpt3_5Turbo1106,
+    "gpt-3.5-turbo-1106"
+);
+#[doc = "gpt-3.5-turbo-0125"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestModelGpt3_5Turbo0125;
+impl_serde!(
+    CreateThreadAndRunRequestModelGpt3_5Turbo0125,
+    "gpt-3.5-turbo-0125"
+);
+#[doc = "gpt-3.5-turbo-16k-0613"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestModelGpt3_5Turbo16k0613;
+impl_serde!(
+    CreateThreadAndRunRequestModelGpt3_5Turbo16k0613,
+    "gpt-3.5-turbo-16k-0613"
+);
+#[doc = "The ID of the [Model](https://platform.openai.com/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used."]
 #[derive(Clone, Debug, PartialEq)]
-#[serde_with::serde_as]
-#[derive(serde :: Deserialize, serde :: Serialize)]
-#[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
-pub enum CreateThreadAndRunRequestTool {
-    CodeInterpreter(crate::__types::AssistantToolsCode),
-    FileSearch(crate::__types::AssistantToolsFileSearch),
-    Function(crate::__types::AssistantToolsFunction),
+pub enum CreateThreadAndRunRequestModel {
+    Other(String),
+    #[doc = "gpt-5"]
+    Gpt5,
+    #[doc = "gpt-5-mini"]
+    Gpt5Mini,
+    #[doc = "gpt-5-nano"]
+    Gpt5Nano,
+    #[doc = "gpt-5-2025-08-07"]
+    Gpt5_2025_08_07,
+    #[doc = "gpt-5-mini-2025-08-07"]
+    Gpt5Mini2025_08_07,
+    #[doc = "gpt-5-nano-2025-08-07"]
+    Gpt5Nano2025_08_07,
+    #[doc = "gpt-4.1"]
+    Gpt4_1,
+    #[doc = "gpt-4.1-mini"]
+    Gpt4_1Mini,
+    #[doc = "gpt-4.1-nano"]
+    Gpt4_1Nano,
+    #[doc = "gpt-4.1-2025-04-14"]
+    Gpt4_1_2025_04_14,
+    #[doc = "gpt-4.1-mini-2025-04-14"]
+    Gpt4_1Mini2025_04_14,
+    #[doc = "gpt-4.1-nano-2025-04-14"]
+    Gpt4_1Nano2025_04_14,
+    #[doc = "gpt-4o"]
+    Gpt4o,
+    #[doc = "gpt-4o-2024-11-20"]
+    Gpt4o2024_11_20,
+    #[doc = "gpt-4o-2024-08-06"]
+    Gpt4o2024_08_06,
+    #[doc = "gpt-4o-2024-05-13"]
+    Gpt4o2024_05_13,
+    #[doc = "gpt-4o-mini"]
+    Gpt4oMini,
+    #[doc = "gpt-4o-mini-2024-07-18"]
+    Gpt4oMini2024_07_18,
+    #[doc = "gpt-4.5-preview"]
+    Gpt4_5Preview,
+    #[doc = "gpt-4.5-preview-2025-02-27"]
+    Gpt4_5Preview2025_02_27,
+    #[doc = "gpt-4-turbo"]
+    Gpt4Turbo,
+    #[doc = "gpt-4-turbo-2024-04-09"]
+    Gpt4Turbo2024_04_09,
+    #[doc = "gpt-4-0125-preview"]
+    Gpt4_0125Preview,
+    #[doc = "gpt-4-turbo-preview"]
+    Gpt4TurboPreview,
+    #[doc = "gpt-4-1106-preview"]
+    Gpt4_1106Preview,
+    #[doc = "gpt-4-vision-preview"]
+    Gpt4VisionPreview,
+    #[doc = "gpt-4"]
+    Gpt4,
+    #[doc = "gpt-4-0314"]
+    Gpt4_0314,
+    #[doc = "gpt-4-0613"]
+    Gpt4_0613,
+    #[doc = "gpt-4-32k"]
+    Gpt4_32k,
+    #[doc = "gpt-4-32k-0314"]
+    Gpt4_32k0314,
+    #[doc = "gpt-4-32k-0613"]
+    Gpt4_32k0613,
+    #[doc = "gpt-3.5-turbo"]
+    Gpt3_5Turbo,
+    #[doc = "gpt-3.5-turbo-16k"]
+    Gpt3_5Turbo16k,
+    #[doc = "gpt-3.5-turbo-0613"]
+    Gpt3_5Turbo0613,
+    #[doc = "gpt-3.5-turbo-1106"]
+    Gpt3_5Turbo1106,
+    #[doc = "gpt-3.5-turbo-0125"]
+    Gpt3_5Turbo0125,
+    #[doc = "gpt-3.5-turbo-16k-0613"]
+    Gpt3_5Turbo16k0613,
+}
+impl<'de> serde::Deserialize<'de> for CreateThreadAndRunRequestModel {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
+        enum CreateThreadAndRunRequestModel {
+            Gpt5(crate::__types::CreateThreadAndRunRequestModelGpt5),
+            Gpt5Mini(crate::__types::CreateThreadAndRunRequestModelGpt5Mini),
+            Gpt5Nano(crate::__types::CreateThreadAndRunRequestModelGpt5Nano),
+            Gpt5_2025_08_07(crate::__types::CreateThreadAndRunRequestModelGpt5_2025_08_07),
+            Gpt5Mini2025_08_07(crate::__types::CreateThreadAndRunRequestModelGpt5Mini2025_08_07),
+            Gpt5Nano2025_08_07(crate::__types::CreateThreadAndRunRequestModelGpt5Nano2025_08_07),
+            Gpt4_1(crate::__types::CreateThreadAndRunRequestModelGpt4_1),
+            Gpt4_1Mini(crate::__types::CreateThreadAndRunRequestModelGpt4_1Mini),
+            Gpt4_1Nano(crate::__types::CreateThreadAndRunRequestModelGpt4_1Nano),
+            Gpt4_1_2025_04_14(crate::__types::CreateThreadAndRunRequestModelGpt4_1_2025_04_14),
+            Gpt4_1Mini2025_04_14(
+                crate::__types::CreateThreadAndRunRequestModelGpt4_1Mini2025_04_14,
+            ),
+            Gpt4_1Nano2025_04_14(
+                crate::__types::CreateThreadAndRunRequestModelGpt4_1Nano2025_04_14,
+            ),
+            Gpt4o(crate::__types::CreateThreadAndRunRequestModelGpt4o),
+            Gpt4o2024_11_20(crate::__types::CreateThreadAndRunRequestModelGpt4o2024_11_20),
+            Gpt4o2024_08_06(crate::__types::CreateThreadAndRunRequestModelGpt4o2024_08_06),
+            Gpt4o2024_05_13(crate::__types::CreateThreadAndRunRequestModelGpt4o2024_05_13),
+            Gpt4oMini(crate::__types::CreateThreadAndRunRequestModelGpt4oMini),
+            Gpt4oMini2024_07_18(crate::__types::CreateThreadAndRunRequestModelGpt4oMini2024_07_18),
+            Gpt4_5Preview(crate::__types::CreateThreadAndRunRequestModelGpt4_5Preview),
+            Gpt4_5Preview2025_02_27(
+                crate::__types::CreateThreadAndRunRequestModelGpt4_5Preview2025_02_27,
+            ),
+            Gpt4Turbo(crate::__types::CreateThreadAndRunRequestModelGpt4Turbo),
+            Gpt4Turbo2024_04_09(crate::__types::CreateThreadAndRunRequestModelGpt4Turbo2024_04_09),
+            Gpt4_0125Preview(crate::__types::CreateThreadAndRunRequestModelGpt4_0125Preview),
+            Gpt4TurboPreview(crate::__types::CreateThreadAndRunRequestModelGpt4TurboPreview),
+            Gpt4_1106Preview(crate::__types::CreateThreadAndRunRequestModelGpt4_1106Preview),
+            Gpt4VisionPreview(crate::__types::CreateThreadAndRunRequestModelGpt4VisionPreview),
+            Gpt4(crate::__types::CreateThreadAndRunRequestModelGpt4),
+            Gpt4_0314(crate::__types::CreateThreadAndRunRequestModelGpt4_0314),
+            Gpt4_0613(crate::__types::CreateThreadAndRunRequestModelGpt4_0613),
+            Gpt4_32k(crate::__types::CreateThreadAndRunRequestModelGpt4_32k),
+            Gpt4_32k0314(crate::__types::CreateThreadAndRunRequestModelGpt4_32k0314),
+            Gpt4_32k0613(crate::__types::CreateThreadAndRunRequestModelGpt4_32k0613),
+            Gpt3_5Turbo(crate::__types::CreateThreadAndRunRequestModelGpt3_5Turbo),
+            Gpt3_5Turbo16k(crate::__types::CreateThreadAndRunRequestModelGpt3_5Turbo16k),
+            Gpt3_5Turbo0613(crate::__types::CreateThreadAndRunRequestModelGpt3_5Turbo0613),
+            Gpt3_5Turbo1106(crate::__types::CreateThreadAndRunRequestModelGpt3_5Turbo1106),
+            Gpt3_5Turbo0125(crate::__types::CreateThreadAndRunRequestModelGpt3_5Turbo0125),
+            Gpt3_5Turbo16k0613(crate::__types::CreateThreadAndRunRequestModelGpt3_5Turbo16k0613),
+            Other(String),
+        }
+        Ok(
+            match CreateThreadAndRunRequestModel::deserialize(deserializer)? {
+                CreateThreadAndRunRequestModel::Other(v) => Self::Other(v),
+                CreateThreadAndRunRequestModel::Gpt5(_) => Self::Gpt5,
+                CreateThreadAndRunRequestModel::Gpt5Mini(_) => Self::Gpt5Mini,
+                CreateThreadAndRunRequestModel::Gpt5Nano(_) => Self::Gpt5Nano,
+                CreateThreadAndRunRequestModel::Gpt5_2025_08_07(_) => Self::Gpt5_2025_08_07,
+                CreateThreadAndRunRequestModel::Gpt5Mini2025_08_07(_) => Self::Gpt5Mini2025_08_07,
+                CreateThreadAndRunRequestModel::Gpt5Nano2025_08_07(_) => Self::Gpt5Nano2025_08_07,
+                CreateThreadAndRunRequestModel::Gpt4_1(_) => Self::Gpt4_1,
+                CreateThreadAndRunRequestModel::Gpt4_1Mini(_) => Self::Gpt4_1Mini,
+                CreateThreadAndRunRequestModel::Gpt4_1Nano(_) => Self::Gpt4_1Nano,
+                CreateThreadAndRunRequestModel::Gpt4_1_2025_04_14(_) => Self::Gpt4_1_2025_04_14,
+                CreateThreadAndRunRequestModel::Gpt4_1Mini2025_04_14(_) => {
+                    Self::Gpt4_1Mini2025_04_14
+                }
+                CreateThreadAndRunRequestModel::Gpt4_1Nano2025_04_14(_) => {
+                    Self::Gpt4_1Nano2025_04_14
+                }
+                CreateThreadAndRunRequestModel::Gpt4o(_) => Self::Gpt4o,
+                CreateThreadAndRunRequestModel::Gpt4o2024_11_20(_) => Self::Gpt4o2024_11_20,
+                CreateThreadAndRunRequestModel::Gpt4o2024_08_06(_) => Self::Gpt4o2024_08_06,
+                CreateThreadAndRunRequestModel::Gpt4o2024_05_13(_) => Self::Gpt4o2024_05_13,
+                CreateThreadAndRunRequestModel::Gpt4oMini(_) => Self::Gpt4oMini,
+                CreateThreadAndRunRequestModel::Gpt4oMini2024_07_18(_) => Self::Gpt4oMini2024_07_18,
+                CreateThreadAndRunRequestModel::Gpt4_5Preview(_) => Self::Gpt4_5Preview,
+                CreateThreadAndRunRequestModel::Gpt4_5Preview2025_02_27(_) => {
+                    Self::Gpt4_5Preview2025_02_27
+                }
+                CreateThreadAndRunRequestModel::Gpt4Turbo(_) => Self::Gpt4Turbo,
+                CreateThreadAndRunRequestModel::Gpt4Turbo2024_04_09(_) => Self::Gpt4Turbo2024_04_09,
+                CreateThreadAndRunRequestModel::Gpt4_0125Preview(_) => Self::Gpt4_0125Preview,
+                CreateThreadAndRunRequestModel::Gpt4TurboPreview(_) => Self::Gpt4TurboPreview,
+                CreateThreadAndRunRequestModel::Gpt4_1106Preview(_) => Self::Gpt4_1106Preview,
+                CreateThreadAndRunRequestModel::Gpt4VisionPreview(_) => Self::Gpt4VisionPreview,
+                CreateThreadAndRunRequestModel::Gpt4(_) => Self::Gpt4,
+                CreateThreadAndRunRequestModel::Gpt4_0314(_) => Self::Gpt4_0314,
+                CreateThreadAndRunRequestModel::Gpt4_0613(_) => Self::Gpt4_0613,
+                CreateThreadAndRunRequestModel::Gpt4_32k(_) => Self::Gpt4_32k,
+                CreateThreadAndRunRequestModel::Gpt4_32k0314(_) => Self::Gpt4_32k0314,
+                CreateThreadAndRunRequestModel::Gpt4_32k0613(_) => Self::Gpt4_32k0613,
+                CreateThreadAndRunRequestModel::Gpt3_5Turbo(_) => Self::Gpt3_5Turbo,
+                CreateThreadAndRunRequestModel::Gpt3_5Turbo16k(_) => Self::Gpt3_5Turbo16k,
+                CreateThreadAndRunRequestModel::Gpt3_5Turbo0613(_) => Self::Gpt3_5Turbo0613,
+                CreateThreadAndRunRequestModel::Gpt3_5Turbo1106(_) => Self::Gpt3_5Turbo1106,
+                CreateThreadAndRunRequestModel::Gpt3_5Turbo0125(_) => Self::Gpt3_5Turbo0125,
+                CreateThreadAndRunRequestModel::Gpt3_5Turbo16k0613(_) => Self::Gpt3_5Turbo16k0613,
+            },
+        )
+    }
+}
+impl serde::Serialize for CreateThreadAndRunRequestModel {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names)]
+        enum CreateThreadAndRunRequestModel<'a> {
+            Other(&'a String),
+            Gpt5(crate::__types::CreateThreadAndRunRequestModelGpt5),
+            Gpt5Mini(crate::__types::CreateThreadAndRunRequestModelGpt5Mini),
+            Gpt5Nano(crate::__types::CreateThreadAndRunRequestModelGpt5Nano),
+            Gpt5_2025_08_07(crate::__types::CreateThreadAndRunRequestModelGpt5_2025_08_07),
+            Gpt5Mini2025_08_07(crate::__types::CreateThreadAndRunRequestModelGpt5Mini2025_08_07),
+            Gpt5Nano2025_08_07(crate::__types::CreateThreadAndRunRequestModelGpt5Nano2025_08_07),
+            Gpt4_1(crate::__types::CreateThreadAndRunRequestModelGpt4_1),
+            Gpt4_1Mini(crate::__types::CreateThreadAndRunRequestModelGpt4_1Mini),
+            Gpt4_1Nano(crate::__types::CreateThreadAndRunRequestModelGpt4_1Nano),
+            Gpt4_1_2025_04_14(crate::__types::CreateThreadAndRunRequestModelGpt4_1_2025_04_14),
+            Gpt4_1Mini2025_04_14(
+                crate::__types::CreateThreadAndRunRequestModelGpt4_1Mini2025_04_14,
+            ),
+            Gpt4_1Nano2025_04_14(
+                crate::__types::CreateThreadAndRunRequestModelGpt4_1Nano2025_04_14,
+            ),
+            Gpt4o(crate::__types::CreateThreadAndRunRequestModelGpt4o),
+            Gpt4o2024_11_20(crate::__types::CreateThreadAndRunRequestModelGpt4o2024_11_20),
+            Gpt4o2024_08_06(crate::__types::CreateThreadAndRunRequestModelGpt4o2024_08_06),
+            Gpt4o2024_05_13(crate::__types::CreateThreadAndRunRequestModelGpt4o2024_05_13),
+            Gpt4oMini(crate::__types::CreateThreadAndRunRequestModelGpt4oMini),
+            Gpt4oMini2024_07_18(crate::__types::CreateThreadAndRunRequestModelGpt4oMini2024_07_18),
+            Gpt4_5Preview(crate::__types::CreateThreadAndRunRequestModelGpt4_5Preview),
+            Gpt4_5Preview2025_02_27(
+                crate::__types::CreateThreadAndRunRequestModelGpt4_5Preview2025_02_27,
+            ),
+            Gpt4Turbo(crate::__types::CreateThreadAndRunRequestModelGpt4Turbo),
+            Gpt4Turbo2024_04_09(crate::__types::CreateThreadAndRunRequestModelGpt4Turbo2024_04_09),
+            Gpt4_0125Preview(crate::__types::CreateThreadAndRunRequestModelGpt4_0125Preview),
+            Gpt4TurboPreview(crate::__types::CreateThreadAndRunRequestModelGpt4TurboPreview),
+            Gpt4_1106Preview(crate::__types::CreateThreadAndRunRequestModelGpt4_1106Preview),
+            Gpt4VisionPreview(crate::__types::CreateThreadAndRunRequestModelGpt4VisionPreview),
+            Gpt4(crate::__types::CreateThreadAndRunRequestModelGpt4),
+            Gpt4_0314(crate::__types::CreateThreadAndRunRequestModelGpt4_0314),
+            Gpt4_0613(crate::__types::CreateThreadAndRunRequestModelGpt4_0613),
+            Gpt4_32k(crate::__types::CreateThreadAndRunRequestModelGpt4_32k),
+            Gpt4_32k0314(crate::__types::CreateThreadAndRunRequestModelGpt4_32k0314),
+            Gpt4_32k0613(crate::__types::CreateThreadAndRunRequestModelGpt4_32k0613),
+            Gpt3_5Turbo(crate::__types::CreateThreadAndRunRequestModelGpt3_5Turbo),
+            Gpt3_5Turbo16k(crate::__types::CreateThreadAndRunRequestModelGpt3_5Turbo16k),
+            Gpt3_5Turbo0613(crate::__types::CreateThreadAndRunRequestModelGpt3_5Turbo0613),
+            Gpt3_5Turbo1106(crate::__types::CreateThreadAndRunRequestModelGpt3_5Turbo1106),
+            Gpt3_5Turbo0125(crate::__types::CreateThreadAndRunRequestModelGpt3_5Turbo0125),
+            Gpt3_5Turbo16k0613(crate::__types::CreateThreadAndRunRequestModelGpt3_5Turbo16k0613),
+        }
+        match self {
+            Self::Other(v) => CreateThreadAndRunRequestModel::Other(v),
+            Self::Gpt5 => CreateThreadAndRunRequestModel::Gpt5(Default::default()),
+            Self::Gpt5Mini => CreateThreadAndRunRequestModel::Gpt5Mini(Default::default()),
+            Self::Gpt5Nano => CreateThreadAndRunRequestModel::Gpt5Nano(Default::default()),
+            Self::Gpt5_2025_08_07 => {
+                CreateThreadAndRunRequestModel::Gpt5_2025_08_07(Default::default())
+            }
+            Self::Gpt5Mini2025_08_07 => {
+                CreateThreadAndRunRequestModel::Gpt5Mini2025_08_07(Default::default())
+            }
+            Self::Gpt5Nano2025_08_07 => {
+                CreateThreadAndRunRequestModel::Gpt5Nano2025_08_07(Default::default())
+            }
+            Self::Gpt4_1 => CreateThreadAndRunRequestModel::Gpt4_1(Default::default()),
+            Self::Gpt4_1Mini => CreateThreadAndRunRequestModel::Gpt4_1Mini(Default::default()),
+            Self::Gpt4_1Nano => CreateThreadAndRunRequestModel::Gpt4_1Nano(Default::default()),
+            Self::Gpt4_1_2025_04_14 => {
+                CreateThreadAndRunRequestModel::Gpt4_1_2025_04_14(Default::default())
+            }
+            Self::Gpt4_1Mini2025_04_14 => {
+                CreateThreadAndRunRequestModel::Gpt4_1Mini2025_04_14(Default::default())
+            }
+            Self::Gpt4_1Nano2025_04_14 => {
+                CreateThreadAndRunRequestModel::Gpt4_1Nano2025_04_14(Default::default())
+            }
+            Self::Gpt4o => CreateThreadAndRunRequestModel::Gpt4o(Default::default()),
+            Self::Gpt4o2024_11_20 => {
+                CreateThreadAndRunRequestModel::Gpt4o2024_11_20(Default::default())
+            }
+            Self::Gpt4o2024_08_06 => {
+                CreateThreadAndRunRequestModel::Gpt4o2024_08_06(Default::default())
+            }
+            Self::Gpt4o2024_05_13 => {
+                CreateThreadAndRunRequestModel::Gpt4o2024_05_13(Default::default())
+            }
+            Self::Gpt4oMini => CreateThreadAndRunRequestModel::Gpt4oMini(Default::default()),
+            Self::Gpt4oMini2024_07_18 => {
+                CreateThreadAndRunRequestModel::Gpt4oMini2024_07_18(Default::default())
+            }
+            Self::Gpt4_5Preview => {
+                CreateThreadAndRunRequestModel::Gpt4_5Preview(Default::default())
+            }
+            Self::Gpt4_5Preview2025_02_27 => {
+                CreateThreadAndRunRequestModel::Gpt4_5Preview2025_02_27(Default::default())
+            }
+            Self::Gpt4Turbo => CreateThreadAndRunRequestModel::Gpt4Turbo(Default::default()),
+            Self::Gpt4Turbo2024_04_09 => {
+                CreateThreadAndRunRequestModel::Gpt4Turbo2024_04_09(Default::default())
+            }
+            Self::Gpt4_0125Preview => {
+                CreateThreadAndRunRequestModel::Gpt4_0125Preview(Default::default())
+            }
+            Self::Gpt4TurboPreview => {
+                CreateThreadAndRunRequestModel::Gpt4TurboPreview(Default::default())
+            }
+            Self::Gpt4_1106Preview => {
+                CreateThreadAndRunRequestModel::Gpt4_1106Preview(Default::default())
+            }
+            Self::Gpt4VisionPreview => {
+                CreateThreadAndRunRequestModel::Gpt4VisionPreview(Default::default())
+            }
+            Self::Gpt4 => CreateThreadAndRunRequestModel::Gpt4(Default::default()),
+            Self::Gpt4_0314 => CreateThreadAndRunRequestModel::Gpt4_0314(Default::default()),
+            Self::Gpt4_0613 => CreateThreadAndRunRequestModel::Gpt4_0613(Default::default()),
+            Self::Gpt4_32k => CreateThreadAndRunRequestModel::Gpt4_32k(Default::default()),
+            Self::Gpt4_32k0314 => CreateThreadAndRunRequestModel::Gpt4_32k0314(Default::default()),
+            Self::Gpt4_32k0613 => CreateThreadAndRunRequestModel::Gpt4_32k0613(Default::default()),
+            Self::Gpt3_5Turbo => CreateThreadAndRunRequestModel::Gpt3_5Turbo(Default::default()),
+            Self::Gpt3_5Turbo16k => {
+                CreateThreadAndRunRequestModel::Gpt3_5Turbo16k(Default::default())
+            }
+            Self::Gpt3_5Turbo0613 => {
+                CreateThreadAndRunRequestModel::Gpt3_5Turbo0613(Default::default())
+            }
+            Self::Gpt3_5Turbo1106 => {
+                CreateThreadAndRunRequestModel::Gpt3_5Turbo1106(Default::default())
+            }
+            Self::Gpt3_5Turbo0125 => {
+                CreateThreadAndRunRequestModel::Gpt3_5Turbo0125(Default::default())
+            }
+            Self::Gpt3_5Turbo16k0613 => {
+                CreateThreadAndRunRequestModel::Gpt3_5Turbo16k0613(Default::default())
+            }
+        }
+        .serialize(serializer)
+    }
 }
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
@@ -9882,7 +11298,7 @@ pub struct CreateThreadAndRunRequest {
     #[serde(rename = "model")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub model: Option<String>,
+    pub model: Option<crate::__types::CreateThreadAndRunRequestModel>,
     #[doc = "Override the default system message of the assistant. This is useful for modifying the behavior on a per-run basis."]
     #[serde(rename = "instructions")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -9892,7 +11308,7 @@ pub struct CreateThreadAndRunRequest {
     #[serde(rename = "tools")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub tools: Option<Vec<crate::__types::CreateThreadAndRunRequestTool>>,
+    pub tools: Option<Vec<crate::__types::AssistantTool>>,
     #[doc = "A set of resources that are used by the assistant's tools. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.\n"]
     #[serde(rename = "tool_resources")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -9956,16 +11372,16 @@ pub struct CreateThreadRequestToolResourcesCodeInterpreter {
 }
 #[doc = "Always `auto`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAutoType;
+struct CreateThreadRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyAutoType;
 impl_serde!(
-    CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAutoType,
+    CreateThreadRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyAutoType,
     "auto"
 );
 #[doc = "The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
-pub struct CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto {}
+pub struct CreateThreadRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyAuto {}
 impl<'de> serde::Deserialize<'de>
-    for CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto
+    for CreateThreadRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyAuto
 {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -9973,13 +11389,13 @@ impl<'de> serde::Deserialize<'de>
     {
         #[serde_with::serde_as]
         #[derive(serde :: Deserialize)]
-        struct CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto { # [serde (rename = "type")] # [allow (dead_code)] r#type : crate :: __types :: CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAutoType }
-        let CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto { .. } = CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto :: deserialize (deserializer) ? ;
+        struct CreateThreadRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyAuto { # [serde (rename = "type")] # [allow (dead_code)] r#type : crate :: __types :: CreateThreadRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyAutoType }
+        let CreateThreadRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyAuto { .. } = CreateThreadRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyAuto :: deserialize (deserializer) ? ;
         Ok(Self {})
     }
 }
 impl serde::Serialize
-    for CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto
+    for CreateThreadRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyAuto
 {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
@@ -9987,9 +11403,9 @@ impl serde::Serialize
     {
         #[serde_with::serde_as]
         #[derive(serde :: Serialize)]
-        struct CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto < 'a > { # [serde (rename = "type")] r#type : & 'a crate :: __types :: CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAutoType }
+        struct CreateThreadRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyAuto < 'a > { # [serde (rename = "type")] r#type : & 'a crate :: __types :: CreateThreadRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyAutoType }
         let Self {} = self;
-        CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto {
+        CreateThreadRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyAuto {
             r#type: &Default::default(),
         }
         .serialize(serializer)
@@ -9997,15 +11413,15 @@ impl serde::Serialize
 }
 #[doc = "Always `static`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticType;
+struct CreateThreadRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyStaticType;
 impl_serde!(
-    CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticType,
+    CreateThreadRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyStaticType,
     "static"
 );
 #[derive(Clone, Copy, Debug, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticStatic {
+pub struct CreateThreadRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyStaticStatic {
     #[doc = "The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the maximum value is `4096`."]
     #[serde(rename = "max_chunk_size_tokens")]
     pub max_chunk_size_tokens: i64,
@@ -10014,9 +11430,9 @@ pub struct CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrateg
     pub chunk_overlap_tokens: i64,
 }
 #[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
-pub struct CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic { pub r#static : crate :: __types :: CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticStatic }
+pub struct CreateThreadRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyStatic { pub r#static : crate :: __types :: CreateThreadRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyStaticStatic }
 impl<'de> serde::Deserialize<'de>
-    for CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic
+    for CreateThreadRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyStatic
 {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -10024,13 +11440,13 @@ impl<'de> serde::Deserialize<'de>
     {
         #[serde_with::serde_as]
         #[derive(serde :: Deserialize)]
-        struct CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic { # [serde (rename = "type")] # [allow (dead_code)] r#type : crate :: __types :: CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticType , # [serde (rename = "static")] r#static : crate :: __types :: CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticStatic }
-        let CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic { r#static , .. } = CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic :: deserialize (deserializer) ? ;
+        struct CreateThreadRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyStatic { # [serde (rename = "type")] # [allow (dead_code)] r#type : crate :: __types :: CreateThreadRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyStaticType , # [serde (rename = "static")] r#static : crate :: __types :: CreateThreadRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyStaticStatic }
+        let CreateThreadRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyStatic { r#static , .. } = CreateThreadRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyStatic :: deserialize (deserializer) ? ;
         Ok(Self { r#static })
     }
 }
 impl serde::Serialize
-    for CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic
+    for CreateThreadRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyStatic
 {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
@@ -10038,9 +11454,9 @@ impl serde::Serialize
     {
         #[serde_with::serde_as]
         #[derive(serde :: Serialize)]
-        struct CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic < 'a > { # [serde (rename = "type")] r#type : & 'a crate :: __types :: CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticType , # [serde (rename = "static")] r#static : & 'a crate :: __types :: CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStaticStatic }
+        struct CreateThreadRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyStatic < 'a > { # [serde (rename = "type")] r#type : & 'a crate :: __types :: CreateThreadRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyStaticType , # [serde (rename = "static")] r#static : & 'a crate :: __types :: CreateThreadRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyStaticStatic }
         let Self { r#static } = self;
-        CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic {
+        CreateThreadRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyStatic {
             r#type: &Default::default(),
             r#static,
         }
@@ -10053,12 +11469,12 @@ impl serde::Serialize
 #[derive(serde :: Deserialize, serde :: Serialize)]
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
-pub enum CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategy {
-    # [doc = "The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`."] Auto (crate :: __types :: CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyAuto) , Static (crate :: __types :: CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategyStatic) }
+pub enum CreateThreadRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategy {
+    # [doc = "The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`."] Auto (crate :: __types :: CreateThreadRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyAuto) , Static (crate :: __types :: CreateThreadRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategyStatic) }
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct CreateThreadRequestToolResourcesFileSearch0VectorStore {
+pub struct CreateThreadRequestToolResourcesFileSearch0VectorStoresItem {
     #[doc = "A list of [file](https://platform.openai.com/docs/api-reference/files) IDs to add to the vector store. There can be a maximum of 10000 files in a vector store.\n"]
     #[serde(rename = "file_ids")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -10069,7 +11485,7 @@ pub struct CreateThreadRequestToolResourcesFileSearch0VectorStore {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub chunking_strategy: Option<
-        crate::__types::CreateThreadRequestToolResourcesFileSearch0VectorStoreChunkingStrategy,
+        crate::__types::CreateThreadRequestToolResourcesFileSearch0VectorStoresItemChunkingStrategy,
     >,
     #[serde(rename = "metadata")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -10088,20 +11504,20 @@ pub struct CreateThreadRequestToolResourcesFileSearch0 {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub vector_stores:
-        Option<Vec<crate::__types::CreateThreadRequestToolResourcesFileSearch0VectorStore>>,
+        Option<Vec<crate::__types::CreateThreadRequestToolResourcesFileSearch0VectorStoresItem>>,
 }
 #[doc = "Always `auto`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAutoType;
+struct CreateThreadRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyAutoType;
 impl_serde!(
-    CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAutoType,
+    CreateThreadRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyAutoType,
     "auto"
 );
 #[doc = "The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
-pub struct CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto {}
+pub struct CreateThreadRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyAuto {}
 impl<'de> serde::Deserialize<'de>
-    for CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto
+    for CreateThreadRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyAuto
 {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -10109,13 +11525,13 @@ impl<'de> serde::Deserialize<'de>
     {
         #[serde_with::serde_as]
         #[derive(serde :: Deserialize)]
-        struct CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto { # [serde (rename = "type")] # [allow (dead_code)] r#type : crate :: __types :: CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAutoType }
-        let CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto { .. } = CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto :: deserialize (deserializer) ? ;
+        struct CreateThreadRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyAuto { # [serde (rename = "type")] # [allow (dead_code)] r#type : crate :: __types :: CreateThreadRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyAutoType }
+        let CreateThreadRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyAuto { .. } = CreateThreadRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyAuto :: deserialize (deserializer) ? ;
         Ok(Self {})
     }
 }
 impl serde::Serialize
-    for CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto
+    for CreateThreadRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyAuto
 {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
@@ -10123,9 +11539,9 @@ impl serde::Serialize
     {
         #[serde_with::serde_as]
         #[derive(serde :: Serialize)]
-        struct CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto < 'a > { # [serde (rename = "type")] r#type : & 'a crate :: __types :: CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAutoType }
+        struct CreateThreadRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyAuto < 'a > { # [serde (rename = "type")] r#type : & 'a crate :: __types :: CreateThreadRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyAutoType }
         let Self {} = self;
-        CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto {
+        CreateThreadRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyAuto {
             r#type: &Default::default(),
         }
         .serialize(serializer)
@@ -10133,15 +11549,15 @@ impl serde::Serialize
 }
 #[doc = "Always `static`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticType;
+struct CreateThreadRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyStaticType;
 impl_serde!(
-    CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticType,
+    CreateThreadRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyStaticType,
     "static"
 );
 #[derive(Clone, Copy, Debug, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticStatic {
+pub struct CreateThreadRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyStaticStatic {
     #[doc = "The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the maximum value is `4096`."]
     #[serde(rename = "max_chunk_size_tokens")]
     pub max_chunk_size_tokens: i64,
@@ -10150,9 +11566,9 @@ pub struct CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrateg
     pub chunk_overlap_tokens: i64,
 }
 #[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
-pub struct CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic { pub r#static : crate :: __types :: CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticStatic }
+pub struct CreateThreadRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyStatic { pub r#static : crate :: __types :: CreateThreadRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyStaticStatic }
 impl<'de> serde::Deserialize<'de>
-    for CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic
+    for CreateThreadRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyStatic
 {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -10160,13 +11576,13 @@ impl<'de> serde::Deserialize<'de>
     {
         #[serde_with::serde_as]
         #[derive(serde :: Deserialize)]
-        struct CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic { # [serde (rename = "type")] # [allow (dead_code)] r#type : crate :: __types :: CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticType , # [serde (rename = "static")] r#static : crate :: __types :: CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticStatic }
-        let CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic { r#static , .. } = CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic :: deserialize (deserializer) ? ;
+        struct CreateThreadRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyStatic { # [serde (rename = "type")] # [allow (dead_code)] r#type : crate :: __types :: CreateThreadRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyStaticType , # [serde (rename = "static")] r#static : crate :: __types :: CreateThreadRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyStaticStatic }
+        let CreateThreadRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyStatic { r#static , .. } = CreateThreadRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyStatic :: deserialize (deserializer) ? ;
         Ok(Self { r#static })
     }
 }
 impl serde::Serialize
-    for CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic
+    for CreateThreadRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyStatic
 {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
@@ -10174,9 +11590,9 @@ impl serde::Serialize
     {
         #[serde_with::serde_as]
         #[derive(serde :: Serialize)]
-        struct CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic < 'a > { # [serde (rename = "type")] r#type : & 'a crate :: __types :: CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticType , # [serde (rename = "static")] r#static : & 'a crate :: __types :: CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStaticStatic }
+        struct CreateThreadRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyStatic < 'a > { # [serde (rename = "type")] r#type : & 'a crate :: __types :: CreateThreadRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyStaticType , # [serde (rename = "static")] r#static : & 'a crate :: __types :: CreateThreadRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyStaticStatic }
         let Self { r#static } = self;
-        CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic {
+        CreateThreadRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyStatic {
             r#type: &Default::default(),
             r#static,
         }
@@ -10189,12 +11605,12 @@ impl serde::Serialize
 #[derive(serde :: Deserialize, serde :: Serialize)]
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
-pub enum CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategy {
-    # [doc = "The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`."] Auto (crate :: __types :: CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyAuto) , Static (crate :: __types :: CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategyStatic) }
+pub enum CreateThreadRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategy {
+    # [doc = "The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`."] Auto (crate :: __types :: CreateThreadRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyAuto) , Static (crate :: __types :: CreateThreadRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategyStatic) }
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct CreateThreadRequestToolResourcesFileSearch1VectorStore {
+pub struct CreateThreadRequestToolResourcesFileSearch1VectorStoresItem {
     #[doc = "A list of [file](https://platform.openai.com/docs/api-reference/files) IDs to add to the vector store. There can be a maximum of 10000 files in a vector store.\n"]
     #[serde(rename = "file_ids")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -10205,7 +11621,7 @@ pub struct CreateThreadRequestToolResourcesFileSearch1VectorStore {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub chunking_strategy: Option<
-        crate::__types::CreateThreadRequestToolResourcesFileSearch1VectorStoreChunkingStrategy,
+        crate::__types::CreateThreadRequestToolResourcesFileSearch1VectorStoresItemChunkingStrategy,
     >,
     #[serde(rename = "metadata")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -10223,7 +11639,8 @@ pub struct CreateThreadRequestToolResourcesFileSearch1 {
     pub vector_store_ids: Option<Vec<String>>,
     #[doc = "A helper to create a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) with file_ids and attach it to this thread. There can be a maximum of 1 vector store attached to the thread.\n"]
     #[serde(rename = "vector_stores")]
-    pub vector_stores: Vec<crate::__types::CreateThreadRequestToolResourcesFileSearch1VectorStore>,
+    pub vector_stores:
+        Vec<crate::__types::CreateThreadRequestToolResourcesFileSearch1VectorStoresItem>,
 }
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
@@ -10268,8 +11685,93 @@ pub struct CreateThreadRequest {
     #[builder(default)]
     pub metadata: Option<crate::__types::Metadata>,
 }
+#[doc = "whisper-1"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateTranscriptionRequestModelWhisper1;
+impl_serde!(CreateTranscriptionRequestModelWhisper1, "whisper-1");
+#[doc = "gpt-4o-transcribe"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateTranscriptionRequestModelGpt4oTranscribe;
+impl_serde!(
+    CreateTranscriptionRequestModelGpt4oTranscribe,
+    "gpt-4o-transcribe"
+);
+#[doc = "gpt-4o-mini-transcribe"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateTranscriptionRequestModelGpt4oMiniTranscribe;
+impl_serde!(
+    CreateTranscriptionRequestModelGpt4oMiniTranscribe,
+    "gpt-4o-mini-transcribe"
+);
+#[doc = "ID of the model to use. The options are `gpt-4o-transcribe`, `gpt-4o-mini-transcribe`, and `whisper-1` (which is powered by our open source Whisper V2 model).\n"]
+#[derive(Clone, Debug, PartialEq)]
+#[allow(clippy::large_enum_variant)]
+pub enum CreateTranscriptionRequestModel {
+    Other(String),
+    #[doc = "whisper-1"]
+    Whisper1,
+    #[doc = "gpt-4o-transcribe"]
+    Gpt4oTranscribe,
+    #[doc = "gpt-4o-mini-transcribe"]
+    Gpt4oMiniTranscribe,
+}
+impl<'de> serde::Deserialize<'de> for CreateTranscriptionRequestModel {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
+        enum CreateTranscriptionRequestModel {
+            Whisper1(crate::__types::CreateTranscriptionRequestModelWhisper1),
+            Gpt4oTranscribe(crate::__types::CreateTranscriptionRequestModelGpt4oTranscribe),
+            Gpt4oMiniTranscribe(crate::__types::CreateTranscriptionRequestModelGpt4oMiniTranscribe),
+            Other(String),
+        }
+        Ok(
+            match CreateTranscriptionRequestModel::deserialize(deserializer)? {
+                CreateTranscriptionRequestModel::Other(v) => Self::Other(v),
+                CreateTranscriptionRequestModel::Whisper1(_) => Self::Whisper1,
+                CreateTranscriptionRequestModel::Gpt4oTranscribe(_) => Self::Gpt4oTranscribe,
+                CreateTranscriptionRequestModel::Gpt4oMiniTranscribe(_) => {
+                    Self::Gpt4oMiniTranscribe
+                }
+            },
+        )
+    }
+}
+impl serde::Serialize for CreateTranscriptionRequestModel {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names)]
+        enum CreateTranscriptionRequestModel<'a> {
+            Other(&'a String),
+            Whisper1(crate::__types::CreateTranscriptionRequestModelWhisper1),
+            Gpt4oTranscribe(crate::__types::CreateTranscriptionRequestModelGpt4oTranscribe),
+            Gpt4oMiniTranscribe(crate::__types::CreateTranscriptionRequestModelGpt4oMiniTranscribe),
+        }
+        match self {
+            Self::Other(v) => CreateTranscriptionRequestModel::Other(v),
+            Self::Whisper1 => CreateTranscriptionRequestModel::Whisper1(Default::default()),
+            Self::Gpt4oTranscribe => {
+                CreateTranscriptionRequestModel::Gpt4oTranscribe(Default::default())
+            }
+            Self::Gpt4oMiniTranscribe => {
+                CreateTranscriptionRequestModel::Gpt4oMiniTranscribe(Default::default())
+            }
+        }
+        .serialize(serializer)
+    }
+}
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum CreateTranscriptionRequestTimestampGranularities {
+pub enum CreateTranscriptionRequestTimestampGranularitiesItem {
     #[doc = "`word`"]
     #[serde(rename = "word")]
     Word,
@@ -10287,7 +11789,7 @@ pub struct CreateTranscriptionRequest {
     pub file: Vec<u8>,
     #[doc = "ID of the model to use. The options are `gpt-4o-transcribe`, `gpt-4o-mini-transcribe`, and `whisper-1` (which is powered by our open source Whisper V2 model).\n"]
     #[serde(rename = "model")]
-    pub model: String,
+    pub model: crate::__types::CreateTranscriptionRequestModel,
     #[doc = "The language of the input audio. Supplying the input language in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) (e.g. `en`) format will improve accuracy and latency.\n"]
     #[serde(rename = "language")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -10307,32 +11809,31 @@ pub struct CreateTranscriptionRequest {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub temperature: Option<serde_json::Number>,
-    #[doc = "Additional information to include in the transcription response. \n`logprobs` will return the log probabilities of the tokens in the \nresponse to understand the model's confidence in the transcription. \n`logprobs` only works with response_format set to `json` and only with \nthe models `gpt-4o-transcribe` and `gpt-4o-mini-transcribe`.\n"]
-    #[serde(rename = "include[]")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default)]
-    pub include: Option<Vec<crate::__types::TranscriptionInclude>>,
-    #[doc = "The timestamp granularities to populate for this transcription. `response_format` must be set `verbose_json` to use timestamp granularities. Either or both of these options are supported: `word`, or `segment`. Note: There is no additional latency for segment timestamps, but generating word timestamps incurs additional latency.\n"]
-    #[serde(rename = "timestamp_granularities[]")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default)]
-    pub timestamp_granularities:
-        Option<Vec<crate::__types::CreateTranscriptionRequestTimestampGranularities>>,
     #[doc = "If set to true, the model response data will be streamed to the client\nas it is generated using [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format). \nSee the [Streaming section of the Speech-to-Text guide](https://platform.openai.com/docs/guides/speech-to-text?lang=curl#streaming-transcriptions)\nfor more information.\n\nNote: Streaming is not supported for the `whisper-1` model and will be ignored.\n"]
     #[serde(rename = "stream")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub stream: Option<bool>,
-    #[doc = "Controls how the audio is cut into chunks. When set to `\"auto\"`, the server first normalizes loudness and then uses voice activity detection (VAD) to choose boundaries. `server_vad` object can be provided to tweak VAD detection parameters manually. If unset, the audio is transcribed as a single block. "]
     #[serde(rename = "chunking_strategy")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub chunking_strategy: Option<String>,
+    pub chunking_strategy: Option<crate::__types::TranscriptionChunkingStrategy>,
+    #[doc = "The timestamp granularities to populate for this transcription. `response_format` must be set `verbose_json` to use timestamp granularities. Either or both of these options are supported: `word`, or `segment`. Note: There is no additional latency for segment timestamps, but generating word timestamps incurs additional latency.\n"]
+    #[serde(rename = "timestamp_granularities")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub timestamp_granularities:
+        Option<Vec<crate::__types::CreateTranscriptionRequestTimestampGranularitiesItem>>,
+    #[doc = "Additional information to include in the transcription response. \n`logprobs` will return the log probabilities of the tokens in the \nresponse to understand the model's confidence in the transcription. \n`logprobs` only works with response_format set to `json` and only with \nthe models `gpt-4o-transcribe` and `gpt-4o-mini-transcribe`.\n"]
+    #[serde(rename = "include")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub include: Option<Vec<crate::__types::TranscriptionInclude>>,
 }
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct CreateTranscriptionResponseJsonLogprob {
+pub struct CreateTranscriptionResponseJsonLogprobsItem {
     #[doc = "The token in the transcription."]
     #[serde(rename = "token")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -10371,7 +11872,7 @@ pub struct CreateTranscriptionResponseJson {
     #[serde(rename = "logprobs")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub logprobs: Option<Vec<crate::__types::CreateTranscriptionResponseJsonLogprob>>,
+    pub logprobs: Option<Vec<crate::__types::CreateTranscriptionResponseJsonLogprobsItem>>,
     #[doc = "Token usage statistics for the request."]
     #[serde(rename = "usage")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -10416,6 +11917,59 @@ pub struct CreateTranscriptionResponseVerboseJson {
     #[builder(default)]
     pub usage: Option<crate::__types::TranscriptTextUsageDuration>,
 }
+#[doc = "whisper-1"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateTranslationRequestModelWhisper1;
+impl_serde!(CreateTranslationRequestModelWhisper1, "whisper-1");
+#[doc = "ID of the model to use. Only `whisper-1` (which is powered by our open source Whisper V2 model) is currently available.\n"]
+#[derive(Clone, Debug, PartialEq)]
+#[allow(clippy::large_enum_variant)]
+pub enum CreateTranslationRequestModel {
+    Other(String),
+    #[doc = "whisper-1"]
+    Whisper1,
+}
+impl<'de> serde::Deserialize<'de> for CreateTranslationRequestModel {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
+        enum CreateTranslationRequestModel {
+            Whisper1(crate::__types::CreateTranslationRequestModelWhisper1),
+            Other(String),
+        }
+        Ok(
+            match CreateTranslationRequestModel::deserialize(deserializer)? {
+                CreateTranslationRequestModel::Other(v) => Self::Other(v),
+                CreateTranslationRequestModel::Whisper1(_) => Self::Whisper1,
+            },
+        )
+    }
+}
+impl serde::Serialize for CreateTranslationRequestModel {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names)]
+        enum CreateTranslationRequestModel<'a> {
+            Other(&'a String),
+            Whisper1(crate::__types::CreateTranslationRequestModelWhisper1),
+        }
+        match self {
+            Self::Other(v) => CreateTranslationRequestModel::Other(v),
+            Self::Whisper1 => CreateTranslationRequestModel::Whisper1(Default::default()),
+        }
+        .serialize(serializer)
+    }
+}
 #[doc = "The format of the output, in one of these options: `json`, `text`, `srt`, `verbose_json`, or `vtt`.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum CreateTranslationRequestResponseFormat {
@@ -10446,7 +12000,7 @@ pub struct CreateTranslationRequest {
     pub file: Vec<u8>,
     #[doc = "ID of the model to use. Only `whisper-1` (which is powered by our open source Whisper V2 model) is currently available.\n"]
     #[serde(rename = "model")]
-    pub model: String,
+    pub model: crate::__types::CreateTranslationRequestModel,
     #[doc = "An optional text to guide the model's style or continue a previous audio segment. The [prompt](https://platform.openai.com/docs/guides/speech-to-text#prompting) should be in English.\n"]
     #[serde(rename = "prompt")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -10521,6 +12075,10 @@ pub struct CreateUploadRequest {
     #[doc = "The MIME type of the file.\n\nThis must fall within the supported MIME types for your file purpose. See the supported MIME types for assistants and vision.\n"]
     #[serde(rename = "mime_type")]
     pub mime_type: String,
+    #[serde(rename = "expires_after")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub expires_after: Option<crate::__types::FileExpirationAfter>,
 }
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
@@ -10554,16 +12112,6 @@ pub struct CreateVectorStoreFileRequest {
     #[builder(default)]
     pub attributes: Option<crate::__types::VectorStoreFileAttributes>,
 }
-#[doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy. Only applicable if `file_ids` is non-empty."]
-#[derive(Clone, Copy, Debug, PartialEq)]
-#[serde_with::serde_as]
-#[derive(serde :: Deserialize, serde :: Serialize)]
-#[serde(untagged)]
-#[allow(clippy::large_enum_variant)]
-pub enum CreateVectorStoreRequestChunkingStrategy {
-    Auto(crate::__types::AutoChunkingStrategyRequestParam),
-    Static(crate::__types::StaticChunkingStrategyRequestParam),
-}
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
@@ -10582,15 +12130,576 @@ pub struct CreateVectorStoreRequest {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub expires_after: Option<crate::__types::VectorStoreExpirationAfter>,
-    #[doc = "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy. Only applicable if `file_ids` is non-empty."]
     #[serde(rename = "chunking_strategy")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub chunking_strategy: Option<crate::__types::CreateVectorStoreRequestChunkingStrategy>,
+    pub chunking_strategy: Option<crate::__types::ChunkingStrategyRequestParam>,
     #[serde(rename = "metadata")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub metadata: Option<crate::__types::Metadata>,
+}
+#[doc = "The type of the custom tool. Always `custom`."]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CustomToolType;
+impl_serde!(CustomToolType, "custom");
+#[doc = "Unconstrained text format. Always `text`."]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CustomToolFormatTextType;
+impl_serde!(CustomToolFormatTextType, "text");
+#[doc = "Unconstrained free-form text."]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
+pub struct CustomToolFormatText {}
+impl<'de> serde::Deserialize<'de> for CustomToolFormatText {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct CustomToolFormatText {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: crate::__types::CustomToolFormatTextType,
+        }
+        let CustomToolFormatText { .. } = CustomToolFormatText::deserialize(deserializer)?;
+        Ok(Self {})
+    }
+}
+impl serde::Serialize for CustomToolFormatText {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct CustomToolFormatText<'a> {
+            #[serde(rename = "type")]
+            r#type: &'a crate::__types::CustomToolFormatTextType,
+        }
+        let Self {} = self;
+        CustomToolFormatText {
+            r#type: &Default::default(),
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "Grammar format. Always `grammar`."]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CustomToolFormatGrammarType;
+impl_serde!(CustomToolFormatGrammarType, "grammar");
+#[doc = "The syntax of the grammar definition. One of `lark` or `regex`."]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+pub enum CustomToolFormatGrammarSyntax {
+    #[doc = "`lark`"]
+    #[serde(rename = "lark")]
+    Lark,
+    #[doc = "`regex`"]
+    #[serde(rename = "regex")]
+    Regex,
+}
+#[doc = "A grammar defined by the user."]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct CustomToolFormatGrammar {
+    #[doc = "The grammar definition."]
+    pub definition: String,
+    #[doc = "The syntax of the grammar definition. One of `lark` or `regex`."]
+    pub syntax: crate::__types::CustomToolFormatGrammarSyntax,
+}
+impl<'de> serde::Deserialize<'de> for CustomToolFormatGrammar {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct CustomToolFormatGrammar {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: crate::__types::CustomToolFormatGrammarType,
+            #[serde(rename = "definition")]
+            definition: String,
+            #[serde(rename = "syntax")]
+            syntax: crate::__types::CustomToolFormatGrammarSyntax,
+        }
+        let CustomToolFormatGrammar {
+            definition, syntax, ..
+        } = CustomToolFormatGrammar::deserialize(deserializer)?;
+        Ok(Self { definition, syntax })
+    }
+}
+impl serde::Serialize for CustomToolFormatGrammar {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct CustomToolFormatGrammar<'a> {
+            #[serde(rename = "type")]
+            r#type: &'a crate::__types::CustomToolFormatGrammarType,
+            #[serde(rename = "definition")]
+            definition: &'a String,
+            #[serde(rename = "syntax")]
+            syntax: &'a crate::__types::CustomToolFormatGrammarSyntax,
+        }
+        let Self { definition, syntax } = self;
+        CustomToolFormatGrammar {
+            r#type: &Default::default(),
+            definition,
+            syntax,
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "The input format for the custom tool. Default is unconstrained text.\n"]
+#[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
+#[allow(clippy::large_enum_variant)]
+pub enum CustomToolFormat {
+    #[doc = "Unconstrained free-form text."]
+    Text(crate::__types::CustomToolFormatText),
+    #[doc = "A grammar defined by the user."]
+    Grammar(crate::__types::CustomToolFormatGrammar),
+}
+#[doc = "A custom tool that processes input using a specified format. Learn more about\n[custom tools](https://platform.openai.com/docs/guides/function-calling#custom-tools).\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct CustomTool {
+    #[doc = "The name of the custom tool, used to identify it in tool calls."]
+    pub name: String,
+    #[doc = "Optional description of the custom tool, used to provide more context.\n"]
+    #[builder(default)]
+    pub description: Option<String>,
+    #[doc = "The input format for the custom tool. Default is unconstrained text.\n"]
+    #[builder(default)]
+    pub format: Option<crate::__types::CustomToolFormat>,
+}
+impl<'de> serde::Deserialize<'de> for CustomTool {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct CustomTool {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: crate::__types::CustomToolType,
+            #[serde(rename = "name")]
+            name: String,
+            #[serde(rename = "description")]
+            description: Option<String>,
+            #[serde(rename = "format")]
+            format: Option<crate::__types::CustomToolFormat>,
+        }
+        let CustomTool {
+            name,
+            description,
+            format,
+            ..
+        } = CustomTool::deserialize(deserializer)?;
+        Ok(Self {
+            name,
+            description,
+            format,
+        })
+    }
+}
+impl serde::Serialize for CustomTool {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct CustomTool<'a> {
+            #[serde(rename = "type")]
+            r#type: &'a crate::__types::CustomToolType,
+            #[serde(rename = "name")]
+            name: &'a String,
+            #[serde(rename = "description")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            description: &'a Option<String>,
+            #[serde(rename = "format")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            format: &'a Option<crate::__types::CustomToolFormat>,
+        }
+        let Self {
+            name,
+            description,
+            format,
+        } = self;
+        CustomTool {
+            r#type: &Default::default(),
+            name,
+            description,
+            format,
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "The type of the custom tool call. Always `custom_tool_call`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CustomToolCallType;
+impl_serde!(CustomToolCallType, "custom_tool_call");
+#[doc = "A call to a custom tool created by the model.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct CustomToolCall {
+    #[doc = "The unique ID of the custom tool call in the OpenAI platform.\n"]
+    #[builder(default)]
+    pub id: Option<String>,
+    #[doc = "An identifier used to map this custom tool call to a tool call output.\n"]
+    pub call_id: String,
+    #[doc = "The name of the custom tool being called.\n"]
+    pub name: String,
+    #[doc = "The input for the custom tool call generated by the model.\n"]
+    pub input: String,
+}
+impl<'de> serde::Deserialize<'de> for CustomToolCall {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct CustomToolCall {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: crate::__types::CustomToolCallType,
+            #[serde(rename = "id")]
+            id: Option<String>,
+            #[serde(rename = "call_id")]
+            call_id: String,
+            #[serde(rename = "name")]
+            name: String,
+            #[serde(rename = "input")]
+            input: String,
+        }
+        let CustomToolCall {
+            id,
+            call_id,
+            name,
+            input,
+            ..
+        } = CustomToolCall::deserialize(deserializer)?;
+        Ok(Self {
+            id,
+            call_id,
+            name,
+            input,
+        })
+    }
+}
+impl serde::Serialize for CustomToolCall {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct CustomToolCall<'a> {
+            #[serde(rename = "type")]
+            r#type: &'a crate::__types::CustomToolCallType,
+            #[serde(rename = "id")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            id: &'a Option<String>,
+            #[serde(rename = "call_id")]
+            call_id: &'a String,
+            #[serde(rename = "name")]
+            name: &'a String,
+            #[serde(rename = "input")]
+            input: &'a String,
+        }
+        let Self {
+            id,
+            call_id,
+            name,
+            input,
+        } = self;
+        CustomToolCall {
+            r#type: &Default::default(),
+            id,
+            call_id,
+            name,
+            input,
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "The type of the custom tool call output. Always `custom_tool_call_output`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CustomToolCallOutputType;
+impl_serde!(CustomToolCallOutputType, "custom_tool_call_output");
+#[doc = "The output of a custom tool call from your code, being sent back to the model.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct CustomToolCallOutput {
+    #[doc = "The unique ID of the custom tool call output in the OpenAI platform.\n"]
+    #[builder(default)]
+    pub id: Option<String>,
+    #[doc = "The call ID, used to map this custom tool call output to a custom tool call.\n"]
+    pub call_id: String,
+    #[doc = "The output from the custom tool call generated by your code.\n"]
+    pub output: String,
+}
+impl<'de> serde::Deserialize<'de> for CustomToolCallOutput {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct CustomToolCallOutput {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: crate::__types::CustomToolCallOutputType,
+            #[serde(rename = "id")]
+            id: Option<String>,
+            #[serde(rename = "call_id")]
+            call_id: String,
+            #[serde(rename = "output")]
+            output: String,
+        }
+        let CustomToolCallOutput {
+            id,
+            call_id,
+            output,
+            ..
+        } = CustomToolCallOutput::deserialize(deserializer)?;
+        Ok(Self {
+            id,
+            call_id,
+            output,
+        })
+    }
+}
+impl serde::Serialize for CustomToolCallOutput {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct CustomToolCallOutput<'a> {
+            #[serde(rename = "type")]
+            r#type: &'a crate::__types::CustomToolCallOutputType,
+            #[serde(rename = "id")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            id: &'a Option<String>,
+            #[serde(rename = "call_id")]
+            call_id: &'a String,
+            #[serde(rename = "output")]
+            output: &'a String,
+        }
+        let Self {
+            id,
+            call_id,
+            output,
+        } = self;
+        CustomToolCallOutput {
+            r#type: &Default::default(),
+            id,
+            call_id,
+            output,
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "The type of the custom tool. Always `custom`."]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CustomToolChatCompletionsType;
+impl_serde!(CustomToolChatCompletionsType, "custom");
+#[doc = "Unconstrained text format. Always `text`."]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CustomToolChatCompletionsCustomFormatTextType;
+impl_serde!(CustomToolChatCompletionsCustomFormatTextType, "text");
+#[doc = "Unconstrained free-form text."]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
+pub struct CustomToolChatCompletionsCustomFormatText {}
+impl<'de> serde::Deserialize<'de> for CustomToolChatCompletionsCustomFormatText {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct CustomToolChatCompletionsCustomFormatText {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: crate::__types::CustomToolChatCompletionsCustomFormatTextType,
+        }
+        let CustomToolChatCompletionsCustomFormatText { .. } =
+            CustomToolChatCompletionsCustomFormatText::deserialize(deserializer)?;
+        Ok(Self {})
+    }
+}
+impl serde::Serialize for CustomToolChatCompletionsCustomFormatText {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct CustomToolChatCompletionsCustomFormatText<'a> {
+            #[serde(rename = "type")]
+            r#type: &'a crate::__types::CustomToolChatCompletionsCustomFormatTextType,
+        }
+        let Self {} = self;
+        CustomToolChatCompletionsCustomFormatText {
+            r#type: &Default::default(),
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "Grammar format. Always `grammar`."]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CustomToolChatCompletionsCustomFormatGrammarType;
+impl_serde!(CustomToolChatCompletionsCustomFormatGrammarType, "grammar");
+#[doc = "The syntax of the grammar definition. One of `lark` or `regex`."]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+pub enum CustomToolChatCompletionsCustomFormatGrammarGrammarSyntax {
+    #[doc = "`lark`"]
+    #[serde(rename = "lark")]
+    Lark,
+    #[doc = "`regex`"]
+    #[serde(rename = "regex")]
+    Regex,
+}
+#[doc = "Your chosen grammar."]
+#[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
+pub struct CustomToolChatCompletionsCustomFormatGrammarGrammar {
+    #[doc = "The grammar definition."]
+    #[serde(rename = "definition")]
+    pub definition: String,
+    #[doc = "The syntax of the grammar definition. One of `lark` or `regex`."]
+    #[serde(rename = "syntax")]
+    pub syntax: crate::__types::CustomToolChatCompletionsCustomFormatGrammarGrammarSyntax,
+}
+#[doc = "A grammar defined by the user."]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct CustomToolChatCompletionsCustomFormatGrammar {
+    #[doc = "Your chosen grammar."]
+    pub grammar: crate::__types::CustomToolChatCompletionsCustomFormatGrammarGrammar,
+}
+impl<'de> serde::Deserialize<'de> for CustomToolChatCompletionsCustomFormatGrammar {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct CustomToolChatCompletionsCustomFormatGrammar {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: crate::__types::CustomToolChatCompletionsCustomFormatGrammarType,
+            #[serde(rename = "grammar")]
+            grammar: crate::__types::CustomToolChatCompletionsCustomFormatGrammarGrammar,
+        }
+        let CustomToolChatCompletionsCustomFormatGrammar { grammar, .. } =
+            CustomToolChatCompletionsCustomFormatGrammar::deserialize(deserializer)?;
+        Ok(Self { grammar })
+    }
+}
+impl serde::Serialize for CustomToolChatCompletionsCustomFormatGrammar {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct CustomToolChatCompletionsCustomFormatGrammar<'a> {
+            #[serde(rename = "type")]
+            r#type: &'a crate::__types::CustomToolChatCompletionsCustomFormatGrammarType,
+            #[serde(rename = "grammar")]
+            grammar: &'a crate::__types::CustomToolChatCompletionsCustomFormatGrammarGrammar,
+        }
+        let Self { grammar } = self;
+        CustomToolChatCompletionsCustomFormatGrammar {
+            r#type: &Default::default(),
+            grammar,
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "The input format for the custom tool. Default is unconstrained text.\n"]
+#[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
+#[allow(clippy::large_enum_variant)]
+pub enum CustomToolChatCompletionsCustomFormat {
+    #[doc = "Unconstrained free-form text."]
+    Text(crate::__types::CustomToolChatCompletionsCustomFormatText),
+    #[doc = "A grammar defined by the user."]
+    Grammar(crate::__types::CustomToolChatCompletionsCustomFormatGrammar),
+}
+#[doc = "Properties of the custom tool.\n"]
+#[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
+pub struct CustomToolChatCompletionsCustom {
+    #[doc = "The name of the custom tool, used to identify it in tool calls."]
+    #[serde(rename = "name")]
+    pub name: String,
+    #[doc = "Optional description of the custom tool, used to provide more context.\n"]
+    #[serde(rename = "description")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub description: Option<String>,
+    #[doc = "The input format for the custom tool. Default is unconstrained text.\n"]
+    #[serde(rename = "format")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub format: Option<crate::__types::CustomToolChatCompletionsCustomFormat>,
+}
+#[doc = "A custom tool that processes input using a specified format.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct CustomToolChatCompletions {
+    #[doc = "Properties of the custom tool.\n"]
+    pub custom: crate::__types::CustomToolChatCompletionsCustom,
+}
+impl<'de> serde::Deserialize<'de> for CustomToolChatCompletions {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct CustomToolChatCompletions {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: crate::__types::CustomToolChatCompletionsType,
+            #[serde(rename = "custom")]
+            custom: crate::__types::CustomToolChatCompletionsCustom,
+        }
+        let CustomToolChatCompletions { custom, .. } =
+            CustomToolChatCompletions::deserialize(deserializer)?;
+        Ok(Self { custom })
+    }
+}
+impl serde::Serialize for CustomToolChatCompletions {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct CustomToolChatCompletions<'a> {
+            #[serde(rename = "type")]
+            r#type: &'a crate::__types::CustomToolChatCompletionsType,
+            #[serde(rename = "custom")]
+            custom: &'a crate::__types::CustomToolChatCompletionsCustom,
+        }
+        let Self { custom } = self;
+        CustomToolChatCompletions {
+            r#type: &Default::default(),
+            custom,
+        }
+        .serialize(serializer)
+    }
 }
 #[doc = "assistant.deleted"]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
@@ -11391,7 +13500,7 @@ pub enum EvalDataSourceConfig {
 #[derive(serde :: Deserialize, serde :: Serialize)]
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
-pub enum EvalTestingCriteria {
+pub enum EvalTestingCriteriaItem {
     LabelModel(crate::__types::EvalGraderLabelModel),
     StringCheck(crate::__types::EvalGraderStringCheck),
     TextSimilarity(crate::__types::EvalGraderTextSimilarity),
@@ -11408,7 +13517,7 @@ pub struct Eval {
     #[doc = "Configuration of data sources used in runs of the evaluation."]
     pub data_source_config: crate::__types::EvalDataSourceConfig,
     #[doc = "A list of testing criteria."]
-    pub testing_criteria: Vec<crate::__types::EvalTestingCriteria>,
+    pub testing_criteria: Vec<crate::__types::EvalTestingCriteriaItem>,
     #[doc = "The Unix timestamp (in seconds) for when the eval was created."]
     pub created_at: i64,
     #[builder(default)]
@@ -11432,7 +13541,7 @@ impl<'de> serde::Deserialize<'de> for Eval {
             #[serde(rename = "data_source_config")]
             data_source_config: crate::__types::EvalDataSourceConfig,
             #[serde(rename = "testing_criteria")]
-            testing_criteria: Vec<crate::__types::EvalTestingCriteria>,
+            testing_criteria: Vec<crate::__types::EvalTestingCriteriaItem>,
             #[serde(rename = "created_at")]
             created_at: i64,
             #[serde(rename = "metadata")]
@@ -11474,7 +13583,7 @@ impl serde::Serialize for Eval {
             #[serde(rename = "data_source_config")]
             data_source_config: &'a crate::__types::EvalDataSourceConfig,
             #[serde(rename = "testing_criteria")]
-            testing_criteria: &'a Vec<crate::__types::EvalTestingCriteria>,
+            testing_criteria: &'a Vec<crate::__types::EvalTestingCriteriaItem>,
             #[serde(rename = "created_at")]
             created_at: &'a i64,
             #[serde(rename = "metadata")]
@@ -12083,7 +14192,67 @@ impl serde::Serialize for EvalItemContentOutputText {
         .serialize(serializer)
     }
 }
-#[doc = "Text inputs to the model - can contain template strings.\n"]
+#[doc = "The type of the image input. Always `input_image`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct EvalItemContentInputImageType;
+impl_serde!(EvalItemContentInputImageType, "input_image");
+#[doc = "An image input to the model.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct EvalItemContentInputImage {
+    #[doc = "The URL of the image input.\n"]
+    pub image_url: String,
+    #[doc = "The detail level of the image to be sent to the model. One of `high`, `low`, or `auto`. Defaults to `auto`.\n"]
+    #[builder(default)]
+    pub detail: Option<String>,
+}
+impl<'de> serde::Deserialize<'de> for EvalItemContentInputImage {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct EvalItemContentInputImage {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: crate::__types::EvalItemContentInputImageType,
+            #[serde(rename = "image_url")]
+            image_url: String,
+            #[serde(rename = "detail")]
+            detail: Option<String>,
+        }
+        let EvalItemContentInputImage {
+            image_url, detail, ..
+        } = EvalItemContentInputImage::deserialize(deserializer)?;
+        Ok(Self { image_url, detail })
+    }
+}
+impl serde::Serialize for EvalItemContentInputImage {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct EvalItemContentInputImage<'a> {
+            #[serde(rename = "type")]
+            r#type: &'a crate::__types::EvalItemContentInputImageType,
+            #[serde(rename = "image_url")]
+            image_url: &'a String,
+            #[serde(rename = "detail")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            detail: &'a Option<String>,
+        }
+        let Self { image_url, detail } = self;
+        EvalItemContentInputImage {
+            r#type: &Default::default(),
+            image_url,
+            detail,
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "Inputs to the model - can contain template strings.\n"]
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize)]
@@ -12095,6 +14264,10 @@ pub enum EvalItemContent {
     InputText(crate::__types::InputTextContent),
     #[doc = "A text output from the model.\n"]
     OutputText(crate::__types::EvalItemContentOutputText),
+    #[doc = "An image input to the model.\n"]
+    InputImage(crate::__types::EvalItemContentInputImage),
+    #[doc = "A list of inputs, each of which may be either an input text or input image object.\n"]
+    Array(Vec<serde_json::Value>),
 }
 #[doc = "The type of the message input. Always `message`.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
@@ -12108,7 +14281,7 @@ pub struct EvalItem {
     #[doc = "The role of the message input. One of `user`, `assistant`, `system`, or\n`developer`.\n"]
     #[serde(rename = "role")]
     pub role: crate::__types::EvalItemRole,
-    #[doc = "Text inputs to the model - can contain template strings.\n"]
+    #[doc = "Inputs to the model - can contain template strings.\n"]
     #[serde(rename = "content")]
     pub content: crate::__types::EvalItemContent,
     #[doc = "The type of the message input. Always `message`.\n"]
@@ -12124,7 +14297,7 @@ impl_serde!(EvalJsonlFileContentSourceType, "file_content");
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct EvalJsonlFileContentSourceContent {
+pub struct EvalJsonlFileContentSourceContentItem {
     #[serde(rename = "item")]
     pub item: indexmap::IndexMap<String, serde_json::Value>,
     #[serde(rename = "sample")]
@@ -12135,7 +14308,7 @@ pub struct EvalJsonlFileContentSourceContent {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct EvalJsonlFileContentSource {
     #[doc = "The content of the jsonl file."]
-    pub content: Vec<crate::__types::EvalJsonlFileContentSourceContent>,
+    pub content: Vec<crate::__types::EvalJsonlFileContentSourceContentItem>,
 }
 impl<'de> serde::Deserialize<'de> for EvalJsonlFileContentSource {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -12149,7 +14322,7 @@ impl<'de> serde::Deserialize<'de> for EvalJsonlFileContentSource {
             #[allow(dead_code)]
             r#type: crate::__types::EvalJsonlFileContentSourceType,
             #[serde(rename = "content")]
-            content: Vec<crate::__types::EvalJsonlFileContentSourceContent>,
+            content: Vec<crate::__types::EvalJsonlFileContentSourceContentItem>,
         }
         let EvalJsonlFileContentSource { content, .. } =
             EvalJsonlFileContentSource::deserialize(deserializer)?;
@@ -12167,7 +14340,7 @@ impl serde::Serialize for EvalJsonlFileContentSource {
             #[serde(rename = "type")]
             r#type: &'a crate::__types::EvalJsonlFileContentSourceType,
             #[serde(rename = "content")]
-            content: &'a Vec<crate::__types::EvalJsonlFileContentSourceContent>,
+            content: &'a Vec<crate::__types::EvalJsonlFileContentSourceContentItem>,
         }
         let Self { content } = self;
         EvalJsonlFileContentSource {
@@ -12561,7 +14734,7 @@ pub struct EvalRunResultCounts {
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct EvalRunPerModelUsage {
+pub struct EvalRunPerModelUsageItem {
     #[doc = "The name of the model."]
     #[serde(rename = "model_name")]
     pub model_name: String,
@@ -12584,7 +14757,7 @@ pub struct EvalRunPerModelUsage {
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct EvalRunPerTestingCriteriaResult {
+pub struct EvalRunPerTestingCriteriaResultsItem {
     #[doc = "A description of the testing criteria."]
     #[serde(rename = "testing_criteria")]
     pub testing_criteria: String,
@@ -12626,9 +14799,9 @@ pub struct EvalRun {
     #[doc = "Counters summarizing the outcomes of the evaluation run."]
     pub result_counts: crate::__types::EvalRunResultCounts,
     #[doc = "Usage statistics for each model during the evaluation run."]
-    pub per_model_usage: Vec<crate::__types::EvalRunPerModelUsage>,
+    pub per_model_usage: Vec<crate::__types::EvalRunPerModelUsageItem>,
     #[doc = "Results per testing criteria applied during the evaluation run."]
-    pub per_testing_criteria_results: Vec<crate::__types::EvalRunPerTestingCriteriaResult>,
+    pub per_testing_criteria_results: Vec<crate::__types::EvalRunPerTestingCriteriaResultsItem>,
     #[doc = "Information about the run's data source."]
     pub data_source: crate::__types::EvalRunDataSource,
     #[builder(default)]
@@ -12663,9 +14836,9 @@ impl<'de> serde::Deserialize<'de> for EvalRun {
             #[serde(rename = "result_counts")]
             result_counts: crate::__types::EvalRunResultCounts,
             #[serde(rename = "per_model_usage")]
-            per_model_usage: Vec<crate::__types::EvalRunPerModelUsage>,
+            per_model_usage: Vec<crate::__types::EvalRunPerModelUsageItem>,
             #[serde(rename = "per_testing_criteria_results")]
-            per_testing_criteria_results: Vec<crate::__types::EvalRunPerTestingCriteriaResult>,
+            per_testing_criteria_results: Vec<crate::__types::EvalRunPerTestingCriteriaResultsItem>,
             #[serde(rename = "data_source")]
             data_source: crate::__types::EvalRunDataSource,
             #[serde(rename = "metadata")]
@@ -12733,9 +14906,10 @@ impl serde::Serialize for EvalRun {
             #[serde(rename = "result_counts")]
             result_counts: &'a crate::__types::EvalRunResultCounts,
             #[serde(rename = "per_model_usage")]
-            per_model_usage: &'a Vec<crate::__types::EvalRunPerModelUsage>,
+            per_model_usage: &'a Vec<crate::__types::EvalRunPerModelUsageItem>,
             #[serde(rename = "per_testing_criteria_results")]
-            per_testing_criteria_results: &'a Vec<crate::__types::EvalRunPerTestingCriteriaResult>,
+            per_testing_criteria_results:
+                &'a Vec<crate::__types::EvalRunPerTestingCriteriaResultsItem>,
             #[serde(rename = "data_source")]
             data_source: &'a crate::__types::EvalRunDataSource,
             #[serde(rename = "metadata")]
@@ -12872,7 +15046,7 @@ impl_serde!(EvalRunOutputItemObject, "eval.run.output_item");
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct EvalRunOutputItemSampleInput {
+pub struct EvalRunOutputItemSampleInputItem {
     #[doc = "The role of the message sender (e.g., system, user, developer)."]
     #[serde(rename = "role")]
     pub role: String,
@@ -12883,7 +15057,7 @@ pub struct EvalRunOutputItemSampleInput {
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct EvalRunOutputItemSampleOutput {
+pub struct EvalRunOutputItemSampleOutputItem {
     #[doc = "The role of the message (e.g. \"system\", \"assistant\", \"user\")."]
     #[serde(rename = "role")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -12920,10 +15094,10 @@ pub struct EvalRunOutputItemSampleUsage {
 pub struct EvalRunOutputItemSample {
     #[doc = "An array of input messages."]
     #[serde(rename = "input")]
-    pub input: Vec<crate::__types::EvalRunOutputItemSampleInput>,
+    pub input: Vec<crate::__types::EvalRunOutputItemSampleInputItem>,
     #[doc = "An array of output messages."]
     #[serde(rename = "output")]
-    pub output: Vec<crate::__types::EvalRunOutputItemSampleOutput>,
+    pub output: Vec<crate::__types::EvalRunOutputItemSampleOutputItem>,
     #[doc = "The reason why the sample generation was finished."]
     #[serde(rename = "finish_reason")]
     pub finish_reason: String,
@@ -13333,6 +15507,55 @@ impl serde::Serialize for EvalStoredCompletionsSource {
         .serialize(serializer)
     }
 }
+#[doc = "Anchor timestamp after which the expiration policy applies. Supported anchors: `created_at`."]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct FileExpirationAfterAnchor;
+impl_serde!(FileExpirationAfterAnchor, "created_at");
+#[doc = "The expiration policy for a file. By default, files with `purpose=batch` expire after 30 days and all other files are persisted until they are manually deleted."]
+#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct FileExpirationAfter {
+    #[doc = "The number of seconds after the anchor time that the file will expire. Must be between 3600 (1 hour) and 2592000 (30 days)."]
+    pub seconds: i64,
+}
+impl<'de> serde::Deserialize<'de> for FileExpirationAfter {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct FileExpirationAfter {
+            #[serde(rename = "anchor")]
+            #[allow(dead_code)]
+            anchor: crate::__types::FileExpirationAfterAnchor,
+            #[serde(rename = "seconds")]
+            seconds: i64,
+        }
+        let FileExpirationAfter { seconds, .. } = FileExpirationAfter::deserialize(deserializer)?;
+        Ok(Self { seconds })
+    }
+}
+impl serde::Serialize for FileExpirationAfter {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct FileExpirationAfter<'a> {
+            #[serde(rename = "anchor")]
+            anchor: &'a crate::__types::FileExpirationAfterAnchor,
+            #[serde(rename = "seconds")]
+            seconds: &'a i64,
+        }
+        let Self { seconds } = self;
+        FileExpirationAfter {
+            anchor: &Default::default(),
+            seconds,
+        }
+        .serialize(serializer)
+    }
+}
 #[doc = "The type of the file path. Always `file_path`.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct FilePathType;
@@ -13438,7 +15661,7 @@ pub enum FileSearchToolCallStatus {
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct FileSearchToolCallResult {
+pub struct FileSearchToolCallResultsItem {
     #[doc = "The unique ID of the file.\n"]
     #[serde(rename = "file_id")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -13475,7 +15698,7 @@ pub struct FileSearchToolCall {
     pub queries: Vec<String>,
     #[doc = "The results of the file search tool call.\n"]
     #[builder(default)]
-    pub results: Option<Vec<crate::__types::FileSearchToolCallResult>>,
+    pub results: Option<Vec<crate::__types::FileSearchToolCallResultsItem>>,
 }
 impl<'de> serde::Deserialize<'de> for FileSearchToolCall {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -13495,7 +15718,7 @@ impl<'de> serde::Deserialize<'de> for FileSearchToolCall {
             #[serde(rename = "queries")]
             queries: Vec<String>,
             #[serde(rename = "results")]
-            results: Option<Vec<crate::__types::FileSearchToolCallResult>>,
+            results: Option<Vec<crate::__types::FileSearchToolCallResultsItem>>,
         }
         let FileSearchToolCall {
             id,
@@ -13530,7 +15753,7 @@ impl serde::Serialize for FileSearchToolCall {
             queries: &'a Vec<String>,
             #[serde(rename = "results")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            results: &'a Option<Vec<crate::__types::FileSearchToolCallResult>>,
+            results: &'a Option<Vec<crate::__types::FileSearchToolCallResultsItem>>,
         }
         let Self {
             id,
@@ -13679,7 +15902,7 @@ impl serde::Serialize for FineTuneChatCompletionRequestAssistantMessage {
 #[derive(serde :: Deserialize, serde :: Serialize)]
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
-pub enum FineTuneChatRequestInputMessages {
+pub enum FineTuneChatRequestInputMessagesItem {
     System(crate::__types::ChatCompletionRequestSystemMessage),
     User(crate::__types::ChatCompletionRequestUserMessage),
     Assistant(crate::__types::FineTuneChatCompletionRequestAssistantMessage),
@@ -13694,7 +15917,7 @@ pub struct FineTuneChatRequestInput {
     #[serde(rename = "messages")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub messages: Option<Vec<crate::__types::FineTuneChatRequestInputMessages>>,
+    pub messages: Option<Vec<crate::__types::FineTuneChatRequestInputMessagesItem>>,
     #[doc = "A list of tools the model may generate JSON inputs for."]
     #[serde(rename = "tools")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -14000,7 +16223,7 @@ pub struct FineTuneMethod {
 #[derive(serde :: Deserialize, serde :: Serialize)]
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
-pub enum FineTunePreferenceRequestInputInputMessages {
+pub enum FineTunePreferenceRequestInputInputMessagesItem {
     System(crate::__types::ChatCompletionRequestSystemMessage),
     User(crate::__types::ChatCompletionRequestUserMessage),
     Assistant(crate::__types::FineTuneChatCompletionRequestAssistantMessage),
@@ -14014,7 +16237,7 @@ pub struct FineTunePreferenceRequestInputInput {
     #[serde(rename = "messages")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub messages: Option<Vec<crate::__types::FineTunePreferenceRequestInputInputMessages>>,
+    pub messages: Option<Vec<crate::__types::FineTunePreferenceRequestInputInputMessagesItem>>,
     #[doc = "A list of tools the model may generate JSON inputs for."]
     #[serde(rename = "tools")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -14030,7 +16253,7 @@ pub struct FineTunePreferenceRequestInputInput {
 #[derive(serde :: Deserialize, serde :: Serialize)]
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
-pub enum FineTunePreferenceRequestInputPreferredOutput {
+pub enum FineTunePreferenceRequestInputPreferredOutputItem {
     ChatCompletionRequestAssistantMessage(crate::__types::ChatCompletionRequestAssistantMessage),
 }
 #[derive(Clone, Debug, PartialEq)]
@@ -14038,7 +16261,7 @@ pub enum FineTunePreferenceRequestInputPreferredOutput {
 #[derive(serde :: Deserialize, serde :: Serialize)]
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
-pub enum FineTunePreferenceRequestInputNonPreferredOutput {
+pub enum FineTunePreferenceRequestInputNonPreferredOutputItem {
     ChatCompletionRequestAssistantMessage(crate::__types::ChatCompletionRequestAssistantMessage),
 }
 #[doc = "The per-line training example of a fine-tuning input file for chat models using the dpo method.\nInput messages may contain text or image content only. Audio and file input messages\nare not currently supported for fine-tuning.\n"]
@@ -14055,13 +16278,13 @@ pub struct FineTunePreferenceRequestInput {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub preferred_output:
-        Option<Vec<crate::__types::FineTunePreferenceRequestInputPreferredOutput>>,
+        Option<Vec<crate::__types::FineTunePreferenceRequestInputPreferredOutputItem>>,
     #[doc = "The non-preferred completion message for the output."]
     #[serde(rename = "non_preferred_output")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub non_preferred_output:
-        Option<Vec<crate::__types::FineTunePreferenceRequestInputNonPreferredOutput>>,
+        Option<Vec<crate::__types::FineTunePreferenceRequestInputNonPreferredOutputItem>>,
 }
 #[doc = "auto"]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
@@ -14492,7 +16715,7 @@ pub struct FineTuneReinforcementMethod {
 #[derive(serde :: Deserialize, serde :: Serialize)]
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
-pub enum FineTuneReinforcementRequestInputMessages {
+pub enum FineTuneReinforcementRequestInputMessagesItem {
     Developer(crate::__types::ChatCompletionRequestDeveloperMessage),
     User(crate::__types::ChatCompletionRequestUserMessage),
     Assistant(crate::__types::FineTuneChatCompletionRequestAssistantMessage),
@@ -14504,7 +16727,7 @@ pub enum FineTuneReinforcementRequestInputMessages {
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
 pub struct FineTuneReinforcementRequestInput {
     #[serde(rename = "messages")]
-    pub messages: Vec<crate::__types::FineTuneReinforcementRequestInputMessages>,
+    pub messages: Vec<crate::__types::FineTuneReinforcementRequestInputMessagesItem>,
     #[doc = "A list of tools the model may generate JSON inputs for."]
     #[serde(rename = "tools")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -15096,7 +17319,7 @@ pub enum FineTuningJobStatus {
 #[derive(serde :: Deserialize, serde :: Serialize)]
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
-pub enum FineTuningJobIntegration {
+pub enum FineTuningJobIntegrationsItem {
     FineTuningIntegration(crate::__types::FineTuningIntegration),
 }
 #[doc = "The `fine_tuning.job` object represents a fine-tuning job that has been created through the API.\n"]
@@ -15136,7 +17359,7 @@ pub struct FineTuningJob {
     pub validation_file: Option<String>,
     #[doc = "A list of integrations to enable for this fine-tuning job."]
     #[builder(default)]
-    pub integrations: Option<Vec<crate::__types::FineTuningJobIntegration>>,
+    pub integrations: Option<Vec<crate::__types::FineTuningJobIntegrationsItem>>,
     #[doc = "The seed used for the fine-tuning job."]
     pub seed: i64,
     #[doc = "The Unix timestamp (in seconds) for when the fine-tuning job is estimated to finish. The value will be null if the fine-tuning job is not running."]
@@ -15185,7 +17408,7 @@ impl<'de> serde::Deserialize<'de> for FineTuningJob {
             #[serde(rename = "validation_file")]
             validation_file: Option<String>,
             #[serde(rename = "integrations")]
-            integrations: Option<Vec<crate::__types::FineTuningJobIntegration>>,
+            integrations: Option<Vec<crate::__types::FineTuningJobIntegrationsItem>>,
             #[serde(rename = "seed")]
             seed: i64,
             #[serde(rename = "estimated_finish")]
@@ -15281,7 +17504,7 @@ impl serde::Serialize for FineTuningJob {
             validation_file: &'a Option<String>,
             #[serde(rename = "integrations")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            integrations: &'a Option<Vec<crate::__types::FineTuningJobIntegration>>,
+            integrations: &'a Option<Vec<crate::__types::FineTuningJobIntegrationsItem>>,
             #[serde(rename = "seed")]
             seed: &'a i64,
             #[serde(rename = "estimated_finish")]
@@ -15628,7 +17851,7 @@ pub struct FunctionObject {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub parameters: Option<crate::__types::FunctionParameters>,
-    #[doc = "Whether to enable strict schema adherence when generating the function call. If set to true, the model will follow the exact schema defined in the `parameters` field. Only a subset of JSON Schema is supported when `strict` is `true`. Learn more about Structured Outputs in the [function calling guide](docs/guides/function-calling)."]
+    #[doc = "Whether to enable strict schema adherence when generating the function call. If set to true, the model will follow the exact schema defined in the `parameters` field. Only a subset of JSON Schema is supported when `strict` is `true`. Learn more about Structured Outputs in the [function calling guide](https://platform.openai.com/docs/guides/function-calling)."]
     #[serde(rename = "strict")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -16631,6 +18854,721 @@ pub struct Image {
     #[builder(default)]
     pub revised_prompt: Option<String>,
 }
+#[doc = "The type of the event. Always `image_edit.completed`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ImageEditCompletedEventType;
+impl_serde!(ImageEditCompletedEventType, "image_edit.completed");
+#[doc = "The size of the edited image.\n"]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+pub enum ImageEditCompletedEventSize {
+    #[doc = "`1024x1024`"]
+    #[serde(rename = "1024x1024")]
+    _1024x1024,
+    #[doc = "`1024x1536`"]
+    #[serde(rename = "1024x1536")]
+    _1024x1536,
+    #[doc = "`1536x1024`"]
+    #[serde(rename = "1536x1024")]
+    _1536x1024,
+    #[doc = "`auto`"]
+    #[serde(rename = "auto")]
+    Auto,
+}
+#[doc = "The quality setting for the edited image.\n"]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+pub enum ImageEditCompletedEventQuality {
+    #[doc = "`low`"]
+    #[serde(rename = "low")]
+    Low,
+    #[doc = "`medium`"]
+    #[serde(rename = "medium")]
+    Medium,
+    #[doc = "`high`"]
+    #[serde(rename = "high")]
+    High,
+    #[doc = "`auto`"]
+    #[serde(rename = "auto")]
+    Auto,
+}
+#[doc = "The background setting for the edited image.\n"]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+pub enum ImageEditCompletedEventBackground {
+    #[doc = "`transparent`"]
+    #[serde(rename = "transparent")]
+    Transparent,
+    #[doc = "`opaque`"]
+    #[serde(rename = "opaque")]
+    Opaque,
+    #[doc = "`auto`"]
+    #[serde(rename = "auto")]
+    Auto,
+}
+#[doc = "The output format for the edited image.\n"]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+pub enum ImageEditCompletedEventOutputFormat {
+    #[doc = "`png`"]
+    #[serde(rename = "png")]
+    Png,
+    #[doc = "`webp`"]
+    #[serde(rename = "webp")]
+    Webp,
+    #[doc = "`jpeg`"]
+    #[serde(rename = "jpeg")]
+    Jpeg,
+}
+#[doc = "Emitted when image editing has completed and the final image is available.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct ImageEditCompletedEvent {
+    #[doc = "Base64-encoded final edited image data, suitable for rendering as an image.\n"]
+    pub b64_json: String,
+    #[doc = "The Unix timestamp when the event was created.\n"]
+    pub created_at: i64,
+    #[doc = "The size of the edited image.\n"]
+    pub size: crate::__types::ImageEditCompletedEventSize,
+    #[doc = "The quality setting for the edited image.\n"]
+    pub quality: crate::__types::ImageEditCompletedEventQuality,
+    #[doc = "The background setting for the edited image.\n"]
+    pub background: crate::__types::ImageEditCompletedEventBackground,
+    #[doc = "The output format for the edited image.\n"]
+    pub output_format: crate::__types::ImageEditCompletedEventOutputFormat,
+    pub usage: crate::__types::ImagesUsage,
+}
+impl<'de> serde::Deserialize<'de> for ImageEditCompletedEvent {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct ImageEditCompletedEvent {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: crate::__types::ImageEditCompletedEventType,
+            #[serde(rename = "b64_json")]
+            b64_json: String,
+            #[serde(rename = "created_at")]
+            created_at: i64,
+            #[serde(rename = "size")]
+            size: crate::__types::ImageEditCompletedEventSize,
+            #[serde(rename = "quality")]
+            quality: crate::__types::ImageEditCompletedEventQuality,
+            #[serde(rename = "background")]
+            background: crate::__types::ImageEditCompletedEventBackground,
+            #[serde(rename = "output_format")]
+            output_format: crate::__types::ImageEditCompletedEventOutputFormat,
+            #[serde(rename = "usage")]
+            usage: crate::__types::ImagesUsage,
+        }
+        let ImageEditCompletedEvent {
+            b64_json,
+            created_at,
+            size,
+            quality,
+            background,
+            output_format,
+            usage,
+            ..
+        } = ImageEditCompletedEvent::deserialize(deserializer)?;
+        Ok(Self {
+            b64_json,
+            created_at,
+            size,
+            quality,
+            background,
+            output_format,
+            usage,
+        })
+    }
+}
+impl serde::Serialize for ImageEditCompletedEvent {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct ImageEditCompletedEvent<'a> {
+            #[serde(rename = "type")]
+            r#type: &'a crate::__types::ImageEditCompletedEventType,
+            #[serde(rename = "b64_json")]
+            b64_json: &'a String,
+            #[serde(rename = "created_at")]
+            created_at: &'a i64,
+            #[serde(rename = "size")]
+            size: &'a crate::__types::ImageEditCompletedEventSize,
+            #[serde(rename = "quality")]
+            quality: &'a crate::__types::ImageEditCompletedEventQuality,
+            #[serde(rename = "background")]
+            background: &'a crate::__types::ImageEditCompletedEventBackground,
+            #[serde(rename = "output_format")]
+            output_format: &'a crate::__types::ImageEditCompletedEventOutputFormat,
+            #[serde(rename = "usage")]
+            usage: &'a crate::__types::ImagesUsage,
+        }
+        let Self {
+            b64_json,
+            created_at,
+            size,
+            quality,
+            background,
+            output_format,
+            usage,
+        } = self;
+        ImageEditCompletedEvent {
+            r#type: &Default::default(),
+            b64_json,
+            created_at,
+            size,
+            quality,
+            background,
+            output_format,
+            usage,
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "The type of the event. Always `image_edit.partial_image`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ImageEditPartialImageEventType;
+impl_serde!(ImageEditPartialImageEventType, "image_edit.partial_image");
+#[doc = "The size of the requested edited image.\n"]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+pub enum ImageEditPartialImageEventSize {
+    #[doc = "`1024x1024`"]
+    #[serde(rename = "1024x1024")]
+    _1024x1024,
+    #[doc = "`1024x1536`"]
+    #[serde(rename = "1024x1536")]
+    _1024x1536,
+    #[doc = "`1536x1024`"]
+    #[serde(rename = "1536x1024")]
+    _1536x1024,
+    #[doc = "`auto`"]
+    #[serde(rename = "auto")]
+    Auto,
+}
+#[doc = "The quality setting for the requested edited image.\n"]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+pub enum ImageEditPartialImageEventQuality {
+    #[doc = "`low`"]
+    #[serde(rename = "low")]
+    Low,
+    #[doc = "`medium`"]
+    #[serde(rename = "medium")]
+    Medium,
+    #[doc = "`high`"]
+    #[serde(rename = "high")]
+    High,
+    #[doc = "`auto`"]
+    #[serde(rename = "auto")]
+    Auto,
+}
+#[doc = "The background setting for the requested edited image.\n"]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+pub enum ImageEditPartialImageEventBackground {
+    #[doc = "`transparent`"]
+    #[serde(rename = "transparent")]
+    Transparent,
+    #[doc = "`opaque`"]
+    #[serde(rename = "opaque")]
+    Opaque,
+    #[doc = "`auto`"]
+    #[serde(rename = "auto")]
+    Auto,
+}
+#[doc = "The output format for the requested edited image.\n"]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+pub enum ImageEditPartialImageEventOutputFormat {
+    #[doc = "`png`"]
+    #[serde(rename = "png")]
+    Png,
+    #[doc = "`webp`"]
+    #[serde(rename = "webp")]
+    Webp,
+    #[doc = "`jpeg`"]
+    #[serde(rename = "jpeg")]
+    Jpeg,
+}
+#[doc = "Emitted when a partial image is available during image editing streaming.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct ImageEditPartialImageEvent {
+    #[doc = "Base64-encoded partial image data, suitable for rendering as an image.\n"]
+    pub b64_json: String,
+    #[doc = "The Unix timestamp when the event was created.\n"]
+    pub created_at: i64,
+    #[doc = "The size of the requested edited image.\n"]
+    pub size: crate::__types::ImageEditPartialImageEventSize,
+    #[doc = "The quality setting for the requested edited image.\n"]
+    pub quality: crate::__types::ImageEditPartialImageEventQuality,
+    #[doc = "The background setting for the requested edited image.\n"]
+    pub background: crate::__types::ImageEditPartialImageEventBackground,
+    #[doc = "The output format for the requested edited image.\n"]
+    pub output_format: crate::__types::ImageEditPartialImageEventOutputFormat,
+    #[doc = "0-based index for the partial image (streaming).\n"]
+    pub partial_image_index: i64,
+}
+impl<'de> serde::Deserialize<'de> for ImageEditPartialImageEvent {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct ImageEditPartialImageEvent {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: crate::__types::ImageEditPartialImageEventType,
+            #[serde(rename = "b64_json")]
+            b64_json: String,
+            #[serde(rename = "created_at")]
+            created_at: i64,
+            #[serde(rename = "size")]
+            size: crate::__types::ImageEditPartialImageEventSize,
+            #[serde(rename = "quality")]
+            quality: crate::__types::ImageEditPartialImageEventQuality,
+            #[serde(rename = "background")]
+            background: crate::__types::ImageEditPartialImageEventBackground,
+            #[serde(rename = "output_format")]
+            output_format: crate::__types::ImageEditPartialImageEventOutputFormat,
+            #[serde(rename = "partial_image_index")]
+            partial_image_index: i64,
+        }
+        let ImageEditPartialImageEvent {
+            b64_json,
+            created_at,
+            size,
+            quality,
+            background,
+            output_format,
+            partial_image_index,
+            ..
+        } = ImageEditPartialImageEvent::deserialize(deserializer)?;
+        Ok(Self {
+            b64_json,
+            created_at,
+            size,
+            quality,
+            background,
+            output_format,
+            partial_image_index,
+        })
+    }
+}
+impl serde::Serialize for ImageEditPartialImageEvent {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct ImageEditPartialImageEvent<'a> {
+            #[serde(rename = "type")]
+            r#type: &'a crate::__types::ImageEditPartialImageEventType,
+            #[serde(rename = "b64_json")]
+            b64_json: &'a String,
+            #[serde(rename = "created_at")]
+            created_at: &'a i64,
+            #[serde(rename = "size")]
+            size: &'a crate::__types::ImageEditPartialImageEventSize,
+            #[serde(rename = "quality")]
+            quality: &'a crate::__types::ImageEditPartialImageEventQuality,
+            #[serde(rename = "background")]
+            background: &'a crate::__types::ImageEditPartialImageEventBackground,
+            #[serde(rename = "output_format")]
+            output_format: &'a crate::__types::ImageEditPartialImageEventOutputFormat,
+            #[serde(rename = "partial_image_index")]
+            partial_image_index: &'a i64,
+        }
+        let Self {
+            b64_json,
+            created_at,
+            size,
+            quality,
+            background,
+            output_format,
+            partial_image_index,
+        } = self;
+        ImageEditPartialImageEvent {
+            r#type: &Default::default(),
+            b64_json,
+            created_at,
+            size,
+            quality,
+            background,
+            output_format,
+            partial_image_index,
+        }
+        .serialize(serializer)
+    }
+}
+#[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
+#[allow(clippy::large_enum_variant)]
+pub enum ImageEditStreamEvent {
+    ImageEditPartialImage(crate::__types::ImageEditPartialImageEvent),
+    ImageEditCompleted(crate::__types::ImageEditCompletedEvent),
+}
+#[doc = "The type of the event. Always `image_generation.completed`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ImageGenCompletedEventType;
+impl_serde!(ImageGenCompletedEventType, "image_generation.completed");
+#[doc = "The size of the generated image.\n"]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+pub enum ImageGenCompletedEventSize {
+    #[doc = "`1024x1024`"]
+    #[serde(rename = "1024x1024")]
+    _1024x1024,
+    #[doc = "`1024x1536`"]
+    #[serde(rename = "1024x1536")]
+    _1024x1536,
+    #[doc = "`1536x1024`"]
+    #[serde(rename = "1536x1024")]
+    _1536x1024,
+    #[doc = "`auto`"]
+    #[serde(rename = "auto")]
+    Auto,
+}
+#[doc = "The quality setting for the generated image.\n"]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+pub enum ImageGenCompletedEventQuality {
+    #[doc = "`low`"]
+    #[serde(rename = "low")]
+    Low,
+    #[doc = "`medium`"]
+    #[serde(rename = "medium")]
+    Medium,
+    #[doc = "`high`"]
+    #[serde(rename = "high")]
+    High,
+    #[doc = "`auto`"]
+    #[serde(rename = "auto")]
+    Auto,
+}
+#[doc = "The background setting for the generated image.\n"]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+pub enum ImageGenCompletedEventBackground {
+    #[doc = "`transparent`"]
+    #[serde(rename = "transparent")]
+    Transparent,
+    #[doc = "`opaque`"]
+    #[serde(rename = "opaque")]
+    Opaque,
+    #[doc = "`auto`"]
+    #[serde(rename = "auto")]
+    Auto,
+}
+#[doc = "The output format for the generated image.\n"]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+pub enum ImageGenCompletedEventOutputFormat {
+    #[doc = "`png`"]
+    #[serde(rename = "png")]
+    Png,
+    #[doc = "`webp`"]
+    #[serde(rename = "webp")]
+    Webp,
+    #[doc = "`jpeg`"]
+    #[serde(rename = "jpeg")]
+    Jpeg,
+}
+#[doc = "Emitted when image generation has completed and the final image is available.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct ImageGenCompletedEvent {
+    #[doc = "Base64-encoded image data, suitable for rendering as an image.\n"]
+    pub b64_json: String,
+    #[doc = "The Unix timestamp when the event was created.\n"]
+    pub created_at: i64,
+    #[doc = "The size of the generated image.\n"]
+    pub size: crate::__types::ImageGenCompletedEventSize,
+    #[doc = "The quality setting for the generated image.\n"]
+    pub quality: crate::__types::ImageGenCompletedEventQuality,
+    #[doc = "The background setting for the generated image.\n"]
+    pub background: crate::__types::ImageGenCompletedEventBackground,
+    #[doc = "The output format for the generated image.\n"]
+    pub output_format: crate::__types::ImageGenCompletedEventOutputFormat,
+    pub usage: crate::__types::ImagesUsage,
+}
+impl<'de> serde::Deserialize<'de> for ImageGenCompletedEvent {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct ImageGenCompletedEvent {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: crate::__types::ImageGenCompletedEventType,
+            #[serde(rename = "b64_json")]
+            b64_json: String,
+            #[serde(rename = "created_at")]
+            created_at: i64,
+            #[serde(rename = "size")]
+            size: crate::__types::ImageGenCompletedEventSize,
+            #[serde(rename = "quality")]
+            quality: crate::__types::ImageGenCompletedEventQuality,
+            #[serde(rename = "background")]
+            background: crate::__types::ImageGenCompletedEventBackground,
+            #[serde(rename = "output_format")]
+            output_format: crate::__types::ImageGenCompletedEventOutputFormat,
+            #[serde(rename = "usage")]
+            usage: crate::__types::ImagesUsage,
+        }
+        let ImageGenCompletedEvent {
+            b64_json,
+            created_at,
+            size,
+            quality,
+            background,
+            output_format,
+            usage,
+            ..
+        } = ImageGenCompletedEvent::deserialize(deserializer)?;
+        Ok(Self {
+            b64_json,
+            created_at,
+            size,
+            quality,
+            background,
+            output_format,
+            usage,
+        })
+    }
+}
+impl serde::Serialize for ImageGenCompletedEvent {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct ImageGenCompletedEvent<'a> {
+            #[serde(rename = "type")]
+            r#type: &'a crate::__types::ImageGenCompletedEventType,
+            #[serde(rename = "b64_json")]
+            b64_json: &'a String,
+            #[serde(rename = "created_at")]
+            created_at: &'a i64,
+            #[serde(rename = "size")]
+            size: &'a crate::__types::ImageGenCompletedEventSize,
+            #[serde(rename = "quality")]
+            quality: &'a crate::__types::ImageGenCompletedEventQuality,
+            #[serde(rename = "background")]
+            background: &'a crate::__types::ImageGenCompletedEventBackground,
+            #[serde(rename = "output_format")]
+            output_format: &'a crate::__types::ImageGenCompletedEventOutputFormat,
+            #[serde(rename = "usage")]
+            usage: &'a crate::__types::ImagesUsage,
+        }
+        let Self {
+            b64_json,
+            created_at,
+            size,
+            quality,
+            background,
+            output_format,
+            usage,
+        } = self;
+        ImageGenCompletedEvent {
+            r#type: &Default::default(),
+            b64_json,
+            created_at,
+            size,
+            quality,
+            background,
+            output_format,
+            usage,
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "The type of the event. Always `image_generation.partial_image`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ImageGenPartialImageEventType;
+impl_serde!(
+    ImageGenPartialImageEventType,
+    "image_generation.partial_image"
+);
+#[doc = "The size of the requested image.\n"]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+pub enum ImageGenPartialImageEventSize {
+    #[doc = "`1024x1024`"]
+    #[serde(rename = "1024x1024")]
+    _1024x1024,
+    #[doc = "`1024x1536`"]
+    #[serde(rename = "1024x1536")]
+    _1024x1536,
+    #[doc = "`1536x1024`"]
+    #[serde(rename = "1536x1024")]
+    _1536x1024,
+    #[doc = "`auto`"]
+    #[serde(rename = "auto")]
+    Auto,
+}
+#[doc = "The quality setting for the requested image.\n"]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+pub enum ImageGenPartialImageEventQuality {
+    #[doc = "`low`"]
+    #[serde(rename = "low")]
+    Low,
+    #[doc = "`medium`"]
+    #[serde(rename = "medium")]
+    Medium,
+    #[doc = "`high`"]
+    #[serde(rename = "high")]
+    High,
+    #[doc = "`auto`"]
+    #[serde(rename = "auto")]
+    Auto,
+}
+#[doc = "The background setting for the requested image.\n"]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+pub enum ImageGenPartialImageEventBackground {
+    #[doc = "`transparent`"]
+    #[serde(rename = "transparent")]
+    Transparent,
+    #[doc = "`opaque`"]
+    #[serde(rename = "opaque")]
+    Opaque,
+    #[doc = "`auto`"]
+    #[serde(rename = "auto")]
+    Auto,
+}
+#[doc = "The output format for the requested image.\n"]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+pub enum ImageGenPartialImageEventOutputFormat {
+    #[doc = "`png`"]
+    #[serde(rename = "png")]
+    Png,
+    #[doc = "`webp`"]
+    #[serde(rename = "webp")]
+    Webp,
+    #[doc = "`jpeg`"]
+    #[serde(rename = "jpeg")]
+    Jpeg,
+}
+#[doc = "Emitted when a partial image is available during image generation streaming.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct ImageGenPartialImageEvent {
+    #[doc = "Base64-encoded partial image data, suitable for rendering as an image.\n"]
+    pub b64_json: String,
+    #[doc = "The Unix timestamp when the event was created.\n"]
+    pub created_at: i64,
+    #[doc = "The size of the requested image.\n"]
+    pub size: crate::__types::ImageGenPartialImageEventSize,
+    #[doc = "The quality setting for the requested image.\n"]
+    pub quality: crate::__types::ImageGenPartialImageEventQuality,
+    #[doc = "The background setting for the requested image.\n"]
+    pub background: crate::__types::ImageGenPartialImageEventBackground,
+    #[doc = "The output format for the requested image.\n"]
+    pub output_format: crate::__types::ImageGenPartialImageEventOutputFormat,
+    #[doc = "0-based index for the partial image (streaming).\n"]
+    pub partial_image_index: i64,
+}
+impl<'de> serde::Deserialize<'de> for ImageGenPartialImageEvent {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct ImageGenPartialImageEvent {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: crate::__types::ImageGenPartialImageEventType,
+            #[serde(rename = "b64_json")]
+            b64_json: String,
+            #[serde(rename = "created_at")]
+            created_at: i64,
+            #[serde(rename = "size")]
+            size: crate::__types::ImageGenPartialImageEventSize,
+            #[serde(rename = "quality")]
+            quality: crate::__types::ImageGenPartialImageEventQuality,
+            #[serde(rename = "background")]
+            background: crate::__types::ImageGenPartialImageEventBackground,
+            #[serde(rename = "output_format")]
+            output_format: crate::__types::ImageGenPartialImageEventOutputFormat,
+            #[serde(rename = "partial_image_index")]
+            partial_image_index: i64,
+        }
+        let ImageGenPartialImageEvent {
+            b64_json,
+            created_at,
+            size,
+            quality,
+            background,
+            output_format,
+            partial_image_index,
+            ..
+        } = ImageGenPartialImageEvent::deserialize(deserializer)?;
+        Ok(Self {
+            b64_json,
+            created_at,
+            size,
+            quality,
+            background,
+            output_format,
+            partial_image_index,
+        })
+    }
+}
+impl serde::Serialize for ImageGenPartialImageEvent {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct ImageGenPartialImageEvent<'a> {
+            #[serde(rename = "type")]
+            r#type: &'a crate::__types::ImageGenPartialImageEventType,
+            #[serde(rename = "b64_json")]
+            b64_json: &'a String,
+            #[serde(rename = "created_at")]
+            created_at: &'a i64,
+            #[serde(rename = "size")]
+            size: &'a crate::__types::ImageGenPartialImageEventSize,
+            #[serde(rename = "quality")]
+            quality: &'a crate::__types::ImageGenPartialImageEventQuality,
+            #[serde(rename = "background")]
+            background: &'a crate::__types::ImageGenPartialImageEventBackground,
+            #[serde(rename = "output_format")]
+            output_format: &'a crate::__types::ImageGenPartialImageEventOutputFormat,
+            #[serde(rename = "partial_image_index")]
+            partial_image_index: &'a i64,
+        }
+        let Self {
+            b64_json,
+            created_at,
+            size,
+            quality,
+            background,
+            output_format,
+            partial_image_index,
+        } = self;
+        ImageGenPartialImageEvent {
+            r#type: &Default::default(),
+            b64_json,
+            created_at,
+            size,
+            quality,
+            background,
+            output_format,
+            partial_image_index,
+        }
+        .serialize(serializer)
+    }
+}
+#[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
+#[allow(clippy::large_enum_variant)]
+pub enum ImageGenStreamEvent {
+    ImageGenerationPartialImage(crate::__types::ImageGenPartialImageEvent),
+    ImageGenerationCompleted(crate::__types::ImageGenCompletedEvent),
+}
 #[doc = "The type of the image generation tool. Always `image_generation`.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ImageGenToolType;
@@ -16756,6 +19694,8 @@ pub struct ImageGenTool {
     #[doc = "Background type for the generated image. One of `transparent`, \n`opaque`, or `auto`. Default: `auto`.\n"]
     #[builder(default)]
     pub background: Option<crate::__types::ImageGenToolBackground>,
+    #[builder(default)]
+    pub input_fidelity: Option<crate::__types::ImageInputFidelity>,
     #[doc = "Optional mask for inpainting. Contains `image_url` \n(string, optional) and `file_id` (string, optional).\n"]
     #[builder(default)]
     pub input_image_mask: Option<crate::__types::ImageGenToolInputImageMask>,
@@ -16788,6 +19728,8 @@ impl<'de> serde::Deserialize<'de> for ImageGenTool {
             moderation: Option<crate::__types::ImageGenToolModeration>,
             #[serde(rename = "background")]
             background: Option<crate::__types::ImageGenToolBackground>,
+            #[serde(rename = "input_fidelity")]
+            input_fidelity: Option<crate::__types::ImageInputFidelity>,
             #[serde(rename = "input_image_mask")]
             input_image_mask: Option<crate::__types::ImageGenToolInputImageMask>,
             #[serde(rename = "partial_images")]
@@ -16801,6 +19743,7 @@ impl<'de> serde::Deserialize<'de> for ImageGenTool {
             output_compression,
             moderation,
             background,
+            input_fidelity,
             input_image_mask,
             partial_images,
             ..
@@ -16813,6 +19756,7 @@ impl<'de> serde::Deserialize<'de> for ImageGenTool {
             output_compression,
             moderation,
             background,
+            input_fidelity,
             input_image_mask,
             partial_images,
         })
@@ -16849,6 +19793,9 @@ impl serde::Serialize for ImageGenTool {
             #[serde(rename = "background")]
             #[serde(skip_serializing_if = "Option::is_none")]
             background: &'a Option<crate::__types::ImageGenToolBackground>,
+            #[serde(rename = "input_fidelity")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            input_fidelity: &'a Option<crate::__types::ImageInputFidelity>,
             #[serde(rename = "input_image_mask")]
             #[serde(skip_serializing_if = "Option::is_none")]
             input_image_mask: &'a Option<crate::__types::ImageGenToolInputImageMask>,
@@ -16864,6 +19811,7 @@ impl serde::Serialize for ImageGenTool {
             output_compression,
             moderation,
             background,
+            input_fidelity,
             input_image_mask,
             partial_images,
         } = self;
@@ -16876,6 +19824,7 @@ impl serde::Serialize for ImageGenTool {
             output_compression,
             moderation,
             background,
+            input_fidelity,
             input_image_mask,
             partial_images,
         }
@@ -16965,6 +19914,17 @@ impl serde::Serialize for ImageGenToolCall {
         .serialize(serializer)
     }
 }
+#[doc = "Control how much effort the model will exert to match the style and features,\nespecially facial features, of input images. This parameter is only supported\nfor `gpt-image-1`. Supports `high` and `low`. Defaults to `low`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
+pub enum ImageInputFidelity {
+    #[doc = "`high`"]
+    #[serde(rename = "high")]
+    High,
+    #[doc = "`low`"]
+    #[default]
+    #[serde(rename = "low")]
+    Low,
+}
 #[doc = "The background parameter used for the image generation. Either `transparent` or `opaque`."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ImagesResponseBackground {
@@ -17014,36 +19974,6 @@ pub enum ImagesResponseQuality {
     #[serde(rename = "high")]
     High,
 }
-#[doc = "The input tokens detailed information for the image generation."]
-#[derive(Clone, Copy, Debug, PartialEq)]
-#[serde_with::serde_as]
-#[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct ImagesResponseUsageInputTokensDetails {
-    #[doc = "The number of text tokens in the input prompt."]
-    #[serde(rename = "text_tokens")]
-    pub text_tokens: i64,
-    #[doc = "The number of image tokens in the input prompt."]
-    #[serde(rename = "image_tokens")]
-    pub image_tokens: i64,
-}
-#[doc = "For `gpt-image-1` only, the token usage information for the image generation.\n"]
-#[derive(Clone, Copy, Debug, PartialEq)]
-#[serde_with::serde_as]
-#[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct ImagesResponseUsage {
-    #[doc = "The total number of tokens (images and text) used for the image generation."]
-    #[serde(rename = "total_tokens")]
-    pub total_tokens: i64,
-    #[doc = "The number of tokens (images and text) in the input prompt."]
-    #[serde(rename = "input_tokens")]
-    pub input_tokens: i64,
-    #[doc = "The number of image tokens in the output image."]
-    #[serde(rename = "output_tokens")]
-    pub output_tokens: i64,
-    #[doc = "The input tokens detailed information for the image generation."]
-    #[serde(rename = "input_tokens_details")]
-    pub input_tokens_details: crate::__types::ImagesResponseUsageInputTokensDetails,
-}
 #[doc = "The response from the image generation endpoint."]
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
@@ -17077,11 +20007,40 @@ pub struct ImagesResponse {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub quality: Option<crate::__types::ImagesResponseQuality>,
-    #[doc = "For `gpt-image-1` only, the token usage information for the image generation.\n"]
     #[serde(rename = "usage")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub usage: Option<crate::__types::ImagesResponseUsage>,
+    pub usage: Option<crate::__types::ImageGenUsage>,
+}
+#[doc = "The input tokens detailed information for the image generation."]
+#[derive(Clone, Copy, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
+pub struct ImagesUsageInputTokensDetails {
+    #[doc = "The number of text tokens in the input prompt."]
+    #[serde(rename = "text_tokens")]
+    pub text_tokens: i64,
+    #[doc = "The number of image tokens in the input prompt."]
+    #[serde(rename = "image_tokens")]
+    pub image_tokens: i64,
+}
+#[doc = "For `gpt-image-1` only, the token usage information for the image generation.\n"]
+#[derive(Clone, Copy, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
+pub struct ImagesUsage {
+    #[doc = "The total number of tokens (images and text) used for the image generation.\n"]
+    #[serde(rename = "total_tokens")]
+    pub total_tokens: i64,
+    #[doc = "The number of tokens (images and text) in the input prompt."]
+    #[serde(rename = "input_tokens")]
+    pub input_tokens: i64,
+    #[doc = "The number of image tokens in the output image."]
+    #[serde(rename = "output_tokens")]
+    pub output_tokens: i64,
+    #[doc = "The input tokens detailed information for the image generation."]
+    #[serde(rename = "input_tokens_details")]
+    pub input_tokens_details: crate::__types::ImagesUsageInputTokensDetails,
 }
 #[doc = "Specify additional output data to include in the model response. Currently\nsupported values are:\n- `code_interpreter_call.outputs`: Includes the outputs of python code execution\n  in code interpreter tool call items.\n- `computer_call_output.output.image_url`: Include image urls from the computer call output.\n- `file_search_call.results`: Include the search results of\n  the file search tool call.\n- `message.input_image.image_url`: Include image urls from the input message.\n- `message.output_text.logprobs`: Include logprobs with assistant messages.\n- `reasoning.encrypted_content`: Includes an encrypted version of reasoning\n  tokens in reasoning item outputs. This enables reasoning items to be used in\n  multi-turn conversations when using the Responses API statelessly (like\n  when the `store` parameter is set to `false`, or when an organization is\n  enrolled in the zero data retention program).\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
@@ -17297,7 +20256,7 @@ pub enum InviteStatus {
 }
 #[doc = "Project membership role"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum InviteProjectsRole {
+pub enum InviteProjectsItemRole {
     #[doc = "`member`"]
     #[serde(rename = "member")]
     Member,
@@ -17308,7 +20267,7 @@ pub enum InviteProjectsRole {
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct InviteProjects {
+pub struct InviteProjectsItem {
     #[doc = "Project's public ID"]
     #[serde(rename = "id")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -17318,7 +20277,7 @@ pub struct InviteProjects {
     #[serde(rename = "role")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub role: Option<crate::__types::InviteProjectsRole>,
+    pub role: Option<crate::__types::InviteProjectsItemRole>,
 }
 #[doc = "Represents an individual `invite` to the organization."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
@@ -17340,7 +20299,7 @@ pub struct Invite {
     pub accepted_at: Option<i64>,
     #[doc = "The projects that were granted membership upon acceptance of the invite."]
     #[builder(default)]
-    pub projects: Option<Vec<crate::__types::InviteProjects>>,
+    pub projects: Option<Vec<crate::__types::InviteProjectsItem>>,
 }
 impl<'de> serde::Deserialize<'de> for Invite {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -17368,7 +20327,7 @@ impl<'de> serde::Deserialize<'de> for Invite {
             #[serde(rename = "accepted_at")]
             accepted_at: Option<i64>,
             #[serde(rename = "projects")]
-            projects: Option<Vec<crate::__types::InviteProjects>>,
+            projects: Option<Vec<crate::__types::InviteProjectsItem>>,
         }
         let Invite {
             id,
@@ -17420,7 +20379,7 @@ impl serde::Serialize for Invite {
             accepted_at: &'a Option<i64>,
             #[serde(rename = "projects")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            projects: &'a Option<Vec<crate::__types::InviteProjects>>,
+            projects: &'a Option<Vec<crate::__types::InviteProjectsItem>>,
         }
         let Self {
             id,
@@ -17602,7 +20561,7 @@ pub enum InviteRequestRole {
 }
 #[doc = "Project membership role"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum InviteRequestProjectsRole {
+pub enum InviteRequestProjectsItemRole {
     #[doc = "`member`"]
     #[serde(rename = "member")]
     Member,
@@ -17613,13 +20572,13 @@ pub enum InviteRequestProjectsRole {
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct InviteRequestProjects {
+pub struct InviteRequestProjectsItem {
     #[doc = "Project's public ID"]
     #[serde(rename = "id")]
     pub id: String,
     #[doc = "Project membership role"]
     #[serde(rename = "role")]
-    pub role: crate::__types::InviteRequestProjectsRole,
+    pub role: crate::__types::InviteRequestProjectsItemRole,
 }
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
@@ -17635,7 +20594,7 @@ pub struct InviteRequest {
     #[serde(rename = "projects")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub projects: Option<Vec<crate::__types::InviteRequestProjects>>,
+    pub projects: Option<Vec<crate::__types::InviteRequestProjectsItem>>,
 }
 #[doc = "Content item used to generate a response.\n"]
 #[derive(Clone, Debug, PartialEq)]
@@ -17661,6 +20620,8 @@ pub enum Item {
     McpApprovalRequest(crate::__types::McpApprovalRequest),
     McpApprovalResponse(crate::__types::McpApprovalResponse),
     McpToolCall(crate::__types::McpToolCall),
+    CustomToolCallOutput(crate::__types::CustomToolCallOutput),
+    CustomToolCall(crate::__types::CustomToolCall),
 }
 #[doc = "Content item used to generate a response.\n"]
 #[derive(Clone, Debug, PartialEq)]
@@ -19296,6 +22257,9 @@ pub struct McpTool {
     pub server_label: String,
     #[doc = "The URL for the MCP server.\n"]
     pub server_url: String,
+    #[doc = "Optional description of the MCP server, used to provide more context.\n"]
+    #[builder(default)]
+    pub server_description: Option<String>,
     #[doc = "Optional HTTP headers to send to the MCP server. Use for authentication\nor other purposes.\n"]
     #[builder(default)]
     pub headers: Option<indexmap::IndexMap<String, String>>,
@@ -19321,6 +22285,8 @@ impl<'de> serde::Deserialize<'de> for McpTool {
             server_label: String,
             #[serde(rename = "server_url")]
             server_url: String,
+            #[serde(rename = "server_description")]
+            server_description: Option<String>,
             #[serde(rename = "headers")]
             headers: Option<indexmap::IndexMap<String, String>>,
             #[serde(rename = "allowed_tools")]
@@ -19331,6 +22297,7 @@ impl<'de> serde::Deserialize<'de> for McpTool {
         let McpTool {
             server_label,
             server_url,
+            server_description,
             headers,
             allowed_tools,
             require_approval,
@@ -19339,6 +22306,7 @@ impl<'de> serde::Deserialize<'de> for McpTool {
         Ok(Self {
             server_label,
             server_url,
+            server_description,
             headers,
             allowed_tools,
             require_approval,
@@ -19359,6 +22327,9 @@ impl serde::Serialize for McpTool {
             server_label: &'a String,
             #[serde(rename = "server_url")]
             server_url: &'a String,
+            #[serde(rename = "server_description")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            server_description: &'a Option<String>,
             #[serde(rename = "headers")]
             #[serde(skip_serializing_if = "Option::is_none")]
             headers: &'a Option<indexmap::IndexMap<String, String>>,
@@ -19372,6 +22343,7 @@ impl serde::Serialize for McpTool {
         let Self {
             server_label,
             server_url,
+            server_description,
             headers,
             allowed_tools,
             require_approval,
@@ -19380,6 +22352,7 @@ impl serde::Serialize for McpTool {
             r#type: &Default::default(),
             server_label,
             server_url,
+            server_description,
             headers,
             allowed_tools,
             require_approval,
@@ -19891,22 +22864,13 @@ struct MessageContentTextObjectType;
 impl_serde!(MessageContentTextObjectType, "text");
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
-#[derive(serde :: Deserialize, serde :: Serialize)]
-#[serde(untagged)]
-#[allow(clippy::large_enum_variant)]
-pub enum MessageContentTextObjectTextAnnotation {
-    FileCitation(crate::__types::MessageContentTextAnnotationsFileCitationObject),
-    FilePath(crate::__types::MessageContentTextAnnotationsFilePathObject),
-}
-#[derive(Clone, Debug, PartialEq)]
-#[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
 pub struct MessageContentTextObjectText {
     #[doc = "The data that makes up the text."]
     #[serde(rename = "value")]
     pub value: String,
     #[serde(rename = "annotations")]
-    pub annotations: Vec<crate::__types::MessageContentTextObjectTextAnnotation>,
+    pub annotations: Vec<crate::__types::TextAnnotation>,
 }
 #[doc = "The text content that is part of a message."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
@@ -20432,15 +23396,6 @@ impl serde::Serialize for MessageDeltaContentTextAnnotationsFilePathObject {
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct MessageDeltaContentTextObjectType;
 impl_serde!(MessageDeltaContentTextObjectType, "text");
-#[derive(Clone, Debug, PartialEq)]
-#[serde_with::serde_as]
-#[derive(serde :: Deserialize, serde :: Serialize)]
-#[serde(untagged)]
-#[allow(clippy::large_enum_variant)]
-pub enum MessageDeltaContentTextObjectTextAnnotation {
-    FileCitation(crate::__types::MessageDeltaContentTextAnnotationsFileCitationObject),
-    FilePath(crate::__types::MessageDeltaContentTextAnnotationsFilePathObject),
-}
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
@@ -20453,7 +23408,7 @@ pub struct MessageDeltaContentTextObjectText {
     #[serde(rename = "annotations")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub annotations: Option<Vec<crate::__types::MessageDeltaContentTextObjectTextAnnotation>>,
+    pub annotations: Option<Vec<crate::__types::TextAnnotationDelta>>,
 }
 #[doc = "The text content that is part of a message."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
@@ -20523,17 +23478,6 @@ pub enum MessageDeltaObjectDeltaRole {
     #[serde(rename = "assistant")]
     Assistant,
 }
-#[derive(Clone, Debug, PartialEq)]
-#[serde_with::serde_as]
-#[derive(serde :: Deserialize, serde :: Serialize)]
-#[serde(untagged)]
-#[allow(clippy::large_enum_variant)]
-pub enum MessageDeltaObjectDeltaContent {
-    ImageFile(crate::__types::MessageDeltaContentImageFileObject),
-    Text(crate::__types::MessageDeltaContentTextObject),
-    Refusal(crate::__types::MessageDeltaContentRefusalObject),
-    ImageUrl(crate::__types::MessageDeltaContentImageUrlObject),
-}
 #[doc = "The delta containing the fields that have changed on the Message."]
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
@@ -20548,7 +23492,7 @@ pub struct MessageDeltaObjectDelta {
     #[serde(rename = "content")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub content: Option<Vec<crate::__types::MessageDeltaObjectDeltaContent>>,
+    pub content: Option<Vec<crate::__types::MessageContentDelta>>,
 }
 #[doc = "Represents a message delta i.e. any changed fields on a message during streaming.\n"]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
@@ -20658,30 +23602,19 @@ pub enum MessageObjectRole {
     #[serde(rename = "assistant")]
     Assistant,
 }
-#[derive(Clone, Debug, PartialEq)]
-#[serde_with::serde_as]
-#[derive(serde :: Deserialize, serde :: Serialize)]
-#[serde(untagged)]
-#[allow(clippy::large_enum_variant)]
-pub enum MessageObjectContent {
-    ImageFile(crate::__types::MessageContentImageFileObject),
-    ImageUrl(crate::__types::MessageContentImageUrlObject),
-    Text(crate::__types::MessageContentTextObject),
-    Refusal(crate::__types::MessageContentRefusalObject),
-}
 #[derive(Clone, Copy, Debug, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize)]
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
-pub enum MessageObjectAttachmentsTool {
+pub enum MessageObjectAttachmentsItemToolsItem {
     CodeInterpreter(crate::__types::AssistantToolsCode),
     FileSearch(crate::__types::AssistantToolsFileSearchTypeOnly),
 }
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct MessageObjectAttachments {
+pub struct MessageObjectAttachmentsItem {
     #[doc = "The ID of the file to attach to the message."]
     #[serde(rename = "file_id")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -20691,7 +23624,7 @@ pub struct MessageObjectAttachments {
     #[serde(rename = "tools")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub tools: Option<Vec<crate::__types::MessageObjectAttachmentsTool>>,
+    pub tools: Option<Vec<crate::__types::MessageObjectAttachmentsItemToolsItem>>,
 }
 #[doc = "Represents a message within a [thread](https://platform.openai.com/docs/api-reference/threads)."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
@@ -20716,7 +23649,7 @@ pub struct MessageObject {
     #[doc = "The entity that produced the message. One of `user` or `assistant`."]
     pub role: crate::__types::MessageObjectRole,
     #[doc = "The content of the message in array of text and/or images."]
-    pub content: Vec<crate::__types::MessageObjectContent>,
+    pub content: Vec<crate::__types::MessageContent>,
     #[doc = "If applicable, the ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) that authored this message."]
     #[builder(default)]
     pub assistant_id: Option<String>,
@@ -20725,7 +23658,7 @@ pub struct MessageObject {
     pub run_id: Option<String>,
     #[doc = "A list of files attached to the message, and the tools they were added to."]
     #[builder(default)]
-    pub attachments: Option<Vec<crate::__types::MessageObjectAttachments>>,
+    pub attachments: Option<Vec<crate::__types::MessageObjectAttachmentsItem>>,
     #[builder(default)]
     pub metadata: Option<crate::__types::Metadata>,
 }
@@ -20757,13 +23690,13 @@ impl<'de> serde::Deserialize<'de> for MessageObject {
             #[serde(rename = "role")]
             role: crate::__types::MessageObjectRole,
             #[serde(rename = "content")]
-            content: Vec<crate::__types::MessageObjectContent>,
+            content: Vec<crate::__types::MessageContent>,
             #[serde(rename = "assistant_id")]
             assistant_id: Option<String>,
             #[serde(rename = "run_id")]
             run_id: Option<String>,
             #[serde(rename = "attachments")]
-            attachments: Option<Vec<crate::__types::MessageObjectAttachments>>,
+            attachments: Option<Vec<crate::__types::MessageObjectAttachmentsItem>>,
             #[serde(rename = "metadata")]
             metadata: Option<crate::__types::Metadata>,
         }
@@ -20830,7 +23763,7 @@ impl serde::Serialize for MessageObject {
             #[serde(rename = "role")]
             role: &'a crate::__types::MessageObjectRole,
             #[serde(rename = "content")]
-            content: &'a Vec<crate::__types::MessageObjectContent>,
+            content: &'a Vec<crate::__types::MessageContent>,
             #[serde(rename = "assistant_id")]
             #[serde(skip_serializing_if = "Option::is_none")]
             assistant_id: &'a Option<String>,
@@ -20839,7 +23772,7 @@ impl serde::Serialize for MessageObject {
             run_id: &'a Option<String>,
             #[serde(rename = "attachments")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            attachments: &'a Option<Vec<crate::__types::MessageObjectAttachments>>,
+            attachments: &'a Option<Vec<crate::__types::MessageObjectAttachmentsItem>>,
             #[serde(rename = "metadata")]
             #[serde(skip_serializing_if = "Option::is_none")]
             metadata: &'a Option<crate::__types::Metadata>,
@@ -21459,370 +24392,11 @@ impl serde::Serialize for ModelIdsResponses {
         .serialize(serializer)
     }
 }
-#[doc = "gpt-4.1"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt4_1;
-impl_serde!(ModelIdsSharedGpt4_1, "gpt-4.1");
-#[doc = "gpt-4.1-mini"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt4_1Mini;
-impl_serde!(ModelIdsSharedGpt4_1Mini, "gpt-4.1-mini");
-#[doc = "gpt-4.1-nano"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt4_1Nano;
-impl_serde!(ModelIdsSharedGpt4_1Nano, "gpt-4.1-nano");
-#[doc = "gpt-4.1-2025-04-14"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt4_1_2025_04_14;
-impl_serde!(ModelIdsSharedGpt4_1_2025_04_14, "gpt-4.1-2025-04-14");
-#[doc = "gpt-4.1-mini-2025-04-14"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt4_1Mini2025_04_14;
-impl_serde!(
-    ModelIdsSharedGpt4_1Mini2025_04_14,
-    "gpt-4.1-mini-2025-04-14"
-);
-#[doc = "gpt-4.1-nano-2025-04-14"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt4_1Nano2025_04_14;
-impl_serde!(
-    ModelIdsSharedGpt4_1Nano2025_04_14,
-    "gpt-4.1-nano-2025-04-14"
-);
-#[doc = "o4-mini"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedO4Mini;
-impl_serde!(ModelIdsSharedO4Mini, "o4-mini");
-#[doc = "o4-mini-2025-04-16"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedO4Mini2025_04_16;
-impl_serde!(ModelIdsSharedO4Mini2025_04_16, "o4-mini-2025-04-16");
-#[doc = "o3"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedO3;
-impl_serde!(ModelIdsSharedO3, "o3");
-#[doc = "o3-2025-04-16"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedO3_2025_04_16;
-impl_serde!(ModelIdsSharedO3_2025_04_16, "o3-2025-04-16");
-#[doc = "o3-mini"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedO3Mini;
-impl_serde!(ModelIdsSharedO3Mini, "o3-mini");
-#[doc = "o3-mini-2025-01-31"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedO3Mini2025_01_31;
-impl_serde!(ModelIdsSharedO3Mini2025_01_31, "o3-mini-2025-01-31");
-#[doc = "o1"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedO1;
-impl_serde!(ModelIdsSharedO1, "o1");
-#[doc = "o1-2024-12-17"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedO1_2024_12_17;
-impl_serde!(ModelIdsSharedO1_2024_12_17, "o1-2024-12-17");
-#[doc = "o1-preview"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedO1Preview;
-impl_serde!(ModelIdsSharedO1Preview, "o1-preview");
-#[doc = "o1-preview-2024-09-12"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedO1Preview2024_09_12;
-impl_serde!(ModelIdsSharedO1Preview2024_09_12, "o1-preview-2024-09-12");
-#[doc = "o1-mini"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedO1Mini;
-impl_serde!(ModelIdsSharedO1Mini, "o1-mini");
-#[doc = "o1-mini-2024-09-12"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedO1Mini2024_09_12;
-impl_serde!(ModelIdsSharedO1Mini2024_09_12, "o1-mini-2024-09-12");
-#[doc = "gpt-4o"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt4o;
-impl_serde!(ModelIdsSharedGpt4o, "gpt-4o");
-#[doc = "gpt-4o-2024-11-20"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt4o2024_11_20;
-impl_serde!(ModelIdsSharedGpt4o2024_11_20, "gpt-4o-2024-11-20");
-#[doc = "gpt-4o-2024-08-06"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt4o2024_08_06;
-impl_serde!(ModelIdsSharedGpt4o2024_08_06, "gpt-4o-2024-08-06");
-#[doc = "gpt-4o-2024-05-13"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt4o2024_05_13;
-impl_serde!(ModelIdsSharedGpt4o2024_05_13, "gpt-4o-2024-05-13");
-#[doc = "gpt-4o-audio-preview"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt4oAudioPreview;
-impl_serde!(ModelIdsSharedGpt4oAudioPreview, "gpt-4o-audio-preview");
-#[doc = "gpt-4o-audio-preview-2024-10-01"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt4oAudioPreview2024_10_01;
-impl_serde!(
-    ModelIdsSharedGpt4oAudioPreview2024_10_01,
-    "gpt-4o-audio-preview-2024-10-01"
-);
-#[doc = "gpt-4o-audio-preview-2024-12-17"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt4oAudioPreview2024_12_17;
-impl_serde!(
-    ModelIdsSharedGpt4oAudioPreview2024_12_17,
-    "gpt-4o-audio-preview-2024-12-17"
-);
-#[doc = "gpt-4o-audio-preview-2025-06-03"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt4oAudioPreview2025_06_03;
-impl_serde!(
-    ModelIdsSharedGpt4oAudioPreview2025_06_03,
-    "gpt-4o-audio-preview-2025-06-03"
-);
-#[doc = "gpt-4o-mini-audio-preview"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt4oMiniAudioPreview;
-impl_serde!(
-    ModelIdsSharedGpt4oMiniAudioPreview,
-    "gpt-4o-mini-audio-preview"
-);
-#[doc = "gpt-4o-mini-audio-preview-2024-12-17"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt4oMiniAudioPreview2024_12_17;
-impl_serde!(
-    ModelIdsSharedGpt4oMiniAudioPreview2024_12_17,
-    "gpt-4o-mini-audio-preview-2024-12-17"
-);
-#[doc = "gpt-4o-search-preview"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt4oSearchPreview;
-impl_serde!(ModelIdsSharedGpt4oSearchPreview, "gpt-4o-search-preview");
-#[doc = "gpt-4o-mini-search-preview"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt4oMiniSearchPreview;
-impl_serde!(
-    ModelIdsSharedGpt4oMiniSearchPreview,
-    "gpt-4o-mini-search-preview"
-);
-#[doc = "gpt-4o-search-preview-2025-03-11"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt4oSearchPreview2025_03_11;
-impl_serde!(
-    ModelIdsSharedGpt4oSearchPreview2025_03_11,
-    "gpt-4o-search-preview-2025-03-11"
-);
-#[doc = "gpt-4o-mini-search-preview-2025-03-11"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt4oMiniSearchPreview2025_03_11;
-impl_serde!(
-    ModelIdsSharedGpt4oMiniSearchPreview2025_03_11,
-    "gpt-4o-mini-search-preview-2025-03-11"
-);
-#[doc = "chatgpt-4o-latest"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedChatgpt4oLatest;
-impl_serde!(ModelIdsSharedChatgpt4oLatest, "chatgpt-4o-latest");
-#[doc = "codex-mini-latest"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedCodexMiniLatest;
-impl_serde!(ModelIdsSharedCodexMiniLatest, "codex-mini-latest");
-#[doc = "gpt-4o-mini"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt4oMini;
-impl_serde!(ModelIdsSharedGpt4oMini, "gpt-4o-mini");
-#[doc = "gpt-4o-mini-2024-07-18"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt4oMini2024_07_18;
-impl_serde!(ModelIdsSharedGpt4oMini2024_07_18, "gpt-4o-mini-2024-07-18");
-#[doc = "gpt-4-turbo"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt4Turbo;
-impl_serde!(ModelIdsSharedGpt4Turbo, "gpt-4-turbo");
-#[doc = "gpt-4-turbo-2024-04-09"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt4Turbo2024_04_09;
-impl_serde!(ModelIdsSharedGpt4Turbo2024_04_09, "gpt-4-turbo-2024-04-09");
-#[doc = "gpt-4-0125-preview"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt4_0125Preview;
-impl_serde!(ModelIdsSharedGpt4_0125Preview, "gpt-4-0125-preview");
-#[doc = "gpt-4-turbo-preview"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt4TurboPreview;
-impl_serde!(ModelIdsSharedGpt4TurboPreview, "gpt-4-turbo-preview");
-#[doc = "gpt-4-1106-preview"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt4_1106Preview;
-impl_serde!(ModelIdsSharedGpt4_1106Preview, "gpt-4-1106-preview");
-#[doc = "gpt-4-vision-preview"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt4VisionPreview;
-impl_serde!(ModelIdsSharedGpt4VisionPreview, "gpt-4-vision-preview");
-#[doc = "gpt-4"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt4;
-impl_serde!(ModelIdsSharedGpt4, "gpt-4");
-#[doc = "gpt-4-0314"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt4_0314;
-impl_serde!(ModelIdsSharedGpt4_0314, "gpt-4-0314");
-#[doc = "gpt-4-0613"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt4_0613;
-impl_serde!(ModelIdsSharedGpt4_0613, "gpt-4-0613");
-#[doc = "gpt-4-32k"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt4_32k;
-impl_serde!(ModelIdsSharedGpt4_32k, "gpt-4-32k");
-#[doc = "gpt-4-32k-0314"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt4_32k0314;
-impl_serde!(ModelIdsSharedGpt4_32k0314, "gpt-4-32k-0314");
-#[doc = "gpt-4-32k-0613"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt4_32k0613;
-impl_serde!(ModelIdsSharedGpt4_32k0613, "gpt-4-32k-0613");
-#[doc = "gpt-3.5-turbo"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt3_5Turbo;
-impl_serde!(ModelIdsSharedGpt3_5Turbo, "gpt-3.5-turbo");
-#[doc = "gpt-3.5-turbo-16k"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt3_5Turbo16k;
-impl_serde!(ModelIdsSharedGpt3_5Turbo16k, "gpt-3.5-turbo-16k");
-#[doc = "gpt-3.5-turbo-0301"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt3_5Turbo0301;
-impl_serde!(ModelIdsSharedGpt3_5Turbo0301, "gpt-3.5-turbo-0301");
-#[doc = "gpt-3.5-turbo-0613"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt3_5Turbo0613;
-impl_serde!(ModelIdsSharedGpt3_5Turbo0613, "gpt-3.5-turbo-0613");
-#[doc = "gpt-3.5-turbo-1106"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt3_5Turbo1106;
-impl_serde!(ModelIdsSharedGpt3_5Turbo1106, "gpt-3.5-turbo-1106");
-#[doc = "gpt-3.5-turbo-0125"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt3_5Turbo0125;
-impl_serde!(ModelIdsSharedGpt3_5Turbo0125, "gpt-3.5-turbo-0125");
-#[doc = "gpt-3.5-turbo-16k-0613"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ModelIdsSharedGpt3_5Turbo16k0613;
-impl_serde!(ModelIdsSharedGpt3_5Turbo16k0613, "gpt-3.5-turbo-16k-0613");
 #[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum ModelIdsShared {
     Other(String),
-    #[doc = "gpt-4.1"]
-    Gpt4_1,
-    #[doc = "gpt-4.1-mini"]
-    Gpt4_1Mini,
-    #[doc = "gpt-4.1-nano"]
-    Gpt4_1Nano,
-    #[doc = "gpt-4.1-2025-04-14"]
-    Gpt4_1_2025_04_14,
-    #[doc = "gpt-4.1-mini-2025-04-14"]
-    Gpt4_1Mini2025_04_14,
-    #[doc = "gpt-4.1-nano-2025-04-14"]
-    Gpt4_1Nano2025_04_14,
-    #[doc = "o4-mini"]
-    O4Mini,
-    #[doc = "o4-mini-2025-04-16"]
-    O4Mini2025_04_16,
-    #[doc = "o3"]
-    O3,
-    #[doc = "o3-2025-04-16"]
-    O3_2025_04_16,
-    #[doc = "o3-mini"]
-    O3Mini,
-    #[doc = "o3-mini-2025-01-31"]
-    O3Mini2025_01_31,
-    #[doc = "o1"]
-    O1,
-    #[doc = "o1-2024-12-17"]
-    O1_2024_12_17,
-    #[doc = "o1-preview"]
-    O1Preview,
-    #[doc = "o1-preview-2024-09-12"]
-    O1Preview2024_09_12,
-    #[doc = "o1-mini"]
-    O1Mini,
-    #[doc = "o1-mini-2024-09-12"]
-    O1Mini2024_09_12,
-    #[doc = "gpt-4o"]
-    Gpt4o,
-    #[doc = "gpt-4o-2024-11-20"]
-    Gpt4o2024_11_20,
-    #[doc = "gpt-4o-2024-08-06"]
-    Gpt4o2024_08_06,
-    #[doc = "gpt-4o-2024-05-13"]
-    Gpt4o2024_05_13,
-    #[doc = "gpt-4o-audio-preview"]
-    Gpt4oAudioPreview,
-    #[doc = "gpt-4o-audio-preview-2024-10-01"]
-    Gpt4oAudioPreview2024_10_01,
-    #[doc = "gpt-4o-audio-preview-2024-12-17"]
-    Gpt4oAudioPreview2024_12_17,
-    #[doc = "gpt-4o-audio-preview-2025-06-03"]
-    Gpt4oAudioPreview2025_06_03,
-    #[doc = "gpt-4o-mini-audio-preview"]
-    Gpt4oMiniAudioPreview,
-    #[doc = "gpt-4o-mini-audio-preview-2024-12-17"]
-    Gpt4oMiniAudioPreview2024_12_17,
-    #[doc = "gpt-4o-search-preview"]
-    Gpt4oSearchPreview,
-    #[doc = "gpt-4o-mini-search-preview"]
-    Gpt4oMiniSearchPreview,
-    #[doc = "gpt-4o-search-preview-2025-03-11"]
-    Gpt4oSearchPreview2025_03_11,
-    #[doc = "gpt-4o-mini-search-preview-2025-03-11"]
-    Gpt4oMiniSearchPreview2025_03_11,
-    #[doc = "chatgpt-4o-latest"]
-    Chatgpt4oLatest,
-    #[doc = "codex-mini-latest"]
-    CodexMiniLatest,
-    #[doc = "gpt-4o-mini"]
-    Gpt4oMini,
-    #[doc = "gpt-4o-mini-2024-07-18"]
-    Gpt4oMini2024_07_18,
-    #[doc = "gpt-4-turbo"]
-    Gpt4Turbo,
-    #[doc = "gpt-4-turbo-2024-04-09"]
-    Gpt4Turbo2024_04_09,
-    #[doc = "gpt-4-0125-preview"]
-    Gpt4_0125Preview,
-    #[doc = "gpt-4-turbo-preview"]
-    Gpt4TurboPreview,
-    #[doc = "gpt-4-1106-preview"]
-    Gpt4_1106Preview,
-    #[doc = "gpt-4-vision-preview"]
-    Gpt4VisionPreview,
-    #[doc = "gpt-4"]
-    Gpt4,
-    #[doc = "gpt-4-0314"]
-    Gpt4_0314,
-    #[doc = "gpt-4-0613"]
-    Gpt4_0613,
-    #[doc = "gpt-4-32k"]
-    Gpt4_32k,
-    #[doc = "gpt-4-32k-0314"]
-    Gpt4_32k0314,
-    #[doc = "gpt-4-32k-0613"]
-    Gpt4_32k0613,
-    #[doc = "gpt-3.5-turbo"]
-    Gpt3_5Turbo,
-    #[doc = "gpt-3.5-turbo-16k"]
-    Gpt3_5Turbo16k,
-    #[doc = "gpt-3.5-turbo-0301"]
-    Gpt3_5Turbo0301,
-    #[doc = "gpt-3.5-turbo-0613"]
-    Gpt3_5Turbo0613,
-    #[doc = "gpt-3.5-turbo-1106"]
-    Gpt3_5Turbo1106,
-    #[doc = "gpt-3.5-turbo-0125"]
-    Gpt3_5Turbo0125,
-    #[doc = "gpt-3.5-turbo-16k-0613"]
-    Gpt3_5Turbo16k0613,
+    ChatModel(crate::__types::ChatModel),
 }
 impl<'de> serde::Deserialize<'de> for ModelIdsShared {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -21834,130 +24408,12 @@ impl<'de> serde::Deserialize<'de> for ModelIdsShared {
         #[serde(untagged)]
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum ModelIdsShared {
-            Gpt4_1(crate::__types::ModelIdsSharedGpt4_1),
-            Gpt4_1Mini(crate::__types::ModelIdsSharedGpt4_1Mini),
-            Gpt4_1Nano(crate::__types::ModelIdsSharedGpt4_1Nano),
-            Gpt4_1_2025_04_14(crate::__types::ModelIdsSharedGpt4_1_2025_04_14),
-            Gpt4_1Mini2025_04_14(crate::__types::ModelIdsSharedGpt4_1Mini2025_04_14),
-            Gpt4_1Nano2025_04_14(crate::__types::ModelIdsSharedGpt4_1Nano2025_04_14),
-            O4Mini(crate::__types::ModelIdsSharedO4Mini),
-            O4Mini2025_04_16(crate::__types::ModelIdsSharedO4Mini2025_04_16),
-            O3(crate::__types::ModelIdsSharedO3),
-            O3_2025_04_16(crate::__types::ModelIdsSharedO3_2025_04_16),
-            O3Mini(crate::__types::ModelIdsSharedO3Mini),
-            O3Mini2025_01_31(crate::__types::ModelIdsSharedO3Mini2025_01_31),
-            O1(crate::__types::ModelIdsSharedO1),
-            O1_2024_12_17(crate::__types::ModelIdsSharedO1_2024_12_17),
-            O1Preview(crate::__types::ModelIdsSharedO1Preview),
-            O1Preview2024_09_12(crate::__types::ModelIdsSharedO1Preview2024_09_12),
-            O1Mini(crate::__types::ModelIdsSharedO1Mini),
-            O1Mini2024_09_12(crate::__types::ModelIdsSharedO1Mini2024_09_12),
-            Gpt4o(crate::__types::ModelIdsSharedGpt4o),
-            Gpt4o2024_11_20(crate::__types::ModelIdsSharedGpt4o2024_11_20),
-            Gpt4o2024_08_06(crate::__types::ModelIdsSharedGpt4o2024_08_06),
-            Gpt4o2024_05_13(crate::__types::ModelIdsSharedGpt4o2024_05_13),
-            Gpt4oAudioPreview(crate::__types::ModelIdsSharedGpt4oAudioPreview),
-            Gpt4oAudioPreview2024_10_01(crate::__types::ModelIdsSharedGpt4oAudioPreview2024_10_01),
-            Gpt4oAudioPreview2024_12_17(crate::__types::ModelIdsSharedGpt4oAudioPreview2024_12_17),
-            Gpt4oAudioPreview2025_06_03(crate::__types::ModelIdsSharedGpt4oAudioPreview2025_06_03),
-            Gpt4oMiniAudioPreview(crate::__types::ModelIdsSharedGpt4oMiniAudioPreview),
-            Gpt4oMiniAudioPreview2024_12_17(
-                crate::__types::ModelIdsSharedGpt4oMiniAudioPreview2024_12_17,
-            ),
-            Gpt4oSearchPreview(crate::__types::ModelIdsSharedGpt4oSearchPreview),
-            Gpt4oMiniSearchPreview(crate::__types::ModelIdsSharedGpt4oMiniSearchPreview),
-            Gpt4oSearchPreview2025_03_11(
-                crate::__types::ModelIdsSharedGpt4oSearchPreview2025_03_11,
-            ),
-            Gpt4oMiniSearchPreview2025_03_11(
-                crate::__types::ModelIdsSharedGpt4oMiniSearchPreview2025_03_11,
-            ),
-            Chatgpt4oLatest(crate::__types::ModelIdsSharedChatgpt4oLatest),
-            CodexMiniLatest(crate::__types::ModelIdsSharedCodexMiniLatest),
-            Gpt4oMini(crate::__types::ModelIdsSharedGpt4oMini),
-            Gpt4oMini2024_07_18(crate::__types::ModelIdsSharedGpt4oMini2024_07_18),
-            Gpt4Turbo(crate::__types::ModelIdsSharedGpt4Turbo),
-            Gpt4Turbo2024_04_09(crate::__types::ModelIdsSharedGpt4Turbo2024_04_09),
-            Gpt4_0125Preview(crate::__types::ModelIdsSharedGpt4_0125Preview),
-            Gpt4TurboPreview(crate::__types::ModelIdsSharedGpt4TurboPreview),
-            Gpt4_1106Preview(crate::__types::ModelIdsSharedGpt4_1106Preview),
-            Gpt4VisionPreview(crate::__types::ModelIdsSharedGpt4VisionPreview),
-            Gpt4(crate::__types::ModelIdsSharedGpt4),
-            Gpt4_0314(crate::__types::ModelIdsSharedGpt4_0314),
-            Gpt4_0613(crate::__types::ModelIdsSharedGpt4_0613),
-            Gpt4_32k(crate::__types::ModelIdsSharedGpt4_32k),
-            Gpt4_32k0314(crate::__types::ModelIdsSharedGpt4_32k0314),
-            Gpt4_32k0613(crate::__types::ModelIdsSharedGpt4_32k0613),
-            Gpt3_5Turbo(crate::__types::ModelIdsSharedGpt3_5Turbo),
-            Gpt3_5Turbo16k(crate::__types::ModelIdsSharedGpt3_5Turbo16k),
-            Gpt3_5Turbo0301(crate::__types::ModelIdsSharedGpt3_5Turbo0301),
-            Gpt3_5Turbo0613(crate::__types::ModelIdsSharedGpt3_5Turbo0613),
-            Gpt3_5Turbo1106(crate::__types::ModelIdsSharedGpt3_5Turbo1106),
-            Gpt3_5Turbo0125(crate::__types::ModelIdsSharedGpt3_5Turbo0125),
-            Gpt3_5Turbo16k0613(crate::__types::ModelIdsSharedGpt3_5Turbo16k0613),
+            ChatModel(crate::__types::ChatModel),
             Other(String),
         }
         Ok(match ModelIdsShared::deserialize(deserializer)? {
             ModelIdsShared::Other(v) => Self::Other(v),
-            ModelIdsShared::Gpt4_1(_) => Self::Gpt4_1,
-            ModelIdsShared::Gpt4_1Mini(_) => Self::Gpt4_1Mini,
-            ModelIdsShared::Gpt4_1Nano(_) => Self::Gpt4_1Nano,
-            ModelIdsShared::Gpt4_1_2025_04_14(_) => Self::Gpt4_1_2025_04_14,
-            ModelIdsShared::Gpt4_1Mini2025_04_14(_) => Self::Gpt4_1Mini2025_04_14,
-            ModelIdsShared::Gpt4_1Nano2025_04_14(_) => Self::Gpt4_1Nano2025_04_14,
-            ModelIdsShared::O4Mini(_) => Self::O4Mini,
-            ModelIdsShared::O4Mini2025_04_16(_) => Self::O4Mini2025_04_16,
-            ModelIdsShared::O3(_) => Self::O3,
-            ModelIdsShared::O3_2025_04_16(_) => Self::O3_2025_04_16,
-            ModelIdsShared::O3Mini(_) => Self::O3Mini,
-            ModelIdsShared::O3Mini2025_01_31(_) => Self::O3Mini2025_01_31,
-            ModelIdsShared::O1(_) => Self::O1,
-            ModelIdsShared::O1_2024_12_17(_) => Self::O1_2024_12_17,
-            ModelIdsShared::O1Preview(_) => Self::O1Preview,
-            ModelIdsShared::O1Preview2024_09_12(_) => Self::O1Preview2024_09_12,
-            ModelIdsShared::O1Mini(_) => Self::O1Mini,
-            ModelIdsShared::O1Mini2024_09_12(_) => Self::O1Mini2024_09_12,
-            ModelIdsShared::Gpt4o(_) => Self::Gpt4o,
-            ModelIdsShared::Gpt4o2024_11_20(_) => Self::Gpt4o2024_11_20,
-            ModelIdsShared::Gpt4o2024_08_06(_) => Self::Gpt4o2024_08_06,
-            ModelIdsShared::Gpt4o2024_05_13(_) => Self::Gpt4o2024_05_13,
-            ModelIdsShared::Gpt4oAudioPreview(_) => Self::Gpt4oAudioPreview,
-            ModelIdsShared::Gpt4oAudioPreview2024_10_01(_) => Self::Gpt4oAudioPreview2024_10_01,
-            ModelIdsShared::Gpt4oAudioPreview2024_12_17(_) => Self::Gpt4oAudioPreview2024_12_17,
-            ModelIdsShared::Gpt4oAudioPreview2025_06_03(_) => Self::Gpt4oAudioPreview2025_06_03,
-            ModelIdsShared::Gpt4oMiniAudioPreview(_) => Self::Gpt4oMiniAudioPreview,
-            ModelIdsShared::Gpt4oMiniAudioPreview2024_12_17(_) => {
-                Self::Gpt4oMiniAudioPreview2024_12_17
-            }
-            ModelIdsShared::Gpt4oSearchPreview(_) => Self::Gpt4oSearchPreview,
-            ModelIdsShared::Gpt4oMiniSearchPreview(_) => Self::Gpt4oMiniSearchPreview,
-            ModelIdsShared::Gpt4oSearchPreview2025_03_11(_) => Self::Gpt4oSearchPreview2025_03_11,
-            ModelIdsShared::Gpt4oMiniSearchPreview2025_03_11(_) => {
-                Self::Gpt4oMiniSearchPreview2025_03_11
-            }
-            ModelIdsShared::Chatgpt4oLatest(_) => Self::Chatgpt4oLatest,
-            ModelIdsShared::CodexMiniLatest(_) => Self::CodexMiniLatest,
-            ModelIdsShared::Gpt4oMini(_) => Self::Gpt4oMini,
-            ModelIdsShared::Gpt4oMini2024_07_18(_) => Self::Gpt4oMini2024_07_18,
-            ModelIdsShared::Gpt4Turbo(_) => Self::Gpt4Turbo,
-            ModelIdsShared::Gpt4Turbo2024_04_09(_) => Self::Gpt4Turbo2024_04_09,
-            ModelIdsShared::Gpt4_0125Preview(_) => Self::Gpt4_0125Preview,
-            ModelIdsShared::Gpt4TurboPreview(_) => Self::Gpt4TurboPreview,
-            ModelIdsShared::Gpt4_1106Preview(_) => Self::Gpt4_1106Preview,
-            ModelIdsShared::Gpt4VisionPreview(_) => Self::Gpt4VisionPreview,
-            ModelIdsShared::Gpt4(_) => Self::Gpt4,
-            ModelIdsShared::Gpt4_0314(_) => Self::Gpt4_0314,
-            ModelIdsShared::Gpt4_0613(_) => Self::Gpt4_0613,
-            ModelIdsShared::Gpt4_32k(_) => Self::Gpt4_32k,
-            ModelIdsShared::Gpt4_32k0314(_) => Self::Gpt4_32k0314,
-            ModelIdsShared::Gpt4_32k0613(_) => Self::Gpt4_32k0613,
-            ModelIdsShared::Gpt3_5Turbo(_) => Self::Gpt3_5Turbo,
-            ModelIdsShared::Gpt3_5Turbo16k(_) => Self::Gpt3_5Turbo16k,
-            ModelIdsShared::Gpt3_5Turbo0301(_) => Self::Gpt3_5Turbo0301,
-            ModelIdsShared::Gpt3_5Turbo0613(_) => Self::Gpt3_5Turbo0613,
-            ModelIdsShared::Gpt3_5Turbo1106(_) => Self::Gpt3_5Turbo1106,
-            ModelIdsShared::Gpt3_5Turbo0125(_) => Self::Gpt3_5Turbo0125,
-            ModelIdsShared::Gpt3_5Turbo16k0613(_) => Self::Gpt3_5Turbo16k0613,
+            ModelIdsShared::ChatModel(v) => Self::ChatModel(v),
         })
     }
 }
@@ -21972,149 +24428,32 @@ impl serde::Serialize for ModelIdsShared {
         #[allow(clippy::enum_variant_names)]
         enum ModelIdsShared<'a> {
             Other(&'a String),
-            Gpt4_1(crate::__types::ModelIdsSharedGpt4_1),
-            Gpt4_1Mini(crate::__types::ModelIdsSharedGpt4_1Mini),
-            Gpt4_1Nano(crate::__types::ModelIdsSharedGpt4_1Nano),
-            Gpt4_1_2025_04_14(crate::__types::ModelIdsSharedGpt4_1_2025_04_14),
-            Gpt4_1Mini2025_04_14(crate::__types::ModelIdsSharedGpt4_1Mini2025_04_14),
-            Gpt4_1Nano2025_04_14(crate::__types::ModelIdsSharedGpt4_1Nano2025_04_14),
-            O4Mini(crate::__types::ModelIdsSharedO4Mini),
-            O4Mini2025_04_16(crate::__types::ModelIdsSharedO4Mini2025_04_16),
-            O3(crate::__types::ModelIdsSharedO3),
-            O3_2025_04_16(crate::__types::ModelIdsSharedO3_2025_04_16),
-            O3Mini(crate::__types::ModelIdsSharedO3Mini),
-            O3Mini2025_01_31(crate::__types::ModelIdsSharedO3Mini2025_01_31),
-            O1(crate::__types::ModelIdsSharedO1),
-            O1_2024_12_17(crate::__types::ModelIdsSharedO1_2024_12_17),
-            O1Preview(crate::__types::ModelIdsSharedO1Preview),
-            O1Preview2024_09_12(crate::__types::ModelIdsSharedO1Preview2024_09_12),
-            O1Mini(crate::__types::ModelIdsSharedO1Mini),
-            O1Mini2024_09_12(crate::__types::ModelIdsSharedO1Mini2024_09_12),
-            Gpt4o(crate::__types::ModelIdsSharedGpt4o),
-            Gpt4o2024_11_20(crate::__types::ModelIdsSharedGpt4o2024_11_20),
-            Gpt4o2024_08_06(crate::__types::ModelIdsSharedGpt4o2024_08_06),
-            Gpt4o2024_05_13(crate::__types::ModelIdsSharedGpt4o2024_05_13),
-            Gpt4oAudioPreview(crate::__types::ModelIdsSharedGpt4oAudioPreview),
-            Gpt4oAudioPreview2024_10_01(crate::__types::ModelIdsSharedGpt4oAudioPreview2024_10_01),
-            Gpt4oAudioPreview2024_12_17(crate::__types::ModelIdsSharedGpt4oAudioPreview2024_12_17),
-            Gpt4oAudioPreview2025_06_03(crate::__types::ModelIdsSharedGpt4oAudioPreview2025_06_03),
-            Gpt4oMiniAudioPreview(crate::__types::ModelIdsSharedGpt4oMiniAudioPreview),
-            Gpt4oMiniAudioPreview2024_12_17(
-                crate::__types::ModelIdsSharedGpt4oMiniAudioPreview2024_12_17,
-            ),
-            Gpt4oSearchPreview(crate::__types::ModelIdsSharedGpt4oSearchPreview),
-            Gpt4oMiniSearchPreview(crate::__types::ModelIdsSharedGpt4oMiniSearchPreview),
-            Gpt4oSearchPreview2025_03_11(
-                crate::__types::ModelIdsSharedGpt4oSearchPreview2025_03_11,
-            ),
-            Gpt4oMiniSearchPreview2025_03_11(
-                crate::__types::ModelIdsSharedGpt4oMiniSearchPreview2025_03_11,
-            ),
-            Chatgpt4oLatest(crate::__types::ModelIdsSharedChatgpt4oLatest),
-            CodexMiniLatest(crate::__types::ModelIdsSharedCodexMiniLatest),
-            Gpt4oMini(crate::__types::ModelIdsSharedGpt4oMini),
-            Gpt4oMini2024_07_18(crate::__types::ModelIdsSharedGpt4oMini2024_07_18),
-            Gpt4Turbo(crate::__types::ModelIdsSharedGpt4Turbo),
-            Gpt4Turbo2024_04_09(crate::__types::ModelIdsSharedGpt4Turbo2024_04_09),
-            Gpt4_0125Preview(crate::__types::ModelIdsSharedGpt4_0125Preview),
-            Gpt4TurboPreview(crate::__types::ModelIdsSharedGpt4TurboPreview),
-            Gpt4_1106Preview(crate::__types::ModelIdsSharedGpt4_1106Preview),
-            Gpt4VisionPreview(crate::__types::ModelIdsSharedGpt4VisionPreview),
-            Gpt4(crate::__types::ModelIdsSharedGpt4),
-            Gpt4_0314(crate::__types::ModelIdsSharedGpt4_0314),
-            Gpt4_0613(crate::__types::ModelIdsSharedGpt4_0613),
-            Gpt4_32k(crate::__types::ModelIdsSharedGpt4_32k),
-            Gpt4_32k0314(crate::__types::ModelIdsSharedGpt4_32k0314),
-            Gpt4_32k0613(crate::__types::ModelIdsSharedGpt4_32k0613),
-            Gpt3_5Turbo(crate::__types::ModelIdsSharedGpt3_5Turbo),
-            Gpt3_5Turbo16k(crate::__types::ModelIdsSharedGpt3_5Turbo16k),
-            Gpt3_5Turbo0301(crate::__types::ModelIdsSharedGpt3_5Turbo0301),
-            Gpt3_5Turbo0613(crate::__types::ModelIdsSharedGpt3_5Turbo0613),
-            Gpt3_5Turbo1106(crate::__types::ModelIdsSharedGpt3_5Turbo1106),
-            Gpt3_5Turbo0125(crate::__types::ModelIdsSharedGpt3_5Turbo0125),
-            Gpt3_5Turbo16k0613(crate::__types::ModelIdsSharedGpt3_5Turbo16k0613),
+            ChatModel(&'a crate::__types::ChatModel),
         }
         match self {
             Self::Other(v) => ModelIdsShared::Other(v),
-            Self::Gpt4_1 => ModelIdsShared::Gpt4_1(Default::default()),
-            Self::Gpt4_1Mini => ModelIdsShared::Gpt4_1Mini(Default::default()),
-            Self::Gpt4_1Nano => ModelIdsShared::Gpt4_1Nano(Default::default()),
-            Self::Gpt4_1_2025_04_14 => ModelIdsShared::Gpt4_1_2025_04_14(Default::default()),
-            Self::Gpt4_1Mini2025_04_14 => ModelIdsShared::Gpt4_1Mini2025_04_14(Default::default()),
-            Self::Gpt4_1Nano2025_04_14 => ModelIdsShared::Gpt4_1Nano2025_04_14(Default::default()),
-            Self::O4Mini => ModelIdsShared::O4Mini(Default::default()),
-            Self::O4Mini2025_04_16 => ModelIdsShared::O4Mini2025_04_16(Default::default()),
-            Self::O3 => ModelIdsShared::O3(Default::default()),
-            Self::O3_2025_04_16 => ModelIdsShared::O3_2025_04_16(Default::default()),
-            Self::O3Mini => ModelIdsShared::O3Mini(Default::default()),
-            Self::O3Mini2025_01_31 => ModelIdsShared::O3Mini2025_01_31(Default::default()),
-            Self::O1 => ModelIdsShared::O1(Default::default()),
-            Self::O1_2024_12_17 => ModelIdsShared::O1_2024_12_17(Default::default()),
-            Self::O1Preview => ModelIdsShared::O1Preview(Default::default()),
-            Self::O1Preview2024_09_12 => ModelIdsShared::O1Preview2024_09_12(Default::default()),
-            Self::O1Mini => ModelIdsShared::O1Mini(Default::default()),
-            Self::O1Mini2024_09_12 => ModelIdsShared::O1Mini2024_09_12(Default::default()),
-            Self::Gpt4o => ModelIdsShared::Gpt4o(Default::default()),
-            Self::Gpt4o2024_11_20 => ModelIdsShared::Gpt4o2024_11_20(Default::default()),
-            Self::Gpt4o2024_08_06 => ModelIdsShared::Gpt4o2024_08_06(Default::default()),
-            Self::Gpt4o2024_05_13 => ModelIdsShared::Gpt4o2024_05_13(Default::default()),
-            Self::Gpt4oAudioPreview => ModelIdsShared::Gpt4oAudioPreview(Default::default()),
-            Self::Gpt4oAudioPreview2024_10_01 => {
-                ModelIdsShared::Gpt4oAudioPreview2024_10_01(Default::default())
-            }
-            Self::Gpt4oAudioPreview2024_12_17 => {
-                ModelIdsShared::Gpt4oAudioPreview2024_12_17(Default::default())
-            }
-            Self::Gpt4oAudioPreview2025_06_03 => {
-                ModelIdsShared::Gpt4oAudioPreview2025_06_03(Default::default())
-            }
-            Self::Gpt4oMiniAudioPreview => {
-                ModelIdsShared::Gpt4oMiniAudioPreview(Default::default())
-            }
-            Self::Gpt4oMiniAudioPreview2024_12_17 => {
-                ModelIdsShared::Gpt4oMiniAudioPreview2024_12_17(Default::default())
-            }
-            Self::Gpt4oSearchPreview => ModelIdsShared::Gpt4oSearchPreview(Default::default()),
-            Self::Gpt4oMiniSearchPreview => {
-                ModelIdsShared::Gpt4oMiniSearchPreview(Default::default())
-            }
-            Self::Gpt4oSearchPreview2025_03_11 => {
-                ModelIdsShared::Gpt4oSearchPreview2025_03_11(Default::default())
-            }
-            Self::Gpt4oMiniSearchPreview2025_03_11 => {
-                ModelIdsShared::Gpt4oMiniSearchPreview2025_03_11(Default::default())
-            }
-            Self::Chatgpt4oLatest => ModelIdsShared::Chatgpt4oLatest(Default::default()),
-            Self::CodexMiniLatest => ModelIdsShared::CodexMiniLatest(Default::default()),
-            Self::Gpt4oMini => ModelIdsShared::Gpt4oMini(Default::default()),
-            Self::Gpt4oMini2024_07_18 => ModelIdsShared::Gpt4oMini2024_07_18(Default::default()),
-            Self::Gpt4Turbo => ModelIdsShared::Gpt4Turbo(Default::default()),
-            Self::Gpt4Turbo2024_04_09 => ModelIdsShared::Gpt4Turbo2024_04_09(Default::default()),
-            Self::Gpt4_0125Preview => ModelIdsShared::Gpt4_0125Preview(Default::default()),
-            Self::Gpt4TurboPreview => ModelIdsShared::Gpt4TurboPreview(Default::default()),
-            Self::Gpt4_1106Preview => ModelIdsShared::Gpt4_1106Preview(Default::default()),
-            Self::Gpt4VisionPreview => ModelIdsShared::Gpt4VisionPreview(Default::default()),
-            Self::Gpt4 => ModelIdsShared::Gpt4(Default::default()),
-            Self::Gpt4_0314 => ModelIdsShared::Gpt4_0314(Default::default()),
-            Self::Gpt4_0613 => ModelIdsShared::Gpt4_0613(Default::default()),
-            Self::Gpt4_32k => ModelIdsShared::Gpt4_32k(Default::default()),
-            Self::Gpt4_32k0314 => ModelIdsShared::Gpt4_32k0314(Default::default()),
-            Self::Gpt4_32k0613 => ModelIdsShared::Gpt4_32k0613(Default::default()),
-            Self::Gpt3_5Turbo => ModelIdsShared::Gpt3_5Turbo(Default::default()),
-            Self::Gpt3_5Turbo16k => ModelIdsShared::Gpt3_5Turbo16k(Default::default()),
-            Self::Gpt3_5Turbo0301 => ModelIdsShared::Gpt3_5Turbo0301(Default::default()),
-            Self::Gpt3_5Turbo0613 => ModelIdsShared::Gpt3_5Turbo0613(Default::default()),
-            Self::Gpt3_5Turbo1106 => ModelIdsShared::Gpt3_5Turbo1106(Default::default()),
-            Self::Gpt3_5Turbo0125 => ModelIdsShared::Gpt3_5Turbo0125(Default::default()),
-            Self::Gpt3_5Turbo16k0613 => ModelIdsShared::Gpt3_5Turbo16k0613(Default::default()),
+            Self::ChatModel(v) => ModelIdsShared::ChatModel(v),
         }
         .serialize(serializer)
     }
+}
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
+pub struct ModelResponsePropertiesText {
+    #[serde(rename = "verbosity")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub verbosity: Option<crate::__types::Verbosity>,
 }
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
 pub struct ModelResponseProperties {
+    #[serde(rename = "text")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub text: Option<crate::__types::ModelResponsePropertiesText>,
     #[serde(rename = "metadata")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -22134,11 +24473,21 @@ pub struct ModelResponseProperties {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub top_p: Option<serde_json::Number>,
-    #[doc = "A stable identifier for your end-users. \nUsed to boost cache hit rates by better bucketing similar requests and  to help OpenAI detect and prevent abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#end-user-ids).\n"]
+    #[doc = "This field is being replaced by `safety_identifier` and `prompt_cache_key`. Use `prompt_cache_key` instead to maintain caching optimizations.\nA stable identifier for your end-users. \nUsed to boost cache hit rates by better bucketing similar requests and  to help OpenAI detect and prevent abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#safety-identifiers).\n"]
     #[serde(rename = "user")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub user: Option<String>,
+    #[doc = "A stable identifier used to help detect users of your application that may be violating OpenAI's usage policies. \nThe IDs should be a string that uniquely identifies each user. We recommend hashing their username or email address, in order to avoid sending us any identifying information. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#safety-identifiers).\n"]
+    #[serde(rename = "safety_identifier")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub safety_identifier: Option<String>,
+    #[doc = "Used by OpenAI to cache responses for similar requests to optimize your cache hit rates. Replaces the `user` field. [Learn more](https://platform.openai.com/docs/guides/prompt-caching).\n"]
+    #[serde(rename = "prompt_cache_key")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub prompt_cache_key: Option<String>,
     #[serde(rename = "service_tier")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -22195,16 +24544,6 @@ impl serde::Serialize for ModifyAssistantRequestModel {
         }
         .serialize(serializer)
     }
-}
-#[derive(Clone, Debug, PartialEq)]
-#[serde_with::serde_as]
-#[derive(serde :: Deserialize, serde :: Serialize)]
-#[serde(untagged)]
-#[allow(clippy::large_enum_variant)]
-pub enum ModifyAssistantRequestTool {
-    CodeInterpreter(crate::__types::AssistantToolsCode),
-    FileSearch(crate::__types::AssistantToolsFileSearch),
-    Function(crate::__types::AssistantToolsFunction),
 }
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
@@ -22273,7 +24612,7 @@ pub struct ModifyAssistantRequest {
     #[serde(rename = "tools")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub tools: Option<Vec<crate::__types::ModifyAssistantRequestTool>>,
+    pub tools: Option<Vec<crate::__types::AssistantTool>>,
     #[doc = "A set of resources that are used by the assistant's tools. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.\n"]
     #[serde(rename = "tool_resources")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -22432,7 +24771,7 @@ impl serde::Serialize for Move {
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct OpenAiFileObject;
 impl_serde!(OpenAiFileObject, "file");
-#[doc = "The intended purpose of the file. Supported values are `assistants`, `assistants_output`, `batch`, `batch_output`, `fine-tune`, `fine-tune-results` and `vision`."]
+#[doc = "The intended purpose of the file. Supported values are `assistants`, `assistants_output`, `batch`, `batch_output`, `fine-tune`, `fine-tune-results`, `vision`, and `user_data`."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum OpenAiFilePurpose {
     #[doc = "`assistants`"]
@@ -22456,6 +24795,9 @@ pub enum OpenAiFilePurpose {
     #[doc = "`vision`"]
     #[serde(rename = "vision")]
     Vision,
+    #[doc = "`user_data`"]
+    #[serde(rename = "user_data")]
+    UserData,
 }
 #[doc = "Deprecated. The current status of the file, which can be either `uploaded`, `processed`, or `error`."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
@@ -22484,7 +24826,7 @@ pub struct OpenAiFile {
     pub expires_at: Option<i64>,
     #[doc = "The name of the file."]
     pub filename: String,
-    #[doc = "The intended purpose of the file. Supported values are `assistants`, `assistants_output`, `batch`, `batch_output`, `fine-tune`, `fine-tune-results` and `vision`."]
+    #[doc = "The intended purpose of the file. Supported values are `assistants`, `assistants_output`, `batch`, `batch_output`, `fine-tune`, `fine-tune-results`, `vision`, and `user_data`."]
     pub purpose: crate::__types::OpenAiFilePurpose,
     #[doc = "Deprecated. The current status of the file, which can be either `uploaded`, `processed`, or `error`."]
     pub status: crate::__types::OpenAiFileStatus,
@@ -22723,6 +25065,7 @@ pub enum OutputItem {
     McpCall(crate::__types::McpToolCall),
     McpListTools(crate::__types::McpListTools),
     McpApprovalRequest(crate::__types::McpApprovalRequest),
+    CustomToolCall(crate::__types::CustomToolCall),
 }
 #[doc = "The type of the output message. Always `message`.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
@@ -22825,6 +25168,8 @@ impl serde::Serialize for OutputMessage {
 }
 #[doc = "Whether to enable [parallel function calling](https://platform.openai.com/docs/guides/function-calling#configuring-parallel-function-calling) during tool use."]
 pub type ParallelToolCalls = bool;
+#[doc = "The number of partial images to generate. This parameter is used for\nstreaming responses that return partial images. Value must be between 0 and 3.\nWhen set to 0, the response will be a single image sent in one streaming event.\n\nNote that the final image may be sent before the full number of partial images \nare generated if the full image is generated more quickly.\n"]
+pub type PartialImages = i64;
 #[doc = "The type of the predicted content you want to provide. This type is\ncurrently always `content`.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct PredictionContentType;
@@ -24823,7 +27168,7 @@ impl serde::Serialize for RealtimeClientEventOutputAudioBufferClear {
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RealtimeClientEventResponseCancelType;
 impl_serde!(RealtimeClientEventResponseCancelType, "response.cancel");
-#[doc = "Send this event to cancel an in-progress response. The server will respond \nwith a `response.cancelled` event or an error if there is no response to \ncancel.\n"]
+#[doc = "Send this event to cancel an in-progress response. The server will respond \nwith a `response.done` event with a status of `response.status=cancelled`. If \nthere is no response to cancel, the server will respond with an error.\n"]
 #[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeClientEventResponseCancel {
     #[doc = "Optional client-generated ID used to identify this event."]
@@ -25090,7 +27435,7 @@ pub enum RealtimeConversationItemType {
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct RealtimeConversationItemObject;
 impl_serde!(RealtimeConversationItemObject, "realtime.item");
-#[doc = "The status of the item (`completed`, `incomplete`). These have no effect \non the conversation, but are accepted for consistency with the \n`conversation.item.created` event.\n"]
+#[doc = "The status of the item (`completed`, `incomplete`, `in_progress`). These have no effect \non the conversation, but are accepted for consistency with the \n`conversation.item.created` event.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeConversationItemStatus {
     #[doc = "`completed`"]
@@ -25099,6 +27444,9 @@ pub enum RealtimeConversationItemStatus {
     #[doc = "`incomplete`"]
     #[serde(rename = "incomplete")]
     Incomplete,
+    #[doc = "`in_progress`"]
+    #[serde(rename = "in_progress")]
+    InProgress,
 }
 #[doc = "The role of the message sender (`user`, `assistant`, `system`), only \napplicable for `message` items.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
@@ -25112,52 +27460,6 @@ pub enum RealtimeConversationItemRole {
     #[doc = "`system`"]
     #[serde(rename = "system")]
     System,
-}
-#[doc = "The content type (`input_text`, `input_audio`, `item_reference`, `text`).\n"]
-#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum RealtimeConversationItemContentType {
-    #[doc = "`input_audio`"]
-    #[serde(rename = "input_audio")]
-    InputAudio,
-    #[doc = "`input_text`"]
-    #[serde(rename = "input_text")]
-    InputText,
-    #[doc = "`item_reference`"]
-    #[serde(rename = "item_reference")]
-    ItemReference,
-    #[doc = "`text`"]
-    #[serde(rename = "text")]
-    Text,
-}
-#[derive(Clone, Debug, Default, PartialEq)]
-#[serde_with::serde_as]
-#[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct RealtimeConversationItemContent {
-    #[doc = "The content type (`input_text`, `input_audio`, `item_reference`, `text`).\n"]
-    #[serde(rename = "type")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default)]
-    pub r#type: Option<crate::__types::RealtimeConversationItemContentType>,
-    #[doc = "The text content, used for `input_text` and `text` content types.\n"]
-    #[serde(rename = "text")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default)]
-    pub text: Option<String>,
-    #[doc = "ID of a previous conversation item to reference (for `item_reference`\ncontent types in `response.create` events). These can reference both\nclient and server created items.\n"]
-    #[serde(rename = "id")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default)]
-    pub id: Option<String>,
-    #[doc = "Base64-encoded audio bytes, used for `input_audio` content type.\n"]
-    #[serde(rename = "audio")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default)]
-    pub audio: Option<String>,
-    #[doc = "The transcript of the audio, used for `input_audio` content type.\n"]
-    #[serde(rename = "transcript")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default)]
-    pub transcript: Option<String>,
 }
 #[doc = "The item to add to the conversation."]
 #[derive(Clone, Debug, Default, PartialEq)]
@@ -25179,7 +27481,7 @@ pub struct RealtimeConversationItem {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub object: Option<crate::__types::RealtimeConversationItemObject>,
-    #[doc = "The status of the item (`completed`, `incomplete`). These have no effect \non the conversation, but are accepted for consistency with the \n`conversation.item.created` event.\n"]
+    #[doc = "The status of the item (`completed`, `incomplete`, `in_progress`). These have no effect \non the conversation, but are accepted for consistency with the \n`conversation.item.created` event.\n"]
     #[serde(rename = "status")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -25227,12 +27529,15 @@ pub enum RealtimeConversationItemWithReferenceType {
     #[doc = "`function_call_output`"]
     #[serde(rename = "function_call_output")]
     FunctionCallOutput,
+    #[doc = "`item_reference`"]
+    #[serde(rename = "item_reference")]
+    ItemReference,
 }
 #[doc = "Identifier for the API object being returned - always `realtime.item`.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct RealtimeConversationItemWithReferenceObject;
 impl_serde!(RealtimeConversationItemWithReferenceObject, "realtime.item");
-#[doc = "The status of the item (`completed`, `incomplete`). These have no effect \non the conversation, but are accepted for consistency with the \n`conversation.item.created` event.\n"]
+#[doc = "The status of the item (`completed`, `incomplete`, `in_progress`). These have no effect \non the conversation, but are accepted for consistency with the \n`conversation.item.created` event.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeConversationItemWithReferenceStatus {
     #[doc = "`completed`"]
@@ -25241,6 +27546,9 @@ pub enum RealtimeConversationItemWithReferenceStatus {
     #[doc = "`incomplete`"]
     #[serde(rename = "incomplete")]
     Incomplete,
+    #[doc = "`in_progress`"]
+    #[serde(rename = "in_progress")]
+    InProgress,
 }
 #[doc = "The role of the message sender (`user`, `assistant`, `system`), only \napplicable for `message` items.\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
@@ -25257,13 +27565,13 @@ pub enum RealtimeConversationItemWithReferenceRole {
 }
 #[doc = "The content type (`input_text`, `input_audio`, `item_reference`, `text`).\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum RealtimeConversationItemWithReferenceContentType {
-    #[doc = "`input_audio`"]
-    #[serde(rename = "input_audio")]
-    InputAudio,
+pub enum RealtimeConversationItemWithReferenceContentItemType {
     #[doc = "`input_text`"]
     #[serde(rename = "input_text")]
     InputText,
+    #[doc = "`input_audio`"]
+    #[serde(rename = "input_audio")]
+    InputAudio,
     #[doc = "`item_reference`"]
     #[serde(rename = "item_reference")]
     ItemReference,
@@ -25274,12 +27582,12 @@ pub enum RealtimeConversationItemWithReferenceContentType {
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct RealtimeConversationItemWithReferenceContent {
+pub struct RealtimeConversationItemWithReferenceContentItem {
     #[doc = "The content type (`input_text`, `input_audio`, `item_reference`, `text`).\n"]
     #[serde(rename = "type")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub r#type: Option<crate::__types::RealtimeConversationItemWithReferenceContentType>,
+    pub r#type: Option<crate::__types::RealtimeConversationItemWithReferenceContentItemType>,
     #[doc = "The text content, used for `input_text` and `text` content types.\n"]
     #[serde(rename = "text")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -25321,7 +27629,7 @@ pub struct RealtimeConversationItemWithReference {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub object: Option<crate::__types::RealtimeConversationItemWithReferenceObject>,
-    #[doc = "The status of the item (`completed`, `incomplete`). These have no effect \non the conversation, but are accepted for consistency with the \n`conversation.item.created` event.\n"]
+    #[doc = "The status of the item (`completed`, `incomplete`, `in_progress`). These have no effect \non the conversation, but are accepted for consistency with the \n`conversation.item.created` event.\n"]
     #[serde(rename = "status")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -25335,7 +27643,7 @@ pub struct RealtimeConversationItemWithReference {
     #[serde(rename = "content")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub content: Option<Vec<crate::__types::RealtimeConversationItemWithReferenceContent>>,
+    pub content: Option<Vec<crate::__types::RealtimeConversationItemWithReferenceContentItem>>,
     #[doc = "The ID of the function call (for `function_call` and \n`function_call_output` items). If passed on a `function_call_output` \nitem, the server will check that a `function_call` item with the same \nID exists in the conversation history.\n"]
     #[serde(rename = "call_id")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -25361,7 +27669,7 @@ pub struct RealtimeConversationItemWithReference {
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct RealtimeResponseObject;
 impl_serde!(RealtimeResponseObject, "realtime.response");
-#[doc = "The final status of the response (`completed`, `cancelled`, `failed`, or \n`incomplete`).\n"]
+#[doc = "The final status of the response (`completed`, `cancelled`, `failed`, or \n`incomplete`, `in_progress`).\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeResponseStatus {
     #[doc = "`completed`"]
@@ -25376,6 +27684,9 @@ pub enum RealtimeResponseStatus {
     #[doc = "`incomplete`"]
     #[serde(rename = "incomplete")]
     Incomplete,
+    #[doc = "`in_progress`"]
+    #[serde(rename = "in_progress")]
+    InProgress,
 }
 #[doc = "The type of error that caused the response to fail, corresponding \nwith the `status` field (`completed`, `cancelled`, `incomplete`, \n`failed`).\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
@@ -25386,12 +27697,12 @@ pub enum RealtimeResponseStatusDetailsType {
     #[doc = "`cancelled`"]
     #[serde(rename = "cancelled")]
     Cancelled,
-    #[doc = "`failed`"]
-    #[serde(rename = "failed")]
-    Failed,
     #[doc = "`incomplete`"]
     #[serde(rename = "incomplete")]
     Incomplete,
+    #[doc = "`failed`"]
+    #[serde(rename = "failed")]
+    Failed,
 }
 #[doc = "The reason the Response did not complete. For a `cancelled` Response, \none of `turn_detected` (the server VAD detected a new start of speech) \nor `client_cancelled` (the client sent a cancel event). For an \n`incomplete` Response, one of `max_output_tokens` or `content_filter` \n(the server-side safety filter activated and cut off the response).\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
@@ -25515,7 +27826,7 @@ pub struct RealtimeResponseUsage {
     pub output_token_details: Option<crate::__types::RealtimeResponseUsageOutputTokenDetails>,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum RealtimeResponseModality {
+pub enum RealtimeResponseModalitiesItem {
     #[doc = "`text`"]
     #[serde(rename = "text")]
     Text,
@@ -25604,7 +27915,7 @@ pub struct RealtimeResponse {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub object: Option<crate::__types::RealtimeResponseObject>,
-    #[doc = "The final status of the response (`completed`, `cancelled`, `failed`, or \n`incomplete`).\n"]
+    #[doc = "The final status of the response (`completed`, `cancelled`, `failed`, or \n`incomplete`, `in_progress`).\n"]
     #[serde(rename = "status")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -25633,7 +27944,7 @@ pub struct RealtimeResponse {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub conversation_id: Option<String>,
-    #[doc = "The voice the model used to respond.\nCurrent voice options are `alloy`, `ash`, `ballad`, `coral`, `echo`, `fable`,\n`onyx`, `nova`, `sage`, `shimmer`, and `verse`.\n"]
+    #[doc = "The voice the model used to respond.\nCurrent voice options are `alloy`, `ash`, `ballad`, `coral`, `echo`, `sage`,\n`shimmer`, and `verse`.\n"]
     #[serde(rename = "voice")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -25642,7 +27953,7 @@ pub struct RealtimeResponse {
     #[serde(rename = "modalities")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub modalities: Option<Vec<crate::__types::RealtimeResponseModality>>,
+    pub modalities: Option<Vec<crate::__types::RealtimeResponseModalitiesItem>>,
     #[doc = "The format of output audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.\n"]
     #[serde(rename = "output_audio_format")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -25660,7 +27971,7 @@ pub struct RealtimeResponse {
     pub max_output_tokens: Option<crate::__types::RealtimeResponseMaxOutputTokens>,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum RealtimeResponseCreateParamsModality {
+pub enum RealtimeResponseCreateParamsModalitiesItem {
     #[doc = "`text`"]
     #[serde(rename = "text")]
     Text,
@@ -25683,17 +27994,17 @@ pub enum RealtimeResponseCreateParamsOutputAudioFormat {
 }
 #[doc = "The type of the tool, i.e. `function`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
-pub struct RealtimeResponseCreateParamsToolType;
-impl_serde!(RealtimeResponseCreateParamsToolType, "function");
+pub struct RealtimeResponseCreateParamsToolsItemType;
+impl_serde!(RealtimeResponseCreateParamsToolsItemType, "function");
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct RealtimeResponseCreateParamsTool {
+pub struct RealtimeResponseCreateParamsToolsItem {
     #[doc = "The type of the tool, i.e. `function`."]
     #[serde(rename = "type")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub r#type: Option<crate::__types::RealtimeResponseCreateParamsToolType>,
+    pub r#type: Option<crate::__types::RealtimeResponseCreateParamsToolsItemType>,
     #[doc = "The name of the function."]
     #[serde(rename = "name")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -25840,13 +28151,13 @@ pub struct RealtimeResponseCreateParams {
     #[serde(rename = "modalities")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub modalities: Option<Vec<crate::__types::RealtimeResponseCreateParamsModality>>,
+    pub modalities: Option<Vec<crate::__types::RealtimeResponseCreateParamsModalitiesItem>>,
     #[doc = "The default system instructions (i.e. system message) prepended to model \ncalls. This field allows the client to guide the model on desired \nresponses. The model can be instructed on response content and format, \n(e.g. \"be extremely succinct\", \"act friendly\", \"here are examples of good \nresponses\") and on audio behavior (e.g. \"talk quickly\", \"inject emotion \ninto your voice\", \"laugh frequently\"). The instructions are not guaranteed \nto be followed by the model, but they provide guidance to the model on the \ndesired behavior.\n\nNote that the server sets default instructions which will be used if this \nfield is not set and are visible in the `session.created` event at the \nstart of the session.\n"]
     #[serde(rename = "instructions")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub instructions: Option<String>,
-    #[doc = "The voice the model uses to respond. Voice cannot be changed during the \nsession once the model has responded with audio at least once. Current \nvoice options are `alloy`, `ash`, `ballad`, `coral`, `echo`, `fable`,\n`onyx`, `nova`, `sage`, `shimmer`, and `verse`.\n"]
+    #[doc = "The voice the model uses to respond. Voice cannot be changed during the \nsession once the model has responded with audio at least once. Current \nvoice options are `alloy`, `ash`, `ballad`, `coral`, `echo`, `sage`,\n`shimmer`, and `verse`.\n"]
     #[serde(rename = "voice")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -25860,7 +28171,7 @@ pub struct RealtimeResponseCreateParams {
     #[serde(rename = "tools")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub tools: Option<Vec<crate::__types::RealtimeResponseCreateParamsTool>>,
+    pub tools: Option<Vec<crate::__types::RealtimeResponseCreateParamsToolsItem>>,
     #[doc = "How the model chooses tools. Options are `auto`, `none`, `required`, or \nspecify a function, like `{\"type\": \"function\", \"function\": {\"name\": \"my_function\"}}`.\n"]
     #[serde(rename = "tool_choice")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -26049,8 +28360,9 @@ impl_serde!(
 pub struct RealtimeServerEventConversationItemCreated {
     #[doc = "The unique ID of the server event."]
     pub event_id: String,
-    #[doc = "The ID of the preceding item in the Conversation context, allows the \nclient to understand the order of the conversation.\n"]
-    pub previous_item_id: String,
+    #[doc = "The ID of the preceding item in the Conversation context, allows the \nclient to understand the order of the conversation. Can be `null` if the \nitem has no predecessor.\n"]
+    #[builder(default)]
+    pub previous_item_id: Option<String>,
     #[builder(default)]
     pub item: crate::__types::RealtimeConversationItem,
 }
@@ -26068,7 +28380,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventConversationItemCreated
             #[allow(dead_code)]
             r#type: crate::__types::RealtimeServerEventConversationItemCreatedType,
             #[serde(rename = "previous_item_id")]
-            previous_item_id: String,
+            previous_item_id: Option<String>,
             #[serde(rename = "item")]
             item: crate::__types::RealtimeConversationItem,
         }
@@ -26098,7 +28410,8 @@ impl serde::Serialize for RealtimeServerEventConversationItemCreated {
             #[serde(rename = "type")]
             r#type: &'a crate::__types::RealtimeServerEventConversationItemCreatedType,
             #[serde(rename = "previous_item_id")]
-            previous_item_id: &'a String,
+            #[serde(skip_serializing_if = "Option::is_none")]
+            previous_item_id: &'a Option<String>,
             #[serde(rename = "item")]
             item: &'a crate::__types::RealtimeConversationItem,
         }
@@ -26184,7 +28497,17 @@ impl_serde!(
     RealtimeServerEventConversationItemInputAudioTranscriptionCompletedType,
     "conversation.item.input_audio_transcription.completed"
 );
-#[doc = "This event is the output of audio transcription for user audio written to the \nuser audio buffer. Transcription begins when the input audio buffer is \ncommitted by the client or server (in `server_vad` mode). Transcription runs \nasynchronously with Response creation, so this event may come before or after \nthe Response events.\n\nRealtime API models accept audio natively, and thus input transcription is a\nseparate process run on a separate ASR (Automatic Speech Recognition) model.\nThe transcript may diverge somewhat from the model's interpretation, and\nshould be treated as a rough guide.\n"]
+#[doc = "Usage statistics for the transcription."]
+#[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
+#[allow(clippy::large_enum_variant)]
+pub enum RealtimeServerEventConversationItemInputAudioTranscriptionCompletedUsage {
+    Tokens(crate::__types::TranscriptTextUsageTokens),
+    Duration(crate::__types::TranscriptTextUsageDuration),
+}
+#[doc = "This event is the output of audio transcription for user audio written to the\nuser audio buffer. Transcription begins when the input audio buffer is\ncommitted by the client or server (in `server_vad` mode). Transcription runs\nasynchronously with Response creation, so this event may come before or after\nthe Response events.\n\nRealtime API models accept audio natively, and thus input transcription is a\nseparate process run on a separate ASR (Automatic Speech Recognition) model.\nThe transcript may diverge somewhat from the model's interpretation, and\nshould be treated as a rough guide.\n"]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RealtimeServerEventConversationItemInputAudioTranscriptionCompleted {
     #[doc = "The unique ID of the server event."]
@@ -26198,6 +28521,9 @@ pub struct RealtimeServerEventConversationItemInputAudioTranscriptionCompleted {
     #[doc = "The log probabilities of the transcription."]
     #[builder(default)]
     pub logprobs: Option<Vec<crate::__types::LogProbProperties>>,
+    #[doc = "Usage statistics for the transcription."]
+    pub usage:
+        crate::__types::RealtimeServerEventConversationItemInputAudioTranscriptionCompletedUsage,
 }
 impl<'de> serde::Deserialize<'de>
     for RealtimeServerEventConversationItemInputAudioTranscriptionCompleted
@@ -26208,13 +28534,14 @@ impl<'de> serde::Deserialize<'de>
     {
         #[serde_with::serde_as]
         #[derive(serde :: Deserialize)]
-        struct RealtimeServerEventConversationItemInputAudioTranscriptionCompleted { # [serde (rename = "event_id")] event_id : String , # [serde (rename = "type")] # [allow (dead_code)] r#type : crate :: __types :: RealtimeServerEventConversationItemInputAudioTranscriptionCompletedType , # [serde (rename = "item_id")] item_id : String , # [serde (rename = "content_index")] content_index : i64 , # [serde (rename = "transcript")] transcript : String , # [serde (rename = "logprobs")] logprobs : Option < Vec < crate :: __types :: LogProbProperties > > }
+        struct RealtimeServerEventConversationItemInputAudioTranscriptionCompleted { # [serde (rename = "event_id")] event_id : String , # [serde (rename = "type")] # [allow (dead_code)] r#type : crate :: __types :: RealtimeServerEventConversationItemInputAudioTranscriptionCompletedType , # [serde (rename = "item_id")] item_id : String , # [serde (rename = "content_index")] content_index : i64 , # [serde (rename = "transcript")] transcript : String , # [serde (rename = "logprobs")] logprobs : Option < Vec < crate :: __types :: LogProbProperties > > , # [serde (rename = "usage")] usage : crate :: __types :: RealtimeServerEventConversationItemInputAudioTranscriptionCompletedUsage }
         let RealtimeServerEventConversationItemInputAudioTranscriptionCompleted {
             event_id,
             item_id,
             content_index,
             transcript,
             logprobs,
+            usage,
             ..
         } = RealtimeServerEventConversationItemInputAudioTranscriptionCompleted::deserialize(
             deserializer,
@@ -26225,6 +28552,7 @@ impl<'de> serde::Deserialize<'de>
             content_index,
             transcript,
             logprobs,
+            usage,
         })
     }
 }
@@ -26235,13 +28563,14 @@ impl serde::Serialize for RealtimeServerEventConversationItemInputAudioTranscrip
     {
         #[serde_with::serde_as]
         #[derive(serde :: Serialize)]
-        struct RealtimeServerEventConversationItemInputAudioTranscriptionCompleted < 'a > { # [serde (rename = "event_id")] event_id : & 'a String , # [serde (rename = "type")] r#type : & 'a crate :: __types :: RealtimeServerEventConversationItemInputAudioTranscriptionCompletedType , # [serde (rename = "item_id")] item_id : & 'a String , # [serde (rename = "content_index")] content_index : & 'a i64 , # [serde (rename = "transcript")] transcript : & 'a String , # [serde (rename = "logprobs")] # [serde (skip_serializing_if = "Option::is_none")] logprobs : & 'a Option < Vec < crate :: __types :: LogProbProperties > > }
+        struct RealtimeServerEventConversationItemInputAudioTranscriptionCompleted < 'a > { # [serde (rename = "event_id")] event_id : & 'a String , # [serde (rename = "type")] r#type : & 'a crate :: __types :: RealtimeServerEventConversationItemInputAudioTranscriptionCompletedType , # [serde (rename = "item_id")] item_id : & 'a String , # [serde (rename = "content_index")] content_index : & 'a i64 , # [serde (rename = "transcript")] transcript : & 'a String , # [serde (rename = "logprobs")] # [serde (skip_serializing_if = "Option::is_none")] logprobs : & 'a Option < Vec < crate :: __types :: LogProbProperties > > , # [serde (rename = "usage")] usage : & 'a crate :: __types :: RealtimeServerEventConversationItemInputAudioTranscriptionCompletedUsage }
         let Self {
             event_id,
             item_id,
             content_index,
             transcript,
             logprobs,
+            usage,
         } = self;
         RealtimeServerEventConversationItemInputAudioTranscriptionCompleted {
             event_id,
@@ -26250,6 +28579,7 @@ impl serde::Serialize for RealtimeServerEventConversationItemInputAudioTranscrip
             content_index,
             transcript,
             logprobs,
+            usage,
         }
         .serialize(serializer)
     }
@@ -26745,8 +29075,9 @@ impl_serde!(
 pub struct RealtimeServerEventInputAudioBufferCommitted {
     #[doc = "The unique ID of the server event."]
     pub event_id: String,
-    #[doc = "The ID of the preceding item after which the new item will be inserted.\n"]
-    pub previous_item_id: String,
+    #[doc = "The ID of the preceding item after which the new item will be inserted.\nCan be `null` if the item has no predecessor.\n"]
+    #[builder(default)]
+    pub previous_item_id: Option<String>,
     #[doc = "The ID of the user message item that will be created."]
     pub item_id: String,
 }
@@ -26764,7 +29095,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventInputAudioBufferCommitt
             #[allow(dead_code)]
             r#type: crate::__types::RealtimeServerEventInputAudioBufferCommittedType,
             #[serde(rename = "previous_item_id")]
-            previous_item_id: String,
+            previous_item_id: Option<String>,
             #[serde(rename = "item_id")]
             item_id: String,
         }
@@ -26794,7 +29125,8 @@ impl serde::Serialize for RealtimeServerEventInputAudioBufferCommitted {
             #[serde(rename = "type")]
             r#type: &'a crate::__types::RealtimeServerEventInputAudioBufferCommittedType,
             #[serde(rename = "previous_item_id")]
-            previous_item_id: &'a String,
+            #[serde(skip_serializing_if = "Option::is_none")]
+            previous_item_id: &'a Option<String>,
             #[serde(rename = "item_id")]
             item_id: &'a String,
         }
@@ -27186,7 +29518,7 @@ impl_serde!(
 );
 #[doc = "The name of the rate limit (`requests`, `tokens`).\n"]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum RealtimeServerEventRateLimitsUpdatedRateLimitsName {
+pub enum RealtimeServerEventRateLimitsUpdatedRateLimitsItemName {
     #[doc = "`requests`"]
     #[serde(rename = "requests")]
     Requests,
@@ -27197,12 +29529,12 @@ pub enum RealtimeServerEventRateLimitsUpdatedRateLimitsName {
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct RealtimeServerEventRateLimitsUpdatedRateLimits {
+pub struct RealtimeServerEventRateLimitsUpdatedRateLimitsItem {
     #[doc = "The name of the rate limit (`requests`, `tokens`).\n"]
     #[serde(rename = "name")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub name: Option<crate::__types::RealtimeServerEventRateLimitsUpdatedRateLimitsName>,
+    pub name: Option<crate::__types::RealtimeServerEventRateLimitsUpdatedRateLimitsItemName>,
     #[doc = "The maximum allowed value for the rate limit."]
     #[serde(rename = "limit")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -27225,7 +29557,7 @@ pub struct RealtimeServerEventRateLimitsUpdated {
     #[doc = "The unique ID of the server event."]
     pub event_id: String,
     #[doc = "List of rate limit information."]
-    pub rate_limits: Vec<crate::__types::RealtimeServerEventRateLimitsUpdatedRateLimits>,
+    pub rate_limits: Vec<crate::__types::RealtimeServerEventRateLimitsUpdatedRateLimitsItem>,
 }
 impl<'de> serde::Deserialize<'de> for RealtimeServerEventRateLimitsUpdated {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -27241,7 +29573,7 @@ impl<'de> serde::Deserialize<'de> for RealtimeServerEventRateLimitsUpdated {
             #[allow(dead_code)]
             r#type: crate::__types::RealtimeServerEventRateLimitsUpdatedType,
             #[serde(rename = "rate_limits")]
-            rate_limits: Vec<crate::__types::RealtimeServerEventRateLimitsUpdatedRateLimits>,
+            rate_limits: Vec<crate::__types::RealtimeServerEventRateLimitsUpdatedRateLimitsItem>,
         }
         let RealtimeServerEventRateLimitsUpdated {
             event_id,
@@ -27267,7 +29599,8 @@ impl serde::Serialize for RealtimeServerEventRateLimitsUpdated {
             #[serde(rename = "type")]
             r#type: &'a crate::__types::RealtimeServerEventRateLimitsUpdatedType,
             #[serde(rename = "rate_limits")]
-            rate_limits: &'a Vec<crate::__types::RealtimeServerEventRateLimitsUpdatedRateLimits>,
+            rate_limits:
+                &'a Vec<crate::__types::RealtimeServerEventRateLimitsUpdatedRateLimitsItem>,
         }
         let Self {
             event_id,
@@ -27717,12 +30050,12 @@ impl_serde!(
 #[doc = "The content type (\"text\", \"audio\")."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeServerEventResponseContentPartAddedPartType {
-    #[doc = "`audio`"]
-    #[serde(rename = "audio")]
-    Audio,
     #[doc = "`text`"]
     #[serde(rename = "text")]
     Text,
+    #[doc = "`audio`"]
+    #[serde(rename = "audio")]
+    Audio,
 }
 #[doc = "The content part that was added."]
 #[derive(Clone, Debug, Default, PartialEq)]
@@ -27863,12 +30196,12 @@ impl_serde!(
 #[doc = "The content type (\"text\", \"audio\")."]
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeServerEventResponseContentPartDonePartType {
-    #[doc = "`audio`"]
-    #[serde(rename = "audio")]
-    Audio,
     #[doc = "`text`"]
     #[serde(rename = "text")]
     Text,
+    #[doc = "`audio`"]
+    #[serde(rename = "audio")]
+    Audio,
 }
 #[doc = "The content part that is done."]
 #[derive(Clone, Debug, Default, PartialEq)]
@@ -28906,7 +31239,7 @@ impl serde::Serialize for RealtimeServerEventTranscriptionSessionUpdated {
     }
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum RealtimeSessionModality {
+pub enum RealtimeSessionModalitiesItem {
     #[doc = "`text`"]
     #[serde(rename = "text")]
     Text,
@@ -28936,7 +31269,7 @@ pub enum RealtimeSessionModel {
     #[serde(rename = "gpt-4o-mini-realtime-preview-2024-12-17")]
     Gpt4oMiniRealtimePreview2024_12_17,
 }
-#[doc = "The format of input audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.\nFor `pcm16`, input audio must be 16-bit PCM at a 24kHz sample rate, \nsingle channel (mono), and little-endian byte order.\n"]
+#[doc = "The format of input audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.\nFor `pcm16`, input audio must be 16-bit PCM at a 24kHz sample rate,\nsingle channel (mono), and little-endian byte order.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum RealtimeSessionInputAudioFormat {
     #[doc = "`pcm16`"]
@@ -28964,7 +31297,7 @@ pub enum RealtimeSessionOutputAudioFormat {
     #[serde(rename = "g711_alaw")]
     G711Alaw,
 }
-#[doc = "Configuration for input audio transcription, defaults to off and can be  set to `null` to turn off once on. Input audio transcription is not native to the model, since the model consumes audio directly. Transcription runs  asynchronously through [the /audio/transcriptions endpoint](https://platform.openai.com/docs/api-reference/audio/createTranscription) and should be treated as guidance of input audio content rather than precisely what the model heard. The client can optionally set the language and prompt for transcription, these offer additional guidance to the transcription service.\n"]
+#[doc = "Configuration for input audio transcription, defaults to off and can be set to `null` to turn off once on. Input audio transcription is not native to the model, since the model consumes audio directly. Transcription runs asynchronously through [the /audio/transcriptions endpoint](https://platform.openai.com/docs/api-reference/audio/createTranscription) and should be treated as guidance of input audio content rather than precisely what the model heard. The client can optionally set the language and prompt for transcription, these offer additional guidance to the transcription service.\n"]
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
@@ -29013,7 +31346,7 @@ pub enum RealtimeSessionTurnDetectionEagerness {
     #[serde(rename = "auto")]
     Auto,
 }
-#[doc = "Configuration for turn detection, ether Server VAD or Semantic VAD. This can be set to `null` to turn off, in which case the client must manually trigger model response.\nServer VAD means that the model will detect the start and end of speech based on audio volume and respond at the end of user speech.\nSemantic VAD is more advanced and uses a turn detection model (in conjuction with VAD) to semantically estimate whether the user has finished speaking, then dynamically sets a timeout based on this probability. For example, if user audio trails off with \"uhhm\", the model will score a low probability of turn end and wait longer for the user to continue speaking. This can be useful for more natural conversations, but may have a higher latency.\n"]
+#[doc = "Configuration for turn detection, ether Server VAD or Semantic VAD. This can be set to `null` to turn off, in which case the client must manually trigger model response.\nServer VAD means that the model will detect the start and end of speech based on audio volume and respond at the end of user speech.\nSemantic VAD is more advanced and uses a turn detection model (in conjunction with VAD) to semantically estimate whether the user has finished speaking, then dynamically sets a timeout based on this probability. For example, if user audio trails off with \"uhhm\", the model will score a low probability of turn end and wait longer for the user to continue speaking. This can be useful for more natural conversations, but may have a higher latency.\n"]
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
@@ -29028,17 +31361,17 @@ pub struct RealtimeSessionTurnDetection {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub eagerness: Option<crate::__types::RealtimeSessionTurnDetectionEagerness>,
-    #[doc = "Used only for `server_vad` mode. Activation threshold for VAD (0.0 to 1.0), this defaults to 0.5. A \nhigher threshold will require louder audio to activate the model, and \nthus might perform better in noisy environments.\n"]
+    #[doc = "Used only for `server_vad` mode. Activation threshold for VAD (0.0 to 1.0), this defaults to 0.5. A\nhigher threshold will require louder audio to activate the model, and\nthus might perform better in noisy environments.\n"]
     #[serde(rename = "threshold")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub threshold: Option<serde_json::Number>,
-    #[doc = "Used only for `server_vad` mode. Amount of audio to include before the VAD detected speech (in \nmilliseconds). Defaults to 300ms.\n"]
+    #[doc = "Used only for `server_vad` mode. Amount of audio to include before the VAD detected speech (in\nmilliseconds). Defaults to 300ms.\n"]
     #[serde(rename = "prefix_padding_ms")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub prefix_padding_ms: Option<i64>,
-    #[doc = "Used only for `server_vad` mode. Duration of silence to detect speech stop (in milliseconds). Defaults \nto 500ms. With shorter values the model will respond more quickly, \nbut may jump in on short pauses from the user.\n"]
+    #[doc = "Used only for `server_vad` mode. Duration of silence to detect speech stop (in milliseconds). Defaults\nto 500ms. With shorter values the model will respond more quickly,\nbut may jump in on short pauses from the user.\n"]
     #[serde(rename = "silence_duration_ms")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -29084,23 +31417,23 @@ impl_serde!(RealtimeSessionTracingAuto, "auto");
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
 pub struct RealtimeSessionTracing1 {
-    #[doc = "The name of the workflow to attach to this trace. This is used to \nname the trace in the traces dashboard.\n"]
+    #[doc = "The name of the workflow to attach to this trace. This is used to\nname the trace in the traces dashboard.\n"]
     #[serde(rename = "workflow_name")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub workflow_name: Option<String>,
-    #[doc = "The group id to attach to this trace to enable filtering and \ngrouping in the traces dashboard.\n"]
+    #[doc = "The group id to attach to this trace to enable filtering and\ngrouping in the traces dashboard.\n"]
     #[serde(rename = "group_id")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub group_id: Option<String>,
-    #[doc = "The arbitrary metadata to attach to this trace to enable \nfiltering in the traces dashboard.\n"]
+    #[doc = "The arbitrary metadata to attach to this trace to enable\nfiltering in the traces dashboard.\n"]
     #[serde(rename = "metadata")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub metadata: Option<indexmap::IndexMap<String, serde_json::Value>>,
 }
-#[doc = "Configuration options for tracing. Set to null to disable tracing. Once \ntracing is enabled for a session, the configuration cannot be modified.\n\n`auto` will create a trace for the session with default values for the \nworkflow name, group id, and metadata.\n"]
+#[doc = "Configuration options for tracing. Set to null to disable tracing. Once\ntracing is enabled for a session, the configuration cannot be modified.\n\n`auto` will create a trace for the session with default values for the\nworkflow name, group id, and metadata.\n"]
 #[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionTracing {
@@ -29150,23 +31483,23 @@ impl serde::Serialize for RealtimeSessionTracing {
 }
 #[doc = "The type of the tool, i.e. `function`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
-pub struct RealtimeSessionToolType;
-impl_serde!(RealtimeSessionToolType, "function");
+pub struct RealtimeSessionToolsItemType;
+impl_serde!(RealtimeSessionToolsItemType, "function");
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct RealtimeSessionTool {
+pub struct RealtimeSessionToolsItem {
     #[doc = "The type of the tool, i.e. `function`."]
     #[serde(rename = "type")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub r#type: Option<crate::__types::RealtimeSessionToolType>,
+    pub r#type: Option<crate::__types::RealtimeSessionToolsItemType>,
     #[doc = "The name of the function."]
     #[serde(rename = "name")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub name: Option<String>,
-    #[doc = "The description of the function, including guidance on when and how \nto call it, and guidance about what to tell the user when calling \n(if anything).\n"]
+    #[doc = "The description of the function, including guidance on when and how\nto call it, and guidance about what to tell the user when calling\n(if anything).\n"]
     #[serde(rename = "description")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -29244,23 +31577,23 @@ pub struct RealtimeSession {
     #[serde(rename = "modalities")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub modalities: Option<Vec<crate::__types::RealtimeSessionModality>>,
+    pub modalities: Option<Vec<crate::__types::RealtimeSessionModalitiesItem>>,
     #[doc = "The Realtime model used for this session.\n"]
     #[serde(rename = "model")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub model: Option<crate::__types::RealtimeSessionModel>,
-    #[doc = "The default system instructions (i.e. system message) prepended to model \ncalls. This field allows the client to guide the model on desired \nresponses. The model can be instructed on response content and format, \n(e.g. \"be extremely succinct\", \"act friendly\", \"here are examples of good \nresponses\") and on audio behavior (e.g. \"talk quickly\", \"inject emotion \ninto your voice\", \"laugh frequently\"). The instructions are not\nguaranteed to be followed by the model, but they provide guidance to the \nmodel on the desired behavior.\n\n\nNote that the server sets default instructions which will be used if this\nfield is not set and are visible in the `session.created` event at the\nstart of the session.\n"]
+    #[doc = "The default system instructions (i.e. system message) prepended to model\ncalls. This field allows the client to guide the model on desired\nresponses. The model can be instructed on response content and format,\n(e.g. \"be extremely succinct\", \"act friendly\", \"here are examples of good\nresponses\") and on audio behavior (e.g. \"talk quickly\", \"inject emotion\ninto your voice\", \"laugh frequently\"). The instructions are not\nguaranteed to be followed by the model, but they provide guidance to the\nmodel on the desired behavior.\n\n\nNote that the server sets default instructions which will be used if this\nfield is not set and are visible in the `session.created` event at the\nstart of the session.\n"]
     #[serde(rename = "instructions")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub instructions: Option<String>,
-    #[doc = "The voice the model uses to respond. Voice cannot be changed during the\nsession once the model has responded with audio at least once. Current\nvoice options are `alloy`, `ash`, `ballad`, `coral`, `echo`, `fable`,\n`onyx`, `nova`, `sage`, `shimmer`, and `verse`.\n"]
+    #[doc = "The voice the model uses to respond. Voice cannot be changed during the\nsession once the model has responded with audio at least once. Current\nvoice options are `alloy`, `ash`, `ballad`, `coral`, `echo`, `sage`,\n`shimmer`, and `verse`.\n"]
     #[serde(rename = "voice")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub voice: Option<crate::__types::VoiceIdsShared>,
-    #[doc = "The format of input audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.\nFor `pcm16`, input audio must be 16-bit PCM at a 24kHz sample rate, \nsingle channel (mono), and little-endian byte order.\n"]
+    #[doc = "The format of input audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.\nFor `pcm16`, input audio must be 16-bit PCM at a 24kHz sample rate,\nsingle channel (mono), and little-endian byte order.\n"]
     #[serde(rename = "input_audio_format")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -29270,12 +31603,12 @@ pub struct RealtimeSession {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub output_audio_format: Option<crate::__types::RealtimeSessionOutputAudioFormat>,
-    #[doc = "Configuration for input audio transcription, defaults to off and can be  set to `null` to turn off once on. Input audio transcription is not native to the model, since the model consumes audio directly. Transcription runs  asynchronously through [the /audio/transcriptions endpoint](https://platform.openai.com/docs/api-reference/audio/createTranscription) and should be treated as guidance of input audio content rather than precisely what the model heard. The client can optionally set the language and prompt for transcription, these offer additional guidance to the transcription service.\n"]
+    #[doc = "Configuration for input audio transcription, defaults to off and can be set to `null` to turn off once on. Input audio transcription is not native to the model, since the model consumes audio directly. Transcription runs asynchronously through [the /audio/transcriptions endpoint](https://platform.openai.com/docs/api-reference/audio/createTranscription) and should be treated as guidance of input audio content rather than precisely what the model heard. The client can optionally set the language and prompt for transcription, these offer additional guidance to the transcription service.\n"]
     #[serde(rename = "input_audio_transcription")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub input_audio_transcription: Option<crate::__types::RealtimeSessionInputAudioTranscription>,
-    #[doc = "Configuration for turn detection, ether Server VAD or Semantic VAD. This can be set to `null` to turn off, in which case the client must manually trigger model response.\nServer VAD means that the model will detect the start and end of speech based on audio volume and respond at the end of user speech.\nSemantic VAD is more advanced and uses a turn detection model (in conjuction with VAD) to semantically estimate whether the user has finished speaking, then dynamically sets a timeout based on this probability. For example, if user audio trails off with \"uhhm\", the model will score a low probability of turn end and wait longer for the user to continue speaking. This can be useful for more natural conversations, but may have a higher latency.\n"]
+    #[doc = "Configuration for turn detection, ether Server VAD or Semantic VAD. This can be set to `null` to turn off, in which case the client must manually trigger model response.\nServer VAD means that the model will detect the start and end of speech based on audio volume and respond at the end of user speech.\nSemantic VAD is more advanced and uses a turn detection model (in conjunction with VAD) to semantically estimate whether the user has finished speaking, then dynamically sets a timeout based on this probability. For example, if user audio trails off with \"uhhm\", the model will score a low probability of turn end and wait longer for the user to continue speaking. This can be useful for more natural conversations, but may have a higher latency.\n"]
     #[serde(rename = "turn_detection")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -29291,7 +31624,7 @@ pub struct RealtimeSession {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub speed: Option<serde_json::Number>,
-    #[doc = "Configuration options for tracing. Set to null to disable tracing. Once \ntracing is enabled for a session, the configuration cannot be modified.\n\n`auto` will create a trace for the session with default values for the \nworkflow name, group id, and metadata.\n"]
+    #[doc = "Configuration options for tracing. Set to null to disable tracing. Once\ntracing is enabled for a session, the configuration cannot be modified.\n\n`auto` will create a trace for the session with default values for the\nworkflow name, group id, and metadata.\n"]
     #[serde(rename = "tracing")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -29300,8 +31633,8 @@ pub struct RealtimeSession {
     #[serde(rename = "tools")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub tools: Option<Vec<crate::__types::RealtimeSessionTool>>,
-    #[doc = "How the model chooses tools. Options are `auto`, `none`, `required`, or \nspecify a function.\n"]
+    pub tools: Option<Vec<crate::__types::RealtimeSessionToolsItem>>,
+    #[doc = "How the model chooses tools. Options are `auto`, `none`, `required`, or\nspecify a function.\n"]
     #[serde(rename = "tool_choice")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -29318,7 +31651,7 @@ pub struct RealtimeSession {
     pub max_response_output_tokens: Option<crate::__types::RealtimeSessionMaxResponseOutputTokens>,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum RealtimeSessionCreateRequestModality {
+pub enum RealtimeSessionCreateRequestModalitiesItem {
     #[doc = "`text`"]
     #[serde(rename = "text")]
     Text,
@@ -29425,7 +31758,7 @@ pub enum RealtimeSessionCreateRequestTurnDetectionEagerness {
     #[serde(rename = "auto")]
     Auto,
 }
-#[doc = "Configuration for turn detection, ether Server VAD or Semantic VAD. This can be set to `null` to turn off, in which case the client must manually trigger model response.\nServer VAD means that the model will detect the start and end of speech based on audio volume and respond at the end of user speech.\nSemantic VAD is more advanced and uses a turn detection model (in conjuction with VAD) to semantically estimate whether the user has finished speaking, then dynamically sets a timeout based on this probability. For example, if user audio trails off with \"uhhm\", the model will score a low probability of turn end and wait longer for the user to continue speaking. This can be useful for more natural conversations, but may have a higher latency.\n"]
+#[doc = "Configuration for turn detection, ether Server VAD or Semantic VAD. This can be set to `null` to turn off, in which case the client must manually trigger model response.\nServer VAD means that the model will detect the start and end of speech based on audio volume and respond at the end of user speech.\nSemantic VAD is more advanced and uses a turn detection model (in conjunction with VAD) to semantically estimate whether the user has finished speaking, then dynamically sets a timeout based on this probability. For example, if user audio trails off with \"uhhm\", the model will score a low probability of turn end and wait longer for the user to continue speaking. This can be useful for more natural conversations, but may have a higher latency.\n"]
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
@@ -29496,23 +31829,23 @@ impl_serde!(RealtimeSessionCreateRequestTracingAuto, "auto");
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
 pub struct RealtimeSessionCreateRequestTracing1 {
-    #[doc = "The name of the workflow to attach to this trace. This is used to \nname the trace in the traces dashboard.\n"]
+    #[doc = "The name of the workflow to attach to this trace. This is used to\nname the trace in the traces dashboard.\n"]
     #[serde(rename = "workflow_name")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub workflow_name: Option<String>,
-    #[doc = "The group id to attach to this trace to enable filtering and \ngrouping in the traces dashboard.\n"]
+    #[doc = "The group id to attach to this trace to enable filtering and\ngrouping in the traces dashboard.\n"]
     #[serde(rename = "group_id")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub group_id: Option<String>,
-    #[doc = "The arbitrary metadata to attach to this trace to enable \nfiltering in the traces dashboard.\n"]
+    #[doc = "The arbitrary metadata to attach to this trace to enable\nfiltering in the traces dashboard.\n"]
     #[serde(rename = "metadata")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub metadata: Option<indexmap::IndexMap<String, serde_json::Value>>,
 }
-#[doc = "Configuration options for tracing. Set to null to disable tracing. Once \ntracing is enabled for a session, the configuration cannot be modified.\n\n`auto` will create a trace for the session with default values for the \nworkflow name, group id, and metadata.\n"]
+#[doc = "Configuration options for tracing. Set to null to disable tracing. Once\ntracing is enabled for a session, the configuration cannot be modified.\n\n`auto` will create a trace for the session with default values for the\nworkflow name, group id, and metadata.\n"]
 #[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionCreateRequestTracing {
@@ -29564,17 +31897,17 @@ impl serde::Serialize for RealtimeSessionCreateRequestTracing {
 }
 #[doc = "The type of the tool, i.e. `function`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
-pub struct RealtimeSessionCreateRequestToolType;
-impl_serde!(RealtimeSessionCreateRequestToolType, "function");
+pub struct RealtimeSessionCreateRequestToolsItemType;
+impl_serde!(RealtimeSessionCreateRequestToolsItemType, "function");
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct RealtimeSessionCreateRequestTool {
+pub struct RealtimeSessionCreateRequestToolsItem {
     #[doc = "The type of the tool, i.e. `function`."]
     #[serde(rename = "type")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub r#type: Option<crate::__types::RealtimeSessionCreateRequestToolType>,
+    pub r#type: Option<crate::__types::RealtimeSessionCreateRequestToolsItemType>,
     #[doc = "The name of the function."]
     #[serde(rename = "name")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -29690,7 +32023,7 @@ pub struct RealtimeSessionCreateRequest {
     #[serde(rename = "modalities")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub modalities: Option<Vec<crate::__types::RealtimeSessionCreateRequestModality>>,
+    pub modalities: Option<Vec<crate::__types::RealtimeSessionCreateRequestModalitiesItem>>,
     #[doc = "The Realtime model used for this session.\n"]
     #[serde(rename = "model")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -29701,7 +32034,7 @@ pub struct RealtimeSessionCreateRequest {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub instructions: Option<String>,
-    #[doc = "The voice the model uses to respond. Voice cannot be changed during the\nsession once the model has responded with audio at least once. Current\nvoice options are `alloy`, `ash`, `ballad`, `coral`, `echo`, `fable`,\n`onyx`, `nova`, `sage`, `shimmer`, and `verse`.\n"]
+    #[doc = "The voice the model uses to respond. Voice cannot be changed during the\nsession once the model has responded with audio at least once. Current\nvoice options are `alloy`, `ash`, `ballad`, `coral`, `echo`, `sage`,\n`shimmer`, and `verse`.\n"]
     #[serde(rename = "voice")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -29722,7 +32055,7 @@ pub struct RealtimeSessionCreateRequest {
     #[builder(default)]
     pub input_audio_transcription:
         Option<crate::__types::RealtimeSessionCreateRequestInputAudioTranscription>,
-    #[doc = "Configuration for turn detection, ether Server VAD or Semantic VAD. This can be set to `null` to turn off, in which case the client must manually trigger model response.\nServer VAD means that the model will detect the start and end of speech based on audio volume and respond at the end of user speech.\nSemantic VAD is more advanced and uses a turn detection model (in conjuction with VAD) to semantically estimate whether the user has finished speaking, then dynamically sets a timeout based on this probability. For example, if user audio trails off with \"uhhm\", the model will score a low probability of turn end and wait longer for the user to continue speaking. This can be useful for more natural conversations, but may have a higher latency.\n"]
+    #[doc = "Configuration for turn detection, ether Server VAD or Semantic VAD. This can be set to `null` to turn off, in which case the client must manually trigger model response.\nServer VAD means that the model will detect the start and end of speech based on audio volume and respond at the end of user speech.\nSemantic VAD is more advanced and uses a turn detection model (in conjunction with VAD) to semantically estimate whether the user has finished speaking, then dynamically sets a timeout based on this probability. For example, if user audio trails off with \"uhhm\", the model will score a low probability of turn end and wait longer for the user to continue speaking. This can be useful for more natural conversations, but may have a higher latency.\n"]
     #[serde(rename = "turn_detection")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -29738,7 +32071,7 @@ pub struct RealtimeSessionCreateRequest {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub speed: Option<serde_json::Number>,
-    #[doc = "Configuration options for tracing. Set to null to disable tracing. Once \ntracing is enabled for a session, the configuration cannot be modified.\n\n`auto` will create a trace for the session with default values for the \nworkflow name, group id, and metadata.\n"]
+    #[doc = "Configuration options for tracing. Set to null to disable tracing. Once\ntracing is enabled for a session, the configuration cannot be modified.\n\n`auto` will create a trace for the session with default values for the\nworkflow name, group id, and metadata.\n"]
     #[serde(rename = "tracing")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -29747,7 +32080,7 @@ pub struct RealtimeSessionCreateRequest {
     #[serde(rename = "tools")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub tools: Option<Vec<crate::__types::RealtimeSessionCreateRequestTool>>,
+    pub tools: Option<Vec<crate::__types::RealtimeSessionCreateRequestToolsItem>>,
     #[doc = "How the model chooses tools. Options are `auto`, `none`, `required`, or\nspecify a function.\n"]
     #[serde(rename = "tool_choice")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -29783,7 +32116,7 @@ pub struct RealtimeSessionCreateResponseClientSecret {
     pub expires_at: i64,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum RealtimeSessionCreateResponseModality {
+pub enum RealtimeSessionCreateResponseModalitiesItem {
     #[doc = "`text`"]
     #[serde(rename = "text")]
     Text,
@@ -29791,7 +32124,7 @@ pub enum RealtimeSessionCreateResponseModality {
     #[serde(rename = "audio")]
     Audio,
 }
-#[doc = "Configuration for input audio transcription, defaults to off and can be \nset to `null` to turn off once on. Input audio transcription is not native \nto the model, since the model consumes audio directly. Transcription runs\nasynchronously and should be treated as rough guidance\nrather than the representation understood by the model.\n"]
+#[doc = "Configuration for input audio transcription, defaults to off and can be\nset to `null` to turn off once on. Input audio transcription is not native\nto the model, since the model consumes audio directly. Transcription runs\nasynchronously and should be treated as rough guidance\nrather than the representation understood by the model.\n"]
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
@@ -29811,23 +32144,23 @@ impl_serde!(RealtimeSessionCreateResponseTracingAuto, "auto");
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
 pub struct RealtimeSessionCreateResponseTracing1 {
-    #[doc = "The name of the workflow to attach to this trace. This is used to \nname the trace in the traces dashboard.\n"]
+    #[doc = "The name of the workflow to attach to this trace. This is used to\nname the trace in the traces dashboard.\n"]
     #[serde(rename = "workflow_name")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub workflow_name: Option<String>,
-    #[doc = "The group id to attach to this trace to enable filtering and \ngrouping in the traces dashboard.\n"]
+    #[doc = "The group id to attach to this trace to enable filtering and\ngrouping in the traces dashboard.\n"]
     #[serde(rename = "group_id")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub group_id: Option<String>,
-    #[doc = "The arbitrary metadata to attach to this trace to enable \nfiltering in the traces dashboard.\n"]
+    #[doc = "The arbitrary metadata to attach to this trace to enable\nfiltering in the traces dashboard.\n"]
     #[serde(rename = "metadata")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub metadata: Option<indexmap::IndexMap<String, serde_json::Value>>,
 }
-#[doc = "Configuration options for tracing. Set to null to disable tracing. Once \ntracing is enabled for a session, the configuration cannot be modified.\n\n`auto` will create a trace for the session with default values for the \nworkflow name, group id, and metadata.\n"]
+#[doc = "Configuration options for tracing. Set to null to disable tracing. Once\ntracing is enabled for a session, the configuration cannot be modified.\n\n`auto` will create a trace for the session with default values for the\nworkflow name, group id, and metadata.\n"]
 #[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum RealtimeSessionCreateResponseTracing {
@@ -29877,7 +32210,7 @@ impl serde::Serialize for RealtimeSessionCreateResponseTracing {
         .serialize(serializer)
     }
 }
-#[doc = "Configuration for turn detection. Can be set to `null` to turn off. Server \nVAD means that the model will detect the start and end of speech based on \naudio volume and respond at the end of user speech.\n"]
+#[doc = "Configuration for turn detection. Can be set to `null` to turn off. Server\nVAD means that the model will detect the start and end of speech based on\naudio volume and respond at the end of user speech.\n"]
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
@@ -29887,17 +32220,17 @@ pub struct RealtimeSessionCreateResponseTurnDetection {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub r#type: Option<String>,
-    #[doc = "Activation threshold for VAD (0.0 to 1.0), this defaults to 0.5. A \nhigher threshold will require louder audio to activate the model, and \nthus might perform better in noisy environments.\n"]
+    #[doc = "Activation threshold for VAD (0.0 to 1.0), this defaults to 0.5. A\nhigher threshold will require louder audio to activate the model, and\nthus might perform better in noisy environments.\n"]
     #[serde(rename = "threshold")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub threshold: Option<serde_json::Number>,
-    #[doc = "Amount of audio to include before the VAD detected speech (in \nmilliseconds). Defaults to 300ms.\n"]
+    #[doc = "Amount of audio to include before the VAD detected speech (in\nmilliseconds). Defaults to 300ms.\n"]
     #[serde(rename = "prefix_padding_ms")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub prefix_padding_ms: Option<i64>,
-    #[doc = "Duration of silence to detect speech stop (in milliseconds). Defaults \nto 500ms. With shorter values the model will respond more quickly, \nbut may jump in on short pauses from the user.\n"]
+    #[doc = "Duration of silence to detect speech stop (in milliseconds). Defaults\nto 500ms. With shorter values the model will respond more quickly,\nbut may jump in on short pauses from the user.\n"]
     #[serde(rename = "silence_duration_ms")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -29905,23 +32238,23 @@ pub struct RealtimeSessionCreateResponseTurnDetection {
 }
 #[doc = "The type of the tool, i.e. `function`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
-pub struct RealtimeSessionCreateResponseToolType;
-impl_serde!(RealtimeSessionCreateResponseToolType, "function");
+pub struct RealtimeSessionCreateResponseToolsItemType;
+impl_serde!(RealtimeSessionCreateResponseToolsItemType, "function");
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct RealtimeSessionCreateResponseTool {
+pub struct RealtimeSessionCreateResponseToolsItem {
     #[doc = "The type of the tool, i.e. `function`."]
     #[serde(rename = "type")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub r#type: Option<crate::__types::RealtimeSessionCreateResponseToolType>,
+    pub r#type: Option<crate::__types::RealtimeSessionCreateResponseToolsItemType>,
     #[doc = "The name of the function."]
     #[serde(rename = "name")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub name: Option<String>,
-    #[doc = "The description of the function, including guidance on when and how \nto call it, and guidance about what to tell the user when calling \n(if anything).\n"]
+    #[doc = "The description of the function, including guidance on when and how\nto call it, and guidance about what to tell the user when calling\n(if anything).\n"]
     #[serde(rename = "description")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -29992,7 +32325,7 @@ impl serde::Serialize for RealtimeSessionCreateResponseMaxResponseOutputTokens {
         .serialize(serializer)
     }
 }
-#[doc = "A new Realtime session configuration, with an ephermeral key. Default TTL\nfor keys is one minute.\n"]
+#[doc = "A new Realtime session configuration, with an ephemeral key. Default TTL\nfor keys is one minute.\n"]
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
@@ -30004,13 +32337,13 @@ pub struct RealtimeSessionCreateResponse {
     #[serde(rename = "modalities")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub modalities: Option<Vec<crate::__types::RealtimeSessionCreateResponseModality>>,
-    #[doc = "The default system instructions (i.e. system message) prepended to model \ncalls. This field allows the client to guide the model on desired \nresponses. The model can be instructed on response content and format, \n(e.g. \"be extremely succinct\", \"act friendly\", \"here are examples of good \nresponses\") and on audio behavior (e.g. \"talk quickly\", \"inject emotion \ninto your voice\", \"laugh frequently\"). The instructions are not guaranteed \nto be followed by the model, but they provide guidance to the model on the \ndesired behavior.\n\nNote that the server sets default instructions which will be used if this \nfield is not set and are visible in the `session.created` event at the \nstart of the session.\n"]
+    pub modalities: Option<Vec<crate::__types::RealtimeSessionCreateResponseModalitiesItem>>,
+    #[doc = "The default system instructions (i.e. system message) prepended to model\ncalls. This field allows the client to guide the model on desired\nresponses. The model can be instructed on response content and format,\n(e.g. \"be extremely succinct\", \"act friendly\", \"here are examples of good\nresponses\") and on audio behavior (e.g. \"talk quickly\", \"inject emotion\ninto your voice\", \"laugh frequently\"). The instructions are not guaranteed\nto be followed by the model, but they provide guidance to the model on the\ndesired behavior.\n\nNote that the server sets default instructions which will be used if this\nfield is not set and are visible in the `session.created` event at the\nstart of the session.\n"]
     #[serde(rename = "instructions")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub instructions: Option<String>,
-    #[doc = "The voice the model uses to respond. Voice cannot be changed during the \nsession once the model has responded with audio at least once. Current \nvoice options are `alloy`, `ash`, `ballad`, `coral`, `echo` `sage`, \n`shimmer` and `verse`.\n"]
+    #[doc = "The voice the model uses to respond. Voice cannot be changed during the\nsession once the model has responded with audio at least once. Current\nvoice options are `alloy`, `ash`, `ballad`, `coral`, `echo`, `sage`,\n`shimmer`, and `verse`.\n"]
     #[serde(rename = "voice")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -30025,7 +32358,7 @@ pub struct RealtimeSessionCreateResponse {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub output_audio_format: Option<String>,
-    #[doc = "Configuration for input audio transcription, defaults to off and can be \nset to `null` to turn off once on. Input audio transcription is not native \nto the model, since the model consumes audio directly. Transcription runs\nasynchronously and should be treated as rough guidance\nrather than the representation understood by the model.\n"]
+    #[doc = "Configuration for input audio transcription, defaults to off and can be\nset to `null` to turn off once on. Input audio transcription is not native\nto the model, since the model consumes audio directly. Transcription runs\nasynchronously and should be treated as rough guidance\nrather than the representation understood by the model.\n"]
     #[serde(rename = "input_audio_transcription")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -30036,12 +32369,12 @@ pub struct RealtimeSessionCreateResponse {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub speed: Option<serde_json::Number>,
-    #[doc = "Configuration options for tracing. Set to null to disable tracing. Once \ntracing is enabled for a session, the configuration cannot be modified.\n\n`auto` will create a trace for the session with default values for the \nworkflow name, group id, and metadata.\n"]
+    #[doc = "Configuration options for tracing. Set to null to disable tracing. Once\ntracing is enabled for a session, the configuration cannot be modified.\n\n`auto` will create a trace for the session with default values for the\nworkflow name, group id, and metadata.\n"]
     #[serde(rename = "tracing")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub tracing: Option<crate::__types::RealtimeSessionCreateResponseTracing>,
-    #[doc = "Configuration for turn detection. Can be set to `null` to turn off. Server \nVAD means that the model will detect the start and end of speech based on \naudio volume and respond at the end of user speech.\n"]
+    #[doc = "Configuration for turn detection. Can be set to `null` to turn off. Server\nVAD means that the model will detect the start and end of speech based on\naudio volume and respond at the end of user speech.\n"]
     #[serde(rename = "turn_detection")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -30050,8 +32383,8 @@ pub struct RealtimeSessionCreateResponse {
     #[serde(rename = "tools")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub tools: Option<Vec<crate::__types::RealtimeSessionCreateResponseTool>>,
-    #[doc = "How the model chooses tools. Options are `auto`, `none`, `required`, or \nspecify a function.\n"]
+    pub tools: Option<Vec<crate::__types::RealtimeSessionCreateResponseToolsItem>>,
+    #[doc = "How the model chooses tools. Options are `auto`, `none`, `required`, or\nspecify a function.\n"]
     #[serde(rename = "tool_choice")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -30069,7 +32402,7 @@ pub struct RealtimeSessionCreateResponse {
         Option<crate::__types::RealtimeSessionCreateResponseMaxResponseOutputTokens>,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum RealtimeTranscriptionSessionCreateRequestModality {
+pub enum RealtimeTranscriptionSessionCreateRequestModalitiesItem {
     #[doc = "`text`"]
     #[serde(rename = "text")]
     Text,
@@ -30155,7 +32488,7 @@ pub enum RealtimeTranscriptionSessionCreateRequestTurnDetectionEagerness {
     #[serde(rename = "auto")]
     Auto,
 }
-#[doc = "Configuration for turn detection, ether Server VAD or Semantic VAD. This can be set to `null` to turn off, in which case the client must manually trigger model response.\nServer VAD means that the model will detect the start and end of speech based on audio volume and respond at the end of user speech.\nSemantic VAD is more advanced and uses a turn detection model (in conjuction with VAD) to semantically estimate whether the user has finished speaking, then dynamically sets a timeout based on this probability. For example, if user audio trails off with \"uhhm\", the model will score a low probability of turn end and wait longer for the user to continue speaking. This can be useful for more natural conversations, but may have a higher latency.\n"]
+#[doc = "Configuration for turn detection, ether Server VAD or Semantic VAD. This can be set to `null` to turn off, in which case the client must manually trigger model response.\nServer VAD means that the model will detect the start and end of speech based on audio volume and respond at the end of user speech.\nSemantic VAD is more advanced and uses a turn detection model (in conjunction with VAD) to semantically estimate whether the user has finished speaking, then dynamically sets a timeout based on this probability. For example, if user audio trails off with \"uhhm\", the model will score a low probability of turn end and wait longer for the user to continue speaking. This can be useful for more natural conversations, but may have a higher latency.\n"]
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
@@ -30267,7 +32600,8 @@ pub struct RealtimeTranscriptionSessionCreateRequest {
     #[serde(rename = "modalities")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub modalities: Option<Vec<crate::__types::RealtimeTranscriptionSessionCreateRequestModality>>,
+    pub modalities:
+        Option<Vec<crate::__types::RealtimeTranscriptionSessionCreateRequestModalitiesItem>>,
     #[doc = "The format of input audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.\nFor `pcm16`, input audio must be 16-bit PCM at a 24kHz sample rate,\nsingle channel (mono), and little-endian byte order.\n"]
     #[serde(rename = "input_audio_format")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -30280,7 +32614,7 @@ pub struct RealtimeTranscriptionSessionCreateRequest {
     #[builder(default)]
     pub input_audio_transcription:
         Option<crate::__types::RealtimeTranscriptionSessionCreateRequestInputAudioTranscription>,
-    #[doc = "Configuration for turn detection, ether Server VAD or Semantic VAD. This can be set to `null` to turn off, in which case the client must manually trigger model response.\nServer VAD means that the model will detect the start and end of speech based on audio volume and respond at the end of user speech.\nSemantic VAD is more advanced and uses a turn detection model (in conjuction with VAD) to semantically estimate whether the user has finished speaking, then dynamically sets a timeout based on this probability. For example, if user audio trails off with \"uhhm\", the model will score a low probability of turn end and wait longer for the user to continue speaking. This can be useful for more natural conversations, but may have a higher latency.\n"]
+    #[doc = "Configuration for turn detection, ether Server VAD or Semantic VAD. This can be set to `null` to turn off, in which case the client must manually trigger model response.\nServer VAD means that the model will detect the start and end of speech based on audio volume and respond at the end of user speech.\nSemantic VAD is more advanced and uses a turn detection model (in conjunction with VAD) to semantically estimate whether the user has finished speaking, then dynamically sets a timeout based on this probability. For example, if user audio trails off with \"uhhm\", the model will score a low probability of turn end and wait longer for the user to continue speaking. This can be useful for more natural conversations, but may have a higher latency.\n"]
     #[serde(rename = "turn_detection")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -30317,7 +32651,7 @@ pub struct RealtimeTranscriptionSessionCreateResponseClientSecret {
     pub expires_at: i64,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum RealtimeTranscriptionSessionCreateResponseModality {
+pub enum RealtimeTranscriptionSessionCreateResponseModalitiesItem {
     #[doc = "`text`"]
     #[serde(rename = "text")]
     Text,
@@ -30399,7 +32733,8 @@ pub struct RealtimeTranscriptionSessionCreateResponse {
     #[serde(rename = "modalities")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub modalities: Option<Vec<crate::__types::RealtimeTranscriptionSessionCreateResponseModality>>,
+    pub modalities:
+        Option<Vec<crate::__types::RealtimeTranscriptionSessionCreateResponseModalitiesItem>>,
     #[doc = "The format of input audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.\n"]
     #[serde(rename = "input_audio_format")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -30444,7 +32779,7 @@ pub enum ReasoningGenerateSummary {
     #[serde(rename = "detailed")]
     Detailed,
 }
-#[doc = "**o-series models only**\n\nConfiguration options for \n[reasoning models](https://platform.openai.com/docs/guides/reasoning).\n"]
+#[doc = "**gpt-5 and o-series models only**\n\nConfiguration options for\n[reasoning models](https://platform.openai.com/docs/guides/reasoning).\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
@@ -30464,9 +32799,12 @@ pub struct Reasoning {
     #[builder(default)]
     pub generate_summary: Option<crate::__types::ReasoningGenerateSummary>,
 }
-#[doc = "**o-series models only** \n\nConstrains effort on reasoning for \n[reasoning models](https://platform.openai.com/docs/guides/reasoning).\nCurrently supported values are `low`, `medium`, and `high`. Reducing\nreasoning effort can result in faster responses and fewer tokens used\non reasoning in a response.\n"]
+#[doc = "Constrains effort on reasoning for \n[reasoning models](https://platform.openai.com/docs/guides/reasoning).\nCurrently supported values are `minimal`, `low`, `medium`, and `high`. Reducing\nreasoning effort can result in faster responses and fewer tokens used\non reasoning in a response.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ReasoningEffort {
+    #[doc = "`minimal`"]
+    #[serde(rename = "minimal")]
+    Minimal,
     #[doc = "`low`"]
     #[serde(rename = "low")]
     Low,
@@ -30484,46 +32822,96 @@ struct ReasoningItemType;
 impl_serde!(ReasoningItemType, "reasoning");
 #[doc = "The type of the object. Always `summary_text`.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ReasoningItemSummaryType;
-impl_serde!(ReasoningItemSummaryType, "summary_text");
+struct ReasoningItemSummaryItemType;
+impl_serde!(ReasoningItemSummaryItemType, "summary_text");
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
-pub struct ReasoningItemSummary {
-    #[doc = "A short summary of the reasoning used by the model when generating\nthe response.\n"]
+pub struct ReasoningItemSummaryItem {
+    #[doc = "A summary of the reasoning output from the model so far.\n"]
     pub text: String,
 }
-impl<'de> serde::Deserialize<'de> for ReasoningItemSummary {
+impl<'de> serde::Deserialize<'de> for ReasoningItemSummaryItem {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
         D: serde::Deserializer<'de>,
     {
         #[serde_with::serde_as]
         #[derive(serde :: Deserialize)]
-        struct ReasoningItemSummary {
+        struct ReasoningItemSummaryItem {
             #[serde(rename = "type")]
             #[allow(dead_code)]
-            r#type: crate::__types::ReasoningItemSummaryType,
+            r#type: crate::__types::ReasoningItemSummaryItemType,
             #[serde(rename = "text")]
             text: String,
         }
-        let ReasoningItemSummary { text, .. } = ReasoningItemSummary::deserialize(deserializer)?;
+        let ReasoningItemSummaryItem { text, .. } =
+            ReasoningItemSummaryItem::deserialize(deserializer)?;
         Ok(Self { text })
     }
 }
-impl serde::Serialize for ReasoningItemSummary {
+impl serde::Serialize for ReasoningItemSummaryItem {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: serde::Serializer,
     {
         #[serde_with::serde_as]
         #[derive(serde :: Serialize)]
-        struct ReasoningItemSummary<'a> {
+        struct ReasoningItemSummaryItem<'a> {
             #[serde(rename = "type")]
-            r#type: &'a crate::__types::ReasoningItemSummaryType,
+            r#type: &'a crate::__types::ReasoningItemSummaryItemType,
             #[serde(rename = "text")]
             text: &'a String,
         }
         let Self { text } = self;
-        ReasoningItemSummary {
+        ReasoningItemSummaryItem {
+            r#type: &Default::default(),
+            text,
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "The type of the object. Always `reasoning_text`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ReasoningItemContentItemType;
+impl_serde!(ReasoningItemContentItemType, "reasoning_text");
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct ReasoningItemContentItem {
+    #[doc = "Reasoning text output from the model.\n"]
+    pub text: String,
+}
+impl<'de> serde::Deserialize<'de> for ReasoningItemContentItem {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct ReasoningItemContentItem {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: crate::__types::ReasoningItemContentItemType,
+            #[serde(rename = "text")]
+            text: String,
+        }
+        let ReasoningItemContentItem { text, .. } =
+            ReasoningItemContentItem::deserialize(deserializer)?;
+        Ok(Self { text })
+    }
+}
+impl serde::Serialize for ReasoningItemContentItem {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct ReasoningItemContentItem<'a> {
+            #[serde(rename = "type")]
+            r#type: &'a crate::__types::ReasoningItemContentItemType,
+            #[serde(rename = "text")]
+            text: &'a String,
+        }
+        let Self { text } = self;
+        ReasoningItemContentItem {
             r#type: &Default::default(),
             text,
         }
@@ -30551,8 +32939,11 @@ pub struct ReasoningItem {
     #[doc = "The encrypted content of the reasoning item - populated when a response is\ngenerated with `reasoning.encrypted_content` in the `include` parameter.\n"]
     #[builder(default)]
     pub encrypted_content: Option<String>,
-    #[doc = "Reasoning text contents.\n"]
-    pub summary: Vec<crate::__types::ReasoningItemSummary>,
+    #[doc = "Reasoning summary content.\n"]
+    pub summary: Vec<crate::__types::ReasoningItemSummaryItem>,
+    #[doc = "Reasoning text content.\n"]
+    #[builder(default)]
+    pub content: Option<Vec<crate::__types::ReasoningItemContentItem>>,
     #[doc = "The status of the item. One of `in_progress`, `completed`, or\n`incomplete`. Populated when items are returned via API.\n"]
     #[builder(default)]
     pub status: Option<crate::__types::ReasoningItemStatus>,
@@ -30573,7 +32964,9 @@ impl<'de> serde::Deserialize<'de> for ReasoningItem {
             #[serde(rename = "encrypted_content")]
             encrypted_content: Option<String>,
             #[serde(rename = "summary")]
-            summary: Vec<crate::__types::ReasoningItemSummary>,
+            summary: Vec<crate::__types::ReasoningItemSummaryItem>,
+            #[serde(rename = "content")]
+            content: Option<Vec<crate::__types::ReasoningItemContentItem>>,
             #[serde(rename = "status")]
             status: Option<crate::__types::ReasoningItemStatus>,
         }
@@ -30581,6 +32974,7 @@ impl<'de> serde::Deserialize<'de> for ReasoningItem {
             id,
             encrypted_content,
             summary,
+            content,
             status,
             ..
         } = ReasoningItem::deserialize(deserializer)?;
@@ -30588,6 +32982,7 @@ impl<'de> serde::Deserialize<'de> for ReasoningItem {
             id,
             encrypted_content,
             summary,
+            content,
             status,
         })
     }
@@ -30608,7 +33003,10 @@ impl serde::Serialize for ReasoningItem {
             #[serde(skip_serializing_if = "Option::is_none")]
             encrypted_content: &'a Option<String>,
             #[serde(rename = "summary")]
-            summary: &'a Vec<crate::__types::ReasoningItemSummary>,
+            summary: &'a Vec<crate::__types::ReasoningItemSummaryItem>,
+            #[serde(rename = "content")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            content: &'a Option<Vec<crate::__types::ReasoningItemContentItem>>,
             #[serde(rename = "status")]
             #[serde(skip_serializing_if = "Option::is_none")]
             status: &'a Option<crate::__types::ReasoningItemStatus>,
@@ -30617,6 +33015,7 @@ impl serde::Serialize for ReasoningItem {
             id,
             encrypted_content,
             summary,
+            content,
             status,
         } = self;
         ReasoningItem {
@@ -30624,6 +33023,7 @@ impl serde::Serialize for ReasoningItem {
             id,
             encrypted_content,
             summary,
+            content,
             status,
         }
         .serialize(serializer)
@@ -30691,6 +33091,8 @@ pub enum ResponseInstructions {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct Response {
     #[builder(default)]
+    pub text: Option<crate::__types::ModelResponsePropertiesText>,
+    #[builder(default)]
     pub metadata: Option<crate::__types::Metadata>,
     #[doc = "An integer between 0 and 20 specifying the number of most likely tokens to\nreturn at each token position, each with an associated log probability.\n"]
     #[builder(default)]
@@ -30701,19 +33103,25 @@ pub struct Response {
     #[doc = "An alternative to sampling with temperature, called nucleus sampling,\nwhere the model considers the results of the tokens with top_p probability\nmass. So 0.1 means only the tokens comprising the top 10% probability mass\nare considered.\n\nWe generally recommend altering this or `temperature` but not both.\n"]
     #[builder(default)]
     pub top_p: Option<serde_json::Number>,
-    #[doc = "A stable identifier for your end-users. \nUsed to boost cache hit rates by better bucketing similar requests and  to help OpenAI detect and prevent abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#end-user-ids).\n"]
+    #[doc = "This field is being replaced by `safety_identifier` and `prompt_cache_key`. Use `prompt_cache_key` instead to maintain caching optimizations.\nA stable identifier for your end-users. \nUsed to boost cache hit rates by better bucketing similar requests and  to help OpenAI detect and prevent abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#safety-identifiers).\n"]
     #[builder(default)]
     pub user: Option<String>,
+    #[doc = "A stable identifier used to help detect users of your application that may be violating OpenAI's usage policies. \nThe IDs should be a string that uniquely identifies each user. We recommend hashing their username or email address, in order to avoid sending us any identifying information. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#safety-identifiers).\n"]
+    #[builder(default)]
+    pub safety_identifier: Option<String>,
+    #[doc = "Used by OpenAI to cache responses for similar requests to optimize your cache hit rates. Replaces the `user` field. [Learn more](https://platform.openai.com/docs/guides/prompt-caching).\n"]
+    #[builder(default)]
+    pub prompt_cache_key: Option<String>,
     #[builder(default)]
     pub service_tier: Option<crate::__types::ServiceTier>,
-    #[doc = "The unique ID of the previous response to the model. Use this to\ncreate multi-turn conversations. Learn more about \n[conversation state](https://platform.openai.com/docs/guides/conversation-state).\n"]
+    #[doc = "The unique ID of the previous response to the model. Use this to\ncreate multi-turn conversations. Learn more about\n[conversation state](https://platform.openai.com/docs/guides/conversation-state).\n"]
     #[builder(default)]
     pub previous_response_id: Option<String>,
     #[doc = "Model ID used to generate the response, like `gpt-4o` or `o3`. OpenAI\noffers a wide range of models with different capabilities, performance\ncharacteristics, and price points. Refer to the [model guide](https://platform.openai.com/docs/models)\nto browse and compare available models.\n"]
     pub model: crate::__types::ModelIdsResponses,
     #[builder(default)]
     pub reasoning: Option<crate::__types::Reasoning>,
-    #[doc = "Whether to run the model response in the background. \n[Learn more](https://platform.openai.com/docs/guides/background).\n"]
+    #[doc = "Whether to run the model response in the background.\n[Learn more](https://platform.openai.com/docs/guides/background).\n"]
     #[builder(default)]
     pub background: Option<bool>,
     #[doc = "An upper bound for the number of tokens that can be generated for a response, including visible output tokens and [reasoning tokens](https://platform.openai.com/docs/guides/reasoning).\n"]
@@ -30722,16 +33130,13 @@ pub struct Response {
     #[doc = "The maximum number of total calls to built-in tools that can be processed in a response. This maximum number applies across all built-in tool calls, not per individual tool. Any further attempts to call a tool by the model will be ignored.\n"]
     #[builder(default)]
     pub max_tool_calls: Option<i64>,
-    #[doc = "Configuration options for a text response from the model. Can be plain\ntext or structured JSON data. Learn more:\n- [Text inputs and outputs](https://platform.openai.com/docs/guides/text)\n- [Structured Outputs](https://platform.openai.com/docs/guides/structured-outputs)\n"]
-    #[builder(default)]
-    pub text: Option<crate::__types::ResponsePropertiesText>,
-    #[doc = "An array of tools the model may call while generating a response. You \ncan specify which tool to use by setting the `tool_choice` parameter.\n\nThe two categories of tools you can provide the model are:\n\n- **Built-in tools**: Tools that are provided by OpenAI that extend the\n  model's capabilities, like [web search](https://platform.openai.com/docs/guides/tools-web-search)\n  or [file search](https://platform.openai.com/docs/guides/tools-file-search). Learn more about\n  [built-in tools](https://platform.openai.com/docs/guides/tools).\n- **Function calls (custom tools)**: Functions that are defined by you,\n  enabling the model to call your own code. Learn more about\n  [function calling](https://platform.openai.com/docs/guides/function-calling).\n"]
+    #[doc = "An array of tools the model may call while generating a response. You\ncan specify which tool to use by setting the `tool_choice` parameter.\n\nThe two categories of tools you can provide the model are:\n\n- **Built-in tools**: Tools that are provided by OpenAI that extend the\n  model's capabilities, like [web search](https://platform.openai.com/docs/guides/tools-web-search)\n  or [file search](https://platform.openai.com/docs/guides/tools-file-search). Learn more about\n  [built-in tools](https://platform.openai.com/docs/guides/tools).\n- **Function calls (custom tools)**: Functions that are defined by you,\n  enabling the model to call your own code with strongly typed arguments\n  and outputs. Learn more about\n  [function calling](https://platform.openai.com/docs/guides/function-calling). You can also use\n  custom tools to call your own code.\n"]
     pub tools: Vec<crate::__types::Tool>,
     #[doc = "How the model should select which tool (or tools) to use when generating\na response. See the `tools` parameter to see how to specify which tools\nthe model can call.\n"]
     pub tool_choice: crate::__types::ResponsePropertiesToolChoice,
     #[builder(default)]
     pub prompt: Option<crate::__types::Prompt>,
-    #[doc = "The truncation strategy to use for the model response.\n- `auto`: If the context of this response and previous ones exceeds\n  the model's context window size, the model will truncate the \n  response to fit the context window by dropping input items in the\n  middle of the conversation. \n- `disabled` (default): If a model response will exceed the context window \n  size for a model, the request will fail with a 400 error.\n"]
+    #[doc = "The truncation strategy to use for the model response.\n- `auto`: If the context of this response and previous ones exceeds\n  the model's context window size, the model will truncate the\n  response to fit the context window by dropping input items in the\n  middle of the conversation.\n- `disabled` (default): If a model response will exceed the context window\n  size for a model, the request will fail with a 400 error.\n"]
     #[builder(default)]
     pub truncation: Option<crate::__types::ResponsePropertiesTruncation>,
     #[doc = "Unique identifier for this Response.\n"]
@@ -30767,6 +33172,8 @@ impl<'de> serde::Deserialize<'de> for Response {
         #[serde_with::serde_as]
         #[derive(serde :: Deserialize)]
         struct Response {
+            #[serde(rename = "text")]
+            text: Option<crate::__types::ModelResponsePropertiesText>,
             #[serde(rename = "metadata")]
             metadata: Option<crate::__types::Metadata>,
             #[serde(rename = "top_logprobs")]
@@ -30777,6 +33184,10 @@ impl<'de> serde::Deserialize<'de> for Response {
             top_p: Option<serde_json::Number>,
             #[serde(rename = "user")]
             user: Option<String>,
+            #[serde(rename = "safety_identifier")]
+            safety_identifier: Option<String>,
+            #[serde(rename = "prompt_cache_key")]
+            prompt_cache_key: Option<String>,
             #[serde(rename = "service_tier")]
             service_tier: Option<crate::__types::ServiceTier>,
             #[serde(rename = "previous_response_id")]
@@ -30791,8 +33202,6 @@ impl<'de> serde::Deserialize<'de> for Response {
             max_output_tokens: Option<i64>,
             #[serde(rename = "max_tool_calls")]
             max_tool_calls: Option<i64>,
-            #[serde(rename = "text")]
-            text: Option<crate::__types::ResponsePropertiesText>,
             #[serde(rename = "tools")]
             tools: Vec<crate::__types::Tool>,
             #[serde(rename = "tool_choice")]
@@ -30826,11 +33235,14 @@ impl<'de> serde::Deserialize<'de> for Response {
             parallel_tool_calls: bool,
         }
         let Response {
+            text,
             metadata,
             top_logprobs,
             temperature,
             top_p,
             user,
+            safety_identifier,
+            prompt_cache_key,
             service_tier,
             previous_response_id,
             model,
@@ -30838,7 +33250,6 @@ impl<'de> serde::Deserialize<'de> for Response {
             background,
             max_output_tokens,
             max_tool_calls,
-            text,
             tools,
             tool_choice,
             prompt,
@@ -30856,11 +33267,14 @@ impl<'de> serde::Deserialize<'de> for Response {
             ..
         } = Response::deserialize(deserializer)?;
         Ok(Self {
+            text,
             metadata,
             top_logprobs,
             temperature,
             top_p,
             user,
+            safety_identifier,
+            prompt_cache_key,
             service_tier,
             previous_response_id,
             model,
@@ -30868,7 +33282,6 @@ impl<'de> serde::Deserialize<'de> for Response {
             background,
             max_output_tokens,
             max_tool_calls,
-            text,
             tools,
             tool_choice,
             prompt,
@@ -30894,6 +33307,9 @@ impl serde::Serialize for Response {
         #[serde_with::serde_as]
         #[derive(serde :: Serialize)]
         struct Response<'a> {
+            #[serde(rename = "text")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            text: &'a Option<crate::__types::ModelResponsePropertiesText>,
             #[serde(rename = "metadata")]
             #[serde(skip_serializing_if = "Option::is_none")]
             metadata: &'a Option<crate::__types::Metadata>,
@@ -30909,6 +33325,12 @@ impl serde::Serialize for Response {
             #[serde(rename = "user")]
             #[serde(skip_serializing_if = "Option::is_none")]
             user: &'a Option<String>,
+            #[serde(rename = "safety_identifier")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            safety_identifier: &'a Option<String>,
+            #[serde(rename = "prompt_cache_key")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            prompt_cache_key: &'a Option<String>,
             #[serde(rename = "service_tier")]
             #[serde(skip_serializing_if = "Option::is_none")]
             service_tier: &'a Option<crate::__types::ServiceTier>,
@@ -30929,9 +33351,6 @@ impl serde::Serialize for Response {
             #[serde(rename = "max_tool_calls")]
             #[serde(skip_serializing_if = "Option::is_none")]
             max_tool_calls: &'a Option<i64>,
-            #[serde(rename = "text")]
-            #[serde(skip_serializing_if = "Option::is_none")]
-            text: &'a Option<crate::__types::ResponsePropertiesText>,
             #[serde(rename = "tools")]
             tools: &'a Vec<crate::__types::Tool>,
             #[serde(rename = "tool_choice")]
@@ -30972,11 +33391,14 @@ impl serde::Serialize for Response {
             parallel_tool_calls: &'a bool,
         }
         let Self {
+            text,
             metadata,
             top_logprobs,
             temperature,
             top_p,
             user,
+            safety_identifier,
+            prompt_cache_key,
             service_tier,
             previous_response_id,
             model,
@@ -30984,7 +33406,6 @@ impl serde::Serialize for Response {
             background,
             max_output_tokens,
             max_tool_calls,
-            text,
             tools,
             tool_choice,
             prompt,
@@ -31001,11 +33422,14 @@ impl serde::Serialize for Response {
             parallel_tool_calls,
         } = self;
         Response {
+            text,
             metadata,
             top_logprobs,
             temperature,
             top_p,
             user,
+            safety_identifier,
+            prompt_cache_key,
             service_tier,
             previous_response_id,
             model,
@@ -31013,7 +33437,6 @@ impl serde::Serialize for Response {
             background,
             max_output_tokens,
             max_tool_calls,
-            text,
             tools,
             tool_choice,
             prompt,
@@ -32055,6 +34478,184 @@ impl serde::Serialize for ResponseCreatedEvent {
         .serialize(serializer)
     }
 }
+#[doc = "The event type identifier."]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ResponseCustomToolCallInputDeltaEventType;
+impl_serde!(
+    ResponseCustomToolCallInputDeltaEventType,
+    "response.custom_tool_call_input.delta"
+);
+#[doc = "Event representing a delta (partial update) to the input of a custom tool call.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct ResponseCustomToolCallInputDeltaEvent {
+    #[doc = "The sequence number of this event."]
+    pub sequence_number: i64,
+    #[doc = "The index of the output this delta applies to."]
+    pub output_index: i64,
+    #[doc = "Unique identifier for the API item associated with this event."]
+    pub item_id: String,
+    #[doc = "The incremental input data (delta) for the custom tool call."]
+    pub delta: String,
+}
+impl<'de> serde::Deserialize<'de> for ResponseCustomToolCallInputDeltaEvent {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct ResponseCustomToolCallInputDeltaEvent {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: crate::__types::ResponseCustomToolCallInputDeltaEventType,
+            #[serde(rename = "sequence_number")]
+            sequence_number: i64,
+            #[serde(rename = "output_index")]
+            output_index: i64,
+            #[serde(rename = "item_id")]
+            item_id: String,
+            #[serde(rename = "delta")]
+            delta: String,
+        }
+        let ResponseCustomToolCallInputDeltaEvent {
+            sequence_number,
+            output_index,
+            item_id,
+            delta,
+            ..
+        } = ResponseCustomToolCallInputDeltaEvent::deserialize(deserializer)?;
+        Ok(Self {
+            sequence_number,
+            output_index,
+            item_id,
+            delta,
+        })
+    }
+}
+impl serde::Serialize for ResponseCustomToolCallInputDeltaEvent {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct ResponseCustomToolCallInputDeltaEvent<'a> {
+            #[serde(rename = "type")]
+            r#type: &'a crate::__types::ResponseCustomToolCallInputDeltaEventType,
+            #[serde(rename = "sequence_number")]
+            sequence_number: &'a i64,
+            #[serde(rename = "output_index")]
+            output_index: &'a i64,
+            #[serde(rename = "item_id")]
+            item_id: &'a String,
+            #[serde(rename = "delta")]
+            delta: &'a String,
+        }
+        let Self {
+            sequence_number,
+            output_index,
+            item_id,
+            delta,
+        } = self;
+        ResponseCustomToolCallInputDeltaEvent {
+            r#type: &Default::default(),
+            sequence_number,
+            output_index,
+            item_id,
+            delta,
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "The event type identifier."]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ResponseCustomToolCallInputDoneEventType;
+impl_serde!(
+    ResponseCustomToolCallInputDoneEventType,
+    "response.custom_tool_call_input.done"
+);
+#[doc = "Event indicating that input for a custom tool call is complete.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct ResponseCustomToolCallInputDoneEvent {
+    #[doc = "The sequence number of this event."]
+    pub sequence_number: i64,
+    #[doc = "The index of the output this event applies to."]
+    pub output_index: i64,
+    #[doc = "Unique identifier for the API item associated with this event."]
+    pub item_id: String,
+    #[doc = "The complete input data for the custom tool call."]
+    pub input: String,
+}
+impl<'de> serde::Deserialize<'de> for ResponseCustomToolCallInputDoneEvent {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct ResponseCustomToolCallInputDoneEvent {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: crate::__types::ResponseCustomToolCallInputDoneEventType,
+            #[serde(rename = "sequence_number")]
+            sequence_number: i64,
+            #[serde(rename = "output_index")]
+            output_index: i64,
+            #[serde(rename = "item_id")]
+            item_id: String,
+            #[serde(rename = "input")]
+            input: String,
+        }
+        let ResponseCustomToolCallInputDoneEvent {
+            sequence_number,
+            output_index,
+            item_id,
+            input,
+            ..
+        } = ResponseCustomToolCallInputDoneEvent::deserialize(deserializer)?;
+        Ok(Self {
+            sequence_number,
+            output_index,
+            item_id,
+            input,
+        })
+    }
+}
+impl serde::Serialize for ResponseCustomToolCallInputDoneEvent {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct ResponseCustomToolCallInputDoneEvent<'a> {
+            #[serde(rename = "type")]
+            r#type: &'a crate::__types::ResponseCustomToolCallInputDoneEventType,
+            #[serde(rename = "sequence_number")]
+            sequence_number: &'a i64,
+            #[serde(rename = "output_index")]
+            output_index: &'a i64,
+            #[serde(rename = "item_id")]
+            item_id: &'a String,
+            #[serde(rename = "input")]
+            input: &'a String,
+        }
+        let Self {
+            sequence_number,
+            output_index,
+            item_id,
+            input,
+        } = self;
+        ResponseCustomToolCallInputDoneEvent {
+            r#type: &Default::default(),
+            sequence_number,
+            output_index,
+            item_id,
+            input,
+        }
+        .serialize(serializer)
+    }
+}
 #[doc = "An error object returned when the model fails to generate a Response.\n"]
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
@@ -32669,6 +35270,97 @@ impl serde::Serialize for ResponseFormatText {
         }
         let Self {} = self;
         ResponseFormatText {
+            r#type: &Default::default(),
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "The type of response format being defined. Always `grammar`."]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ResponseFormatTextGrammarType;
+impl_serde!(ResponseFormatTextGrammarType, "grammar");
+#[doc = "A custom grammar for the model to follow when generating text.\nLearn more in the [custom grammars guide](https://platform.openai.com/docs/guides/custom-grammars).\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct ResponseFormatTextGrammar {
+    #[doc = "The custom grammar for the model to follow."]
+    pub grammar: String,
+}
+impl<'de> serde::Deserialize<'de> for ResponseFormatTextGrammar {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct ResponseFormatTextGrammar {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: crate::__types::ResponseFormatTextGrammarType,
+            #[serde(rename = "grammar")]
+            grammar: String,
+        }
+        let ResponseFormatTextGrammar { grammar, .. } =
+            ResponseFormatTextGrammar::deserialize(deserializer)?;
+        Ok(Self { grammar })
+    }
+}
+impl serde::Serialize for ResponseFormatTextGrammar {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct ResponseFormatTextGrammar<'a> {
+            #[serde(rename = "type")]
+            r#type: &'a crate::__types::ResponseFormatTextGrammarType,
+            #[serde(rename = "grammar")]
+            grammar: &'a String,
+        }
+        let Self { grammar } = self;
+        ResponseFormatTextGrammar {
+            r#type: &Default::default(),
+            grammar,
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "The type of response format being defined. Always `python`."]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ResponseFormatTextPythonType;
+impl_serde!(ResponseFormatTextPythonType, "python");
+#[doc = "Configure the model to generate valid Python code. See the\n[custom grammars guide](https://platform.openai.com/docs/guides/custom-grammars) for more details.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
+pub struct ResponseFormatTextPython {}
+impl<'de> serde::Deserialize<'de> for ResponseFormatTextPython {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct ResponseFormatTextPython {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: crate::__types::ResponseFormatTextPythonType,
+        }
+        let ResponseFormatTextPython { .. } = ResponseFormatTextPython::deserialize(deserializer)?;
+        Ok(Self {})
+    }
+}
+impl serde::Serialize for ResponseFormatTextPython {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct ResponseFormatTextPython<'a> {
+            #[serde(rename = "type")]
+            r#type: &'a crate::__types::ResponseFormatTextPythonType,
+        }
+        let Self {} = self;
+        ResponseFormatTextPython {
             r#type: &Default::default(),
         }
         .serialize(serializer)
@@ -33406,12 +36098,44 @@ impl serde::Serialize for ResponseItemList {
         .serialize(serializer)
     }
 }
-#[doc = "The type of the event. Always 'response.mcp_call.arguments_delta'."]
+#[derive(Clone, Debug, Default, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
+pub struct ResponseLogProbTopLogprobsItem {
+    #[doc = "A possible text token."]
+    #[serde(rename = "token")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub token: Option<String>,
+    #[doc = "The log probability of this token."]
+    #[serde(rename = "logprob")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub logprob: Option<serde_json::Number>,
+}
+#[doc = "A logprob is the logarithmic probability that the model assigns to producing \na particular token at a given position in the sequence. Less-negative (higher) \nlogprob values indicate greater model confidence in that token choice.\n"]
+#[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
+pub struct ResponseLogProb {
+    #[doc = "A possible text token."]
+    #[serde(rename = "token")]
+    pub token: String,
+    #[doc = "The log probability of this token.\n"]
+    #[serde(rename = "logprob")]
+    pub logprob: serde_json::Number,
+    #[doc = "The log probability of the top 20 most likely tokens.\n"]
+    #[serde(rename = "top_logprobs")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub top_logprobs: Option<Vec<crate::__types::ResponseLogProbTopLogprobsItem>>,
+}
+#[doc = "The type of the event. Always 'response.mcp_call_arguments.delta'."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseMcpCallArgumentsDeltaEventType;
 impl_serde!(
     ResponseMcpCallArgumentsDeltaEventType,
-    "response.mcp_call.arguments_delta"
+    "response.mcp_call_arguments.delta"
 );
 #[doc = "Emitted when there is a delta (partial update) to the arguments of an MCP tool call.\n"]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
@@ -33420,8 +36144,8 @@ pub struct ResponseMcpCallArgumentsDeltaEvent {
     pub output_index: i64,
     #[doc = "The unique identifier of the MCP tool call item being processed."]
     pub item_id: String,
-    #[doc = "The partial update to the arguments for the MCP tool call."]
-    pub delta: indexmap::IndexMap<String, serde_json::Value>,
+    #[doc = "A JSON string containing the partial update to the arguments for the MCP tool call.\n"]
+    pub delta: String,
     #[doc = "The sequence number of this event."]
     pub sequence_number: i64,
 }
@@ -33441,7 +36165,7 @@ impl<'de> serde::Deserialize<'de> for ResponseMcpCallArgumentsDeltaEvent {
             #[serde(rename = "item_id")]
             item_id: String,
             #[serde(rename = "delta")]
-            delta: indexmap::IndexMap<String, serde_json::Value>,
+            delta: String,
             #[serde(rename = "sequence_number")]
             sequence_number: i64,
         }
@@ -33475,7 +36199,7 @@ impl serde::Serialize for ResponseMcpCallArgumentsDeltaEvent {
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "delta")]
-            delta: &'a indexmap::IndexMap<String, serde_json::Value>,
+            delta: &'a String,
             #[serde(rename = "sequence_number")]
             sequence_number: &'a i64,
         }
@@ -33495,12 +36219,12 @@ impl serde::Serialize for ResponseMcpCallArgumentsDeltaEvent {
         .serialize(serializer)
     }
 }
-#[doc = "The type of the event. Always 'response.mcp_call.arguments_done'."]
+#[doc = "The type of the event. Always 'response.mcp_call_arguments.done'."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseMcpCallArgumentsDoneEventType;
 impl_serde!(
     ResponseMcpCallArgumentsDoneEventType,
-    "response.mcp_call.arguments_done"
+    "response.mcp_call_arguments.done"
 );
 #[doc = "Emitted when the arguments for an MCP tool call are finalized.\n"]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
@@ -33509,8 +36233,8 @@ pub struct ResponseMcpCallArgumentsDoneEvent {
     pub output_index: i64,
     #[doc = "The unique identifier of the MCP tool call item being processed."]
     pub item_id: String,
-    #[doc = "The finalized arguments for the MCP tool call."]
-    pub arguments: indexmap::IndexMap<String, serde_json::Value>,
+    #[doc = "A JSON string containing the finalized arguments for the MCP tool call.\n"]
+    pub arguments: String,
     #[doc = "The sequence number of this event."]
     pub sequence_number: i64,
 }
@@ -33530,7 +36254,7 @@ impl<'de> serde::Deserialize<'de> for ResponseMcpCallArgumentsDoneEvent {
             #[serde(rename = "item_id")]
             item_id: String,
             #[serde(rename = "arguments")]
-            arguments: indexmap::IndexMap<String, serde_json::Value>,
+            arguments: String,
             #[serde(rename = "sequence_number")]
             sequence_number: i64,
         }
@@ -33564,7 +36288,7 @@ impl serde::Serialize for ResponseMcpCallArgumentsDoneEvent {
             #[serde(rename = "item_id")]
             item_id: &'a String,
             #[serde(rename = "arguments")]
-            arguments: &'a indexmap::IndexMap<String, serde_json::Value>,
+            arguments: &'a String,
             #[serde(rename = "sequence_number")]
             sequence_number: &'a i64,
         }
@@ -33592,8 +36316,12 @@ impl_serde!(
     "response.mcp_call.completed"
 );
 #[doc = "Emitted when an MCP  tool call has completed successfully.\n"]
-#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseMcpCallCompletedEvent {
+    #[doc = "The ID of the MCP tool call item that completed."]
+    pub item_id: String,
+    #[doc = "The index of the output item that completed."]
+    pub output_index: i64,
     #[doc = "The sequence number of this event."]
     pub sequence_number: i64,
 }
@@ -33608,13 +36336,24 @@ impl<'de> serde::Deserialize<'de> for ResponseMcpCallCompletedEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: crate::__types::ResponseMcpCallCompletedEventType,
+            #[serde(rename = "item_id")]
+            item_id: String,
+            #[serde(rename = "output_index")]
+            output_index: i64,
             #[serde(rename = "sequence_number")]
             sequence_number: i64,
         }
         let ResponseMcpCallCompletedEvent {
-            sequence_number, ..
+            item_id,
+            output_index,
+            sequence_number,
+            ..
         } = ResponseMcpCallCompletedEvent::deserialize(deserializer)?;
-        Ok(Self { sequence_number })
+        Ok(Self {
+            item_id,
+            output_index,
+            sequence_number,
+        })
     }
 }
 impl serde::Serialize for ResponseMcpCallCompletedEvent {
@@ -33627,12 +36366,22 @@ impl serde::Serialize for ResponseMcpCallCompletedEvent {
         struct ResponseMcpCallCompletedEvent<'a> {
             #[serde(rename = "type")]
             r#type: &'a crate::__types::ResponseMcpCallCompletedEventType,
+            #[serde(rename = "item_id")]
+            item_id: &'a String,
+            #[serde(rename = "output_index")]
+            output_index: &'a i64,
             #[serde(rename = "sequence_number")]
             sequence_number: &'a i64,
         }
-        let Self { sequence_number } = self;
+        let Self {
+            item_id,
+            output_index,
+            sequence_number,
+        } = self;
         ResponseMcpCallCompletedEvent {
             r#type: &Default::default(),
+            item_id,
+            output_index,
             sequence_number,
         }
         .serialize(serializer)
@@ -33643,8 +36392,12 @@ impl serde::Serialize for ResponseMcpCallCompletedEvent {
 struct ResponseMcpCallFailedEventType;
 impl_serde!(ResponseMcpCallFailedEventType, "response.mcp_call.failed");
 #[doc = "Emitted when an MCP  tool call has failed.\n"]
-#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseMcpCallFailedEvent {
+    #[doc = "The ID of the MCP tool call item that failed."]
+    pub item_id: String,
+    #[doc = "The index of the output item that failed."]
+    pub output_index: i64,
     #[doc = "The sequence number of this event."]
     pub sequence_number: i64,
 }
@@ -33659,13 +36412,24 @@ impl<'de> serde::Deserialize<'de> for ResponseMcpCallFailedEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: crate::__types::ResponseMcpCallFailedEventType,
+            #[serde(rename = "item_id")]
+            item_id: String,
+            #[serde(rename = "output_index")]
+            output_index: i64,
             #[serde(rename = "sequence_number")]
             sequence_number: i64,
         }
         let ResponseMcpCallFailedEvent {
-            sequence_number, ..
+            item_id,
+            output_index,
+            sequence_number,
+            ..
         } = ResponseMcpCallFailedEvent::deserialize(deserializer)?;
-        Ok(Self { sequence_number })
+        Ok(Self {
+            item_id,
+            output_index,
+            sequence_number,
+        })
     }
 }
 impl serde::Serialize for ResponseMcpCallFailedEvent {
@@ -33678,12 +36442,22 @@ impl serde::Serialize for ResponseMcpCallFailedEvent {
         struct ResponseMcpCallFailedEvent<'a> {
             #[serde(rename = "type")]
             r#type: &'a crate::__types::ResponseMcpCallFailedEventType,
+            #[serde(rename = "item_id")]
+            item_id: &'a String,
+            #[serde(rename = "output_index")]
+            output_index: &'a i64,
             #[serde(rename = "sequence_number")]
             sequence_number: &'a i64,
         }
-        let Self { sequence_number } = self;
+        let Self {
+            item_id,
+            output_index,
+            sequence_number,
+        } = self;
         ResponseMcpCallFailedEvent {
             r#type: &Default::default(),
+            item_id,
+            output_index,
             sequence_number,
         }
         .serialize(serializer)
@@ -33776,8 +36550,12 @@ impl_serde!(
     "response.mcp_list_tools.completed"
 );
 #[doc = "Emitted when the list of available MCP tools has been successfully retrieved.\n"]
-#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseMcpListToolsCompletedEvent {
+    #[doc = "The ID of the MCP tool call item that produced this output."]
+    pub item_id: String,
+    #[doc = "The index of the output item that was processed."]
+    pub output_index: i64,
     #[doc = "The sequence number of this event."]
     pub sequence_number: i64,
 }
@@ -33792,13 +36570,24 @@ impl<'de> serde::Deserialize<'de> for ResponseMcpListToolsCompletedEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: crate::__types::ResponseMcpListToolsCompletedEventType,
+            #[serde(rename = "item_id")]
+            item_id: String,
+            #[serde(rename = "output_index")]
+            output_index: i64,
             #[serde(rename = "sequence_number")]
             sequence_number: i64,
         }
         let ResponseMcpListToolsCompletedEvent {
-            sequence_number, ..
+            item_id,
+            output_index,
+            sequence_number,
+            ..
         } = ResponseMcpListToolsCompletedEvent::deserialize(deserializer)?;
-        Ok(Self { sequence_number })
+        Ok(Self {
+            item_id,
+            output_index,
+            sequence_number,
+        })
     }
 }
 impl serde::Serialize for ResponseMcpListToolsCompletedEvent {
@@ -33811,12 +36600,22 @@ impl serde::Serialize for ResponseMcpListToolsCompletedEvent {
         struct ResponseMcpListToolsCompletedEvent<'a> {
             #[serde(rename = "type")]
             r#type: &'a crate::__types::ResponseMcpListToolsCompletedEventType,
+            #[serde(rename = "item_id")]
+            item_id: &'a String,
+            #[serde(rename = "output_index")]
+            output_index: &'a i64,
             #[serde(rename = "sequence_number")]
             sequence_number: &'a i64,
         }
-        let Self { sequence_number } = self;
+        let Self {
+            item_id,
+            output_index,
+            sequence_number,
+        } = self;
         ResponseMcpListToolsCompletedEvent {
             r#type: &Default::default(),
+            item_id,
+            output_index,
             sequence_number,
         }
         .serialize(serializer)
@@ -33830,8 +36629,12 @@ impl_serde!(
     "response.mcp_list_tools.failed"
 );
 #[doc = "Emitted when the attempt to list available MCP tools has failed.\n"]
-#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseMcpListToolsFailedEvent {
+    #[doc = "The ID of the MCP tool call item that failed."]
+    pub item_id: String,
+    #[doc = "The index of the output item that failed."]
+    pub output_index: i64,
     #[doc = "The sequence number of this event."]
     pub sequence_number: i64,
 }
@@ -33846,13 +36649,24 @@ impl<'de> serde::Deserialize<'de> for ResponseMcpListToolsFailedEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: crate::__types::ResponseMcpListToolsFailedEventType,
+            #[serde(rename = "item_id")]
+            item_id: String,
+            #[serde(rename = "output_index")]
+            output_index: i64,
             #[serde(rename = "sequence_number")]
             sequence_number: i64,
         }
         let ResponseMcpListToolsFailedEvent {
-            sequence_number, ..
+            item_id,
+            output_index,
+            sequence_number,
+            ..
         } = ResponseMcpListToolsFailedEvent::deserialize(deserializer)?;
-        Ok(Self { sequence_number })
+        Ok(Self {
+            item_id,
+            output_index,
+            sequence_number,
+        })
     }
 }
 impl serde::Serialize for ResponseMcpListToolsFailedEvent {
@@ -33865,12 +36679,22 @@ impl serde::Serialize for ResponseMcpListToolsFailedEvent {
         struct ResponseMcpListToolsFailedEvent<'a> {
             #[serde(rename = "type")]
             r#type: &'a crate::__types::ResponseMcpListToolsFailedEventType,
+            #[serde(rename = "item_id")]
+            item_id: &'a String,
+            #[serde(rename = "output_index")]
+            output_index: &'a i64,
             #[serde(rename = "sequence_number")]
             sequence_number: &'a i64,
         }
-        let Self { sequence_number } = self;
+        let Self {
+            item_id,
+            output_index,
+            sequence_number,
+        } = self;
         ResponseMcpListToolsFailedEvent {
             r#type: &Default::default(),
+            item_id,
+            output_index,
             sequence_number,
         }
         .serialize(serializer)
@@ -33884,8 +36708,12 @@ impl_serde!(
     "response.mcp_list_tools.in_progress"
 );
 #[doc = "Emitted when the system is in the process of retrieving the list of available MCP tools.\n"]
-#[derive(Clone, Copy, Debug, PartialEq, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct ResponseMcpListToolsInProgressEvent {
+    #[doc = "The ID of the MCP tool call item that is being processed."]
+    pub item_id: String,
+    #[doc = "The index of the output item that is being processed."]
+    pub output_index: i64,
     #[doc = "The sequence number of this event."]
     pub sequence_number: i64,
 }
@@ -33900,13 +36728,24 @@ impl<'de> serde::Deserialize<'de> for ResponseMcpListToolsInProgressEvent {
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: crate::__types::ResponseMcpListToolsInProgressEventType,
+            #[serde(rename = "item_id")]
+            item_id: String,
+            #[serde(rename = "output_index")]
+            output_index: i64,
             #[serde(rename = "sequence_number")]
             sequence_number: i64,
         }
         let ResponseMcpListToolsInProgressEvent {
-            sequence_number, ..
+            item_id,
+            output_index,
+            sequence_number,
+            ..
         } = ResponseMcpListToolsInProgressEvent::deserialize(deserializer)?;
-        Ok(Self { sequence_number })
+        Ok(Self {
+            item_id,
+            output_index,
+            sequence_number,
+        })
     }
 }
 impl serde::Serialize for ResponseMcpListToolsInProgressEvent {
@@ -33919,19 +36758,29 @@ impl serde::Serialize for ResponseMcpListToolsInProgressEvent {
         struct ResponseMcpListToolsInProgressEvent<'a> {
             #[serde(rename = "type")]
             r#type: &'a crate::__types::ResponseMcpListToolsInProgressEventType,
+            #[serde(rename = "item_id")]
+            item_id: &'a String,
+            #[serde(rename = "output_index")]
+            output_index: &'a i64,
             #[serde(rename = "sequence_number")]
             sequence_number: &'a i64,
         }
-        let Self { sequence_number } = self;
+        let Self {
+            item_id,
+            output_index,
+            sequence_number,
+        } = self;
         ResponseMcpListToolsInProgressEvent {
             r#type: &Default::default(),
+            item_id,
+            output_index,
             sequence_number,
         }
         .serialize(serializer)
     }
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum ResponseModality {
+pub enum ResponseModalitiesItem {
     #[doc = "`text`"]
     #[serde(rename = "text")]
     Text,
@@ -33940,7 +36789,7 @@ pub enum ResponseModality {
     Audio,
 }
 #[doc = "Output types that you would like the model to generate.\nMost models are capable of generating text, which is the default:\n\n`[\"text\"]`\n\nThe `gpt-4o-audio-preview` model can also be used to \n[generate audio](https://platform.openai.com/docs/guides/audio). To request that this model generate \nboth text and audio responses, you can use:\n\n`[\"text\", \"audio\"]`\n"]
-pub type ResponseModalities = Vec<crate::__types::ResponseModality>;
+pub type ResponseModalities = Vec<crate::__types::ResponseModalitiesItem>;
 #[doc = "The type of the event. Always `response.output_item.added`.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseOutputItemAddedEventType;
@@ -34096,12 +36945,12 @@ impl serde::Serialize for ResponseOutputItemDoneEvent {
         .serialize(serializer)
     }
 }
-#[doc = "The type of the event. Always 'response.output_text_annotation.added'."]
+#[doc = "The type of the event. Always 'response.output_text.annotation.added'."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseOutputTextAnnotationAddedEventType;
 impl_serde!(
     ResponseOutputTextAnnotationAddedEventType,
-    "response.output_text_annotation.added"
+    "response.output_text.annotation.added"
 );
 #[doc = "Emitted when an annotation is added to output text content.\n"]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
@@ -34210,7 +37059,7 @@ impl serde::Serialize for ResponseOutputTextAnnotationAddedEvent {
 #[derive(serde :: Deserialize, serde :: Serialize)]
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
-pub enum ResponsePromptVariable {
+pub enum ResponsePromptVariablesItem {
     Other(String),
     InputText(crate::__types::InputTextContent),
     InputImage(crate::__types::InputImageContent),
@@ -34218,7 +37067,7 @@ pub enum ResponsePromptVariable {
 }
 #[doc = "Optional map of values to substitute in for variables in your\nprompt. The substitution values can either be strings, or other\nResponse input types like images or files.\n"]
 pub type ResponsePromptVariables =
-    indexmap::IndexMap<String, crate::__types::ResponsePromptVariable>;
+    indexmap::IndexMap<String, crate::__types::ResponsePromptVariablesItem>;
 #[doc = "Configuration options for a text response from the model. Can be plain\ntext or structured JSON data. Learn more:\n- [Text inputs and outputs](https://platform.openai.com/docs/guides/text)\n- [Structured Outputs](https://platform.openai.com/docs/guides/structured-outputs)\n"]
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
@@ -34228,15 +37077,21 @@ pub struct ResponsePropertiesText {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub format: Option<crate::__types::TextResponseFormatConfiguration>,
+    #[serde(rename = "verbosity")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub verbosity: Option<crate::__types::Verbosity>,
 }
 #[doc = "How the model should select which tool (or tools) to use when generating\na response. See the `tools` parameter to see how to specify which tools\nthe model can call.\n"]
 #[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum ResponsePropertiesToolChoice {
     ToolChoiceOptions(crate::__types::ToolChoiceOptions),
+    ToolChoiceAllowed(crate::__types::ToolChoiceAllowed),
     ToolChoiceTypes(crate::__types::ToolChoiceTypes),
     ToolChoiceFunction(crate::__types::ToolChoiceFunction),
     ToolChoiceMcp(crate::__types::ToolChoiceMcp),
+    ToolChoiceCustom(crate::__types::ToolChoiceCustom),
 }
 impl<'de> serde::Deserialize<'de> for ResponsePropertiesToolChoice {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -34249,16 +37104,20 @@ impl<'de> serde::Deserialize<'de> for ResponsePropertiesToolChoice {
         #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
         enum ResponsePropertiesToolChoice {
             ToolChoiceOptions(crate::__types::ToolChoiceOptions),
+            ToolChoiceAllowed(crate::__types::ToolChoiceAllowed),
             ToolChoiceTypes(crate::__types::ToolChoiceTypes),
             ToolChoiceFunction(crate::__types::ToolChoiceFunction),
             ToolChoiceMcp(crate::__types::ToolChoiceMcp),
+            ToolChoiceCustom(crate::__types::ToolChoiceCustom),
         }
         Ok(
             match ResponsePropertiesToolChoice::deserialize(deserializer)? {
                 ResponsePropertiesToolChoice::ToolChoiceOptions(v) => Self::ToolChoiceOptions(v),
+                ResponsePropertiesToolChoice::ToolChoiceAllowed(v) => Self::ToolChoiceAllowed(v),
                 ResponsePropertiesToolChoice::ToolChoiceTypes(v) => Self::ToolChoiceTypes(v),
                 ResponsePropertiesToolChoice::ToolChoiceFunction(v) => Self::ToolChoiceFunction(v),
                 ResponsePropertiesToolChoice::ToolChoiceMcp(v) => Self::ToolChoiceMcp(v),
+                ResponsePropertiesToolChoice::ToolChoiceCustom(v) => Self::ToolChoiceCustom(v),
             },
         )
     }
@@ -34274,20 +37133,24 @@ impl serde::Serialize for ResponsePropertiesToolChoice {
         #[allow(clippy::enum_variant_names)]
         enum ResponsePropertiesToolChoice<'a> {
             ToolChoiceOptions(&'a crate::__types::ToolChoiceOptions),
+            ToolChoiceAllowed(&'a crate::__types::ToolChoiceAllowed),
             ToolChoiceTypes(&'a crate::__types::ToolChoiceTypes),
             ToolChoiceFunction(&'a crate::__types::ToolChoiceFunction),
             ToolChoiceMcp(&'a crate::__types::ToolChoiceMcp),
+            ToolChoiceCustom(&'a crate::__types::ToolChoiceCustom),
         }
         match self {
             Self::ToolChoiceOptions(v) => ResponsePropertiesToolChoice::ToolChoiceOptions(v),
+            Self::ToolChoiceAllowed(v) => ResponsePropertiesToolChoice::ToolChoiceAllowed(v),
             Self::ToolChoiceTypes(v) => ResponsePropertiesToolChoice::ToolChoiceTypes(v),
             Self::ToolChoiceFunction(v) => ResponsePropertiesToolChoice::ToolChoiceFunction(v),
             Self::ToolChoiceMcp(v) => ResponsePropertiesToolChoice::ToolChoiceMcp(v),
+            Self::ToolChoiceCustom(v) => ResponsePropertiesToolChoice::ToolChoiceCustom(v),
         }
         .serialize(serializer)
     }
 }
-#[doc = "The truncation strategy to use for the model response.\n- `auto`: If the context of this response and previous ones exceeds\n  the model's context window size, the model will truncate the \n  response to fit the context window by dropping input items in the\n  middle of the conversation. \n- `disabled` (default): If a model response will exceed the context window \n  size for a model, the request will fail with a 400 error.\n"]
+#[doc = "The truncation strategy to use for the model response.\n- `auto`: If the context of this response and previous ones exceeds\n  the model's context window size, the model will truncate the\n  response to fit the context window by dropping input items in the\n  middle of the conversation.\n- `disabled` (default): If a model response will exceed the context window\n  size for a model, the request will fail with a 400 error.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ResponsePropertiesTruncation {
     #[doc = "`auto`"]
@@ -34302,7 +37165,7 @@ pub enum ResponsePropertiesTruncation {
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
 pub struct ResponseProperties {
-    #[doc = "The unique ID of the previous response to the model. Use this to\ncreate multi-turn conversations. Learn more about \n[conversation state](https://platform.openai.com/docs/guides/conversation-state).\n"]
+    #[doc = "The unique ID of the previous response to the model. Use this to\ncreate multi-turn conversations. Learn more about\n[conversation state](https://platform.openai.com/docs/guides/conversation-state).\n"]
     #[serde(rename = "previous_response_id")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -34316,7 +37179,7 @@ pub struct ResponseProperties {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub reasoning: Option<crate::__types::Reasoning>,
-    #[doc = "Whether to run the model response in the background. \n[Learn more](https://platform.openai.com/docs/guides/background).\n"]
+    #[doc = "Whether to run the model response in the background.\n[Learn more](https://platform.openai.com/docs/guides/background).\n"]
     #[serde(rename = "background")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -34336,7 +37199,7 @@ pub struct ResponseProperties {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub text: Option<crate::__types::ResponsePropertiesText>,
-    #[doc = "An array of tools the model may call while generating a response. You \ncan specify which tool to use by setting the `tool_choice` parameter.\n\nThe two categories of tools you can provide the model are:\n\n- **Built-in tools**: Tools that are provided by OpenAI that extend the\n  model's capabilities, like [web search](https://platform.openai.com/docs/guides/tools-web-search)\n  or [file search](https://platform.openai.com/docs/guides/tools-file-search). Learn more about\n  [built-in tools](https://platform.openai.com/docs/guides/tools).\n- **Function calls (custom tools)**: Functions that are defined by you,\n  enabling the model to call your own code. Learn more about\n  [function calling](https://platform.openai.com/docs/guides/function-calling).\n"]
+    #[doc = "An array of tools the model may call while generating a response. You\ncan specify which tool to use by setting the `tool_choice` parameter.\n\nThe two categories of tools you can provide the model are:\n\n- **Built-in tools**: Tools that are provided by OpenAI that extend the\n  model's capabilities, like [web search](https://platform.openai.com/docs/guides/tools-web-search)\n  or [file search](https://platform.openai.com/docs/guides/tools-file-search). Learn more about\n  [built-in tools](https://platform.openai.com/docs/guides/tools).\n- **Function calls (custom tools)**: Functions that are defined by you,\n  enabling the model to call your own code with strongly typed arguments\n  and outputs. Learn more about\n  [function calling](https://platform.openai.com/docs/guides/function-calling). You can also use\n  custom tools to call your own code.\n"]
     #[serde(rename = "tools")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -34350,7 +37213,7 @@ pub struct ResponseProperties {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub prompt: Option<crate::__types::Prompt>,
-    #[doc = "The truncation strategy to use for the model response.\n- `auto`: If the context of this response and previous ones exceeds\n  the model's context window size, the model will truncate the \n  response to fit the context window by dropping input items in the\n  middle of the conversation. \n- `disabled` (default): If a model response will exceed the context window \n  size for a model, the request will fail with a 400 error.\n"]
+    #[doc = "The truncation strategy to use for the model response.\n- `auto`: If the context of this response and previous ones exceeds\n  the model's context window size, the model will truncate the\n  response to fit the context window by dropping input items in the\n  middle of the conversation.\n- `disabled` (default): If a model response will exceed the context window\n  size for a model, the request will fail with a 400 error.\n"]
     #[serde(rename = "truncation")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -34417,396 +37280,6 @@ impl serde::Serialize for ResponseQueuedEvent {
         ResponseQueuedEvent {
             r#type: &Default::default(),
             response,
-            sequence_number,
-        }
-        .serialize(serializer)
-    }
-}
-#[doc = "The type of the event. Always 'response.reasoning.delta'."]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ResponseReasoningDeltaEventType;
-impl_serde!(ResponseReasoningDeltaEventType, "response.reasoning.delta");
-#[doc = "Emitted when there is a delta (partial update) to the reasoning content.\n"]
-#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
-pub struct ResponseReasoningDeltaEvent {
-    #[doc = "The unique identifier of the item for which reasoning is being updated."]
-    pub item_id: String,
-    #[doc = "The index of the output item in the response's output array."]
-    pub output_index: i64,
-    #[doc = "The index of the reasoning content part within the output item."]
-    pub content_index: i64,
-    #[doc = "The partial update to the reasoning content."]
-    pub delta: indexmap::IndexMap<String, serde_json::Value>,
-    #[doc = "The sequence number of this event."]
-    pub sequence_number: i64,
-}
-impl<'de> serde::Deserialize<'de> for ResponseReasoningDeltaEvent {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        struct ResponseReasoningDeltaEvent {
-            #[serde(rename = "type")]
-            #[allow(dead_code)]
-            r#type: crate::__types::ResponseReasoningDeltaEventType,
-            #[serde(rename = "item_id")]
-            item_id: String,
-            #[serde(rename = "output_index")]
-            output_index: i64,
-            #[serde(rename = "content_index")]
-            content_index: i64,
-            #[serde(rename = "delta")]
-            delta: indexmap::IndexMap<String, serde_json::Value>,
-            #[serde(rename = "sequence_number")]
-            sequence_number: i64,
-        }
-        let ResponseReasoningDeltaEvent {
-            item_id,
-            output_index,
-            content_index,
-            delta,
-            sequence_number,
-            ..
-        } = ResponseReasoningDeltaEvent::deserialize(deserializer)?;
-        Ok(Self {
-            item_id,
-            output_index,
-            content_index,
-            delta,
-            sequence_number,
-        })
-    }
-}
-impl serde::Serialize for ResponseReasoningDeltaEvent {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        struct ResponseReasoningDeltaEvent<'a> {
-            #[serde(rename = "type")]
-            r#type: &'a crate::__types::ResponseReasoningDeltaEventType,
-            #[serde(rename = "item_id")]
-            item_id: &'a String,
-            #[serde(rename = "output_index")]
-            output_index: &'a i64,
-            #[serde(rename = "content_index")]
-            content_index: &'a i64,
-            #[serde(rename = "delta")]
-            delta: &'a indexmap::IndexMap<String, serde_json::Value>,
-            #[serde(rename = "sequence_number")]
-            sequence_number: &'a i64,
-        }
-        let Self {
-            item_id,
-            output_index,
-            content_index,
-            delta,
-            sequence_number,
-        } = self;
-        ResponseReasoningDeltaEvent {
-            r#type: &Default::default(),
-            item_id,
-            output_index,
-            content_index,
-            delta,
-            sequence_number,
-        }
-        .serialize(serializer)
-    }
-}
-#[doc = "The type of the event. Always 'response.reasoning.done'."]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ResponseReasoningDoneEventType;
-impl_serde!(ResponseReasoningDoneEventType, "response.reasoning.done");
-#[doc = "Emitted when the reasoning content is finalized for an item.\n"]
-#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
-pub struct ResponseReasoningDoneEvent {
-    #[doc = "The unique identifier of the item for which reasoning is finalized."]
-    pub item_id: String,
-    #[doc = "The index of the output item in the response's output array."]
-    pub output_index: i64,
-    #[doc = "The index of the reasoning content part within the output item."]
-    pub content_index: i64,
-    #[doc = "The finalized reasoning text."]
-    pub text: String,
-    #[doc = "The sequence number of this event."]
-    pub sequence_number: i64,
-}
-impl<'de> serde::Deserialize<'de> for ResponseReasoningDoneEvent {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        struct ResponseReasoningDoneEvent {
-            #[serde(rename = "type")]
-            #[allow(dead_code)]
-            r#type: crate::__types::ResponseReasoningDoneEventType,
-            #[serde(rename = "item_id")]
-            item_id: String,
-            #[serde(rename = "output_index")]
-            output_index: i64,
-            #[serde(rename = "content_index")]
-            content_index: i64,
-            #[serde(rename = "text")]
-            text: String,
-            #[serde(rename = "sequence_number")]
-            sequence_number: i64,
-        }
-        let ResponseReasoningDoneEvent {
-            item_id,
-            output_index,
-            content_index,
-            text,
-            sequence_number,
-            ..
-        } = ResponseReasoningDoneEvent::deserialize(deserializer)?;
-        Ok(Self {
-            item_id,
-            output_index,
-            content_index,
-            text,
-            sequence_number,
-        })
-    }
-}
-impl serde::Serialize for ResponseReasoningDoneEvent {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        struct ResponseReasoningDoneEvent<'a> {
-            #[serde(rename = "type")]
-            r#type: &'a crate::__types::ResponseReasoningDoneEventType,
-            #[serde(rename = "item_id")]
-            item_id: &'a String,
-            #[serde(rename = "output_index")]
-            output_index: &'a i64,
-            #[serde(rename = "content_index")]
-            content_index: &'a i64,
-            #[serde(rename = "text")]
-            text: &'a String,
-            #[serde(rename = "sequence_number")]
-            sequence_number: &'a i64,
-        }
-        let Self {
-            item_id,
-            output_index,
-            content_index,
-            text,
-            sequence_number,
-        } = self;
-        ResponseReasoningDoneEvent {
-            r#type: &Default::default(),
-            item_id,
-            output_index,
-            content_index,
-            text,
-            sequence_number,
-        }
-        .serialize(serializer)
-    }
-}
-#[doc = "The type of the event. Always 'response.reasoning_summary.delta'."]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ResponseReasoningSummaryDeltaEventType;
-impl_serde!(
-    ResponseReasoningSummaryDeltaEventType,
-    "response.reasoning_summary.delta"
-);
-#[doc = "Emitted when there is a delta (partial update) to the reasoning summary content.\n"]
-#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
-pub struct ResponseReasoningSummaryDeltaEvent {
-    #[doc = "The unique identifier of the item for which the reasoning summary is being updated."]
-    pub item_id: String,
-    #[doc = "The index of the output item in the response's output array."]
-    pub output_index: i64,
-    #[doc = "The index of the summary part within the output item."]
-    pub summary_index: i64,
-    #[doc = "The sequence number of this event."]
-    pub sequence_number: i64,
-    #[doc = "The partial update to the reasoning summary content."]
-    pub delta: indexmap::IndexMap<String, serde_json::Value>,
-}
-impl<'de> serde::Deserialize<'de> for ResponseReasoningSummaryDeltaEvent {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        struct ResponseReasoningSummaryDeltaEvent {
-            #[serde(rename = "type")]
-            #[allow(dead_code)]
-            r#type: crate::__types::ResponseReasoningSummaryDeltaEventType,
-            #[serde(rename = "item_id")]
-            item_id: String,
-            #[serde(rename = "output_index")]
-            output_index: i64,
-            #[serde(rename = "summary_index")]
-            summary_index: i64,
-            #[serde(rename = "sequence_number")]
-            sequence_number: i64,
-            #[serde(rename = "delta")]
-            delta: indexmap::IndexMap<String, serde_json::Value>,
-        }
-        let ResponseReasoningSummaryDeltaEvent {
-            item_id,
-            output_index,
-            summary_index,
-            sequence_number,
-            delta,
-            ..
-        } = ResponseReasoningSummaryDeltaEvent::deserialize(deserializer)?;
-        Ok(Self {
-            item_id,
-            output_index,
-            summary_index,
-            sequence_number,
-            delta,
-        })
-    }
-}
-impl serde::Serialize for ResponseReasoningSummaryDeltaEvent {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        struct ResponseReasoningSummaryDeltaEvent<'a> {
-            #[serde(rename = "type")]
-            r#type: &'a crate::__types::ResponseReasoningSummaryDeltaEventType,
-            #[serde(rename = "item_id")]
-            item_id: &'a String,
-            #[serde(rename = "output_index")]
-            output_index: &'a i64,
-            #[serde(rename = "summary_index")]
-            summary_index: &'a i64,
-            #[serde(rename = "sequence_number")]
-            sequence_number: &'a i64,
-            #[serde(rename = "delta")]
-            delta: &'a indexmap::IndexMap<String, serde_json::Value>,
-        }
-        let Self {
-            item_id,
-            output_index,
-            summary_index,
-            sequence_number,
-            delta,
-        } = self;
-        ResponseReasoningSummaryDeltaEvent {
-            r#type: &Default::default(),
-            item_id,
-            output_index,
-            summary_index,
-            sequence_number,
-            delta,
-        }
-        .serialize(serializer)
-    }
-}
-#[doc = "The type of the event. Always 'response.reasoning_summary.done'."]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct ResponseReasoningSummaryDoneEventType;
-impl_serde!(
-    ResponseReasoningSummaryDoneEventType,
-    "response.reasoning_summary.done"
-);
-#[doc = "Emitted when the reasoning summary content is finalized for an item.\n"]
-#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
-pub struct ResponseReasoningSummaryDoneEvent {
-    #[doc = "The unique identifier of the item for which the reasoning summary is finalized."]
-    pub item_id: String,
-    #[doc = "The index of the output item in the response's output array."]
-    pub output_index: i64,
-    #[doc = "The index of the summary part within the output item."]
-    pub summary_index: i64,
-    #[doc = "The finalized reasoning summary text."]
-    pub text: String,
-    #[doc = "The sequence number of this event."]
-    pub sequence_number: i64,
-}
-impl<'de> serde::Deserialize<'de> for ResponseReasoningSummaryDoneEvent {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Deserialize)]
-        struct ResponseReasoningSummaryDoneEvent {
-            #[serde(rename = "type")]
-            #[allow(dead_code)]
-            r#type: crate::__types::ResponseReasoningSummaryDoneEventType,
-            #[serde(rename = "item_id")]
-            item_id: String,
-            #[serde(rename = "output_index")]
-            output_index: i64,
-            #[serde(rename = "summary_index")]
-            summary_index: i64,
-            #[serde(rename = "text")]
-            text: String,
-            #[serde(rename = "sequence_number")]
-            sequence_number: i64,
-        }
-        let ResponseReasoningSummaryDoneEvent {
-            item_id,
-            output_index,
-            summary_index,
-            text,
-            sequence_number,
-            ..
-        } = ResponseReasoningSummaryDoneEvent::deserialize(deserializer)?;
-        Ok(Self {
-            item_id,
-            output_index,
-            summary_index,
-            text,
-            sequence_number,
-        })
-    }
-}
-impl serde::Serialize for ResponseReasoningSummaryDoneEvent {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        #[serde_with::serde_as]
-        #[derive(serde :: Serialize)]
-        struct ResponseReasoningSummaryDoneEvent<'a> {
-            #[serde(rename = "type")]
-            r#type: &'a crate::__types::ResponseReasoningSummaryDoneEventType,
-            #[serde(rename = "item_id")]
-            item_id: &'a String,
-            #[serde(rename = "output_index")]
-            output_index: &'a i64,
-            #[serde(rename = "summary_index")]
-            summary_index: &'a i64,
-            #[serde(rename = "text")]
-            text: &'a String,
-            #[serde(rename = "sequence_number")]
-            sequence_number: &'a i64,
-        }
-        let Self {
-            item_id,
-            output_index,
-            summary_index,
-            text,
-            sequence_number,
-        } = self;
-        ResponseReasoningSummaryDoneEvent {
-            r#type: &Default::default(),
-            item_id,
-            output_index,
-            summary_index,
-            text,
             sequence_number,
         }
         .serialize(serializer)
@@ -35314,6 +37787,204 @@ impl serde::Serialize for ResponseReasoningSummaryTextDoneEvent {
         .serialize(serializer)
     }
 }
+#[doc = "The type of the event. Always `response.reasoning_text.delta`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ResponseReasoningTextDeltaEventType;
+impl_serde!(
+    ResponseReasoningTextDeltaEventType,
+    "response.reasoning_text.delta"
+);
+#[doc = "Emitted when a delta is added to a reasoning text."]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct ResponseReasoningTextDeltaEvent {
+    #[doc = "The ID of the item this reasoning text delta is associated with.\n"]
+    pub item_id: String,
+    #[doc = "The index of the output item this reasoning text delta is associated with.\n"]
+    pub output_index: i64,
+    #[doc = "The index of the reasoning content part this delta is associated with.\n"]
+    pub content_index: i64,
+    #[doc = "The text delta that was added to the reasoning content.\n"]
+    pub delta: String,
+    #[doc = "The sequence number of this event.\n"]
+    pub sequence_number: i64,
+}
+impl<'de> serde::Deserialize<'de> for ResponseReasoningTextDeltaEvent {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct ResponseReasoningTextDeltaEvent {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: crate::__types::ResponseReasoningTextDeltaEventType,
+            #[serde(rename = "item_id")]
+            item_id: String,
+            #[serde(rename = "output_index")]
+            output_index: i64,
+            #[serde(rename = "content_index")]
+            content_index: i64,
+            #[serde(rename = "delta")]
+            delta: String,
+            #[serde(rename = "sequence_number")]
+            sequence_number: i64,
+        }
+        let ResponseReasoningTextDeltaEvent {
+            item_id,
+            output_index,
+            content_index,
+            delta,
+            sequence_number,
+            ..
+        } = ResponseReasoningTextDeltaEvent::deserialize(deserializer)?;
+        Ok(Self {
+            item_id,
+            output_index,
+            content_index,
+            delta,
+            sequence_number,
+        })
+    }
+}
+impl serde::Serialize for ResponseReasoningTextDeltaEvent {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct ResponseReasoningTextDeltaEvent<'a> {
+            #[serde(rename = "type")]
+            r#type: &'a crate::__types::ResponseReasoningTextDeltaEventType,
+            #[serde(rename = "item_id")]
+            item_id: &'a String,
+            #[serde(rename = "output_index")]
+            output_index: &'a i64,
+            #[serde(rename = "content_index")]
+            content_index: &'a i64,
+            #[serde(rename = "delta")]
+            delta: &'a String,
+            #[serde(rename = "sequence_number")]
+            sequence_number: &'a i64,
+        }
+        let Self {
+            item_id,
+            output_index,
+            content_index,
+            delta,
+            sequence_number,
+        } = self;
+        ResponseReasoningTextDeltaEvent {
+            r#type: &Default::default(),
+            item_id,
+            output_index,
+            content_index,
+            delta,
+            sequence_number,
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "The type of the event. Always `response.reasoning_text.done`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ResponseReasoningTextDoneEventType;
+impl_serde!(
+    ResponseReasoningTextDoneEventType,
+    "response.reasoning_text.done"
+);
+#[doc = "Emitted when a reasoning text is completed."]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct ResponseReasoningTextDoneEvent {
+    #[doc = "The ID of the item this reasoning text is associated with.\n"]
+    pub item_id: String,
+    #[doc = "The index of the output item this reasoning text is associated with.\n"]
+    pub output_index: i64,
+    #[doc = "The index of the reasoning content part.\n"]
+    pub content_index: i64,
+    #[doc = "The full text of the completed reasoning content.\n"]
+    pub text: String,
+    #[doc = "The sequence number of this event.\n"]
+    pub sequence_number: i64,
+}
+impl<'de> serde::Deserialize<'de> for ResponseReasoningTextDoneEvent {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct ResponseReasoningTextDoneEvent {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: crate::__types::ResponseReasoningTextDoneEventType,
+            #[serde(rename = "item_id")]
+            item_id: String,
+            #[serde(rename = "output_index")]
+            output_index: i64,
+            #[serde(rename = "content_index")]
+            content_index: i64,
+            #[serde(rename = "text")]
+            text: String,
+            #[serde(rename = "sequence_number")]
+            sequence_number: i64,
+        }
+        let ResponseReasoningTextDoneEvent {
+            item_id,
+            output_index,
+            content_index,
+            text,
+            sequence_number,
+            ..
+        } = ResponseReasoningTextDoneEvent::deserialize(deserializer)?;
+        Ok(Self {
+            item_id,
+            output_index,
+            content_index,
+            text,
+            sequence_number,
+        })
+    }
+}
+impl serde::Serialize for ResponseReasoningTextDoneEvent {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct ResponseReasoningTextDoneEvent<'a> {
+            #[serde(rename = "type")]
+            r#type: &'a crate::__types::ResponseReasoningTextDoneEventType,
+            #[serde(rename = "item_id")]
+            item_id: &'a String,
+            #[serde(rename = "output_index")]
+            output_index: &'a i64,
+            #[serde(rename = "content_index")]
+            content_index: &'a i64,
+            #[serde(rename = "text")]
+            text: &'a String,
+            #[serde(rename = "sequence_number")]
+            sequence_number: &'a i64,
+        }
+        let Self {
+            item_id,
+            output_index,
+            content_index,
+            text,
+            sequence_number,
+        } = self;
+        ResponseReasoningTextDoneEvent {
+            r#type: &Default::default(),
+            item_id,
+            output_index,
+            content_index,
+            text,
+            sequence_number,
+        }
+        .serialize(serializer)
+    }
+}
 #[doc = "The type of the event. Always `response.refusal.delta`.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct ResponseRefusalDeltaEventType;
@@ -35544,6 +38215,8 @@ pub enum ResponseStreamEvent {
     ResponseReasoningSummaryPartDone(crate::__types::ResponseReasoningSummaryPartDoneEvent),
     ResponseReasoningSummaryTextDelta(crate::__types::ResponseReasoningSummaryTextDeltaEvent),
     ResponseReasoningSummaryTextDone(crate::__types::ResponseReasoningSummaryTextDoneEvent),
+    ResponseReasoningTextDelta(crate::__types::ResponseReasoningTextDeltaEvent),
+    ResponseReasoningTextDone(crate::__types::ResponseReasoningTextDoneEvent),
     ResponseRefusalDelta(crate::__types::ResponseRefusalDeltaEvent),
     ResponseRefusalDone(crate::__types::ResponseRefusalDoneEvent),
     ResponseOutputTextDelta(crate::__types::ResponseTextDeltaEvent),
@@ -35565,10 +38238,19 @@ pub enum ResponseStreamEvent {
     ResponseMcpListToolsInProgress(crate::__types::ResponseMcpListToolsInProgressEvent),
     ResponseOutputTextAnnotationAdded(crate::__types::ResponseOutputTextAnnotationAddedEvent),
     ResponseQueued(crate::__types::ResponseQueuedEvent),
-    ResponseReasoningDelta(crate::__types::ResponseReasoningDeltaEvent),
-    ResponseReasoningDone(crate::__types::ResponseReasoningDoneEvent),
-    ResponseReasoningSummaryDelta(crate::__types::ResponseReasoningSummaryDeltaEvent),
-    ResponseReasoningSummaryDone(crate::__types::ResponseReasoningSummaryDoneEvent),
+    ResponseCustomToolCallInputDelta(crate::__types::ResponseCustomToolCallInputDeltaEvent),
+    ResponseCustomToolCallInputDone(crate::__types::ResponseCustomToolCallInputDoneEvent),
+}
+#[doc = "Options for streaming responses. Only set this when you set `stream: true`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
+pub struct ResponseStreamOptions {
+    #[doc = "When true, stream obfuscation will be enabled. Stream obfuscation adds\nrandom characters to an `obfuscation` field on streaming delta events to\nnormalize payload sizes as a mitigation to certain side-channel attacks.\nThese obfuscation fields are included by default, but add a small amount\nof overhead to the data stream. You can set `include_obfuscation` to\nfalse to optimize for bandwidth if you trust the network links between\nyour application and the OpenAI API.\n"]
+    #[serde(rename = "include_obfuscation")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub include_obfuscation: Option<bool>,
 }
 #[doc = "The type of the event. Always `response.output_text.delta`.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
@@ -35587,6 +38269,8 @@ pub struct ResponseTextDeltaEvent {
     pub delta: String,
     #[doc = "The sequence number for this event."]
     pub sequence_number: i64,
+    #[doc = "The log probabilities of the tokens in the delta.\n"]
+    pub logprobs: Vec<crate::__types::ResponseLogProb>,
 }
 impl<'de> serde::Deserialize<'de> for ResponseTextDeltaEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -35609,6 +38293,8 @@ impl<'de> serde::Deserialize<'de> for ResponseTextDeltaEvent {
             delta: String,
             #[serde(rename = "sequence_number")]
             sequence_number: i64,
+            #[serde(rename = "logprobs")]
+            logprobs: Vec<crate::__types::ResponseLogProb>,
         }
         let ResponseTextDeltaEvent {
             item_id,
@@ -35616,6 +38302,7 @@ impl<'de> serde::Deserialize<'de> for ResponseTextDeltaEvent {
             content_index,
             delta,
             sequence_number,
+            logprobs,
             ..
         } = ResponseTextDeltaEvent::deserialize(deserializer)?;
         Ok(Self {
@@ -35624,6 +38311,7 @@ impl<'de> serde::Deserialize<'de> for ResponseTextDeltaEvent {
             content_index,
             delta,
             sequence_number,
+            logprobs,
         })
     }
 }
@@ -35647,6 +38335,8 @@ impl serde::Serialize for ResponseTextDeltaEvent {
             delta: &'a String,
             #[serde(rename = "sequence_number")]
             sequence_number: &'a i64,
+            #[serde(rename = "logprobs")]
+            logprobs: &'a Vec<crate::__types::ResponseLogProb>,
         }
         let Self {
             item_id,
@@ -35654,6 +38344,7 @@ impl serde::Serialize for ResponseTextDeltaEvent {
             content_index,
             delta,
             sequence_number,
+            logprobs,
         } = self;
         ResponseTextDeltaEvent {
             r#type: &Default::default(),
@@ -35662,6 +38353,7 @@ impl serde::Serialize for ResponseTextDeltaEvent {
             content_index,
             delta,
             sequence_number,
+            logprobs,
         }
         .serialize(serializer)
     }
@@ -35683,6 +38375,8 @@ pub struct ResponseTextDoneEvent {
     pub text: String,
     #[doc = "The sequence number for this event."]
     pub sequence_number: i64,
+    #[doc = "The log probabilities of the tokens in the delta.\n"]
+    pub logprobs: Vec<crate::__types::ResponseLogProb>,
 }
 impl<'de> serde::Deserialize<'de> for ResponseTextDoneEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -35705,6 +38399,8 @@ impl<'de> serde::Deserialize<'de> for ResponseTextDoneEvent {
             text: String,
             #[serde(rename = "sequence_number")]
             sequence_number: i64,
+            #[serde(rename = "logprobs")]
+            logprobs: Vec<crate::__types::ResponseLogProb>,
         }
         let ResponseTextDoneEvent {
             item_id,
@@ -35712,6 +38408,7 @@ impl<'de> serde::Deserialize<'de> for ResponseTextDoneEvent {
             content_index,
             text,
             sequence_number,
+            logprobs,
             ..
         } = ResponseTextDoneEvent::deserialize(deserializer)?;
         Ok(Self {
@@ -35720,6 +38417,7 @@ impl<'de> serde::Deserialize<'de> for ResponseTextDoneEvent {
             content_index,
             text,
             sequence_number,
+            logprobs,
         })
     }
 }
@@ -35743,6 +38441,8 @@ impl serde::Serialize for ResponseTextDoneEvent {
             text: &'a String,
             #[serde(rename = "sequence_number")]
             sequence_number: &'a i64,
+            #[serde(rename = "logprobs")]
+            logprobs: &'a Vec<crate::__types::ResponseLogProb>,
         }
         let Self {
             item_id,
@@ -35750,6 +38450,7 @@ impl serde::Serialize for ResponseTextDoneEvent {
             content_index,
             text,
             sequence_number,
+            logprobs,
         } = self;
         ResponseTextDoneEvent {
             r#type: &Default::default(),
@@ -35758,6 +38459,7 @@ impl serde::Serialize for ResponseTextDoneEvent {
             content_index,
             text,
             sequence_number,
+            logprobs,
         }
         .serialize(serializer)
     }
@@ -36161,37 +38863,6 @@ pub struct RunGraderResponse {
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunObjectObject;
 impl_serde!(RunObjectObject, "thread.run");
-#[doc = "The status of the run, which can be either `queued`, `in_progress`, `requires_action`, `cancelling`, `cancelled`, `failed`, `completed`, `incomplete`, or `expired`."]
-#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum RunObjectStatus {
-    #[doc = "`queued`"]
-    #[serde(rename = "queued")]
-    Queued,
-    #[doc = "`in_progress`"]
-    #[serde(rename = "in_progress")]
-    InProgress,
-    #[doc = "`requires_action`"]
-    #[serde(rename = "requires_action")]
-    RequiresAction,
-    #[doc = "`cancelling`"]
-    #[serde(rename = "cancelling")]
-    Cancelling,
-    #[doc = "`cancelled`"]
-    #[serde(rename = "cancelled")]
-    Cancelled,
-    #[doc = "`failed`"]
-    #[serde(rename = "failed")]
-    Failed,
-    #[doc = "`completed`"]
-    #[serde(rename = "completed")]
-    Completed,
-    #[doc = "`incomplete`"]
-    #[serde(rename = "incomplete")]
-    Incomplete,
-    #[doc = "`expired`"]
-    #[serde(rename = "expired")]
-    Expired,
-}
 #[doc = "For now, this is always `submit_tool_outputs`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunObjectRequiredActionType;
@@ -36303,16 +38974,6 @@ pub struct RunObjectIncompleteDetails {
     #[builder(default)]
     pub reason: Option<crate::__types::RunObjectIncompleteDetailsReason>,
 }
-#[derive(Clone, Debug, PartialEq)]
-#[serde_with::serde_as]
-#[derive(serde :: Deserialize, serde :: Serialize)]
-#[serde(untagged)]
-#[allow(clippy::large_enum_variant)]
-pub enum RunObjectTool {
-    CodeInterpreter(crate::__types::AssistantToolsCode),
-    FileSearch(crate::__types::AssistantToolsFileSearch),
-    Function(crate::__types::AssistantToolsFunction),
-}
 #[doc = "Represents an execution run on a [thread](https://platform.openai.com/docs/api-reference/threads)."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunObject {
@@ -36324,8 +38985,7 @@ pub struct RunObject {
     pub thread_id: String,
     #[doc = "The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for execution of this run."]
     pub assistant_id: String,
-    #[doc = "The status of the run, which can be either `queued`, `in_progress`, `requires_action`, `cancelling`, `cancelled`, `failed`, `completed`, `incomplete`, or `expired`."]
-    pub status: crate::__types::RunObjectStatus,
+    pub status: crate::__types::RunStatus,
     #[doc = "Details on the action required to continue the run. Will be `null` if no action is required."]
     #[builder(default)]
     pub required_action: Option<crate::__types::RunObjectRequiredAction>,
@@ -36355,7 +39015,7 @@ pub struct RunObject {
     #[doc = "The instructions that the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run."]
     pub instructions: String,
     #[doc = "The list of tools that the [assistant](https://platform.openai.com/docs/api-reference/assistants) used for this run."]
-    pub tools: Vec<crate::__types::RunObjectTool>,
+    pub tools: Vec<crate::__types::AssistantTool>,
     #[builder(default)]
     pub metadata: Option<crate::__types::Metadata>,
     #[builder(default)]
@@ -36400,7 +39060,7 @@ impl<'de> serde::Deserialize<'de> for RunObject {
             #[serde(rename = "assistant_id")]
             assistant_id: String,
             #[serde(rename = "status")]
-            status: crate::__types::RunObjectStatus,
+            status: crate::__types::RunStatus,
             #[serde(rename = "required_action")]
             required_action: Option<crate::__types::RunObjectRequiredAction>,
             #[serde(rename = "last_error")]
@@ -36422,7 +39082,7 @@ impl<'de> serde::Deserialize<'de> for RunObject {
             #[serde(rename = "instructions")]
             instructions: String,
             #[serde(rename = "tools")]
-            tools: Vec<crate::__types::RunObjectTool>,
+            tools: Vec<crate::__types::AssistantTool>,
             #[serde(rename = "metadata")]
             metadata: Option<crate::__types::Metadata>,
             #[serde(rename = "usage")]
@@ -36522,7 +39182,7 @@ impl serde::Serialize for RunObject {
             #[serde(rename = "assistant_id")]
             assistant_id: &'a String,
             #[serde(rename = "status")]
-            status: &'a crate::__types::RunObjectStatus,
+            status: &'a crate::__types::RunStatus,
             #[serde(rename = "required_action")]
             #[serde(skip_serializing_if = "Option::is_none")]
             required_action: &'a Option<crate::__types::RunObjectRequiredAction>,
@@ -36552,7 +39212,7 @@ impl serde::Serialize for RunObject {
             #[serde(rename = "instructions")]
             instructions: &'a String,
             #[serde(rename = "tools")]
-            tools: &'a Vec<crate::__types::RunObjectTool>,
+            tools: &'a Vec<crate::__types::AssistantTool>,
             #[serde(rename = "metadata")]
             #[serde(skip_serializing_if = "Option::is_none")]
             metadata: &'a Option<crate::__types::Metadata>,
@@ -36662,33 +39322,11 @@ pub struct RunStepCompletionUsage {
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStepDeltaObjectObject;
 impl_serde!(RunStepDeltaObjectObject, "thread.run.step.delta");
-#[doc = "The details of the run step."]
-#[derive(Clone, Debug, PartialEq)]
-#[serde_with::serde_as]
-#[derive(serde :: Deserialize, serde :: Serialize)]
-#[serde(untagged)]
-#[allow(clippy::large_enum_variant)]
-pub enum RunStepDeltaObjectDeltaStepDetails {
-    MessageCreation(crate::__types::RunStepDeltaStepDetailsMessageCreationObject),
-    ToolCalls(crate::__types::RunStepDeltaStepDetailsToolCallsObject),
-}
-#[doc = "The delta containing the fields that have changed on the run step."]
-#[derive(Clone, Debug, Default, PartialEq)]
-#[serde_with::serde_as]
-#[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct RunStepDeltaObjectDelta {
-    #[doc = "The details of the run step."]
-    #[serde(rename = "step_details")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default)]
-    pub step_details: Option<crate::__types::RunStepDeltaObjectDeltaStepDetails>,
-}
 #[doc = "Represents a run step delta i.e. any changed fields on a run step during streaming.\n"]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStepDeltaObject {
     #[doc = "The identifier of the run step, which can be referenced in API endpoints."]
     pub id: String,
-    #[doc = "The delta containing the fields that have changed on the run step."]
     #[builder(default)]
     pub delta: crate::__types::RunStepDeltaObjectDelta,
 }
@@ -36817,7 +39455,7 @@ impl_serde!(
 #[derive(serde :: Deserialize, serde :: Serialize)]
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
-pub enum RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterOutputs {
+pub enum RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterOutputsItem {
     Logs(crate::__types::RunStepDeltaStepDetailsToolCallsCodeOutputLogsObject),
     Image(crate::__types::RunStepDeltaStepDetailsToolCallsCodeOutputImageObject),
 }
@@ -36836,7 +39474,7 @@ pub struct RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreter {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub outputs: Option<
-        Vec<crate::__types::RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterOutputs>,
+        Vec<crate::__types::RunStepDeltaStepDetailsToolCallsCodeObjectCodeInterpreterOutputsItem>,
     >,
 }
 #[doc = "Details of the Code Interpreter tool call the run step was involved in."]
@@ -37243,22 +39881,12 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsFunctionObject {
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStepDeltaStepDetailsToolCallsObjectType;
 impl_serde!(RunStepDeltaStepDetailsToolCallsObjectType, "tool_calls");
-#[derive(Clone, Debug, PartialEq)]
-#[serde_with::serde_as]
-#[derive(serde :: Deserialize, serde :: Serialize)]
-#[serde(untagged)]
-#[allow(clippy::large_enum_variant)]
-pub enum RunStepDeltaStepDetailsToolCallsObjectToolCalls {
-    CodeInterpreter(crate::__types::RunStepDeltaStepDetailsToolCallsCodeObject),
-    FileSearch(crate::__types::RunStepDeltaStepDetailsToolCallsFileSearchObject),
-    Function(crate::__types::RunStepDeltaStepDetailsToolCallsFunctionObject),
-}
 #[doc = "Details of the tool call."]
 #[derive(Clone, Debug, Default, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStepDeltaStepDetailsToolCallsObject {
     #[doc = "An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `file_search`, or `function`.\n"]
     #[builder(default)]
-    pub tool_calls: Option<Vec<crate::__types::RunStepDeltaStepDetailsToolCallsObjectToolCalls>>,
+    pub tool_calls: Option<Vec<crate::__types::RunStepDeltaStepDetailsToolCall>>,
 }
 impl<'de> serde::Deserialize<'de> for RunStepDeltaStepDetailsToolCallsObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -37272,8 +39900,7 @@ impl<'de> serde::Deserialize<'de> for RunStepDeltaStepDetailsToolCallsObject {
             #[allow(dead_code)]
             r#type: crate::__types::RunStepDeltaStepDetailsToolCallsObjectType,
             #[serde(rename = "tool_calls")]
-            tool_calls:
-                Option<Vec<crate::__types::RunStepDeltaStepDetailsToolCallsObjectToolCalls>>,
+            tool_calls: Option<Vec<crate::__types::RunStepDeltaStepDetailsToolCall>>,
         }
         let RunStepDeltaStepDetailsToolCallsObject { tool_calls, .. } =
             RunStepDeltaStepDetailsToolCallsObject::deserialize(deserializer)?;
@@ -37292,8 +39919,7 @@ impl serde::Serialize for RunStepDeltaStepDetailsToolCallsObject {
             r#type: &'a crate::__types::RunStepDeltaStepDetailsToolCallsObjectType,
             #[serde(rename = "tool_calls")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            tool_calls:
-                &'a Option<Vec<crate::__types::RunStepDeltaStepDetailsToolCallsObjectToolCalls>>,
+            tool_calls: &'a Option<Vec<crate::__types::RunStepDeltaStepDetailsToolCall>>,
         }
         let Self { tool_calls } = self;
         RunStepDeltaStepDetailsToolCallsObject {
@@ -37371,7 +39997,7 @@ impl_serde!(RunStepDetailsToolCallsCodeObjectType, "code_interpreter");
 #[derive(serde :: Deserialize, serde :: Serialize)]
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
-pub enum RunStepDetailsToolCallsCodeObjectCodeInterpreterOutputs {
+pub enum RunStepDetailsToolCallsCodeObjectCodeInterpreterOutputsItem {
     Logs(crate::__types::RunStepDetailsToolCallsCodeOutputLogsObject),
     Image(crate::__types::RunStepDetailsToolCallsCodeOutputImageObject),
 }
@@ -37385,7 +40011,7 @@ pub struct RunStepDetailsToolCallsCodeObjectCodeInterpreter {
     pub input: String,
     #[doc = "The outputs from the Code Interpreter tool call. Code Interpreter can output one or more items, including text (`logs`) or images (`image`). Each of these are represented by a different object type."]
     #[serde(rename = "outputs")]
-    pub outputs: Vec<crate::__types::RunStepDetailsToolCallsCodeObjectCodeInterpreterOutputs>,
+    pub outputs: Vec<crate::__types::RunStepDetailsToolCallsCodeObjectCodeInterpreterOutputsItem>,
 }
 #[doc = "Details of the Code Interpreter tool call the run step was involved in."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
@@ -37642,20 +40268,21 @@ pub struct RunStepDetailsToolCallsFileSearchRankingOptionsObject {
 }
 #[doc = "The type of the content."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
-pub struct RunStepDetailsToolCallsFileSearchResultObjectContentType;
+pub struct RunStepDetailsToolCallsFileSearchResultObjectContentItemType;
 impl_serde!(
-    RunStepDetailsToolCallsFileSearchResultObjectContentType,
+    RunStepDetailsToolCallsFileSearchResultObjectContentItemType,
     "text"
 );
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct RunStepDetailsToolCallsFileSearchResultObjectContent {
+pub struct RunStepDetailsToolCallsFileSearchResultObjectContentItem {
     #[doc = "The type of the content."]
     #[serde(rename = "type")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub r#type: Option<crate::__types::RunStepDetailsToolCallsFileSearchResultObjectContentType>,
+    pub r#type:
+        Option<crate::__types::RunStepDetailsToolCallsFileSearchResultObjectContentItemType>,
     #[doc = "The text content of the file."]
     #[serde(rename = "text")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -37680,7 +40307,8 @@ pub struct RunStepDetailsToolCallsFileSearchResultObject {
     #[serde(rename = "content")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub content: Option<Vec<crate::__types::RunStepDetailsToolCallsFileSearchResultObjectContent>>,
+    pub content:
+        Option<Vec<crate::__types::RunStepDetailsToolCallsFileSearchResultObjectContentItem>>,
 }
 #[doc = "The type of tool call. This is always going to be `function` for this type of tool call."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
@@ -37759,21 +40387,11 @@ impl serde::Serialize for RunStepDetailsToolCallsFunctionObject {
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct RunStepDetailsToolCallsObjectType;
 impl_serde!(RunStepDetailsToolCallsObjectType, "tool_calls");
-#[derive(Clone, Debug, PartialEq)]
-#[serde_with::serde_as]
-#[derive(serde :: Deserialize, serde :: Serialize)]
-#[serde(untagged)]
-#[allow(clippy::large_enum_variant)]
-pub enum RunStepDetailsToolCallsObjectToolCalls {
-    CodeInterpreter(crate::__types::RunStepDetailsToolCallsCodeObject),
-    FileSearch(crate::__types::RunStepDetailsToolCallsFileSearchObject),
-    Function(crate::__types::RunStepDetailsToolCallsFunctionObject),
-}
 #[doc = "Details of the tool call."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RunStepDetailsToolCallsObject {
     #[doc = "An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `file_search`, or `function`.\n"]
-    pub tool_calls: Vec<crate::__types::RunStepDetailsToolCallsObjectToolCalls>,
+    pub tool_calls: Vec<crate::__types::RunStepDetailsToolCall>,
 }
 impl<'de> serde::Deserialize<'de> for RunStepDetailsToolCallsObject {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -37787,7 +40405,7 @@ impl<'de> serde::Deserialize<'de> for RunStepDetailsToolCallsObject {
             #[allow(dead_code)]
             r#type: crate::__types::RunStepDetailsToolCallsObjectType,
             #[serde(rename = "tool_calls")]
-            tool_calls: Vec<crate::__types::RunStepDetailsToolCallsObjectToolCalls>,
+            tool_calls: Vec<crate::__types::RunStepDetailsToolCall>,
         }
         let RunStepDetailsToolCallsObject { tool_calls, .. } =
             RunStepDetailsToolCallsObject::deserialize(deserializer)?;
@@ -37805,7 +40423,7 @@ impl serde::Serialize for RunStepDetailsToolCallsObject {
             #[serde(rename = "type")]
             r#type: &'a crate::__types::RunStepDetailsToolCallsObjectType,
             #[serde(rename = "tool_calls")]
-            tool_calls: &'a Vec<crate::__types::RunStepDetailsToolCallsObjectToolCalls>,
+            tool_calls: &'a Vec<crate::__types::RunStepDetailsToolCall>,
         }
         let Self { tool_calls } = self;
         RunStepDetailsToolCallsObject {
@@ -39199,7 +41817,7 @@ impl serde::Serialize for Scroll {
         .serialize(serializer)
     }
 }
-#[doc = "Specifies the processing type used for serving the request.\n  - If set to 'auto', then the request will be processed with the service tier configured in the Project settings. Unless otherwise configured, the Project will use 'default'.\n  - If set to 'default', then the requset will be processed with the standard pricing and performance for the selected model.\n  - If set to '[flex](https://platform.openai.com/docs/guides/flex-processing)' or 'priority', then the request will be processed with the corresponding service tier. [Contact sales](https://openai.com/contact-sales) to learn more about Priority processing.\n  - When not set, the default behavior is 'auto'.\n\n  When the `service_tier` parameter is set, the response body will include the `service_tier` value based on the processing mode actually used to serve the request. This response value may be different from the value set in the parameter.\n"]
+#[doc = "Specifies the processing type used for serving the request.\n  - If set to 'auto', then the request will be processed with the service tier configured in the Project settings. Unless otherwise configured, the Project will use 'default'.\n  - If set to 'default', then the request will be processed with the standard pricing and performance for the selected model.\n  - If set to '[flex](https://platform.openai.com/docs/guides/flex-processing)' or '[priority](https://openai.com/api-priority-processing/)', then the request will be processed with the corresponding service tier.\n  - When not set, the default behavior is 'auto'.\n\n  When the `service_tier` parameter is set, the response body will include the `service_tier` value based on the processing mode actually used to serve the request. This response value may be different from the value set in the parameter.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ServiceTier {
     #[doc = "`auto`"]
@@ -39453,7 +42071,7 @@ pub enum StopConfiguration {
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct SubmitToolOutputsRunRequestToolOutputs {
+pub struct SubmitToolOutputsRunRequestToolOutputsItem {
     #[doc = "The ID of the tool call in the `required_action` object within the run object the output is being submitted for."]
     #[serde(rename = "tool_call_id")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -39471,7 +42089,7 @@ pub struct SubmitToolOutputsRunRequestToolOutputs {
 pub struct SubmitToolOutputsRunRequest {
     #[doc = "A list of tools for which the outputs are being submitted."]
     #[serde(rename = "tool_outputs")]
-    pub tool_outputs: Vec<crate::__types::SubmitToolOutputsRunRequestToolOutputs>,
+    pub tool_outputs: Vec<crate::__types::SubmitToolOutputsRunRequestToolOutputsItem>,
     #[doc = "If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.\n"]
     #[serde(rename = "stream")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -39790,6 +42408,122 @@ pub enum Tool {
     CodeInterpreterTool(crate::__types::CodeInterpreterTool),
     ImageGenTool(crate::__types::ImageGenTool),
     LocalShellTool(crate::__types::LocalShellTool),
+    CustomTool(crate::__types::CustomTool),
+}
+#[doc = "Allowed tool configuration type. Always `allowed_tools`."]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ToolChoiceAllowedType;
+impl_serde!(ToolChoiceAllowedType, "allowed_tools");
+#[doc = "Constrains the tools available to the model to a pre-defined set.\n\n`auto` allows the model to pick from among the allowed tools and generate a\nmessage.\n\n`required` requires the model to call one or more of the allowed tools.\n"]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+pub enum ToolChoiceAllowedMode {
+    #[doc = "`auto`"]
+    #[serde(rename = "auto")]
+    Auto,
+    #[doc = "`required`"]
+    #[serde(rename = "required")]
+    Required,
+}
+#[doc = "Constrains the tools available to the model to a pre-defined set.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct ToolChoiceAllowed {
+    #[doc = "Constrains the tools available to the model to a pre-defined set.\n\n`auto` allows the model to pick from among the allowed tools and generate a\nmessage.\n\n`required` requires the model to call one or more of the allowed tools.\n"]
+    pub mode: crate::__types::ToolChoiceAllowedMode,
+    #[doc = "A list of tool definitions that the model should be allowed to call.\n\nFor the Responses API, the list of tool definitions might look like:\n```json\n[\n  { \"type\": \"function\", \"name\": \"get_weather\" },\n  { \"type\": \"mcp\", \"server_label\": \"deepwiki\" },\n  { \"type\": \"image_generation\" }\n]\n```text\n"]
+    pub tools: Vec<indexmap::IndexMap<String, serde_json::Value>>,
+}
+impl<'de> serde::Deserialize<'de> for ToolChoiceAllowed {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct ToolChoiceAllowed {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: crate::__types::ToolChoiceAllowedType,
+            #[serde(rename = "mode")]
+            mode: crate::__types::ToolChoiceAllowedMode,
+            #[serde(rename = "tools")]
+            tools: Vec<indexmap::IndexMap<String, serde_json::Value>>,
+        }
+        let ToolChoiceAllowed { mode, tools, .. } = ToolChoiceAllowed::deserialize(deserializer)?;
+        Ok(Self { mode, tools })
+    }
+}
+impl serde::Serialize for ToolChoiceAllowed {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct ToolChoiceAllowed<'a> {
+            #[serde(rename = "type")]
+            r#type: &'a crate::__types::ToolChoiceAllowedType,
+            #[serde(rename = "mode")]
+            mode: &'a crate::__types::ToolChoiceAllowedMode,
+            #[serde(rename = "tools")]
+            tools: &'a Vec<indexmap::IndexMap<String, serde_json::Value>>,
+        }
+        let Self { mode, tools } = self;
+        ToolChoiceAllowed {
+            r#type: &Default::default(),
+            mode,
+            tools,
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "For custom tool calling, the type is always `custom`."]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ToolChoiceCustomType;
+impl_serde!(ToolChoiceCustomType, "custom");
+#[doc = "Use this option to force the model to call a specific custom tool.\n"]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct ToolChoiceCustom {
+    #[doc = "The name of the custom tool to call."]
+    pub name: String,
+}
+impl<'de> serde::Deserialize<'de> for ToolChoiceCustom {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct ToolChoiceCustom {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: crate::__types::ToolChoiceCustomType,
+            #[serde(rename = "name")]
+            name: String,
+        }
+        let ToolChoiceCustom { name, .. } = ToolChoiceCustom::deserialize(deserializer)?;
+        Ok(Self { name })
+    }
+}
+impl serde::Serialize for ToolChoiceCustom {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct ToolChoiceCustom<'a> {
+            #[serde(rename = "type")]
+            r#type: &'a crate::__types::ToolChoiceCustomType,
+            #[serde(rename = "name")]
+            name: &'a String,
+        }
+        let Self { name } = self;
+        ToolChoiceCustom {
+            r#type: &Default::default(),
+            name,
+        }
+        .serialize(serializer)
+    }
 }
 #[doc = "For function calling, the type is always `function`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
@@ -39951,7 +42685,7 @@ impl_serde!(TranscriptTextDeltaEventType, "transcript.text.delta");
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct TranscriptTextDeltaEventLogprob {
+pub struct TranscriptTextDeltaEventLogprobsItem {
     #[doc = "The token that was used to generate the log probability.\n"]
     #[serde(rename = "token")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -39975,7 +42709,7 @@ pub struct TranscriptTextDeltaEvent {
     pub delta: String,
     #[doc = "The log probabilities of the delta. Only included if you [create a transcription](https://platform.openai.com/docs/api-reference/audio/create-transcription) with the `include[]` parameter set to `logprobs`.\n"]
     #[builder(default)]
-    pub logprobs: Option<Vec<crate::__types::TranscriptTextDeltaEventLogprob>>,
+    pub logprobs: Option<Vec<crate::__types::TranscriptTextDeltaEventLogprobsItem>>,
 }
 impl<'de> serde::Deserialize<'de> for TranscriptTextDeltaEvent {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -39991,7 +42725,7 @@ impl<'de> serde::Deserialize<'de> for TranscriptTextDeltaEvent {
             #[serde(rename = "delta")]
             delta: String,
             #[serde(rename = "logprobs")]
-            logprobs: Option<Vec<crate::__types::TranscriptTextDeltaEventLogprob>>,
+            logprobs: Option<Vec<crate::__types::TranscriptTextDeltaEventLogprobsItem>>,
         }
         let TranscriptTextDeltaEvent {
             delta, logprobs, ..
@@ -40013,7 +42747,7 @@ impl serde::Serialize for TranscriptTextDeltaEvent {
             delta: &'a String,
             #[serde(rename = "logprobs")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            logprobs: &'a Option<Vec<crate::__types::TranscriptTextDeltaEventLogprob>>,
+            logprobs: &'a Option<Vec<crate::__types::TranscriptTextDeltaEventLogprobsItem>>,
         }
         let Self { delta, logprobs } = self;
         TranscriptTextDeltaEvent {
@@ -40031,7 +42765,7 @@ impl_serde!(TranscriptTextDoneEventType, "transcript.text.done");
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct TranscriptTextDoneEventLogprob {
+pub struct TranscriptTextDoneEventLogprobsItem {
     #[doc = "The token that was used to generate the log probability.\n"]
     #[serde(rename = "token")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -40055,7 +42789,7 @@ pub struct TranscriptTextDoneEvent {
     pub text: String,
     #[doc = "The log probabilities of the individual tokens in the transcription. Only included if you [create a transcription](https://platform.openai.com/docs/api-reference/audio/create-transcription) with the `include[]` parameter set to `logprobs`.\n"]
     #[builder(default)]
-    pub logprobs: Option<Vec<crate::__types::TranscriptTextDoneEventLogprob>>,
+    pub logprobs: Option<Vec<crate::__types::TranscriptTextDoneEventLogprobsItem>>,
     #[builder(default)]
     pub usage: Option<crate::__types::TranscriptTextUsageTokens>,
 }
@@ -40073,7 +42807,7 @@ impl<'de> serde::Deserialize<'de> for TranscriptTextDoneEvent {
             #[serde(rename = "text")]
             text: String,
             #[serde(rename = "logprobs")]
-            logprobs: Option<Vec<crate::__types::TranscriptTextDoneEventLogprob>>,
+            logprobs: Option<Vec<crate::__types::TranscriptTextDoneEventLogprobsItem>>,
             #[serde(rename = "usage")]
             usage: Option<crate::__types::TranscriptTextUsageTokens>,
         }
@@ -40104,7 +42838,7 @@ impl serde::Serialize for TranscriptTextDoneEvent {
             text: &'a String,
             #[serde(rename = "logprobs")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            logprobs: &'a Option<Vec<crate::__types::TranscriptTextDoneEventLogprob>>,
+            logprobs: &'a Option<Vec<crate::__types::TranscriptTextDoneEventLogprobsItem>>,
             #[serde(rename = "usage")]
             #[serde(skip_serializing_if = "Option::is_none")]
             usage: &'a Option<crate::__types::TranscriptTextUsageTokens>,
@@ -40131,7 +42865,7 @@ impl_serde!(TranscriptTextUsageDurationType, "duration");
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct TranscriptTextUsageDuration {
     #[doc = "Duration of the input audio in seconds."]
-    pub duration: serde_json::Number,
+    pub seconds: serde_json::Number,
 }
 impl<'de> serde::Deserialize<'de> for TranscriptTextUsageDuration {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -40144,12 +42878,12 @@ impl<'de> serde::Deserialize<'de> for TranscriptTextUsageDuration {
             #[serde(rename = "type")]
             #[allow(dead_code)]
             r#type: crate::__types::TranscriptTextUsageDurationType,
-            #[serde(rename = "duration")]
-            duration: serde_json::Number,
+            #[serde(rename = "seconds")]
+            seconds: serde_json::Number,
         }
-        let TranscriptTextUsageDuration { duration, .. } =
+        let TranscriptTextUsageDuration { seconds, .. } =
             TranscriptTextUsageDuration::deserialize(deserializer)?;
-        Ok(Self { duration })
+        Ok(Self { seconds })
     }
 }
 impl serde::Serialize for TranscriptTextUsageDuration {
@@ -40162,13 +42896,13 @@ impl serde::Serialize for TranscriptTextUsageDuration {
         struct TranscriptTextUsageDuration<'a> {
             #[serde(rename = "type")]
             r#type: &'a crate::__types::TranscriptTextUsageDurationType,
-            #[serde(rename = "duration")]
-            duration: &'a serde_json::Number,
+            #[serde(rename = "seconds")]
+            seconds: &'a serde_json::Number,
         }
-        let Self { duration } = self;
+        let Self { seconds } = self;
         TranscriptTextUsageDuration {
             r#type: &Default::default(),
-            duration,
+            seconds,
         }
         .serialize(serializer)
     }
@@ -40278,11 +43012,11 @@ impl serde::Serialize for TranscriptTextUsageTokens {
         .serialize(serializer)
     }
 }
-#[doc = "Automatically set chunking parameters based on the audio. Must be set to `\"auto\"`.\n"]
+#[doc = "auto"]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct TranscriptionChunkingStrategyAuto;
 impl_serde!(TranscriptionChunkingStrategyAuto, "auto");
-#[doc = "Controls how the audio is cut into chunks. When set to `\"auto\"`, the\nserver first normalizes loudness and then uses voice activity detection (VAD) to\nchoose boundaries. `server_vad` object can be provided to tweak VAD detection\nparameters manually. If unset, the audio is transcribed as a single block. "]
+#[doc = "Controls how the audio is cut into chunks. When set to `\"auto\"`, the server first normalizes loudness and then uses voice activity detection (VAD) to choose boundaries. `server_vad` object can be provided to tweak VAD detection parameters manually. If unset, the audio is transcribed as a single block. "]
 #[derive(Clone, Debug, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum TranscriptionChunkingStrategy {
@@ -40396,7 +43130,7 @@ pub enum TruncationObjectType {
     #[serde(rename = "last_messages")]
     LastMessages,
 }
-#[doc = "Controls for how a thread will be truncated prior to the run. Use this to control the intial context window of the run."]
+#[doc = "Controls for how a thread will be truncated prior to the run. Use this to control the initial context window of the run."]
 #[derive(Clone, Copy, Debug, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
@@ -40504,44 +43238,131 @@ pub enum UploadStatus {
 }
 #[doc = "The object type, which is always \"upload\"."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
-pub struct UploadObject;
+struct UploadObject;
 impl_serde!(UploadObject, "upload");
 #[doc = "The Upload object can accept byte chunks in the form of Parts.\n"]
-#[derive(Clone, Debug, PartialEq)]
-#[serde_with::serde_as]
-#[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct Upload {
     #[doc = "The Upload unique identifier, which can be referenced in API endpoints."]
-    #[serde(rename = "id")]
     pub id: String,
     #[doc = "The Unix timestamp (in seconds) for when the Upload was created."]
-    #[serde(rename = "created_at")]
     pub created_at: i64,
     #[doc = "The name of the file to be uploaded."]
-    #[serde(rename = "filename")]
     pub filename: String,
     #[doc = "The intended number of bytes to be uploaded."]
-    #[serde(rename = "bytes")]
     pub bytes: i64,
     #[doc = "The intended purpose of the file. [Please refer here](https://platform.openai.com/docs/api-reference/files/object#files/object-purpose) for acceptable values."]
-    #[serde(rename = "purpose")]
     pub purpose: String,
     #[doc = "The status of the Upload."]
-    #[serde(rename = "status")]
     pub status: crate::__types::UploadStatus,
     #[doc = "The Unix timestamp (in seconds) for when the Upload will expire."]
-    #[serde(rename = "expires_at")]
     pub expires_at: i64,
-    #[doc = "The object type, which is always \"upload\"."]
-    #[serde(rename = "object")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default)]
-    pub object: Option<crate::__types::UploadObject>,
     #[doc = "The ready File object after the Upload is completed."]
-    #[serde(rename = "file")]
-    #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub file: Option<crate::__types::OpenAiFile>,
+}
+impl<'de> serde::Deserialize<'de> for Upload {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct Upload {
+            #[serde(rename = "id")]
+            id: String,
+            #[serde(rename = "created_at")]
+            created_at: i64,
+            #[serde(rename = "filename")]
+            filename: String,
+            #[serde(rename = "bytes")]
+            bytes: i64,
+            #[serde(rename = "purpose")]
+            purpose: String,
+            #[serde(rename = "status")]
+            status: crate::__types::UploadStatus,
+            #[serde(rename = "expires_at")]
+            expires_at: i64,
+            #[serde(rename = "object")]
+            #[allow(dead_code)]
+            object: crate::__types::UploadObject,
+            #[serde(rename = "file")]
+            file: Option<crate::__types::OpenAiFile>,
+        }
+        let Upload {
+            id,
+            created_at,
+            filename,
+            bytes,
+            purpose,
+            status,
+            expires_at,
+            file,
+            ..
+        } = Upload::deserialize(deserializer)?;
+        Ok(Self {
+            id,
+            created_at,
+            filename,
+            bytes,
+            purpose,
+            status,
+            expires_at,
+            file,
+        })
+    }
+}
+impl serde::Serialize for Upload {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct Upload<'a> {
+            #[serde(rename = "id")]
+            id: &'a String,
+            #[serde(rename = "created_at")]
+            created_at: &'a i64,
+            #[serde(rename = "filename")]
+            filename: &'a String,
+            #[serde(rename = "bytes")]
+            bytes: &'a i64,
+            #[serde(rename = "purpose")]
+            purpose: &'a String,
+            #[serde(rename = "status")]
+            status: &'a crate::__types::UploadStatus,
+            #[serde(rename = "expires_at")]
+            expires_at: &'a i64,
+            #[serde(rename = "object")]
+            object: &'a crate::__types::UploadObject,
+            #[serde(rename = "file")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            file: &'a Option<crate::__types::OpenAiFile>,
+        }
+        let Self {
+            id,
+            created_at,
+            filename,
+            bytes,
+            purpose,
+            status,
+            expires_at,
+            file,
+        } = self;
+        Upload {
+            id,
+            created_at,
+            filename,
+            bytes,
+            purpose,
+            status,
+            expires_at,
+            object: &Default::default(),
+            file,
+        }
+        .serialize(serializer)
+    }
 }
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
@@ -41576,7 +44397,7 @@ impl_serde!(UsageTimeBucketObject, "bucket");
 #[derive(serde :: Deserialize, serde :: Serialize)]
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
-pub enum UsageTimeBucketResult {
+pub enum UsageTimeBucketResultItem {
     OrganizationUsageCompletionsResult(crate::__types::UsageCompletionsResult),
     OrganizationUsageEmbeddingsResult(crate::__types::UsageEmbeddingsResult),
     OrganizationUsageModerationsResult(crate::__types::UsageModerationsResult),
@@ -41593,7 +44414,7 @@ pub enum UsageTimeBucketResult {
 pub struct UsageTimeBucket {
     pub start_time: i64,
     pub end_time: i64,
-    pub result: Vec<crate::__types::UsageTimeBucketResult>,
+    pub result: Vec<crate::__types::UsageTimeBucketResultItem>,
 }
 impl<'de> serde::Deserialize<'de> for UsageTimeBucket {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -41611,7 +44432,7 @@ impl<'de> serde::Deserialize<'de> for UsageTimeBucket {
             #[serde(rename = "end_time")]
             end_time: i64,
             #[serde(rename = "result")]
-            result: Vec<crate::__types::UsageTimeBucketResult>,
+            result: Vec<crate::__types::UsageTimeBucketResultItem>,
         }
         let UsageTimeBucket {
             start_time,
@@ -41641,7 +44462,7 @@ impl serde::Serialize for UsageTimeBucket {
             #[serde(rename = "end_time")]
             end_time: &'a i64,
             #[serde(rename = "result")]
-            result: &'a Vec<crate::__types::UsageTimeBucketResult>,
+            result: &'a Vec<crate::__types::UsageTimeBucketResultItem>,
         }
         let Self {
             start_time,
@@ -42115,14 +44936,14 @@ impl serde::Serialize for VectorStoreExpirationAfter {
 #[derive(serde :: Deserialize, serde :: Serialize)]
 #[serde(untagged)]
 #[allow(clippy::large_enum_variant)]
-pub enum VectorStoreFileAttribute {
+pub enum VectorStoreFileAttributesItem {
     String(String),
     Number(serde_json::Number),
     Bool(bool),
 }
 #[doc = "Set of 16 key-value pairs that can be attached to an object. This can be \nuseful for storing additional information about the object in a structured \nformat, and querying for objects via API or the dashboard. Keys are strings \nwith a maximum length of 64 characters. Values are strings with a maximum \nlength of 512 characters, booleans, or numbers.\n"]
 pub type VectorStoreFileAttributes =
-    indexmap::IndexMap<String, crate::__types::VectorStoreFileAttribute>;
+    indexmap::IndexMap<String, crate::__types::VectorStoreFileAttributesItem>;
 #[doc = "The object type, which is always `vector_store.file_batch`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct VectorStoreFileBatchObjectObject;
@@ -42264,7 +45085,7 @@ impl_serde!(
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
-pub struct VectorStoreFileContentResponseDatum {
+pub struct VectorStoreFileContentResponseDataItem {
     #[doc = "The content type (currently only `\"text\"`)"]
     #[serde(rename = "type")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -42280,7 +45101,7 @@ pub struct VectorStoreFileContentResponseDatum {
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct VectorStoreFileContentResponse {
     #[doc = "Parsed content of the file."]
-    pub data: Vec<crate::__types::VectorStoreFileContentResponseDatum>,
+    pub data: Vec<crate::__types::VectorStoreFileContentResponseDataItem>,
     #[doc = "Indicates if there are more content pages to fetch."]
     pub has_more: bool,
     #[doc = "The token for the next page, if any."]
@@ -42299,7 +45120,7 @@ impl<'de> serde::Deserialize<'de> for VectorStoreFileContentResponse {
             #[allow(dead_code)]
             object: crate::__types::VectorStoreFileContentResponseObject,
             #[serde(rename = "data")]
-            data: Vec<crate::__types::VectorStoreFileContentResponseDatum>,
+            data: Vec<crate::__types::VectorStoreFileContentResponseDataItem>,
             #[serde(rename = "has_more")]
             has_more: bool,
             #[serde(rename = "next_page")]
@@ -42329,7 +45150,7 @@ impl serde::Serialize for VectorStoreFileContentResponse {
             #[serde(rename = "object")]
             object: &'a crate::__types::VectorStoreFileContentResponseObject,
             #[serde(rename = "data")]
-            data: &'a Vec<crate::__types::VectorStoreFileContentResponseDatum>,
+            data: &'a Vec<crate::__types::VectorStoreFileContentResponseDataItem>,
             #[serde(rename = "has_more")]
             has_more: &'a bool,
             #[serde(rename = "next_page")]
@@ -42395,16 +45216,6 @@ pub struct VectorStoreFileObjectLastError {
     #[serde(rename = "message")]
     pub message: String,
 }
-#[doc = "The strategy used to chunk the file."]
-#[derive(Clone, Copy, Debug, PartialEq)]
-#[serde_with::serde_as]
-#[derive(serde :: Deserialize, serde :: Serialize)]
-#[serde(untagged)]
-#[allow(clippy::large_enum_variant)]
-pub enum VectorStoreFileObjectChunkingStrategy {
-    Static(crate::__types::StaticChunkingStrategyResponseParam),
-    Other(crate::__types::OtherChunkingStrategyResponseParam),
-}
 #[doc = "A list of files attached to a vector store."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct VectorStoreFileObject {
@@ -42421,9 +45232,8 @@ pub struct VectorStoreFileObject {
     #[doc = "The last error associated with this vector store file. Will be `null` if there are no errors."]
     #[builder(default)]
     pub last_error: Option<crate::__types::VectorStoreFileObjectLastError>,
-    #[doc = "The strategy used to chunk the file."]
     #[builder(default)]
-    pub chunking_strategy: Option<crate::__types::VectorStoreFileObjectChunkingStrategy>,
+    pub chunking_strategy: Option<crate::__types::ChunkingStrategyResponse>,
     #[builder(default)]
     pub attributes: Option<crate::__types::VectorStoreFileAttributes>,
 }
@@ -42451,7 +45261,7 @@ impl<'de> serde::Deserialize<'de> for VectorStoreFileObject {
             #[serde(rename = "last_error")]
             last_error: Option<crate::__types::VectorStoreFileObjectLastError>,
             #[serde(rename = "chunking_strategy")]
-            chunking_strategy: Option<crate::__types::VectorStoreFileObjectChunkingStrategy>,
+            chunking_strategy: Option<crate::__types::ChunkingStrategyResponse>,
             #[serde(rename = "attributes")]
             attributes: Option<crate::__types::VectorStoreFileAttributes>,
         }
@@ -42503,7 +45313,7 @@ impl serde::Serialize for VectorStoreFileObject {
             last_error: &'a Option<crate::__types::VectorStoreFileObjectLastError>,
             #[serde(rename = "chunking_strategy")]
             #[serde(skip_serializing_if = "Option::is_none")]
-            chunking_strategy: &'a Option<crate::__types::VectorStoreFileObjectChunkingStrategy>,
+            chunking_strategy: &'a Option<crate::__types::ChunkingStrategyResponse>,
             #[serde(rename = "attributes")]
             #[serde(skip_serializing_if = "Option::is_none")]
             attributes: &'a Option<crate::__types::VectorStoreFileAttributes>,
@@ -42736,8 +45546,12 @@ pub enum VectorStoreSearchRequestFilters {
     ComparisonFilter(crate::__types::ComparisonFilter),
     CompoundFilter(crate::__types::CompoundFilter),
 }
+#[doc = "Enable re-ranking; set to `none` to disable, which can help reduce latency."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum VectorStoreSearchRequestRankingOptionsRanker {
+    #[doc = "`none`"]
+    #[serde(rename = "none")]
+    None,
     #[doc = "`auto`"]
     #[default]
     #[serde(rename = "auto")]
@@ -42751,6 +45565,7 @@ pub enum VectorStoreSearchRequestRankingOptionsRanker {
 #[serde_with::serde_as]
 #[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
 pub struct VectorStoreSearchRequestRankingOptions {
+    #[doc = "Enable re-ranking; set to `none` to disable, which can help reduce latency."]
     #[serde(rename = "ranker")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
@@ -42916,6 +45731,20 @@ impl serde::Serialize for VectorStoreSearchResultsPage {
         .serialize(serializer)
     }
 }
+#[doc = "Constrains the verbosity of the model's response. Lower values will result in\nmore concise responses, while higher values will result in more verbose responses.\nCurrently supported values are `low`, `medium`, and `high`.\n"]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
+pub enum Verbosity {
+    #[doc = "`low`"]
+    #[serde(rename = "low")]
+    Low,
+    #[doc = "`medium`"]
+    #[default]
+    #[serde(rename = "medium")]
+    Medium,
+    #[doc = "`high`"]
+    #[serde(rename = "high")]
+    High,
+}
 #[doc = "alloy"]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct VoiceIdsSharedAlloy;
@@ -42936,18 +45765,6 @@ impl_serde!(VoiceIdsSharedCoral, "coral");
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct VoiceIdsSharedEcho;
 impl_serde!(VoiceIdsSharedEcho, "echo");
-#[doc = "fable"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct VoiceIdsSharedFable;
-impl_serde!(VoiceIdsSharedFable, "fable");
-#[doc = "onyx"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct VoiceIdsSharedOnyx;
-impl_serde!(VoiceIdsSharedOnyx, "onyx");
-#[doc = "nova"]
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-struct VoiceIdsSharedNova;
-impl_serde!(VoiceIdsSharedNova, "nova");
 #[doc = "sage"]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct VoiceIdsSharedSage;
@@ -42974,12 +45791,6 @@ pub enum VoiceIdsShared {
     Coral,
     #[doc = "echo"]
     Echo,
-    #[doc = "fable"]
-    Fable,
-    #[doc = "onyx"]
-    Onyx,
-    #[doc = "nova"]
-    Nova,
     #[doc = "sage"]
     Sage,
     #[doc = "shimmer"]
@@ -43002,9 +45813,6 @@ impl<'de> serde::Deserialize<'de> for VoiceIdsShared {
             Ballad(crate::__types::VoiceIdsSharedBallad),
             Coral(crate::__types::VoiceIdsSharedCoral),
             Echo(crate::__types::VoiceIdsSharedEcho),
-            Fable(crate::__types::VoiceIdsSharedFable),
-            Onyx(crate::__types::VoiceIdsSharedOnyx),
-            Nova(crate::__types::VoiceIdsSharedNova),
             Sage(crate::__types::VoiceIdsSharedSage),
             Shimmer(crate::__types::VoiceIdsSharedShimmer),
             Verse(crate::__types::VoiceIdsSharedVerse),
@@ -43017,9 +45825,6 @@ impl<'de> serde::Deserialize<'de> for VoiceIdsShared {
             VoiceIdsShared::Ballad(_) => Self::Ballad,
             VoiceIdsShared::Coral(_) => Self::Coral,
             VoiceIdsShared::Echo(_) => Self::Echo,
-            VoiceIdsShared::Fable(_) => Self::Fable,
-            VoiceIdsShared::Onyx(_) => Self::Onyx,
-            VoiceIdsShared::Nova(_) => Self::Nova,
             VoiceIdsShared::Sage(_) => Self::Sage,
             VoiceIdsShared::Shimmer(_) => Self::Shimmer,
             VoiceIdsShared::Verse(_) => Self::Verse,
@@ -43042,9 +45847,6 @@ impl serde::Serialize for VoiceIdsShared {
             Ballad(crate::__types::VoiceIdsSharedBallad),
             Coral(crate::__types::VoiceIdsSharedCoral),
             Echo(crate::__types::VoiceIdsSharedEcho),
-            Fable(crate::__types::VoiceIdsSharedFable),
-            Onyx(crate::__types::VoiceIdsSharedOnyx),
-            Nova(crate::__types::VoiceIdsSharedNova),
             Sage(crate::__types::VoiceIdsSharedSage),
             Shimmer(crate::__types::VoiceIdsSharedShimmer),
             Verse(crate::__types::VoiceIdsSharedVerse),
@@ -43056,9 +45858,6 @@ impl serde::Serialize for VoiceIdsShared {
             Self::Ballad => VoiceIdsShared::Ballad(Default::default()),
             Self::Coral => VoiceIdsShared::Coral(Default::default()),
             Self::Echo => VoiceIdsShared::Echo(Default::default()),
-            Self::Fable => VoiceIdsShared::Fable(Default::default()),
-            Self::Onyx => VoiceIdsShared::Onyx(Default::default()),
-            Self::Nova => VoiceIdsShared::Nova(Default::default()),
             Self::Sage => VoiceIdsShared::Sage(Default::default()),
             Self::Shimmer => VoiceIdsShared::Shimmer(Default::default()),
             Self::Verse => VoiceIdsShared::Verse(Default::default()),
@@ -44970,6 +47769,9 @@ pub struct InputFileContent {
     #[doc = "The name of the file to be sent to the model."]
     #[builder(default)]
     pub filename: Option<String>,
+    #[doc = "The URL of the file to be sent to the model."]
+    #[builder(default)]
+    pub file_url: Option<String>,
     #[doc = "The content of the file to be sent to the model.\n"]
     #[builder(default)]
     pub file_data: Option<String>,
@@ -44989,18 +47791,22 @@ impl<'de> serde::Deserialize<'de> for InputFileContent {
             file_id: Option<String>,
             #[serde(rename = "filename")]
             filename: Option<String>,
+            #[serde(rename = "file_url")]
+            file_url: Option<String>,
             #[serde(rename = "file_data")]
             file_data: Option<String>,
         }
         let InputFileContent {
             file_id,
             filename,
+            file_url,
             file_data,
             ..
         } = InputFileContent::deserialize(deserializer)?;
         Ok(Self {
             file_id,
             filename,
+            file_url,
             file_data,
         })
     }
@@ -45021,6 +47827,9 @@ impl serde::Serialize for InputFileContent {
             #[serde(rename = "filename")]
             #[serde(skip_serializing_if = "Option::is_none")]
             filename: &'a Option<String>,
+            #[serde(rename = "file_url")]
+            #[serde(skip_serializing_if = "Option::is_none")]
+            file_url: &'a Option<String>,
             #[serde(rename = "file_data")]
             #[serde(skip_serializing_if = "Option::is_none")]
             file_data: &'a Option<String>,
@@ -45028,12 +47837,14 @@ impl serde::Serialize for InputFileContent {
         let Self {
             file_id,
             filename,
+            file_url,
             file_data,
         } = self;
         InputFileContent {
             r#type: &Default::default(),
             file_id,
             filename,
+            file_url,
             file_data,
         }
         .serialize(serializer)
@@ -45489,6 +48300,35 @@ impl serde::Serialize for ComputerUsePreviewTool {
         .serialize(serializer)
     }
 }
+#[doc = "The input tokens detailed information for the image generation."]
+#[derive(Clone, Copy, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
+pub struct ImageGenInputUsageDetails {
+    #[doc = "The number of text tokens in the input prompt."]
+    #[serde(rename = "text_tokens")]
+    pub text_tokens: i64,
+    #[doc = "The number of image tokens in the input prompt."]
+    #[serde(rename = "image_tokens")]
+    pub image_tokens: i64,
+}
+#[doc = "For `gpt-image-1` only, the token usage information for the image generation."]
+#[derive(Clone, Copy, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
+pub struct ImageGenUsage {
+    #[doc = "The number of tokens (images and text) in the input prompt."]
+    #[serde(rename = "input_tokens")]
+    pub input_tokens: i64,
+    #[doc = "The total number of tokens (images and text) used for the image generation."]
+    #[serde(rename = "total_tokens")]
+    pub total_tokens: i64,
+    #[doc = "The number of output tokens generated by the model."]
+    #[serde(rename = "output_tokens")]
+    pub output_tokens: i64,
+    #[serde(rename = "input_tokens_details")]
+    pub input_tokens_details: crate::__types::ImageGenInputUsageDetails,
+}
 #[doc = "The type of the file citation. Always `file_citation`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct FileCitationBodyType;
@@ -45868,7 +48708,7 @@ impl_serde!(RefusalContentType, "refusal");
 #[doc = "A refusal from the model."]
 #[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
 pub struct RefusalContent {
-    #[doc = "The refusal explanationfrom the model."]
+    #[doc = "The refusal explanation from the model."]
     pub refusal: String,
 }
 impl<'de> serde::Deserialize<'de> for RefusalContent {
@@ -46166,6 +49006,1425 @@ pub struct ItemReferenceParam {
     #[serde(rename = "id")]
     pub id: String,
 }
+#[doc = "The content type (`input_text`, `input_audio`, `item_reference`, `text`, `audio`).\n"]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+pub enum RealtimeConversationItemContentType {
+    #[doc = "`input_text`"]
+    #[serde(rename = "input_text")]
+    InputText,
+    #[doc = "`input_audio`"]
+    #[serde(rename = "input_audio")]
+    InputAudio,
+    #[doc = "`item_reference`"]
+    #[serde(rename = "item_reference")]
+    ItemReference,
+    #[doc = "`text`"]
+    #[serde(rename = "text")]
+    Text,
+    #[doc = "`audio`"]
+    #[serde(rename = "audio")]
+    Audio,
+}
+#[derive(Clone, Debug, Default, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
+pub struct RealtimeConversationItemContent {
+    #[doc = "The content type (`input_text`, `input_audio`, `item_reference`, `text`, `audio`).\n"]
+    #[serde(rename = "type")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub r#type: Option<crate::__types::RealtimeConversationItemContentType>,
+    #[doc = "The text content, used for `input_text` and `text` content types.\n"]
+    #[serde(rename = "text")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub text: Option<String>,
+    #[doc = "ID of a previous conversation item to reference (for `item_reference`\ncontent types in `response.create` events). These can reference both\nclient and server created items.\n"]
+    #[serde(rename = "id")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub id: Option<String>,
+    #[doc = "Base64-encoded audio bytes, used for `input_audio` content type.\n"]
+    #[serde(rename = "audio")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub audio: Option<String>,
+    #[doc = "The transcript of the audio, used for `input_audio` and `audio` \ncontent types.\n"]
+    #[serde(rename = "transcript")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub transcript: Option<String>,
+}
+#[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
+pub struct RealtimeConnectParams {
+    #[serde(rename = "model")]
+    pub model: String,
+}
+#[doc = "Always `image_url`."]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModerationImageUrlInputType;
+impl_serde!(ModerationImageUrlInputType, "image_url");
+#[doc = "Contains either an image URL or a data URL for a base64 encoded image."]
+#[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
+pub struct ModerationImageUrlInputImageUrl {
+    #[doc = "Either a URL of the image or the base64 encoded image data."]
+    #[serde(rename = "url")]
+    pub url: String,
+}
+#[doc = "An object describing an image to classify."]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct ModerationImageUrlInput {
+    #[doc = "Contains either an image URL or a data URL for a base64 encoded image."]
+    pub image_url: crate::__types::ModerationImageUrlInputImageUrl,
+}
+impl<'de> serde::Deserialize<'de> for ModerationImageUrlInput {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct ModerationImageUrlInput {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: crate::__types::ModerationImageUrlInputType,
+            #[serde(rename = "image_url")]
+            image_url: crate::__types::ModerationImageUrlInputImageUrl,
+        }
+        let ModerationImageUrlInput { image_url, .. } =
+            ModerationImageUrlInput::deserialize(deserializer)?;
+        Ok(Self { image_url })
+    }
+}
+impl serde::Serialize for ModerationImageUrlInput {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct ModerationImageUrlInput<'a> {
+            #[serde(rename = "type")]
+            r#type: &'a crate::__types::ModerationImageUrlInputType,
+            #[serde(rename = "image_url")]
+            image_url: &'a crate::__types::ModerationImageUrlInputImageUrl,
+        }
+        let Self { image_url } = self;
+        ModerationImageUrlInput {
+            r#type: &Default::default(),
+            image_url,
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "Always `text`."]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct ModerationTextInputType;
+impl_serde!(ModerationTextInputType, "text");
+#[doc = "An object describing text to classify."]
+#[derive(Clone, Debug, PartialEq, typed_builder :: TypedBuilder)]
+pub struct ModerationTextInput {
+    #[doc = "A string of text to classify."]
+    pub text: String,
+}
+impl<'de> serde::Deserialize<'de> for ModerationTextInput {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        struct ModerationTextInput {
+            #[serde(rename = "type")]
+            #[allow(dead_code)]
+            r#type: crate::__types::ModerationTextInputType,
+            #[serde(rename = "text")]
+            text: String,
+        }
+        let ModerationTextInput { text, .. } = ModerationTextInput::deserialize(deserializer)?;
+        Ok(Self { text })
+    }
+}
+impl serde::Serialize for ModerationTextInput {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        struct ModerationTextInput<'a> {
+            #[serde(rename = "type")]
+            r#type: &'a crate::__types::ModerationTextInputType,
+            #[serde(rename = "text")]
+            text: &'a String,
+        }
+        let Self { text } = self;
+        ModerationTextInput {
+            r#type: &Default::default(),
+            text,
+        }
+        .serialize(serializer)
+    }
+}
+#[doc = "The strategy used to chunk the file."]
+#[derive(Clone, Copy, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
+#[allow(clippy::large_enum_variant)]
+pub enum ChunkingStrategyResponse {
+    Static(crate::__types::StaticChunkingStrategyResponseParam),
+    Other(crate::__types::OtherChunkingStrategyResponseParam),
+}
+#[doc = "The intended purpose of the uploaded file. One of: - `assistants`: Used in the Assistants API - `batch`: Used in the Batch API - `fine-tune`: Used for fine-tuning - `vision`: Images used for vision fine-tuning - `user_data`: Flexible file type for any purpose - `evals`: Used for eval data sets\n"]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+pub enum FilePurpose {
+    #[doc = "`assistants`"]
+    #[serde(rename = "assistants")]
+    Assistants,
+    #[doc = "`batch`"]
+    #[serde(rename = "batch")]
+    Batch,
+    #[doc = "`fine-tune`"]
+    #[serde(rename = "fine-tune")]
+    FineTune,
+    #[doc = "`vision`"]
+    #[serde(rename = "vision")]
+    Vision,
+    #[doc = "`user_data`"]
+    #[serde(rename = "user_data")]
+    UserData,
+    #[doc = "`evals`"]
+    #[serde(rename = "evals")]
+    Evals,
+}
+#[derive(Clone, Debug, Default, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
+pub struct BatchError {
+    #[doc = "An error code identifying the error type."]
+    #[serde(rename = "code")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub code: Option<String>,
+    #[doc = "A human-readable message providing more details about the error."]
+    #[serde(rename = "message")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub message: Option<String>,
+    #[doc = "The name of the parameter that caused the error, if applicable."]
+    #[serde(rename = "param")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub param: Option<String>,
+    #[doc = "The line number of the input file where the error occurred, if applicable."]
+    #[serde(rename = "line")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub line: Option<i64>,
+}
+#[doc = "The request counts for different statuses within the batch."]
+#[derive(Clone, Copy, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
+pub struct BatchRequestCounts {
+    #[doc = "Total number of requests in the batch."]
+    #[serde(rename = "total")]
+    pub total: i64,
+    #[doc = "Number of requests that have been completed successfully."]
+    #[serde(rename = "completed")]
+    pub completed: i64,
+    #[doc = "Number of requests that have failed."]
+    #[serde(rename = "failed")]
+    pub failed: i64,
+}
+#[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
+#[allow(clippy::large_enum_variant)]
+pub enum AssistantTool {
+    CodeInterpreter(crate::__types::AssistantToolsCode),
+    FileSearch(crate::__types::AssistantToolsFileSearch),
+    Function(crate::__types::AssistantToolsFunction),
+}
+#[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
+#[allow(clippy::large_enum_variant)]
+pub enum TextAnnotationDelta {
+    FileCitation(crate::__types::MessageDeltaContentTextAnnotationsFileCitationObject),
+    FilePath(crate::__types::MessageDeltaContentTextAnnotationsFilePathObject),
+}
+#[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
+#[allow(clippy::large_enum_variant)]
+pub enum TextAnnotation {
+    FileCitation(crate::__types::MessageContentTextAnnotationsFileCitationObject),
+    FilePath(crate::__types::MessageContentTextAnnotationsFilePathObject),
+}
+#[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
+#[allow(clippy::large_enum_variant)]
+pub enum RunStepDetailsToolCall {
+    CodeInterpreter(crate::__types::RunStepDetailsToolCallsCodeObject),
+    FileSearch(crate::__types::RunStepDetailsToolCallsFileSearchObject),
+    Function(crate::__types::RunStepDetailsToolCallsFunctionObject),
+}
+#[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
+#[allow(clippy::large_enum_variant)]
+pub enum RunStepDeltaStepDetailsToolCall {
+    CodeInterpreter(crate::__types::RunStepDeltaStepDetailsToolCallsCodeObject),
+    FileSearch(crate::__types::RunStepDeltaStepDetailsToolCallsFileSearchObject),
+    Function(crate::__types::RunStepDeltaStepDetailsToolCallsFunctionObject),
+}
+#[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
+#[allow(clippy::large_enum_variant)]
+pub enum MessageContent {
+    ImageFile(crate::__types::MessageContentImageFileObject),
+    ImageUrl(crate::__types::MessageContentImageUrlObject),
+    Text(crate::__types::MessageContentTextObject),
+    Refusal(crate::__types::MessageContentRefusalObject),
+}
+#[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
+#[allow(clippy::large_enum_variant)]
+pub enum MessageContentDelta {
+    ImageFile(crate::__types::MessageDeltaContentImageFileObject),
+    Text(crate::__types::MessageDeltaContentTextObject),
+    Refusal(crate::__types::MessageDeltaContentRefusalObject),
+    ImageUrl(crate::__types::MessageDeltaContentImageUrlObject),
+}
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+pub enum ChatModel {
+    #[doc = "`gpt-5`"]
+    #[serde(rename = "gpt-5")]
+    Gpt5,
+    #[doc = "`gpt-5-mini`"]
+    #[serde(rename = "gpt-5-mini")]
+    Gpt5Mini,
+    #[doc = "`gpt-5-nano`"]
+    #[serde(rename = "gpt-5-nano")]
+    Gpt5Nano,
+    #[doc = "`gpt-5-2025-08-07`"]
+    #[serde(rename = "gpt-5-2025-08-07")]
+    Gpt5_2025_08_07,
+    #[doc = "`gpt-5-mini-2025-08-07`"]
+    #[serde(rename = "gpt-5-mini-2025-08-07")]
+    Gpt5Mini2025_08_07,
+    #[doc = "`gpt-5-nano-2025-08-07`"]
+    #[serde(rename = "gpt-5-nano-2025-08-07")]
+    Gpt5Nano2025_08_07,
+    #[doc = "`gpt-5-chat-latest`"]
+    #[serde(rename = "gpt-5-chat-latest")]
+    Gpt5ChatLatest,
+    #[doc = "`gpt-4.1`"]
+    #[serde(rename = "gpt-4.1")]
+    Gpt4_1,
+    #[doc = "`gpt-4.1-mini`"]
+    #[serde(rename = "gpt-4.1-mini")]
+    Gpt4_1Mini,
+    #[doc = "`gpt-4.1-nano`"]
+    #[serde(rename = "gpt-4.1-nano")]
+    Gpt4_1Nano,
+    #[doc = "`gpt-4.1-2025-04-14`"]
+    #[serde(rename = "gpt-4.1-2025-04-14")]
+    Gpt4_1_2025_04_14,
+    #[doc = "`gpt-4.1-mini-2025-04-14`"]
+    #[serde(rename = "gpt-4.1-mini-2025-04-14")]
+    Gpt4_1Mini2025_04_14,
+    #[doc = "`gpt-4.1-nano-2025-04-14`"]
+    #[serde(rename = "gpt-4.1-nano-2025-04-14")]
+    Gpt4_1Nano2025_04_14,
+    #[doc = "`o4-mini`"]
+    #[serde(rename = "o4-mini")]
+    O4Mini,
+    #[doc = "`o4-mini-2025-04-16`"]
+    #[serde(rename = "o4-mini-2025-04-16")]
+    O4Mini2025_04_16,
+    #[doc = "`o3`"]
+    #[serde(rename = "o3")]
+    O3,
+    #[doc = "`o3-2025-04-16`"]
+    #[serde(rename = "o3-2025-04-16")]
+    O3_2025_04_16,
+    #[doc = "`o3-mini`"]
+    #[serde(rename = "o3-mini")]
+    O3Mini,
+    #[doc = "`o3-mini-2025-01-31`"]
+    #[serde(rename = "o3-mini-2025-01-31")]
+    O3Mini2025_01_31,
+    #[doc = "`o1`"]
+    #[serde(rename = "o1")]
+    O1,
+    #[doc = "`o1-2024-12-17`"]
+    #[serde(rename = "o1-2024-12-17")]
+    O1_2024_12_17,
+    #[doc = "`o1-preview`"]
+    #[serde(rename = "o1-preview")]
+    O1Preview,
+    #[doc = "`o1-preview-2024-09-12`"]
+    #[serde(rename = "o1-preview-2024-09-12")]
+    O1Preview2024_09_12,
+    #[doc = "`o1-mini`"]
+    #[serde(rename = "o1-mini")]
+    O1Mini,
+    #[doc = "`o1-mini-2024-09-12`"]
+    #[serde(rename = "o1-mini-2024-09-12")]
+    O1Mini2024_09_12,
+    #[doc = "`gpt-4o`"]
+    #[serde(rename = "gpt-4o")]
+    Gpt4o,
+    #[doc = "`gpt-4o-2024-11-20`"]
+    #[serde(rename = "gpt-4o-2024-11-20")]
+    Gpt4o2024_11_20,
+    #[doc = "`gpt-4o-2024-08-06`"]
+    #[serde(rename = "gpt-4o-2024-08-06")]
+    Gpt4o2024_08_06,
+    #[doc = "`gpt-4o-2024-05-13`"]
+    #[serde(rename = "gpt-4o-2024-05-13")]
+    Gpt4o2024_05_13,
+    #[doc = "`gpt-4o-audio-preview`"]
+    #[serde(rename = "gpt-4o-audio-preview")]
+    Gpt4oAudioPreview,
+    #[doc = "`gpt-4o-audio-preview-2024-10-01`"]
+    #[serde(rename = "gpt-4o-audio-preview-2024-10-01")]
+    Gpt4oAudioPreview2024_10_01,
+    #[doc = "`gpt-4o-audio-preview-2024-12-17`"]
+    #[serde(rename = "gpt-4o-audio-preview-2024-12-17")]
+    Gpt4oAudioPreview2024_12_17,
+    #[doc = "`gpt-4o-audio-preview-2025-06-03`"]
+    #[serde(rename = "gpt-4o-audio-preview-2025-06-03")]
+    Gpt4oAudioPreview2025_06_03,
+    #[doc = "`gpt-4o-mini-audio-preview`"]
+    #[serde(rename = "gpt-4o-mini-audio-preview")]
+    Gpt4oMiniAudioPreview,
+    #[doc = "`gpt-4o-mini-audio-preview-2024-12-17`"]
+    #[serde(rename = "gpt-4o-mini-audio-preview-2024-12-17")]
+    Gpt4oMiniAudioPreview2024_12_17,
+    #[doc = "`gpt-4o-search-preview`"]
+    #[serde(rename = "gpt-4o-search-preview")]
+    Gpt4oSearchPreview,
+    #[doc = "`gpt-4o-mini-search-preview`"]
+    #[serde(rename = "gpt-4o-mini-search-preview")]
+    Gpt4oMiniSearchPreview,
+    #[doc = "`gpt-4o-search-preview-2025-03-11`"]
+    #[serde(rename = "gpt-4o-search-preview-2025-03-11")]
+    Gpt4oSearchPreview2025_03_11,
+    #[doc = "`gpt-4o-mini-search-preview-2025-03-11`"]
+    #[serde(rename = "gpt-4o-mini-search-preview-2025-03-11")]
+    Gpt4oMiniSearchPreview2025_03_11,
+    #[doc = "`chatgpt-4o-latest`"]
+    #[serde(rename = "chatgpt-4o-latest")]
+    Chatgpt4oLatest,
+    #[doc = "`codex-mini-latest`"]
+    #[serde(rename = "codex-mini-latest")]
+    CodexMiniLatest,
+    #[doc = "`gpt-4o-mini`"]
+    #[serde(rename = "gpt-4o-mini")]
+    Gpt4oMini,
+    #[doc = "`gpt-4o-mini-2024-07-18`"]
+    #[serde(rename = "gpt-4o-mini-2024-07-18")]
+    Gpt4oMini2024_07_18,
+    #[doc = "`gpt-4-turbo`"]
+    #[serde(rename = "gpt-4-turbo")]
+    Gpt4Turbo,
+    #[doc = "`gpt-4-turbo-2024-04-09`"]
+    #[serde(rename = "gpt-4-turbo-2024-04-09")]
+    Gpt4Turbo2024_04_09,
+    #[doc = "`gpt-4-0125-preview`"]
+    #[serde(rename = "gpt-4-0125-preview")]
+    Gpt4_0125Preview,
+    #[doc = "`gpt-4-turbo-preview`"]
+    #[serde(rename = "gpt-4-turbo-preview")]
+    Gpt4TurboPreview,
+    #[doc = "`gpt-4-1106-preview`"]
+    #[serde(rename = "gpt-4-1106-preview")]
+    Gpt4_1106Preview,
+    #[doc = "`gpt-4-vision-preview`"]
+    #[serde(rename = "gpt-4-vision-preview")]
+    Gpt4VisionPreview,
+    #[doc = "`gpt-4`"]
+    #[serde(rename = "gpt-4")]
+    Gpt4,
+    #[doc = "`gpt-4-0314`"]
+    #[serde(rename = "gpt-4-0314")]
+    Gpt4_0314,
+    #[doc = "`gpt-4-0613`"]
+    #[serde(rename = "gpt-4-0613")]
+    Gpt4_0613,
+    #[doc = "`gpt-4-32k`"]
+    #[serde(rename = "gpt-4-32k")]
+    Gpt4_32k,
+    #[doc = "`gpt-4-32k-0314`"]
+    #[serde(rename = "gpt-4-32k-0314")]
+    Gpt4_32k0314,
+    #[doc = "`gpt-4-32k-0613`"]
+    #[serde(rename = "gpt-4-32k-0613")]
+    Gpt4_32k0613,
+    #[doc = "`gpt-3.5-turbo`"]
+    #[serde(rename = "gpt-3.5-turbo")]
+    Gpt3_5Turbo,
+    #[doc = "`gpt-3.5-turbo-16k`"]
+    #[serde(rename = "gpt-3.5-turbo-16k")]
+    Gpt3_5Turbo16k,
+    #[doc = "`gpt-3.5-turbo-0301`"]
+    #[serde(rename = "gpt-3.5-turbo-0301")]
+    Gpt3_5Turbo0301,
+    #[doc = "`gpt-3.5-turbo-0613`"]
+    #[serde(rename = "gpt-3.5-turbo-0613")]
+    Gpt3_5Turbo0613,
+    #[doc = "`gpt-3.5-turbo-1106`"]
+    #[serde(rename = "gpt-3.5-turbo-1106")]
+    Gpt3_5Turbo1106,
+    #[doc = "`gpt-3.5-turbo-0125`"]
+    #[serde(rename = "gpt-3.5-turbo-0125")]
+    Gpt3_5Turbo0125,
+    #[doc = "`gpt-3.5-turbo-16k-0613`"]
+    #[serde(rename = "gpt-3.5-turbo-16k-0613")]
+    Gpt3_5Turbo16k0613,
+}
+#[doc = "gpt-5"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestWithoutStreamModelGpt5;
+impl_serde!(CreateThreadAndRunRequestWithoutStreamModelGpt5, "gpt-5");
+#[doc = "gpt-5-mini"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestWithoutStreamModelGpt5Mini;
+impl_serde!(
+    CreateThreadAndRunRequestWithoutStreamModelGpt5Mini,
+    "gpt-5-mini"
+);
+#[doc = "gpt-5-nano"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestWithoutStreamModelGpt5Nano;
+impl_serde!(
+    CreateThreadAndRunRequestWithoutStreamModelGpt5Nano,
+    "gpt-5-nano"
+);
+#[doc = "gpt-5-2025-08-07"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestWithoutStreamModelGpt5_2025_08_07;
+impl_serde!(
+    CreateThreadAndRunRequestWithoutStreamModelGpt5_2025_08_07,
+    "gpt-5-2025-08-07"
+);
+#[doc = "gpt-5-mini-2025-08-07"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestWithoutStreamModelGpt5Mini2025_08_07;
+impl_serde!(
+    CreateThreadAndRunRequestWithoutStreamModelGpt5Mini2025_08_07,
+    "gpt-5-mini-2025-08-07"
+);
+#[doc = "gpt-5-nano-2025-08-07"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestWithoutStreamModelGpt5Nano2025_08_07;
+impl_serde!(
+    CreateThreadAndRunRequestWithoutStreamModelGpt5Nano2025_08_07,
+    "gpt-5-nano-2025-08-07"
+);
+#[doc = "gpt-4.1"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestWithoutStreamModelGpt4_1;
+impl_serde!(CreateThreadAndRunRequestWithoutStreamModelGpt4_1, "gpt-4.1");
+#[doc = "gpt-4.1-mini"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestWithoutStreamModelGpt4_1Mini;
+impl_serde!(
+    CreateThreadAndRunRequestWithoutStreamModelGpt4_1Mini,
+    "gpt-4.1-mini"
+);
+#[doc = "gpt-4.1-nano"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestWithoutStreamModelGpt4_1Nano;
+impl_serde!(
+    CreateThreadAndRunRequestWithoutStreamModelGpt4_1Nano,
+    "gpt-4.1-nano"
+);
+#[doc = "gpt-4.1-2025-04-14"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestWithoutStreamModelGpt4_1_2025_04_14;
+impl_serde!(
+    CreateThreadAndRunRequestWithoutStreamModelGpt4_1_2025_04_14,
+    "gpt-4.1-2025-04-14"
+);
+#[doc = "gpt-4.1-mini-2025-04-14"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestWithoutStreamModelGpt4_1Mini2025_04_14;
+impl_serde!(
+    CreateThreadAndRunRequestWithoutStreamModelGpt4_1Mini2025_04_14,
+    "gpt-4.1-mini-2025-04-14"
+);
+#[doc = "gpt-4.1-nano-2025-04-14"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestWithoutStreamModelGpt4_1Nano2025_04_14;
+impl_serde!(
+    CreateThreadAndRunRequestWithoutStreamModelGpt4_1Nano2025_04_14,
+    "gpt-4.1-nano-2025-04-14"
+);
+#[doc = "gpt-4o"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestWithoutStreamModelGpt4o;
+impl_serde!(CreateThreadAndRunRequestWithoutStreamModelGpt4o, "gpt-4o");
+#[doc = "gpt-4o-2024-11-20"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestWithoutStreamModelGpt4o2024_11_20;
+impl_serde!(
+    CreateThreadAndRunRequestWithoutStreamModelGpt4o2024_11_20,
+    "gpt-4o-2024-11-20"
+);
+#[doc = "gpt-4o-2024-08-06"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestWithoutStreamModelGpt4o2024_08_06;
+impl_serde!(
+    CreateThreadAndRunRequestWithoutStreamModelGpt4o2024_08_06,
+    "gpt-4o-2024-08-06"
+);
+#[doc = "gpt-4o-2024-05-13"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestWithoutStreamModelGpt4o2024_05_13;
+impl_serde!(
+    CreateThreadAndRunRequestWithoutStreamModelGpt4o2024_05_13,
+    "gpt-4o-2024-05-13"
+);
+#[doc = "gpt-4o-mini"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestWithoutStreamModelGpt4oMini;
+impl_serde!(
+    CreateThreadAndRunRequestWithoutStreamModelGpt4oMini,
+    "gpt-4o-mini"
+);
+#[doc = "gpt-4o-mini-2024-07-18"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestWithoutStreamModelGpt4oMini2024_07_18;
+impl_serde!(
+    CreateThreadAndRunRequestWithoutStreamModelGpt4oMini2024_07_18,
+    "gpt-4o-mini-2024-07-18"
+);
+#[doc = "gpt-4.5-preview"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestWithoutStreamModelGpt4_5Preview;
+impl_serde!(
+    CreateThreadAndRunRequestWithoutStreamModelGpt4_5Preview,
+    "gpt-4.5-preview"
+);
+#[doc = "gpt-4.5-preview-2025-02-27"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestWithoutStreamModelGpt4_5Preview2025_02_27;
+impl_serde!(
+    CreateThreadAndRunRequestWithoutStreamModelGpt4_5Preview2025_02_27,
+    "gpt-4.5-preview-2025-02-27"
+);
+#[doc = "gpt-4-turbo"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestWithoutStreamModelGpt4Turbo;
+impl_serde!(
+    CreateThreadAndRunRequestWithoutStreamModelGpt4Turbo,
+    "gpt-4-turbo"
+);
+#[doc = "gpt-4-turbo-2024-04-09"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestWithoutStreamModelGpt4Turbo2024_04_09;
+impl_serde!(
+    CreateThreadAndRunRequestWithoutStreamModelGpt4Turbo2024_04_09,
+    "gpt-4-turbo-2024-04-09"
+);
+#[doc = "gpt-4-0125-preview"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestWithoutStreamModelGpt4_0125Preview;
+impl_serde!(
+    CreateThreadAndRunRequestWithoutStreamModelGpt4_0125Preview,
+    "gpt-4-0125-preview"
+);
+#[doc = "gpt-4-turbo-preview"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestWithoutStreamModelGpt4TurboPreview;
+impl_serde!(
+    CreateThreadAndRunRequestWithoutStreamModelGpt4TurboPreview,
+    "gpt-4-turbo-preview"
+);
+#[doc = "gpt-4-1106-preview"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestWithoutStreamModelGpt4_1106Preview;
+impl_serde!(
+    CreateThreadAndRunRequestWithoutStreamModelGpt4_1106Preview,
+    "gpt-4-1106-preview"
+);
+#[doc = "gpt-4-vision-preview"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestWithoutStreamModelGpt4VisionPreview;
+impl_serde!(
+    CreateThreadAndRunRequestWithoutStreamModelGpt4VisionPreview,
+    "gpt-4-vision-preview"
+);
+#[doc = "gpt-4"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestWithoutStreamModelGpt4;
+impl_serde!(CreateThreadAndRunRequestWithoutStreamModelGpt4, "gpt-4");
+#[doc = "gpt-4-0314"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestWithoutStreamModelGpt4_0314;
+impl_serde!(
+    CreateThreadAndRunRequestWithoutStreamModelGpt4_0314,
+    "gpt-4-0314"
+);
+#[doc = "gpt-4-0613"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestWithoutStreamModelGpt4_0613;
+impl_serde!(
+    CreateThreadAndRunRequestWithoutStreamModelGpt4_0613,
+    "gpt-4-0613"
+);
+#[doc = "gpt-4-32k"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestWithoutStreamModelGpt4_32k;
+impl_serde!(
+    CreateThreadAndRunRequestWithoutStreamModelGpt4_32k,
+    "gpt-4-32k"
+);
+#[doc = "gpt-4-32k-0314"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestWithoutStreamModelGpt4_32k0314;
+impl_serde!(
+    CreateThreadAndRunRequestWithoutStreamModelGpt4_32k0314,
+    "gpt-4-32k-0314"
+);
+#[doc = "gpt-4-32k-0613"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestWithoutStreamModelGpt4_32k0613;
+impl_serde!(
+    CreateThreadAndRunRequestWithoutStreamModelGpt4_32k0613,
+    "gpt-4-32k-0613"
+);
+#[doc = "gpt-3.5-turbo"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestWithoutStreamModelGpt3_5Turbo;
+impl_serde!(
+    CreateThreadAndRunRequestWithoutStreamModelGpt3_5Turbo,
+    "gpt-3.5-turbo"
+);
+#[doc = "gpt-3.5-turbo-16k"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestWithoutStreamModelGpt3_5Turbo16k;
+impl_serde!(
+    CreateThreadAndRunRequestWithoutStreamModelGpt3_5Turbo16k,
+    "gpt-3.5-turbo-16k"
+);
+#[doc = "gpt-3.5-turbo-0613"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestWithoutStreamModelGpt3_5Turbo0613;
+impl_serde!(
+    CreateThreadAndRunRequestWithoutStreamModelGpt3_5Turbo0613,
+    "gpt-3.5-turbo-0613"
+);
+#[doc = "gpt-3.5-turbo-1106"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestWithoutStreamModelGpt3_5Turbo1106;
+impl_serde!(
+    CreateThreadAndRunRequestWithoutStreamModelGpt3_5Turbo1106,
+    "gpt-3.5-turbo-1106"
+);
+#[doc = "gpt-3.5-turbo-0125"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestWithoutStreamModelGpt3_5Turbo0125;
+impl_serde!(
+    CreateThreadAndRunRequestWithoutStreamModelGpt3_5Turbo0125,
+    "gpt-3.5-turbo-0125"
+);
+#[doc = "gpt-3.5-turbo-16k-0613"]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+struct CreateThreadAndRunRequestWithoutStreamModelGpt3_5Turbo16k0613;
+impl_serde!(
+    CreateThreadAndRunRequestWithoutStreamModelGpt3_5Turbo16k0613,
+    "gpt-3.5-turbo-16k-0613"
+);
+#[doc = "The ID of the [Model](https://platform.openai.com/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used."]
+#[derive(Clone, Debug, PartialEq)]
+#[allow(clippy::large_enum_variant)]
+pub enum CreateThreadAndRunRequestWithoutStreamModel {
+    Other(String),
+    #[doc = "gpt-5"]
+    Gpt5,
+    #[doc = "gpt-5-mini"]
+    Gpt5Mini,
+    #[doc = "gpt-5-nano"]
+    Gpt5Nano,
+    #[doc = "gpt-5-2025-08-07"]
+    Gpt5_2025_08_07,
+    #[doc = "gpt-5-mini-2025-08-07"]
+    Gpt5Mini2025_08_07,
+    #[doc = "gpt-5-nano-2025-08-07"]
+    Gpt5Nano2025_08_07,
+    #[doc = "gpt-4.1"]
+    Gpt4_1,
+    #[doc = "gpt-4.1-mini"]
+    Gpt4_1Mini,
+    #[doc = "gpt-4.1-nano"]
+    Gpt4_1Nano,
+    #[doc = "gpt-4.1-2025-04-14"]
+    Gpt4_1_2025_04_14,
+    #[doc = "gpt-4.1-mini-2025-04-14"]
+    Gpt4_1Mini2025_04_14,
+    #[doc = "gpt-4.1-nano-2025-04-14"]
+    Gpt4_1Nano2025_04_14,
+    #[doc = "gpt-4o"]
+    Gpt4o,
+    #[doc = "gpt-4o-2024-11-20"]
+    Gpt4o2024_11_20,
+    #[doc = "gpt-4o-2024-08-06"]
+    Gpt4o2024_08_06,
+    #[doc = "gpt-4o-2024-05-13"]
+    Gpt4o2024_05_13,
+    #[doc = "gpt-4o-mini"]
+    Gpt4oMini,
+    #[doc = "gpt-4o-mini-2024-07-18"]
+    Gpt4oMini2024_07_18,
+    #[doc = "gpt-4.5-preview"]
+    Gpt4_5Preview,
+    #[doc = "gpt-4.5-preview-2025-02-27"]
+    Gpt4_5Preview2025_02_27,
+    #[doc = "gpt-4-turbo"]
+    Gpt4Turbo,
+    #[doc = "gpt-4-turbo-2024-04-09"]
+    Gpt4Turbo2024_04_09,
+    #[doc = "gpt-4-0125-preview"]
+    Gpt4_0125Preview,
+    #[doc = "gpt-4-turbo-preview"]
+    Gpt4TurboPreview,
+    #[doc = "gpt-4-1106-preview"]
+    Gpt4_1106Preview,
+    #[doc = "gpt-4-vision-preview"]
+    Gpt4VisionPreview,
+    #[doc = "gpt-4"]
+    Gpt4,
+    #[doc = "gpt-4-0314"]
+    Gpt4_0314,
+    #[doc = "gpt-4-0613"]
+    Gpt4_0613,
+    #[doc = "gpt-4-32k"]
+    Gpt4_32k,
+    #[doc = "gpt-4-32k-0314"]
+    Gpt4_32k0314,
+    #[doc = "gpt-4-32k-0613"]
+    Gpt4_32k0613,
+    #[doc = "gpt-3.5-turbo"]
+    Gpt3_5Turbo,
+    #[doc = "gpt-3.5-turbo-16k"]
+    Gpt3_5Turbo16k,
+    #[doc = "gpt-3.5-turbo-0613"]
+    Gpt3_5Turbo0613,
+    #[doc = "gpt-3.5-turbo-1106"]
+    Gpt3_5Turbo1106,
+    #[doc = "gpt-3.5-turbo-0125"]
+    Gpt3_5Turbo0125,
+    #[doc = "gpt-3.5-turbo-16k-0613"]
+    Gpt3_5Turbo16k0613,
+}
+impl<'de> serde::Deserialize<'de> for CreateThreadAndRunRequestWithoutStreamModel {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
+        enum CreateThreadAndRunRequestWithoutStreamModel {
+            Gpt5(crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt5),
+            Gpt5Mini(crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt5Mini),
+            Gpt5Nano(crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt5Nano),
+            Gpt5_2025_08_07(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt5_2025_08_07,
+            ),
+            Gpt5Mini2025_08_07(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt5Mini2025_08_07,
+            ),
+            Gpt5Nano2025_08_07(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt5Nano2025_08_07,
+            ),
+            Gpt4_1(crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4_1),
+            Gpt4_1Mini(crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4_1Mini),
+            Gpt4_1Nano(crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4_1Nano),
+            Gpt4_1_2025_04_14(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4_1_2025_04_14,
+            ),
+            Gpt4_1Mini2025_04_14(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4_1Mini2025_04_14,
+            ),
+            Gpt4_1Nano2025_04_14(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4_1Nano2025_04_14,
+            ),
+            Gpt4o(crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4o),
+            Gpt4o2024_11_20(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4o2024_11_20,
+            ),
+            Gpt4o2024_08_06(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4o2024_08_06,
+            ),
+            Gpt4o2024_05_13(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4o2024_05_13,
+            ),
+            Gpt4oMini(crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4oMini),
+            Gpt4oMini2024_07_18(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4oMini2024_07_18,
+            ),
+            Gpt4_5Preview(crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4_5Preview),
+            Gpt4_5Preview2025_02_27(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4_5Preview2025_02_27,
+            ),
+            Gpt4Turbo(crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4Turbo),
+            Gpt4Turbo2024_04_09(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4Turbo2024_04_09,
+            ),
+            Gpt4_0125Preview(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4_0125Preview,
+            ),
+            Gpt4TurboPreview(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4TurboPreview,
+            ),
+            Gpt4_1106Preview(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4_1106Preview,
+            ),
+            Gpt4VisionPreview(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4VisionPreview,
+            ),
+            Gpt4(crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4),
+            Gpt4_0314(crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4_0314),
+            Gpt4_0613(crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4_0613),
+            Gpt4_32k(crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4_32k),
+            Gpt4_32k0314(crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4_32k0314),
+            Gpt4_32k0613(crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4_32k0613),
+            Gpt3_5Turbo(crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt3_5Turbo),
+            Gpt3_5Turbo16k(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt3_5Turbo16k,
+            ),
+            Gpt3_5Turbo0613(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt3_5Turbo0613,
+            ),
+            Gpt3_5Turbo1106(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt3_5Turbo1106,
+            ),
+            Gpt3_5Turbo0125(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt3_5Turbo0125,
+            ),
+            Gpt3_5Turbo16k0613(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt3_5Turbo16k0613,
+            ),
+            Other(String),
+        }
+        Ok(
+            match CreateThreadAndRunRequestWithoutStreamModel::deserialize(deserializer)? {
+                CreateThreadAndRunRequestWithoutStreamModel::Other(v) => Self::Other(v),
+                CreateThreadAndRunRequestWithoutStreamModel::Gpt5(_) => Self::Gpt5,
+                CreateThreadAndRunRequestWithoutStreamModel::Gpt5Mini(_) => Self::Gpt5Mini,
+                CreateThreadAndRunRequestWithoutStreamModel::Gpt5Nano(_) => Self::Gpt5Nano,
+                CreateThreadAndRunRequestWithoutStreamModel::Gpt5_2025_08_07(_) => {
+                    Self::Gpt5_2025_08_07
+                }
+                CreateThreadAndRunRequestWithoutStreamModel::Gpt5Mini2025_08_07(_) => {
+                    Self::Gpt5Mini2025_08_07
+                }
+                CreateThreadAndRunRequestWithoutStreamModel::Gpt5Nano2025_08_07(_) => {
+                    Self::Gpt5Nano2025_08_07
+                }
+                CreateThreadAndRunRequestWithoutStreamModel::Gpt4_1(_) => Self::Gpt4_1,
+                CreateThreadAndRunRequestWithoutStreamModel::Gpt4_1Mini(_) => Self::Gpt4_1Mini,
+                CreateThreadAndRunRequestWithoutStreamModel::Gpt4_1Nano(_) => Self::Gpt4_1Nano,
+                CreateThreadAndRunRequestWithoutStreamModel::Gpt4_1_2025_04_14(_) => {
+                    Self::Gpt4_1_2025_04_14
+                }
+                CreateThreadAndRunRequestWithoutStreamModel::Gpt4_1Mini2025_04_14(_) => {
+                    Self::Gpt4_1Mini2025_04_14
+                }
+                CreateThreadAndRunRequestWithoutStreamModel::Gpt4_1Nano2025_04_14(_) => {
+                    Self::Gpt4_1Nano2025_04_14
+                }
+                CreateThreadAndRunRequestWithoutStreamModel::Gpt4o(_) => Self::Gpt4o,
+                CreateThreadAndRunRequestWithoutStreamModel::Gpt4o2024_11_20(_) => {
+                    Self::Gpt4o2024_11_20
+                }
+                CreateThreadAndRunRequestWithoutStreamModel::Gpt4o2024_08_06(_) => {
+                    Self::Gpt4o2024_08_06
+                }
+                CreateThreadAndRunRequestWithoutStreamModel::Gpt4o2024_05_13(_) => {
+                    Self::Gpt4o2024_05_13
+                }
+                CreateThreadAndRunRequestWithoutStreamModel::Gpt4oMini(_) => Self::Gpt4oMini,
+                CreateThreadAndRunRequestWithoutStreamModel::Gpt4oMini2024_07_18(_) => {
+                    Self::Gpt4oMini2024_07_18
+                }
+                CreateThreadAndRunRequestWithoutStreamModel::Gpt4_5Preview(_) => {
+                    Self::Gpt4_5Preview
+                }
+                CreateThreadAndRunRequestWithoutStreamModel::Gpt4_5Preview2025_02_27(_) => {
+                    Self::Gpt4_5Preview2025_02_27
+                }
+                CreateThreadAndRunRequestWithoutStreamModel::Gpt4Turbo(_) => Self::Gpt4Turbo,
+                CreateThreadAndRunRequestWithoutStreamModel::Gpt4Turbo2024_04_09(_) => {
+                    Self::Gpt4Turbo2024_04_09
+                }
+                CreateThreadAndRunRequestWithoutStreamModel::Gpt4_0125Preview(_) => {
+                    Self::Gpt4_0125Preview
+                }
+                CreateThreadAndRunRequestWithoutStreamModel::Gpt4TurboPreview(_) => {
+                    Self::Gpt4TurboPreview
+                }
+                CreateThreadAndRunRequestWithoutStreamModel::Gpt4_1106Preview(_) => {
+                    Self::Gpt4_1106Preview
+                }
+                CreateThreadAndRunRequestWithoutStreamModel::Gpt4VisionPreview(_) => {
+                    Self::Gpt4VisionPreview
+                }
+                CreateThreadAndRunRequestWithoutStreamModel::Gpt4(_) => Self::Gpt4,
+                CreateThreadAndRunRequestWithoutStreamModel::Gpt4_0314(_) => Self::Gpt4_0314,
+                CreateThreadAndRunRequestWithoutStreamModel::Gpt4_0613(_) => Self::Gpt4_0613,
+                CreateThreadAndRunRequestWithoutStreamModel::Gpt4_32k(_) => Self::Gpt4_32k,
+                CreateThreadAndRunRequestWithoutStreamModel::Gpt4_32k0314(_) => Self::Gpt4_32k0314,
+                CreateThreadAndRunRequestWithoutStreamModel::Gpt4_32k0613(_) => Self::Gpt4_32k0613,
+                CreateThreadAndRunRequestWithoutStreamModel::Gpt3_5Turbo(_) => Self::Gpt3_5Turbo,
+                CreateThreadAndRunRequestWithoutStreamModel::Gpt3_5Turbo16k(_) => {
+                    Self::Gpt3_5Turbo16k
+                }
+                CreateThreadAndRunRequestWithoutStreamModel::Gpt3_5Turbo0613(_) => {
+                    Self::Gpt3_5Turbo0613
+                }
+                CreateThreadAndRunRequestWithoutStreamModel::Gpt3_5Turbo1106(_) => {
+                    Self::Gpt3_5Turbo1106
+                }
+                CreateThreadAndRunRequestWithoutStreamModel::Gpt3_5Turbo0125(_) => {
+                    Self::Gpt3_5Turbo0125
+                }
+                CreateThreadAndRunRequestWithoutStreamModel::Gpt3_5Turbo16k0613(_) => {
+                    Self::Gpt3_5Turbo16k0613
+                }
+            },
+        )
+    }
+}
+impl serde::Serialize for CreateThreadAndRunRequestWithoutStreamModel {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names)]
+        enum CreateThreadAndRunRequestWithoutStreamModel<'a> {
+            Other(&'a String),
+            Gpt5(crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt5),
+            Gpt5Mini(crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt5Mini),
+            Gpt5Nano(crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt5Nano),
+            Gpt5_2025_08_07(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt5_2025_08_07,
+            ),
+            Gpt5Mini2025_08_07(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt5Mini2025_08_07,
+            ),
+            Gpt5Nano2025_08_07(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt5Nano2025_08_07,
+            ),
+            Gpt4_1(crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4_1),
+            Gpt4_1Mini(crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4_1Mini),
+            Gpt4_1Nano(crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4_1Nano),
+            Gpt4_1_2025_04_14(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4_1_2025_04_14,
+            ),
+            Gpt4_1Mini2025_04_14(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4_1Mini2025_04_14,
+            ),
+            Gpt4_1Nano2025_04_14(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4_1Nano2025_04_14,
+            ),
+            Gpt4o(crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4o),
+            Gpt4o2024_11_20(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4o2024_11_20,
+            ),
+            Gpt4o2024_08_06(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4o2024_08_06,
+            ),
+            Gpt4o2024_05_13(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4o2024_05_13,
+            ),
+            Gpt4oMini(crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4oMini),
+            Gpt4oMini2024_07_18(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4oMini2024_07_18,
+            ),
+            Gpt4_5Preview(crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4_5Preview),
+            Gpt4_5Preview2025_02_27(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4_5Preview2025_02_27,
+            ),
+            Gpt4Turbo(crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4Turbo),
+            Gpt4Turbo2024_04_09(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4Turbo2024_04_09,
+            ),
+            Gpt4_0125Preview(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4_0125Preview,
+            ),
+            Gpt4TurboPreview(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4TurboPreview,
+            ),
+            Gpt4_1106Preview(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4_1106Preview,
+            ),
+            Gpt4VisionPreview(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4VisionPreview,
+            ),
+            Gpt4(crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4),
+            Gpt4_0314(crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4_0314),
+            Gpt4_0613(crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4_0613),
+            Gpt4_32k(crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4_32k),
+            Gpt4_32k0314(crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4_32k0314),
+            Gpt4_32k0613(crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt4_32k0613),
+            Gpt3_5Turbo(crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt3_5Turbo),
+            Gpt3_5Turbo16k(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt3_5Turbo16k,
+            ),
+            Gpt3_5Turbo0613(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt3_5Turbo0613,
+            ),
+            Gpt3_5Turbo1106(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt3_5Turbo1106,
+            ),
+            Gpt3_5Turbo0125(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt3_5Turbo0125,
+            ),
+            Gpt3_5Turbo16k0613(
+                crate::__types::CreateThreadAndRunRequestWithoutStreamModelGpt3_5Turbo16k0613,
+            ),
+        }
+        match self { Self :: Other (v) => { CreateThreadAndRunRequestWithoutStreamModel :: Other (v) } , Self :: Gpt5 => { CreateThreadAndRunRequestWithoutStreamModel :: Gpt5 (Default :: default ()) } , Self :: Gpt5Mini => { CreateThreadAndRunRequestWithoutStreamModel :: Gpt5Mini (Default :: default ()) } , Self :: Gpt5Nano => { CreateThreadAndRunRequestWithoutStreamModel :: Gpt5Nano (Default :: default ()) } , Self :: Gpt5_2025_08_07 => { CreateThreadAndRunRequestWithoutStreamModel :: Gpt5_2025_08_07 (Default :: default ()) } , Self :: Gpt5Mini2025_08_07 => { CreateThreadAndRunRequestWithoutStreamModel :: Gpt5Mini2025_08_07 (Default :: default ()) } , Self :: Gpt5Nano2025_08_07 => { CreateThreadAndRunRequestWithoutStreamModel :: Gpt5Nano2025_08_07 (Default :: default ()) } , Self :: Gpt4_1 => { CreateThreadAndRunRequestWithoutStreamModel :: Gpt4_1 (Default :: default ()) } , Self :: Gpt4_1Mini => { CreateThreadAndRunRequestWithoutStreamModel :: Gpt4_1Mini (Default :: default ()) } , Self :: Gpt4_1Nano => { CreateThreadAndRunRequestWithoutStreamModel :: Gpt4_1Nano (Default :: default ()) } , Self :: Gpt4_1_2025_04_14 => { CreateThreadAndRunRequestWithoutStreamModel :: Gpt4_1_2025_04_14 (Default :: default ()) } , Self :: Gpt4_1Mini2025_04_14 => { CreateThreadAndRunRequestWithoutStreamModel :: Gpt4_1Mini2025_04_14 (Default :: default ()) } , Self :: Gpt4_1Nano2025_04_14 => { CreateThreadAndRunRequestWithoutStreamModel :: Gpt4_1Nano2025_04_14 (Default :: default ()) } , Self :: Gpt4o => { CreateThreadAndRunRequestWithoutStreamModel :: Gpt4o (Default :: default ()) } , Self :: Gpt4o2024_11_20 => { CreateThreadAndRunRequestWithoutStreamModel :: Gpt4o2024_11_20 (Default :: default ()) } , Self :: Gpt4o2024_08_06 => { CreateThreadAndRunRequestWithoutStreamModel :: Gpt4o2024_08_06 (Default :: default ()) } , Self :: Gpt4o2024_05_13 => { CreateThreadAndRunRequestWithoutStreamModel :: Gpt4o2024_05_13 (Default :: default ()) } , Self :: Gpt4oMini => { CreateThreadAndRunRequestWithoutStreamModel :: Gpt4oMini (Default :: default ()) } , Self :: Gpt4oMini2024_07_18 => { CreateThreadAndRunRequestWithoutStreamModel :: Gpt4oMini2024_07_18 (Default :: default ()) } , Self :: Gpt4_5Preview => { CreateThreadAndRunRequestWithoutStreamModel :: Gpt4_5Preview (Default :: default ()) } , Self :: Gpt4_5Preview2025_02_27 => { CreateThreadAndRunRequestWithoutStreamModel :: Gpt4_5Preview2025_02_27 (Default :: default ()) } , Self :: Gpt4Turbo => { CreateThreadAndRunRequestWithoutStreamModel :: Gpt4Turbo (Default :: default ()) } , Self :: Gpt4Turbo2024_04_09 => { CreateThreadAndRunRequestWithoutStreamModel :: Gpt4Turbo2024_04_09 (Default :: default ()) } , Self :: Gpt4_0125Preview => { CreateThreadAndRunRequestWithoutStreamModel :: Gpt4_0125Preview (Default :: default ()) } , Self :: Gpt4TurboPreview => { CreateThreadAndRunRequestWithoutStreamModel :: Gpt4TurboPreview (Default :: default ()) } , Self :: Gpt4_1106Preview => { CreateThreadAndRunRequestWithoutStreamModel :: Gpt4_1106Preview (Default :: default ()) } , Self :: Gpt4VisionPreview => { CreateThreadAndRunRequestWithoutStreamModel :: Gpt4VisionPreview (Default :: default ()) } , Self :: Gpt4 => { CreateThreadAndRunRequestWithoutStreamModel :: Gpt4 (Default :: default ()) } , Self :: Gpt4_0314 => { CreateThreadAndRunRequestWithoutStreamModel :: Gpt4_0314 (Default :: default ()) } , Self :: Gpt4_0613 => { CreateThreadAndRunRequestWithoutStreamModel :: Gpt4_0613 (Default :: default ()) } , Self :: Gpt4_32k => { CreateThreadAndRunRequestWithoutStreamModel :: Gpt4_32k (Default :: default ()) } , Self :: Gpt4_32k0314 => { CreateThreadAndRunRequestWithoutStreamModel :: Gpt4_32k0314 (Default :: default ()) } , Self :: Gpt4_32k0613 => { CreateThreadAndRunRequestWithoutStreamModel :: Gpt4_32k0613 (Default :: default ()) } , Self :: Gpt3_5Turbo => { CreateThreadAndRunRequestWithoutStreamModel :: Gpt3_5Turbo (Default :: default ()) } , Self :: Gpt3_5Turbo16k => { CreateThreadAndRunRequestWithoutStreamModel :: Gpt3_5Turbo16k (Default :: default ()) } , Self :: Gpt3_5Turbo0613 => { CreateThreadAndRunRequestWithoutStreamModel :: Gpt3_5Turbo0613 (Default :: default ()) } , Self :: Gpt3_5Turbo1106 => { CreateThreadAndRunRequestWithoutStreamModel :: Gpt3_5Turbo1106 (Default :: default ()) } , Self :: Gpt3_5Turbo0125 => { CreateThreadAndRunRequestWithoutStreamModel :: Gpt3_5Turbo0125 (Default :: default ()) } , Self :: Gpt3_5Turbo16k0613 => { CreateThreadAndRunRequestWithoutStreamModel :: Gpt3_5Turbo16k0613 (Default :: default ()) } } . serialize (serializer)
+    }
+}
+#[derive(Clone, Debug, Default, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
+pub struct CreateThreadAndRunRequestWithoutStreamToolResourcesCodeInterpreter {
+    #[doc = "A list of [file](https://platform.openai.com/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.\n"]
+    #[serde(rename = "file_ids")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub file_ids: Option<Vec<String>>,
+}
+#[derive(Clone, Debug, Default, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
+pub struct CreateThreadAndRunRequestWithoutStreamToolResourcesFileSearch {
+    #[doc = "The ID of the [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object) attached to this assistant. There can be a maximum of 1 vector store attached to the assistant.\n"]
+    #[serde(rename = "vector_store_ids")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub vector_store_ids: Option<Vec<String>>,
+}
+#[doc = "A set of resources that are used by the assistant's tools. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.\n"]
+#[derive(Clone, Debug, Default, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
+pub struct CreateThreadAndRunRequestWithoutStreamToolResources {
+    #[serde(rename = "code_interpreter")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub code_interpreter:
+        Option<crate::__types::CreateThreadAndRunRequestWithoutStreamToolResourcesCodeInterpreter>,
+    #[serde(rename = "file_search")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub file_search:
+        Option<crate::__types::CreateThreadAndRunRequestWithoutStreamToolResourcesFileSearch>,
+}
+#[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
+pub struct CreateThreadAndRunRequestWithoutStream {
+    #[doc = "The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) to use to execute this run."]
+    #[serde(rename = "assistant_id")]
+    pub assistant_id: String,
+    #[serde(rename = "thread")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub thread: Option<crate::__types::CreateThreadRequest>,
+    #[doc = "The ID of the [Model](https://platform.openai.com/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used."]
+    #[serde(rename = "model")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub model: Option<crate::__types::CreateThreadAndRunRequestWithoutStreamModel>,
+    #[doc = "Override the default system message of the assistant. This is useful for modifying the behavior on a per-run basis."]
+    #[serde(rename = "instructions")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub instructions: Option<String>,
+    #[doc = "Override the tools the assistant can use for this run. This is useful for modifying the behavior on a per-run basis."]
+    #[serde(rename = "tools")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub tools: Option<Vec<crate::__types::AssistantTool>>,
+    #[doc = "A set of resources that are used by the assistant's tools. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.\n"]
+    #[serde(rename = "tool_resources")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub tool_resources: Option<crate::__types::CreateThreadAndRunRequestWithoutStreamToolResources>,
+    #[serde(rename = "metadata")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub metadata: Option<crate::__types::Metadata>,
+    #[doc = "What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.\n"]
+    #[serde(rename = "temperature")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub temperature: Option<serde_json::Number>,
+    #[doc = "An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.\n\nWe generally recommend altering this or temperature but not both.\n"]
+    #[serde(rename = "top_p")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub top_p: Option<serde_json::Number>,
+    #[doc = "The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.\n"]
+    #[serde(rename = "max_prompt_tokens")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub max_prompt_tokens: Option<i64>,
+    #[doc = "The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.\n"]
+    #[serde(rename = "max_completion_tokens")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub max_completion_tokens: Option<i64>,
+    #[serde(rename = "truncation_strategy")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub truncation_strategy: Option<crate::__types::TruncationObject>,
+    #[serde(rename = "tool_choice")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub tool_choice: Option<crate::__types::AssistantsApiToolChoiceOption>,
+    #[serde(rename = "parallel_tool_calls")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub parallel_tool_calls: Option<crate::__types::ParallelToolCalls>,
+    #[serde(rename = "response_format")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub response_format: Option<crate::__types::AssistantsApiResponseFormatOption>,
+}
+#[doc = "The ID of the [Model](https://platform.openai.com/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used."]
+#[derive(Clone, Debug, PartialEq)]
+#[allow(clippy::large_enum_variant)]
+pub enum CreateRunRequestWithoutStreamModel {
+    Other(String),
+    AssistantSupportedModels(crate::__types::AssistantSupportedModels),
+}
+impl<'de> serde::Deserialize<'de> for CreateRunRequestWithoutStreamModel {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Deserialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
+        enum CreateRunRequestWithoutStreamModel {
+            AssistantSupportedModels(crate::__types::AssistantSupportedModels),
+            Other(String),
+        }
+        Ok(
+            match CreateRunRequestWithoutStreamModel::deserialize(deserializer)? {
+                CreateRunRequestWithoutStreamModel::Other(v) => Self::Other(v),
+                CreateRunRequestWithoutStreamModel::AssistantSupportedModels(v) => {
+                    Self::AssistantSupportedModels(v)
+                }
+            },
+        )
+    }
+}
+impl serde::Serialize for CreateRunRequestWithoutStreamModel {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[serde_with::serde_as]
+        #[derive(serde :: Serialize)]
+        #[serde(untagged)]
+        #[allow(clippy::enum_variant_names)]
+        enum CreateRunRequestWithoutStreamModel<'a> {
+            Other(&'a String),
+            AssistantSupportedModels(&'a crate::__types::AssistantSupportedModels),
+        }
+        match self {
+            Self::Other(v) => CreateRunRequestWithoutStreamModel::Other(v),
+            Self::AssistantSupportedModels(v) => {
+                CreateRunRequestWithoutStreamModel::AssistantSupportedModels(v)
+            }
+        }
+        .serialize(serializer)
+    }
+}
+#[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
+pub struct CreateRunRequestWithoutStream {
+    #[doc = "The ID of the [assistant](https://platform.openai.com/docs/api-reference/assistants) to use to execute this run."]
+    #[serde(rename = "assistant_id")]
+    pub assistant_id: String,
+    #[doc = "The ID of the [Model](https://platform.openai.com/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used."]
+    #[serde(rename = "model")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub model: Option<crate::__types::CreateRunRequestWithoutStreamModel>,
+    #[serde(rename = "reasoning_effort")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub reasoning_effort: Option<crate::__types::ReasoningEffort>,
+    #[doc = "Overrides the [instructions](https://platform.openai.com/docs/api-reference/assistants/createAssistant) of the assistant. This is useful for modifying the behavior on a per-run basis."]
+    #[serde(rename = "instructions")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub instructions: Option<String>,
+    #[doc = "Appends additional instructions at the end of the instructions for the run. This is useful for modifying the behavior on a per-run basis without overriding other instructions."]
+    #[serde(rename = "additional_instructions")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub additional_instructions: Option<String>,
+    #[doc = "Adds additional messages to the thread before creating the run."]
+    #[serde(rename = "additional_messages")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub additional_messages: Option<Vec<crate::__types::CreateMessageRequest>>,
+    #[doc = "Override the tools the assistant can use for this run. This is useful for modifying the behavior on a per-run basis."]
+    #[serde(rename = "tools")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub tools: Option<Vec<crate::__types::AssistantTool>>,
+    #[serde(rename = "metadata")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub metadata: Option<crate::__types::Metadata>,
+    #[doc = "What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.\n"]
+    #[serde(rename = "temperature")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub temperature: Option<serde_json::Number>,
+    #[doc = "An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.\n\nWe generally recommend altering this or temperature but not both.\n"]
+    #[serde(rename = "top_p")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub top_p: Option<serde_json::Number>,
+    #[doc = "The maximum number of prompt tokens that may be used over the course of the run. The run will make a best effort to use only the number of prompt tokens specified, across multiple turns of the run. If the run exceeds the number of prompt tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.\n"]
+    #[serde(rename = "max_prompt_tokens")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub max_prompt_tokens: Option<i64>,
+    #[doc = "The maximum number of completion tokens that may be used over the course of the run. The run will make a best effort to use only the number of completion tokens specified, across multiple turns of the run. If the run exceeds the number of completion tokens specified, the run will end with status `incomplete`. See `incomplete_details` for more info.\n"]
+    #[serde(rename = "max_completion_tokens")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub max_completion_tokens: Option<i64>,
+    #[serde(rename = "truncation_strategy")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub truncation_strategy: Option<crate::__types::TruncationObject>,
+    #[serde(rename = "tool_choice")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub tool_choice: Option<crate::__types::AssistantsApiToolChoiceOption>,
+    #[serde(rename = "parallel_tool_calls")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub parallel_tool_calls: Option<crate::__types::ParallelToolCalls>,
+    #[serde(rename = "response_format")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub response_format: Option<crate::__types::AssistantsApiResponseFormatOption>,
+}
+#[derive(Clone, Debug, Default, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
+pub struct SubmitToolOutputsRunRequestWithoutStreamToolOutputsItem {
+    #[doc = "The ID of the tool call in the `required_action` object within the run object the output is being submitted for."]
+    #[serde(rename = "tool_call_id")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub tool_call_id: Option<String>,
+    #[doc = "The output of the tool call to be submitted to continue the run."]
+    #[serde(rename = "output")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub output: Option<String>,
+}
+#[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
+pub struct SubmitToolOutputsRunRequestWithoutStream {
+    #[doc = "A list of tools for which the outputs are being submitted."]
+    #[serde(rename = "tool_outputs")]
+    pub tool_outputs: Vec<crate::__types::SubmitToolOutputsRunRequestWithoutStreamToolOutputsItem>,
+}
+#[doc = "The status of the run, which can be either `queued`, `in_progress`, `requires_action`, `cancelling`, `cancelled`, `failed`, `completed`, `incomplete`, or `expired`."]
+#[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
+pub enum RunStatus {
+    #[doc = "`queued`"]
+    #[serde(rename = "queued")]
+    Queued,
+    #[doc = "`in_progress`"]
+    #[serde(rename = "in_progress")]
+    InProgress,
+    #[doc = "`requires_action`"]
+    #[serde(rename = "requires_action")]
+    RequiresAction,
+    #[doc = "`cancelling`"]
+    #[serde(rename = "cancelling")]
+    Cancelling,
+    #[doc = "`cancelled`"]
+    #[serde(rename = "cancelled")]
+    Cancelled,
+    #[doc = "`failed`"]
+    #[serde(rename = "failed")]
+    Failed,
+    #[doc = "`completed`"]
+    #[serde(rename = "completed")]
+    Completed,
+    #[doc = "`incomplete`"]
+    #[serde(rename = "incomplete")]
+    Incomplete,
+    #[doc = "`expired`"]
+    #[serde(rename = "expired")]
+    Expired,
+}
+#[doc = "The details of the run step."]
+#[derive(Clone, Debug, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize)]
+#[serde(untagged)]
+#[allow(clippy::large_enum_variant)]
+pub enum RunStepDeltaObjectDeltaStepDetails {
+    MessageCreation(crate::__types::RunStepDeltaStepDetailsMessageCreationObject),
+    ToolCalls(crate::__types::RunStepDeltaStepDetailsToolCallsObject),
+}
+#[doc = "The delta containing the fields that have changed on the run step."]
+#[derive(Clone, Debug, Default, PartialEq)]
+#[serde_with::serde_as]
+#[derive(serde :: Deserialize, serde :: Serialize, typed_builder :: TypedBuilder)]
+pub struct RunStepDeltaObjectDelta {
+    #[doc = "The details of the run step."]
+    #[serde(rename = "step_details")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub step_details: Option<crate::__types::RunStepDeltaObjectDeltaStepDetails>,
+}
 #[doc = "Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc` for descending order.\n"]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
 pub enum ListAssistantsParamsOrder {
@@ -46284,6 +50543,10 @@ pub struct CreateBatchRequest {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub metadata: Option<crate::__types::Metadata>,
+    #[serde(rename = "output_expires_after")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub output_expires_after: Option<crate::__types::BatchFileExpirationAfter>,
 }
 #[derive(Clone, Debug, Default, PartialEq)]
 #[serde_with::serde_as]
@@ -47214,7 +51477,7 @@ pub struct ListOrganizationCertificatesParams {
     pub order: Option<crate::__types::ListOrganizationCertificatesParamsOrder>,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum GetCertificateParamsInclude {
+pub enum GetCertificateParamsIncludeItem {
     #[doc = "`content`"]
     #[serde(rename = "content")]
     Content,
@@ -47230,7 +51493,7 @@ pub struct GetCertificateParams {
     #[serde(rename = "include")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub include: Option<Vec<crate::__types::GetCertificateParamsInclude>>,
+    pub include: Option<Vec<crate::__types::GetCertificateParamsIncludeItem>>,
 }
 #[doc = "Width of each time bucket in response. Currently only `1d` is supported, default to `1d`."]
 #[derive(Clone, Copy, Debug, Default, PartialEq, serde :: Deserialize, serde :: Serialize)]
@@ -47241,7 +51504,7 @@ pub enum UsageCostsParamsBucketWidth {
     _1d,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum UsageCostsParamsGroupBy {
+pub enum UsageCostsParamsGroupByItem {
     #[doc = "`project_id`"]
     #[serde(rename = "project_id")]
     ProjectId,
@@ -47275,7 +51538,7 @@ pub struct UsageCostsParams {
     #[serde(rename = "group_by")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub group_by: Option<Vec<crate::__types::UsageCostsParamsGroupBy>>,
+    pub group_by: Option<Vec<crate::__types::UsageCostsParamsGroupByItem>>,
     #[doc = "A limit on the number of buckets to be returned. Limit can range between 1 and 180, and the default is 7.\n"]
     #[serde(rename = "limit")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -47608,7 +51871,7 @@ pub enum UsageAudioSpeechesParamsBucketWidth {
     _1d,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum UsageAudioSpeechesParamsGroupBy {
+pub enum UsageAudioSpeechesParamsGroupByItem {
     #[doc = "`project_id`"]
     #[serde(rename = "project_id")]
     ProjectId,
@@ -47663,7 +51926,7 @@ pub struct UsageAudioSpeechesParams {
     #[serde(rename = "group_by")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub group_by: Option<Vec<crate::__types::UsageAudioSpeechesParamsGroupBy>>,
+    pub group_by: Option<Vec<crate::__types::UsageAudioSpeechesParamsGroupByItem>>,
     #[doc = "Specifies the number of buckets to return.\n- `bucket_width=1d`: default: 7, max: 31\n- `bucket_width=1h`: default: 24, max: 168\n- `bucket_width=1m`: default: 60, max: 1440\n"]
     #[serde(rename = "limit")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -47690,7 +51953,7 @@ pub enum UsageAudioTranscriptionsParamsBucketWidth {
     _1d,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum UsageAudioTranscriptionsParamsGroupBy {
+pub enum UsageAudioTranscriptionsParamsGroupByItem {
     #[doc = "`project_id`"]
     #[serde(rename = "project_id")]
     ProjectId,
@@ -47745,7 +52008,7 @@ pub struct UsageAudioTranscriptionsParams {
     #[serde(rename = "group_by")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub group_by: Option<Vec<crate::__types::UsageAudioTranscriptionsParamsGroupBy>>,
+    pub group_by: Option<Vec<crate::__types::UsageAudioTranscriptionsParamsGroupByItem>>,
     #[doc = "Specifies the number of buckets to return.\n- `bucket_width=1d`: default: 7, max: 31\n- `bucket_width=1h`: default: 24, max: 168\n- `bucket_width=1m`: default: 60, max: 1440\n"]
     #[serde(rename = "limit")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -47772,7 +52035,7 @@ pub enum UsageCodeInterpreterSessionsParamsBucketWidth {
     _1d,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum UsageCodeInterpreterSessionsParamsGroupBy {
+pub enum UsageCodeInterpreterSessionsParamsGroupByItem {
     #[doc = "`project_id`"]
     #[serde(rename = "project_id")]
     ProjectId,
@@ -47803,7 +52066,7 @@ pub struct UsageCodeInterpreterSessionsParams {
     #[serde(rename = "group_by")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub group_by: Option<Vec<crate::__types::UsageCodeInterpreterSessionsParamsGroupBy>>,
+    pub group_by: Option<Vec<crate::__types::UsageCodeInterpreterSessionsParamsGroupByItem>>,
     #[doc = "Specifies the number of buckets to return.\n- `bucket_width=1d`: default: 7, max: 31\n- `bucket_width=1h`: default: 24, max: 168\n- `bucket_width=1m`: default: 60, max: 1440\n"]
     #[serde(rename = "limit")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -47830,7 +52093,7 @@ pub enum UsageCompletionsParamsBucketWidth {
     _1d,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum UsageCompletionsParamsGroupBy {
+pub enum UsageCompletionsParamsGroupByItem {
     #[doc = "`project_id`"]
     #[serde(rename = "project_id")]
     ProjectId,
@@ -47893,7 +52156,7 @@ pub struct UsageCompletionsParams {
     #[serde(rename = "group_by")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub group_by: Option<Vec<crate::__types::UsageCompletionsParamsGroupBy>>,
+    pub group_by: Option<Vec<crate::__types::UsageCompletionsParamsGroupByItem>>,
     #[doc = "Specifies the number of buckets to return.\n- `bucket_width=1d`: default: 7, max: 31\n- `bucket_width=1h`: default: 24, max: 168\n- `bucket_width=1m`: default: 60, max: 1440\n"]
     #[serde(rename = "limit")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -47920,7 +52183,7 @@ pub enum UsageEmbeddingsParamsBucketWidth {
     _1d,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum UsageEmbeddingsParamsGroupBy {
+pub enum UsageEmbeddingsParamsGroupByItem {
     #[doc = "`project_id`"]
     #[serde(rename = "project_id")]
     ProjectId,
@@ -47975,7 +52238,7 @@ pub struct UsageEmbeddingsParams {
     #[serde(rename = "group_by")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub group_by: Option<Vec<crate::__types::UsageEmbeddingsParamsGroupBy>>,
+    pub group_by: Option<Vec<crate::__types::UsageEmbeddingsParamsGroupByItem>>,
     #[doc = "Specifies the number of buckets to return.\n- `bucket_width=1d`: default: 7, max: 31\n- `bucket_width=1h`: default: 24, max: 168\n- `bucket_width=1m`: default: 60, max: 1440\n"]
     #[serde(rename = "limit")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -48002,7 +52265,7 @@ pub enum UsageImagesParamsBucketWidth {
     _1d,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum UsageImagesParamsSources {
+pub enum UsageImagesParamsSourcesItem {
     #[doc = "`image.generation`"]
     #[serde(rename = "image.generation")]
     ImageGeneration,
@@ -48014,7 +52277,7 @@ pub enum UsageImagesParamsSources {
     ImageVariation,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum UsageImagesParamsSizes {
+pub enum UsageImagesParamsSizesItem {
     #[doc = "`256x256`"]
     #[serde(rename = "256x256")]
     _256x256,
@@ -48032,7 +52295,7 @@ pub enum UsageImagesParamsSizes {
     _1024x1792,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum UsageImagesParamsGroupBy {
+pub enum UsageImagesParamsGroupByItem {
     #[doc = "`project_id`"]
     #[serde(rename = "project_id")]
     ProjectId,
@@ -48073,12 +52336,12 @@ pub struct UsageImagesParams {
     #[serde(rename = "sources")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub sources: Option<Vec<crate::__types::UsageImagesParamsSources>>,
+    pub sources: Option<Vec<crate::__types::UsageImagesParamsSourcesItem>>,
     #[doc = "Return only usages for these image sizes. Possible values are `256x256`, `512x512`, `1024x1024`, `1792x1792`, `1024x1792` or any combination of them."]
     #[serde(rename = "sizes")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub sizes: Option<Vec<crate::__types::UsageImagesParamsSizes>>,
+    pub sizes: Option<Vec<crate::__types::UsageImagesParamsSizesItem>>,
     #[doc = "Return only usage for these projects."]
     #[serde(rename = "project_ids")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -48103,7 +52366,7 @@ pub struct UsageImagesParams {
     #[serde(rename = "group_by")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub group_by: Option<Vec<crate::__types::UsageImagesParamsGroupBy>>,
+    pub group_by: Option<Vec<crate::__types::UsageImagesParamsGroupByItem>>,
     #[doc = "Specifies the number of buckets to return.\n- `bucket_width=1d`: default: 7, max: 31\n- `bucket_width=1h`: default: 24, max: 168\n- `bucket_width=1m`: default: 60, max: 1440\n"]
     #[serde(rename = "limit")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -48130,7 +52393,7 @@ pub enum UsageModerationsParamsBucketWidth {
     _1d,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum UsageModerationsParamsGroupBy {
+pub enum UsageModerationsParamsGroupByItem {
     #[doc = "`project_id`"]
     #[serde(rename = "project_id")]
     ProjectId,
@@ -48185,7 +52448,7 @@ pub struct UsageModerationsParams {
     #[serde(rename = "group_by")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub group_by: Option<Vec<crate::__types::UsageModerationsParamsGroupBy>>,
+    pub group_by: Option<Vec<crate::__types::UsageModerationsParamsGroupByItem>>,
     #[doc = "Specifies the number of buckets to return.\n- `bucket_width=1d`: default: 7, max: 31\n- `bucket_width=1h`: default: 24, max: 168\n- `bucket_width=1m`: default: 60, max: 1440\n"]
     #[serde(rename = "limit")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -48212,7 +52475,7 @@ pub enum UsageVectorStoresParamsBucketWidth {
     _1d,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum UsageVectorStoresParamsGroupBy {
+pub enum UsageVectorStoresParamsGroupByItem {
     #[doc = "`project_id`"]
     #[serde(rename = "project_id")]
     ProjectId,
@@ -48243,7 +52506,7 @@ pub struct UsageVectorStoresParams {
     #[serde(rename = "group_by")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub group_by: Option<Vec<crate::__types::UsageVectorStoresParamsGroupBy>>,
+    pub group_by: Option<Vec<crate::__types::UsageVectorStoresParamsGroupByItem>>,
     #[doc = "Specifies the number of buckets to return.\n- `bucket_width=1d`: default: 7, max: 31\n- `bucket_width=1h`: default: 24, max: 168\n- `bucket_width=1m`: default: 60, max: 1440\n"]
     #[serde(rename = "limit")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -48321,6 +52584,11 @@ pub struct GetResponseParams {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     pub starting_after: Option<i64>,
+    #[doc = "When true, stream obfuscation will be enabled. Stream obfuscation adds\nrandom characters to an `obfuscation` field on streaming delta events\nto normalize payload sizes as a mitigation to certain side-channel\nattacks. These obfuscation fields are included by default, but add a\nsmall amount of overhead to the data stream. You can set\n`include_obfuscation` to false to optimize for bandwidth if you trust\nthe network links between your application and the OpenAI API.\n"]
+    #[serde(rename = "include_obfuscation")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default)]
+    pub include_obfuscation: Option<bool>,
 }
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
@@ -48530,7 +52798,7 @@ pub struct ListRunsParams {
     pub before: Option<String>,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum CreateRunParamsInclude {
+pub enum CreateRunParamsIncludeItem {
     #[doc = "`step_details.tool_calls[*].file_search.results[*].content`"]
     #[serde(rename = "step_details.tool_calls[*].file_search.results[*].content")]
     StepDetailsToolCallsFileSearchResultsContent,
@@ -48546,7 +52814,7 @@ pub struct CreateRunParams {
     #[serde(rename = "include[]")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub include: Option<Vec<crate::__types::CreateRunParamsInclude>>,
+    pub include: Option<Vec<crate::__types::CreateRunParamsIncludeItem>>,
 }
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]
@@ -48593,7 +52861,7 @@ pub enum ListRunStepsParamsOrder {
     Desc,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum ListRunStepsParamsInclude {
+pub enum ListRunStepsParamsIncludeItem {
     #[doc = "`step_details.tool_calls[*].file_search.results[*].content`"]
     #[serde(rename = "step_details.tool_calls[*].file_search.results[*].content")]
     StepDetailsToolCallsFileSearchResultsContent,
@@ -48632,10 +52900,10 @@ pub struct ListRunStepsParams {
     #[serde(rename = "include[]")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub include: Option<Vec<crate::__types::ListRunStepsParamsInclude>>,
+    pub include: Option<Vec<crate::__types::ListRunStepsParamsIncludeItem>>,
 }
 #[derive(Clone, Copy, Debug, PartialEq, serde :: Deserialize, serde :: Serialize)]
-pub enum GetRunStepParamsInclude {
+pub enum GetRunStepParamsIncludeItem {
     #[doc = "`step_details.tool_calls[*].file_search.results[*].content`"]
     #[serde(rename = "step_details.tool_calls[*].file_search.results[*].content")]
     StepDetailsToolCallsFileSearchResultsContent,
@@ -48657,7 +52925,7 @@ pub struct GetRunStepParams {
     #[serde(rename = "include[]")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
-    pub include: Option<Vec<crate::__types::GetRunStepParamsInclude>>,
+    pub include: Option<Vec<crate::__types::GetRunStepParamsIncludeItem>>,
 }
 #[derive(Clone, Debug, PartialEq)]
 #[serde_with::serde_as]

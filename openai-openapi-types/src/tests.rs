@@ -15,7 +15,7 @@ fn test_create_chat_completion_request_default() {
         ],
     });
     let b = crate::CreateChatCompletionRequest::builder()
-        .model(crate::ModelIdsShared::Gpt4_1)
+        .model(crate::ModelIdsShared::ChatModel(crate::ChatModel::Gpt4_1))
         .messages(vec![
             crate::ChatCompletionRequestMessage::Developer(
                 crate::ChatCompletionRequestDeveloperMessage::builder()
@@ -80,7 +80,7 @@ fn test_create_chat_completion_response_default() {
         .created(1741569952)
         .model("gpt-4.1-2025-04-14".to_owned())
         .choices(vec![
-            crate::CreateChatCompletionResponseChoice::builder()
+            crate::CreateChatCompletionResponseChoicesItem::builder()
                 .index(0)
                 .message(
                     crate::ChatCompletionResponseMessage::builder()
@@ -88,7 +88,7 @@ fn test_create_chat_completion_response_default() {
                         .annotations(Some(Vec::new()))
                         .build(),
                 )
-                .finish_reason(crate::CreateChatCompletionResponseChoiceFinishReason::Stop)
+                .finish_reason(crate::CreateChatCompletionResponseChoicesItemFinishReason::Stop)
                 .build(),
         ])
         .usage(Some(
@@ -143,9 +143,9 @@ fn test_response_stream_event_stream() {
             // "store": true,
             "temperature": 1.0,
             "text": {
-                "format": {
-                    "type": "text",
-                },
+                // "format": {
+                //     "type": "text",
+                // },
             },
             "tool_choice": "auto",
             "tools": [],
@@ -168,19 +168,13 @@ fn test_response_stream_event_stream() {
                         "You are a helpful assistant.".to_owned(),
                     )))
                     .model(crate::ModelIdsResponses::ModelIdsShared(
-                        crate::ModelIdsShared::Gpt4_1_2025_04_14,
+                        crate::ModelIdsShared::ChatModel(crate::ChatModel::Gpt4_1_2025_04_14),
                     ))
                     .output(Vec::new())
                     .parallel_tool_calls(true)
                     .reasoning(Some(crate::Reasoning::default()))
                     .temperature(Some(serde_json::Number::from_f64(1.).unwrap()))
-                    .text(Some(
-                        crate::ResponsePropertiesText::builder()
-                            .format(Some(crate::TextResponseFormatConfiguration::Text(
-                                crate::ResponseFormatText::default(),
-                            )))
-                            .build(),
-                    ))
+                    .text(Some(crate::ModelResponsePropertiesText::builder().build()))
                     .tool_choice(crate::ResponsePropertiesToolChoice::ToolChoiceOptions(
                         crate::ToolChoiceOptions::Auto,
                     ))

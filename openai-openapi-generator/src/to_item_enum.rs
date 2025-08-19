@@ -371,20 +371,17 @@ fn variant_names(variants: &[(&Schema, bool)], schemas: &IndexMap<String, Schema
         }
     }
 
-    if let Some((key, count)) = key {
-        if count > 1
-            && count
-                == variants
-                    .iter()
-                    .filter(|(variant, _)| {
-                        matches!(variant.type_, Type::Ref(_) | Type::Struct { .. })
-                    })
-                    .count()
-        {
-            for (name, tags) in names.iter_mut().zip(&tags) {
-                if let Some(tag) = tags.get(key) {
-                    name.push((*tag).to_owned());
-                }
+    if let Some((key, count)) = key
+        && count > 1
+        && count
+            == variants
+                .iter()
+                .filter(|(variant, _)| matches!(variant.type_, Type::Ref(_) | Type::Struct { .. }))
+                .count()
+    {
+        for (name, tags) in names.iter_mut().zip(&tags) {
+            if let Some(tag) = tags.get(key) {
+                name.push((*tag).to_owned());
             }
         }
     }

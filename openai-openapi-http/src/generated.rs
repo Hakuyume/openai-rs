@@ -1,4 +1,4 @@
-#[doc = "Returns a list of assistants."]
+#[doc = "List assistants"]
 pub fn list_assistants<C, Fut, B, E>(
     client: C,
     params: &crate::__types::ListAssistantsParams,
@@ -78,7 +78,7 @@ future!(
     >,
     crate::__types::ListAssistantsResponse
 );
-#[doc = "Create an assistant with a model and instructions."]
+#[doc = "Create assistant"]
 pub fn create_assistant<C, Fut, B, E>(
     client: C,
     request: &crate::__types::CreateAssistantRequest,
@@ -118,7 +118,7 @@ future!(
     >,
     crate::__types::AssistantObject
 );
-#[doc = "Retrieves an assistant."]
+#[doc = "Retrieve assistant"]
 pub fn get_assistant<C, Fut, B, E>(
     client: C,
     params: &crate::__types::GetAssistantParams,
@@ -175,7 +175,7 @@ future!(
     >,
     crate::__types::AssistantObject
 );
-#[doc = "Modifies an assistant."]
+#[doc = "Modify assistant"]
 pub fn modify_assistant<C, Fut, B, E>(
     client: C,
     params: &crate::__types::ModifyAssistantParams,
@@ -234,7 +234,7 @@ future!(
     >,
     crate::__types::AssistantObject
 );
-#[doc = "Delete an assistant."]
+#[doc = "Delete assistant"]
 pub fn delete_assistant<C, Fut, B, E>(
     client: C,
     params: &crate::__types::DeleteAssistantParams,
@@ -293,7 +293,7 @@ future!(
     >,
     crate::__types::DeleteAssistantResponse
 );
-#[doc = "Generates audio from the input text."]
+#[doc = "Create speech"]
 pub fn create_speech_stream<C, Fut, B, E>(
     client: C,
     request: &crate::__types::CreateSpeechRequest,
@@ -325,7 +325,7 @@ where
     ))
 }
 future ! (CreateSpeechStream , futures :: future :: MapOk < crate :: __combinators :: Send < Fut , B , E > , fn (http :: Response < B >) -> crate :: __combinators :: EventStream < B , crate :: __types :: CreateSpeechResponseStreamEvent > , > , crate :: __combinators :: EventStream < B , crate :: __types :: CreateSpeechResponseStreamEvent >);
-#[doc = "Creates and executes a batch from an uploaded file of requests"]
+#[doc = "Create batch"]
 pub fn create_batch<C, Fut, B, E>(
     client: C,
     request: &crate::__types::CreateBatchRequest,
@@ -365,7 +365,7 @@ future!(
     >,
     crate::__types::Batch
 );
-#[doc = "List your organization's batches."]
+#[doc = "List batch"]
 pub fn list_batches<C, Fut, B, E>(
     client: C,
     params: &crate::__types::ListBatchesParams,
@@ -432,7 +432,7 @@ future!(
     >,
     crate::__types::ListBatchesResponse
 );
-#[doc = "Retrieves a batch."]
+#[doc = "Retrieve batch"]
 pub fn retrieve_batch<C, Fut, B, E>(
     client: C,
     params: &crate::__types::RetrieveBatchParams,
@@ -489,7 +489,7 @@ future!(
     >,
     crate::__types::Batch
 );
-#[doc = "Cancels an in-progress batch. The batch will be in status `cancelling` for up to 10 minutes, before changing to `cancelled`, where it will have partial results (if any) available in the output file."]
+#[doc = "Cancel batch"]
 pub fn cancel_batch<C, Fut, B, E>(
     client: C,
     params: &crate::__types::CancelBatchParams,
@@ -546,7 +546,7 @@ future!(
     >,
     crate::__types::Batch
 );
-#[doc = "List stored Chat Completions. Only Chat Completions that have been stored\nwith the `store` parameter set to `true` will be returned.\n"]
+#[doc = "List Chat Completions"]
 pub fn list_chat_completions<C, Fut, B, E>(
     client: C,
     params: &crate::__types::ListChatCompletionsParams,
@@ -631,7 +631,7 @@ future!(
     >,
     crate::__types::ChatCompletionList
 );
-#[doc = "**Starting a new project?** We recommend trying [Responses](https://platform.openai.com/docs/api-reference/responses) \nto take advantage of the latest OpenAI platform features. Compare\n[Chat Completions with Responses](https://platform.openai.com/docs/guides/responses-vs-chat-completions?api-mode=responses).\n\n---\n\nCreates a model response for the given chat conversation. Learn more in the\n[text generation](https://platform.openai.com/docs/guides/text-generation), [vision](https://platform.openai.com/docs/guides/vision),\nand [audio](https://platform.openai.com/docs/guides/audio) guides.\n\nParameter support can differ depending on the model used to generate the\nresponse, particularly for newer reasoning models. Parameters that are only\nsupported for reasoning models are noted below. For the current state of \nunsupported parameters in reasoning models, \n[refer to the reasoning guide](https://platform.openai.com/docs/guides/reasoning).\n"]
+#[doc = "Create chat completion"]
 pub fn create_chat_completion<C, Fut, B, E>(
     client: C,
     request: &crate::__types::CreateChatCompletionRequest,
@@ -674,7 +674,7 @@ future!(
     >,
     crate::__types::CreateChatCompletionResponse
 );
-#[doc = "**Starting a new project?** We recommend trying [Responses](https://platform.openai.com/docs/api-reference/responses) \nto take advantage of the latest OpenAI platform features. Compare\n[Chat Completions with Responses](https://platform.openai.com/docs/guides/responses-vs-chat-completions?api-mode=responses).\n\n---\n\nCreates a model response for the given chat conversation. Learn more in the\n[text generation](https://platform.openai.com/docs/guides/text-generation), [vision](https://platform.openai.com/docs/guides/vision),\nand [audio](https://platform.openai.com/docs/guides/audio) guides.\n\nParameter support can differ depending on the model used to generate the\nresponse, particularly for newer reasoning models. Parameters that are only\nsupported for reasoning models are noted below. For the current state of \nunsupported parameters in reasoning models, \n[refer to the reasoning guide](https://platform.openai.com/docs/guides/reasoning).\n"]
+#[doc = "Create chat completion"]
 pub fn create_chat_completion_stream<C, Fut, B, E>(
     client: C,
     request: &crate::__types::CreateChatCompletionRequest,
@@ -706,7 +706,7 @@ where
     ))
 }
 future ! (CreateChatCompletionStream , futures :: future :: MapOk < crate :: __combinators :: Send < Fut , B , E > , fn (http :: Response < B >) -> crate :: __combinators :: EventStream < B , crate :: __types :: CreateChatCompletionStreamResponse > , > , crate :: __combinators :: EventStream < B , crate :: __types :: CreateChatCompletionStreamResponse >);
-#[doc = "Get a stored chat completion. Only Chat Completions that have been created\nwith the `store` parameter set to `true` will be returned.\n"]
+#[doc = "Get chat completion"]
 pub fn get_chat_completion<C, Fut, B, E>(
     client: C,
     params: &crate::__types::GetChatCompletionParams,
@@ -766,7 +766,7 @@ future!(
     >,
     crate::__types::CreateChatCompletionResponse
 );
-#[doc = "Modify a stored chat completion. Only Chat Completions that have been\ncreated with the `store` parameter set to `true` can be modified. Currently,\nthe only supported modification is to update the `metadata` field.\n"]
+#[doc = "Update chat completion"]
 pub fn update_chat_completion<C, Fut, B, E>(
     client: C,
     params: &crate::__types::UpdateChatCompletionParams,
@@ -828,7 +828,7 @@ future!(
     >,
     crate::__types::CreateChatCompletionResponse
 );
-#[doc = "Delete a stored chat completion. Only Chat Completions that have been\ncreated with the `store` parameter set to `true` can be deleted.\n"]
+#[doc = "Delete chat completion"]
 pub fn delete_chat_completion<C, Fut, B, E>(
     client: C,
     params: &crate::__types::DeleteChatCompletionParams,
@@ -887,7 +887,7 @@ future!(
     >,
     crate::__types::ChatCompletionDeleted
 );
-#[doc = "Get the messages in a stored chat completion. Only Chat Completions that\nhave been created with the `store` parameter set to `true` will be\nreturned.\n"]
+#[doc = "Get chat messages"]
 pub fn get_chat_completion_messages<C, Fut, B, E>(
     client: C,
     params: &crate::__types::GetChatCompletionMessagesParams,
@@ -963,7 +963,7 @@ future!(
     >,
     crate::__types::ChatCompletionMessageList
 );
-#[doc = "Creates a completion for the provided prompt and parameters."]
+#[doc = "Create completion"]
 pub fn create_completion<C, Fut, B, E>(
     client: C,
     request: &crate::__types::CreateCompletionRequest,
@@ -1005,7 +1005,7 @@ future!(
     >,
     crate::__types::CreateCompletionResponse
 );
-#[doc = "List Containers"]
+#[doc = "List containers"]
 pub fn list_containers<C, Fut, B, E>(
     client: C,
     params: &crate::__types::ListContainersParams,
@@ -1080,7 +1080,7 @@ future!(
     >,
     crate::__types::ContainerListResource
 );
-#[doc = "Retrieve Container"]
+#[doc = "Retrieve container"]
 pub fn retrieve_container<C, Fut, B, E>(
     client: C,
     params: &crate::__types::RetrieveContainerParams,
@@ -1139,7 +1139,7 @@ future!(
     >,
     crate::__types::ContainerResource
 );
-#[doc = "Delete Container"]
+#[doc = "Delete a container"]
 pub fn delete_container<C, Fut, B, E>(
     client: C,
     params: &crate::__types::DeleteContainerParams,
@@ -1189,7 +1189,7 @@ future!(
     futures::future::MapOk<crate::__combinators::Send<Fut, B, E>, fn(http::Response<B>) -> ()>,
     ()
 );
-#[doc = "List Container files"]
+#[doc = "List container files"]
 pub fn list_container_files<C, Fut, B, E>(
     client: C,
     params: &crate::__types::ListContainerFilesParams,
@@ -1265,7 +1265,7 @@ future!(
     >,
     crate::__types::ContainerFileListResource
 );
-#[doc = "Retrieve Container File"]
+#[doc = "Retrieve container file"]
 pub fn retrieve_container_file<C, Fut, B, E>(
     client: C,
     params: &crate::__types::RetrieveContainerFileParams,
@@ -1327,7 +1327,7 @@ future!(
     >,
     crate::__types::ContainerFileResource
 );
-#[doc = "Delete Container File"]
+#[doc = "Delete a container file"]
 pub fn delete_container_file<C, Fut, B, E>(
     client: C,
     params: &crate::__types::DeleteContainerFileParams,
@@ -1380,7 +1380,7 @@ future!(
     futures::future::MapOk<crate::__combinators::Send<Fut, B, E>, fn(http::Response<B>) -> ()>,
     ()
 );
-#[doc = "Retrieve Container File Content"]
+#[doc = "Retrieve container file content"]
 pub fn retrieve_container_file_content<C, Fut, B, E>(
     client: C,
     params: &crate::__types::RetrieveContainerFileContentParams,
@@ -1433,7 +1433,7 @@ future!(
     futures::future::MapOk<crate::__combinators::Send<Fut, B, E>, fn(http::Response<B>) -> B>,
     B
 );
-#[doc = "Creates an embedding vector representing the input text."]
+#[doc = "Create embeddings"]
 pub fn create_embedding<C, Fut, B, E>(
     client: C,
     request: &crate::__types::CreateEmbeddingRequest,
@@ -1475,7 +1475,7 @@ future!(
     >,
     crate::__types::CreateEmbeddingResponse
 );
-#[doc = "List evaluations for a project.\n"]
+#[doc = "List evals"]
 pub fn list_evals<C, Fut, B, E>(
     client: C,
     params: &crate::__types::ListEvalsParams,
@@ -1553,7 +1553,7 @@ future!(
     >,
     crate::__types::EvalList
 );
-#[doc = "Create the structure of an evaluation that can be used to test a model's performance.\nAn evaluation is a set of testing criteria and the config for a data source, which dictates the schema of the data used in the evaluation. After creating an evaluation, you can run it on different models and model parameters. We support several types of graders and datasources.\nFor more information, see the [Evals guide](https://platform.openai.com/docs/guides/evals).\n"]
+#[doc = "Create eval"]
 pub fn create_eval<C, Fut, B, E>(
     client: C,
     request: &crate::__types::CreateEvalRequest,
@@ -1593,7 +1593,7 @@ future!(
     >,
     crate::__types::Eval
 );
-#[doc = "Get an evaluation by ID.\n"]
+#[doc = "Get an eval"]
 pub fn get_eval<C, Fut, B, E>(
     client: C,
     params: &crate::__types::GetEvalParams,
@@ -1650,7 +1650,7 @@ future!(
     >,
     crate::__types::Eval
 );
-#[doc = "Update certain properties of an evaluation.\n"]
+#[doc = "Update an eval"]
 pub fn update_eval<C, Fut, B, E>(
     client: C,
     params: &crate::__types::UpdateEvalParams,
@@ -1709,7 +1709,7 @@ future!(
     >,
     crate::__types::Eval
 );
-#[doc = "Delete an evaluation.\n"]
+#[doc = "Delete an eval"]
 pub fn delete_eval<C, Fut, B, E>(
     client: C,
     params: &crate::__types::DeleteEvalParams,
@@ -1768,7 +1768,7 @@ future!(
     >,
     crate::__types::DeleteEvalResponse
 );
-#[doc = "Get a list of runs for an evaluation.\n"]
+#[doc = "Get eval runs"]
 pub fn get_eval_runs<C, Fut, B, E>(
     client: C,
     params: &crate::__types::GetEvalRunsParams,
@@ -1847,7 +1847,7 @@ future!(
     >,
     crate::__types::EvalRunList
 );
-#[doc = "Kicks off a new run for a given evaluation, specifying the data source, and what model configuration to use to test. The datasource will be validated against the schema specified in the config of the evaluation.\n"]
+#[doc = "Create eval run"]
 pub fn create_eval_run<C, Fut, B, E>(
     client: C,
     params: &crate::__types::CreateEvalRunParams,
@@ -1906,7 +1906,7 @@ future!(
     >,
     crate::__types::EvalRun
 );
-#[doc = "Get an evaluation run by ID.\n"]
+#[doc = "Get an eval run"]
 pub fn get_eval_run<C, Fut, B, E>(
     client: C,
     params: &crate::__types::GetEvalRunParams,
@@ -1963,7 +1963,7 @@ future!(
     >,
     crate::__types::EvalRun
 );
-#[doc = "Cancel an ongoing evaluation run.\n"]
+#[doc = "Cancel eval run"]
 pub fn cancel_eval_run<C, Fut, B, E>(
     client: C,
     params: &crate::__types::CancelEvalRunParams,
@@ -2020,7 +2020,7 @@ future!(
     >,
     crate::__types::EvalRun
 );
-#[doc = "Delete an eval run.\n"]
+#[doc = "Delete eval run"]
 pub fn delete_eval_run<C, Fut, B, E>(
     client: C,
     params: &crate::__types::DeleteEvalRunParams,
@@ -2079,7 +2079,7 @@ future!(
     >,
     crate::__types::DeleteEvalRunResponse
 );
-#[doc = "Get a list of output items for an evaluation run.\n"]
+#[doc = "Get eval run output items"]
 pub fn get_eval_run_output_items<C, Fut, B, E>(
     client: C,
     params: &crate::__types::GetEvalRunOutputItemsParams,
@@ -2161,7 +2161,7 @@ future!(
     >,
     crate::__types::EvalRunOutputItemList
 );
-#[doc = "Get an evaluation run output item by ID.\n"]
+#[doc = "Get an output item of an eval run"]
 pub fn get_eval_run_output_item<C, Fut, B, E>(
     client: C,
     params: &crate::__types::GetEvalRunOutputItemParams,
@@ -2225,7 +2225,7 @@ future!(
     >,
     crate::__types::EvalRunOutputItem
 );
-#[doc = "Returns a list of files."]
+#[doc = "List files"]
 pub fn list_files<C, Fut, B, E>(
     client: C,
     params: &crate::__types::ListFilesParams,
@@ -2305,7 +2305,7 @@ future!(
     >,
     crate::__types::ListFilesResponse
 );
-#[doc = "Delete a file."]
+#[doc = "Delete file"]
 pub fn delete_file<C, Fut, B, E>(
     client: C,
     params: &crate::__types::DeleteFileParams,
@@ -2364,7 +2364,7 @@ future!(
     >,
     crate::__types::DeleteFileResponse
 );
-#[doc = "Returns information about a specific file."]
+#[doc = "Retrieve file"]
 pub fn retrieve_file<C, Fut, B, E>(
     client: C,
     params: &crate::__types::RetrieveFileParams,
@@ -2421,7 +2421,7 @@ future!(
     >,
     crate::__types::OpenAiFile
 );
-#[doc = "Returns the contents of the specified file."]
+#[doc = "Retrieve file content"]
 pub fn download_file<C, Fut, B, E>(
     client: C,
     params: &crate::__types::DownloadFileParams,
@@ -2478,7 +2478,7 @@ future!(
     >,
     String
 );
-#[doc = "Run a grader.\n"]
+#[doc = "Run grader"]
 pub fn run_grader<C, Fut, B, E>(
     client: C,
     request: &crate::__types::RunGraderRequest,
@@ -2520,7 +2520,7 @@ future!(
     >,
     crate::__types::RunGraderResponse
 );
-#[doc = "Validate a grader.\n"]
+#[doc = "Validate grader"]
 pub fn validate_grader<C, Fut, B, E>(
     client: C,
     request: &crate::__types::ValidateGraderRequest,
@@ -2562,7 +2562,7 @@ future!(
     >,
     crate::__types::ValidateGraderResponse
 );
-#[doc = "**NOTE:** This endpoint requires an [admin API key](../admin-api-keys).\n\nOrganization owners can use this endpoint to view all permissions for a fine-tuned model checkpoint.\n"]
+#[doc = "List checkpoint permissions"]
 pub fn list_fine_tuning_checkpoint_permissions<C, Fut, B, E>(
     client: C,
     params: &crate::__types::ListFineTuningCheckpointPermissionsParams,
@@ -2655,7 +2655,7 @@ future!(
     >,
     crate::__types::ListFineTuningCheckpointPermissionResponse
 );
-#[doc = "**NOTE:** Calling this endpoint requires an [admin API key](../admin-api-keys).\n\nThis enables organization owners to share fine-tuned models with other projects in their organization.\n"]
+#[doc = "Create checkpoint permissions"]
 pub fn create_fine_tuning_checkpoint_permission<C, Fut, B, E>(
     client: C,
     params: &crate::__types::CreateFineTuningCheckpointPermissionParams,
@@ -2728,7 +2728,7 @@ future!(
     >,
     crate::__types::ListFineTuningCheckpointPermissionResponse
 );
-#[doc = "**NOTE:** This endpoint requires an [admin API key](../admin-api-keys).\n\nOrganization owners can use this endpoint to delete a permission for a fine-tuned model checkpoint.\n"]
+#[doc = "Delete checkpoint permission"]
 pub fn delete_fine_tuning_checkpoint_permission<C, Fut, B, E>(
     client: C,
     params: &crate::__types::DeleteFineTuningCheckpointPermissionParams,
@@ -2800,7 +2800,7 @@ future!(
     >,
     crate::__types::DeleteFineTuningCheckpointPermissionResponse
 );
-#[doc = "Creates a fine-tuning job which begins the process of creating a new model from a given dataset.\n\nResponse includes details of the enqueued job including job status and the name of the fine-tuned models once complete.\n\n[Learn more about fine-tuning](https://platform.openai.com/docs/guides/model-optimization)\n"]
+#[doc = "Create fine-tuning job"]
 pub fn create_fine_tuning_job<C, Fut, B, E>(
     client: C,
     request: &crate::__types::CreateFineTuningJobRequest,
@@ -2840,7 +2840,7 @@ future!(
     >,
     crate::__types::FineTuningJob
 );
-#[doc = "List your organization's fine-tuning jobs\n"]
+#[doc = "List fine-tuning jobs"]
 pub fn list_paginated_fine_tuning_jobs<C, Fut, B, E>(
     client: C,
     params: &crate::__types::ListPaginatedFineTuningJobsParams,
@@ -2916,7 +2916,7 @@ future!(
     >,
     crate::__types::ListPaginatedFineTuningJobsResponse
 );
-#[doc = "Get info about a fine-tuning job.\n\n[Learn more about fine-tuning](https://platform.openai.com/docs/guides/model-optimization)\n"]
+#[doc = "Retrieve fine-tuning job"]
 pub fn retrieve_fine_tuning_job<C, Fut, B, E>(
     client: C,
     params: &crate::__types::RetrieveFineTuningJobParams,
@@ -2973,7 +2973,7 @@ future!(
     >,
     crate::__types::FineTuningJob
 );
-#[doc = "Immediately cancel a fine-tune job.\n"]
+#[doc = "Cancel fine-tuning"]
 pub fn cancel_fine_tuning_job<C, Fut, B, E>(
     client: C,
     params: &crate::__types::CancelFineTuningJobParams,
@@ -3030,7 +3030,7 @@ future!(
     >,
     crate::__types::FineTuningJob
 );
-#[doc = "List checkpoints for a fine-tuning job.\n"]
+#[doc = "List fine-tuning checkpoints"]
 pub fn list_fine_tuning_job_checkpoints<C, Fut, B, E>(
     client: C,
     params: &crate::__types::ListFineTuningJobCheckpointsParams,
@@ -3105,7 +3105,7 @@ future!(
     >,
     crate::__types::ListFineTuningJobCheckpointsResponse
 );
-#[doc = "Get status updates for a fine-tuning job.\n"]
+#[doc = "List fine-tuning events"]
 pub fn list_fine_tuning_events<C, Fut, B, E>(
     client: C,
     params: &crate::__types::ListFineTuningEventsParams,
@@ -3177,7 +3177,7 @@ future!(
     >,
     crate::__types::ListFineTuningJobEventsResponse
 );
-#[doc = "Pause a fine-tune job.\n"]
+#[doc = "Pause fine-tuning"]
 pub fn pause_fine_tuning_job<C, Fut, B, E>(
     client: C,
     params: &crate::__types::PauseFineTuningJobParams,
@@ -3234,7 +3234,7 @@ future!(
     >,
     crate::__types::FineTuningJob
 );
-#[doc = "Resume a fine-tune job.\n"]
+#[doc = "Resume fine-tuning"]
 pub fn resume_fine_tuning_job<C, Fut, B, E>(
     client: C,
     params: &crate::__types::ResumeFineTuningJobParams,
@@ -3291,7 +3291,7 @@ future!(
     >,
     crate::__types::FineTuningJob
 );
-#[doc = "Creates an image given a prompt. [Learn more](https://platform.openai.com/docs/guides/images).\n"]
+#[doc = "Create image"]
 pub fn create_image<C, Fut, B, E>(
     client: C,
     request: &crate::__types::CreateImageRequest,
@@ -3331,7 +3331,39 @@ future!(
     >,
     crate::__types::ImagesResponse
 );
-#[doc = "Lists the currently available models, and provides basic information about each one such as the owner and availability."]
+#[doc = "Create image"]
+pub fn create_image_stream<C, Fut, B, E>(
+    client: C,
+    request: &crate::__types::CreateImageRequest,
+) -> CreateImageStream<Fut, B, E>
+where
+    C: FnOnce(http::Request<String>) -> Fut,
+    Fut: Future<Output = Result<http::Response<B>, E>>,
+    B: http_body::Body,
+{
+    CreateImageStream(futures::TryFutureExt::map_ok(
+        crate::__combinators::Send::new(
+            client,
+            || {
+                let path = "/images/generations";
+                let body = serde_json::to_string(request)?;
+                Ok(http::Request::builder()
+                    .method(http::Method::POST)
+                    .uri(path)
+                    .header(http::header::CONTENT_LENGTH, body.len())
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
+                    .body(body)?)
+            },
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::TEXT_EVENT_STREAM),
+            ),
+        ),
+        crate::__combinators::EventStream::new,
+    ))
+}
+future ! (CreateImageStream , futures :: future :: MapOk < crate :: __combinators :: Send < Fut , B , E > , fn (http :: Response < B >) -> crate :: __combinators :: EventStream < B , crate :: __types :: ImageGenStreamEvent > , > , crate :: __combinators :: EventStream < B , crate :: __types :: ImageGenStreamEvent >);
+#[doc = "List models"]
 pub fn list_models<C, Fut, B, E>(client: C) -> ListModels<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -3369,7 +3401,7 @@ future!(
     >,
     crate::__types::ListModelsResponse
 );
-#[doc = "Retrieves a model instance, providing basic information about the model such as the owner and permissioning."]
+#[doc = "Retrieve model"]
 pub fn retrieve_model<C, Fut, B, E>(
     client: C,
     params: &crate::__types::RetrieveModelParams,
@@ -3426,7 +3458,7 @@ future!(
     >,
     crate::__types::Model
 );
-#[doc = "Delete a fine-tuned model. You must have the Owner role in your organization to delete a model."]
+#[doc = "Delete a fine-tuned model"]
 pub fn delete_model<C, Fut, B, E>(
     client: C,
     params: &crate::__types::DeleteModelParams,
@@ -3485,7 +3517,7 @@ future!(
     >,
     crate::__types::DeleteModelResponse
 );
-#[doc = "Classifies if text and/or image inputs are potentially harmful. Learn\nmore in the [moderation guide](https://platform.openai.com/docs/guides/moderation).\n"]
+#[doc = "Create moderation"]
 pub fn create_moderation<C, Fut, B, E>(
     client: C,
     request: &crate::__types::CreateModerationRequest,
@@ -3527,7 +3559,7 @@ future!(
     >,
     crate::__types::CreateModerationResponse
 );
-#[doc = "List organization API keys"]
+#[doc = "List all organization and project API keys."]
 pub fn admin_api_keys_list<C, Fut, B, E>(
     client: C,
     params: &crate::__types::AdminApiKeysListParams,
@@ -3600,7 +3632,7 @@ future!(
     >,
     crate::__types::ApiKeyList
 );
-#[doc = "Create an organization admin API key"]
+#[doc = "Create admin API key"]
 pub fn admin_api_keys_create<C, Fut, B, E>(
     client: C,
     request: &crate::__types::AdminApiKeysCreateRequest,
@@ -3640,7 +3672,7 @@ future!(
     >,
     crate::__types::AdminApiKey
 );
-#[doc = "Retrieve a single organization API key"]
+#[doc = "Retrieve admin API key"]
 pub fn admin_api_keys_get<C, Fut, B, E>(
     client: C,
     params: &crate::__types::AdminApiKeysGetParams,
@@ -3697,7 +3729,7 @@ future!(
     >,
     crate::__types::AdminApiKey
 );
-#[doc = "Delete an organization admin API key"]
+#[doc = "Delete admin API key"]
 pub fn admin_api_keys_delete<C, Fut, B, E>(
     client: C,
     params: &crate::__types::AdminApiKeysDeleteParams,
@@ -3756,7 +3788,7 @@ future!(
     >,
     crate::__types::AdminApiKeysDeleteResponse
 );
-#[doc = "List user actions and configuration changes within this organization."]
+#[doc = "List audit logs"]
 pub fn list_audit_logs<C, Fut, B, E>(
     client: C,
     params: &crate::__types::ListAuditLogsParams,
@@ -3861,7 +3893,7 @@ future!(
     >,
     crate::__types::ListAuditLogsResponse
 );
-#[doc = "List uploaded certificates for this organization."]
+#[doc = "List organization certificates"]
 pub fn list_organization_certificates<C, Fut, B, E>(
     client: C,
     params: &crate::__types::ListOrganizationCertificatesParams,
@@ -3936,7 +3968,7 @@ future!(
     >,
     crate::__types::ListCertificatesResponse
 );
-#[doc = "Upload a certificate to the organization. This does **not** automatically activate the certificate.\n\nOrganizations can upload up to 50 certificates.\n"]
+#[doc = "Upload certificate"]
 pub fn upload_certificate<C, Fut, B, E>(
     client: C,
     request: &crate::__types::UploadCertificateRequest,
@@ -3976,7 +4008,7 @@ future!(
     >,
     crate::__types::Certificate
 );
-#[doc = "Activate certificates at the organization level.\n\nYou can atomically and idempotently activate up to 10 certificates at a time.\n"]
+#[doc = "Activate certificates for organization"]
 pub fn activate_organization_certificates<C, Fut, B, E>(
     client: C,
     request: &crate::__types::ToggleCertificatesRequest,
@@ -4018,7 +4050,7 @@ future!(
     >,
     crate::__types::ListCertificatesResponse
 );
-#[doc = "Deactivate certificates at the organization level.\n\nYou can atomically and idempotently deactivate up to 10 certificates at a time.\n"]
+#[doc = "Deactivate certificates for organization"]
 pub fn deactivate_organization_certificates<C, Fut, B, E>(
     client: C,
     request: &crate::__types::ToggleCertificatesRequest,
@@ -4060,7 +4092,7 @@ future!(
     >,
     crate::__types::ListCertificatesResponse
 );
-#[doc = "Get a certificate that has been uploaded to the organization.\n\nYou can get a certificate regardless of whether it is active or not.\n"]
+#[doc = "Get certificate"]
 pub fn get_certificate<C, Fut, B, E>(
     client: C,
     params: &crate::__types::GetCertificateParams,
@@ -4080,7 +4112,7 @@ where
                     struct Query<'a> {
                         #[serde(rename = "include")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        include: &'a Option<Vec<crate::__types::GetCertificateParamsInclude>>,
+                        include: &'a Option<Vec<crate::__types::GetCertificateParamsIncludeItem>>,
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
@@ -4124,7 +4156,7 @@ future!(
     >,
     crate::__types::Certificate
 );
-#[doc = "Modify a certificate. Note that only the name can be modified.\n"]
+#[doc = "Modify certificate"]
 pub fn modify_certificate<C, Fut, B, E>(
     client: C,
     request: &crate::__types::ModifyCertificateRequest,
@@ -4164,7 +4196,7 @@ future!(
     >,
     crate::__types::Certificate
 );
-#[doc = "Delete a certificate from the organization.\n\nThe certificate must be inactive for the organization and all projects.\n"]
+#[doc = "Delete certificate"]
 pub fn delete_certificate<C, Fut, B, E>(client: C) -> DeleteCertificate<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -4202,7 +4234,7 @@ future!(
     >,
     crate::__types::DeleteCertificateResponse
 );
-#[doc = "Get costs details for the organization."]
+#[doc = "Costs"]
 pub fn usage_costs<C, Fut, B, E>(
     client: C,
     params: &crate::__types::UsageCostsParams,
@@ -4233,7 +4265,7 @@ where
                         project_ids: &'a Option<Vec<String>>,
                         #[serde(rename = "group_by")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        group_by: &'a Option<Vec<crate::__types::UsageCostsParamsGroupBy>>,
+                        group_by: &'a Option<Vec<crate::__types::UsageCostsParamsGroupByItem>>,
                         #[serde(rename = "limit")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         limit: &'a Option<i64>,
@@ -4294,7 +4326,7 @@ future!(
     >,
     crate::__types::UsageResponse
 );
-#[doc = "Returns a list of invites in the organization."]
+#[doc = "List invites"]
 pub fn list_invites<C, Fut, B, E>(
     client: C,
     params: &crate::__types::ListInvitesParams,
@@ -4361,7 +4393,7 @@ future!(
     >,
     crate::__types::InviteListResponse
 );
-#[doc = "Create an invite for a user to the organization. The invite must be accepted by the user before they have access to the organization."]
+#[doc = "Create invite"]
 pub fn invite_user<C, Fut, B, E>(
     client: C,
     request: &crate::__types::InviteRequest,
@@ -4401,7 +4433,7 @@ future!(
     >,
     crate::__types::Invite
 );
-#[doc = "Retrieves an invite."]
+#[doc = "Retrieve invite"]
 pub fn retrieve_invite<C, Fut, B, E>(
     client: C,
     params: &crate::__types::RetrieveInviteParams,
@@ -4458,7 +4490,7 @@ future!(
     >,
     crate::__types::Invite
 );
-#[doc = "Delete an invite. If the invite has already been accepted, it cannot be deleted."]
+#[doc = "Delete invite"]
 pub fn delete_invite<C, Fut, B, E>(
     client: C,
     params: &crate::__types::DeleteInviteParams,
@@ -4517,7 +4549,7 @@ future!(
     >,
     crate::__types::InviteDeleteResponse
 );
-#[doc = "Returns a list of projects."]
+#[doc = "List projects"]
 pub fn list_projects<C, Fut, B, E>(
     client: C,
     params: &crate::__types::ListProjectsParams,
@@ -4592,7 +4624,7 @@ future!(
     >,
     crate::__types::ProjectListResponse
 );
-#[doc = "Create a new project in the organization. Projects can be created and archived, but cannot be deleted."]
+#[doc = "Create project"]
 pub fn create_project<C, Fut, B, E>(
     client: C,
     request: &crate::__types::ProjectCreateRequest,
@@ -4632,7 +4664,7 @@ future!(
     >,
     crate::__types::Project
 );
-#[doc = "Retrieves a project."]
+#[doc = "Retrieve project"]
 pub fn retrieve_project<C, Fut, B, E>(
     client: C,
     params: &crate::__types::RetrieveProjectParams,
@@ -4689,7 +4721,7 @@ future!(
     >,
     crate::__types::Project
 );
-#[doc = "Modifies a project in the organization."]
+#[doc = "Modify project"]
 pub fn modify_project<C, Fut, B, E>(
     client: C,
     params: &crate::__types::ModifyProjectParams,
@@ -4748,7 +4780,7 @@ future!(
     >,
     crate::__types::Project
 );
-#[doc = "Returns a list of API keys in the project."]
+#[doc = "List project API keys"]
 pub fn list_project_api_keys<C, Fut, B, E>(
     client: C,
     params: &crate::__types::ListProjectApiKeysParams,
@@ -4819,7 +4851,7 @@ future!(
     >,
     crate::__types::ProjectApiKeyListResponse
 );
-#[doc = "Retrieves an API key in the project."]
+#[doc = "Retrieve project API key"]
 pub fn retrieve_project_api_key<C, Fut, B, E>(
     client: C,
     params: &crate::__types::RetrieveProjectApiKeyParams,
@@ -4876,7 +4908,7 @@ future!(
     >,
     crate::__types::ProjectApiKey
 );
-#[doc = "Deletes an API key from the project."]
+#[doc = "Delete project API key"]
 pub fn delete_project_api_key<C, Fut, B, E>(
     client: C,
     params: &crate::__types::DeleteProjectApiKeyParams,
@@ -4936,7 +4968,7 @@ future!(
     >,
     crate::__types::ProjectApiKeyDeleteResponse
 );
-#[doc = "Archives a project in the organization. Archived projects cannot be used or updated."]
+#[doc = "Archive project"]
 pub fn archive_project<C, Fut, B, E>(
     client: C,
     params: &crate::__types::ArchiveProjectParams,
@@ -4993,7 +5025,7 @@ future!(
     >,
     crate::__types::Project
 );
-#[doc = "List certificates for this project."]
+#[doc = "List project certificates"]
 pub fn list_project_certificates<C, Fut, B, E>(
     client: C,
     params: &crate::__types::ListProjectCertificatesParams,
@@ -5069,7 +5101,7 @@ future!(
     >,
     crate::__types::ListCertificatesResponse
 );
-#[doc = "Activate certificates at the project level.\n\nYou can atomically and idempotently activate up to 10 certificates at a time.\n"]
+#[doc = "Activate certificates for project"]
 pub fn activate_project_certificates<C, Fut, B, E>(
     client: C,
     params: &crate::__types::ActivateProjectCertificatesParams,
@@ -5131,7 +5163,7 @@ future!(
     >,
     crate::__types::ListCertificatesResponse
 );
-#[doc = "Deactivate certificates at the project level. You can atomically and \nidempotently deactivate up to 10 certificates at a time.\n"]
+#[doc = "Deactivate certificates for project"]
 pub fn deactivate_project_certificates<C, Fut, B, E>(
     client: C,
     params: &crate::__types::DeactivateProjectCertificatesParams,
@@ -5193,7 +5225,7 @@ future!(
     >,
     crate::__types::ListCertificatesResponse
 );
-#[doc = "Returns the rate limits per model for a project."]
+#[doc = "List project rate limits"]
 pub fn list_project_rate_limits<C, Fut, B, E>(
     client: C,
     params: &crate::__types::ListProjectRateLimitsParams,
@@ -5270,7 +5302,7 @@ future!(
     >,
     crate::__types::ProjectRateLimitListResponse
 );
-#[doc = "Updates a project rate limit."]
+#[doc = "Modify project rate limit"]
 pub fn update_project_rate_limits<C, Fut, B, E>(
     client: C,
     params: &crate::__types::UpdateProjectRateLimitsParams,
@@ -5333,7 +5365,7 @@ future!(
     >,
     crate::__types::ProjectRateLimit
 );
-#[doc = "Returns a list of service accounts in the project."]
+#[doc = "List project service accounts"]
 pub fn list_project_service_accounts<C, Fut, B, E>(
     client: C,
     params: &crate::__types::ListProjectServiceAccountsParams,
@@ -5405,7 +5437,7 @@ future!(
     >,
     crate::__types::ProjectServiceAccountListResponse
 );
-#[doc = "Creates a new service account in the project. This also returns an unredacted API key for the service account."]
+#[doc = "Create project service account"]
 pub fn create_project_service_account<C, Fut, B, E>(
     client: C,
     params: &crate::__types::CreateProjectServiceAccountParams,
@@ -5467,7 +5499,7 @@ future!(
     >,
     crate::__types::ProjectServiceAccountCreateResponse
 );
-#[doc = "Retrieves a service account in the project."]
+#[doc = "Retrieve project service account"]
 pub fn retrieve_project_service_account<C, Fut, B, E>(
     client: C,
     params: &crate::__types::RetrieveProjectServiceAccountParams,
@@ -5531,7 +5563,7 @@ future!(
     >,
     crate::__types::ProjectServiceAccount
 );
-#[doc = "Deletes a service account from the project."]
+#[doc = "Delete project service account"]
 pub fn delete_project_service_account<C, Fut, B, E>(
     client: C,
     params: &crate::__types::DeleteProjectServiceAccountParams,
@@ -5596,7 +5628,7 @@ future!(
     >,
     crate::__types::ProjectServiceAccountDeleteResponse
 );
-#[doc = "Returns a list of users in the project."]
+#[doc = "List project users"]
 pub fn list_project_users<C, Fut, B, E>(
     client: C,
     params: &crate::__types::ListProjectUsersParams,
@@ -5667,7 +5699,7 @@ future!(
     >,
     crate::__types::ProjectUserListResponse
 );
-#[doc = "Adds a user to the project. Users must already be members of the organization to be added to a project."]
+#[doc = "Create project user"]
 pub fn create_project_user<C, Fut, B, E>(
     client: C,
     params: &crate::__types::CreateProjectUserParams,
@@ -5726,7 +5758,7 @@ future!(
     >,
     crate::__types::ProjectUser
 );
-#[doc = "Retrieves a user in the project."]
+#[doc = "Retrieve project user"]
 pub fn retrieve_project_user<C, Fut, B, E>(
     client: C,
     params: &crate::__types::RetrieveProjectUserParams,
@@ -5786,7 +5818,7 @@ future!(
     >,
     crate::__types::ProjectUser
 );
-#[doc = "Modifies a user's role in the project."]
+#[doc = "Modify project user"]
 pub fn modify_project_user<C, Fut, B, E>(
     client: C,
     params: &crate::__types::ModifyProjectUserParams,
@@ -5848,7 +5880,7 @@ future!(
     >,
     crate::__types::ProjectUser
 );
-#[doc = "Deletes a user from the project."]
+#[doc = "Delete project user"]
 pub fn delete_project_user<C, Fut, B, E>(
     client: C,
     params: &crate::__types::DeleteProjectUserParams,
@@ -5910,7 +5942,7 @@ future!(
     >,
     crate::__types::ProjectUserDeleteResponse
 );
-#[doc = "Get audio speeches usage details for the organization."]
+#[doc = "Audio speeches"]
 pub fn usage_audio_speeches<C, Fut, B, E>(
     client: C,
     params: &crate::__types::UsageAudioSpeechesParams,
@@ -5951,7 +5983,8 @@ where
                         models: &'a Option<Vec<String>>,
                         #[serde(rename = "group_by")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        group_by: &'a Option<Vec<crate::__types::UsageAudioSpeechesParamsGroupBy>>,
+                        group_by:
+                            &'a Option<Vec<crate::__types::UsageAudioSpeechesParamsGroupByItem>>,
                         #[serde(rename = "limit")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         limit: &'a Option<i64>,
@@ -6018,7 +6051,7 @@ future!(
     >,
     crate::__types::UsageResponse
 );
-#[doc = "Get audio transcriptions usage details for the organization."]
+#[doc = "Audio transcriptions"]
 pub fn usage_audio_transcriptions<C, Fut, B, E>(
     client: C,
     params: &crate::__types::UsageAudioTranscriptionsParams,
@@ -6059,8 +6092,9 @@ where
                         models: &'a Option<Vec<String>>,
                         #[serde(rename = "group_by")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        group_by:
-                            &'a Option<Vec<crate::__types::UsageAudioTranscriptionsParamsGroupBy>>,
+                        group_by: &'a Option<
+                            Vec<crate::__types::UsageAudioTranscriptionsParamsGroupByItem>,
+                        >,
                         #[serde(rename = "limit")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         limit: &'a Option<i64>,
@@ -6127,7 +6161,7 @@ future!(
     >,
     crate::__types::UsageResponse
 );
-#[doc = "Get code interpreter sessions usage details for the organization."]
+#[doc = "Code interpreter sessions"]
 pub fn usage_code_interpreter_sessions<C, Fut, B, E>(
     client: C,
     params: &crate::__types::UsageCodeInterpreterSessionsParams,
@@ -6161,7 +6195,7 @@ where
                         #[serde(rename = "group_by")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         group_by: &'a Option<
-                            Vec<crate::__types::UsageCodeInterpreterSessionsParamsGroupBy>,
+                            Vec<crate::__types::UsageCodeInterpreterSessionsParamsGroupByItem>,
                         >,
                         #[serde(rename = "limit")]
                         #[serde(skip_serializing_if = "Option::is_none")]
@@ -6223,7 +6257,7 @@ future!(
     >,
     crate::__types::UsageResponse
 );
-#[doc = "Get completions usage details for the organization."]
+#[doc = "Completions"]
 pub fn usage_completions<C, Fut, B, E>(
     client: C,
     params: &crate::__types::UsageCompletionsParams,
@@ -6266,7 +6300,8 @@ where
                         batch: &'a Option<bool>,
                         #[serde(rename = "group_by")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        group_by: &'a Option<Vec<crate::__types::UsageCompletionsParamsGroupBy>>,
+                        group_by:
+                            &'a Option<Vec<crate::__types::UsageCompletionsParamsGroupByItem>>,
                         #[serde(rename = "limit")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         limit: &'a Option<i64>,
@@ -6335,7 +6370,7 @@ future!(
     >,
     crate::__types::UsageResponse
 );
-#[doc = "Get embeddings usage details for the organization."]
+#[doc = "Embeddings"]
 pub fn usage_embeddings<C, Fut, B, E>(
     client: C,
     params: &crate::__types::UsageEmbeddingsParams,
@@ -6375,7 +6410,7 @@ where
                         models: &'a Option<Vec<String>>,
                         #[serde(rename = "group_by")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        group_by: &'a Option<Vec<crate::__types::UsageEmbeddingsParamsGroupBy>>,
+                        group_by: &'a Option<Vec<crate::__types::UsageEmbeddingsParamsGroupByItem>>,
                         #[serde(rename = "limit")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         limit: &'a Option<i64>,
@@ -6442,7 +6477,7 @@ future!(
     >,
     crate::__types::UsageResponse
 );
-#[doc = "Get images usage details for the organization."]
+#[doc = "Images"]
 pub fn usage_images<C, Fut, B, E>(
     client: C,
     params: &crate::__types::UsageImagesParams,
@@ -6470,10 +6505,10 @@ where
                         bucket_width: &'a Option<crate::__types::UsageImagesParamsBucketWidth>,
                         #[serde(rename = "sources")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        sources: &'a Option<Vec<crate::__types::UsageImagesParamsSources>>,
+                        sources: &'a Option<Vec<crate::__types::UsageImagesParamsSourcesItem>>,
                         #[serde(rename = "sizes")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        sizes: &'a Option<Vec<crate::__types::UsageImagesParamsSizes>>,
+                        sizes: &'a Option<Vec<crate::__types::UsageImagesParamsSizesItem>>,
                         #[serde(rename = "project_ids")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         project_ids: &'a Option<Vec<String>>,
@@ -6488,7 +6523,7 @@ where
                         models: &'a Option<Vec<String>>,
                         #[serde(rename = "group_by")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        group_by: &'a Option<Vec<crate::__types::UsageImagesParamsGroupBy>>,
+                        group_by: &'a Option<Vec<crate::__types::UsageImagesParamsGroupByItem>>,
                         #[serde(rename = "limit")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         limit: &'a Option<i64>,
@@ -6559,7 +6594,7 @@ future!(
     >,
     crate::__types::UsageResponse
 );
-#[doc = "Get moderations usage details for the organization."]
+#[doc = "Moderations"]
 pub fn usage_moderations<C, Fut, B, E>(
     client: C,
     params: &crate::__types::UsageModerationsParams,
@@ -6599,7 +6634,8 @@ where
                         models: &'a Option<Vec<String>>,
                         #[serde(rename = "group_by")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        group_by: &'a Option<Vec<crate::__types::UsageModerationsParamsGroupBy>>,
+                        group_by:
+                            &'a Option<Vec<crate::__types::UsageModerationsParamsGroupByItem>>,
                         #[serde(rename = "limit")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         limit: &'a Option<i64>,
@@ -6666,7 +6702,7 @@ future!(
     >,
     crate::__types::UsageResponse
 );
-#[doc = "Get vector stores usage details for the organization."]
+#[doc = "Vector stores"]
 pub fn usage_vector_stores<C, Fut, B, E>(
     client: C,
     params: &crate::__types::UsageVectorStoresParams,
@@ -6698,7 +6734,8 @@ where
                         project_ids: &'a Option<Vec<String>>,
                         #[serde(rename = "group_by")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        group_by: &'a Option<Vec<crate::__types::UsageVectorStoresParamsGroupBy>>,
+                        group_by:
+                            &'a Option<Vec<crate::__types::UsageVectorStoresParamsGroupByItem>>,
                         #[serde(rename = "limit")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         limit: &'a Option<i64>,
@@ -6759,7 +6796,7 @@ future!(
     >,
     crate::__types::UsageResponse
 );
-#[doc = "Lists all of the users in the organization."]
+#[doc = "List users"]
 pub fn list_users<C, Fut, B, E>(
     client: C,
     params: &crate::__types::ListUsersParams,
@@ -6832,7 +6869,7 @@ future!(
     >,
     crate::__types::UserListResponse
 );
-#[doc = "Retrieves a user by their identifier."]
+#[doc = "Retrieve user"]
 pub fn retrieve_user<C, Fut, B, E>(
     client: C,
     params: &crate::__types::RetrieveUserParams,
@@ -6889,7 +6926,7 @@ future!(
     >,
     crate::__types::User
 );
-#[doc = "Modifies a user's role in the organization."]
+#[doc = "Modify user"]
 pub fn modify_user<C, Fut, B, E>(
     client: C,
     params: &crate::__types::ModifyUserParams,
@@ -6948,7 +6985,7 @@ future!(
     >,
     crate::__types::User
 );
-#[doc = "Deletes a user from the organization."]
+#[doc = "Delete user"]
 pub fn delete_user<C, Fut, B, E>(
     client: C,
     params: &crate::__types::DeleteUserParams,
@@ -7007,7 +7044,7 @@ future!(
     >,
     crate::__types::UserDeleteResponse
 );
-#[doc = "Create an ephemeral API token for use in client-side applications with the\nRealtime API. Can be configured with the same session parameters as the\n`session.update` client event.\n\nIt responds with a session object, plus a `client_secret` key which contains\na usable ephemeral API token that can be used to authenticate browser clients\nfor the Realtime API.\n"]
+#[doc = "Create session"]
 pub fn create_realtime_session<C, Fut, B, E>(
     client: C,
     request: &crate::__types::RealtimeSessionCreateRequest,
@@ -7050,7 +7087,7 @@ future!(
     >,
     crate::__types::RealtimeSessionCreateResponse
 );
-#[doc = "Create an ephemeral API token for use in client-side applications with the\nRealtime API specifically for realtime transcriptions. \nCan be configured with the same session parameters as the `transcription_session.update` client event.\n\nIt responds with a session object, plus a `client_secret` key which contains\na usable ephemeral API token that can be used to authenticate browser clients\nfor the Realtime API.\n"]
+#[doc = "Create transcription session"]
 pub fn create_realtime_transcription_session<C, Fut, B, E>(
     client: C,
     request: &crate::__types::RealtimeTranscriptionSessionCreateRequest,
@@ -7100,7 +7137,7 @@ future!(
     >,
     crate::__types::RealtimeTranscriptionSessionCreateResponse
 );
-#[doc = "Creates a model response. Provide [text](https://platform.openai.com/docs/guides/text) or\n[image](https://platform.openai.com/docs/guides/images) inputs to generate [text](https://platform.openai.com/docs/guides/text)\nor [JSON](https://platform.openai.com/docs/guides/structured-outputs) outputs. Have the model call\nyour own [custom code](https://platform.openai.com/docs/guides/function-calling) or use built-in\n[tools](https://platform.openai.com/docs/guides/tools) like [web search](https://platform.openai.com/docs/guides/tools-web-search)\nor [file search](https://platform.openai.com/docs/guides/tools-file-search) to use your own data\nas input for the model's response.\n"]
+#[doc = "Create a model response"]
 pub fn create_response<C, Fut, B, E>(
     client: C,
     request: &crate::__types::CreateResponse,
@@ -7140,7 +7177,7 @@ future!(
     >,
     crate::__types::Response
 );
-#[doc = "Creates a model response. Provide [text](https://platform.openai.com/docs/guides/text) or\n[image](https://platform.openai.com/docs/guides/images) inputs to generate [text](https://platform.openai.com/docs/guides/text)\nor [JSON](https://platform.openai.com/docs/guides/structured-outputs) outputs. Have the model call\nyour own [custom code](https://platform.openai.com/docs/guides/function-calling) or use built-in\n[tools](https://platform.openai.com/docs/guides/tools) like [web search](https://platform.openai.com/docs/guides/tools-web-search)\nor [file search](https://platform.openai.com/docs/guides/tools-file-search) to use your own data\nas input for the model's response.\n"]
+#[doc = "Create a model response"]
 pub fn create_response_stream<C, Fut, B, E>(
     client: C,
     request: &crate::__types::CreateResponse,
@@ -7172,7 +7209,7 @@ where
     ))
 }
 future ! (CreateResponseStream , futures :: future :: MapOk < crate :: __combinators :: Send < Fut , B , E > , fn (http :: Response < B >) -> crate :: __combinators :: EventStream < B , crate :: __types :: ResponseStreamEvent > , > , crate :: __combinators :: EventStream < B , crate :: __types :: ResponseStreamEvent >);
-#[doc = "Retrieves a model response with the given ID.\n"]
+#[doc = "Get a model response"]
 pub fn get_response<C, Fut, B, E>(
     client: C,
     params: &crate::__types::GetResponseParams,
@@ -7199,6 +7236,9 @@ where
                         #[serde(rename = "starting_after")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         starting_after: &'a Option<i64>,
+                        #[serde(rename = "include_obfuscation")]
+                        #[serde(skip_serializing_if = "Option::is_none")]
+                        include_obfuscation: &'a Option<bool>,
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
@@ -7207,6 +7247,7 @@ where
                         include,
                         stream,
                         starting_after,
+                        include_obfuscation,
                     } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/responses/{response_id}");
@@ -7214,6 +7255,7 @@ where
                         include,
                         stream,
                         starting_after,
+                        include_obfuscation,
                         _phantom: std::marker::PhantomData,
                     })?;
                     if !query.is_empty() {
@@ -7246,7 +7288,7 @@ future!(
     >,
     crate::__types::Response
 );
-#[doc = "Deletes a model response with the given ID.\n"]
+#[doc = "Delete a model response"]
 pub fn delete_response<C, Fut, B, E>(
     client: C,
     params: &crate::__types::DeleteResponseParams,
@@ -7296,7 +7338,7 @@ future!(
     futures::future::MapOk<crate::__combinators::Send<Fut, B, E>, fn(http::Response<B>) -> ()>,
     ()
 );
-#[doc = "Cancels a model response with the given ID. Only responses created with\nthe `background` parameter set to `true` can be cancelled. \n[Learn more](https://platform.openai.com/docs/guides/background).\n"]
+#[doc = "Cancel a response"]
 pub fn cancel_response<C, Fut, B, E>(
     client: C,
     params: &crate::__types::CancelResponseParams,
@@ -7353,7 +7395,7 @@ future!(
     >,
     crate::__types::Response
 );
-#[doc = "Returns a list of input items for a given response."]
+#[doc = "List input items"]
 pub fn list_input_items<C, Fut, B, E>(
     client: C,
     params: &crate::__types::ListInputItemsParams,
@@ -7437,7 +7479,7 @@ future!(
     >,
     crate::__types::ResponseItemList
 );
-#[doc = "Create a thread and run it in one request."]
+#[doc = "Create thread and run"]
 pub fn create_thread_and_run<C, Fut, B, E>(
     client: C,
     request: &crate::__types::CreateThreadAndRunRequest,
@@ -7477,7 +7519,7 @@ future!(
     >,
     crate::__types::RunObject
 );
-#[doc = "Retrieves a thread."]
+#[doc = "Retrieve thread"]
 pub fn get_thread<C, Fut, B, E>(
     client: C,
     params: &crate::__types::GetThreadParams,
@@ -7534,7 +7576,7 @@ future!(
     >,
     crate::__types::ThreadObject
 );
-#[doc = "Modifies a thread."]
+#[doc = "Modify thread"]
 pub fn modify_thread<C, Fut, B, E>(
     client: C,
     params: &crate::__types::ModifyThreadParams,
@@ -7593,7 +7635,7 @@ future!(
     >,
     crate::__types::ThreadObject
 );
-#[doc = "Delete a thread."]
+#[doc = "Delete thread"]
 pub fn delete_thread<C, Fut, B, E>(
     client: C,
     params: &crate::__types::DeleteThreadParams,
@@ -7652,7 +7694,7 @@ future!(
     >,
     crate::__types::DeleteThreadResponse
 );
-#[doc = "Returns a list of messages for a given thread."]
+#[doc = "List messages"]
 pub fn list_messages<C, Fut, B, E>(
     client: C,
     params: &crate::__types::ListMessagesParams,
@@ -7738,7 +7780,7 @@ future!(
     >,
     crate::__types::ListMessagesResponse
 );
-#[doc = "Create a message."]
+#[doc = "Create message"]
 pub fn create_message<C, Fut, B, E>(
     client: C,
     params: &crate::__types::CreateMessageParams,
@@ -7797,7 +7839,7 @@ future!(
     >,
     crate::__types::MessageObject
 );
-#[doc = "Retrieve a message."]
+#[doc = "Retrieve message"]
 pub fn get_message<C, Fut, B, E>(
     client: C,
     params: &crate::__types::GetMessageParams,
@@ -7857,7 +7899,7 @@ future!(
     >,
     crate::__types::MessageObject
 );
-#[doc = "Modifies a message."]
+#[doc = "Modify message"]
 pub fn modify_message<C, Fut, B, E>(
     client: C,
     params: &crate::__types::ModifyMessageParams,
@@ -7919,7 +7961,7 @@ future!(
     >,
     crate::__types::MessageObject
 );
-#[doc = "Deletes a message."]
+#[doc = "Delete message"]
 pub fn delete_message<C, Fut, B, E>(
     client: C,
     params: &crate::__types::DeleteMessageParams,
@@ -7981,7 +8023,7 @@ future!(
     >,
     crate::__types::DeleteMessageResponse
 );
-#[doc = "Returns a list of runs belonging to a thread."]
+#[doc = "List runs"]
 pub fn list_runs<C, Fut, B, E>(
     client: C,
     params: &crate::__types::ListRunsParams,
@@ -8060,7 +8102,7 @@ future!(
     >,
     crate::__types::ListRunsResponse
 );
-#[doc = "Create a run."]
+#[doc = "Create run"]
 pub fn create_run<C, Fut, B, E>(
     client: C,
     params: &crate::__types::CreateRunParams,
@@ -8081,7 +8123,7 @@ where
                     struct Query<'a> {
                         #[serde(rename = "include[]")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        include: &'a Option<Vec<crate::__types::CreateRunParamsInclude>>,
+                        include: &'a Option<Vec<crate::__types::CreateRunParamsIncludeItem>>,
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
@@ -8123,7 +8165,7 @@ future!(
     >,
     crate::__types::RunObject
 );
-#[doc = "Retrieves a run."]
+#[doc = "Retrieve run"]
 pub fn get_run<C, Fut, B, E>(client: C, params: &crate::__types::GetRunParams) -> GetRun<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -8177,7 +8219,7 @@ future!(
     >,
     crate::__types::RunObject
 );
-#[doc = "Modifies a run."]
+#[doc = "Modify run"]
 pub fn modify_run<C, Fut, B, E>(
     client: C,
     params: &crate::__types::ModifyRunParams,
@@ -8236,7 +8278,7 @@ future!(
     >,
     crate::__types::RunObject
 );
-#[doc = "Cancels a run that is `in_progress`."]
+#[doc = "Cancel a run"]
 pub fn cancel_run<C, Fut, B, E>(
     client: C,
     params: &crate::__types::CancelRunParams,
@@ -8293,7 +8335,7 @@ future!(
     >,
     crate::__types::RunObject
 );
-#[doc = "Returns a list of run steps belonging to a run."]
+#[doc = "List run steps"]
 pub fn list_run_steps<C, Fut, B, E>(
     client: C,
     params: &crate::__types::ListRunStepsParams,
@@ -8325,7 +8367,7 @@ where
                         before: &'a Option<String>,
                         #[serde(rename = "include[]")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        include: &'a Option<Vec<crate::__types::ListRunStepsParamsInclude>>,
+                        include: &'a Option<Vec<crate::__types::ListRunStepsParamsIncludeItem>>,
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
@@ -8380,7 +8422,7 @@ future!(
     >,
     crate::__types::ListRunStepsResponse
 );
-#[doc = "Retrieves a run step."]
+#[doc = "Retrieve run step"]
 pub fn get_run_step<C, Fut, B, E>(
     client: C,
     params: &crate::__types::GetRunStepParams,
@@ -8400,7 +8442,7 @@ where
                     struct Query<'a> {
                         #[serde(rename = "include[]")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        include: &'a Option<Vec<crate::__types::GetRunStepParamsInclude>>,
+                        include: &'a Option<Vec<crate::__types::GetRunStepParamsIncludeItem>>,
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
@@ -8446,7 +8488,7 @@ future!(
     >,
     crate::__types::RunStepObject
 );
-#[doc = "When a run has the `status: \"requires_action\"` and `required_action.type` is `submit_tool_outputs`, this endpoint can be used to submit the outputs from the tool calls once they're all completed. All outputs must be submitted in a single request.\n"]
+#[doc = "Submit tool outputs to run"]
 pub fn submit_tool_ouputs_to_run<C, Fut, B, E>(
     client: C,
     params: &crate::__types::SubmitToolOuputsToRunParams,
@@ -8506,7 +8548,7 @@ future!(
     >,
     crate::__types::RunObject
 );
-#[doc = "Creates an intermediate [Upload](https://platform.openai.com/docs/api-reference/uploads/object) object\nthat you can add [Parts](https://platform.openai.com/docs/api-reference/uploads/part-object) to.\nCurrently, an Upload can accept at most 8 GB in total and expires after an\nhour after you create it.\n\nOnce you complete the Upload, we will create a\n[File](https://platform.openai.com/docs/api-reference/files/object) object that contains all the parts\nyou uploaded. This File is usable in the rest of our platform as a regular\nFile object.\n\nFor certain `purpose` values, the correct `mime_type` must be specified. \nPlease refer to documentation for the \n[supported MIME types for your use case](https://platform.openai.com/docs/assistants/tools/file-search#supported-files).\n\nFor guidance on the proper filename extensions for each purpose, please\nfollow the documentation on [creating a\nFile](https://platform.openai.com/docs/api-reference/files/create).\n"]
+#[doc = "Create upload"]
 pub fn create_upload<C, Fut, B, E>(
     client: C,
     request: &crate::__types::CreateUploadRequest,
@@ -8546,7 +8588,7 @@ future!(
     >,
     crate::__types::Upload
 );
-#[doc = "Cancels the Upload. No Parts may be added after an Upload is cancelled.\n"]
+#[doc = "Cancel upload"]
 pub fn cancel_upload<C, Fut, B, E>(
     client: C,
     params: &crate::__types::CancelUploadParams,
@@ -8603,7 +8645,7 @@ future!(
     >,
     crate::__types::Upload
 );
-#[doc = "Completes the [Upload](https://platform.openai.com/docs/api-reference/uploads/object). \n\nWithin the returned Upload object, there is a nested [File](https://platform.openai.com/docs/api-reference/files/object) object that is ready to use in the rest of the platform.\n\nYou can specify the order of the Parts by passing in an ordered list of the Part IDs.\n\nThe number of bytes uploaded upon completion must match the number of bytes initially specified when creating the Upload object. No Parts may be added after an Upload is completed.\n"]
+#[doc = "Complete upload"]
 pub fn complete_upload<C, Fut, B, E>(
     client: C,
     params: &crate::__types::CompleteUploadParams,
@@ -8662,7 +8704,7 @@ future!(
     >,
     crate::__types::Upload
 );
-#[doc = "Returns a list of vector stores."]
+#[doc = "List vector stores"]
 pub fn list_vector_stores<C, Fut, B, E>(
     client: C,
     params: &crate::__types::ListVectorStoresParams,
@@ -8742,7 +8784,7 @@ future!(
     >,
     crate::__types::ListVectorStoresResponse
 );
-#[doc = "Create a vector store."]
+#[doc = "Create vector store"]
 pub fn create_vector_store<C, Fut, B, E>(
     client: C,
     request: &crate::__types::CreateVectorStoreRequest,
@@ -8784,7 +8826,7 @@ future!(
     >,
     crate::__types::VectorStoreObject
 );
-#[doc = "Retrieves a vector store."]
+#[doc = "Retrieve vector store"]
 pub fn get_vector_store<C, Fut, B, E>(
     client: C,
     params: &crate::__types::GetVectorStoreParams,
@@ -8843,7 +8885,7 @@ future!(
     >,
     crate::__types::VectorStoreObject
 );
-#[doc = "Modifies a vector store."]
+#[doc = "Modify vector store"]
 pub fn modify_vector_store<C, Fut, B, E>(
     client: C,
     params: &crate::__types::ModifyVectorStoreParams,
@@ -8904,7 +8946,7 @@ future!(
     >,
     crate::__types::VectorStoreObject
 );
-#[doc = "Delete a vector store."]
+#[doc = "Delete vector store"]
 pub fn delete_vector_store<C, Fut, B, E>(
     client: C,
     params: &crate::__types::DeleteVectorStoreParams,
@@ -8963,7 +9005,7 @@ future!(
     >,
     crate::__types::DeleteVectorStoreResponse
 );
-#[doc = "Create a vector store file batch."]
+#[doc = "Create vector store file batch"]
 pub fn create_vector_store_file_batch<C, Fut, B, E>(
     client: C,
     params: &crate::__types::CreateVectorStoreFileBatchParams,
@@ -9025,7 +9067,7 @@ future!(
     >,
     crate::__types::VectorStoreFileBatchObject
 );
-#[doc = "Retrieves a vector store file batch."]
+#[doc = "Retrieve vector store file batch"]
 pub fn get_vector_store_file_batch<C, Fut, B, E>(
     client: C,
     params: &crate::__types::GetVectorStoreFileBatchParams,
@@ -9088,7 +9130,7 @@ future!(
     >,
     crate::__types::VectorStoreFileBatchObject
 );
-#[doc = "Cancel a vector store file batch. This attempts to cancel the processing of files in this batch as soon as possible."]
+#[doc = "Cancel vector store file batch"]
 pub fn cancel_vector_store_file_batch<C, Fut, B, E>(
     client: C,
     params: &crate::__types::CancelVectorStoreFileBatchParams,
@@ -9151,7 +9193,7 @@ future!(
     >,
     crate::__types::VectorStoreFileBatchObject
 );
-#[doc = "Returns a list of vector store files in a batch."]
+#[doc = "List vector store files in a batch"]
 pub fn list_files_in_vector_store_batch<C, Fut, B, E>(
     client: C,
     params: &crate::__types::ListFilesInVectorStoreBatchParams,
@@ -9240,7 +9282,7 @@ future!(
     >,
     crate::__types::ListVectorStoreFilesResponse
 );
-#[doc = "Returns a list of vector store files."]
+#[doc = "List vector store files"]
 pub fn list_vector_store_files<C, Fut, B, E>(
     client: C,
     params: &crate::__types::ListVectorStoreFilesParams,
@@ -9327,7 +9369,7 @@ future!(
     >,
     crate::__types::ListVectorStoreFilesResponse
 );
-#[doc = "Create a vector store file by attaching a [File](https://platform.openai.com/docs/api-reference/files) to a [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object)."]
+#[doc = "Create vector store file"]
 pub fn create_vector_store_file<C, Fut, B, E>(
     client: C,
     params: &crate::__types::CreateVectorStoreFileParams,
@@ -9388,7 +9430,7 @@ future!(
     >,
     crate::__types::VectorStoreFileObject
 );
-#[doc = "Retrieves a vector store file."]
+#[doc = "Retrieve vector store file"]
 pub fn get_vector_store_file<C, Fut, B, E>(
     client: C,
     params: &crate::__types::GetVectorStoreFileParams,
@@ -9450,7 +9492,7 @@ future!(
     >,
     crate::__types::VectorStoreFileObject
 );
-#[doc = "Delete a vector store file. This will remove the file from the vector store but the file itself will not be deleted. To delete the file, use the [delete file](https://platform.openai.com/docs/api-reference/files/delete) endpoint."]
+#[doc = "Delete vector store file"]
 pub fn delete_vector_store_file<C, Fut, B, E>(
     client: C,
     params: &crate::__types::DeleteVectorStoreFileParams,
@@ -9513,7 +9555,7 @@ future!(
     >,
     crate::__types::DeleteVectorStoreFileResponse
 );
-#[doc = "Update attributes on a vector store file."]
+#[doc = "Update vector store file attributes"]
 pub fn update_vector_store_file_attributes<C, Fut, B, E>(
     client: C,
     params: &crate::__types::UpdateVectorStoreFileAttributesParams,
@@ -9577,7 +9619,7 @@ future!(
     >,
     crate::__types::VectorStoreFileObject
 );
-#[doc = "Retrieve the parsed contents of a vector store file."]
+#[doc = "Retrieve vector store file content"]
 pub fn retrieve_vector_store_file_content<C, Fut, B, E>(
     client: C,
     params: &crate::__types::RetrieveVectorStoreFileContentParams,
@@ -9641,7 +9683,7 @@ future!(
     >,
     crate::__types::VectorStoreFileContentResponse
 );
-#[doc = "Search a vector store for relevant chunks based on a query and file attributes filter."]
+#[doc = "Search vector store"]
 pub fn search_vector_store<C, Fut, B, E>(
     client: C,
     params: &crate::__types::SearchVectorStoreParams,

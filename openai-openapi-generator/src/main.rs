@@ -209,7 +209,7 @@ fn to_type(
     match &schema.type_ {
         Type::Any => syn::parse_quote!(serde_json::Value),
         Type::Array(item) => {
-            let type_ = to_type(&to_singular(name), item, schemas, public, items);
+            let type_ = to_type(&format!("{name}.item"), item, schemas, public, items);
             syn::parse_quote!(Vec<#type_>)
         }
         Type::Binary => syn::parse_quote!(Vec<u8>),
@@ -217,7 +217,7 @@ fn to_type(
         Type::Float => syn::parse_quote!(f64),
         Type::Integer => syn::parse_quote!(i64),
         Type::Map(item) => {
-            let type_ = to_type(&to_singular(name), item, schemas, public, items);
+            let type_ = to_type(&format!("{name}.item"), item, schemas, public, items);
             syn::parse_quote!(indexmap::IndexMap<String, #type_>)
         }
         Type::Number => syn::parse_quote!(serde_json::Number),
@@ -264,40 +264,6 @@ fn to_item(
             });
         }
     }
-}
-
-fn to_singular(name: &str) -> String {
-    let vocab = [
-        ("annotation", "annotations"),
-        ("attribute", "attributes"),
-        ("certificate", "certificates"),
-        ("choice", "choices"),
-        ("datum", "data"),
-        ("file", "files"),
-        ("filter", "filters"),
-        ("integration", "integrations"),
-        ("logprob", "logprobs"),
-        ("modality", "modalities"),
-        ("result", "results"),
-        ("store", "stores"),
-        ("tool", "tools"),
-        ("variable", "variables"),
-    ];
-    vocab
-        .iter()
-        .find_map(|(singular, plural)| {
-            name.strip_suffix(&plural.to_pascal_case())
-                .map(|name| format!("{name}{}", singular.to_pascal_case()))
-                .or_else(|| {
-                    name.strip_suffix(&format!("_{plural}"))
-                        .map(|name| format!("{name}_{singular}"))
-                })
-                .or_else(|| {
-                    name.strip_suffix(&format!(".{plural}"))
-                        .map(|name| format!("{name}.{singular}"))
-                })
-        })
-        .unwrap_or_else(|| name.to_owned())
 }
 
 fn to_ident_pascal(name: &str) -> syn::Ident {

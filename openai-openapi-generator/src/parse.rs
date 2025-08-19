@@ -235,9 +235,10 @@ fn parse_any_of(
     schema: &openapi::Schema,
     schemas: &IndexMap<String, openapi::Schema>,
 ) -> anyhow::Result<Option<crate::Schema>> {
+    let mut schema = schema.clone();
     if let openapi::Schema {
         any_of: Some(any_of),
-    } = schema
+    } = &schema
         && let [
             any_of,
             openapi::Schema {
@@ -248,24 +249,25 @@ fn parse_any_of(
         let mut any_of = parse(any_of, schemas).context("anyOf[0]")?;
         any_of.nullable = true;
         Ok(Some(any_of))
-    } else if let openapi::Schema {
-        any_of: Some(any_of),
-        description,
-        discriminator: _,
-        nullable,
-    } = schema
-    {
+    } else if let (Some(any_of), _, description, _, nullable) = (
+        schema.any_of.take(),
+        schema.default.take(),
+        schema.description.take(),
+        schema.discriminator.take(),
+        schema.nullable.take(),
+    ) {
         let variants = any_of
-            .iter()
+            .into_iter()
             .enumerate()
             .map(|(i, any_of)| {
-                parse(any_of, schemas)
+                let one_of = or(&any_of, &schema);
+                parse(&one_of, schemas)
                     .with_context(|| format!("anyOf[{i}]"))
                     .map(|any_of| (any_of, false))
             })
             .collect::<Result<_, _>>()?;
         Ok(Some(crate::Schema {
-            description: description.clone(),
+            description,
             nullable: nullable.unwrap_or_default(),
             type_: crate::Type::Enum(variants),
         }))
@@ -299,6 +301,7 @@ fn parse_enum(
         enum_: Some(enum_),
         nullable,
         type_: None | Some(openapi::Type::String),
+        x_oai_type_label: None | Some(openapi::XOaiTypeLabel::String),
         x_stainless_const: _,
     } = schema
     {
@@ -431,6 +434,7 @@ fn parse_ref(
         nullable,
         ref_: Some(ref_),
         type_: _,
+        x_oai_type_label: _,
     } = schema
         && let Some(ref_) = ref_.strip_prefix("#/components/schemas/")
     {
@@ -553,6 +557,7 @@ fn parse_other(
         format: None | Some(openapi::Format::Uri),
         nullable,
         type_: Some(openapi::Type::String),
+        x_oai_type_label: None | Some(openapi::XOaiTypeLabel::String),
     }
     | openapi::Schema {
         any_of: Some(_),
