@@ -97,5 +97,4 @@ macro_rules! future {
         }
     };
 }
-
 mod generated;

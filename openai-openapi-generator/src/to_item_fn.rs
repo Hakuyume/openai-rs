@@ -1,14 +1,10 @@
 use crate::{
-    Operation, Schema, Type, openapi, to_description, to_ident_pascal, to_ident_snake, to_serde_as,
-    to_type,
+    Items, Operation, Schema, Type, openapi, to_description, to_ident_pascal, to_ident_snake,
+    to_serde_as, to_type,
 };
 use indexmap::{IndexMap, IndexSet};
 
-pub fn to_item_fn(
-    operation: &Operation,
-    schemas: &IndexMap<String, Schema>,
-    items: &mut Vec<syn::Item>,
-) {
+pub fn to_item_fn(operation: &Operation, schemas: &IndexMap<String, Schema>, items: &mut Items) {
     let method = match operation.method {
         openapi::Method::Delete => quote::quote!(http::Method::DELETE),
         openapi::Method::Get => quote::quote!(http::Method::GET),
@@ -17,7 +13,7 @@ pub fn to_item_fn(
 
     let (params, path) = if let Some(parameters) = &operation.parameters {
         let params = to_type(
-            &format!("{}.params", operation.id),
+            (&[&operation.id], "params"),
             &Schema {
                 description: None,
                 nullable: false,
@@ -49,7 +45,7 @@ pub fn to_item_fn(
                 let ident = to_ident_snake(&parameter.name);
                 let type_ = {
                     let type_ = to_type(
-                        &format!("{}.params.{}", operation.id, parameter.name),
+                        (&[&operation.id, "params"], &parameter.name),
                         &parameter.schema,
                         schemas,
                         false,
@@ -117,13 +113,7 @@ pub fn to_item_fn(
 
     let (request, content_type, body) = match operation.requests.as_deref() {
         Some([(openapi::ContentType::ApplicationJson, request, true)]) => {
-            let request = to_type(
-                &format!("{}.request", operation.id),
-                request,
-                schemas,
-                true,
-                None,
-            );
+            let request = to_type((&[&operation.id], "request"), request, schemas, true, None);
             (
                 Some(quote::quote!(request: &#request,)),
                 Some(
@@ -151,105 +141,121 @@ pub fn to_item_fn(
             let ident_future = to_ident_pascal(&operation.id);
 
             if matches!(operation.method, openapi::Method::Get) {
-                items.push(syn::parse_quote! {
-                    #description
-                    pub fn #ident_fn<C, Fut, B, E>(
-                        client: C,
-                        #params
-                        #request
-                    ) -> #ident_future<Fut, B, E>
-                    where
-                    C: FnOnce(http::Request<String>) -> Fut,
-                    Fut: Future<Output = Result<http::Response<B>, E>>,
-                    B: http_body::Body,
-                    {
-                        #ident_future(
-                            futures::TryFutureExt::map_ok(
-                                crate::__combinators::Send::new(
+                items.push(
+                    &[],
+                    true,
+                    syn::parse_quote! {
+                        #description
+                        pub fn #ident_fn<C, Fut, B, E>(
+                            client: C,
+                            #params
+                            #request
+                        ) -> #ident_future<Fut, B, E>
+                        where
+                        C: FnOnce(http::Request<String>) -> Fut,
+                        Fut: Future<Output = Result<http::Response<B>, E>>,
+                        B: http_body::Body,
+                        {
+                            #ident_future(
+                                futures::TryFutureExt::map_ok(
+                                    crate::__combinators::Send::new(
                                     client,
-                                    || {
-                                        #path
-                                        #body
-                                        Ok(
-                                            http::Request::builder()
-                                            .method(#method)
-                                            .uri(path)
-                                            .header(http::header::CONTENT_LENGTH, body.len())
-                                            #content_type
-                                            .body(body)?
-                                        )
-                                    },
-                                    (
-                                        http::StatusCode::from_u16(#status).unwrap(),
-                                        None,
+                                        || {
+                                            #path
+                                            #body
+                                            Ok(
+                                                http::Request::builder()
+                                                .method(#method)
+                                                .uri(path)
+                                                .header(http::header::CONTENT_LENGTH, body.len())
+                                                #content_type
+                                                .body(body)?
+                                            )
+                                        },
+                                        (
+                                            http::StatusCode::from_u16(#status).unwrap(),
+                                            None,
+                                        ),
                                     ),
-                                ),
-                                http::Response::into_body,
+                                    http::Response::into_body,
+                                )
                             )
-                        )
-                    }
-                });
+                        }
+                    },
+                );
 
-                items.push(syn::parse_quote! {
-                    future!(
-                        #ident_future,
-                        futures::future::MapOk<
-                        crate::__combinators::Send<Fut, B, E>,
-                        fn(http::Response<B>) -> B,
-                        >,
-                        B
-                    );
-                });
+                items.push(
+                    &[],
+                    true,
+                    syn::parse_quote! {
+                        future!(
+                            #ident_future,
+                            futures::future::MapOk<
+                            crate::__combinators::Send<Fut, B, E>,
+                            fn(http::Response<B>) -> B,
+                            >,
+                            B
+                        );
+                    },
+                );
             } else {
-                items.push(syn::parse_quote! {
-                    #description
-                    pub fn #ident_fn<C, Fut, B, E>(
-                        client: C,
-                        #params
-                        #request
-                    ) -> #ident_future<Fut, B, E>
-                    where
-                    C: FnOnce(http::Request<String>) -> Fut,
-                    Fut: Future<Output = Result<http::Response<B>, E>>,
-                    B: http_body::Body,
-                    {
-                        #ident_future(
-                            futures::TryFutureExt::map_ok(
-                                crate::__combinators::Send::new(
-                                    client,
-                                    || {
-                                        #path
-                                        #body
-                                        Ok(
-                                            http::Request::builder()
-                                            .method(#method)
-                                            .uri(path)
-                                            .header(http::header::CONTENT_LENGTH, body.len())
-                                            #content_type
-                                            .body(body)?
-                                        )
-                                    },
-                                    (
-                                        http::StatusCode::from_u16(#status).unwrap(),
-                                        None,
+                items.push(
+                    &[],
+                    true,
+                    syn::parse_quote! {
+                        #description
+                        pub fn #ident_fn<C, Fut, B, E>(
+                            client: C,
+                            #params
+                            #request
+                        ) -> #ident_future<Fut, B, E>
+                        where
+                        C: FnOnce(http::Request<String>) -> Fut,
+                        Fut: Future<Output = Result<http::Response<B>, E>>,
+                        B: http_body::Body,
+                        {
+                            #ident_future(
+                                futures::TryFutureExt::map_ok(
+                                    crate::__combinators::Send::new(
+                                        client,
+                                        || {
+                                            #path
+                                            #body
+                                            Ok(
+                                                http::Request::builder()
+                                                .method(#method)
+                                                .uri(path)
+                                                .header(http::header::CONTENT_LENGTH, body.len())
+                                                #content_type
+                                                .body(body)?
+                                            )
+                                        },
+                                        (
+                                            http::StatusCode::from_u16(#status).unwrap(),
+                                            None,
+                                        ),
                                     ),
-                                ),
-                                |_| (),
+                                    |_| (),
+                                )
                             )
-                        )
-                    }
-                });
+                        }
+                    },
+                );
 
-                items.push(syn::parse_quote! {
-                    future!(
-                        #ident_future,
-                        futures::future::MapOk<
-                        crate::__combinators::Send<Fut, B, E>,
-                        fn(http::Response<B>) -> (),
-                        >,
-                        ()
-                    );
-                });
+                items.push(
+                    &[],
+                    true,
+                    syn::parse_quote! {
+                        future!(
+                            #ident_future,
+                            futures::future::MapOk<
+                            crate::__combinators::Send<Fut, B, E>,
+                            fn(http::Response<B>) -> (),
+                            >,
+                            ()
+                        );
+                    },
+                );
             }
         }
 
@@ -260,63 +266,71 @@ pub fn to_item_fn(
             let ident_fn = to_ident_snake(&operation.id);
             let ident_future = to_ident_pascal(&operation.id);
             let response = to_type(
-                &format!("{}.response", operation.id),
+                (&[&operation.id], "response"),
                 response,
                 schemas,
                 true,
                 None,
             );
 
-            items.push(syn::parse_quote! {
-                #description
-                pub fn #ident_fn<C, Fut, B, E>(
-                    client: C,
-                    #params
-                    #request
-                ) -> #ident_future<Fut, B, E>
-                where
-                C: FnOnce(http::Request<String>) -> Fut,
-                Fut: Future<Output = Result<http::Response<B>, E>>,
-                B: http_body::Body,
-                {
-                    #ident_future(
-                        futures::TryFutureExt::and_then(
-                            crate::__combinators::Send::new(
-                                client,
-                                || {
-                                    #path
-                                    #body
-                                    Ok(
-                                        http::Request::builder()
-                                        .method(#method)
-                                        .uri(path)
-                                        .header(http::header::CONTENT_LENGTH, body.len())
-                                        #content_type
-                                        .body(body)?
-                                    )
-                                },
-                                (
-                                    http::StatusCode::from_u16(#status).unwrap(),
-                                    Some(mime::APPLICATION_JSON),
+            items.push(
+                &[],
+                true,
+                syn::parse_quote! {
+                    #description
+                    pub fn #ident_fn<C, Fut, B, E>(
+                        client: C,
+                        #params
+                        #request
+                    ) -> #ident_future<Fut, B, E>
+                    where
+                    C: FnOnce(http::Request<String>) -> Fut,
+                    Fut: Future<Output = Result<http::Response<B>, E>>,
+                    B: http_body::Body,
+                    {
+                        #ident_future(
+                            futures::TryFutureExt::and_then(
+                                crate::__combinators::Send::new(
+                                    client,
+                                    || {
+                                        #path
+                                        #body
+                                        Ok(
+                                            http::Request::builder()
+                                            .method(#method)
+                                            .uri(path)
+                                            .header(http::header::CONTENT_LENGTH, body.len())
+                                            #content_type
+                                            .body(body)?
+                                        )
+                                    },
+                                    (
+                                        http::StatusCode::from_u16(#status).unwrap(),
+                                        Some(mime::APPLICATION_JSON),
+                                    ),
                                 ),
-                            ),
-                            crate::__combinators::Json::new,
+                                crate::__combinators::Json::new,
+                            )
                         )
-                    )
-                }
-            });
+                    }
+                },
+            );
 
-            items.push(syn::parse_quote! {
-                future!(
-                    #ident_future,
-                    futures::future::AndThen<
-                    crate::__combinators::Send<Fut, B, E>,
-                    crate::__combinators::Json<B, E, #response>,
-                    fn(http::Response<B>) -> crate::__combinators::Json<B, E, #response>,
-                    >,
-                    #response
-                );
-            });
+            items.push(
+                &[],
+                true,
+                syn::parse_quote! {
+                    future!(
+                        #ident_future,
+                        futures::future::AndThen<
+                        crate::__combinators::Send<Fut, B, E>,
+                        crate::__combinators::Json<B, E, #response>,
+                        fn(http::Response<B>) -> crate::__combinators::Json<B, E, #response>,
+                        >,
+                        #response
+                    );
+                },
+            );
         }
 
         if let (200..300, Some((openapi::ContentType::TextEventStream, response))) =
@@ -326,62 +340,70 @@ pub fn to_item_fn(
             let ident_fn = to_ident_snake(&format!("{}.stream", operation.id));
             let ident_future = to_ident_pascal(&format!("{}.stream", operation.id));
             let response = to_type(
-                &format!("{}response", operation.id),
+                (&[&operation.id], "response"),
                 response,
                 schemas,
                 true,
                 None,
             );
 
-            items.push(syn::parse_quote! {
-                #description
-                pub fn #ident_fn<C, Fut, B, E>(
-                    client: C,
-                    #params
-                    #request
-                ) -> #ident_future<Fut, B, E>
-                where
-                C: FnOnce(http::Request<String>) -> Fut,
-                Fut: Future<Output = Result<http::Response<B>, E>>,
-                B: http_body::Body,
-                {
-                    #ident_future(
-                        futures::TryFutureExt::map_ok(
-                            crate::__combinators::Send::new(
-                                client,
-                                || {
-                                    #path
-                                    #body
-                                    Ok(
-                                        http::Request::builder()
-                                        .method(#method)
-                                        .uri(path)
-                                        .header(http::header::CONTENT_LENGTH, body.len())
-                                        #content_type
-                                        .body(body)?
-                                    )
-                                },
-                                (
-                                    http::StatusCode::from_u16(#status).unwrap(),
-                                    Some(mime::TEXT_EVENT_STREAM),
+            items.push(
+                &[],
+                true,
+                syn::parse_quote! {
+                    #description
+                    pub fn #ident_fn<C, Fut, B, E>(
+                        client: C,
+                        #params
+                        #request
+                    ) -> #ident_future<Fut, B, E>
+                    where
+                    C: FnOnce(http::Request<String>) -> Fut,
+                    Fut: Future<Output = Result<http::Response<B>, E>>,
+                    B: http_body::Body,
+                    {
+                        #ident_future(
+                            futures::TryFutureExt::map_ok(
+                                crate::__combinators::Send::new(
+                                    client,
+                                    || {
+                                        #path
+                                        #body
+                                        Ok(
+                                            http::Request::builder()
+                                            .method(#method)
+                                            .uri(path)
+                                            .header(http::header::CONTENT_LENGTH, body.len())
+                                            #content_type
+                                            .body(body)?
+                                        )
+                                    },
+                                    (
+                                        http::StatusCode::from_u16(#status).unwrap(),
+                                        Some(mime::TEXT_EVENT_STREAM),
+                                    ),
                                 ),
-                            ),
-                            crate::__combinators::EventStream::new,
+                                crate::__combinators::EventStream::new,
+                            )
                         )
-                    )
-                }
-            });
+                    }
+                },
+            );
 
-            items.push(syn::parse_quote! {
-                future!(
-                    #ident_future,
-                    futures::future::MapOk<
-                    crate::__combinators::Send<Fut, B, E>,
-                    fn(http::Response<B>) -> crate::__combinators::EventStream<B, #response>,
-                    >,
-                    crate::__combinators::EventStream<B, #response>
-                );
-            });
-        }
+            items.push(
+                &[],
+                true,
+                syn::parse_quote! {
+                    future!(
+                        #ident_future,
+                        futures::future::MapOk<
+                        crate::__combinators::Send<Fut, B, E>,
+                        fn(http::Response<B>) -> crate::__combinators::EventStream<B, #response>,
+                        >,
+                        crate::__combinators::EventStream<B, #response>
+                    );
+                },
+            );
+        };
     }
 }

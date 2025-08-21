@@ -1,17 +1,17 @@
 use crate::{
-    Schema, Type, extract_fields, is_default, is_nullable, to_derive, to_description,
-    to_ident_pascal, to_ident_snake, to_serde_as, to_type,
+    Items, Schema, Type, extract_fields, is_default, is_nullable, to_derive, to_description,
+    to_ident_pascal, to_ident_snake, to_serde_as, to_type, to_vis,
 };
 use indexmap::{IndexMap, IndexSet};
 
 pub fn to_item_struct(
-    name: &str,
+    (module, name): (&[&str], &str),
     schema: &Schema,
     _: &[either::Either<(String, Schema), String>],
     required: &IndexSet<String>,
     schemas: &IndexMap<String, Schema>,
-    public: bool,
-    items: &mut Vec<syn::Item>,
+    pub_: bool,
+    items: &mut Items,
 ) {
     struct FieldInfo<'a> {
         default: bool,
@@ -20,20 +20,20 @@ pub fn to_item_struct(
         name: &'a str,
         nullable: bool,
         optional: bool,
-        public: bool,
+        pub_: bool,
         serde_as: Option<String>,
         type_: syn::Type,
     }
 
     let description = to_description(schema.description.as_deref());
     let derive = to_derive(schema, schemas);
-    let vis = public.then_some(quote::quote!(pub));
+    let vis = to_vis(pub_);
     let ident = to_ident_pascal(name);
 
     let mut fields = extract_fields(schema, schemas, false)
         .into_iter()
         .map(|(field_name, (ref_, schema, required))| {
-            let public = public
+            let pub_ = pub_
                 && (!matches!(
                     schema,
                     Schema {
@@ -49,22 +49,16 @@ pub fn to_item_struct(
                 name: field_name,
                 nullable: is_nullable(schema, schemas),
                 optional: !required,
-                public,
+                pub_,
                 serde_as: to_serde_as(schema),
                 type_: if let Some(ref_) = ref_ {
-                    to_type(
-                        &format!("{ref_}.{field_name}"),
-                        schema,
-                        schemas,
-                        public,
-                        None,
-                    )
+                    to_type((&[ref_], field_name), schema, schemas, pub_, None)
                 } else {
                     to_type(
-                        &format!("{name}.{field_name}"),
+                        (&[module, &[name]].concat(), field_name),
                         schema,
                         schemas,
-                        public,
+                        pub_,
                         Some(items),
                     )
                 },
@@ -89,11 +83,11 @@ pub fn to_item_struct(
             ident: to_ident_snake(field_name),
             nullable: false,
             optional: false,
-            public: true,
+            pub_: true,
             serde_as: to_serde_as(&schema),
             name: field_name,
             type_: to_type(
-                &format!("{name}.{field_name}"),
+                (&[module, &[name]].concat(), field_name),
                 &schema,
                 schemas,
                 true,
@@ -102,7 +96,7 @@ pub fn to_item_struct(
         });
     }
 
-    if fields.iter().all(|FieldInfo { public, .. }| *public) {
+    if fields.iter().all(|FieldInfo { pub_, .. }| *pub_) {
         let fields = fields.iter().map(
             |FieldInfo {
                  default,
@@ -143,16 +137,20 @@ pub fn to_item_struct(
                 }
             },
         );
-        items.push(syn::parse_quote! {
-            #description
-            #derive
-            #[serde_with::serde_as]
-            #[derive(serde::Deserialize, serde::Serialize)]
-            #[derive(typed_builder::TypedBuilder)]
-            #vis struct #ident {
-                #(#fields),*
-            }
-        });
+        items.push(
+            module,
+            true,
+            syn::parse_quote! {
+                #description
+                #derive
+                #[serde_with::serde_as]
+                #[derive(serde::Deserialize, serde::Serialize)]
+                #[derive(typed_builder::TypedBuilder)]
+                #vis struct #ident {
+                    #(#fields),*
+                }
+            },
+        );
     } else {
         {
             let fields = fields.iter().filter_map(
@@ -162,7 +160,7 @@ pub fn to_item_struct(
                      ident,
                      nullable,
                      optional,
-                     public,
+                     pub_,
                      type_,
                      ..
                  }| {
@@ -174,21 +172,25 @@ pub fn to_item_struct(
                     } else {
                         quote::quote!(#type_)
                     };
-                    public.then_some(quote::quote! {
+                    pub_.then_some(quote::quote! {
                         #description
                         #attr_builder
                         #vis #ident: #type_
                     })
                 },
             );
-            items.push(syn::parse_quote! {
-                #description
-                #derive
-                #[derive(typed_builder::TypedBuilder)]
-                #vis struct #ident {
-                    #(#fields),*
-                }
-            });
+            items.push(
+                module,
+                true,
+                syn::parse_quote! {
+                    #description
+                    #derive
+                    #[derive(typed_builder::TypedBuilder)]
+                    #vis struct #ident {
+                        #(#fields),*
+                    }
+                },
+            );
         }
 
         {
@@ -198,7 +200,7 @@ pub fn to_item_struct(
                      name,
                      nullable,
                      optional,
-                     public,
+                     pub_,
                      serde_as,
                      type_,
                      ..
@@ -216,7 +218,7 @@ pub fn to_item_struct(
                     } else {
                         quote::quote!(#type_)
                     };
-                    if *public {
+                    if *pub_ {
                         quote::quote! {
                             #attr_serde_as
                             #[serde(rename = #name)]
@@ -234,29 +236,33 @@ pub fn to_item_struct(
             );
             let idents_outer = fields
                 .iter()
-                .filter_map(|FieldInfo { ident, public, .. }| public.then_some(ident));
+                .filter_map(|FieldInfo { ident, pub_, .. }| pub_.then_some(ident));
             let field_values_outer = fields
                 .iter()
-                .filter_map(|FieldInfo { ident, public, .. }| public.then_some(ident));
-            items.push(syn::parse_quote! {
-                impl<'de> serde::Deserialize<'de> for #ident {
-                    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-                    where D: serde::Deserializer<'de> {
-                        #[serde_with::serde_as]
-                        #[derive(serde::Deserialize)]
-                        struct #ident {
-                            #(#fields_inner),*
+                .filter_map(|FieldInfo { ident, pub_, .. }| pub_.then_some(ident));
+            items.push(
+                module,
+                false,
+                syn::parse_quote! {
+                    impl<'de> serde::Deserialize<'de> for #ident {
+                        fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+                        where D: serde::Deserializer<'de> {
+                            #[serde_with::serde_as]
+                            #[derive(serde::Deserialize)]
+                            struct #ident {
+                                #(#fields_inner),*
+                            }
+                            let #ident {
+                                #(#idents_outer,)*
+                                ..
+                            } = #ident::deserialize(deserializer)?;
+                            Ok(Self {
+                                #(#field_values_outer),*
+                            })
                         }
-                        let #ident {
-                            #(#idents_outer,)*
-                            ..
-                        } = #ident::deserialize(deserializer)?;
-                        Ok(Self {
-                            #(#field_values_outer),*
-                        })
                     }
-                }
-            });
+                },
+            );
         }
 
         {
@@ -296,30 +302,34 @@ pub fn to_item_struct(
             );
             let idents_outer = fields
                 .iter()
-                .filter_map(|FieldInfo { ident, public, .. }| public.then_some(ident));
-            let field_values_inner = fields.iter().map(|FieldInfo { ident, public, .. }| {
-                if *public {
+                .filter_map(|FieldInfo { ident, pub_, .. }| pub_.then_some(ident));
+            let field_values_inner = fields.iter().map(|FieldInfo { ident, pub_, .. }| {
+                if *pub_ {
                     quote::quote!(#ident)
                 } else {
                     quote::quote!(#ident: &Default::default())
                 }
             });
-            items.push(syn::parse_quote! {
-                impl serde::Serialize for #ident {
-                    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-                    where S: serde::Serializer {
-                        #[serde_with::serde_as]
-                        #[derive(serde::Serialize)]
-                        struct #ident<'a> {
-                            #(#fields_inner),*
+            items.push(
+                module,
+                false,
+                syn::parse_quote! {
+                    impl serde::Serialize for #ident {
+                        fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+                        where S: serde::Serializer {
+                            #[serde_with::serde_as]
+                            #[derive(serde::Serialize)]
+                            struct #ident<'a> {
+                                #(#fields_inner),*
+                            }
+                            let Self {
+                                #(#idents_outer),*
+                            } = self;
+                            #ident { #(#field_values_inner),* }.serialize(serializer)
                         }
-                        let Self {
-                            #(#idents_outer),*
-                        } = self;
-                        #ident { #(#field_values_inner),* }.serialize(serializer)
                     }
-                }
-            });
+                },
+            );
         }
     }
 }

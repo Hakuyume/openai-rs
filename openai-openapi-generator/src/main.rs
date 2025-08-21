@@ -11,7 +11,9 @@ use anyhow::Context;
 use clap::Parser;
 use heck::{ToPascalCase, ToSnakeCase};
 use indexmap::{IndexMap, IndexSet};
+use quote::ToTokens;
 use std::fs::{self, File};
+use std::iter;
 use std::path::PathBuf;
 
 #[derive(Parser)]
@@ -81,9 +83,9 @@ fn main() -> anyhow::Result<()> {
         .collect::<Result<Vec<_>, _>>()?;
 
     if let Some(path) = &args.types {
-        let mut items = Vec::new();
+        let mut items = Items::default();
         for (name, schema) in &schemas {
-            to_item(name, schema, &schemas, true, &mut items);
+            to_item((&[], name), schema, &schemas, true, &mut items);
         }
         for operation in &operations {
             if let Some(parameters) = &operation.parameters {
@@ -108,7 +110,7 @@ fn main() -> anyhow::Result<()> {
                     },
                 };
                 to_type(
-                    &format!("{}.params", operation.id),
+                    (&[&operation.id], "params"),
                     &schema,
                     &schemas,
                     true,
@@ -118,7 +120,7 @@ fn main() -> anyhow::Result<()> {
             if let Some(requests) = &operation.requests {
                 for (_, schema, _) in requests {
                     to_type(
-                        &format!("{}.request", operation.id),
+                        (&[&operation.id], "request"),
                         schema,
                         &schemas,
                         true,
@@ -129,7 +131,7 @@ fn main() -> anyhow::Result<()> {
             for (_, response) in &operation.responses {
                 if let Some((_, schema)) = response {
                     to_type(
-                        &format!("{}.response", operation.id),
+                        (&[&operation.id], "response"),
                         schema,
                         &schemas,
                         true,
@@ -138,15 +140,15 @@ fn main() -> anyhow::Result<()> {
                 }
             }
         }
-        fs::write(path, quote::quote!(#(#items)*).to_string())?;
+        fs::write(path, items.to_token_stream().to_string())?;
     }
 
     if let Some(path) = &args.functions {
-        let mut items = Vec::new();
+        let mut items = Items::default();
         for operation in &operations {
             to_item_fn::to_item_fn(operation, &schemas, &mut items);
         }
-        fs::write(path, quote::quote!(#(#items)*).to_string())?;
+        fs::write(path, items.to_token_stream().to_string())?;
     }
 
     Ok(())
@@ -199,17 +201,71 @@ enum Type {
     },
 }
 
+#[derive(Default)]
+struct Items(Vec<either::Either<(bool, syn::Ident, Items), syn::Item>>);
+
+impl ToTokens for Items {
+    fn to_tokens(&self, tokens: &mut proc_macro2::TokenStream) {
+        tokens.extend(self.0.iter().map(|item| match item {
+            either::Left((pub_, ident, this)) => {
+                let vis = to_vis(*pub_);
+                quote::quote! {
+                    #[allow(clippy::module_inception)]
+                    #vis mod #ident { #this }
+                }
+            }
+            either::Right(item) => item.to_token_stream(),
+        }));
+    }
+}
+
+impl Items {
+    fn push(&mut self, module: &[&str], pub_: bool, item: syn::Item) {
+        module
+            .iter()
+            .fold(self, |this, m| {
+                let ident = to_ident_snake(m);
+                let index = this.0.iter_mut().position(|item| {
+                    if let either::Left((_, i, _)) = item {
+                        *i == ident
+                    } else {
+                        false
+                    }
+                });
+                let item = if let Some(index) = index {
+                    this.0.get_mut(index)
+                } else {
+                    this.0.push(either::Left((false, ident, Self::default())));
+                    this.0.last_mut()
+                };
+                let Some(either::Left((p, _, this))) = item else {
+                    unreachable!()
+                };
+                *p |= pub_;
+                this
+            })
+            .0
+            .push(either::Right(item));
+    }
+}
+
 fn to_type(
-    name: &str,
+    (module, name): (&[&str], &str),
     schema: &Schema,
     schemas: &IndexMap<String, Schema>,
-    public: bool,
-    items: Option<&mut Vec<syn::Item>>,
+    pub_: bool,
+    items: Option<&mut Items>,
 ) -> syn::Type {
     match &schema.type_ {
         Type::Any => syn::parse_quote!(serde_json::Value),
         Type::Array(item) => {
-            let type_ = to_type(&format!("{name}.item"), item, schemas, public, items);
+            let type_ = to_type(
+                (&[module, &[name]].concat(), "item"),
+                item,
+                schemas,
+                pub_,
+                items,
+            );
             syn::parse_quote!(Vec<#type_>)
         }
         Type::Binary => syn::parse_quote!(Vec<u8>),
@@ -217,7 +273,13 @@ fn to_type(
         Type::Float => syn::parse_quote!(f64),
         Type::Integer => syn::parse_quote!(i64),
         Type::Map(item) => {
-            let type_ = to_type(&format!("{name}.item"), item, schemas, public, items);
+            let type_ = to_type(
+                (&[module, &[name]].concat(), "item"),
+                item,
+                schemas,
+                pub_,
+                items,
+            );
             syn::parse_quote!(indexmap::IndexMap<String, #type_>)
         }
         Type::Number => syn::parse_quote!(serde_json::Number),
@@ -227,41 +289,54 @@ fn to_type(
         }
         Type::String => syn::parse_quote!(String),
         _ => {
-            let ident = to_ident_pascal(name);
             if let Some(items) = items {
-                to_item(name, schema, schemas, public, items);
+                to_item((module, name), schema, schemas, pub_, items);
             }
-            syn::parse_quote!(crate::__types::#ident)
+            let path = module
+                .iter()
+                .map(|m| to_ident_snake(m))
+                .chain(iter::once(to_ident_pascal(name)));
+            syn::parse_quote!(crate::__types::#(#path)::*)
         }
     }
 }
 
 fn to_item(
-    name: &str,
+    (module, name): (&[&str], &str),
     schema: &Schema,
     schemas: &IndexMap<String, Schema>,
-    public: bool,
-    items: &mut Vec<syn::Item>,
+    pub_: bool,
+    items: &mut Items,
 ) {
-    let description = to_description(schema.description.as_deref());
-    let vis = public.then_some(quote::quote!(pub));
-    let ident = to_ident_pascal(name);
     match &schema.type_ {
         Type::Const(value) => {
-            to_item_const::to_item_const(name, schema, value, schemas, public, items)
+            to_item_const::to_item_const((module, name), schema, value, schemas, pub_, items)
         }
         Type::Enum(variants) => {
-            to_item_enum::to_item_enum(name, schema, variants, schemas, public, items)
+            to_item_enum::to_item_enum((module, name), schema, variants, schemas, pub_, items)
         }
-        Type::Struct { fields, required } => {
-            to_item_struct::to_item_struct(name, schema, fields, required, schemas, public, items)
-        }
+        Type::Struct { fields, required } => to_item_struct::to_item_struct(
+            (module, name),
+            schema,
+            fields,
+            required,
+            schemas,
+            pub_,
+            items,
+        ),
         _ => {
-            let type_ = to_type(name, schema, schemas, public, Some(items));
-            items.push(syn::parse_quote! {
-                #description
-                #vis type #ident = #type_;
-            });
+            let description = to_description(schema.description.as_deref());
+            let vis = to_vis(pub_);
+            let ident = to_ident_pascal(name);
+            let type_ = to_type((module, name), schema, schemas, pub_, Some(items));
+            items.push(
+                module,
+                pub_,
+                syn::parse_quote! {
+                    #description
+                    #vis type #ident = #type_;
+                },
+            );
         }
     }
 }
@@ -289,6 +364,7 @@ fn to_ident_snake(name: &str) -> syn::Ident {
     let name = name.replace(['-', '.', '[', ']'], "_");
     let name = name.to_snake_case();
     let name = match &*name {
+        "move" => "r#move",
         "static" => "r#static",
         "type" => "r#type",
         _ => &name,
@@ -330,6 +406,14 @@ fn to_derive(schema: &Schema, schemas: &IndexMap<String, Schema>) -> syn::Attrib
     .into_iter()
     .flatten();
     syn::parse_quote!(#[derive(#(#derives),*)])
+}
+
+fn to_vis(pub_: bool) -> syn::Visibility {
+    if pub_ {
+        syn::parse_quote!(pub)
+    } else {
+        syn::parse_quote!(pub(crate))
+    }
 }
 
 fn is_copy(schema: &Schema, schemas: &IndexMap<String, Schema>) -> bool {

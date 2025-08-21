@@ -1,7 +1,7 @@
 #[doc = "List assistants"]
 pub fn list_assistants<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::ListAssistantsParams,
+    params: &crate::__types::list_assistants::Params,
 ) -> ListAssistants<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -21,7 +21,7 @@ where
                         limit: &'a Option<i64>,
                         #[serde(rename = "order")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        order: &'a Option<crate::__types::ListAssistantsParamsOrder>,
+                        order: &'a Option<crate::__types::list_assistants::params::Order>,
                         #[serde(rename = "after")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         after: &'a Option<String>,
@@ -31,7 +31,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::ListAssistantsParams {
+                    let crate::__types::list_assistants::Params {
                         limit,
                         order,
                         after,
@@ -121,7 +121,7 @@ future!(
 #[doc = "Retrieve assistant"]
 pub fn get_assistant<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::GetAssistantParams,
+    params: &crate::__types::get_assistant::Params,
 ) -> GetAssistant<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -139,7 +139,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::GetAssistantParams { assistant_id } = params;
+                    let crate::__types::get_assistant::Params { assistant_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/assistants/{assistant_id}");
                     let query = serde_urlencoded::to_string(Query {
@@ -178,7 +178,7 @@ future!(
 #[doc = "Modify assistant"]
 pub fn modify_assistant<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::ModifyAssistantParams,
+    params: &crate::__types::modify_assistant::Params,
     request: &crate::__types::ModifyAssistantRequest,
 ) -> ModifyAssistant<Fut, B, E>
 where
@@ -197,7 +197,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::ModifyAssistantParams { assistant_id } = params;
+                    let crate::__types::modify_assistant::Params { assistant_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/assistants/{assistant_id}");
                     let query = serde_urlencoded::to_string(Query {
@@ -237,7 +237,7 @@ future!(
 #[doc = "Delete assistant"]
 pub fn delete_assistant<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::DeleteAssistantParams,
+    params: &crate::__types::delete_assistant::Params,
 ) -> DeleteAssistant<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -255,7 +255,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::DeleteAssistantParams { assistant_id } = params;
+                    let crate::__types::delete_assistant::Params { assistant_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/assistants/{assistant_id}");
                     let query = serde_urlencoded::to_string(Query {
@@ -328,7 +328,7 @@ future ! (CreateSpeechStream , futures :: future :: MapOk < crate :: __combinato
 #[doc = "Create batch"]
 pub fn create_batch<C, Fut, B, E>(
     client: C,
-    request: &crate::__types::CreateBatchRequest,
+    request: &crate::__types::create_batch::Request,
 ) -> CreateBatch<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -368,7 +368,7 @@ future!(
 #[doc = "List batch"]
 pub fn list_batches<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::ListBatchesParams,
+    params: &crate::__types::list_batches::Params,
 ) -> ListBatches<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -392,7 +392,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::ListBatchesParams { after, limit } = params;
+                    let crate::__types::list_batches::Params { after, limit } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/batches");
                     let query = serde_urlencoded::to_string(Query {
@@ -435,7 +435,7 @@ future!(
 #[doc = "Retrieve batch"]
 pub fn retrieve_batch<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::RetrieveBatchParams,
+    params: &crate::__types::retrieve_batch::Params,
 ) -> RetrieveBatch<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -453,7 +453,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::RetrieveBatchParams { batch_id } = params;
+                    let crate::__types::retrieve_batch::Params { batch_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/batches/{batch_id}");
                     let query = serde_urlencoded::to_string(Query {
@@ -492,7 +492,7 @@ future!(
 #[doc = "Cancel batch"]
 pub fn cancel_batch<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::CancelBatchParams,
+    params: &crate::__types::cancel_batch::Params,
 ) -> CancelBatch<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -510,7 +510,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::CancelBatchParams { batch_id } = params;
+                    let crate::__types::cancel_batch::Params { batch_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/batches/{batch_id}/cancel");
                     let query = serde_urlencoded::to_string(Query {
@@ -549,7 +549,7 @@ future!(
 #[doc = "List Chat Completions"]
 pub fn list_chat_completions<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::ListChatCompletionsParams,
+    params: &crate::__types::list_chat_completions::Params,
 ) -> ListChatCompletions<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -578,11 +578,11 @@ where
                         limit: &'a Option<i64>,
                         #[serde(rename = "order")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        order: &'a Option<crate::__types::ListChatCompletionsParamsOrder>,
+                        order: &'a Option<crate::__types::list_chat_completions::params::Order>,
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::ListChatCompletionsParams {
+                    let crate::__types::list_chat_completions::Params {
                         model,
                         metadata,
                         after,
@@ -709,7 +709,7 @@ future ! (CreateChatCompletionStream , futures :: future :: MapOk < crate :: __c
 #[doc = "Get chat completion"]
 pub fn get_chat_completion<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::GetChatCompletionParams,
+    params: &crate::__types::get_chat_completion::Params,
 ) -> GetChatCompletion<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -727,7 +727,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::GetChatCompletionParams { completion_id } = params;
+                    let crate::__types::get_chat_completion::Params { completion_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/chat/completions/{completion_id}");
                     let query = serde_urlencoded::to_string(Query {
@@ -769,8 +769,8 @@ future!(
 #[doc = "Update chat completion"]
 pub fn update_chat_completion<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::UpdateChatCompletionParams,
-    request: &crate::__types::UpdateChatCompletionRequest,
+    params: &crate::__types::update_chat_completion::Params,
+    request: &crate::__types::update_chat_completion::Request,
 ) -> UpdateChatCompletion<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -788,7 +788,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::UpdateChatCompletionParams { completion_id } = params;
+                    let crate::__types::update_chat_completion::Params { completion_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/chat/completions/{completion_id}");
                     let query = serde_urlencoded::to_string(Query {
@@ -831,7 +831,7 @@ future!(
 #[doc = "Delete chat completion"]
 pub fn delete_chat_completion<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::DeleteChatCompletionParams,
+    params: &crate::__types::delete_chat_completion::Params,
 ) -> DeleteChatCompletion<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -849,7 +849,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::DeleteChatCompletionParams { completion_id } = params;
+                    let crate::__types::delete_chat_completion::Params { completion_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/chat/completions/{completion_id}");
                     let query = serde_urlencoded::to_string(Query {
@@ -890,7 +890,7 @@ future!(
 #[doc = "Get chat messages"]
 pub fn get_chat_completion_messages<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::GetChatCompletionMessagesParams,
+    params: &crate::__types::get_chat_completion_messages::Params,
 ) -> GetChatCompletionMessages<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -913,11 +913,12 @@ where
                         limit: &'a Option<i64>,
                         #[serde(rename = "order")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        order: &'a Option<crate::__types::GetChatCompletionMessagesParamsOrder>,
+                        order:
+                            &'a Option<crate::__types::get_chat_completion_messages::params::Order>,
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::GetChatCompletionMessagesParams {
+                    let crate::__types::get_chat_completion_messages::Params {
                         completion_id,
                         after,
                         limit,
@@ -1008,7 +1009,7 @@ future!(
 #[doc = "List containers"]
 pub fn list_containers<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::ListContainersParams,
+    params: &crate::__types::list_containers::Params,
 ) -> ListContainers<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -1028,14 +1029,14 @@ where
                         limit: &'a Option<i64>,
                         #[serde(rename = "order")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        order: &'a Option<crate::__types::ListContainersParamsOrder>,
+                        order: &'a Option<crate::__types::list_containers::params::Order>,
                         #[serde(rename = "after")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         after: &'a Option<String>,
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::ListContainersParams {
+                    let crate::__types::list_containers::Params {
                         limit,
                         order,
                         after,
@@ -1083,7 +1084,7 @@ future!(
 #[doc = "Retrieve container"]
 pub fn retrieve_container<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::RetrieveContainerParams,
+    params: &crate::__types::retrieve_container::Params,
 ) -> RetrieveContainer<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -1101,7 +1102,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::RetrieveContainerParams { container_id } = params;
+                    let crate::__types::retrieve_container::Params { container_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/containers/{container_id}");
                     let query = serde_urlencoded::to_string(Query {
@@ -1142,7 +1143,7 @@ future!(
 #[doc = "Delete a container"]
 pub fn delete_container<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::DeleteContainerParams,
+    params: &crate::__types::delete_container::Params,
 ) -> DeleteContainer<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -1160,7 +1161,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::DeleteContainerParams { container_id } = params;
+                    let crate::__types::delete_container::Params { container_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/containers/{container_id}");
                     let query = serde_urlencoded::to_string(Query {
@@ -1192,7 +1193,7 @@ future!(
 #[doc = "List container files"]
 pub fn list_container_files<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::ListContainerFilesParams,
+    params: &crate::__types::list_container_files::Params,
 ) -> ListContainerFiles<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -1212,14 +1213,14 @@ where
                         limit: &'a Option<i64>,
                         #[serde(rename = "order")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        order: &'a Option<crate::__types::ListContainerFilesParamsOrder>,
+                        order: &'a Option<crate::__types::list_container_files::params::Order>,
                         #[serde(rename = "after")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         after: &'a Option<String>,
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::ListContainerFilesParams {
+                    let crate::__types::list_container_files::Params {
                         container_id,
                         limit,
                         order,
@@ -1268,7 +1269,7 @@ future!(
 #[doc = "Retrieve container file"]
 pub fn retrieve_container_file<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::RetrieveContainerFileParams,
+    params: &crate::__types::retrieve_container_file::Params,
 ) -> RetrieveContainerFile<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -1286,7 +1287,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::RetrieveContainerFileParams {
+                    let crate::__types::retrieve_container_file::Params {
                         container_id,
                         file_id,
                     } = params;
@@ -1330,7 +1331,7 @@ future!(
 #[doc = "Delete a container file"]
 pub fn delete_container_file<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::DeleteContainerFileParams,
+    params: &crate::__types::delete_container_file::Params,
 ) -> DeleteContainerFile<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -1348,7 +1349,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::DeleteContainerFileParams {
+                    let crate::__types::delete_container_file::Params {
                         container_id,
                         file_id,
                     } = params;
@@ -1383,7 +1384,7 @@ future!(
 #[doc = "Retrieve container file content"]
 pub fn retrieve_container_file_content<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::RetrieveContainerFileContentParams,
+    params: &crate::__types::retrieve_container_file_content::Params,
 ) -> RetrieveContainerFileContent<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -1401,7 +1402,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::RetrieveContainerFileContentParams {
+                    let crate::__types::retrieve_container_file_content::Params {
                         container_id,
                         file_id,
                     } = params;
@@ -1478,7 +1479,7 @@ future!(
 #[doc = "List evals"]
 pub fn list_evals<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::ListEvalsParams,
+    params: &crate::__types::list_evals::Params,
 ) -> ListEvals<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -1501,14 +1502,14 @@ where
                         limit: &'a Option<i64>,
                         #[serde(rename = "order")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        order: &'a Option<crate::__types::ListEvalsParamsOrder>,
+                        order: &'a Option<crate::__types::list_evals::params::Order>,
                         #[serde(rename = "order_by")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        order_by: &'a Option<crate::__types::ListEvalsParamsOrderBy>,
+                        order_by: &'a Option<crate::__types::list_evals::params::OrderBy>,
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::ListEvalsParams {
+                    let crate::__types::list_evals::Params {
                         after,
                         limit,
                         order,
@@ -1596,7 +1597,7 @@ future!(
 #[doc = "Get an eval"]
 pub fn get_eval<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::GetEvalParams,
+    params: &crate::__types::get_eval::Params,
 ) -> GetEval<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -1614,7 +1615,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::GetEvalParams { eval_id } = params;
+                    let crate::__types::get_eval::Params { eval_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/evals/{eval_id}");
                     let query = serde_urlencoded::to_string(Query {
@@ -1653,8 +1654,8 @@ future!(
 #[doc = "Update an eval"]
 pub fn update_eval<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::UpdateEvalParams,
-    request: &crate::__types::UpdateEvalRequest,
+    params: &crate::__types::update_eval::Params,
+    request: &crate::__types::update_eval::Request,
 ) -> UpdateEval<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -1672,7 +1673,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::UpdateEvalParams { eval_id } = params;
+                    let crate::__types::update_eval::Params { eval_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/evals/{eval_id}");
                     let query = serde_urlencoded::to_string(Query {
@@ -1712,7 +1713,7 @@ future!(
 #[doc = "Delete an eval"]
 pub fn delete_eval<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::DeleteEvalParams,
+    params: &crate::__types::delete_eval::Params,
 ) -> DeleteEval<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -1730,7 +1731,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::DeleteEvalParams { eval_id } = params;
+                    let crate::__types::delete_eval::Params { eval_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/evals/{eval_id}");
                     let query = serde_urlencoded::to_string(Query {
@@ -1761,17 +1762,17 @@ future!(
     DeleteEval,
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
-        crate::__combinators::Json<B, E, crate::__types::DeleteEvalResponse>,
+        crate::__combinators::Json<B, E, crate::__types::delete_eval::Response>,
         fn(
             http::Response<B>,
-        ) -> crate::__combinators::Json<B, E, crate::__types::DeleteEvalResponse>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::delete_eval::Response>,
     >,
-    crate::__types::DeleteEvalResponse
+    crate::__types::delete_eval::Response
 );
 #[doc = "Get eval runs"]
 pub fn get_eval_runs<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::GetEvalRunsParams,
+    params: &crate::__types::get_eval_runs::Params,
 ) -> GetEvalRuns<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -1794,14 +1795,14 @@ where
                         limit: &'a Option<i64>,
                         #[serde(rename = "order")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        order: &'a Option<crate::__types::GetEvalRunsParamsOrder>,
+                        order: &'a Option<crate::__types::get_eval_runs::params::Order>,
                         #[serde(rename = "status")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        status: &'a Option<crate::__types::GetEvalRunsParamsStatus>,
+                        status: &'a Option<crate::__types::get_eval_runs::params::Status>,
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::GetEvalRunsParams {
+                    let crate::__types::get_eval_runs::Params {
                         eval_id,
                         after,
                         limit,
@@ -1850,7 +1851,7 @@ future!(
 #[doc = "Create eval run"]
 pub fn create_eval_run<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::CreateEvalRunParams,
+    params: &crate::__types::create_eval_run::Params,
     request: &crate::__types::CreateEvalRunRequest,
 ) -> CreateEvalRun<Fut, B, E>
 where
@@ -1869,7 +1870,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::CreateEvalRunParams { eval_id } = params;
+                    let crate::__types::create_eval_run::Params { eval_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/evals/{eval_id}/runs");
                     let query = serde_urlencoded::to_string(Query {
@@ -1909,7 +1910,7 @@ future!(
 #[doc = "Get an eval run"]
 pub fn get_eval_run<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::GetEvalRunParams,
+    params: &crate::__types::get_eval_run::Params,
 ) -> GetEvalRun<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -1927,7 +1928,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::GetEvalRunParams { eval_id, run_id } = params;
+                    let crate::__types::get_eval_run::Params { eval_id, run_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/evals/{eval_id}/runs/{run_id}");
                     let query = serde_urlencoded::to_string(Query {
@@ -1966,7 +1967,7 @@ future!(
 #[doc = "Cancel eval run"]
 pub fn cancel_eval_run<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::CancelEvalRunParams,
+    params: &crate::__types::cancel_eval_run::Params,
 ) -> CancelEvalRun<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -1984,7 +1985,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::CancelEvalRunParams { eval_id, run_id } = params;
+                    let crate::__types::cancel_eval_run::Params { eval_id, run_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/evals/{eval_id}/runs/{run_id}");
                     let query = serde_urlencoded::to_string(Query {
@@ -2023,7 +2024,7 @@ future!(
 #[doc = "Delete eval run"]
 pub fn delete_eval_run<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::DeleteEvalRunParams,
+    params: &crate::__types::delete_eval_run::Params,
 ) -> DeleteEvalRun<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -2041,7 +2042,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::DeleteEvalRunParams { eval_id, run_id } = params;
+                    let crate::__types::delete_eval_run::Params { eval_id, run_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/evals/{eval_id}/runs/{run_id}");
                     let query = serde_urlencoded::to_string(Query {
@@ -2072,17 +2073,17 @@ future!(
     DeleteEvalRun,
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
-        crate::__combinators::Json<B, E, crate::__types::DeleteEvalRunResponse>,
+        crate::__combinators::Json<B, E, crate::__types::delete_eval_run::Response>,
         fn(
             http::Response<B>,
-        ) -> crate::__combinators::Json<B, E, crate::__types::DeleteEvalRunResponse>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::delete_eval_run::Response>,
     >,
-    crate::__types::DeleteEvalRunResponse
+    crate::__types::delete_eval_run::Response
 );
 #[doc = "Get eval run output items"]
 pub fn get_eval_run_output_items<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::GetEvalRunOutputItemsParams,
+    params: &crate::__types::get_eval_run_output_items::Params,
 ) -> GetEvalRunOutputItems<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -2105,14 +2106,15 @@ where
                         limit: &'a Option<i64>,
                         #[serde(rename = "status")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        status: &'a Option<crate::__types::GetEvalRunOutputItemsParamsStatus>,
+                        status:
+                            &'a Option<crate::__types::get_eval_run_output_items::params::Status>,
                         #[serde(rename = "order")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        order: &'a Option<crate::__types::GetEvalRunOutputItemsParamsOrder>,
+                        order: &'a Option<crate::__types::get_eval_run_output_items::params::Order>,
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::GetEvalRunOutputItemsParams {
+                    let crate::__types::get_eval_run_output_items::Params {
                         eval_id,
                         run_id,
                         after,
@@ -2164,7 +2166,7 @@ future!(
 #[doc = "Get an output item of an eval run"]
 pub fn get_eval_run_output_item<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::GetEvalRunOutputItemParams,
+    params: &crate::__types::get_eval_run_output_item::Params,
 ) -> GetEvalRunOutputItem<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -2182,7 +2184,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::GetEvalRunOutputItemParams {
+                    let crate::__types::get_eval_run_output_item::Params {
                         eval_id,
                         run_id,
                         output_item_id,
@@ -2228,7 +2230,7 @@ future!(
 #[doc = "List files"]
 pub fn list_files<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::ListFilesParams,
+    params: &crate::__types::list_files::Params,
 ) -> ListFiles<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -2251,14 +2253,14 @@ where
                         limit: &'a Option<i64>,
                         #[serde(rename = "order")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        order: &'a Option<crate::__types::ListFilesParamsOrder>,
+                        order: &'a Option<crate::__types::list_files::params::Order>,
                         #[serde(rename = "after")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         after: &'a Option<String>,
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::ListFilesParams {
+                    let crate::__types::list_files::Params {
                         purpose,
                         limit,
                         order,
@@ -2308,7 +2310,7 @@ future!(
 #[doc = "Delete file"]
 pub fn delete_file<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::DeleteFileParams,
+    params: &crate::__types::delete_file::Params,
 ) -> DeleteFile<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -2326,7 +2328,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::DeleteFileParams { file_id } = params;
+                    let crate::__types::delete_file::Params { file_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/files/{file_id}");
                     let query = serde_urlencoded::to_string(Query {
@@ -2367,7 +2369,7 @@ future!(
 #[doc = "Retrieve file"]
 pub fn retrieve_file<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::RetrieveFileParams,
+    params: &crate::__types::retrieve_file::Params,
 ) -> RetrieveFile<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -2385,7 +2387,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::RetrieveFileParams { file_id } = params;
+                    let crate::__types::retrieve_file::Params { file_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/files/{file_id}");
                     let query = serde_urlencoded::to_string(Query {
@@ -2424,7 +2426,7 @@ future!(
 #[doc = "Retrieve file content"]
 pub fn download_file<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::DownloadFileParams,
+    params: &crate::__types::download_file::Params,
 ) -> DownloadFile<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -2442,7 +2444,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::DownloadFileParams { file_id } = params;
+                    let crate::__types::download_file::Params { file_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/files/{file_id}/content");
                     let query = serde_urlencoded::to_string(Query {
@@ -2565,7 +2567,7 @@ future!(
 #[doc = "List checkpoint permissions"]
 pub fn list_fine_tuning_checkpoint_permissions<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::ListFineTuningCheckpointPermissionsParams,
+    params: &crate::__types::list_fine_tuning_checkpoint_permissions::Params,
 ) -> ListFineTuningCheckpointPermissions<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -2592,12 +2594,12 @@ where
                         #[serde(rename = "order")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         order: &'a Option<
-                            crate::__types::ListFineTuningCheckpointPermissionsParamsOrder,
+                            crate::__types::list_fine_tuning_checkpoint_permissions::params::Order,
                         >,
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::ListFineTuningCheckpointPermissionsParams {
+                    let crate::__types::list_fine_tuning_checkpoint_permissions::Params {
                         fine_tuned_model_checkpoint,
                         project_id,
                         after,
@@ -2658,7 +2660,7 @@ future!(
 #[doc = "Create checkpoint permissions"]
 pub fn create_fine_tuning_checkpoint_permission<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::CreateFineTuningCheckpointPermissionParams,
+    params: &crate::__types::create_fine_tuning_checkpoint_permission::Params,
     request: &crate::__types::CreateFineTuningCheckpointPermissionRequest,
 ) -> CreateFineTuningCheckpointPermission<Fut, B, E>
 where
@@ -2677,7 +2679,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::CreateFineTuningCheckpointPermissionParams {
+                    let crate::__types::create_fine_tuning_checkpoint_permission::Params {
                         fine_tuned_model_checkpoint,
                     } = params;
                     #[allow(clippy::useless_format)]
@@ -2731,7 +2733,7 @@ future!(
 #[doc = "Delete checkpoint permission"]
 pub fn delete_fine_tuning_checkpoint_permission<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::DeleteFineTuningCheckpointPermissionParams,
+    params: &crate::__types::delete_fine_tuning_checkpoint_permission::Params,
 ) -> DeleteFineTuningCheckpointPermission<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -2749,7 +2751,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::DeleteFineTuningCheckpointPermissionParams {
+                    let crate::__types::delete_fine_tuning_checkpoint_permission::Params {
                         fine_tuned_model_checkpoint,
                         permission_id,
                     } = params;
@@ -2843,7 +2845,7 @@ future!(
 #[doc = "List fine-tuning jobs"]
 pub fn list_paginated_fine_tuning_jobs<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::ListPaginatedFineTuningJobsParams,
+    params: &crate::__types::list_paginated_fine_tuning_jobs::Params,
 ) -> ListPaginatedFineTuningJobs<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -2870,7 +2872,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::ListPaginatedFineTuningJobsParams {
+                    let crate::__types::list_paginated_fine_tuning_jobs::Params {
                         after,
                         limit,
                         metadata,
@@ -2919,7 +2921,7 @@ future!(
 #[doc = "Retrieve fine-tuning job"]
 pub fn retrieve_fine_tuning_job<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::RetrieveFineTuningJobParams,
+    params: &crate::__types::retrieve_fine_tuning_job::Params,
 ) -> RetrieveFineTuningJob<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -2937,7 +2939,8 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::RetrieveFineTuningJobParams { fine_tuning_job_id } = params;
+                    let crate::__types::retrieve_fine_tuning_job::Params { fine_tuning_job_id } =
+                        params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/fine_tuning/jobs/{fine_tuning_job_id}");
                     let query = serde_urlencoded::to_string(Query {
@@ -2976,7 +2979,7 @@ future!(
 #[doc = "Cancel fine-tuning"]
 pub fn cancel_fine_tuning_job<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::CancelFineTuningJobParams,
+    params: &crate::__types::cancel_fine_tuning_job::Params,
 ) -> CancelFineTuningJob<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -2994,7 +2997,8 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::CancelFineTuningJobParams { fine_tuning_job_id } = params;
+                    let crate::__types::cancel_fine_tuning_job::Params { fine_tuning_job_id } =
+                        params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/fine_tuning/jobs/{fine_tuning_job_id}/cancel");
                     let query = serde_urlencoded::to_string(Query {
@@ -3033,7 +3037,7 @@ future!(
 #[doc = "List fine-tuning checkpoints"]
 pub fn list_fine_tuning_job_checkpoints<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::ListFineTuningJobCheckpointsParams,
+    params: &crate::__types::list_fine_tuning_job_checkpoints::Params,
 ) -> ListFineTuningJobCheckpoints<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -3057,7 +3061,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::ListFineTuningJobCheckpointsParams {
+                    let crate::__types::list_fine_tuning_job_checkpoints::Params {
                         fine_tuning_job_id,
                         after,
                         limit,
@@ -3108,7 +3112,7 @@ future!(
 #[doc = "List fine-tuning events"]
 pub fn list_fine_tuning_events<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::ListFineTuningEventsParams,
+    params: &crate::__types::list_fine_tuning_events::Params,
 ) -> ListFineTuningEvents<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -3132,7 +3136,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::ListFineTuningEventsParams {
+                    let crate::__types::list_fine_tuning_events::Params {
                         fine_tuning_job_id,
                         after,
                         limit,
@@ -3180,7 +3184,7 @@ future!(
 #[doc = "Pause fine-tuning"]
 pub fn pause_fine_tuning_job<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::PauseFineTuningJobParams,
+    params: &crate::__types::pause_fine_tuning_job::Params,
 ) -> PauseFineTuningJob<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -3198,7 +3202,8 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::PauseFineTuningJobParams { fine_tuning_job_id } = params;
+                    let crate::__types::pause_fine_tuning_job::Params { fine_tuning_job_id } =
+                        params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/fine_tuning/jobs/{fine_tuning_job_id}/pause");
                     let query = serde_urlencoded::to_string(Query {
@@ -3237,7 +3242,7 @@ future!(
 #[doc = "Resume fine-tuning"]
 pub fn resume_fine_tuning_job<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::ResumeFineTuningJobParams,
+    params: &crate::__types::resume_fine_tuning_job::Params,
 ) -> ResumeFineTuningJob<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -3255,7 +3260,8 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::ResumeFineTuningJobParams { fine_tuning_job_id } = params;
+                    let crate::__types::resume_fine_tuning_job::Params { fine_tuning_job_id } =
+                        params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/fine_tuning/jobs/{fine_tuning_job_id}/resume");
                     let query = serde_urlencoded::to_string(Query {
@@ -3404,7 +3410,7 @@ future!(
 #[doc = "Retrieve model"]
 pub fn retrieve_model<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::RetrieveModelParams,
+    params: &crate::__types::retrieve_model::Params,
 ) -> RetrieveModel<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -3422,7 +3428,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::RetrieveModelParams { model } = params;
+                    let crate::__types::retrieve_model::Params { model } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/models/{model}");
                     let query = serde_urlencoded::to_string(Query {
@@ -3461,7 +3467,7 @@ future!(
 #[doc = "Delete a fine-tuned model"]
 pub fn delete_model<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::DeleteModelParams,
+    params: &crate::__types::delete_model::Params,
 ) -> DeleteModel<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -3479,7 +3485,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::DeleteModelParams { model } = params;
+                    let crate::__types::delete_model::Params { model } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/models/{model}");
                     let query = serde_urlencoded::to_string(Query {
@@ -3562,7 +3568,7 @@ future!(
 #[doc = "List all organization and project API keys."]
 pub fn admin_api_keys_list<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::AdminApiKeysListParams,
+    params: &crate::__types::admin_api_keys_list::Params,
 ) -> AdminApiKeysList<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -3582,14 +3588,14 @@ where
                         after: &'a Option<String>,
                         #[serde(rename = "order")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        order: &'a Option<crate::__types::AdminApiKeysListParamsOrder>,
+                        order: &'a Option<crate::__types::admin_api_keys_list::params::Order>,
                         #[serde(rename = "limit")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         limit: &'a Option<i64>,
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::AdminApiKeysListParams {
+                    let crate::__types::admin_api_keys_list::Params {
                         after,
                         order,
                         limit,
@@ -3635,7 +3641,7 @@ future!(
 #[doc = "Create admin API key"]
 pub fn admin_api_keys_create<C, Fut, B, E>(
     client: C,
-    request: &crate::__types::AdminApiKeysCreateRequest,
+    request: &crate::__types::admin_api_keys_create::Request,
 ) -> AdminApiKeysCreate<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -3675,7 +3681,7 @@ future!(
 #[doc = "Retrieve admin API key"]
 pub fn admin_api_keys_get<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::AdminApiKeysGetParams,
+    params: &crate::__types::admin_api_keys_get::Params,
 ) -> AdminApiKeysGet<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -3693,7 +3699,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::AdminApiKeysGetParams { key_id } = params;
+                    let crate::__types::admin_api_keys_get::Params { key_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/organization/admin_api_keys/{key_id}");
                     let query = serde_urlencoded::to_string(Query {
@@ -3732,7 +3738,7 @@ future!(
 #[doc = "Delete admin API key"]
 pub fn admin_api_keys_delete<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::AdminApiKeysDeleteParams,
+    params: &crate::__types::admin_api_keys_delete::Params,
 ) -> AdminApiKeysDelete<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -3750,7 +3756,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::AdminApiKeysDeleteParams { key_id } = params;
+                    let crate::__types::admin_api_keys_delete::Params { key_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/organization/admin_api_keys/{key_id}");
                     let query = serde_urlencoded::to_string(Query {
@@ -3781,17 +3787,18 @@ future!(
     AdminApiKeysDelete,
     futures::future::AndThen<
         crate::__combinators::Send<Fut, B, E>,
-        crate::__combinators::Json<B, E, crate::__types::AdminApiKeysDeleteResponse>,
+        crate::__combinators::Json<B, E, crate::__types::admin_api_keys_delete::Response>,
         fn(
             http::Response<B>,
-        ) -> crate::__combinators::Json<B, E, crate::__types::AdminApiKeysDeleteResponse>,
+        )
+            -> crate::__combinators::Json<B, E, crate::__types::admin_api_keys_delete::Response>,
     >,
-    crate::__types::AdminApiKeysDeleteResponse
+    crate::__types::admin_api_keys_delete::Response
 );
 #[doc = "List audit logs"]
 pub fn list_audit_logs<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::ListAuditLogsParams,
+    params: &crate::__types::list_audit_logs::Params,
 ) -> ListAuditLogs<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -3808,7 +3815,8 @@ where
                     struct Query<'a> {
                         #[serde(rename = "effective_at")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        effective_at: &'a Option<crate::__types::ListAuditLogsParamsEffectiveAt>,
+                        effective_at:
+                            &'a Option<crate::__types::list_audit_logs::params::EffectiveAt>,
                         #[serde(rename = "project_ids[]")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         project_ids: &'a Option<Vec<String>>,
@@ -3836,7 +3844,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::ListAuditLogsParams {
+                    let crate::__types::list_audit_logs::Params {
                         effective_at,
                         project_ids,
                         event_types,
@@ -3896,7 +3904,7 @@ future!(
 #[doc = "List organization certificates"]
 pub fn list_organization_certificates<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::ListOrganizationCertificatesParams,
+    params: &crate::__types::list_organization_certificates::Params,
 ) -> ListOrganizationCertificates<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -3919,11 +3927,13 @@ where
                         after: &'a Option<String>,
                         #[serde(rename = "order")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        order: &'a Option<crate::__types::ListOrganizationCertificatesParamsOrder>,
+                        order: &'a Option<
+                            crate::__types::list_organization_certificates::params::Order,
+                        >,
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::ListOrganizationCertificatesParams {
+                    let crate::__types::list_organization_certificates::Params {
                         limit,
                         after,
                         order,
@@ -4095,7 +4105,7 @@ future!(
 #[doc = "Get certificate"]
 pub fn get_certificate<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::GetCertificateParams,
+    params: &crate::__types::get_certificate::Params,
 ) -> GetCertificate<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -4112,11 +4122,12 @@ where
                     struct Query<'a> {
                         #[serde(rename = "include")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        include: &'a Option<Vec<crate::__types::GetCertificateParamsIncludeItem>>,
+                        include:
+                            &'a Option<Vec<crate::__types::get_certificate::params::include::Item>>,
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::GetCertificateParams {
+                    let crate::__types::get_certificate::Params {
                         certificate_id,
                         include,
                     } = params;
@@ -4237,7 +4248,7 @@ future!(
 #[doc = "Costs"]
 pub fn usage_costs<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::UsageCostsParams,
+    params: &crate::__types::usage_costs::Params,
 ) -> UsageCosts<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -4259,13 +4270,14 @@ where
                         end_time: &'a Option<i64>,
                         #[serde(rename = "bucket_width")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        bucket_width: &'a Option<crate::__types::UsageCostsParamsBucketWidth>,
+                        bucket_width: &'a Option<crate::__types::usage_costs::params::BucketWidth>,
                         #[serde(rename = "project_ids")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         project_ids: &'a Option<Vec<String>>,
                         #[serde(rename = "group_by")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        group_by: &'a Option<Vec<crate::__types::UsageCostsParamsGroupByItem>>,
+                        group_by:
+                            &'a Option<Vec<crate::__types::usage_costs::params::group_by::Item>>,
                         #[serde(rename = "limit")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         limit: &'a Option<i64>,
@@ -4275,7 +4287,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::UsageCostsParams {
+                    let crate::__types::usage_costs::Params {
                         start_time,
                         end_time,
                         bucket_width,
@@ -4329,7 +4341,7 @@ future!(
 #[doc = "List invites"]
 pub fn list_invites<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::ListInvitesParams,
+    params: &crate::__types::list_invites::Params,
 ) -> ListInvites<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -4353,7 +4365,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::ListInvitesParams { limit, after } = params;
+                    let crate::__types::list_invites::Params { limit, after } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/organization/invites");
                     let query = serde_urlencoded::to_string(Query {
@@ -4436,7 +4448,7 @@ future!(
 #[doc = "Retrieve invite"]
 pub fn retrieve_invite<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::RetrieveInviteParams,
+    params: &crate::__types::retrieve_invite::Params,
 ) -> RetrieveInvite<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -4454,7 +4466,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::RetrieveInviteParams { invite_id } = params;
+                    let crate::__types::retrieve_invite::Params { invite_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/organization/invites/{invite_id}");
                     let query = serde_urlencoded::to_string(Query {
@@ -4493,7 +4505,7 @@ future!(
 #[doc = "Delete invite"]
 pub fn delete_invite<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::DeleteInviteParams,
+    params: &crate::__types::delete_invite::Params,
 ) -> DeleteInvite<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -4511,7 +4523,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::DeleteInviteParams { invite_id } = params;
+                    let crate::__types::delete_invite::Params { invite_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/organization/invites/{invite_id}");
                     let query = serde_urlencoded::to_string(Query {
@@ -4552,7 +4564,7 @@ future!(
 #[doc = "List projects"]
 pub fn list_projects<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::ListProjectsParams,
+    params: &crate::__types::list_projects::Params,
 ) -> ListProjects<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -4579,7 +4591,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::ListProjectsParams {
+                    let crate::__types::list_projects::Params {
                         limit,
                         after,
                         include_archived,
@@ -4667,7 +4679,7 @@ future!(
 #[doc = "Retrieve project"]
 pub fn retrieve_project<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::RetrieveProjectParams,
+    params: &crate::__types::retrieve_project::Params,
 ) -> RetrieveProject<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -4685,7 +4697,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::RetrieveProjectParams { project_id } = params;
+                    let crate::__types::retrieve_project::Params { project_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/organization/projects/{project_id}");
                     let query = serde_urlencoded::to_string(Query {
@@ -4724,7 +4736,7 @@ future!(
 #[doc = "Modify project"]
 pub fn modify_project<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::ModifyProjectParams,
+    params: &crate::__types::modify_project::Params,
     request: &crate::__types::ProjectUpdateRequest,
 ) -> ModifyProject<Fut, B, E>
 where
@@ -4743,7 +4755,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::ModifyProjectParams { project_id } = params;
+                    let crate::__types::modify_project::Params { project_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/organization/projects/{project_id}");
                     let query = serde_urlencoded::to_string(Query {
@@ -4783,7 +4795,7 @@ future!(
 #[doc = "List project API keys"]
 pub fn list_project_api_keys<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::ListProjectApiKeysParams,
+    params: &crate::__types::list_project_api_keys::Params,
 ) -> ListProjectApiKeys<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -4807,7 +4819,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::ListProjectApiKeysParams {
+                    let crate::__types::list_project_api_keys::Params {
                         project_id,
                         limit,
                         after,
@@ -4854,7 +4866,7 @@ future!(
 #[doc = "Retrieve project API key"]
 pub fn retrieve_project_api_key<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::RetrieveProjectApiKeyParams,
+    params: &crate::__types::retrieve_project_api_key::Params,
 ) -> RetrieveProjectApiKey<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -4872,7 +4884,8 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::RetrieveProjectApiKeyParams { project_id, key_id } = params;
+                    let crate::__types::retrieve_project_api_key::Params { project_id, key_id } =
+                        params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/organization/projects/{project_id}/api_keys/{key_id}");
                     let query = serde_urlencoded::to_string(Query {
@@ -4911,7 +4924,7 @@ future!(
 #[doc = "Delete project API key"]
 pub fn delete_project_api_key<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::DeleteProjectApiKeyParams,
+    params: &crate::__types::delete_project_api_key::Params,
 ) -> DeleteProjectApiKey<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -4929,7 +4942,8 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::DeleteProjectApiKeyParams { project_id, key_id } = params;
+                    let crate::__types::delete_project_api_key::Params { project_id, key_id } =
+                        params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/organization/projects/{project_id}/api_keys/{key_id}");
                     let query = serde_urlencoded::to_string(Query {
@@ -4971,7 +4985,7 @@ future!(
 #[doc = "Archive project"]
 pub fn archive_project<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::ArchiveProjectParams,
+    params: &crate::__types::archive_project::Params,
 ) -> ArchiveProject<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -4989,7 +5003,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::ArchiveProjectParams { project_id } = params;
+                    let crate::__types::archive_project::Params { project_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/organization/projects/{project_id}/archive");
                     let query = serde_urlencoded::to_string(Query {
@@ -5028,7 +5042,7 @@ future!(
 #[doc = "List project certificates"]
 pub fn list_project_certificates<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::ListProjectCertificatesParams,
+    params: &crate::__types::list_project_certificates::Params,
 ) -> ListProjectCertificates<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -5051,11 +5065,11 @@ where
                         after: &'a Option<String>,
                         #[serde(rename = "order")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        order: &'a Option<crate::__types::ListProjectCertificatesParamsOrder>,
+                        order: &'a Option<crate::__types::list_project_certificates::params::Order>,
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::ListProjectCertificatesParams {
+                    let crate::__types::list_project_certificates::Params {
                         project_id,
                         limit,
                         after,
@@ -5104,7 +5118,7 @@ future!(
 #[doc = "Activate certificates for project"]
 pub fn activate_project_certificates<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::ActivateProjectCertificatesParams,
+    params: &crate::__types::activate_project_certificates::Params,
     request: &crate::__types::ToggleCertificatesRequest,
 ) -> ActivateProjectCertificates<Fut, B, E>
 where
@@ -5123,7 +5137,8 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::ActivateProjectCertificatesParams { project_id } = params;
+                    let crate::__types::activate_project_certificates::Params { project_id } =
+                        params;
                     #[allow(clippy::useless_format)]
                     let mut path =
                         format!("/organization/projects/{project_id}/certificates/activate");
@@ -5166,7 +5181,7 @@ future!(
 #[doc = "Deactivate certificates for project"]
 pub fn deactivate_project_certificates<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::DeactivateProjectCertificatesParams,
+    params: &crate::__types::deactivate_project_certificates::Params,
     request: &crate::__types::ToggleCertificatesRequest,
 ) -> DeactivateProjectCertificates<Fut, B, E>
 where
@@ -5185,7 +5200,8 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::DeactivateProjectCertificatesParams { project_id } = params;
+                    let crate::__types::deactivate_project_certificates::Params { project_id } =
+                        params;
                     #[allow(clippy::useless_format)]
                     let mut path =
                         format!("/organization/projects/{project_id}/certificates/deactivate");
@@ -5228,7 +5244,7 @@ future!(
 #[doc = "List project rate limits"]
 pub fn list_project_rate_limits<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::ListProjectRateLimitsParams,
+    params: &crate::__types::list_project_rate_limits::Params,
 ) -> ListProjectRateLimits<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -5255,7 +5271,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::ListProjectRateLimitsParams {
+                    let crate::__types::list_project_rate_limits::Params {
                         project_id,
                         limit,
                         after,
@@ -5305,7 +5321,7 @@ future!(
 #[doc = "Modify project rate limit"]
 pub fn update_project_rate_limits<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::UpdateProjectRateLimitsParams,
+    params: &crate::__types::update_project_rate_limits::Params,
     request: &crate::__types::ProjectRateLimitUpdateRequest,
 ) -> UpdateProjectRateLimits<Fut, B, E>
 where
@@ -5324,7 +5340,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::UpdateProjectRateLimitsParams {
+                    let crate::__types::update_project_rate_limits::Params {
                         project_id,
                         rate_limit_id,
                     } = params;
@@ -5368,7 +5384,7 @@ future!(
 #[doc = "List project service accounts"]
 pub fn list_project_service_accounts<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::ListProjectServiceAccountsParams,
+    params: &crate::__types::list_project_service_accounts::Params,
 ) -> ListProjectServiceAccounts<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -5392,7 +5408,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::ListProjectServiceAccountsParams {
+                    let crate::__types::list_project_service_accounts::Params {
                         project_id,
                         limit,
                         after,
@@ -5440,7 +5456,7 @@ future!(
 #[doc = "Create project service account"]
 pub fn create_project_service_account<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::CreateProjectServiceAccountParams,
+    params: &crate::__types::create_project_service_account::Params,
     request: &crate::__types::ProjectServiceAccountCreateRequest,
 ) -> CreateProjectServiceAccount<Fut, B, E>
 where
@@ -5459,7 +5475,8 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::CreateProjectServiceAccountParams { project_id } = params;
+                    let crate::__types::create_project_service_account::Params { project_id } =
+                        params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/organization/projects/{project_id}/service_accounts");
                     let query = serde_urlencoded::to_string(Query {
@@ -5502,7 +5519,7 @@ future!(
 #[doc = "Retrieve project service account"]
 pub fn retrieve_project_service_account<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::RetrieveProjectServiceAccountParams,
+    params: &crate::__types::retrieve_project_service_account::Params,
 ) -> RetrieveProjectServiceAccount<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -5520,7 +5537,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::RetrieveProjectServiceAccountParams {
+                    let crate::__types::retrieve_project_service_account::Params {
                         project_id,
                         service_account_id,
                     } = params;
@@ -5566,7 +5583,7 @@ future!(
 #[doc = "Delete project service account"]
 pub fn delete_project_service_account<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::DeleteProjectServiceAccountParams,
+    params: &crate::__types::delete_project_service_account::Params,
 ) -> DeleteProjectServiceAccount<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -5584,7 +5601,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::DeleteProjectServiceAccountParams {
+                    let crate::__types::delete_project_service_account::Params {
                         project_id,
                         service_account_id,
                     } = params;
@@ -5631,7 +5648,7 @@ future!(
 #[doc = "List project users"]
 pub fn list_project_users<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::ListProjectUsersParams,
+    params: &crate::__types::list_project_users::Params,
 ) -> ListProjectUsers<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -5655,7 +5672,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::ListProjectUsersParams {
+                    let crate::__types::list_project_users::Params {
                         project_id,
                         limit,
                         after,
@@ -5702,7 +5719,7 @@ future!(
 #[doc = "Create project user"]
 pub fn create_project_user<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::CreateProjectUserParams,
+    params: &crate::__types::create_project_user::Params,
     request: &crate::__types::ProjectUserCreateRequest,
 ) -> CreateProjectUser<Fut, B, E>
 where
@@ -5721,7 +5738,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::CreateProjectUserParams { project_id } = params;
+                    let crate::__types::create_project_user::Params { project_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/organization/projects/{project_id}/users");
                     let query = serde_urlencoded::to_string(Query {
@@ -5761,7 +5778,7 @@ future!(
 #[doc = "Retrieve project user"]
 pub fn retrieve_project_user<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::RetrieveProjectUserParams,
+    params: &crate::__types::retrieve_project_user::Params,
 ) -> RetrieveProjectUser<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -5779,7 +5796,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::RetrieveProjectUserParams {
+                    let crate::__types::retrieve_project_user::Params {
                         project_id,
                         user_id,
                     } = params;
@@ -5821,7 +5838,7 @@ future!(
 #[doc = "Modify project user"]
 pub fn modify_project_user<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::ModifyProjectUserParams,
+    params: &crate::__types::modify_project_user::Params,
     request: &crate::__types::ProjectUserUpdateRequest,
 ) -> ModifyProjectUser<Fut, B, E>
 where
@@ -5840,7 +5857,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::ModifyProjectUserParams {
+                    let crate::__types::modify_project_user::Params {
                         project_id,
                         user_id,
                     } = params;
@@ -5883,7 +5900,7 @@ future!(
 #[doc = "Delete project user"]
 pub fn delete_project_user<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::DeleteProjectUserParams,
+    params: &crate::__types::delete_project_user::Params,
 ) -> DeleteProjectUser<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -5901,7 +5918,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::DeleteProjectUserParams {
+                    let crate::__types::delete_project_user::Params {
                         project_id,
                         user_id,
                     } = params;
@@ -5945,7 +5962,7 @@ future!(
 #[doc = "Audio speeches"]
 pub fn usage_audio_speeches<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::UsageAudioSpeechesParams,
+    params: &crate::__types::usage_audio_speeches::Params,
 ) -> UsageAudioSpeeches<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -5968,7 +5985,7 @@ where
                         #[serde(rename = "bucket_width")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         bucket_width:
-                            &'a Option<crate::__types::UsageAudioSpeechesParamsBucketWidth>,
+                            &'a Option<crate::__types::usage_audio_speeches::params::BucketWidth>,
                         #[serde(rename = "project_ids")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         project_ids: &'a Option<Vec<String>>,
@@ -5983,8 +6000,9 @@ where
                         models: &'a Option<Vec<String>>,
                         #[serde(rename = "group_by")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        group_by:
-                            &'a Option<Vec<crate::__types::UsageAudioSpeechesParamsGroupByItem>>,
+                        group_by: &'a Option<
+                            Vec<crate::__types::usage_audio_speeches::params::group_by::Item>,
+                        >,
                         #[serde(rename = "limit")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         limit: &'a Option<i64>,
@@ -5994,7 +6012,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::UsageAudioSpeechesParams {
+                    let crate::__types::usage_audio_speeches::Params {
                         start_time,
                         end_time,
                         bucket_width,
@@ -6054,7 +6072,7 @@ future!(
 #[doc = "Audio transcriptions"]
 pub fn usage_audio_transcriptions<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::UsageAudioTranscriptionsParams,
+    params: &crate::__types::usage_audio_transcriptions::Params,
 ) -> UsageAudioTranscriptions<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -6076,8 +6094,9 @@ where
                         end_time: &'a Option<i64>,
                         #[serde(rename = "bucket_width")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        bucket_width:
-                            &'a Option<crate::__types::UsageAudioTranscriptionsParamsBucketWidth>,
+                        bucket_width: &'a Option<
+                            crate::__types::usage_audio_transcriptions::params::BucketWidth,
+                        >,
                         #[serde(rename = "project_ids")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         project_ids: &'a Option<Vec<String>>,
@@ -6093,7 +6112,7 @@ where
                         #[serde(rename = "group_by")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         group_by: &'a Option<
-                            Vec<crate::__types::UsageAudioTranscriptionsParamsGroupByItem>,
+                            Vec<crate::__types::usage_audio_transcriptions::params::group_by::Item>,
                         >,
                         #[serde(rename = "limit")]
                         #[serde(skip_serializing_if = "Option::is_none")]
@@ -6104,7 +6123,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::UsageAudioTranscriptionsParams {
+                    let crate::__types::usage_audio_transcriptions::Params {
                         start_time,
                         end_time,
                         bucket_width,
@@ -6164,7 +6183,7 @@ future!(
 #[doc = "Code interpreter sessions"]
 pub fn usage_code_interpreter_sessions<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::UsageCodeInterpreterSessionsParams,
+    params: &crate::__types::usage_code_interpreter_sessions::Params,
 ) -> UsageCodeInterpreterSessions<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -6178,35 +6197,8 @@ where
                 let path = {
                     #[serde_with::serde_as]
                     #[derive(serde :: Serialize)]
-                    struct Query<'a> {
-                        #[serde(rename = "start_time")]
-                        start_time: &'a i64,
-                        #[serde(rename = "end_time")]
-                        #[serde(skip_serializing_if = "Option::is_none")]
-                        end_time: &'a Option<i64>,
-                        #[serde(rename = "bucket_width")]
-                        #[serde(skip_serializing_if = "Option::is_none")]
-                        bucket_width: &'a Option<
-                            crate::__types::UsageCodeInterpreterSessionsParamsBucketWidth,
-                        >,
-                        #[serde(rename = "project_ids")]
-                        #[serde(skip_serializing_if = "Option::is_none")]
-                        project_ids: &'a Option<Vec<String>>,
-                        #[serde(rename = "group_by")]
-                        #[serde(skip_serializing_if = "Option::is_none")]
-                        group_by: &'a Option<
-                            Vec<crate::__types::UsageCodeInterpreterSessionsParamsGroupByItem>,
-                        >,
-                        #[serde(rename = "limit")]
-                        #[serde(skip_serializing_if = "Option::is_none")]
-                        limit: &'a Option<i64>,
-                        #[serde(rename = "page")]
-                        #[serde(skip_serializing_if = "Option::is_none")]
-                        page: &'a Option<String>,
-                        #[serde(skip_serializing)]
-                        _phantom: std::marker::PhantomData<&'a ()>,
-                    }
-                    let crate::__types::UsageCodeInterpreterSessionsParams {
+                    struct Query < 'a > { # [serde (rename = "start_time")] start_time : & 'a i64 , # [serde (rename = "end_time")] # [serde (skip_serializing_if = "Option::is_none")] end_time : & 'a Option < i64 > , # [serde (rename = "bucket_width")] # [serde (skip_serializing_if = "Option::is_none")] bucket_width : & 'a Option < crate :: __types :: usage_code_interpreter_sessions :: params :: BucketWidth > , # [serde (rename = "project_ids")] # [serde (skip_serializing_if = "Option::is_none")] project_ids : & 'a Option < Vec < String > > , # [serde (rename = "group_by")] # [serde (skip_serializing_if = "Option::is_none")] group_by : & 'a Option < Vec < crate :: __types :: usage_code_interpreter_sessions :: params :: group_by :: Item > > , # [serde (rename = "limit")] # [serde (skip_serializing_if = "Option::is_none")] limit : & 'a Option < i64 > , # [serde (rename = "page")] # [serde (skip_serializing_if = "Option::is_none")] page : & 'a Option < String > , # [serde (skip_serializing)] _phantom : std :: marker :: PhantomData < & 'a () > , }
+                    let crate::__types::usage_code_interpreter_sessions::Params {
                         start_time,
                         end_time,
                         bucket_width,
@@ -6260,7 +6252,7 @@ future!(
 #[doc = "Completions"]
 pub fn usage_completions<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::UsageCompletionsParams,
+    params: &crate::__types::usage_completions::Params,
 ) -> UsageCompletions<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -6282,7 +6274,8 @@ where
                         end_time: &'a Option<i64>,
                         #[serde(rename = "bucket_width")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        bucket_width: &'a Option<crate::__types::UsageCompletionsParamsBucketWidth>,
+                        bucket_width:
+                            &'a Option<crate::__types::usage_completions::params::BucketWidth>,
                         #[serde(rename = "project_ids")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         project_ids: &'a Option<Vec<String>>,
@@ -6300,8 +6293,9 @@ where
                         batch: &'a Option<bool>,
                         #[serde(rename = "group_by")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        group_by:
-                            &'a Option<Vec<crate::__types::UsageCompletionsParamsGroupByItem>>,
+                        group_by: &'a Option<
+                            Vec<crate::__types::usage_completions::params::group_by::Item>,
+                        >,
                         #[serde(rename = "limit")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         limit: &'a Option<i64>,
@@ -6311,7 +6305,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::UsageCompletionsParams {
+                    let crate::__types::usage_completions::Params {
                         start_time,
                         end_time,
                         bucket_width,
@@ -6373,7 +6367,7 @@ future!(
 #[doc = "Embeddings"]
 pub fn usage_embeddings<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::UsageEmbeddingsParams,
+    params: &crate::__types::usage_embeddings::Params,
 ) -> UsageEmbeddings<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -6395,7 +6389,8 @@ where
                         end_time: &'a Option<i64>,
                         #[serde(rename = "bucket_width")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        bucket_width: &'a Option<crate::__types::UsageEmbeddingsParamsBucketWidth>,
+                        bucket_width:
+                            &'a Option<crate::__types::usage_embeddings::params::BucketWidth>,
                         #[serde(rename = "project_ids")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         project_ids: &'a Option<Vec<String>>,
@@ -6410,7 +6405,9 @@ where
                         models: &'a Option<Vec<String>>,
                         #[serde(rename = "group_by")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        group_by: &'a Option<Vec<crate::__types::UsageEmbeddingsParamsGroupByItem>>,
+                        group_by: &'a Option<
+                            Vec<crate::__types::usage_embeddings::params::group_by::Item>,
+                        >,
                         #[serde(rename = "limit")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         limit: &'a Option<i64>,
@@ -6420,7 +6417,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::UsageEmbeddingsParams {
+                    let crate::__types::usage_embeddings::Params {
                         start_time,
                         end_time,
                         bucket_width,
@@ -6480,7 +6477,7 @@ future!(
 #[doc = "Images"]
 pub fn usage_images<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::UsageImagesParams,
+    params: &crate::__types::usage_images::Params,
 ) -> UsageImages<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -6502,13 +6499,14 @@ where
                         end_time: &'a Option<i64>,
                         #[serde(rename = "bucket_width")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        bucket_width: &'a Option<crate::__types::UsageImagesParamsBucketWidth>,
+                        bucket_width: &'a Option<crate::__types::usage_images::params::BucketWidth>,
                         #[serde(rename = "sources")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        sources: &'a Option<Vec<crate::__types::UsageImagesParamsSourcesItem>>,
+                        sources:
+                            &'a Option<Vec<crate::__types::usage_images::params::sources::Item>>,
                         #[serde(rename = "sizes")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        sizes: &'a Option<Vec<crate::__types::UsageImagesParamsSizesItem>>,
+                        sizes: &'a Option<Vec<crate::__types::usage_images::params::sizes::Item>>,
                         #[serde(rename = "project_ids")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         project_ids: &'a Option<Vec<String>>,
@@ -6523,7 +6521,8 @@ where
                         models: &'a Option<Vec<String>>,
                         #[serde(rename = "group_by")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        group_by: &'a Option<Vec<crate::__types::UsageImagesParamsGroupByItem>>,
+                        group_by:
+                            &'a Option<Vec<crate::__types::usage_images::params::group_by::Item>>,
                         #[serde(rename = "limit")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         limit: &'a Option<i64>,
@@ -6533,7 +6532,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::UsageImagesParams {
+                    let crate::__types::usage_images::Params {
                         start_time,
                         end_time,
                         bucket_width,
@@ -6597,7 +6596,7 @@ future!(
 #[doc = "Moderations"]
 pub fn usage_moderations<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::UsageModerationsParams,
+    params: &crate::__types::usage_moderations::Params,
 ) -> UsageModerations<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -6619,7 +6618,8 @@ where
                         end_time: &'a Option<i64>,
                         #[serde(rename = "bucket_width")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        bucket_width: &'a Option<crate::__types::UsageModerationsParamsBucketWidth>,
+                        bucket_width:
+                            &'a Option<crate::__types::usage_moderations::params::BucketWidth>,
                         #[serde(rename = "project_ids")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         project_ids: &'a Option<Vec<String>>,
@@ -6634,8 +6634,9 @@ where
                         models: &'a Option<Vec<String>>,
                         #[serde(rename = "group_by")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        group_by:
-                            &'a Option<Vec<crate::__types::UsageModerationsParamsGroupByItem>>,
+                        group_by: &'a Option<
+                            Vec<crate::__types::usage_moderations::params::group_by::Item>,
+                        >,
                         #[serde(rename = "limit")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         limit: &'a Option<i64>,
@@ -6645,7 +6646,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::UsageModerationsParams {
+                    let crate::__types::usage_moderations::Params {
                         start_time,
                         end_time,
                         bucket_width,
@@ -6705,7 +6706,7 @@ future!(
 #[doc = "Vector stores"]
 pub fn usage_vector_stores<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::UsageVectorStoresParams,
+    params: &crate::__types::usage_vector_stores::Params,
 ) -> UsageVectorStores<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -6728,14 +6729,15 @@ where
                         #[serde(rename = "bucket_width")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         bucket_width:
-                            &'a Option<crate::__types::UsageVectorStoresParamsBucketWidth>,
+                            &'a Option<crate::__types::usage_vector_stores::params::BucketWidth>,
                         #[serde(rename = "project_ids")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         project_ids: &'a Option<Vec<String>>,
                         #[serde(rename = "group_by")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        group_by:
-                            &'a Option<Vec<crate::__types::UsageVectorStoresParamsGroupByItem>>,
+                        group_by: &'a Option<
+                            Vec<crate::__types::usage_vector_stores::params::group_by::Item>,
+                        >,
                         #[serde(rename = "limit")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         limit: &'a Option<i64>,
@@ -6745,7 +6747,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::UsageVectorStoresParams {
+                    let crate::__types::usage_vector_stores::Params {
                         start_time,
                         end_time,
                         bucket_width,
@@ -6799,7 +6801,7 @@ future!(
 #[doc = "List users"]
 pub fn list_users<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::ListUsersParams,
+    params: &crate::__types::list_users::Params,
 ) -> ListUsers<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -6826,7 +6828,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::ListUsersParams {
+                    let crate::__types::list_users::Params {
                         limit,
                         after,
                         emails,
@@ -6872,7 +6874,7 @@ future!(
 #[doc = "Retrieve user"]
 pub fn retrieve_user<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::RetrieveUserParams,
+    params: &crate::__types::retrieve_user::Params,
 ) -> RetrieveUser<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -6890,7 +6892,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::RetrieveUserParams { user_id } = params;
+                    let crate::__types::retrieve_user::Params { user_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/organization/users/{user_id}");
                     let query = serde_urlencoded::to_string(Query {
@@ -6929,7 +6931,7 @@ future!(
 #[doc = "Modify user"]
 pub fn modify_user<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::ModifyUserParams,
+    params: &crate::__types::modify_user::Params,
     request: &crate::__types::UserRoleUpdateRequest,
 ) -> ModifyUser<Fut, B, E>
 where
@@ -6948,7 +6950,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::ModifyUserParams { user_id } = params;
+                    let crate::__types::modify_user::Params { user_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/organization/users/{user_id}");
                     let query = serde_urlencoded::to_string(Query {
@@ -6988,7 +6990,7 @@ future!(
 #[doc = "Delete user"]
 pub fn delete_user<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::DeleteUserParams,
+    params: &crate::__types::delete_user::Params,
 ) -> DeleteUser<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -7006,7 +7008,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::DeleteUserParams { user_id } = params;
+                    let crate::__types::delete_user::Params { user_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/organization/users/{user_id}");
                     let query = serde_urlencoded::to_string(Query {
@@ -7212,7 +7214,7 @@ future ! (CreateResponseStream , futures :: future :: MapOk < crate :: __combina
 #[doc = "Get a model response"]
 pub fn get_response<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::GetResponseParams,
+    params: &crate::__types::get_response::Params,
 ) -> GetResponse<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -7242,7 +7244,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::GetResponseParams {
+                    let crate::__types::get_response::Params {
                         response_id,
                         include,
                         stream,
@@ -7291,7 +7293,7 @@ future!(
 #[doc = "Delete a model response"]
 pub fn delete_response<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::DeleteResponseParams,
+    params: &crate::__types::delete_response::Params,
 ) -> DeleteResponse<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -7309,7 +7311,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::DeleteResponseParams { response_id } = params;
+                    let crate::__types::delete_response::Params { response_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/responses/{response_id}");
                     let query = serde_urlencoded::to_string(Query {
@@ -7341,7 +7343,7 @@ future!(
 #[doc = "Cancel a response"]
 pub fn cancel_response<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::CancelResponseParams,
+    params: &crate::__types::cancel_response::Params,
 ) -> CancelResponse<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -7359,7 +7361,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::CancelResponseParams { response_id } = params;
+                    let crate::__types::cancel_response::Params { response_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/responses/{response_id}/cancel");
                     let query = serde_urlencoded::to_string(Query {
@@ -7398,7 +7400,7 @@ future!(
 #[doc = "List input items"]
 pub fn list_input_items<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::ListInputItemsParams,
+    params: &crate::__types::list_input_items::Params,
 ) -> ListInputItems<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -7418,7 +7420,7 @@ where
                         limit: &'a Option<i64>,
                         #[serde(rename = "order")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        order: &'a Option<crate::__types::ListInputItemsParamsOrder>,
+                        order: &'a Option<crate::__types::list_input_items::params::Order>,
                         #[serde(rename = "after")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         after: &'a Option<String>,
@@ -7431,7 +7433,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::ListInputItemsParams {
+                    let crate::__types::list_input_items::Params {
                         response_id,
                         limit,
                         order,
@@ -7522,7 +7524,7 @@ future!(
 #[doc = "Retrieve thread"]
 pub fn get_thread<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::GetThreadParams,
+    params: &crate::__types::get_thread::Params,
 ) -> GetThread<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -7540,7 +7542,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::GetThreadParams { thread_id } = params;
+                    let crate::__types::get_thread::Params { thread_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/threads/{thread_id}");
                     let query = serde_urlencoded::to_string(Query {
@@ -7579,7 +7581,7 @@ future!(
 #[doc = "Modify thread"]
 pub fn modify_thread<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::ModifyThreadParams,
+    params: &crate::__types::modify_thread::Params,
     request: &crate::__types::ModifyThreadRequest,
 ) -> ModifyThread<Fut, B, E>
 where
@@ -7598,7 +7600,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::ModifyThreadParams { thread_id } = params;
+                    let crate::__types::modify_thread::Params { thread_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/threads/{thread_id}");
                     let query = serde_urlencoded::to_string(Query {
@@ -7638,7 +7640,7 @@ future!(
 #[doc = "Delete thread"]
 pub fn delete_thread<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::DeleteThreadParams,
+    params: &crate::__types::delete_thread::Params,
 ) -> DeleteThread<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -7656,7 +7658,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::DeleteThreadParams { thread_id } = params;
+                    let crate::__types::delete_thread::Params { thread_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/threads/{thread_id}");
                     let query = serde_urlencoded::to_string(Query {
@@ -7697,7 +7699,7 @@ future!(
 #[doc = "List messages"]
 pub fn list_messages<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::ListMessagesParams,
+    params: &crate::__types::list_messages::Params,
 ) -> ListMessages<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -7717,7 +7719,7 @@ where
                         limit: &'a Option<i64>,
                         #[serde(rename = "order")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        order: &'a Option<crate::__types::ListMessagesParamsOrder>,
+                        order: &'a Option<crate::__types::list_messages::params::Order>,
                         #[serde(rename = "after")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         after: &'a Option<String>,
@@ -7730,7 +7732,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::ListMessagesParams {
+                    let crate::__types::list_messages::Params {
                         thread_id,
                         limit,
                         order,
@@ -7783,7 +7785,7 @@ future!(
 #[doc = "Create message"]
 pub fn create_message<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::CreateMessageParams,
+    params: &crate::__types::create_message::Params,
     request: &crate::__types::CreateMessageRequest,
 ) -> CreateMessage<Fut, B, E>
 where
@@ -7802,7 +7804,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::CreateMessageParams { thread_id } = params;
+                    let crate::__types::create_message::Params { thread_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/threads/{thread_id}/messages");
                     let query = serde_urlencoded::to_string(Query {
@@ -7842,7 +7844,7 @@ future!(
 #[doc = "Retrieve message"]
 pub fn get_message<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::GetMessageParams,
+    params: &crate::__types::get_message::Params,
 ) -> GetMessage<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -7860,7 +7862,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::GetMessageParams {
+                    let crate::__types::get_message::Params {
                         thread_id,
                         message_id,
                     } = params;
@@ -7902,7 +7904,7 @@ future!(
 #[doc = "Modify message"]
 pub fn modify_message<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::ModifyMessageParams,
+    params: &crate::__types::modify_message::Params,
     request: &crate::__types::ModifyMessageRequest,
 ) -> ModifyMessage<Fut, B, E>
 where
@@ -7921,7 +7923,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::ModifyMessageParams {
+                    let crate::__types::modify_message::Params {
                         thread_id,
                         message_id,
                     } = params;
@@ -7964,7 +7966,7 @@ future!(
 #[doc = "Delete message"]
 pub fn delete_message<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::DeleteMessageParams,
+    params: &crate::__types::delete_message::Params,
 ) -> DeleteMessage<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -7982,7 +7984,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::DeleteMessageParams {
+                    let crate::__types::delete_message::Params {
                         thread_id,
                         message_id,
                     } = params;
@@ -8026,7 +8028,7 @@ future!(
 #[doc = "List runs"]
 pub fn list_runs<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::ListRunsParams,
+    params: &crate::__types::list_runs::Params,
 ) -> ListRuns<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -8046,7 +8048,7 @@ where
                         limit: &'a Option<i64>,
                         #[serde(rename = "order")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        order: &'a Option<crate::__types::ListRunsParamsOrder>,
+                        order: &'a Option<crate::__types::list_runs::params::Order>,
                         #[serde(rename = "after")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         after: &'a Option<String>,
@@ -8056,7 +8058,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::ListRunsParams {
+                    let crate::__types::list_runs::Params {
                         thread_id,
                         limit,
                         order,
@@ -8105,7 +8107,7 @@ future!(
 #[doc = "Create run"]
 pub fn create_run<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::CreateRunParams,
+    params: &crate::__types::create_run::Params,
     request: &crate::__types::CreateRunRequest,
 ) -> CreateRun<Fut, B, E>
 where
@@ -8123,11 +8125,11 @@ where
                     struct Query<'a> {
                         #[serde(rename = "include[]")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        include: &'a Option<Vec<crate::__types::CreateRunParamsIncludeItem>>,
+                        include: &'a Option<Vec<crate::__types::create_run::params::include::Item>>,
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::CreateRunParams { thread_id, include } = params;
+                    let crate::__types::create_run::Params { thread_id, include } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/threads/{thread_id}/runs");
                     let query = serde_urlencoded::to_string(Query {
@@ -8166,7 +8168,10 @@ future!(
     crate::__types::RunObject
 );
 #[doc = "Retrieve run"]
-pub fn get_run<C, Fut, B, E>(client: C, params: &crate::__types::GetRunParams) -> GetRun<Fut, B, E>
+pub fn get_run<C, Fut, B, E>(
+    client: C,
+    params: &crate::__types::get_run::Params,
+) -> GetRun<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
     Fut: Future<Output = Result<http::Response<B>, E>>,
@@ -8183,7 +8188,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::GetRunParams { thread_id, run_id } = params;
+                    let crate::__types::get_run::Params { thread_id, run_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/threads/{thread_id}/runs/{run_id}");
                     let query = serde_urlencoded::to_string(Query {
@@ -8222,7 +8227,7 @@ future!(
 #[doc = "Modify run"]
 pub fn modify_run<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::ModifyRunParams,
+    params: &crate::__types::modify_run::Params,
     request: &crate::__types::ModifyRunRequest,
 ) -> ModifyRun<Fut, B, E>
 where
@@ -8241,7 +8246,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::ModifyRunParams { thread_id, run_id } = params;
+                    let crate::__types::modify_run::Params { thread_id, run_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/threads/{thread_id}/runs/{run_id}");
                     let query = serde_urlencoded::to_string(Query {
@@ -8281,7 +8286,7 @@ future!(
 #[doc = "Cancel a run"]
 pub fn cancel_run<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::CancelRunParams,
+    params: &crate::__types::cancel_run::Params,
 ) -> CancelRun<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -8299,7 +8304,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::CancelRunParams { thread_id, run_id } = params;
+                    let crate::__types::cancel_run::Params { thread_id, run_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/threads/{thread_id}/runs/{run_id}/cancel");
                     let query = serde_urlencoded::to_string(Query {
@@ -8338,7 +8343,7 @@ future!(
 #[doc = "List run steps"]
 pub fn list_run_steps<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::ListRunStepsParams,
+    params: &crate::__types::list_run_steps::Params,
 ) -> ListRunSteps<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -8358,7 +8363,7 @@ where
                         limit: &'a Option<i64>,
                         #[serde(rename = "order")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        order: &'a Option<crate::__types::ListRunStepsParamsOrder>,
+                        order: &'a Option<crate::__types::list_run_steps::params::Order>,
                         #[serde(rename = "after")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         after: &'a Option<String>,
@@ -8367,11 +8372,12 @@ where
                         before: &'a Option<String>,
                         #[serde(rename = "include[]")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        include: &'a Option<Vec<crate::__types::ListRunStepsParamsIncludeItem>>,
+                        include:
+                            &'a Option<Vec<crate::__types::list_run_steps::params::include::Item>>,
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::ListRunStepsParams {
+                    let crate::__types::list_run_steps::Params {
                         thread_id,
                         run_id,
                         limit,
@@ -8425,7 +8431,7 @@ future!(
 #[doc = "Retrieve run step"]
 pub fn get_run_step<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::GetRunStepParams,
+    params: &crate::__types::get_run_step::Params,
 ) -> GetRunStep<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -8442,11 +8448,12 @@ where
                     struct Query<'a> {
                         #[serde(rename = "include[]")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        include: &'a Option<Vec<crate::__types::GetRunStepParamsIncludeItem>>,
+                        include:
+                            &'a Option<Vec<crate::__types::get_run_step::params::include::Item>>,
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::GetRunStepParams {
+                    let crate::__types::get_run_step::Params {
                         thread_id,
                         run_id,
                         step_id,
@@ -8491,7 +8498,7 @@ future!(
 #[doc = "Submit tool outputs to run"]
 pub fn submit_tool_ouputs_to_run<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::SubmitToolOuputsToRunParams,
+    params: &crate::__types::submit_tool_ouputs_to_run::Params,
     request: &crate::__types::SubmitToolOutputsRunRequest,
 ) -> SubmitToolOuputsToRun<Fut, B, E>
 where
@@ -8510,7 +8517,8 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::SubmitToolOuputsToRunParams { thread_id, run_id } = params;
+                    let crate::__types::submit_tool_ouputs_to_run::Params { thread_id, run_id } =
+                        params;
                     #[allow(clippy::useless_format)]
                     let mut path =
                         format!("/threads/{thread_id}/runs/{run_id}/submit_tool_outputs");
@@ -8591,7 +8599,7 @@ future!(
 #[doc = "Cancel upload"]
 pub fn cancel_upload<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::CancelUploadParams,
+    params: &crate::__types::cancel_upload::Params,
 ) -> CancelUpload<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -8609,7 +8617,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::CancelUploadParams { upload_id } = params;
+                    let crate::__types::cancel_upload::Params { upload_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/uploads/{upload_id}/cancel");
                     let query = serde_urlencoded::to_string(Query {
@@ -8648,7 +8656,7 @@ future!(
 #[doc = "Complete upload"]
 pub fn complete_upload<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::CompleteUploadParams,
+    params: &crate::__types::complete_upload::Params,
     request: &crate::__types::CompleteUploadRequest,
 ) -> CompleteUpload<Fut, B, E>
 where
@@ -8667,7 +8675,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::CompleteUploadParams { upload_id } = params;
+                    let crate::__types::complete_upload::Params { upload_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/uploads/{upload_id}/complete");
                     let query = serde_urlencoded::to_string(Query {
@@ -8707,7 +8715,7 @@ future!(
 #[doc = "List vector stores"]
 pub fn list_vector_stores<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::ListVectorStoresParams,
+    params: &crate::__types::list_vector_stores::Params,
 ) -> ListVectorStores<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -8727,7 +8735,7 @@ where
                         limit: &'a Option<i64>,
                         #[serde(rename = "order")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        order: &'a Option<crate::__types::ListVectorStoresParamsOrder>,
+                        order: &'a Option<crate::__types::list_vector_stores::params::Order>,
                         #[serde(rename = "after")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         after: &'a Option<String>,
@@ -8737,7 +8745,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::ListVectorStoresParams {
+                    let crate::__types::list_vector_stores::Params {
                         limit,
                         order,
                         after,
@@ -8829,7 +8837,7 @@ future!(
 #[doc = "Retrieve vector store"]
 pub fn get_vector_store<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::GetVectorStoreParams,
+    params: &crate::__types::get_vector_store::Params,
 ) -> GetVectorStore<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -8847,7 +8855,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::GetVectorStoreParams { vector_store_id } = params;
+                    let crate::__types::get_vector_store::Params { vector_store_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/vector_stores/{vector_store_id}");
                     let query = serde_urlencoded::to_string(Query {
@@ -8888,7 +8896,7 @@ future!(
 #[doc = "Modify vector store"]
 pub fn modify_vector_store<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::ModifyVectorStoreParams,
+    params: &crate::__types::modify_vector_store::Params,
     request: &crate::__types::UpdateVectorStoreRequest,
 ) -> ModifyVectorStore<Fut, B, E>
 where
@@ -8907,7 +8915,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::ModifyVectorStoreParams { vector_store_id } = params;
+                    let crate::__types::modify_vector_store::Params { vector_store_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/vector_stores/{vector_store_id}");
                     let query = serde_urlencoded::to_string(Query {
@@ -8949,7 +8957,7 @@ future!(
 #[doc = "Delete vector store"]
 pub fn delete_vector_store<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::DeleteVectorStoreParams,
+    params: &crate::__types::delete_vector_store::Params,
 ) -> DeleteVectorStore<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -8967,7 +8975,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::DeleteVectorStoreParams { vector_store_id } = params;
+                    let crate::__types::delete_vector_store::Params { vector_store_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/vector_stores/{vector_store_id}");
                     let query = serde_urlencoded::to_string(Query {
@@ -9008,7 +9016,7 @@ future!(
 #[doc = "Create vector store file batch"]
 pub fn create_vector_store_file_batch<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::CreateVectorStoreFileBatchParams,
+    params: &crate::__types::create_vector_store_file_batch::Params,
     request: &crate::__types::CreateVectorStoreFileBatchRequest,
 ) -> CreateVectorStoreFileBatch<Fut, B, E>
 where
@@ -9027,7 +9035,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::CreateVectorStoreFileBatchParams { vector_store_id } =
+                    let crate::__types::create_vector_store_file_batch::Params { vector_store_id } =
                         params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/vector_stores/{vector_store_id}/file_batches");
@@ -9070,7 +9078,7 @@ future!(
 #[doc = "Retrieve vector store file batch"]
 pub fn get_vector_store_file_batch<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::GetVectorStoreFileBatchParams,
+    params: &crate::__types::get_vector_store_file_batch::Params,
 ) -> GetVectorStoreFileBatch<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -9088,7 +9096,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::GetVectorStoreFileBatchParams {
+                    let crate::__types::get_vector_store_file_batch::Params {
                         vector_store_id,
                         batch_id,
                     } = params;
@@ -9133,7 +9141,7 @@ future!(
 #[doc = "Cancel vector store file batch"]
 pub fn cancel_vector_store_file_batch<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::CancelVectorStoreFileBatchParams,
+    params: &crate::__types::cancel_vector_store_file_batch::Params,
 ) -> CancelVectorStoreFileBatch<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -9151,7 +9159,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::CancelVectorStoreFileBatchParams {
+                    let crate::__types::cancel_vector_store_file_batch::Params {
                         vector_store_id,
                         batch_id,
                     } = params;
@@ -9196,7 +9204,7 @@ future!(
 #[doc = "List vector store files in a batch"]
 pub fn list_files_in_vector_store_batch<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::ListFilesInVectorStoreBatchParams,
+    params: &crate::__types::list_files_in_vector_store_batch::Params,
 ) -> ListFilesInVectorStoreBatch<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -9216,7 +9224,9 @@ where
                         limit: &'a Option<i64>,
                         #[serde(rename = "order")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        order: &'a Option<crate::__types::ListFilesInVectorStoreBatchParamsOrder>,
+                        order: &'a Option<
+                            crate::__types::list_files_in_vector_store_batch::params::Order,
+                        >,
                         #[serde(rename = "after")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         after: &'a Option<String>,
@@ -9225,11 +9235,13 @@ where
                         before: &'a Option<String>,
                         #[serde(rename = "filter")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        filter: &'a Option<crate::__types::ListFilesInVectorStoreBatchParamsFilter>,
+                        filter: &'a Option<
+                            crate::__types::list_files_in_vector_store_batch::params::Filter,
+                        >,
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::ListFilesInVectorStoreBatchParams {
+                    let crate::__types::list_files_in_vector_store_batch::Params {
                         vector_store_id,
                         batch_id,
                         limit,
@@ -9285,7 +9297,7 @@ future!(
 #[doc = "List vector store files"]
 pub fn list_vector_store_files<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::ListVectorStoreFilesParams,
+    params: &crate::__types::list_vector_store_files::Params,
 ) -> ListVectorStoreFiles<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -9305,7 +9317,7 @@ where
                         limit: &'a Option<i64>,
                         #[serde(rename = "order")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        order: &'a Option<crate::__types::ListVectorStoreFilesParamsOrder>,
+                        order: &'a Option<crate::__types::list_vector_store_files::params::Order>,
                         #[serde(rename = "after")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         after: &'a Option<String>,
@@ -9314,11 +9326,11 @@ where
                         before: &'a Option<String>,
                         #[serde(rename = "filter")]
                         #[serde(skip_serializing_if = "Option::is_none")]
-                        filter: &'a Option<crate::__types::ListVectorStoreFilesParamsFilter>,
+                        filter: &'a Option<crate::__types::list_vector_store_files::params::Filter>,
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::ListVectorStoreFilesParams {
+                    let crate::__types::list_vector_store_files::Params {
                         vector_store_id,
                         limit,
                         order,
@@ -9372,7 +9384,7 @@ future!(
 #[doc = "Create vector store file"]
 pub fn create_vector_store_file<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::CreateVectorStoreFileParams,
+    params: &crate::__types::create_vector_store_file::Params,
     request: &crate::__types::CreateVectorStoreFileRequest,
 ) -> CreateVectorStoreFile<Fut, B, E>
 where
@@ -9391,7 +9403,8 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::CreateVectorStoreFileParams { vector_store_id } = params;
+                    let crate::__types::create_vector_store_file::Params { vector_store_id } =
+                        params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/vector_stores/{vector_store_id}/files");
                     let query = serde_urlencoded::to_string(Query {
@@ -9433,7 +9446,7 @@ future!(
 #[doc = "Retrieve vector store file"]
 pub fn get_vector_store_file<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::GetVectorStoreFileParams,
+    params: &crate::__types::get_vector_store_file::Params,
 ) -> GetVectorStoreFile<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -9451,7 +9464,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::GetVectorStoreFileParams {
+                    let crate::__types::get_vector_store_file::Params {
                         vector_store_id,
                         file_id,
                     } = params;
@@ -9495,7 +9508,7 @@ future!(
 #[doc = "Delete vector store file"]
 pub fn delete_vector_store_file<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::DeleteVectorStoreFileParams,
+    params: &crate::__types::delete_vector_store_file::Params,
 ) -> DeleteVectorStoreFile<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -9513,7 +9526,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::DeleteVectorStoreFileParams {
+                    let crate::__types::delete_vector_store_file::Params {
                         vector_store_id,
                         file_id,
                     } = params;
@@ -9558,7 +9571,7 @@ future!(
 #[doc = "Update vector store file attributes"]
 pub fn update_vector_store_file_attributes<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::UpdateVectorStoreFileAttributesParams,
+    params: &crate::__types::update_vector_store_file_attributes::Params,
     request: &crate::__types::UpdateVectorStoreFileAttributesRequest,
 ) -> UpdateVectorStoreFileAttributes<Fut, B, E>
 where
@@ -9577,7 +9590,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::UpdateVectorStoreFileAttributesParams {
+                    let crate::__types::update_vector_store_file_attributes::Params {
                         vector_store_id,
                         file_id,
                     } = params;
@@ -9622,7 +9635,7 @@ future!(
 #[doc = "Retrieve vector store file content"]
 pub fn retrieve_vector_store_file_content<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::RetrieveVectorStoreFileContentParams,
+    params: &crate::__types::retrieve_vector_store_file_content::Params,
 ) -> RetrieveVectorStoreFileContent<Fut, B, E>
 where
     C: FnOnce(http::Request<String>) -> Fut,
@@ -9640,7 +9653,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::RetrieveVectorStoreFileContentParams {
+                    let crate::__types::retrieve_vector_store_file_content::Params {
                         vector_store_id,
                         file_id,
                     } = params;
@@ -9686,7 +9699,7 @@ future!(
 #[doc = "Search vector store"]
 pub fn search_vector_store<C, Fut, B, E>(
     client: C,
-    params: &crate::__types::SearchVectorStoreParams,
+    params: &crate::__types::search_vector_store::Params,
     request: &crate::__types::VectorStoreSearchRequest,
 ) -> SearchVectorStore<Fut, B, E>
 where
@@ -9705,7 +9718,7 @@ where
                         #[serde(skip_serializing)]
                         _phantom: std::marker::PhantomData<&'a ()>,
                     }
-                    let crate::__types::SearchVectorStoreParams { vector_store_id } = params;
+                    let crate::__types::search_vector_store::Params { vector_store_id } = params;
                     #[allow(clippy::useless_format)]
                     let mut path = format!("/vector_stores/{vector_store_id}/search");
                     let query = serde_urlencoded::to_string(Query {

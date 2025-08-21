@@ -32,5 +32,4 @@ macro_rules! impl_serde {
         }
     };
 }
-
 mod generated;
