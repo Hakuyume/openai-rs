@@ -19,16 +19,20 @@ fn test_create_chat_completion_request_default() {
         .messages(vec![
             crate::ChatCompletionRequestMessage::Developer(
                 crate::ChatCompletionRequestDeveloperMessage::builder()
-                    .content(crate::ChatCompletionRequestDeveloperMessageContent::String(
-                        "You are a helpful assistant.".to_owned(),
-                    ))
+                    .content(
+                        crate::chat_completion_request_developer_message::Content::String(
+                            "You are a helpful assistant.".to_owned(),
+                        ),
+                    )
                     .build(),
             ),
             crate::ChatCompletionRequestMessage::User(
                 crate::ChatCompletionRequestUserMessage::builder()
-                    .content(crate::ChatCompletionRequestUserMessageContent::String(
-                        "Hello!".to_owned(),
-                    ))
+                    .content(
+                        crate::chat_completion_request_user_message::Content::String(
+                            "Hello!".to_owned(),
+                        ),
+                    )
                     .build(),
             ),
         ])
@@ -80,7 +84,7 @@ fn test_create_chat_completion_response_default() {
         .created(1741569952)
         .model("gpt-4.1-2025-04-14".to_owned())
         .choices(vec![
-            crate::CreateChatCompletionResponseChoicesItem::builder()
+            crate::create_chat_completion_response::choices::Item::builder()
                 .index(0)
                 .message(
                     crate::ChatCompletionResponseMessage::builder()
@@ -88,7 +92,9 @@ fn test_create_chat_completion_response_default() {
                         .annotations(Some(Vec::new()))
                         .build(),
                 )
-                .finish_reason(crate::CreateChatCompletionResponseChoicesItemFinishReason::Stop)
+                .finish_reason(
+                    crate::create_chat_completion_response::choices::item::FinishReason::Stop,
+                )
                 .build(),
         ])
         .usage(Some(
@@ -97,13 +103,13 @@ fn test_create_chat_completion_response_default() {
                 .completion_tokens(10)
                 .total_tokens(29)
                 .prompt_tokens_details(Some(
-                    crate::CompletionUsagePromptTokensDetails::builder()
+                    crate::completion_usage::PromptTokensDetails::builder()
                         .cached_tokens(Some(0))
                         .audio_tokens(Some(0))
                         .build(),
                 ))
                 .completion_tokens_details(Some(
-                    crate::CompletionUsageCompletionTokensDetails::builder()
+                    crate::completion_usage::CompletionTokensDetails::builder()
                         .reasoning_tokens(Some(0))
                         .audio_tokens(Some(0))
                         .accepted_prediction_tokens(Some(0))
@@ -163,8 +169,8 @@ fn test_response_stream_event_stream() {
                 crate::Response::builder()
                     .id("resp_67c9fdcecf488190bdd9a0409de3a1ec07b8b0ad4e5eb654".to_owned())
                     .created_at(1741290958.into())
-                    .status(Some(crate::ResponseStatus::InProgress))
-                    .instructions(Some(crate::ResponseInstructions::String(
+                    .status(Some(crate::response::Status::InProgress))
+                    .instructions(Some(crate::response::Instructions::String(
                         "You are a helpful assistant.".to_owned(),
                     )))
                     .model(crate::ModelIdsResponses::ModelIdsShared(
@@ -174,13 +180,15 @@ fn test_response_stream_event_stream() {
                     .parallel_tool_calls(true)
                     .reasoning(Some(crate::Reasoning::default()))
                     .temperature(Some(serde_json::Number::from_f64(1.).unwrap()))
-                    .text(Some(crate::ModelResponsePropertiesText::builder().build()))
-                    .tool_choice(crate::ResponsePropertiesToolChoice::ToolChoiceOptions(
+                    .text(Some(
+                        crate::model_response_properties::Text::builder().build(),
+                    ))
+                    .tool_choice(crate::response_properties::ToolChoice::ToolChoiceOptions(
                         crate::ToolChoiceOptions::Auto,
                     ))
                     .tools(Vec::new())
                     .top_p(Some(serde_json::Number::from_f64(1.).unwrap()))
-                    .truncation(Some(crate::ResponsePropertiesTruncation::Disabled))
+                    .truncation(Some(crate::response_properties::Truncation::Disabled))
                     .metadata(Some(crate::Metadata::new()))
                     .build(),
             )

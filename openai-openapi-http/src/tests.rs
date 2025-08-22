@@ -16,10 +16,12 @@ async fn test_get_chat_completion_messages() {
                 .unwrap();
             future::ready(Ok::<_, Infallible>(response))
         },
-        &types::GetChatCompletionMessagesParams::builder()
+        &types::get_chat_completion_messages::Params::builder()
             .completion_id("foo".to_owned())
             .limit(Some(42))
-            .order(Some(types::GetChatCompletionMessagesParamsOrder::Desc))
+            .order(Some(
+                types::get_chat_completion_messages::params::Order::Desc,
+            ))
             .build(),
     )
     .await;
@@ -78,12 +80,16 @@ mod openai {
         let response = crate::create_chat_completion(
             client(),
             &types::CreateChatCompletionRequest::builder()
-                .model(types::ModelIdsShared::Gpt4_1Nano)
+                .model(types::ModelIdsShared::ChatModel(
+                    types::ChatModel::Gpt4_1Nano,
+                ))
                 .messages(vec![types::ChatCompletionRequestMessage::User(
                     types::ChatCompletionRequestUserMessage::builder()
-                        .content(types::ChatCompletionRequestUserMessageContent::String(
-                            "hello world".to_owned(),
-                        ))
+                        .content(
+                            types::chat_completion_request_user_message::Content::String(
+                                "hello world".to_owned(),
+                            ),
+                        )
                         .build(),
                 )])
                 .build(),
@@ -98,12 +104,16 @@ mod openai {
         let mut stream = crate::create_chat_completion_stream(
             client(),
             &types::CreateChatCompletionRequest::builder()
-                .model(types::ModelIdsShared::Gpt4_1Nano)
+                .model(types::ModelIdsShared::ChatModel(
+                    types::ChatModel::Gpt4_1Nano,
+                ))
                 .messages(vec![types::ChatCompletionRequestMessage::User(
                     types::ChatCompletionRequestUserMessage::builder()
-                        .content(types::ChatCompletionRequestUserMessageContent::String(
-                            "hello world".to_owned(),
-                        ))
+                        .content(
+                            types::chat_completion_request_user_message::Content::String(
+                                "hello world".to_owned(),
+                            ),
+                        )
                         .build(),
                 )])
                 .stream(Some(true))
