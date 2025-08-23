@@ -1434,6 +1434,504 @@ future!(
     futures::future::MapOk<crate::__combinators::Send<Fut, B, E>, fn(http::Response<B>) -> B>,
     B
 );
+#[doc = "Create a conversation"]
+pub fn create_conversation<C, Fut, B, E>(
+    client: C,
+    request: &crate::__types::CreateConversationRequest,
+) -> CreateConversation<Fut, B, E>
+where
+    C: FnOnce(http::Request<String>) -> Fut,
+    Fut: Future<Output = Result<http::Response<B>, E>>,
+    B: http_body::Body,
+{
+    CreateConversation(futures::TryFutureExt::and_then(
+        crate::__combinators::Send::new(
+            client,
+            || {
+                let path = "/conversations";
+                let body = serde_json::to_string(request)?;
+                Ok(http::Request::builder()
+                    .method(http::Method::POST)
+                    .uri(path)
+                    .header(http::header::CONTENT_LENGTH, body.len())
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
+                    .body(body)?)
+            },
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
+        ),
+        crate::__combinators::Json::new,
+    ))
+}
+future!(
+    CreateConversation,
+    futures::future::AndThen<
+        crate::__combinators::Send<Fut, B, E>,
+        crate::__combinators::Json<B, E, crate::__types::ConversationResource>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::ConversationResource>,
+    >,
+    crate::__types::ConversationResource
+);
+#[doc = "Retrieve a conversation"]
+pub fn get_conversation<C, Fut, B, E>(
+    client: C,
+    params: &crate::__types::get_conversation::Params,
+) -> GetConversation<Fut, B, E>
+where
+    C: FnOnce(http::Request<String>) -> Fut,
+    Fut: Future<Output = Result<http::Response<B>, E>>,
+    B: http_body::Body,
+{
+    GetConversation(futures::TryFutureExt::and_then(
+        crate::__combinators::Send::new(
+            client,
+            || {
+                let path = {
+                    #[serde_with::serde_as]
+                    #[derive(serde :: Serialize)]
+                    struct Query<'a> {
+                        #[serde(skip_serializing)]
+                        _phantom: std::marker::PhantomData<&'a ()>,
+                    }
+                    let crate::__types::get_conversation::Params { conversation_id } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/conversations/{conversation_id}");
+                    let query = serde_urlencoded::to_string(Query {
+                        _phantom: std::marker::PhantomData,
+                    })?;
+                    if !query.is_empty() {
+                        path.push('?');
+                        path.push_str(&query);
+                    }
+                    path
+                };
+                let body = String::new();
+                Ok(http::Request::builder()
+                    .method(http::Method::GET)
+                    .uri(path)
+                    .header(http::header::CONTENT_LENGTH, body.len())
+                    .body(body)?)
+            },
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
+        ),
+        crate::__combinators::Json::new,
+    ))
+}
+future!(
+    GetConversation,
+    futures::future::AndThen<
+        crate::__combinators::Send<Fut, B, E>,
+        crate::__combinators::Json<B, E, crate::__types::ConversationResource>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::ConversationResource>,
+    >,
+    crate::__types::ConversationResource
+);
+#[doc = "Update a conversation"]
+pub fn update_conversation<C, Fut, B, E>(
+    client: C,
+    params: &crate::__types::update_conversation::Params,
+    request: &crate::__types::UpdateConversationBody,
+) -> UpdateConversation<Fut, B, E>
+where
+    C: FnOnce(http::Request<String>) -> Fut,
+    Fut: Future<Output = Result<http::Response<B>, E>>,
+    B: http_body::Body,
+{
+    UpdateConversation(futures::TryFutureExt::and_then(
+        crate::__combinators::Send::new(
+            client,
+            || {
+                let path = {
+                    #[serde_with::serde_as]
+                    #[derive(serde :: Serialize)]
+                    struct Query<'a> {
+                        #[serde(skip_serializing)]
+                        _phantom: std::marker::PhantomData<&'a ()>,
+                    }
+                    let crate::__types::update_conversation::Params { conversation_id } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/conversations/{conversation_id}");
+                    let query = serde_urlencoded::to_string(Query {
+                        _phantom: std::marker::PhantomData,
+                    })?;
+                    if !query.is_empty() {
+                        path.push('?');
+                        path.push_str(&query);
+                    }
+                    path
+                };
+                let body = serde_json::to_string(request)?;
+                Ok(http::Request::builder()
+                    .method(http::Method::POST)
+                    .uri(path)
+                    .header(http::header::CONTENT_LENGTH, body.len())
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
+                    .body(body)?)
+            },
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
+        ),
+        crate::__combinators::Json::new,
+    ))
+}
+future!(
+    UpdateConversation,
+    futures::future::AndThen<
+        crate::__combinators::Send<Fut, B, E>,
+        crate::__combinators::Json<B, E, crate::__types::ConversationResource>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::ConversationResource>,
+    >,
+    crate::__types::ConversationResource
+);
+#[doc = "Delete a conversation"]
+pub fn delete_conversation<C, Fut, B, E>(
+    client: C,
+    params: &crate::__types::delete_conversation::Params,
+) -> DeleteConversation<Fut, B, E>
+where
+    C: FnOnce(http::Request<String>) -> Fut,
+    Fut: Future<Output = Result<http::Response<B>, E>>,
+    B: http_body::Body,
+{
+    DeleteConversation(futures::TryFutureExt::and_then(
+        crate::__combinators::Send::new(
+            client,
+            || {
+                let path = {
+                    #[serde_with::serde_as]
+                    #[derive(serde :: Serialize)]
+                    struct Query<'a> {
+                        #[serde(skip_serializing)]
+                        _phantom: std::marker::PhantomData<&'a ()>,
+                    }
+                    let crate::__types::delete_conversation::Params { conversation_id } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/conversations/{conversation_id}");
+                    let query = serde_urlencoded::to_string(Query {
+                        _phantom: std::marker::PhantomData,
+                    })?;
+                    if !query.is_empty() {
+                        path.push('?');
+                        path.push_str(&query);
+                    }
+                    path
+                };
+                let body = String::new();
+                Ok(http::Request::builder()
+                    .method(http::Method::DELETE)
+                    .uri(path)
+                    .header(http::header::CONTENT_LENGTH, body.len())
+                    .body(body)?)
+            },
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
+        ),
+        crate::__combinators::Json::new,
+    ))
+}
+future!(
+    DeleteConversation,
+    futures::future::AndThen<
+        crate::__combinators::Send<Fut, B, E>,
+        crate::__combinators::Json<B, E, crate::__types::DeletedConversationResource>,
+        fn(
+            http::Response<B>,
+        )
+            -> crate::__combinators::Json<B, E, crate::__types::DeletedConversationResource>,
+    >,
+    crate::__types::DeletedConversationResource
+);
+#[doc = "Create items"]
+pub fn create_conversation_items<C, Fut, B, E>(
+    client: C,
+    params: &crate::__types::create_conversation_items::Params,
+    request: &crate::__types::create_conversation_items::Request,
+) -> CreateConversationItems<Fut, B, E>
+where
+    C: FnOnce(http::Request<String>) -> Fut,
+    Fut: Future<Output = Result<http::Response<B>, E>>,
+    B: http_body::Body,
+{
+    CreateConversationItems(futures::TryFutureExt::and_then(
+        crate::__combinators::Send::new(
+            client,
+            || {
+                let path = {
+                    #[serde_with::serde_as]
+                    #[derive(serde :: Serialize)]
+                    struct Query<'a> {
+                        #[serde(rename = "include")]
+                        #[serde(skip_serializing_if = "Option::is_none")]
+                        include: &'a Option<Vec<crate::__types::Includable>>,
+                        #[serde(skip_serializing)]
+                        _phantom: std::marker::PhantomData<&'a ()>,
+                    }
+                    let crate::__types::create_conversation_items::Params {
+                        conversation_id,
+                        include,
+                    } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/conversations/{conversation_id}/items");
+                    let query = serde_urlencoded::to_string(Query {
+                        include,
+                        _phantom: std::marker::PhantomData,
+                    })?;
+                    if !query.is_empty() {
+                        path.push('?');
+                        path.push_str(&query);
+                    }
+                    path
+                };
+                let body = serde_json::to_string(request)?;
+                Ok(http::Request::builder()
+                    .method(http::Method::POST)
+                    .uri(path)
+                    .header(http::header::CONTENT_LENGTH, body.len())
+                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
+                    .body(body)?)
+            },
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
+        ),
+        crate::__combinators::Json::new,
+    ))
+}
+future!(
+    CreateConversationItems,
+    futures::future::AndThen<
+        crate::__combinators::Send<Fut, B, E>,
+        crate::__combinators::Json<B, E, crate::__types::ConversationItemList>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::ConversationItemList>,
+    >,
+    crate::__types::ConversationItemList
+);
+#[doc = "List items"]
+pub fn list_conversation_items<C, Fut, B, E>(
+    client: C,
+    params: &crate::__types::list_conversation_items::Params,
+) -> ListConversationItems<Fut, B, E>
+where
+    C: FnOnce(http::Request<String>) -> Fut,
+    Fut: Future<Output = Result<http::Response<B>, E>>,
+    B: http_body::Body,
+{
+    ListConversationItems(futures::TryFutureExt::and_then(
+        crate::__combinators::Send::new(
+            client,
+            || {
+                let path = {
+                    #[serde_with::serde_as]
+                    #[derive(serde :: Serialize)]
+                    struct Query<'a> {
+                        #[serde(rename = "limit")]
+                        #[serde(skip_serializing_if = "Option::is_none")]
+                        limit: &'a Option<i64>,
+                        #[serde(rename = "order")]
+                        #[serde(skip_serializing_if = "Option::is_none")]
+                        order: &'a Option<crate::__types::list_conversation_items::params::Order>,
+                        #[serde(rename = "after")]
+                        #[serde(skip_serializing_if = "Option::is_none")]
+                        after: &'a Option<String>,
+                        #[serde(rename = "include")]
+                        #[serde(skip_serializing_if = "Option::is_none")]
+                        include: &'a Option<Vec<crate::__types::Includable>>,
+                        #[serde(skip_serializing)]
+                        _phantom: std::marker::PhantomData<&'a ()>,
+                    }
+                    let crate::__types::list_conversation_items::Params {
+                        conversation_id,
+                        limit,
+                        order,
+                        after,
+                        include,
+                    } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/conversations/{conversation_id}/items");
+                    let query = serde_urlencoded::to_string(Query {
+                        limit,
+                        order,
+                        after,
+                        include,
+                        _phantom: std::marker::PhantomData,
+                    })?;
+                    if !query.is_empty() {
+                        path.push('?');
+                        path.push_str(&query);
+                    }
+                    path
+                };
+                let body = String::new();
+                Ok(http::Request::builder()
+                    .method(http::Method::GET)
+                    .uri(path)
+                    .header(http::header::CONTENT_LENGTH, body.len())
+                    .body(body)?)
+            },
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
+        ),
+        crate::__combinators::Json::new,
+    ))
+}
+future!(
+    ListConversationItems,
+    futures::future::AndThen<
+        crate::__combinators::Send<Fut, B, E>,
+        crate::__combinators::Json<B, E, crate::__types::ConversationItemList>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::ConversationItemList>,
+    >,
+    crate::__types::ConversationItemList
+);
+#[doc = "Retrieve an item"]
+pub fn get_conversation_item<C, Fut, B, E>(
+    client: C,
+    params: &crate::__types::get_conversation_item::Params,
+) -> GetConversationItem<Fut, B, E>
+where
+    C: FnOnce(http::Request<String>) -> Fut,
+    Fut: Future<Output = Result<http::Response<B>, E>>,
+    B: http_body::Body,
+{
+    GetConversationItem(futures::TryFutureExt::and_then(
+        crate::__combinators::Send::new(
+            client,
+            || {
+                let path = {
+                    #[serde_with::serde_as]
+                    #[derive(serde :: Serialize)]
+                    struct Query<'a> {
+                        #[serde(rename = "include")]
+                        #[serde(skip_serializing_if = "Option::is_none")]
+                        include: &'a Option<Vec<crate::__types::Includable>>,
+                        #[serde(skip_serializing)]
+                        _phantom: std::marker::PhantomData<&'a ()>,
+                    }
+                    let crate::__types::get_conversation_item::Params {
+                        conversation_id,
+                        item_id,
+                        include,
+                    } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/conversations/{conversation_id}/items/{item_id}");
+                    let query = serde_urlencoded::to_string(Query {
+                        include,
+                        _phantom: std::marker::PhantomData,
+                    })?;
+                    if !query.is_empty() {
+                        path.push('?');
+                        path.push_str(&query);
+                    }
+                    path
+                };
+                let body = String::new();
+                Ok(http::Request::builder()
+                    .method(http::Method::GET)
+                    .uri(path)
+                    .header(http::header::CONTENT_LENGTH, body.len())
+                    .body(body)?)
+            },
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
+        ),
+        crate::__combinators::Json::new,
+    ))
+}
+future!(
+    GetConversationItem,
+    futures::future::AndThen<
+        crate::__combinators::Send<Fut, B, E>,
+        crate::__combinators::Json<B, E, crate::__types::ConversationItem>,
+        fn(http::Response<B>) -> crate::__combinators::Json<B, E, crate::__types::ConversationItem>,
+    >,
+    crate::__types::ConversationItem
+);
+#[doc = "Delete an item"]
+pub fn delete_conversation_item<C, Fut, B, E>(
+    client: C,
+    params: &crate::__types::delete_conversation_item::Params,
+) -> DeleteConversationItem<Fut, B, E>
+where
+    C: FnOnce(http::Request<String>) -> Fut,
+    Fut: Future<Output = Result<http::Response<B>, E>>,
+    B: http_body::Body,
+{
+    DeleteConversationItem(futures::TryFutureExt::and_then(
+        crate::__combinators::Send::new(
+            client,
+            || {
+                let path = {
+                    #[serde_with::serde_as]
+                    #[derive(serde :: Serialize)]
+                    struct Query<'a> {
+                        #[serde(skip_serializing)]
+                        _phantom: std::marker::PhantomData<&'a ()>,
+                    }
+                    let crate::__types::delete_conversation_item::Params {
+                        conversation_id,
+                        item_id,
+                    } = params;
+                    #[allow(clippy::useless_format)]
+                    let mut path = format!("/conversations/{conversation_id}/items/{item_id}");
+                    let query = serde_urlencoded::to_string(Query {
+                        _phantom: std::marker::PhantomData,
+                    })?;
+                    if !query.is_empty() {
+                        path.push('?');
+                        path.push_str(&query);
+                    }
+                    path
+                };
+                let body = String::new();
+                Ok(http::Request::builder()
+                    .method(http::Method::DELETE)
+                    .uri(path)
+                    .header(http::header::CONTENT_LENGTH, body.len())
+                    .body(body)?)
+            },
+            (
+                http::StatusCode::from_u16(200u16).unwrap(),
+                Some(mime::APPLICATION_JSON),
+            ),
+        ),
+        crate::__combinators::Json::new,
+    ))
+}
+future!(
+    DeleteConversationItem,
+    futures::future::AndThen<
+        crate::__combinators::Send<Fut, B, E>,
+        crate::__combinators::Json<B, E, crate::__types::ConversationResource>,
+        fn(
+            http::Response<B>,
+        ) -> crate::__combinators::Json<B, E, crate::__types::ConversationResource>,
+    >,
+    crate::__types::ConversationResource
+);
 #[doc = "Create embeddings"]
 pub fn create_embedding<C, Fut, B, E>(
     client: C,
@@ -7424,9 +7922,6 @@ where
                         #[serde(rename = "after")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         after: &'a Option<String>,
-                        #[serde(rename = "before")]
-                        #[serde(skip_serializing_if = "Option::is_none")]
-                        before: &'a Option<String>,
                         #[serde(rename = "include")]
                         #[serde(skip_serializing_if = "Option::is_none")]
                         include: &'a Option<Vec<crate::__types::Includable>>,
@@ -7438,7 +7933,6 @@ where
                         limit,
                         order,
                         after,
-                        before,
                         include,
                     } = params;
                     #[allow(clippy::useless_format)]
@@ -7447,7 +7941,6 @@ where
                         limit,
                         order,
                         after,
-                        before,
                         include,
                         _phantom: std::marker::PhantomData,
                     })?;

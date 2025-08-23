@@ -30,10 +30,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: curl -LO https://app.stainless.com/api/spec/documented/openai/openapi.documented.yml
+      # https://github.com/openai/openai-python/blob/4e28a424e6afd60040e3bdf7c76eebb63bc0c407/.stats.yml#L2
+      - run: >-
+          curl -o openapi.yaml
+          https://storage.googleapis.com/stainless-sdk-openapi-specs/openai%2Fopenai-ddbdf9343316047e8a773c54fb24e4a8d225955e202a1888fde6f9c8898ebf98.yml
       - run: >-
           cargo run --bin=openai-openapi-generator --locked --
-          --document=openapi.documented.yml
+          --document=openapi.yaml
           --types=openai-openapi-types/src/generated.rs
           --functions=openai-openapi-http/src/generated.rs
       - run: cargo fmt
