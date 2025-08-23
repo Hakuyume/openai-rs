@@ -2,6 +2,7 @@ use crate::openapi;
 use anyhow::Context;
 use indexmap::IndexMap;
 use std::iter;
+use std::mem;
 
 pub fn parse(
     schema: &openapi::Schema,
@@ -153,6 +154,67 @@ fn parse_all_of(
     schema: &openapi::Schema,
     schemas: &IndexMap<String, openapi::Schema>,
 ) -> anyhow::Result<Option<crate::Schema>> {
+    fn parse_follow_ref(
+        schema: &openapi::Schema,
+        schemas: &IndexMap<String, openapi::Schema>,
+    ) -> anyhow::Result<crate::Schema> {
+        match parse(schema, schemas)? {
+            crate::Schema {
+                type_: crate::Type::Ref(ref_),
+                ..
+            } => parse_follow_ref(&schemas[&ref_], schemas)
+                .with_context(|| format!("schemas[{ref_}]"))
+                .context("components"),
+            schema => Ok(schema),
+        }
+    }
+
+    fn merge(a: &mut crate::Schema, b: &mut crate::Schema) -> bool {
+        match (a, b) {
+            (
+                _,
+                crate::Schema {
+                    type_: crate::Type::Any,
+                    ..
+                },
+            )
+            | (
+                crate::Schema {
+                    description: Some(_),
+                    type_: crate::Type::Integer,
+                    ..
+                },
+                crate::Schema {
+                    type_: crate::Type::Integer,
+                    ..
+                },
+            )
+            | (
+                crate::Schema {
+                    description: Some(_),
+                    type_: crate::Type::String,
+                    ..
+                },
+                crate::Schema {
+                    type_: crate::Type::String,
+                    ..
+                },
+            ) => true,
+            // TODO: check type
+            (
+                crate::Schema {
+                    type_: crate::Type::Struct(fields_a),
+                    ..
+                },
+                crate::Schema {
+                    type_: crate::Type::Struct(fields_b),
+                    ..
+                },
+            ) if fields_b.keys().all(|name| fields_a.contains_key(name)) => true,
+            _ => false,
+        }
+    }
+
     if let openapi::Schema {
         all_of: Some(all_of),
     } = schema
@@ -178,52 +240,59 @@ fn parse_all_of(
         && let Some(fields) = all_of
             .iter()
             .enumerate()
-            .flat_map(|(i, all_of)| {
-                if let openapi::Schema {
-                    properties: Some(properties),
-                    required: _,
-                    type_: Some(openapi::Type::Object),
-                } = all_of
-                {
-                    either::Left(properties.iter().map(move |(property_name, property)| {
-                        Some(
-                            parse(property, schemas)
-                                .context(format!("properties[{property_name:?}]"))
-                                .context(format!("allOf[{i}]"))
-                                .map(|schema| either::Left((property_name.clone(), schema))),
-                        )
-                    }))
-                } else if let openapi::Schema { ref_: Some(ref_) } = all_of
-                    && let Some(ref_) = ref_.strip_prefix("#/components/schemas/")
-                    && schemas.contains_key(ref_)
-                {
-                    let f = || {
-                        anyhow::ensure!(schemas.contains_key(ref_));
-                        Ok(either::Right(ref_.to_owned()))
-                    };
-                    either::Right(iter::once(Some(f())))
-                } else {
-                    either::Right(iter::once(None))
-                }
+            .map(|(i, all_of)| {
+                parse_follow_ref(all_of, schemas)
+                    .with_context(|| format!("allOf[{i}]"))
+                    .map(|schema| {
+                        if let crate::Schema {
+                            type_: crate::Type::Struct(fields),
+                            ..
+                        } = schema
+                        {
+                            Some(fields)
+                        } else {
+                            None
+                        }
+                    })
+                    .transpose()
             })
             .collect::<Option<Result<Vec<_>, _>>>()
     {
+        let mut fields = fields?.into_iter().flatten().try_fold(
+            IndexMap::new(),
+            |mut fields, (name, (mut schema, required))| {
+                if let Some((s, r)) = fields.get_mut(&name) {
+                    if merge(s, &mut schema) {
+                    } else if merge(&mut schema, s) {
+                        mem::swap(s, &mut schema);
+                    } else {
+                        anyhow::bail!("conflict: {:#?}", (s, schema))
+                    }
+                    s.nullable &= schema.nullable;
+                    *r |= required;
+                } else {
+                    fields.insert(name, (schema, required));
+                }
+                Ok(fields)
+            },
+        )?;
+        for name in required.iter().flatten() {
+            let (_, required) = fields.entry(name.clone()).or_insert_with(|| {
+                (
+                    crate::Schema {
+                        description: None,
+                        nullable: false,
+                        type_: crate::Type::Any,
+                    },
+                    false,
+                )
+            });
+            *required = true;
+        }
         Ok(Some(crate::Schema {
             description: description.clone(),
             nullable: nullable.unwrap_or_default(),
-            type_: crate::Type::Struct {
-                fields: fields?,
-                required: required
-                    .iter()
-                    .flatten()
-                    .chain(
-                        all_of
-                            .iter()
-                            .flat_map(|all_of| all_of.required.iter().flatten()),
-                    )
-                    .cloned()
-                    .collect(),
-            },
+            type_: crate::Type::Struct(fields),
         }))
     } else {
         Ok(None)
@@ -403,21 +472,31 @@ fn parse_properties(
         x_oai_type_label: None | Some(openapi::XOaiTypeLabel::Map),
     } = schema
     {
-        let fields = properties
+        let mut fields = properties
             .iter()
             .map(|(property_name, property)| {
                 parse(property, schemas)
                     .context(format!("properties[{property_name:?}]"))
-                    .map(|schema| either::Left((property_name.clone(), schema)))
+                    .map(|schema| (property_name.clone(), (schema, false)))
             })
-            .collect::<Result<Vec<_>, _>>()?;
+            .collect::<Result<IndexMap<_, _>, _>>()?;
+        for name in required.iter().flatten() {
+            let (_, required) = fields.entry(name.clone()).or_insert_with(|| {
+                (
+                    crate::Schema {
+                        description: None,
+                        nullable: false,
+                        type_: crate::Type::Any,
+                    },
+                    false,
+                )
+            });
+            *required = true;
+        }
         Ok(Some(crate::Schema {
             description: description.clone(),
             nullable: nullable.unwrap_or_default(),
-            type_: crate::Type::Struct {
-                fields,
-                required: required.iter().flatten().cloned().collect(),
-            },
+            type_: crate::Type::Struct(fields),
         }))
     } else {
         Ok(None)
@@ -438,7 +517,9 @@ fn parse_ref(
     } = schema
         && let Some(ref_) = ref_.strip_prefix("#/components/schemas/")
     {
-        anyhow::ensure!(schemas.contains_key(ref_));
+        if !schemas.contains_key(ref_) {
+            anyhow::bail!("missing ref: {ref_:?}");
+        }
         Ok(Some(crate::Schema {
             description: description.clone(),
             nullable: nullable.unwrap_or_default(),

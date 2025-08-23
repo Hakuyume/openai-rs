@@ -10,7 +10,7 @@ mod visit;
 use anyhow::Context;
 use clap::Parser;
 use heck::{ToPascalCase, ToSnakeCase};
-use indexmap::{IndexMap, IndexSet};
+use indexmap::IndexMap;
 use quote::ToTokens;
 use std::fs::{self, File};
 use std::iter;
@@ -65,7 +65,6 @@ fn main() -> anyhow::Result<()> {
             parse::parse(schema, &document.components.schemas)
                 .map(|schema| (name.clone(), schema))
                 .with_context(|| format!("schemas[{name:?}]"))
-                .context("schemas")
                 .context("components")
         })
         .collect::<Result<IndexMap<_, _>, _>>()?;
@@ -92,22 +91,16 @@ fn main() -> anyhow::Result<()> {
                 let schema = Schema {
                     description: None,
                     nullable: false,
-                    type_: Type::Struct {
-                        fields: parameters
+                    type_: Type::Struct(
+                        parameters
                             .iter()
                             .map(|parameter| {
                                 let mut schema = parameter.schema.clone();
                                 schema.description = parameter.description.clone();
-                                either::Left((parameter.name.clone(), schema))
+                                (parameter.name.clone(), (schema, parameter.required))
                             })
                             .collect(),
-                        required: parameters
-                            .iter()
-                            .filter_map(|parameter| {
-                                parameter.required.then_some(parameter.name.clone())
-                            })
-                            .collect(),
-                    },
+                    ),
                 };
                 to_type(
                     (&[&operation.id], "params"),
@@ -195,10 +188,7 @@ enum Type {
     Number,
     Ref(String),
     String,
-    Struct {
-        fields: Vec<either::Either<(String, Schema), String>>,
-        required: IndexSet<String>,
-    },
+    Struct(IndexMap<String, (Schema, bool)>),
 }
 
 #[derive(Default)]
@@ -315,15 +305,9 @@ fn to_item(
         Type::Enum(variants) => {
             to_item_enum::to_item_enum((module, name), schema, variants, schemas, pub_, items)
         }
-        Type::Struct { fields, required } => to_item_struct::to_item_struct(
-            (module, name),
-            schema,
-            fields,
-            required,
-            schemas,
-            pub_,
-            items,
-        ),
+        Type::Struct(fields) => {
+            to_item_struct::to_item_struct((module, name), schema, fields, schemas, pub_, items)
+        }
         _ => {
             let description = to_description(schema.description.as_deref());
             let vis = to_vis(pub_);
@@ -423,17 +407,7 @@ fn is_copy(schema: &Schema, schemas: &IndexMap<String, Schema>) -> bool {
             .iter()
             .all(|(variant, _)| is_copy(variant, schemas)),
         Type::Ref(ref_) => is_copy(&schemas[ref_], schemas),
-        Type::Struct { fields, required } => {
-            let mut missing_fields = required.clone();
-            for name in extract_fields(schema, schemas, false).into_keys() {
-                missing_fields.swap_remove(name);
-            }
-            missing_fields.is_empty()
-                && fields.iter().all(|field| match field {
-                    either::Left((_, schema)) => is_copy(schema, schemas),
-                    either::Right(ref_) => is_copy(&schemas[ref_], schemas),
-                })
-        }
+        Type::Struct(fields) => fields.values().all(|(schema, _)| is_copy(schema, schemas)),
         _ => false,
     }
 }
@@ -443,19 +417,9 @@ fn is_default(schema: &Schema, schemas: &IndexMap<String, Schema>) -> bool {
         Type::Const(_) => true,
         Type::Enum(variants) => variants.iter().any(|(_, default)| *default),
         Type::Ref(ref_) => is_default(&schemas[ref_], schemas),
-        Type::Struct { fields, required } => {
-            let mut missing_fields = required.clone();
-            for name in extract_fields(schema, schemas, false).into_keys() {
-                missing_fields.swap_remove(name);
-            }
-            missing_fields.is_empty()
-                && fields.iter().all(|field| match field {
-                    either::Left((name, schema)) => {
-                        is_default(schema, schemas) || schema.nullable || !required.contains(name)
-                    }
-                    either::Right(ref_) => is_default(&schemas[ref_], schemas),
-                })
-        }
+        Type::Struct(fields) => fields
+            .values()
+            .all(|(schema, required)| is_default(schema, schemas) || schema.nullable || !required),
         _ => false,
     }
 }
@@ -477,43 +441,5 @@ fn to_serde_as(schema: &Schema) -> Option<String> {
             to_serde_as(item).map(|item| format!("indexmap::IndexMap<String, {item}>"))
         }
         _ => None,
-    }
-}
-
-fn extract_fields<'a>(
-    schema: &'a Schema,
-    schemas: &'a IndexMap<String, Schema>,
-    follow_ref: bool,
-) -> IndexMap<&'a str, (Option<&'a str>, &'a Schema, bool)> {
-    match &schema.type_ {
-        Type::Ref(ref_) if follow_ref => extract_fields(&schemas[ref_], schemas, follow_ref),
-        Type::Struct { fields, required } => {
-            fields.iter().fold(IndexMap::new(), |mut fields, field| {
-                match field {
-                    either::Left((name, schema)) => {
-                        fields.shift_remove(name.as_str());
-                        fields.insert(name.as_str(), (None, schema, required.contains(name)));
-                    }
-                    either::Right(ref_) => {
-                        for (name, (inner_ref, schema, inner_required)) in
-                            extract_fields(&schemas[ref_], schemas, follow_ref)
-                        {
-                            if !fields.contains_key(name) {
-                                fields.insert(
-                                    name,
-                                    (
-                                        Some(inner_ref.unwrap_or(ref_)),
-                                        schema,
-                                        inner_required || required.contains(name),
-                                    ),
-                                );
-                            }
-                        }
-                    }
-                }
-                fields
-            })
-        }
-        _ => IndexMap::new(),
     }
 }

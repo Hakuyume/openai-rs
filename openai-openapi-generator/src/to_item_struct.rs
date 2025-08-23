@@ -1,21 +1,20 @@
 use crate::{
-    Items, Schema, Type, extract_fields, is_default, is_nullable, to_derive, to_description,
-    to_ident_pascal, to_ident_snake, to_serde_as, to_type, to_vis,
+    Items, Schema, Type, is_default, is_nullable, to_derive, to_description, to_ident_pascal,
+    to_ident_snake, to_serde_as, to_type, to_vis,
 };
-use indexmap::{IndexMap, IndexSet};
+use indexmap::IndexMap;
 
 pub fn to_item_struct(
     (module, name): (&[&str], &str),
     schema: &Schema,
-    _: &[either::Either<(String, Schema), String>],
-    required: &IndexSet<String>,
+    fields: &IndexMap<String, (Schema, bool)>,
     schemas: &IndexMap<String, Schema>,
     pub_: bool,
     items: &mut Items,
 ) {
     struct FieldInfo<'a> {
         default: bool,
-        description: Option<&'a str>,
+        description: Option<String>,
         ident: syn::Ident,
         name: &'a str,
         nullable: bool,
@@ -30,9 +29,9 @@ pub fn to_item_struct(
     let vis = to_vis(pub_);
     let ident = to_ident_pascal(name);
 
-    let mut fields = extract_fields(schema, schemas, false)
-        .into_iter()
-        .map(|(field_name, (ref_, schema, required))| {
+    let fields = fields
+        .iter()
+        .map(|(field_name, (schema, required))| {
             let pub_ = pub_
                 && (!matches!(
                     schema,
@@ -44,57 +43,23 @@ pub fn to_item_struct(
                 ) || !required);
             FieldInfo {
                 default: is_default(schema, schemas),
-                description: schema.description.as_deref(),
+                description: schema.description.clone(),
                 ident: to_ident_snake(field_name),
                 name: field_name,
                 nullable: is_nullable(schema, schemas),
                 optional: !required,
                 pub_,
                 serde_as: to_serde_as(schema),
-                type_: if let Some(ref_) = ref_ {
-                    to_type((&[ref_], field_name), schema, schemas, pub_, None)
-                } else {
-                    to_type(
-                        (&[module, &[name]].concat(), field_name),
-                        schema,
-                        schemas,
-                        pub_,
-                        Some(items),
-                    )
-                },
+                type_: to_type(
+                    (&[module, &[name]].concat(), field_name),
+                    schema,
+                    schemas,
+                    pub_,
+                    Some(items),
+                ),
             }
         })
         .collect::<Vec<_>>();
-
-    // complete missing required fields
-    let mut required = required.clone();
-    for FieldInfo { name, .. } in &fields {
-        required.shift_remove(*name);
-    }
-    for field_name in &required {
-        let schema = crate::Schema {
-            description: None,
-            nullable: false,
-            type_: crate::Type::Any,
-        };
-        fields.push(FieldInfo {
-            default: false,
-            description: None,
-            ident: to_ident_snake(field_name),
-            nullable: false,
-            optional: false,
-            pub_: true,
-            serde_as: to_serde_as(&schema),
-            name: field_name,
-            type_: to_type(
-                (&[module, &[name]].concat(), field_name),
-                &schema,
-                schemas,
-                true,
-                None,
-            ),
-        });
-    }
 
     if fields.iter().all(|FieldInfo { pub_, .. }| *pub_) {
         let fields = fields.iter().map(
@@ -109,7 +74,7 @@ pub fn to_item_struct(
                  type_,
                  ..
              }| {
-                let description = to_description(*description);
+                let description = to_description(description.as_deref());
                 let attr_serde_as = serde_as.as_ref().map(|serde_as| {
                     let serde_as = if *nullable || *optional {
                         format!("Option<{serde_as}>")
@@ -164,7 +129,7 @@ pub fn to_item_struct(
                      type_,
                      ..
                  }| {
-                    let description = to_description(*description);
+                    let description = to_description(description.as_deref());
                     let attr_builder = (*default || *nullable || *optional)
                         .then_some(quote::quote!(#[builder(default)]));
                     let type_ = if *nullable || *optional {

@@ -2,7 +2,7 @@ use crate::{
     Items, Operation, Schema, Type, openapi, to_description, to_ident_pascal, to_ident_snake,
     to_serde_as, to_type,
 };
-use indexmap::{IndexMap, IndexSet};
+use indexmap::IndexMap;
 
 pub fn to_item_fn(operation: &Operation, schemas: &IndexMap<String, Schema>, items: &mut Items) {
     let method = match operation.method {
@@ -17,10 +17,7 @@ pub fn to_item_fn(operation: &Operation, schemas: &IndexMap<String, Schema>, ite
             &Schema {
                 description: None,
                 nullable: false,
-                type_: Type::Struct {
-                    fields: Vec::new(),
-                    required: IndexSet::new(),
-                },
+                type_: Type::Struct(IndexMap::new()),
             },
             schemas,
             true,

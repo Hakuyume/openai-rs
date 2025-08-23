@@ -1,6 +1,5 @@
 use crate::{
-    Items, Schema, Type, extract_fields, to_derive, to_description, to_ident_pascal, to_serde_as,
-    to_type, to_vis,
+    Items, Schema, Type, to_derive, to_description, to_ident_pascal, to_serde_as, to_type, to_vis,
 };
 use indexmap::IndexMap;
 use std::collections::HashMap;
@@ -341,36 +340,6 @@ fn is_const(schema: &Schema, schemas: &IndexMap<String, Schema>) -> bool {
     }
 }
 
-fn extract_tags<'a>(
-    variants: &'a [(&'a Schema, bool)],
-    schemas: &'a IndexMap<String, Schema>,
-) -> Vec<HashMap<&'a str, &'a str>> {
-    variants
-        .iter()
-        .map(|(variant, _)| {
-            extract_fields(variant, schemas, true)
-                .into_iter()
-                .filter_map(|(name, (_, schema, required))| {
-                    if let (
-                        "event" | "object" | "role" | "type",
-                        Schema {
-                            nullable: false,
-                            type_: Type::Const(value),
-                            ..
-                        },
-                        true,
-                    ) = (name, schema, required)
-                    {
-                        Some((name, value.as_str()))
-                    } else {
-                        None
-                    }
-                })
-                .collect()
-        })
-        .collect()
-}
-
 fn variant_names(variants: &[(&Schema, bool)], schemas: &IndexMap<String, Schema>) -> Vec<String> {
     let mut names = vec![Vec::new(); variants.len()];
 
@@ -456,6 +425,50 @@ fn variant_names(variants: &[(&Schema, bool)], schemas: &IndexMap<String, Schema
         }
     }
     names.into_iter().map(|mut name| name.remove(0)).collect()
+}
+
+fn extract_tags<'a>(
+    variants: &'a [(&'a Schema, bool)],
+    schemas: &'a IndexMap<String, Schema>,
+) -> Vec<HashMap<&'a str, &'a str>> {
+    variants
+        .iter()
+        .map(|(variant, _)| {
+            extract_fields(variant, schemas)
+                .into_iter()
+                .filter_map(|(name, (schema, required))| {
+                    if let (
+                        "event" | "object" | "role" | "type",
+                        Schema {
+                            nullable: false,
+                            type_: Type::Const(value),
+                            ..
+                        },
+                        true,
+                    ) = (name, schema, required)
+                    {
+                        Some((name, value.as_str()))
+                    } else {
+                        None
+                    }
+                })
+                .collect()
+        })
+        .collect()
+}
+
+fn extract_fields<'a>(
+    schema: &'a Schema,
+    schemas: &'a IndexMap<String, Schema>,
+) -> IndexMap<&'a str, (&'a Schema, bool)> {
+    match &schema.type_ {
+        Type::Ref(ref_) => extract_fields(&schemas[ref_], schemas),
+        Type::Struct(fields) => fields
+            .iter()
+            .map(|(name, (schema, required))| (name.as_str(), (schema, *required)))
+            .collect(),
+        _ => IndexMap::new(),
+    }
 }
 
 fn to_type_name(schema: &Schema) -> Vec<&str> {

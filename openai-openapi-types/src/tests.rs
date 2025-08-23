@@ -149,9 +149,9 @@ fn test_response_stream_event_stream() {
             // "store": true,
             "temperature": 1.0,
             "text": {
-                // "format": {
-                //     "type": "text",
-                // },
+                "format": {
+                    "type": "text",
+                },
             },
             "tool_choice": "auto",
             "tools": [],
@@ -179,16 +179,20 @@ fn test_response_stream_event_stream() {
                     .output(Vec::new())
                     .parallel_tool_calls(true)
                     .reasoning(Some(crate::Reasoning::default()))
-                    .temperature(Some(serde_json::Number::from_f64(1.).unwrap()))
+                    .temperature(serde_json::Number::from_f64(1.).unwrap())
                     .text(Some(
-                        crate::model_response_properties::Text::builder().build(),
+                        crate::response::Text::builder()
+                            .format(Some(crate::TextResponseFormatConfiguration::Text(
+                                crate::ResponseFormatText::default(),
+                            )))
+                            .build(),
                     ))
-                    .tool_choice(crate::response_properties::ToolChoice::ToolChoiceOptions(
+                    .tool_choice(crate::response::ToolChoice::ToolChoiceOptions(
                         crate::ToolChoiceOptions::Auto,
                     ))
                     .tools(Vec::new())
-                    .top_p(Some(serde_json::Number::from_f64(1.).unwrap()))
-                    .truncation(Some(crate::response_properties::Truncation::Disabled))
+                    .top_p(serde_json::Number::from_f64(1.).unwrap())
+                    .truncation(Some(crate::response::Truncation::Disabled))
                     .metadata(Some(crate::Metadata::new()))
                     .build(),
             )
