@@ -88,7 +88,9 @@ where
                         } else {
                             break Poll::Ready(Ok(response));
                         }
-                    } else if content_type == Some(mime::APPLICATION_JSON) {
+                    } else if content_type.as_ref().map(mime::Mime::essence_str)
+                        == Some(mime::APPLICATION_JSON.essence_str())
+                    {
                         let (parts, body) = response.into_parts();
                         self.set(Self::S2 {
                             f: body.collect(),
