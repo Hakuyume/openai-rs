@@ -662,7 +662,7 @@ dependencies = [
 
 [[package]]
 name = "openai-openapi-http"
-version = "0.5.0"
+version = "0.5.1"
 dependencies = [
  "bytes",
  "futures",
@@ -686,7 +686,7 @@ dependencies = [
 
 [[package]]
 name = "openai-openapi-types"
-version = "0.5.0"
+version = "0.5.1"
 dependencies = [
  "indexmap 2.9.0",
  "serde",

@@ -1,6 +1,6 @@
 [package]
 name = "openai-openapi-http"
-version = "0.5.0"
+version = "0.5.1"
 edition = "2024"
 
 description = "Client for OpenAI API generated from OpenAPI spec"
@@ -19,7 +19,7 @@ http-body-server-sent-events.workspace = true
 http-body-util.workspace = true
 indexmap = { workspace = true, features = ["serde"] }
 mime.workspace = true
-openai-openapi-types = { version = "0.5.0", path = "../openai-openapi-types" }
+openai-openapi-types = { version = "0.5.1", path = "../openai-openapi-types" }
 pin-project.workspace = true
 serde = { workspace = true, features = ["derive"] }
 serde_json.workspace = true
